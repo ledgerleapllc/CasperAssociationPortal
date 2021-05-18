@@ -8,7 +8,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   plugins: [require('tailwindcss'), require('precss'), require('autoprefixer')],
-  purge: ['./src/components/**/*.js', './pages/**/*.js'],
+  purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
     extend: {},
   },

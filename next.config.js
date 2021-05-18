@@ -4,6 +4,15 @@ module.exports = {
   future: {
     webpack5: true,
   },
+  async redirects() {
+    return [
+      {
+        destination: '/welcome',
+        permanent: true,
+        source: '/',
+      },
+    ];
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
