@@ -1,0 +1,4 @@
+{
+  "extends": "@ijsto",
+  "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+}
