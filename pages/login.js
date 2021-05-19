@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import AppFooter from '../components/Layouts/app-footer';
 import AppHeader from '../components/Layouts/app-header';
 import welcomeStyles from '../styles/welcome.module.scss';
@@ -17,12 +18,9 @@ const Login = () => {
             <p className="text-4xl text-center">Sign In</p>
             <span className="text-xs text-center mt-2">
               {`Don’t have an account yet? `}
-              <a
-                href="/register"
-                className="text-primary underline font-medium"
-              >
-                Register
-              </a>
+              <Link href="/register">
+                <a className="text-primary underline font-medium">Register</a>
+              </Link>
             </span>
             <input
               type="email"
@@ -54,12 +52,9 @@ const Login = () => {
             </div>
             <span className="text-xs text-center mt-5">
               {`Forgot your password? `}
-              <a
-                href="/reset-password"
-                className="text-primary underline font-medium"
-              >
-                Reset
-              </a>
+              <Link href="/reset-password">
+                <a className="text-primary underline font-medium">Reset</a>
+              </Link>
             </span>
           </div>
         </div>

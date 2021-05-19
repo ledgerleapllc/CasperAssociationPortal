@@ -155,7 +155,7 @@ const Register = () => {
             <div className="flex flex-row-reverse mt-10">
               <button
                 type="button"
-                className="text-lg text-white w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="text-lg text-white w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none"
                 disabled={!validateFields()}
               >
                 Submit
