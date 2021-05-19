@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import AppFooter from '../components/layout/app-footer';
-import AppHeader from '../components/layout/app-header';
+import AppFooter from '../components/Layouts/app-footer';
+import AppHeader from '../components/Layouts/app-header';
 import welcomeStyles from '../styles/welcome.module.scss';
 import styles from '../styles/login.module.scss';
 
@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <div className={welcomeStyles.container}>
       <div className="md:w-9/12 p-9 flex flex-col">
-        <AppHeader />
+        <AppHeader theme="light" />
         <div className="flex-grow flex items-center justify-center">
           <div className={styles.loginForm}>
             <p className="text-4xl text-center">Sign In</p>
@@ -41,13 +41,13 @@ const Login = () => {
             <div className="flex space-x-5 mt-14">
               <button
                 type="button"
-                className="text-lg border-2 border-primary text-primary w-64 h-16 rounded-full hover:bg-primary hover:text-white"
+                className="text-lg border-2 border-primary text-white w-64 h-16 rounded-full bg-primary hover:bg-opacity-40 hover:border-opacity-0"
               >
                 Sign in
               </button>
               <button
                 type="button"
-                className="text-lg border-2 border-primary text-primary w-64 h-16 rounded-full hover:bg-primary hover:text-white"
+                className="text-lg border-2 border-primary text-primary w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white"
               >
                 Sign in as Guest
               </button>
