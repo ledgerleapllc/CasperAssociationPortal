@@ -10,7 +10,11 @@ module.exports = {
   plugins: [require('tailwindcss'), require('precss'), require('autoprefixer')],
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#FF473E',
+      },
+    },
   },
   variants: {},
 };
