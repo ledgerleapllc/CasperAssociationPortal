@@ -26,14 +26,14 @@ const Login = () => {
             </span>
             <input
               type="email"
-              className="w-2/3 h-16 text-xl mt-7 px-7 rounded-full shadow-md"
+              className="w-2/3 h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
               placeholder="Email"
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
             <input
               type="password"
-              className="w-2/3 h-16 text-xl mt-5 px-7 rounded-full shadow-md"
+              className="w-2/3 h-16 text-xl mt-5 px-7 rounded-full shadow-md focus:outline-none"
               placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -41,13 +41,13 @@ const Login = () => {
             <div className="flex space-x-5 mt-14">
               <button
                 type="button"
-                className="text-lg border-2 border-primary text-white w-64 h-16 rounded-full bg-primary hover:bg-opacity-40 hover:border-opacity-0"
+                className="text-lg text-white w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none"
               >
                 Sign in
               </button>
               <button
                 type="button"
-                className="text-lg border-2 border-primary text-primary w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white"
+                className="text-lg border-2 border-primary text-primary w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none"
               >
                 Sign in as Guest
               </button>
