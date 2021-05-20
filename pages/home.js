@@ -9,15 +9,16 @@ const Home = () => {
   const detectMobile = useMobileDetect();
 
   return (
-    <div className="flex justify-center h-screen">
-      <img
-        className="absolute w-full h-full -z-1 object-cover"
-        src={`/images/bg_welcome${
+    <div
+      className="flex justify-center h-screen"
+      style={{
+        backgroundImage: `url('/images/bg_welcome${
           detectMobile.isMobile() ? '_mobile' : ''
-        }.png`}
-        alt="welcome background"
-      />
-      <div className="md:w-9/12 md:p-9 p-4 flex flex-col">
+        }.png')`,
+        backgroundSize: 'cover',
+      }}
+    >
+      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center">
           <div>
