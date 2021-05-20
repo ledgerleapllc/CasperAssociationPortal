@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import AppFooter from '../components/Layouts/app-footer';
 import AppHeader from '../components/Layouts/app-header';
-import welcomeStyles from '../styles/welcome.module.scss';
+import homeStyles from '../styles/home.module.scss';
 import styles from '../styles/login.module.scss';
 
 const Login = () => {
@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <div className={welcomeStyles.container}>
+    <div className={homeStyles.container}>
       <div className="md:w-9/12 p-9 flex flex-col">
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center justify-center">
@@ -58,7 +58,7 @@ const Login = () => {
             </span>
           </div>
         </div>
-        <AppFooter />
+        <AppFooter theme="light" />
       </div>
     </div>
   );

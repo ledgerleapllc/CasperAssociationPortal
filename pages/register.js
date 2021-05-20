@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import AppFooter from '../components/Layouts/app-footer';
 import AppHeader from '../components/Layouts/app-header';
-import welcomeStyles from '../styles/welcome.module.scss';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
