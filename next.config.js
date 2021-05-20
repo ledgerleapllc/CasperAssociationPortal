@@ -17,6 +17,23 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   trailingSlash: true,
+  webpack: config => {
+    config.module.rules.push({
+      test: /\.(png|jp(e*)g|svg|gif)$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: 'images/[hash]-[name].[ext]',
+            outputPath: 'static/images',
+            publicPath: `/_next/static/images/`,
+          },
+        },
+      ],
+    });
+
+    return config;
+  },
   webpackDevMiddleware: config => {
     const newConfig = config;
     newConfig.watchOptions = {

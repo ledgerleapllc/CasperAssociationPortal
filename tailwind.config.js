@@ -16,6 +16,9 @@ module.exports = {
         dark2: '#1D1D1D',
         primary: '#FF473E',
       },
+      zIndex: {
+        '-1': '-1',
+       },
     },
   },
   variants: {

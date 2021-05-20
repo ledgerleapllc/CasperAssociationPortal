@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import AppFooter from '../components/Layouts/app-footer';
 import AppHeader from '../components/Layouts/app-header';
@@ -15,6 +16,8 @@ const Register = () => {
   const [telegram, setTelegram] = useState('');
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
+
+  const router = useRouter();
 
   const validateFields = () => {
     if (!firstName || firstName.trim() === '') {
@@ -156,6 +159,7 @@ const Register = () => {
                 type="button"
                 className="text-lg text-white w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none"
                 disabled={!validateFields()}
+                onClick={() => router.push('/welcome')}
               >
                 Submit
               </button>

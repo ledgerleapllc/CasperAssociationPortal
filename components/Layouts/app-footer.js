@@ -6,7 +6,7 @@ import Linkedin from '../Icons/linkedin';
 import Medium from '../Icons/medium';
 
 const AppFooter = ({ theme }) => (
-  <div className="flex items-center justify-between">
+  <div className="flex items-center justify-between md:visible invisible">
     <p className={`${theme === 'light' ? 'text-white' : 'text-dark2'} text-xs`}>
       ©2021 CasperLabs.io
     </p>
