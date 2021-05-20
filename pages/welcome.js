@@ -1,24 +1,38 @@
-import { useState } from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/router';
+import useMobileDetect from 'use-mobile-detect-hook';
 import AppFooter from '../components/Layouts/app-footer';
 import AppHeader from '../components/Layouts/app-header';
-import homeStyles from '../styles/home.module.scss';
-import loginStyles from '../styles/login.module.scss';
 
 const Welcome = () => {
-  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const detectMobile = useMobileDetect();
 
   return (
-    <div className={homeStyles.container}>
-      <div className="md:w-9/12 p-9 flex flex-col">
+    <div
+      className="flex justify-center h-screen"
+      style={{
+        backgroundImage: `url('/images/bg_welcome${
+          detectMobile.isMobile() ? '_mobile' : ''
+        }.png')`,
+        backgroundSize: 'cover',
+      }}
+    >
+      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
         <AppHeader theme="light" />
-        <div className="flex-grow flex items-center justify-center">
+        <div className="flex-grow flex items-center justify-center mt-24 md:mt-0">
           <div
-            className={`${loginStyles.loginForm} px-28`}
-            style={{ height: 742 }}
+            className="bg-white w-full md:w-2/3 px-4 py-12 md:px-28"
+            style={{
+              backgroundImage: `url('/images/login_overlay.png')`,
+              backgroundSize: 'cover',
+            }}
           >
-            <p className="text-3xl text-center">Welcome to the Casper Portal</p>
-            <p className="text-sm text-dark1 mt-2">
+            <p className="text-2xl md:text-3xl text-center">
+              {`Welcome to the Casper ${
+                detectMobile.isMobile() ? '' : 'Portal'
+              }`}
+            </p>
+            <p className="text-sm text-dark1 mt-2 text-center">
               A message from our director
             </p>
             <p className="text-sm text-dark1 mt-4">
@@ -47,29 +61,47 @@ const Welcome = () => {
               guide Casper alongside us through the 2020s.
             </p>
             <div className="flex mt-12 w-full">
-              <Image src="/images/ic_signature.svg" width={16} height={14} />
-              <p className="text-sm text-dark1 ml-5">
+              <img
+                src="/images/ic_signature.svg"
+                alt="signature"
+                width={16}
+                height={14}
+              />
+              <p className="text-xs md:text-sm text-dark1 ml-5">
                 Electronically sign the membership agreement.
               </p>
             </div>
             <div className="flex mt-5 w-full">
-              <Image src="/images/ic_ownership.svg" width={16} height={14} />
-              <p className="text-sm text-dark1 ml-5">
+              <img
+                src="/images/ic_ownership.svg"
+                alt="ownership"
+                width={16}
+                height={14}
+              />
+              <p className="text-xs md:text-sm text-dark1 ml-5">
                 Register your node and prove ownership.
               </p>
             </div>
             <div className="flex mt-5 w-full">
-              <Image src="/images/ic_user.svg" width={16} height={14} />
-              <p className="text-sm text-dark1 ml-5">
+              <img
+                src="/images/ic_user.svg"
+                alt="user"
+                width={16}
+                height={14}
+              />
+              <p className="text-xs md:text-sm text-dark1 ml-5">
                 Submit KYC details for your node.
               </p>
             </div>
-            <button
-              type="button"
-              className="mt-12 text-lg text-white w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none"
-            >
-              Begin
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="button"
+                className="mt-12 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none"
+                onClick={() => router.push('/onboard')}
+              >
+                Begin
+              </button>
+            </div>
           </div>
         </div>
         <AppFooter theme="light" />
