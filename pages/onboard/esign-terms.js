@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import AppFooter from '../../components/Layouts/app-footer';
 import AppHeader from '../../components/Layouts/app-header';
-import Document from '../../components/Icons/document';
+import EsignTermsFirstStep from '../../components/Onboard/EsignTerms/FirstStep';
+import EsignTermsSecondStep from '../../components/Onboard/EsignTerms/SecondStep';
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,56 +41,17 @@ const EsignTerms = () => {
   const renderStepContent = () => {
     if (currentStep === 1) {
       return (
-        <div className="mt-8">
-          <p className="text-2.5xl">
-            Members must sign the Membership Agreement
-          </p>
-          <p className="text-sm mt-2 text-dark1">
-            Clicking below will open up the hellosign document for capturing
-            your electronic signature
-          </p>
-          <div className="mt-10 flex flex-wrap space-x-10">
-            {documents.map(document => (
-              <button
-                type="button"
-                className="text-center focus:outline-none"
-                onClick={() =>
-                  setSelectedDocument(
-                    selectedDocument === document ? null : document
-                  )
-                }
-              >
-                <Document
-                  width={38}
-                  height={50}
-                  strokeColor={
-                    document === selectedDocument ? '#FF473E' : '#323339'
-                  }
-                  strokeWidth={document === selectedDocument ? 2 : 1}
-                />
-                <p className="text-dark3 mt-1 text-xs">{document}</p>
-              </button>
-            ))}
-          </div>
-        </div>
+        <EsignTermsFirstStep
+          documents={documents}
+          selectedDocument={selectedDocument}
+          onDocumentSelect={document =>
+            setSelectedDocument(selectedDocument === document ? null : document)
+          }
+        />
       );
     }
 
-    return (
-      <div className="mt-8">
-        <p className="text-2.5xl">ESigning was successful</p>
-        <p className="text-sm text-dark1 mt-1">
-          You can continue the onboarding steps.
-        </p>
-        <button
-          type="button"
-          className="block md:hidden text-lg text-white w-full h-16 rounded-full bg-primary focus:outline-none mt-12"
-          onClick={() => handleNext()}
-        >
-          Continue
-        </button>
-      </div>
-    );
+    return <EsignTermsSecondStep onContinue={handleNext} />;
   };
 
   return (
@@ -100,7 +62,7 @@ const EsignTerms = () => {
           <div className="block md:hidden w-full flex justify-between">
             <button
               type="button"
-              className="flex items-center"
+              className="flex items-center focus:outline-none"
               onClick={() => handlePrev()}
             >
               <img
@@ -114,8 +76,10 @@ const EsignTerms = () => {
             </button>
             <button
               type="button"
-              className={`flex items-center ${
-                selectedDocument ? 'visible' : 'invisible'
+              className={`flex items-center focus:outline-none ${
+                currentStep !== totalSteps && selectedDocument
+                  ? 'visible'
+                  : 'invisible'
               }`}
               onClick={() => setCurrentStep(currentStep + 1)}
             >
@@ -170,7 +134,7 @@ const EsignTerms = () => {
               <button
                 type="button"
                 className={`text-center ml-5 text-sm text-dark3 focus:outline-none ${
-                  selectedDocument ? 'visible' : 'invisible'
+                  selectedDocument ? 'opacity-100' : 'opacity-25'
                 }`}
                 onClick={() => handleNext()}
               >
