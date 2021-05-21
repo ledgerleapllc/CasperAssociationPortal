@@ -14,11 +14,12 @@ module.exports = {
       colors: {
         dark1: '#313131',
         dark2: '#1D1D1D',
+        gray: '#9A9A9A',
         primary: '#FF473E',
       },
       zIndex: {
         '-1': '-1',
-       },
+      },
     },
   },
   variants: {
