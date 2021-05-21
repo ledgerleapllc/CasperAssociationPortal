@@ -39,7 +39,7 @@ const EsignTerms = () => {
     return 'Continue';
   };
 
-  const renderStepContent = () => {
+  const getStepContent = () => {
     if (currentStep === 1) {
       return (
         <EsignTermsFirstStep
@@ -55,6 +55,14 @@ const EsignTerms = () => {
     return <EsignTermsSecondStep onContinue={handleNext} />;
   };
 
+  const getContinueButtonVisibility = () => {
+    if (currentStep === 1) {
+      return !!selectedDocument;
+    }
+
+    return true;
+  };
+
   return (
     <div className="flex justify-center min-h-screen">
       <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
@@ -63,9 +71,9 @@ const EsignTerms = () => {
           <OnboardStepper
             currentStep={currentStep}
             totalSteps={totalSteps}
-            stepContent={renderStepContent()}
+            stepContent={getStepContent()}
             showNextButton={currentStep !== totalSteps && selectedDocument}
-            showContinueButton={!!selectedDocument}
+            showContinueButton={getContinueButtonVisibility()}
             continueButtonTitle={getNextButtonTitle()}
             onPrev={handlePrev}
             onNext={handleNext}

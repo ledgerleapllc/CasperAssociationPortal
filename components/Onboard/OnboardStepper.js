@@ -81,9 +81,8 @@ const OnboardStepper = ({
         </button>
         <button
           type="button"
-          className={`text-center ml-5 text-sm text-dark3 focus:outline-none ${
-            showContinueButton ? 'opacity-100' : 'opacity-25'
-          }`}
+          className="text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
+          disabled={!showContinueButton}
           onClick={onNext}
         >
           <img
