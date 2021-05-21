@@ -59,7 +59,10 @@ const Onboard = () => {
                     type="button"
                     className="absolute ml-4 -mt-6 focus:outline-none"
                   >
-                    <img src="/images/btn_next_circle.svg" alt="next" />
+                    <img
+                      src="/images/ic_next_circle_gradient_large.svg"
+                      alt="next"
+                    />
                   </button>
                 )}
                 <div
@@ -107,7 +110,10 @@ const Onboard = () => {
                     type="button"
                     className="absolute ml-4 -mt-6 focus:outline-none"
                   >
-                    <img src="/images/btn_next_circle.svg" alt="next" />
+                    <img
+                      src="/images/ic_next_circle_gradient_large.svg"
+                      alt="next"
+                    />
                   </button>
                 )}
                 <div
@@ -155,7 +161,10 @@ const Onboard = () => {
                     type="button"
                     className="absolute ml-4 -mt-6 focus:outline-none"
                   >
-                    <img src="/images/btn_next_circle.svg" alt="next" />
+                    <img
+                      src="/images/ic_next_circle_gradient_large.svg"
+                      alt="next"
+                    />
                   </button>
                 )}
                 <div

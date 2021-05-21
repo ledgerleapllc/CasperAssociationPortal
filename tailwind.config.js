@@ -14,8 +14,12 @@ module.exports = {
       colors: {
         dark1: '#313131',
         dark2: '#1D1D1D',
+        dark3: '#323339',
         gray: '#9A9A9A',
         primary: '#FF473E',
+      },
+      fontSize: {
+        '2.5xl': '1.7rem',
       },
       zIndex: {
         '-1': '-1',
