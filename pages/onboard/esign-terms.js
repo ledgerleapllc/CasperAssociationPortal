@@ -25,7 +25,7 @@ const EsignTerms = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push('/onboard/veify-node-ownership');
+      router.push('/onboard/verify-node-ownership');
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -55,7 +55,7 @@ const EsignTerms = () => {
     return <EsignTermsSecondStep onContinue={handleNext} />;
   };
 
-  const getContinueButtonVisibility = () => {
+  const getNextButtonVisibility = () => {
     if (currentStep === 1) {
       return !!selectedDocument;
     }
@@ -69,11 +69,14 @@ const EsignTerms = () => {
         <AppHeader theme="dark" />
         <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
           <OnboardStepper
+            title="Esign Terms"
+            description="You must read and agree to the terms of service before continuing to the portal"
+            imageUrl="/images/img_signature_blur.png"
             currentStep={currentStep}
             totalSteps={totalSteps}
             stepContent={getStepContent()}
-            showNextButton={currentStep !== totalSteps && selectedDocument}
-            showContinueButton={getContinueButtonVisibility()}
+            showNextButton={getNextButtonVisibility()}
+            showContinueButton={getNextButtonVisibility()}
             continueButtonTitle={getNextButtonTitle()}
             onPrev={handlePrev}
             onNext={handleNext}

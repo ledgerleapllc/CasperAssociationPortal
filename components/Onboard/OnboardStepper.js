@@ -1,4 +1,7 @@
 const OnboardStepper = ({
+  title,
+  description,
+  imageUrl,
   currentStep,
   totalSteps,
   stepContent,
@@ -43,7 +46,7 @@ const OnboardStepper = ({
     </div>
     <div className="w-full md:w-9/12">
       <p className="hidden md:block border-b border-gray pb-1 font-bold text-dark2">
-        Esign Terms
+        {title}
       </p>
       <div
         className="hidden md:block border-b border-primary border-2"
@@ -52,16 +55,13 @@ const OnboardStepper = ({
       <div className="mt-2 md:flex md:space-x-12">
         <div className="relative bg-white w-full md:w-auto">
           <img
-            src="/images/img_signature_blur.png"
+            src={imageUrl}
             alt="esign terms"
             className="w-full h-44 md:h-auto object-cover"
           />
           <div className="absolute bottom-0 mx-4 my-10 opacity-30">
-            <p className="text-2xl">Esign Terms</p>
-            <p className="text-sm text-dark1 mt-2">
-              You must read and agree to the terms of service before continuing
-              to the portal
-            </p>
+            <p className="text-2xl">{title}</p>
+            <p className="text-sm text-dark1 mt-2">{description}</p>
           </div>
         </div>
         {stepContent}
