@@ -53,7 +53,7 @@ const OnboardStepper = ({
         style={{ width: `${(currentStep * 100) / totalSteps}%` }}
       />
       <div className="mt-2 md:flex md:space-x-12">
-        <div className="relative bg-white w-full md:w-auto">
+        <div className="relative w-full md:w-auto">
           <img
             src={imageUrl}
             alt="esign terms"
@@ -64,7 +64,7 @@ const OnboardStepper = ({
             <p className="text-sm text-dark1 mt-2">{description}</p>
           </div>
         </div>
-        {stepContent}
+        <div className="flex-grow">{stepContent}</div>
       </div>
       <div className="hidden md:flex justify-between border-b border-gray pb-2">
         <button

@@ -4,9 +4,12 @@ import AppFooter from '../../components/Layouts/app-footer';
 import AppHeader from '../../components/Layouts/app-header';
 import OnboardStepper from '../../components/Onboard/OnboardStepper';
 import VerifyNodeOwnershipFirstStep from '../../components/Onboard/VerifyNodeOwnership/FirstStep';
+import VerifyNodeOwnershipSecondStep from '../../components/Onboard/VerifyNodeOwnership/SecondStep';
 
 const VerifyNodeOwnership = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [publicAddressVerified, setPublicAddressVerified] = useState(false);
+  const [signedFileUploaded, setSignedFileUploaded] = useState(false);
 
   const router = useRouter();
 
@@ -38,10 +41,36 @@ const VerifyNodeOwnership = () => {
 
   const getStepContent = () => {
     if (currentStep === 1) {
-      return <VerifyNodeOwnershipFirstStep />;
+      return (
+        <VerifyNodeOwnershipFirstStep
+          onSubmit={publicAddress => {
+            setPublicAddressVerified(true);
+          }}
+          isVerified={publicAddressVerified}
+        />
+      );
+    }
+    if (currentStep === 2) {
+      return (
+        <VerifyNodeOwnershipSecondStep
+          isUploaded={signedFileUploaded}
+          onUpload={() => setSignedFileUploaded(true)}
+        />
+      );
     }
 
     return <></>;
+  };
+
+  const getNextButtonVisibility = () => {
+    if (currentStep === 1) {
+      return publicAddressVerified;
+    }
+    if (currentStep === 2) {
+      return signedFileUploaded;
+    }
+
+    return true;
   };
 
   return (
@@ -56,8 +85,8 @@ const VerifyNodeOwnership = () => {
             currentStep={currentStep}
             totalSteps={totalSteps}
             stepContent={getStepContent()}
-            showNextButton
-            showContinueButton
+            showNextButton={getNextButtonVisibility()}
+            showContinueButton={getNextButtonVisibility()}
             continueButtonTitle={getNextButtonTitle()}
             onPrev={handlePrev}
             onNext={handleNext}

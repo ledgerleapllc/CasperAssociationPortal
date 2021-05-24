@@ -21,6 +21,12 @@ module.exports = {
       fontSize: {
         '2.5xl': '1.7rem',
       },
+      height: {
+        152: '38rem',
+      },
+      width: {
+        92: '23rem',
+      },
       zIndex: {
         '-1': '-1',
       },
