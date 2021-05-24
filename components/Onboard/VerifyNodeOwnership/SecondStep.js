@@ -17,7 +17,7 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
           </p>
           <button
             type="button"
-            className="bg-primary rounded-full text-white w-32 h-8 shadow-md"
+            className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
           >
             Download
           </button>
@@ -29,7 +29,7 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
           </p>
           <button
             type="button"
-            className="bg-primary rounded-full text-white w-32 h-8 shadow-md"
+            className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
           >
             View Guide
           </button>
@@ -41,7 +41,7 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
           </p>
           <button
             type="button"
-            className="bg-primary rounded-full text-white w-32 h-8 shadow-md"
+            className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
           >
             Upload
           </button>
