@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Hamburger from '../Icons/hamburger';
+import Hamburger from '../icons/hamburger';
 
 const AppHeader = ({ theme }) => (
   <div className="flex items-center justify-between">

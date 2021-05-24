@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import AppFooter from '../../components/Layouts/app-footer';
-import AppHeader from '../../components/Layouts/app-header';
-import OnboardStepper from '../../components/Onboard/OnboardStepper';
-import VerifyNodeOwnershipFirstStep from '../../components/Onboard/VerifyNodeOwnership/FirstStep';
-import VerifyNodeOwnershipSecondStep from '../../components/Onboard/VerifyNodeOwnership/SecondStep';
+import AppFooter from '../../components/layouts/app-footer';
+import AppHeader from '../../components/layouts/app-header';
+import OnboardStepper from '../../components/onboard/onboard-stepper';
+import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
+import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 
 const VerifyNodeOwnership = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -13,7 +13,7 @@ const VerifyNodeOwnership = () => {
 
   const router = useRouter();
 
-  const totalSteps = 6;
+  const totalSteps = 3;
 
   const handlePrev = () => {
     if (currentStep === 1) {

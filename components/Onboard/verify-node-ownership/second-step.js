@@ -42,6 +42,7 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
           <button
             type="button"
             className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
+            onClick={onUpload}
           >
             Upload
           </button>

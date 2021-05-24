@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
-import AppFooter from '../components/Layouts/app-footer';
-import AppHeader from '../components/Layouts/app-header';
-import OnboardItem from '../components/Onboard/OnboardItem';
+import AppFooter from '../components/layouts/app-footer';
+import AppHeader from '../components/layouts/app-header';
+import OnboardItem from '../components/onboard/onboard-item';
 
 const Onboard = () => {
   const router = useRouter();

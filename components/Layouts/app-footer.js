@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import Facebook from '../Icons/facebook';
-import Twitter from '../Icons/twitter';
-import Youtube from '../Icons/youtube';
-import Linkedin from '../Icons/linkedin';
-import Medium from '../Icons/medium';
+import Facebook from '../icons/facebook';
+import Twitter from '../icons/twitter';
+import Youtube from '../icons/youtube';
+import Linkedin from '../icons/linkedin';
+import Medium from '../icons/medium';
 
 const AppFooter = ({ theme }) => (
   <div className="flex items-center justify-between md:visible invisible">

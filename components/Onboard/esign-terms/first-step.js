@@ -1,4 +1,4 @@
-import Document from '../../Icons/document';
+import Document from '../../icons/document';
 
 const EsignTermsFirstStep = ({
   documents,

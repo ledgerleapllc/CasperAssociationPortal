@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import AppFooter from '../components/Layouts/app-footer';
-import AppHeader from '../components/Layouts/app-header';
+import AppFooter from '../components/layouts/app-footer';
+import AppHeader from '../components/layouts/app-header';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');

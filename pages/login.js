@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
-import AppFooter from '../components/Layouts/app-footer';
-import AppHeader from '../components/Layouts/app-header';
+import AppFooter from '../components/layouts/app-footer';
+import AppHeader from '../components/layouts/app-header';
 
 const Login = () => {
   const [email, setEmail] = useState('');

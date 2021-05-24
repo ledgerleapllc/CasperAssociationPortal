@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import AppFooter from '../../components/Layouts/app-footer';
-import AppHeader from '../../components/Layouts/app-header';
-import EsignTermsFirstStep from '../../components/Onboard/EsignTerms/FirstStep';
-import EsignTermsSecondStep from '../../components/Onboard/EsignTerms/SecondStep';
-import OnboardStepper from '../../components/Onboard/OnboardStepper';
+import AppFooter from '../../components/layouts/app-footer';
+import AppHeader from '../../components/layouts/app-header';
+import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
+import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
+import OnboardStepper from '../../components/onboard/onboard-stepper';
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);

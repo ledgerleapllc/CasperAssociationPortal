@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import useMobileDetect from 'use-mobile-detect-hook';
-import AppFooter from '../components/Layouts/app-footer';
-import AppHeader from '../components/Layouts/app-header';
+import AppFooter from '../components/layouts/app-footer';
+import AppHeader from '../components/layouts/app-header';
 
 const Welcome = () => {
   const router = useRouter();
