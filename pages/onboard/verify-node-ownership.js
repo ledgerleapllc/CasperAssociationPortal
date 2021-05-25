@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
@@ -12,6 +13,17 @@ const VerifyNodeOwnership = () => {
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
+  const [openModal, setOpenModal] = useState(false);
+  const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles);
+    setOpenModal(false);
+    setSignedFileUploaded(true);
+  }, []);
+  const {getRootProps, getInputProps} = useDropzone({onDrop});
+
+  const handleUploadButton = () => {
+    setOpenModal(true);
+  };
 
   const router = useRouter();
 
@@ -54,11 +66,48 @@ const VerifyNodeOwnership = () => {
     }
     if (currentStep === 2) {
       return (
-        <VerifyNodeOwnershipSecondStep
-          isUploaded={signedFileUploaded}
-          onUpload={() => setSignedFileUploaded(true)}
-          onContinue={handleNext}
-        />
+        <>
+          <VerifyNodeOwnershipSecondStep
+            isUploaded={signedFileUploaded}
+            onUpload={handleUploadButton}
+            onContinue={handleNext}
+          />
+          {openModal ? (
+            <>
+              <div
+                className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50"
+              >
+                <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
+                  <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
+                    <div {...getRootProps()}>
+                      <div className="flex flex-col items-center justify-between">
+                        <input {...getInputProps()} />
+                        <img
+                          src="/images/ic_upload.svg"
+                          alt="Icon upload"
+                          className="align-middle mb-6"
+                        />
+                        <button
+                          type="button"
+                          className="mb-2.5 text-lg text-white w-full px-14 py-5 shadow-lg rounded-full bg-primary hover:opacity-40 focus:outline-none"
+                        >
+                          Upload Signed File
+                        </button>
+                        <span className="hidden md:block">
+                          Or Drap File Here
+                        </span>
+                      </div>
+                    </div>
+                    <button className="absolute bottom-6 text-primary text-xs underline" onClick={() => setOpenModal(false)}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            </>
+          ) : null}
+        </>
       );
     }
     if (currentStep === 3) {
