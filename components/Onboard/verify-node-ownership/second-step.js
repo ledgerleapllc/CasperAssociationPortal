@@ -1,18 +1,18 @@
-import { useState } from 'react';
-
-const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
-  const [publicAddress, setPublicAddress] = useState('');
-
-  return (
-    <div className="pt-8">
-      <p className="text-2.5xl">Thanks</p>
-      <p className="text-sm mt-2 text-dark1 whitespace-pre-line">
-        {`Thanks! Now we need to verify this node address is owned or controlled by you. Please follow\nthe steps below:`}
-      </p>
-      <div className="md:relative mt-12 mr-8">
-        <div className="flex items-end">
-          <p className="text-2xl">1.</p>
-          <p className="text-sm flex-grow ml-8 pb-1">
+const VerifyNodeOwnershipSecondStep = ({
+  isUploaded,
+  onUpload,
+  onContinue,
+}) => (
+  <div className="pt-8">
+    <p className="text-2.5xl">Thanks</p>
+    <p className="text-sm mt-2 text-dark1 whitespace-pre-line">
+      {`Thanks! Now we need to verify this node address is owned or controlled by you. Please follow\nthe steps below:`}
+    </p>
+    <div className="mt-12 mr-8">
+      <div className="flex">
+        <p className="text-2xl -mt-2 md:mt-0">1.</p>
+        <div className="flex-grow md:flex ml-8 md:items-end">
+          <p className="text-sm md:flex-grow pb-1">
             Download this message file for signing.
           </p>
           <button
@@ -22,9 +22,11 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
             Download
           </button>
         </div>
-        <div className="flex items-end my-8">
-          <p className="text-2xl">2.</p>
-          <p className="text-sm flex-grow ml-8 pb-1">
+      </div>
+      <div className="flex my-8">
+        <p className="text-2xl -mt-2 md:mt-0">2.</p>
+        <div className="flex-grow md:flex ml-8 md:items-end">
+          <p className="text-sm md:flex-grow pb-1">
             Sign the message with your node. See guide for more details.
           </p>
           <button
@@ -34,22 +36,41 @@ const VerifyNodeOwnershipSecondStep = ({ isUploaded, onUpload }) => {
             View Guide
           </button>
         </div>
-        <div className="flex items-end my-8">
-          <p className="text-2xl">3.</p>
-          <p className="text-sm flex-grow ml-8 pb-1">
+      </div>
+      <div className="flex">
+        <p className="text-2xl -mt-2 md:mt-0">3.</p>
+        <div className="flex-grow md:flex ml-8 md:items-end">
+          <p className="text-sm md:flex-grow pb-1">
             Upload the signed file for the system to check.
           </p>
-          <button
-            type="button"
-            className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
-            onClick={onUpload}
-          >
-            Upload
-          </button>
+          <div className="flex">
+            <button
+              type="button"
+              className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
+              onClick={onUpload}
+            >
+              Upload
+            </button>
+            {isUploaded && (
+              <img
+                src="/images/ic_check_circle_small.svg"
+                alt="upload success"
+                className="-mr-8 ml-4"
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+    <button
+      type="button"
+      className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary focus:outline-none mt-12 disabled:opacity-30 md:hidden"
+      disabled={!isUploaded}
+      onClick={onContinue}
+    >
+      Continue
+    </button>
+  </div>
+);
 
 export default VerifyNodeOwnershipSecondStep;

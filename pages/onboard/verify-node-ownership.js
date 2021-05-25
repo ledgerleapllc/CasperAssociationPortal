@@ -5,11 +5,13 @@ import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
+import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
 
 const VerifyNodeOwnership = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
+  const [messageFileStatus, setMessageFileStatus] = useState('checking');
 
   const router = useRouter();
 
@@ -33,7 +35,7 @@ const VerifyNodeOwnership = () => {
 
   const getNextButtonTitle = () => {
     if (currentStep === totalSteps) {
-      return 'Continue';
+      return 'Complete';
     }
 
     return 'Next';
@@ -55,6 +57,18 @@ const VerifyNodeOwnership = () => {
         <VerifyNodeOwnershipSecondStep
           isUploaded={signedFileUploaded}
           onUpload={() => setSignedFileUploaded(true)}
+          onContinue={handleNext}
+        />
+      );
+    }
+    if (currentStep === 3) {
+      setTimeout(() => {
+        setMessageFileStatus('succeed');
+      }, 3000);
+      return (
+        <VerifyNodeOwnershipThirdStep
+          status={messageFileStatus}
+          onContinue={handleNext}
         />
       );
     }

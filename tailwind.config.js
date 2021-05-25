@@ -17,6 +17,7 @@ module.exports = {
         dark3: '#323339',
         gray: '#9A9A9A',
         primary: '#FF473E',
+        success: '#211BAA',
       },
       fontSize: {
         '2.5xl': '1.7rem',
