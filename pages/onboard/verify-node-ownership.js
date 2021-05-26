@@ -21,10 +21,6 @@ const VerifyNodeOwnership = () => {
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const handleUploadButton = () => {
-    setOpenModal(true);
-  };
-
   const router = useRouter();
 
   const totalSteps = 3;
@@ -70,7 +66,7 @@ const VerifyNodeOwnership = () => {
         <>
           <VerifyNodeOwnershipSecondStep
             isUploaded={signedFileUploaded}
-            onUpload={handleUploadButton}
+            onUpload={() => setShowUploadModal(true)}
             onContinue={handleNext}
           />
           {showUploadModal && (
