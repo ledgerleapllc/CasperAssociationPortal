@@ -11,17 +11,18 @@ const SubmitKYCFirstStep = ({ onIndividual, onEntity }) => (
       operates the node, an individual or an entity.
       <br />
       <br />
-      Individuals - you will need to submit your name and DOB, then upload an
-      identification document and proof of address document
+      <span className="font-medium italic">Individuals</span> - you will need to
+      submit your name and DOB, then upload an identification document and proof
+      of address document
       <br />
       <br />
-      Companies/Entities - you will need to input basic information and contact
-      emails for all persons who have either decision making power or own 10% or
-      more of the entity. A link will be sent to each person to collect their
-      information and documents directly. If another entity has decision making
-      power or owns more than 10% of the primary entity, that entity will need
-      to also complete the same process of providing decision maker and
-      shareholder details.
+      <span className="font-medium italic">Companies/Entities</span> - you will
+      need to input basic information and contact emails for all persons who
+      have either decision making power or own 10% or more of the entity. A link
+      will be sent to each person to collect their information and documents
+      directly. If another entity has decision making power or owns more than
+      10% of the primary entity, that entity will need to also complete the same
+      process of providing decision maker and shareholder details.
       <br />
       <br />
       Please begin by selecting one of the following options. My node is
