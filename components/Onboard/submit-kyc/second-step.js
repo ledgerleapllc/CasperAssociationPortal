@@ -70,7 +70,7 @@ const SubmitKYCSecondStep = ({ onChange }) => {
         />
       </div>
       <div className="md:flex md:space-x-5 mt-2">
-        <div className="w-full md:flex-1 flex items-center px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+        <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
           <select
             className={`max-w-60 cursor-pointer focus:outline-none ${
               citizenship ? 'text-black' : 'text-gray'
@@ -89,7 +89,7 @@ const SubmitKYCSecondStep = ({ onChange }) => {
           </select>
           <img src="/images/ic_arrow_down.svg" alt="down" />
         </div>
-        <div className="w-full md:flex-1 flex items-center px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+        <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
           <select
             className={`max-w-60 cursor-pointer focus:outline-none ${
               residence ? 'text-black' : 'text-gray'

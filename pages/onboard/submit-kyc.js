@@ -5,6 +5,7 @@ import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import SubmitKYCFirstStep from '../../components/onboard/submit-kyc/first-step';
 import SubmitKYCSecondStep from '../../components/onboard/submit-kyc/second-step';
+import SubmitKYCThirdStep from '../../components/Onboard/submit-kyc/third-step';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -58,12 +59,14 @@ const SubmitKYC = () => {
       return <SubmitKYCSecondStep onChange={data => setInformation(data)} />;
     }
 
+    if (currentStep === 3) {
+      return <SubmitKYCThirdStep />;
+    }
+
     return <></>;
   };
 
-  const getNextButtonVisibility = () => {
-    return true;
-  };
+  const getNextButtonVisibility = () => true;
 
   const getContinueButtonVisibility = () => {
     if (currentStep === 1) {

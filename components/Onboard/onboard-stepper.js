@@ -45,10 +45,24 @@ const OnboardStepper = ({
         />
       </button>
     </div>
-    <div className="w-full md:w-9/12 max-w-6xl">
-      <p className="hidden md:block border-b border-gray pb-1 font-bold text-dark2">
-        {title}
-      </p>
+    <div className="w-full md:w-9/12 md:max-w-6xl">
+      <div className="hidden md:flex border-b border-gray pb-1">
+        <span className="font-bold text-dark2">{title}</span>
+        {title === 'Submit KYC' && (
+          <ul className="flex list-disc">
+            <li
+              className={`ml-48 text-sm text-primary ${
+                currentStep === 2 || currentStep === 3 ? '' : 'text-opacity-50'
+              }`}
+            >
+              Operator KYC
+            </li>
+            <li className="ml-48 text-sm text-primary text-opacity-50">
+              CSPR Owner KYC
+            </li>
+          </ul>
+        )}
+      </div>
       <div
         className="hidden md:block border-b border-primary border-2"
         style={{ width: `${(currentStep * 100) / totalSteps}%` }}
