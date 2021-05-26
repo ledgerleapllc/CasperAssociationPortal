@@ -13,13 +13,13 @@ const VerifyNodeOwnership = () => {
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
-  const [openModal, setOpenModal] = useState(false);
+  const [showUploadModal, setShowUploadModal] = useState(false);
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles);
-    setOpenModal(false);
+    setShowUploadModal(false);
     setSignedFileUploaded(true);
   }, []);
-  const {getRootProps, getInputProps} = useDropzone({onDrop});
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleUploadButton = () => {
     setOpenModal(true);
@@ -58,6 +58,7 @@ const VerifyNodeOwnership = () => {
       return (
         <VerifyNodeOwnershipFirstStep
           onSubmit={publicAddress => {
+            console.log(publicAddress);
             setPublicAddressVerified(true);
           }}
           isVerified={publicAddressVerified}
@@ -72,11 +73,9 @@ const VerifyNodeOwnership = () => {
             onUpload={handleUploadButton}
             onContinue={handleNext}
           />
-          {openModal ? (
+          {showUploadModal && (
             <>
-              <div
-                className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50"
-              >
+              <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
                 <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
                   <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                     <div {...getRootProps()}>
@@ -84,7 +83,7 @@ const VerifyNodeOwnership = () => {
                         <input {...getInputProps()} />
                         <img
                           src="/images/ic_upload.svg"
-                          alt="Icon upload"
+                          alt="upload"
                           className="align-middle mb-6"
                         />
                         <button
@@ -98,15 +97,19 @@ const VerifyNodeOwnership = () => {
                         </span>
                       </div>
                     </div>
-                    <button className="absolute bottom-6 text-primary text-xs underline" onClick={() => setOpenModal(false)}>
+                    <button
+                      type="button"
+                      className="absolute bottom-6 text-primary text-xs underline"
+                      onClick={() => setShowUploadModal(false)}
+                    >
                       Cancel
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              <div className="opacity-25 fixed inset-0 z-40 bg-black" />
             </>
-          ) : null}
+          )}
         </>
       );
     }
