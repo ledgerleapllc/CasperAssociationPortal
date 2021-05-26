@@ -158,7 +158,7 @@ const Register = () => {
             <div className="md:flex md:flex-row-reverse mt-10">
               <button
                 type="button"
-                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none"
+                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 disabled={!validateFields()}
                 onClick={() => router.push('/welcome')}
               >

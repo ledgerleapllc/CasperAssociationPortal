@@ -8,6 +8,7 @@ const OnboardStepper = ({
   showNextButton,
   showContinueButton,
   continueButtonTitle,
+  hideContinueButton,
   onPrev,
   onNext,
 }) => (
@@ -53,13 +54,13 @@ const OnboardStepper = ({
         style={{ width: `${(currentStep * 100) / totalSteps}%` }}
       />
       <div className="mt-2 md:flex md:space-x-12">
-        <div className="relative w-full md:w-auto">
+        <div className="relative w-full md:w-auto md:flex-none md:h-114">
           <img
             src={imageUrl}
             alt="esign terms"
             className="w-full h-44 md:h-auto object-cover"
           />
-          <div className="absolute bottom-0 mx-4 my-10 opacity-30">
+          <div className="absolute bottom-0 mx-4 my-8 opacity-30">
             <p className="text-2xl">{title}</p>
             <p className="text-sm text-dark1 mt-2">{description}</p>
           </div>
@@ -79,19 +80,21 @@ const OnboardStepper = ({
           />
           Back
         </button>
-        <button
-          type="button"
-          className="text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
-          disabled={!showContinueButton}
-          onClick={onNext}
-        >
-          <img
-            src="/images/ic_next_circle_gradient_large.svg"
-            alt="go to esign"
-            className="mb-1"
-          />
-          {continueButtonTitle}
-        </button>
+        {!hideContinueButton && (
+          <button
+            type="button"
+            className="text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
+            disabled={!showContinueButton}
+            onClick={onNext}
+          >
+            <img
+              src="/images/ic_next_circle_gradient_large.svg"
+              alt="go to esign"
+              className="mb-1"
+            />
+            {continueButtonTitle}
+          </button>
+        )}
       </div>
     </div>
   </>

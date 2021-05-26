@@ -54,13 +54,13 @@ const Login = () => {
             <div className="md:flex md:space-x-5 mt-14 md:justify-center">
               <button
                 type="button"
-                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none"
+                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               >
                 Sign in
               </button>
               <button
                 type="button"
-                className="mt-2 md:mt-0 text-lg border-2 border-primary text-primary w-full md:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none"
+                className="mt-2 md:mt-0 text-lg border-2 border-primary text-primary w-full md:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
               >
                 Sign in as Guest
               </button>

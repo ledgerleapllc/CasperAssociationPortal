@@ -23,6 +23,7 @@ module.exports = {
         '2.5xl': '1.7rem',
       },
       height: {
+        114: '28.5rem',
         152: '38rem',
       },
       width: {

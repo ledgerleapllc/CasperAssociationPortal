@@ -96,7 +96,7 @@ const Welcome = () => {
             <div className="flex justify-center">
               <button
                 type="button"
-                className="mt-12 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none"
+                className="mt-12 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
                 onClick={() => router.push('/onboard')}
               >
                 Begin
