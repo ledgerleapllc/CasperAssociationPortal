@@ -4,14 +4,16 @@ import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import SubmitKYCFirstStep from '../../components/onboard/submit-kyc/first-step';
+import SubmitKYCSecondStep from '../../components/onboard/submit-kyc/second-step';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [submitType, setSubmitType] = useState(null);
+  const [information, setInformation] = useState(null);
 
   const router = useRouter();
 
-  const totalSteps = 2;
+  const totalSteps = 6;
 
   const handlePrev = () => {
     if (currentStep === 1) {
@@ -41,16 +43,29 @@ const SubmitKYC = () => {
     if (currentStep === 1) {
       return (
         <SubmitKYCFirstStep
-          onIndividual={() => setSubmitType('individual')}
-          onEntity={() => setSubmitType('entity')}
+          onIndividual={() => {
+            setSubmitType('individual');
+            handleNext();
+          }}
+          onEntity={() => {
+            setSubmitType('entity');
+            handleNext();
+          }}
         />
       );
+    }
+    if (currentStep === 2) {
+      return <SubmitKYCSecondStep onChange={data => setInformation(data)} />;
     }
 
     return <></>;
   };
 
   const getNextButtonVisibility = () => {
+    return true;
+  };
+
+  const getContinueButtonVisibility = () => {
     if (currentStep === 1) {
       return false;
     }
@@ -73,7 +88,7 @@ const SubmitKYC = () => {
             showNextButton={getNextButtonVisibility()}
             showContinueButton={getNextButtonVisibility()}
             continueButtonTitle={getNextButtonTitle()}
-            hideContinueButton
+            hideContinueButton={!getContinueButtonVisibility()}
             onPrev={handlePrev}
             onNext={handleNext}
           />

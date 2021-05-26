@@ -45,7 +45,7 @@ const OnboardStepper = ({
         />
       </button>
     </div>
-    <div className="w-full md:w-9/12">
+    <div className="w-full md:w-9/12 max-w-6xl">
       <p className="hidden md:block border-b border-gray pb-1 font-bold text-dark2">
         {title}
       </p>
