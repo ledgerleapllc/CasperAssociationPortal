@@ -30,3 +30,26 @@ select {
 select::-ms-expand {
   display: none;
 }
+
+/* pretty radio */
+label > input[type="radio"] {
+  display: none;
+}
+label > input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #1D1D1D;
+}
+label > input[type="radio"]:checked + *::before {
+  background: radial-gradient(#FF473E 0%, #FF473E 40%, transparent 50%, transparent);
+}
+label > input[type="radio"] + * {
+  display: inline-block;
+}

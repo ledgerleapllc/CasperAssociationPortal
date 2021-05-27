@@ -51,13 +51,17 @@ const OnboardStepper = ({
         {title === 'Submit KYC' && (
           <ul className="flex list-disc">
             <li
-              className={`ml-48 text-sm text-primary ${
-                currentStep === 2 || currentStep === 3 ? '' : 'text-opacity-50'
+              className={`mx-44 text-sm text-primary ${
+                currentStep >= 2 ? 'font-bold' : 'text-opacity-50'
               }`}
             >
               Operator KYC
             </li>
-            <li className="ml-48 text-sm text-primary text-opacity-50">
+            <li
+              className={`mx-44 text-sm text-primary ${
+                currentStep >= 4 ? 'font-bold' : 'text-opacity-50'
+              }`}
+            >
               CSPR Owner KYC
             </li>
           </ul>
