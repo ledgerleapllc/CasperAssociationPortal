@@ -13,7 +13,7 @@ const SubmitKYCFourthStep = ({ onChange }) => {
       <br />
       <br />
       <div>
-        <label className="inline-flex items-center mb-6">
+        <label className="relative pl-8 inline-flex items-center mb-6">
           <input
             type="radio"
             className="text-primary"
@@ -32,7 +32,7 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             , owns 25% or more of the CSPR in my node.
           </span>
         </label>
-        <label className="flex mb-6">
+        <label className="relative pl-8 flex mb-6">
           <input
             type="radio"
             className="text-primary"

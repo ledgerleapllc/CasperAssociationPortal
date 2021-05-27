@@ -36,6 +36,8 @@ label > input[type="radio"] {
   display: none;
 }
 label > input[type="radio"] + *::before {
+  position: absolute;
+  left: 0;
   content: "";
   display: inline-block;
   vertical-align: bottom;
