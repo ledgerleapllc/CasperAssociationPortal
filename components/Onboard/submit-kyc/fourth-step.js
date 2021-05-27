@@ -25,14 +25,14 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             }}
           />
           <span className="text-sm text-dark1">
-            No other person, entity,{' '}
+            No other person, entity, or organization{' '}
             <strong>
               <i>other than myself</i>
             </strong>
             , owns 25% or more of the CSPR in my node.
           </span>
         </label>
-        <label className="inline-flex items-center mb-6">
+        <label className="flex mb-6">
           <input
             type="radio"
             className="text-primary"
@@ -48,6 +48,13 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             provided)
           </span>
         </label>
+        {data.totalCsrpToken && (
+          <p className="text-xs text-primary">
+            On the next screen, you will provide the details of any individual,
+            entity, or organization that owns 25% or more of the CSPR in the
+            node.
+          </p>
+        )}
       </div>
     </div>
   );
