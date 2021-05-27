@@ -6,7 +6,7 @@ module.exports = {
   },
   images: {
     loader: 'imgix',
-    path: '',
+    path: 'http://caspermember.com/',
   },
   async redirects() {
     return [
