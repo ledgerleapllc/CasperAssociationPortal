@@ -6,7 +6,7 @@ module.exports = {
   },
   images: {
     loader: 'imgix',
-    path: 'https://noop/',
+    path: '',
   },
   async redirects() {
     return [
