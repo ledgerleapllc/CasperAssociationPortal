@@ -12,7 +12,7 @@ module.exports = {
     return [
       {
         destination: '/home',
-        permanent: true,
+        permanent: false,
         source: '/',
       },
     ];

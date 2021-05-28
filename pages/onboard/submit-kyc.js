@@ -7,6 +7,7 @@ import SubmitKYCFirstStep from '../../components/onboard/submit-kyc/first-step';
 import SubmitKYCSecondStep from '../../components/onboard/submit-kyc/second-step';
 import SubmitKYCThirdStep from '../../components/onboard/submit-kyc/third-step';
 import SubmitKYCFourthStep from '../../components/onboard/submit-kyc/fourth-step';
+import SubmitKYCFifthStep from '../../components/Onboard/submit-kyc/fifth-step';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -66,6 +67,10 @@ const SubmitKYC = () => {
 
     if (currentStep === 4) {
       return <SubmitKYCFourthStep onChange={data => setInformation(data)} />;
+    }
+
+    if (currentStep === 5) {
+      return <SubmitKYCFifthStep onHandleNext={() => handleNext()} />;
     }
 
     return <></>;
