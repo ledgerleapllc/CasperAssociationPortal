@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SubmitKYCFourthStep = ({ onChange }) => {
+const SubmitKYCFourthStep = ({ onNext, onChange }) => {
   const [data, setData] = useState({});
 
   return (
@@ -56,6 +56,13 @@ const SubmitKYCFourthStep = ({ onChange }) => {
           </p>
         )}
       </div>
+      <button
+        type="button"
+        className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+        onClick={onNext}
+      >
+        Continue
+      </button>
     </div>
   );
 };

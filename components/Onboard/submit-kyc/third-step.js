@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SubmitKYCThirdStep = () => {
+const SubmitKYCThirdStep = ({ onNext }) => {
   const [isDisplayText, setIsDisplayText] = useState(false);
 
   return (
@@ -24,10 +24,19 @@ const SubmitKYCThirdStep = () => {
       </p>
       <div className="md:flex md:space-x-8 md:items-center mt-12">
         {isDisplayText ? (
-          <p className="text-sm text-primary">
-            Thank you for submitting your KYC. It will be reviewed by admin and
-            a response given within 3 business days. Please continue.
-          </p>
+          <>
+            <p className="text-sm text-primary">
+              Thank you for submitting your KYC. It will be reviewed by admin
+              and a response given within 3 business days. Please continue.
+            </p>
+            <button
+              type="button"
+              className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+              onClick={onNext}
+            >
+              Continue
+            </button>
+          </>
         ) : (
           <button
             type="button"

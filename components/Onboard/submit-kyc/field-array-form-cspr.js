@@ -18,6 +18,38 @@ export default function FieldArrayFormCSPR({
   const [currentForm, setCurrentForm] = useState(fields?.length);
   const [isCreatedOwner, setIsCreatedOwner] = useState(false);
   const watchFormDefault = watch('form');
+  useEffect(() => {
+    if (
+      currentForm !== 0 &&
+      watchFormDefault[watchFormDefault.length - 1].cspr > 100
+    ) {
+      setValue(
+        `form[${currentForm - 1}].cspr`,
+        watchFormDefault[watchFormDefault.length - 1].cspr.substring(
+          0,
+          watchFormDefault[watchFormDefault.length - 1].cspr.length - 1
+        )
+      );
+    }
+  }, [watchFormDefault[watchFormDefault.length - 1]])
+
+  useEffect(() => {
+    if (currentForm === 1) {
+      setIsCreatedOwner(false);
+    }
+    if (currentForm === 0) {
+      append([
+        {
+          cspr: null,
+          email: '',
+          isAdded: false,
+          typeCSPR: null,
+        },
+      ]);
+      setCurrentForm(prev => prev + 1);
+    }
+  }, [currentForm]);
+
   const handleShowTitleForm = form => {
     switch (form) {
       case 1:
@@ -69,23 +101,6 @@ export default function FieldArrayFormCSPR({
     setCurrentForm(fields.length - 1);
   };
 
-  useEffect(() => {
-    if (currentForm === 1) {
-      setIsCreatedOwner(false);
-    }
-    if (currentForm === 0) {
-      append([
-        {
-          cspr: null,
-          email: '',
-          isAdded: false,
-          typeCSPR: null,
-        },
-      ]);
-      setCurrentForm(prev => prev + 1);
-    }
-  }, [currentForm]);
-
   return (
     <>
       <ul className="grid grid-flow-row md:grid-cols-2 md:grid-rows-2 max-w-xl">
@@ -128,23 +143,24 @@ export default function FieldArrayFormCSPR({
                   pattern:
                     /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-+]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z‌​]{2,})$/,
                 })}
-                defaultValue=""
               />
               <div className="flex md:block items-center">
-                <input
-                  type="number"
-                  readOnly={getValues(`form[${index}].isAdded`) === true}
-                  className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs ${
-                    getValues(`form[${index}].isAdded`) === true
-                      ? 'md:border-0'
-                      : 'md:border-b'
-                  } focus:outline-none placeholder-gray-50`}
-                  placeholder="% of CSPR"
-                  {...register(`form.${index}.cspr`, {
-                    max: 100,
-                    min: 0,
-                  })}
-                />
+                {getValues(`form[${index}].isAdded`) === true ? (
+                  <span
+                    className={`flex justify-start items-center w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-0
+                    focus:outline-none placeholder-gray-50`}
+                  >
+                    {`${getValues(`form[${index}].cspr`)}%`}
+                  </span>
+                ) : (
+                  <input
+                    type="number"
+                    className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-b
+                    focus:outline-none placeholder-gray-50`}
+                    placeholder="% of CSPR"
+                    {...register(`form.${index}.cspr`)}
+                  />
+                )}
                 <div className="flex items-center mt-3 ml-4 md:ml-0">
                   <label className="relative pl-8 inline-flex items-center mr-6">
                     <input
@@ -188,11 +204,7 @@ export default function FieldArrayFormCSPR({
             type="button"
             onClick={appendForm}
           >
-            {fields.length + 1 === 2 ? (
-              <EmptyFormCspr isDisplayButton />
-            ) : (
-              <EmptyFormCspr isDisplayButton={false} />
-            )}
+            {fields.length + 1 === 2 && <EmptyFormCspr />}
           </button>
         </li>
         <li
@@ -206,11 +218,7 @@ export default function FieldArrayFormCSPR({
             type="button"
             onClick={appendForm}
           >
-            {fields.length + 1 === 3 ? (
-              <EmptyFormCspr isDisplayButton />
-            ) : (
-              <EmptyFormCspr isDisplayButton={false} />
-            )}
+            {fields.length + 1 === 3 && <EmptyFormCspr />}
           </button>
         </li>
         <li
@@ -224,11 +232,7 @@ export default function FieldArrayFormCSPR({
             type="button"
             onClick={appendForm}
           >
-            {fields.length + 1 === 4 ? (
-              <EmptyFormCspr isDisplayButton />
-            ) : (
-              <EmptyFormCspr isDisplayButton={false} />
-            )}
+            {fields.length + 1 === 4 && <EmptyFormCspr />}
           </button>
         </li>
       </ul>

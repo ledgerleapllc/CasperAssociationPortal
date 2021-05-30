@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Countries from '../../../public/json/country.json';
 
-const SubmitKYCSecondStep = ({ onChange }) => {
+const SubmitKYCSecondStep = ({ onNext, onChange }) => {
   const [data, setData] = useState({});
   const [citizenship, setCitizenship] = useState(null);
   const [residence, setResidence] = useState(null);
@@ -116,6 +116,13 @@ const SubmitKYCSecondStep = ({ onChange }) => {
         reside at the above address, such as a utility/phone bill or bank
         statement.
       </p>
+      <button
+        type="button"
+        className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+        onClick={onNext}
+      >
+        Continue
+      </button>
     </div>
   );
 };

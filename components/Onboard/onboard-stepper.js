@@ -26,24 +26,35 @@ const OnboardStepper = ({
           height="18"
           className="mr-2"
         />
-        Back
+        <span className="text-primary text-sm">Back</span>
       </button>
-      <button
-        type="button"
-        className={`flex items-center focus:outline-none ${
-          showNextButton ? 'visible' : 'invisible'
-        }`}
-        onClick={onNext}
-      >
-        Next
-        <img
-          src="/images/ic_next_circle.svg"
-          alt="next"
-          width="18"
-          height="18"
-          className="ml-2"
-        />
-      </button>
+      {title === 'Submit KYC' ? (
+        <ul className="list-disc md:list-none">
+          <li className="text-primary font-bold text-sm">Operator KYC</li>
+        </ul>
+      ) : (
+        <button
+          type="button"
+          className={`flex items-center focus:outline-none ${
+            showNextButton ? 'visible' : 'invisible'
+          }`}
+          onClick={onNext}
+        >
+          <span className="text-primary text-sm">Next</span>
+          <img
+            src="/images/ic_next_circle.svg"
+            alt="next"
+            width="18"
+            height="18"
+            className="ml-2"
+          />
+        </button>
+      )}
+      {!showNextButton && title === 'Submit KYC' && (
+        <ul className="list-disc md:list-none">
+          <li className="text-primary font-bold text-sm">Operator KYC</li>
+        </ul>
+      )}
     </div>
     <div className="w-full md:w-9/12 md:max-w-6xl">
       <div className="hidden md:flex border-b border-gray pb-1">

@@ -58,15 +58,25 @@ const SubmitKYC = () => {
       );
     }
     if (currentStep === 2) {
-      return <SubmitKYCSecondStep onChange={data => setInformation(data)} />;
+      return (
+        <SubmitKYCSecondStep
+          onNext={handleNext}
+          onChange={data => setInformation(data)}
+        />
+      );
     }
 
     if (currentStep === 3) {
-      return <SubmitKYCThirdStep />;
+      return <SubmitKYCThirdStep onNext={handleNext} />;
     }
 
     if (currentStep === 4) {
-      return <SubmitKYCFourthStep onChange={data => setInformation(data)} />;
+      return (
+        <SubmitKYCFourthStep
+          onNext={handleNext}
+          onChange={data => setInformation(data)}
+        />
+      );
     }
 
     if (currentStep === 5) {
