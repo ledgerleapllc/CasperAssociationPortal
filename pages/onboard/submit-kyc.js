@@ -70,7 +70,7 @@ const SubmitKYC = () => {
     }
 
     if (currentStep === 5) {
-      return <SubmitKYCFifthStep onHandleNext={() => handleNext()} />;
+      return <SubmitKYCFifthStep onNext={() => handleNext()} />;
     }
 
     return <></>;

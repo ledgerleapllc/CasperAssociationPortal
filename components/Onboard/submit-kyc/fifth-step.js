@@ -4,17 +4,26 @@ import FieldArrayFormCSPR from './field-array-form-cspr';
 const defaultValues = {
   form: [
     {
-      csrp: '',
+      cspr: null,
       email: '',
-      typeCSRP: null,
+      isAdded: false,
+      typeCSPR: null,
     },
   ],
 };
 
-const SubmitKYCFifthStep = ({onHandleNext}) => {
-  const { control, register, handleSubmit, watch } = useForm({
+const SubmitKYCFifthStep = ({ onNext }) => {
+  const {
+    control,
+    formState,
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    getValues,
+  } = useForm({
     defaultValues,
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
 
   const checkKeyDown = e => {
@@ -33,7 +42,17 @@ const SubmitKYCFifthStep = ({onHandleNext}) => {
       </p>
       <br />
       <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)}>
-        <FieldArrayFormCSPR {...{ control, onHandleNext, register, watch }} />
+        <FieldArrayFormCSPR
+          {...{
+            control,
+            formState,
+            getValues,
+            onNext,
+            register,
+            setValue,
+            watch,
+          }}
+        />
       </form>
     </div>
   );

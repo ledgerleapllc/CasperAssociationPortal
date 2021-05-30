@@ -18,9 +18,9 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             type="radio"
             className="text-primary"
             value="1"
-            name="totalCsrpToken"
+            name="totalCsprToken"
             onChange={e => {
-              setData({ ...data, totalCsrpToken: e.target.value });
+              setData({ ...data, totalCsprToken: e.target.value });
               onChange(data);
             }}
           />
@@ -37,9 +37,9 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             type="radio"
             className="text-primary"
             value="2"
-            name="totalCsrpToken"
+            name="totalCsprToken"
             onChange={e => {
-              setData({ ...data, totalCsrpToken: e.target.value });
+              setData({ ...data, totalCsprToken: e.target.value });
               onChange(data);
             }}
           />
@@ -48,7 +48,7 @@ const SubmitKYCFourthStep = ({ onChange }) => {
             provided)
           </span>
         </label>
-        {data.totalCsrpToken && (
+        {data.totalCsprToken && (
           <p className="text-xs text-primary">
             On the next screen, you will provide the details of any individual,
             entity, or organization that owns 25% or more of the CSPR in the

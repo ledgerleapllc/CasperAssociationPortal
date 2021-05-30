@@ -1,15 +1,11 @@
-const EmptyFormCspr = ({ isDisplayButton, appendForm }) => (
-  <div>
+const EmptyFormCspr = ({ isDisplayButton }) => (
+  <>
     {isDisplayButton && (
-      <button
-        className="flex flex-col items-center"
-        type="button"
-        onClick={appendForm}
-      >
-        <img src="/images/ic_user_plus.svg" alt="User Plus" />
+      <div className="flex flex-col items-center" type="button">
+        <img src="/images/ic_user_plus.svg" alt="Add" />
         <p className="text-bold text-primary text-sm">Add Owner</p>
-      </button>
+      </div>
     )}
-  </div>
+  </>
 );
 export default EmptyFormCspr;
