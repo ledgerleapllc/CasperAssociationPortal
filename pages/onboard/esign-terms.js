@@ -25,7 +25,10 @@ const EsignTerms = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push('/onboard/verify-node-ownership');
+      router.push({
+        pathname: '/onboard',
+        query: { step: '1' },
+      });
     } else {
       setCurrentStep(currentStep + 1);
     }

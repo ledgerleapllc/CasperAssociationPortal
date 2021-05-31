@@ -14,6 +14,7 @@ const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [submitType, setSubmitType] = useState(null);
   const [information, setInformation] = useState(null);
+  const [beginKYC, setBeginKYC] = useState(null);
 
   const router = useRouter();
 
@@ -23,6 +24,9 @@ const SubmitKYC = () => {
     if (currentStep === 1) {
       router.back();
     } else {
+      if (currentStep === 3) {
+        setBeginKYC(false);
+      }
       setCurrentStep(currentStep - 1);
     }
   };
@@ -33,6 +37,10 @@ const SubmitKYC = () => {
     } else {
       setCurrentStep(currentStep + 1);
     }
+  };
+
+  const handleBeginKYC = () => {
+    setBeginKYC(true);
   };
 
   const getNextButtonTitle = () => {
@@ -68,7 +76,13 @@ const SubmitKYC = () => {
     }
 
     if (currentStep === 3) {
-      return <SubmitKYCThirdStep onNext={handleNext} />;
+      return (
+        <SubmitKYCThirdStep
+          beginKYC={beginKYC}
+          onNext={handleNext}
+          onBeginKYC={handleBeginKYC}
+        />
+      );
     }
 
     if (currentStep === 4) {
@@ -91,7 +105,12 @@ const SubmitKYC = () => {
     return <></>;
   };
 
-  const getNextButtonVisibility = () => true;
+  const getNextButtonVisibility = () => {
+    if (currentStep === 3) {
+      return !!beginKYC;
+    }
+    return true;
+  };
 
   const getContinueButtonVisibility = () => {
     if (currentStep === 1) {

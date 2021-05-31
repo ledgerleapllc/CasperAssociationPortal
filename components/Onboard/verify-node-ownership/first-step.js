@@ -25,7 +25,7 @@ const VerifyNodeOwnershipFirstStep = ({ isVerified, onSubmit }) => {
           disabled={publicAddress?.length === 0}
           onClick={() => onSubmit(publicAddress)}
         >
-          Submit
+          Verify
         </button>
         {isVerified && (
           <img

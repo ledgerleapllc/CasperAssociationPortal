@@ -35,7 +35,10 @@ const VerifyNodeOwnership = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push('/onboard/submit-kyc');
+      router.push({
+        pathname: '/onboard',
+        query: { step: '2' },
+      });
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -73,8 +76,8 @@ const VerifyNodeOwnership = () => {
             <>
               <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
                 <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
-                  <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
-                    <div {...getRootProps()}>
+                  <div {...getRootProps()}>
+                    <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                       <div className="flex flex-col items-center justify-between">
                         <input {...getInputProps()} />
                         <img
@@ -93,14 +96,14 @@ const VerifyNodeOwnership = () => {
                         </span>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      className="absolute bottom-6 text-primary text-xs underline"
-                      onClick={() => setShowUploadModal(false)}
-                    >
-                      Cancel
-                    </button>
                   </div>
+                  <button
+                    type="button"
+                    className="transform -translate-x-1/2 absolute left-1/2 bottom-6 text-primary text-xs underline"
+                    onClick={() => setShowUploadModal(false)}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
               <div className="opacity-25 fixed inset-0 z-40 bg-black" />

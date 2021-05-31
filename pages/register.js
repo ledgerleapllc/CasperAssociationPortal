@@ -12,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [forumName, setForumName] = useState('');
-  const [telegram, setTelegram] = useState('');
+  const [telegram, setTelegram] = useState('@');
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
 
@@ -27,7 +27,19 @@ const Register = () => {
       return false;
     }
 
+    if (!agreeChecked || !understandChecked) {
+      return false;
+    }
+
     return true;
+  };
+
+  const handleTelegram = val => {
+    if (val === '' || !/^@/.test(val)) {
+      setTelegram('@');
+    } else {
+      setTelegram(val);
+    }
   };
 
   return (
@@ -110,7 +122,7 @@ const Register = () => {
                 className="w-full md:w-auto mt-2 md:mt-0 flex-1 h-14 px-7 rounded-full shadow-md focus:outline-none"
                 placeholder="Telegram"
                 value={telegram}
-                onChange={e => setTelegram(e.target.value)}
+                onChange={e => handleTelegram(e.target.value)}
               />
               <div className="flex-1 h-0 md:h-14 px-7" />
             </div>

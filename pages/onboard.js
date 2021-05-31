@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
@@ -5,6 +6,13 @@ import OnboardItem from '../components/onboard/onboard-item';
 
 const Onboard = () => {
   const router = useRouter();
+  const [step, setStep] = useState(null);
+
+  useEffect(() => {
+    if (router.query && router.query.step) {
+      setStep(router.query.step);
+    }
+  }, [router.query]);
 
   return (
     <div className="flex justify-center min-h-screen">
@@ -23,6 +31,7 @@ const Onboard = () => {
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Esign Terms"
+                doneStep={+step >= 1}
                 description="You must read and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
               />
@@ -31,6 +40,7 @@ const Onboard = () => {
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
+                doneStep={+step >= 2}
                 description="Please choose Sign In if you have an existing account or Register if this is your first time here."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
               />
@@ -39,6 +49,7 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"
+                doneStep={+step >= 3}
                 description="Upload your passport and utility bill here for identity and address verification."
                 onClick={() => router.push('/onboard/submit-kyc')}
               />
