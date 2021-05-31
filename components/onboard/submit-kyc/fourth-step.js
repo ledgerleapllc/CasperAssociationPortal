@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SubmitKYCFourthStep = ({ onNext, onChange }) => {
+const SubmitKYCFourthStep = ({ onChange }) => {
   const [data, setData] = useState({});
 
   return (
@@ -18,9 +18,9 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
             type="radio"
             className="text-primary"
             value="1"
-            name="totalCsprToken"
+            name="totalCsrpToken"
             onChange={e => {
-              setData({ ...data, totalCsprToken: e.target.value });
+              setData({ ...data, totalCsrpToken: e.target.value });
               onChange(data);
             }}
           />
@@ -37,9 +37,9 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
             type="radio"
             className="text-primary"
             value="2"
-            name="totalCsprToken"
+            name="totalCsrpToken"
             onChange={e => {
-              setData({ ...data, totalCsprToken: e.target.value });
+              setData({ ...data, totalCsrpToken: e.target.value });
               onChange(data);
             }}
           />
@@ -48,7 +48,7 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
             provided)
           </span>
         </label>
-        {data.totalCsprToken && (
+        {data.totalCsrpToken && (
           <p className="text-xs text-primary">
             On the next screen, you will provide the details of any individual,
             entity, or organization that owns 25% or more of the CSPR in the
@@ -56,13 +56,6 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
           </p>
         )}
       </div>
-      <button
-        type="button"
-        className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-        onClick={onNext}
-      >
-        Continue
-      </button>
     </div>
   );
 };

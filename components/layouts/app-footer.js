@@ -11,50 +11,35 @@ const AppFooter = ({ theme }) => (
       ©2021 CasperLabs.io
     </p>
     <div className="flex space-x-6">
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
+      <button type="button" className="flex bottom-0">
         <Facebook
           width={8}
           height={16}
           fill={theme === 'light' ? '#fff' : '#FF473E'}
         />
       </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
+      <button type="button" className="flex bottom-0">
         <Twitter
           width={20}
           height={16}
           fill={theme === 'light' ? '#fff' : '#FF473E'}
         />
       </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
+      <button type="button" className="flex bottom-0">
         <Youtube
           width={22}
           height={16}
           fill={theme === 'light' ? '#fff' : '#FF473E'}
         />
       </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
+      <button type="button" className="flex bottom-0">
         <Linkedin
           width={16}
           height={16}
           fill={theme === 'light' ? '#fff' : '#FF473E'}
         />
       </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
+      <button type="button" className="flex bottom-0">
         <Medium
           width={20}
           height={16}
