@@ -7,10 +7,15 @@ import Medium from '../icons/medium';
 
 const AppFooter = ({ theme }) => (
   <div className="flex items-center justify-between md:visible invisible">
-    <p className={`${theme === 'light' ? 'text-white' : 'text-dark2'} text-xs`}>
+    <p
+      className={`${
+        theme === 'light' ? 'text-white' : 'text-dark2'
+      } text-xs animate__animated animate__fadeIn animate__delay-5s
+    `}
+    >
       ©2021 CasperLabs.io
     </p>
-    <div className="flex space-x-6">
+    <div className="flex space-x-6 animate__animated animate__fadeIn animate__delay-5s">
       <button
         className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
         type="button"

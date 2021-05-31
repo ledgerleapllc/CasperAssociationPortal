@@ -5,7 +5,7 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
 
   return (
     <div className="pt-8">
-      <p className="text-2.5xl">
+      <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
         Now, we will need some information about all individuals or
         entities/organizations who own 25% of more of the total CSPR token in
         your node.
@@ -13,7 +13,7 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
       <br />
       <br />
       <div>
-        <label className="relative pl-8 inline-flex items-center mb-6">
+        <label className="relative pl-8 inline-flex items-center mb-6 animate__animated animate__fadeInUp animate__delay-4s">
           <input
             type="radio"
             className="text-primary"
@@ -32,7 +32,7 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
             , owns 25% or more of the CSPR in my node.
           </span>
         </label>
-        <label className="relative pl-8 flex mb-6">
+        <label className="relative pl-8 flex mb-6 animate__animated animate__fadeInUp animate__delay-6s">
           <input
             type="radio"
             className="text-primary"

@@ -22,10 +22,10 @@ const Home = () => {
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center">
           <div>
-            <p className="text-5xl md:text-7xl font-bold text-white whitespace-pre-line">
+            <p className="text-5xl md:text-7xl font-bold text-white whitespace-pre-line animate__animated animate__fadeInUp">
               {`Welcome to the Casper\nvoting engine`}
             </p>
-            <p className="text-xl text-white whitespace-pre-line mt-5">
+            <p className="text-xl text-white whitespace-pre-line mt-5 animate__animated animate__fadeInUp animate__delay-3s">
               {`Please choose Sign In if you have an existing account or Register if this is your first time\nhere. If you’re just here to explore, sign in as a `}
               <span>
                 <Link href="/register">
@@ -36,14 +36,14 @@ const Home = () => {
             <div className="mt-10 space-x-4">
               <button
                 type="button"
-                className="rounded-full border-2 border-white text-white w-24 h-24 hover:border-opacity-0 hover:bg-white hover:bg-opacity-40 focus:outline-none"
+                className="rounded-full border-2 border-white text-white w-24 h-24 hover:border-opacity-0 hover:bg-white hover:bg-opacity-40 focus:outline-none animate__animated animate__fadeInLeft animate__delay-4s"
                 onClick={() => router.push('/login')}
               >
                 Sign In
               </button>
               <button
                 type="button"
-                className="rounded-full border-2 border-white text-white w-24 h-24 hover:border-opacity-0 hover:bg-white hover:bg-opacity-40 focus:outline-none"
+                className="rounded-full border-2 border-white text-white w-24 h-24 hover:border-opacity-0 hover:bg-white hover:bg-opacity-40 focus:outline-none animate__animated animate__fadeInLeft animate__delay-5s"
                 onClick={() => router.push('/register')}
               >
                 Register

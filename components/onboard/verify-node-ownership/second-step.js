@@ -4,12 +4,14 @@ const VerifyNodeOwnershipSecondStep = ({
   onContinue,
 }) => (
   <div className="pt-8">
-    <p className="text-2.5xl">Thanks</p>
-    <p className="text-sm mt-2 text-dark1 whitespace-pre-line">
+    <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
+      Thanks
+    </p>
+    <p className="text-sm mt-2 text-dark1 whitespace-pre-line animate__animated animate__fadeInLeft animate__delay-4s">
       {`Thanks! Now we need to verify this node address is owned or controlled by you. Please follow\nthe steps below:`}
     </p>
     <div className="mt-12 mr-8">
-      <div className="flex">
+      <div className="flex animate__animated animate__fadeInUp animate__delay-6s">
         <p className="text-2xl -mt-2 md:mt-0">1.</p>
         <div className="flex-grow md:flex ml-8 md:items-end">
           <p className="text-sm md:flex-grow pb-1">
@@ -23,7 +25,7 @@ const VerifyNodeOwnershipSecondStep = ({
           </button>
         </div>
       </div>
-      <div className="flex my-8">
+      <div className="flex my-8 animate__animated animate__fadeInUp animate__delay-7s">
         <p className="text-2xl -mt-2 md:mt-0">2.</p>
         <div className="flex-grow md:flex ml-8 md:items-end">
           <p className="text-sm md:flex-grow pb-1">
@@ -37,7 +39,7 @@ const VerifyNodeOwnershipSecondStep = ({
           </button>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex animate__animated animate__fadeInUp animate__delay-8s">
         <p className="text-2xl -mt-2 md:mt-0">3.</p>
         <div className="flex-grow md:flex ml-8 md:items-end">
           <p className="text-sm md:flex-grow pb-1">

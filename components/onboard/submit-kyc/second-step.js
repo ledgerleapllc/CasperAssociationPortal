@@ -28,7 +28,7 @@ const SubmitKYCSecondStep = ({ onNext, onChange }) => {
   };
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 animate__animated animate__fadeInUp animate__delay-2s">
       <div className="md:flex md:space-x-5">
         <input
           type="text"

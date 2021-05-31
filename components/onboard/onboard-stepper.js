@@ -32,7 +32,7 @@ const OnboardStepper = ({
 
   return (
     <>
-      <div className="block md:hidden w-full flex justify-between">
+      <div className="block md:hidden w-full flex justify-between animate__animated animate__fadeInUp">
         <button
           type="button"
           className="flex items-center focus:outline-none"
@@ -78,7 +78,7 @@ const OnboardStepper = ({
         )}
       </div>
       <div className="w-full md:w-9/12 md:max-w-6xl">
-        <div className="hidden md:flex border-b border-gray pb-1">
+        <div className="hidden md:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
           <span className="font-bold text-dark2">{title}</span>
           {title === 'Submit KYC' && (
             <ul className="flex list-disc">
@@ -100,10 +100,10 @@ const OnboardStepper = ({
           )}
         </div>
         <div
-          className="hidden md:block border-b border-primary border-2"
+          className="hidden md:block border-b border-primary border-2 animate__animated animate__fadeInUp"
           style={{ width: `${(currentStep * 100) / totalSteps}%` }}
         />
-        <div className="mt-2 md:flex md:space-x-12">
+        <div className="mt-2 md:flex md:space-x-12 animate__animated animate__fadeInUp">
           <div className="relative w-full md:w-auto md:flex-none md:h-114">
             <img
               src={imageUrl}
@@ -122,7 +122,7 @@ const OnboardStepper = ({
             type="button"
             className={`${
               title === 'Submit KYC' && currentStep === 6 && 'invisible'
-            } text-center ml-4 text-sm text-dark3 flex flex-col items-center justify-end focus:outline-none`}
+            } text-center ml-4 text-sm text-dark3 flex flex-col items-center justify-end focus:outline-none animate__animated animate__fadeInUp animate__delay-2s`}
             onClick={onPrev}
           >
             <img
@@ -135,7 +135,7 @@ const OnboardStepper = ({
           {!hideContinueButton && (
             <button
               type="button"
-              className="text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
+              className="animation-backwards text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed animate__animated animate__fadeInUp animate__delay-4s"
               disabled={!showContinueButton}
               onClick={onHandleNextSteps}
             >

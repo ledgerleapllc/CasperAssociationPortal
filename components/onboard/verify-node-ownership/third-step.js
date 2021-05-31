@@ -4,11 +4,13 @@ const VerifyNodeOwnershipThirdStep = ({ status, onContinue }) => (
   <div className="pt-8">
     {status === 'checking' && (
       <>
-        <p className="text-2.5xl">Thank you</p>
-        <p className="text-sm mt-2 text-dark1 whitespace-pre-line">
+        <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
+          Thank you
+        </p>
+        <p className="text-sm mt-2 text-dark1 whitespace-pre-line animate__animated animate__fadeInLeft animate__delay-4s">
           We are checking your message file. Do not exit this screen.
         </p>
-        <div className="md:relative mt-24">
+        <div className="md:relative mt-24 animate__animated animate__fadeIn animate__delay-6s">
           <ReactLoading
             type="spinningBubbles"
             color="#FF473E"

@@ -5,14 +5,14 @@ const VerifyNodeOwnershipFirstStep = ({ isVerified, onSubmit }) => {
 
   return (
     <div className="pt-8">
-      <p className="text-2.5xl whitespace-pre-line">
+      <p className="text-2.5xl whitespace-pre-line animate__animated animate__fadeInLeft animate__delay-2s">
         {`Please enter the public address of your validator node and\npress submit`}
       </p>
-      <p className="text-sm mt-2 text-dark1">
+      <p className="text-sm mt-2 text-dark1 animate__animated animate__fadeInLeft animate__delay-4s">
         Clicking below will open up the hellosign document for capturing your
         electronic signature
       </p>
-      <div className="md:relative mt-12">
+      <div className="md:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
         <input
           type="text"
           className="w-full h-16 text-xl px-7 md:pr-72 rounded-full shadow-md focus:outline-none"

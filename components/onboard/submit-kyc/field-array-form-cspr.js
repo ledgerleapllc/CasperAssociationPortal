@@ -105,7 +105,7 @@ export default function FieldArrayFormCSPR({
     <>
       <ul className="grid grid-flow-row md:grid-cols-2 md:grid-rows-2 max-w-xl">
         {fields?.map((item, index) => (
-          <li key={item.id} className="md:m-2">
+          <li key={item.id} className="md:m-2 animate__animated animate__fadeIn animate__delay-3s">
             <div className="md:shadow-lg my-5 md:my-0 md:p-4">
               <div className="flex justify-between">
                 <p className="font-bold text-dark1 text-sm">

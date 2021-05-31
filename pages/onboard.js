@@ -27,7 +27,7 @@ const Onboard = () => {
             </div>
             <div className="md:flex md:space-x-5">
               <OnboardItem
-                className="md:flex-1 cursor-pointer"
+                className="md:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Esign Terms"
@@ -36,7 +36,7 @@ const Onboard = () => {
                 onClick={() => router.push('/onboard/esign-terms')}
               />
               <OnboardItem
-                className="md:flex-1 mt-10 md:mt-0 cursor-pointer"
+                className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
@@ -45,7 +45,7 @@ const Onboard = () => {
                 onClick={() => router.push('/onboard/verify-node-ownership')}
               />
               <OnboardItem
-                className="md:flex-1 mt-10 md:mt-0 cursor-pointer"
+                className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"

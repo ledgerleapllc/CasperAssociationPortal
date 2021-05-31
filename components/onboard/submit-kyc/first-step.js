@@ -1,10 +1,10 @@
 const SubmitKYCFirstStep = ({ onIndividual, onEntity }) => (
   <div className="pt-8">
-    <p className="text-2.5xl">
+    <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
       Association membership requires you to submit some information for
       compliance.
     </p>
-    <p className="text-sm text-dark1 mt-1">
+    <p className="text-sm text-dark1 mt-1 animate__animated animate__fadeInLeft animate__delay-4s">
       This process is mandatory and can be completed entirely through this
       portal. First, we will need to know who
       <br />
@@ -31,14 +31,14 @@ const SubmitKYCFirstStep = ({ onIndividual, onEntity }) => (
     <div className="md:flex md:space-x-8 md:items-center mt-12">
       <button
         type="button"
-        className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+        className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
         onClick={onIndividual}
       >
         Individual
       </button>
       <button
         type="button"
-        className="text-lg text-primary w-full md:w-64 h-16 rounded-full bg-white border-2 border-primary shadow-md focus:outline-none mt-2 md:mt-0 hover:bg-primary hover:bg-opacity-40 hover:text-white"
+        className="text-lg text-primary w-full md:w-64 h-16 rounded-full bg-white border-2 border-primary shadow-md focus:outline-none mt-2 md:mt-0 hover:bg-primary hover:bg-opacity-40 hover:text-white animate__animated animate__fadeInUp animate__delay-7s"
         onClick={onEntity}
       >
         Entity

@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import '../styles/globals.scss';
+import 'animate.css';
+import '../styles/custom-animation.scss';
 
 function MyApp({ Component, pageProps }) {
   return (

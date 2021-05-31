@@ -1,10 +1,10 @@
 const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
   <div className="pt-8">
-    <p className="text-2.5xl">
+    <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
       Next, you will need to submit documents through our embedded upload
       system.
     </p>
-    <p className="text-sm text-dark1 mt-1">
+    <p className="text-sm text-dark1 mt-1 animate__animated animate__fadeInLeft animate__delay-4s">
       You will need a clear picture of a government issued identification
       document (passport recommended) and a proof of address document such as
       a utility or phone bill, or bank statement. Your identification document{' '}
@@ -26,7 +26,7 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
           </p>
           <button
             type="button"
-            className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+            className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
             onClick={onNext}
           >
             Continue

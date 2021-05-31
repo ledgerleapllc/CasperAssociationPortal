@@ -33,27 +33,29 @@ const SubmitKYCFifthStep = ({ onNext }) => {
 
   return (
     <div className="pt-8">
-      <p className="text-2.5xl">
+      <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
         Please enter details about each owner of 25% or more of the CSPR token
         in the node.
       </p>
-      <p className="text-sm text-dark1 mt-1">
+      <p className="text-sm text-dark1 mt-1 animate__animated animate__fadeInLeft animate__delay-4s">
         These users will receive an email link to submit their own KYC details.
       </p>
       <br />
-      <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)}>
-        <FieldArrayFormCSPR
-          {...{
-            control,
-            formState,
-            getValues,
-            onNext,
-            register,
-            setValue,
-            watch,
-          }}
-        />
-      </form>
+      <div className="animate__animated animate__fadeIn animate__delay-6s">
+        <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)}>
+          <FieldArrayFormCSPR
+            {...{
+              control,
+              formState,
+              getValues,
+              onNext,
+              register,
+              setValue,
+              watch,
+            }}
+          />
+        </form>
+      </div>
     </div>
   );
 };
