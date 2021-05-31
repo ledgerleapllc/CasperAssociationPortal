@@ -1,10 +1,31 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import Countries from '../../../public/json/country.json';
 
-const SubmitKYCSecondStep = ({ onChange }) => {
+const SubmitKYCSecondStep = ({ onNext, onChange }) => {
   const [data, setData] = useState({});
   const [citizenship, setCitizenship] = useState(null);
   const [residence, setResidence] = useState(null);
+
+  const toogleDateInput = e => {
+    if (e.target.type === 'date') {
+      if (e.target.value) {
+        setData({
+          ...data,
+          dob: format(new Date(e.target.value), 'MM/dd/yyyy'),
+        });
+      }
+      e.target.type = 'text';
+    } else {
+      if (e.target.value) {
+        setData({
+          ...data,
+          dob: format(new Date(e.target.value), 'yyyy-MM-dd'),
+        });
+      }
+      e.target.type = 'date';
+    }
+  };
 
   return (
     <div className="pt-8">
@@ -33,6 +54,9 @@ const SubmitKYCSecondStep = ({ onChange }) => {
           type="text"
           className="w-full md:flex-1 md:auto h-14 px-7 rounded-full shadow-md focus:outline-none"
           placeholder="DOB (mm/dd/yyyy) *"
+          onFocus={e => toogleDateInput(e)}
+          onBlur={e => toogleDateInput(e)}
+          value={data.dob}
           onChange={e => {
             setData({ ...data, dob: e.target.value });
             onChange(data);
@@ -116,6 +140,13 @@ const SubmitKYCSecondStep = ({ onChange }) => {
         reside at the above address, such as a utility/phone bill or bank
         statement.
       </p>
+      <button
+        type="button"
+        className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+        onClick={onNext}
+      >
+        Continue
+      </button>
     </div>
   );
 };

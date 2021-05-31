@@ -7,8 +7,8 @@ import SubmitKYCFirstStep from '../../components/onboard/submit-kyc/first-step';
 import SubmitKYCSecondStep from '../../components/onboard/submit-kyc/second-step';
 import SubmitKYCThirdStep from '../../components/onboard/submit-kyc/third-step';
 import SubmitKYCFourthStep from '../../components/onboard/submit-kyc/fourth-step';
-import SubmitKYCFifthStep from '../../components/Onboard/submit-kyc/fifth-step';
-import SubmitKYCSixthStep from '../../components/Onboard/submit-kyc/sixth-step';
+import SubmitKYCFifthStep from '../../components/onboard/submit-kyc/fifth-step';
+import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
