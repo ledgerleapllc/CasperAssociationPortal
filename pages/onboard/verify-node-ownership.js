@@ -35,10 +35,16 @@ const VerifyNodeOwnership = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push({
-        pathname: '/onboard',
-        query: { step: '2' },
-      });
+      router.push('/onboard');
+      const steps = JSON.parse(
+        localStorage.getItem('steps') || {
+          step1: false,
+          step2: false,
+          step3: false,
+        }
+      );
+      steps.step2 = true;
+      localStorage.setItem('steps', JSON.stringify(steps));
     } else {
       setCurrentStep(currentStep + 1);
     }

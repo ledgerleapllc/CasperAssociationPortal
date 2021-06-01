@@ -6,13 +6,21 @@ import OnboardItem from '../components/onboard/onboard-item';
 
 const Onboard = () => {
   const router = useRouter();
-  const [step, setStep] = useState(null);
+  const [stepStatus, setStepStatus] = useState({
+    step1: false,
+    step2: false,
+    step3: false,
+  });
 
   useEffect(() => {
-    if (router.query && router.query.step) {
-      setStep(router.query.step);
+    const steps = JSON.parse(localStorage.getItem('steps'));
+    if (!steps) {
+      localStorage.setItem('steps', JSON.stringify(stepStatus));
+    } else {
+      setStepStatus(steps);
     }
-  }, [router.query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex justify-center min-h-screen">
@@ -31,7 +39,7 @@ const Onboard = () => {
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Esign Terms"
-                doneStep={+step >= 1}
+                doneStep={stepStatus.step1}
                 description="You must read and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
               />
@@ -40,7 +48,7 @@ const Onboard = () => {
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
-                doneStep={+step >= 2}
+                doneStep={stepStatus.step2}
                 description="Please choose Sign In if you have an existing account or Register if this is your first time here."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
               />
@@ -49,7 +57,7 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"
-                doneStep={+step >= 3}
+                doneStep={stepStatus.step3}
                 description="Upload your passport and utility bill here for identity and address verification."
                 onClick={() => router.push('/onboard/submit-kyc')}
               />

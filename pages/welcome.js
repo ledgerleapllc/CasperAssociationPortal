@@ -7,6 +7,11 @@ const Welcome = () => {
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
+  const beginOnboard = () => {
+    localStorage.removeItem('steps');
+    router.push('/onboard');
+  };
+
   return (
     <div
       className="flex justify-center h-screen"
@@ -97,7 +102,7 @@ const Welcome = () => {
               <button
                 type="button"
                 className="mt-12 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeIn animate__delay-8s"
-                onClick={() => router.push('/onboard')}
+                onClick={() => beginOnboard()}
               >
                 Begin
               </button>

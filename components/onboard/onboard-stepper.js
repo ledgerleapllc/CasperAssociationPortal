@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const OnboardStepper = ({
   title,
@@ -15,8 +16,22 @@ const OnboardStepper = ({
   onNext,
 }) => {
   const router = useRouter();
+  const [allStepsDone, setAllStepsDone] = useState(false);
+
+  useEffect(() => {
+    const steps = JSON.parse(localStorage.getItem('steps'));
+    if (
+      (title === 'Submit KYC' && currentStep === 6 && steps.step1 && steps.step2) ||
+      (title === 'Esign Terms' && currentStep === 2 && steps.step2 && steps.step3) ||
+      (title === 'Verify Node Ownership' && currentStep === 3 && steps.step1 && steps.step3)
+    ) {
+      setAllStepsDone(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, title]);
+
   const onHandleNextSteps = () => {
-    if (title === 'Submit KYC' && currentStep === 6) {
+    if (allStepsDone) {
       router.push('/dashboard');
     } else {
       onNext();
@@ -133,19 +148,21 @@ const OnboardStepper = ({
             Back
           </button>
           {!hideContinueButton && (
-            <button
-              type="button"
-              className="animation-backwards text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed animate__animated animate__fadeInUp animate__delay-4s"
-              disabled={!showContinueButton}
-              onClick={onHandleNextSteps}
-            >
-              <img
-                src="/images/ic_next_circle_gradient_large.svg"
-                alt="go to esign"
-                className="mb-1"
-              />
-              {continueButtonTitle}
-            </button>
+            <div className="animate__animated animate__fadeInUp animate__delay-4s">
+              <button
+                type="button"
+                className="text-center ml-5 text-sm text-dark3 focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
+                disabled={!showContinueButton}
+                onClick={onHandleNextSteps}
+              >
+                <img
+                  src="/images/ic_next_circle_gradient_large.svg"
+                  alt="go to esign"
+                  className="mb-1"
+                />
+                {!allStepsDone ? continueButtonTitle : 'To Dashboard'}
+              </button>
+            </div>
           )}
         </div>
       </div>

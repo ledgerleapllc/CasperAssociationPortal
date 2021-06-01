@@ -186,14 +186,16 @@ const Register = () => {
               </p>
             </div>
             <div className="md:flex md:flex-row-reverse mt-10">
-              <button
-                type="button"
-                className="animation-backwards text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md  animate__animated animate__fadeInLeft animate__delay-8s"
-                disabled={!validateFields()}
-                onClick={() => router.push('/welcome')}
-              >
-                Submit
-              </button>
+              <div className="animate__animated animate__fadeInLeft animate__delay-8s">
+                <button
+                  type="button"
+                  className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  disabled={!validateFields()}
+                  onClick={() => router.push('/welcome')}
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </div>

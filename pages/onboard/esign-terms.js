@@ -25,10 +25,16 @@ const EsignTerms = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push({
-        pathname: '/onboard',
-        query: { step: '1' },
-      });
+      router.push('/onboard');
+      const steps = JSON.parse(
+        localStorage.getItem('steps') || {
+          step1: false,
+          step2: false,
+          step3: false,
+        }
+      );
+      steps.step1 = true;
+      localStorage.setItem('steps', JSON.stringify(steps));
     } else {
       setCurrentStep(currentStep + 1);
     }

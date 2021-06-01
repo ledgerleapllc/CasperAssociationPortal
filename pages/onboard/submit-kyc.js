@@ -7,8 +7,8 @@ import SubmitKYCFirstStep from '../../components/onboard/submit-kyc/first-step';
 import SubmitKYCSecondStep from '../../components/onboard/submit-kyc/second-step';
 import SubmitKYCThirdStep from '../../components/onboard/submit-kyc/third-step';
 import SubmitKYCFourthStep from '../../components/onboard/submit-kyc/fourth-step';
-import SubmitKYCFifthStep from '../../components/onboard/submit-kyc/fifth-step';
-import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
+import SubmitKYCFifthStep from '../../components/Onboard/submit-kyc/fifth-step';
+import SubmitKYCSixthStep from '../../components/Onboard/submit-kyc/sixth-step';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -33,7 +33,16 @@ const SubmitKYC = () => {
 
   const handleNext = () => {
     if (currentStep === totalSteps) {
-      router.push('/onboard/verify-node-ownership');
+      router.push('/onboard');
+      const steps = JSON.parse(
+        localStorage.getItem('steps') || {
+          step1: false,
+          step2: false,
+          step3: false,
+        }
+      );
+      steps.step3 = true;
+      localStorage.setItem('steps', JSON.stringify(steps));
     } else {
       setCurrentStep(currentStep + 1);
     }

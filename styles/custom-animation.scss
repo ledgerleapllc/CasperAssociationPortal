@@ -7,6 +7,3 @@
     animation-delay: calc(var(--animate-delay) * #{$i});
   }
 }
-.animation-backwards {
-  animation-fill-mode: backwards;
-}
