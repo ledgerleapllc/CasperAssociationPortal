@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { format } from 'date-fns';
 import Countries from '../../../public/json/country.json';
 
 const SubmitKYCSecondStep = ({ onNext, onChange }) => {
@@ -10,17 +9,19 @@ const SubmitKYCSecondStep = ({ onNext, onChange }) => {
   const toogleDateInput = e => {
     if (e.target.type === 'date') {
       if (e.target.value) {
+        const [year, month, day] = e.target.value.split('-');
         setData({
           ...data,
-          dob: format(new Date(e.target.value), 'MM/dd/yyyy'),
+          dob: `${month}/${day}/${year}`,
         });
       }
       e.target.type = 'text';
     } else {
       if (e.target.value) {
+        const [month, day, year] = e.target.value.split('/');
         setData({
           ...data,
-          dob: format(new Date(e.target.value), 'yyyy-MM-dd'),
+          dob: `${year}-${month}-${day}`,
         });
       }
       e.target.type = 'date';
