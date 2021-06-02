@@ -148,9 +148,9 @@ const tabsData = [
 
 const DashboardDiscusion = () => (
   <LayoutDashboard>
-    <Card className="md:px-24 md:py-20 md:shadow-2xl" noShadow>
-      <div className="w-full">
-        <div className="flex justify-end">
+    <Card className="h-full md:pl-24 md:py-20 md:shadow-2xl" noShadow>
+      <div className="w-full h-full">
+        <div className="flex justify-end md:mr-24">
           <button
             type="button"
             className="transition text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
@@ -158,7 +158,7 @@ const DashboardDiscusion = () => (
             + New Discussion
           </button>
         </div>
-        <Tab className="w-full pt-12 md:pt-0 md:-mt-7" data={tabsData} />
+        <Tab className="w-full h-full pt-12 md:pt-0 md:-mt-7" data={tabsData} />
       </div>
     </Card>
   </LayoutDashboard>

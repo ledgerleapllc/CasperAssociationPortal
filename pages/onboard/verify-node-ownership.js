@@ -14,11 +14,24 @@ const VerifyNodeOwnership = () => {
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const handleUpload = action => {
+    if (action === 'open') {
+      const content = document.getElementById('custom-content');
+      content.classList.add('remove-animation');
+      setShowUploadModal(true);
+    } else if (action === 'close') {
+      setShowUploadModal(false);
+    }
+  };
+
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles);
+    handleUpload('close');
     setShowUploadModal(false);
     setSignedFileUploaded(true);
   }, []);
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const router = useRouter();
@@ -75,7 +88,7 @@ const VerifyNodeOwnership = () => {
         <>
           <VerifyNodeOwnershipSecondStep
             isUploaded={signedFileUploaded}
-            onUpload={() => setShowUploadModal(true)}
+            onUpload={() => handleUpload('open')}
             onContinue={handleNext}
           />
           {showUploadModal && (
@@ -106,7 +119,7 @@ const VerifyNodeOwnership = () => {
                   <button
                     type="button"
                     className="transform -translate-x-1/2 absolute left-1/2 bottom-6 text-primary text-xs underline"
-                    onClick={() => setShowUploadModal(false)}
+                    onClick={() => handleUpload('close')}
                   >
                     Cancel
                   </button>

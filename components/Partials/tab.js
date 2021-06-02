@@ -47,12 +47,16 @@ const Tab = ({ data, className }) => {
               </li>
             ))}
           </ul>
-          <div className="border-primary border-b-2" />
-          <div id="tab-contents">
+          <div className="border-primary border-b-2 md:mr-24" />
+          <div
+            id="tab-contents"
+            className="overflow-y-scroll"
+            style={{ height: '90%' }}
+          >
             {data.map((x, index) => (
               <div
                 key={`b-${index}`}
-                className=""
+                className="md:pr-24"
                 hidden={currentTab !== index}
               >
                 <SubTab i={index} />

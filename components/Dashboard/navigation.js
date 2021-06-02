@@ -3,7 +3,7 @@ import AppHeader from '../layouts/app-header';
 
 const Navigation = () => (
   <>
-    <Card className="flex-col w-24 px-5 hidden md:flex">
+    <Card className="flex-col w-24 px-5 hidden md:flex h-full">
       <img
         className="py-6 border-b-2 border-primary align-center"
         src="/images/ic_logo_home.svg"

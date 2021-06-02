@@ -118,7 +118,10 @@ const OnboardStepper = ({
           className="hidden md:block border-b border-primary border-2 animate__animated animate__fadeInUp"
           style={{ width: `${(currentStep * 100) / totalSteps}%` }}
         />
-        <div className="mt-2 md:flex md:space-x-12 animate__animated animate__fadeInUp">
+        <div
+          id="custom-content"
+          className="mt-2 md:flex md:space-x-12 animate__animated animate__fadeInUp"
+        >
           <div className="relative w-full md:w-auto md:flex-none md:h-114">
             <img
               src={imageUrl}

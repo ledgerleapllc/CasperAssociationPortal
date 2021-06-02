@@ -7,3 +7,7 @@
     animation-delay: calc(var(--animate-delay) * #{$i});
   }
 }
+
+.remove-animation {
+  animation-name: none !important;
+}
