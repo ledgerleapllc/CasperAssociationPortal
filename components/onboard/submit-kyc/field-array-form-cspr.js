@@ -132,7 +132,6 @@ export default function FieldArrayFormCSPR({
               </div>
               <input
                 type="text"
-                readOnly={getValues(`form[${index}].isAdded`) === true}
                 className={`w-full h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-4 md:text-xs md:border-gray ${
                   getValues(`form[${index}].isAdded`) === true
                     ? 'md:border-0'
@@ -143,7 +142,9 @@ export default function FieldArrayFormCSPR({
                   pattern:
                     /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-+]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z‌​]{2,})$/,
                 })}
+                hidden={getValues(`form[${index}].isAdded`)}
               />
+              {getValues(`form[${index}].isAdded`) && <p className="h-14 md:h-4 px-7 md:p-0 mt-4 md:text-xs">{getValues(`form[${index}].email`)}</p>}
               <div className="flex md:block items-center">
                 {getValues(`form[${index}].isAdded`) === true ? (
                   <span

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const getHash = url => url.split('#').pop();
+const getHash = url => {
+  if (url.includes('#')) {
+    return url.split('#').pop();
+  }
+  return null;
+};
 
 const Tab = ({ data, className }) => {
   const { asPath } = useRouter();
@@ -10,8 +15,12 @@ const Tab = ({ data, className }) => {
 
   useEffect(() => {
     const hash = getHash(asPath);
-    const ind = data.findIndex(x => x.id === hash);
-    setCurrentTab(ind);
+    if (hash) {
+      const ind = data.findIndex(x => x.id === hash);
+      setCurrentTab(ind);
+    } else {
+      setCurrentTab(0);
+    }
   }, [asPath]);
 
   const SubTab = ({ i }) => {

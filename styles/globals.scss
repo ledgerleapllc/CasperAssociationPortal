@@ -55,10 +55,6 @@ label > input[type="radio"]:checked + *::before {
 label > input[type="radio"] + * {
   display: inline-block;
 }
-input {
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-}
 .min-content-height {
   height: calc(100vh - 90px);
 }
