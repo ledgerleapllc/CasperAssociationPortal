@@ -11,6 +11,9 @@ module.exports = {
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
     extend: {
+      boxShadow: {
+        activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
+      },
       colors: {
         dark1: '#313131',
         dark2: '#1D1D1D',
@@ -27,6 +30,7 @@ module.exports = {
         152: '38rem',
       },
       maxWidth: {
+        404: '101rem',
         60: '15rem',
       },
       width: {

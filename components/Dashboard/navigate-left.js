@@ -1,5 +1,8 @@
+import ActiveLink from '../Partials/ActiveLink';
+import Card from '../Partials/Card';
+
 const NavigateLeft = () => (
-  <div className="flex flex-col w-24 px-5 bg-white shadow-2xl rounded-3xl min-content-height">
+  <Card className="flex flex-col w-24 px-5">
     <img
       className="py-6 border-b-2 border-primary align-center"
       src="/images/ic_logo_home.svg"
@@ -7,9 +10,11 @@ const NavigateLeft = () => (
     />
     <ul className="flex flex-col items-center">
       <li className="pb-4 pt-14">
-        <a className="inline-block rounded-2xl hover:shadow-lg">
-          <img className="p-3" src="/images/ic_home.svg" alt="Home" />
-        </a>
+        <ActiveLink activeClassName="shadow-activeLink" href="/dashboard/">
+          <a className="rounded-lg inline-block">
+            <img className="p-3" src="/images/ic_home.svg" alt="Home" />
+          </a>
+        </ActiveLink>
       </li>
       <li className="py-4">
         <a className="inline-block rounded-2xl hover:shadow-lg">
@@ -21,13 +26,18 @@ const NavigateLeft = () => (
         </a>
       </li>
       <li className="py-4">
-        <a className="inline-block rounded-2xl hover:shadow-lg">
-          <img
-            className="p-3"
-            src="/images/ic_material_chat.svg"
-            alt="Material Chat"
-          />
-        </a>
+        <ActiveLink
+          activeClassName="shadow-activeLink"
+          href="/dashboard/discussion/"
+        >
+          <a className="rounded-lg inline-block">
+            <img
+              className="p-3"
+              src="/images/ic_material_chat.svg"
+              alt="Material Chat"
+            />
+          </a>
+        </ActiveLink>
       </li>
       <li className="py-4">
         <a className="inline-block rounded-2xl hover:shadow-lg">
@@ -53,7 +63,7 @@ const NavigateLeft = () => (
         </a>
       </li>
     </ul>
-  </div>
+  </Card>
 );
 
 export default NavigateLeft;
