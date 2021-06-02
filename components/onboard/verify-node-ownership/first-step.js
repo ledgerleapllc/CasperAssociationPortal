@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
 
 const VerifyNodeOwnershipFirstStep = ({ isVerified, onSubmit }) => {
   const [publicAddress, setPublicAddress] = useState('');
@@ -28,11 +29,7 @@ const VerifyNodeOwnershipFirstStep = ({ isVerified, onSubmit }) => {
           Verify
         </button>
         {isVerified && (
-          <img
-            src="/images/ic_check_circle.svg"
-            alt="submit success"
-            className="absolute bottom-4 -right-20 hidden md:block"
-          />
+          <IconCheckCircle className="absolute bottom-4 -right-20 hidden md:block text-primary text-3xl" />
         )}
       </div>
     </div>

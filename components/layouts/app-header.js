@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Hamburger from '../icons/hamburger';
+import Hamburger from '../../public/images/ic_hamburger.svg';
 
-const AppHeader = ({ theme }) => (
-  <div className="flex items-center justify-between">
+const AppHeader = ({ className, theme }) => (
+  <div className={`flex items-center justify-between ${className || ''}`}>
     <Image
       className="animate__animated animate__fadeIn"
       src={`/images/casper_logo_${theme}.svg`}
@@ -17,7 +17,7 @@ const AppHeader = ({ theme }) => (
       <Hamburger
         width={35}
         height={20}
-        stroke={theme === 'light' ? '#fff' : '#1D1D1D'}
+        className={`${theme === 'light' ? 'text-white' : 'text-dark2'}`}
       />
     </button>
   </div>

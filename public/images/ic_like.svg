@@ -1,0 +1,11 @@
+<svg id="Icon_ionic-md-thumbs-up" data-name="Icon ionic-md-thumbs-up" xmlns="http://www.w3.org/2000/svg" width="16.486" height="15.222" viewBox="0 0 16.486 15.222">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1d1d1d;
+      }
+    </style>
+  </defs>
+  <path id="Path_11186" data-name="Path 11186" class="cls-1" d="M12.756,19.722h6.818a1.454,1.454,0,0,0,1.356-.928l2.263-5.367a1.517,1.517,0,0,0,.1-.555v-1.53a1.748,1.748,0,0,0-1.5-1.768H17.073l.714-3.231.024-.238a1.149,1.149,0,0,0-.329-.8l-.8-.8L11.686,9.546a1.526,1.526,0,0,0-.436,1.074v7.611A1.5,1.5,0,0,0,12.756,19.722Z" transform="translate(-6.81 -4.5)"/>
+  <path id="Path_11187" data-name="Path 11187" class="cls-1" d="M3.375,15.75H5.912v8.879H3.375Z" transform="translate(-3.375 -9.408)"/>
+</svg>

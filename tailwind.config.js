@@ -19,6 +19,7 @@ module.exports = {
         dark2: '#1D1D1D',
         dark3: '#323339',
         gray: '#9A9A9A',
+        gray1: '#D3D3D3',
         primary: '#FF473E',
         success: '#211BAA',
       },

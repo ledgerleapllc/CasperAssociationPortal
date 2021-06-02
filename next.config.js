@@ -23,7 +23,7 @@ module.exports = {
   trailingSlash: true,
   webpack: config => {
     config.module.rules.push({
-      test: /\.(png|jp(e*)g|svg|gif)$/,
+      test: /\.(png|jp(e*)g|gif)$/,
       use: [
         {
           loader: 'file-loader',
@@ -34,6 +34,11 @@ module.exports = {
           },
         },
       ],
+    });
+
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
     });
 
     return config;

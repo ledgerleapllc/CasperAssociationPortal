@@ -1,4 +1,4 @@
-import Document from '../../icons/document';
+import Document from '../../../public/images/ic_document.svg';
 
 const EsignTermsFirstStep = ({
   documents,
@@ -21,8 +21,14 @@ const EsignTermsFirstStep = ({
           <Document
             width={38}
             height={50}
-            strokeColor={document === selectedDocument ? '#FF473E' : '#323339'}
-            strokeWidth={document === selectedDocument ? 2 : 1}
+            className={
+              document === selectedDocument ? 'text-primary' : 'text-dark-3'
+            }
+            style={
+              document === selectedDocument
+                ? { fontSize: '2px' }
+                : { fontSize: '1px' }
+            }
           />
           <p className="text-dark3 mt-1 text-xs">{document}</p>
         </button>

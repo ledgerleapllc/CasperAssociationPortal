@@ -1,3 +1,5 @@
+import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
+
 const VerifyNodeOwnershipSecondStep = ({
   isUploaded,
   onUpload,
@@ -54,11 +56,7 @@ const VerifyNodeOwnershipSecondStep = ({
               Upload
             </button>
             {isUploaded && (
-              <img
-                src="/images/ic_check_circle_small.svg"
-                alt="upload success"
-                className="-mr-8 ml-4"
-              />
+              <IconCheckCircle className="-mr-8 ml-4 mt-2 text-primary text-base" />
             )}
           </div>
         </div>

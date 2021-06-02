@@ -1,4 +1,4 @@
-import LayoutDashboard from '../components/Layouts/layout-dashboard';
+import LayoutDashboard from '../components/layouts/layout-dashboard';
 
 const Dashboard = () => (
   <LayoutDashboard>

@@ -1,4 +1,5 @@
 import ReactLoading from 'react-loading';
+import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
 
 const VerifyNodeOwnershipThirdStep = ({ status, onContinue }) => (
   <div className="pt-8">
@@ -22,7 +23,7 @@ const VerifyNodeOwnershipThirdStep = ({ status, onContinue }) => (
     )}
     {status === 'succeed' && (
       <>
-        <img src="/images/ic_check_circle_purple.svg" alt="succss" />
+        <IconCheckCircle className="text-6xl 2xl:text-5xl text-success" />
         <p className="mt-12 text-2.5xl">
           Your node is: <span className="text-success">Verified</span>
         </p>

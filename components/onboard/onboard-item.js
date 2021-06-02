@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import IconCheckCircle from '../../public/images/ic_check_circle.svg';
 
 const OnboardItem = ({
   className,
@@ -33,11 +34,7 @@ const OnboardItem = ({
             <p className="text-2xl">
               {title}
               {doneStep && (
-                <img
-                  src="/images/ic_check_circle_small.svg"
-                  alt="upload success"
-                  className="inline ml-2"
-                />
+                <IconCheckCircle className="inline ml-2 text-primary text-base" />
               )}
             </p>
             <p className="text-sm text-dark1 mt-2">{description}</p>
@@ -56,11 +53,7 @@ const OnboardItem = ({
         <p className="text-2xl">
           {title}
           {doneStep && (
-            <img
-              src="/images/ic_check_circle_small.svg"
-              alt="upload success"
-              className="inline ml-2"
-            />
+            <IconCheckCircle className="inline ml-2 text-primary text-base" />
           )}
         </p>
         <p className="text-sm text-dark1 mt-2">{description}</p>
