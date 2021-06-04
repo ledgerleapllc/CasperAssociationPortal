@@ -37,10 +37,10 @@ const ContentHome = () => {
   };
 
   return (
-    <div className="flex flex-col md:justify-between w-full h-full md:pr-6">
-      <div className="flex flex-wrap md:flex-nowrap md:h-1/10 -mx-3">
-        <div className="w-full md:w-3/5 px-3 mb-3">
-          <Card className="md:flex-grow bg-primary">
+    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
+      <div className="flex flex-wrap lg:flex-nowrap lg:h-1/10 -mx-3">
+        <div className="w-full lg:w-3/5 px-3 mb-3">
+          <Card className="lg:flex-grow bg-primary">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-bold text-white">New Alert</span>
               <span className="text-base text-white">
@@ -49,16 +49,16 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 md:w-1/5 px-3 mb-3">
-          <Card className="md:flex-none">
+        <div className="w-2/4 lg:w-1/5 px-3 mb-3">
+          <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">Pinned</span>
               <span className="text-base text-black1 font-thin">11</span>
             </div>
           </Card>
         </div>
-        <div className="w-2/4 md:w-1/5 px-3 mb-3">
-          <Card className="md:flex-none">
+        <div className="w-2/4 lg:w-1/5 px-3 mb-3">
+          <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">New</span>
               <span className="text-base text-black1 font-thin">5</span>
@@ -66,20 +66,20 @@ const ContentHome = () => {
           </Card>
         </div>
       </div>
-      <Card className="block md:hidden h-auto w-full">
+      <Card className="block lg:hidden h-auto w-full">
         <div className="h-auto">
           <InfoRight />
         </div>
       </Card>
-      <div className="flex flex-col-reverse md:flex-col md:h-8.5/10 md:justify-between">
-        <div className="flex my-10 md:mt-0 h-auto md:h-1/3">
+      <div className="flex flex-col-reverse lg:flex-col lg:h-8.5/10 lg:justify-between">
+        <div className="flex my-10 lg:mt-0 h-auto lg:h-1/3">
           <Card className="w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
-              <div className="flex flex-col md:flex-row md:justify-between">
+              <div className="flex flex-col lg:flex-row lg:justify-between">
                 <p className="text-lg">Validator Rewards</p>
                 <div>
-                  <ul className="mt-4 md:mt-0 flex items-center">
-                    <li className="text-sm md:mx-4">
+                  <ul className="mt-4 lg:mt-0 flex items-center">
+                    <li className="text-sm lg:mx-4">
                       <a>Day</a>
                     </li>
                     <li className="px-4">
@@ -102,12 +102,12 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="flex flex-col-reverse md:flex-row h-3/5">
-          <Card className="flex-grow w-full mt-10 md:mt-0 md:w-2/3 md:mr-3 h-full">
+        <div className="flex flex-col-reverse lg:flex-row h-3/5">
+          <Card className="flex-grow w-full mt-10 lg:mt-0 lg:w-2/3 lg:mr-3 h-full">
             <div className="flex flex-col px-8 py-7 h-full">
               <p className="text-2.5xl text-black1">Trending Discussions</p>
               <div className="flex flex-col pt-6 h-8.5/10">
-                <div className="hidden md:flex w-full h-1/5">
+                <div className="hidden lg:flex w-full h-1/5">
                   <p className="w-3/6 pb-2 text-lg underline text-left font-normal">
                     Title
                   </p>
@@ -120,13 +120,13 @@ const ContentHome = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col w-full md:mt-5 overflow-y-scroll">
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -135,7 +135,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -146,12 +146,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -160,7 +160,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -171,12 +171,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -185,7 +185,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -196,12 +196,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -210,7 +210,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -221,12 +221,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -235,7 +235,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -246,12 +246,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -260,7 +260,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -271,12 +271,12 @@ const ContentHome = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="w-full md:w-3/6 pb-2 text-sm">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="w-full lg:w-3/6 pb-2 text-sm">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
-                    <div className="flex w-full md:w-3/6">
-                      <div className="flex items-center md:items-start md:w-3/5 md:pl-12 pb-2">
+                    <div className="flex w-full lg:w-3/6">
+                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_material_mode_comment.svg"
@@ -285,7 +285,7 @@ const ContentHome = () => {
                         </div>
                         <span className="text-sm">26</span>
                       </div>
-                      <div className="flex items-center md:items-start md:w-3/5 pl-12 pb-2">
+                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
                           <img
                             src="/images/ic_awesome_calendar.svg"
@@ -300,11 +300,11 @@ const ContentHome = () => {
               </div>
             </div>
           </Card>
-          <Card className="flex-grow w-full md:w-1/3 mt-10 md:mt-0 md:ml-3 h-full">
+          <Card className="flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full">
             <div className="flex flex-col px-8 py-7 h-full">
               <p className="text-2.5xl text-black1">Open Votes</p>
-              <div className="flex flex-col md:pt-6 h-8.5/10">
-                <div className="hidden md:flex w-full h-1/5">
+              <div className="flex flex-col lg:pt-6 h-8.5/10">
+                <div className="hidden lg:flex w-full h-1/5">
                   <p className="w-4/6 text-lg underline text-left font-normal">
                     Title
                   </p>
@@ -313,67 +313,67 @@ const ContentHome = () => {
                   </p>
                 </div>
                 <div className="flex flex-col w-full mt-5 overflow-y-scroll">
-                  <div className="flex flex-col md:flex-row w-full py-2.5 border-b border-gray md:border-0">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5 border-b border-gray md:border-0">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5 border-b border-gray md:border-0">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5 border-b border-gray md:border-0">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5 border-b border-gray md:border-0">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m
                     </p>
                   </div>
-                  <div className="flex flex-col md:flex-row w-full py-2.5">
-                    <p className="text-sm w-full md:w-4/6">
+                  <div className="flex flex-col lg:flex-row w-full py-2.5">
+                    <p className="text-sm w-full lg:w-4/6">
                       Nam tincidunt, augue sit amet dignissim
                     </p>
-                    <p className="flex text-sm md:pl-8 w-full py-2.5 md:py-0 md:w-3/6 text-left">
-                      <span className="block md:hidden font-medium text-sm mr-2">
+                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
+                      <span className="block lg:hidden font-medium text-sm mr-2">
                         Time Left:
                       </span>
                       1d:21h:05m

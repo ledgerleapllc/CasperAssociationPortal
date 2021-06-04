@@ -3,7 +3,7 @@ import AppHeader from '../layouts/app-header';
 
 const Navigation = () => (
   <>
-    <Card className="flex-col w-24 px-5 hidden md:flex h-full">
+    <Card className="flex-col w-24 px-5 hidden lg:flex h-full">
       <img
         className="py-6 border-b-2 border-primary align-center"
         src="/images/ic_logo_home.svg"
@@ -65,7 +65,7 @@ const Navigation = () => (
         </li>
       </ul>
     </Card>
-    <AppHeader className="py-4 md:hidden" theme="dark" />
+    <AppHeader className="py-4 lg:hidden" theme="dark" />
   </>
 );
 

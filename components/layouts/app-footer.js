@@ -5,7 +5,7 @@ import Linkedin from '../../public/images/ic_linkedin.svg';
 import Medium from '../../public/images/ic_medium.svg';
 
 const AppFooter = ({ theme }) => (
-  <div className="flex items-center justify-between md:visible invisible">
+  <div className="flex items-center justify-between lg:visible invisible">
     <p
       className={`${
         theme === 'light' ? 'text-white' : 'text-dark2'
