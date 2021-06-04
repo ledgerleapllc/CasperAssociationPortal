@@ -5,9 +5,9 @@ import ContentHome from '../components/dashboard/content-home';
 
 const Dashboard = () => (
   <LayoutDashboard>
-    <div className="flex h-full">
+    <div className="flex h:auto md:h-full">
       <ContentHome />
-      <Card className="h-full">
+      <Card className="hidden md:block h-full">
         <div className="overflow-y-scroll h-full w-80">
           <InfoRight />
         </div>
