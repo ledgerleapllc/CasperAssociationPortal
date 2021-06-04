@@ -2,7 +2,7 @@ import NodeInfoHome from './node-info-home';
 
 const InfoRight = () => (
   <div className="flex flex-col mx-9 my-3 bg-white">
-    <div className="flex flex-col pb-10 border-b-2 border-gray">
+    <div className="flex flex-col pb-8 border-b-2 border-gray">
       <div className="flex">
         <img
           className="pr-2"

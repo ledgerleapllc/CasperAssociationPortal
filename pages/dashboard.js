@@ -5,10 +5,10 @@ import ContentHome from '../components/dashboard/content-home';
 
 const Dashboard = () => (
   <LayoutDashboard>
-    <div className="flex">
+    <div className="flex h-full">
       <ContentHome />
-      <Card>
-        <div style={{ width: '310px' }}>
+      <Card className="h-full">
+        <div className="overflow-y-scroll h-full w-80">
           <InfoRight />
         </div>
       </Card>

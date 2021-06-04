@@ -34,6 +34,9 @@ module.exports = {
         404: '101rem',
         60: '15rem',
       },
+      minHeight: {
+        105: '26.25rem',
+      },
       width: {
         92: '23rem',
       },
