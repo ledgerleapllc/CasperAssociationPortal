@@ -1,11 +1,13 @@
-import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Tab, Card } from '../../components/partials';
-import IconEye from '../../public/images/ic_eye.svg';
-import IconChatBox from '../../public/images/ic_chatbox.svg';
-import IconLike from '../../public/images/ic_like.svg';
+import Link from 'next/link';
+import LayoutDashboard from '../../../components/layouts/layout-dashboard';
+import { Tab, Card } from '../../../components/partials';
+import IconEye from '../../../public/images/ic_eye.svg';
+import IconChatBox from '../../../public/images/ic_chatbox.svg';
+import IconLike from '../../../public/images/ic_like.svg';
 
 const chatBoxFakeData = [
   {
+    id: 1,
     desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
     elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
     elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
@@ -22,6 +24,7 @@ const chatBoxFakeData = [
     unread: true,
   },
   {
+    id: 2,
     desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
     elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
     elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
@@ -38,6 +41,7 @@ const chatBoxFakeData = [
     unread: false,
   },
   {
+    id: 3,
     desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
     elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
     elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
@@ -54,6 +58,7 @@ const chatBoxFakeData = [
     unread: true,
   },
   {
+    id: 4,
     desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
     elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
     elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
@@ -87,7 +92,9 @@ const ChatBox = ({ data }) => (
     </div>
     <div className="chat-content mt-5 md:m-0">
       <div className="chat-content-body">
-        <h2 className="text-lg mb-2.5">{data.title}</h2>
+        <Link href={`/dashboard/discussion/${data.id}`}>
+          <h2 className="cursor-pointer text-lg mb-2.5">{data.title}</h2>
+        </Link>
         <p className="text-sm mb-5">{data.desc}</p>
       </div>
       <div className="chat-content-footer flex text-sm flex-col md:flex-row">
@@ -151,12 +158,14 @@ const DashboardDiscusion = () => (
     <Card className="h-full md:pl-24 md:py-20 md:shadow-2xl" noShadow>
       <div className="w-full h-full">
         <div className="flex justify-end md:mr-24">
-          <button
-            type="button"
-            className="transition text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-          >
-            + New Discussion
-          </button>
+          <Link href="/dashboard/discussion/add">
+            <button
+              type="button"
+              className="transition text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+            >
+              + New Discussion
+            </button>
+          </Link>
         </div>
         <Tab className="w-full h-full pt-12 md:pt-0 md:-mt-7" data={tabsData} />
       </div>

@@ -8,6 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^27.1.0",
+    "@ckeditor/ckeditor5-build-classic": "^27.1.0",
+    "@ckeditor/ckeditor5-core": "^27.1.0",
+    "@ckeditor/ckeditor5-image": "^27.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
+    "@ckeditor/ckeditor5-ui": "^27.1.0",
     "animate.css": "^4.1.1",
     "chart.js": "^3.0.0",
     "date-fns": "^2.22.1",

@@ -25,11 +25,14 @@ module.exports = {
       },
       fontSize: {
         '2.5xl': '1.7rem',
+        xxs: '0.625rem',
       },
       height: {
         '1/10': '10%',
+        '100%-70px': 'calc(100% - 70px)',
         114: '28.5rem',
         152: '38rem',
+        '70px': '70px',
         '8.5/10': '85%',
       },
       maxWidth: {

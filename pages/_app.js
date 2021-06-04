@@ -4,6 +4,7 @@ import 'animate.css';
 import '../styles/custom-animation.scss';
 import '../styles/responsive.scss';
 import '../styles/custom-circular.scss';
+import '../styles/custom-editor.scss';
 
 function MyApp({ Component, pageProps }) {
   return (
