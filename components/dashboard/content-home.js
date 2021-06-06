@@ -1,6 +1,6 @@
 import { Line } from 'react-chartjs-2';
 import { Card } from '../partials';
-import InfoRight from './info-right';
+import InfoRightHome from './info-right-home';
 
 const ContentHome = () => {
   const data = {
@@ -11,6 +11,7 @@ const ContentHome = () => {
         data: [1400, 1600, 1500, 2000, 1800, 1600, 1850],
         fill: true,
         fillOpacity: 0.3,
+        pointRadius: 0,
       },
     ],
     labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thrs', 'Fri', 'Sat'],
@@ -31,6 +32,7 @@ const ContentHome = () => {
       y: {
         grid: {
           borderDash: [5, 5],
+          drawBorder: false,
         },
       },
     },
@@ -68,7 +70,7 @@ const ContentHome = () => {
       </div>
       <Card className="block lg:hidden h-auto w-full">
         <div className="h-auto">
-          <InfoRight />
+          <InfoRightHome />
         </div>
       </Card>
       <div className="flex flex-col-reverse lg:flex-col lg:h-8.5/10 lg:justify-between">
@@ -76,7 +78,7 @@ const ContentHome = () => {
           <Card className="w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
-                <p className="text-lg">Validator Rewards</p>
+                <p className="text-lg lg:text-2xl">Validator Rewards</p>
                 <div>
                   <ul className="mt-4 lg:mt-0 flex items-center">
                     <li className="text-sm lg:mx-4">

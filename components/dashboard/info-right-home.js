@@ -1,6 +1,6 @@
 import NodeInfoHome from './node-info-home';
 
-const InfoRight = () => (
+const InfoRightHome = () => (
   <div className="flex flex-col mx-9 my-3 bg-white">
     <div className="flex flex-col pb-8 border-b-2 border-gray">
       <div className="flex">
@@ -17,4 +17,4 @@ const InfoRight = () => (
   </div>
 );
 
-export default InfoRight;
+export default InfoRightHome;

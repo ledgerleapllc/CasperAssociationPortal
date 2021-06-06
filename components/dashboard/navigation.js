@@ -18,13 +18,18 @@ const Navigation = () => (
           </ActiveLink>
         </li>
         <li className="py-4">
-          <a className="inline-block rounded-2xl hover:shadow-lg">
-            <img
-              className="p-3"
-              src="/images/ic_infor.svg"
-              alt="Validator Info"
-            />
-          </a>
+          <ActiveLink
+            activeClassName="shadow-activeLink"
+            href="/dashboard/nodes"
+          >
+            <a className="inline-block rounded-2xl hover:shadow-lg">
+              <img
+                className="p-3"
+                src="/images/ic_infor.svg"
+                alt="Validator Info"
+              />
+            </a>
+          </ActiveLink>
         </li>
         <li className="py-4">
           <ActiveLink
@@ -41,9 +46,18 @@ const Navigation = () => (
           </ActiveLink>
         </li>
         <li className="py-4">
-          <a className="inline-block rounded-2xl hover:shadow-lg">
-            <img className="p-3" src="/images/ic_awesome_vote.svg" alt="Vote" />
-          </a>
+          <ActiveLink
+            activeClassName="shadow-activeLink"
+            href="/dashboard/votes"
+          >
+            <a className="inline-block rounded-2xl hover:shadow-lg">
+              <img
+                className="p-3"
+                src="/images/ic_awesome_vote.svg"
+                alt="Vote"
+              />
+            </a>
+          </ActiveLink>
         </li>
         <li className="py-4">
           <a className="inline-block rounded-2xl hover:shadow-lg">

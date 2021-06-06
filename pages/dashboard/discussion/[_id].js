@@ -147,11 +147,11 @@ const DashboardDiscusionDetail = () => {
           <div className="card-body pb-40 overflow-y-auto lg:h-100%-70px">
             <div className="lg:pr-24">
               <ChatBox data={chatBoxDetail} noBorder />
-              <div className="pt-4 pb-12 ck-editor-reverse">
+              <div className="relative pt-4 mb-8 lg:mb-12 ck-editor-reverse">
                 <Editor />
                 <button
                   type="button"
-                  className="mt-5 block lg:hidden h-16 text-lg w-full text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="my-5 h-16 lg:absolute lg:m-0 lg:bottom-4 lg:right-12 lg:h-11 text-lg w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   Add Comment
                 </button>

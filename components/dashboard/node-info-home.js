@@ -5,7 +5,7 @@ const NodeInfoHome = () => {
   const percenCPU = 61;
   const percenPerformance = 83;
   return (
-    <div className="flex flex-col pt-5 md:pb-3">
+    <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-2.5xl">Node Info</span>
       <div className="flex flex-col py-3">
         <div className="flex flex-row">

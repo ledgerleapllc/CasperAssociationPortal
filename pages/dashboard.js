@@ -1,6 +1,6 @@
 import LayoutDashboard from '../components/layouts/layout-dashboard';
 import { Card } from '../components/partials';
-import InfoRight from '../components/dashboard/info-right';
+import InfoRightHome from '../components/dashboard/info-right-home';
 import ContentHome from '../components/dashboard/content-home';
 
 const Dashboard = () => (
@@ -9,7 +9,7 @@ const Dashboard = () => (
       <ContentHome />
       <Card className="hidden lg:block h-full">
         <div className="overflow-y-scroll h-full w-80">
-          <InfoRight />
+          <InfoRightHome />
         </div>
       </Card>
     </div>

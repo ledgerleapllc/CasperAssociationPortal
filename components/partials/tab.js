@@ -10,7 +10,7 @@ const getHash = url => {
 };
 
 const Tab = ({ data, className }) => {
-  const { asPath } = useRouter();
+  const { asPath, pathname } = useRouter();
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
@@ -50,13 +50,15 @@ const Tab = ({ data, className }) => {
           <div className="border-primary border-b-2 md:mr-24" />
           <div
             id="tab-contents"
-            className="overflow-y-scroll"
+            className={`${
+              pathname === '/dashboard/votes' ? '' : 'overflow-y-scroll'
+            }`}
             style={{ height: '90%' }}
           >
             {data.map((x, index) => (
               <div
                 key={`b-${index}`}
-                className="md:pr-24"
+                className="md:pr-24 h-full"
                 hidden={currentTab !== index}
               >
                 <SubTab i={index} />
