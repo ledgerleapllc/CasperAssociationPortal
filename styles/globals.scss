@@ -85,3 +85,12 @@ label > input[type="radio"] + * {
 *:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
+.off-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+.toggle-button {
+  input:checked ~ .dot {
+    transform: translateX(1.75rem);
+    background-color: #FF473E;
+  }
+}

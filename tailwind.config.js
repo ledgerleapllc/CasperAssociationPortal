@@ -20,6 +20,7 @@ module.exports = {
         dark3: '#323339',
         gray: '#9A9A9A',
         gray1: '#D3D3D3',
+        pink: '#FFA5A0',
         primary: '#FF473E',
         success: '#211BAA',
       },

@@ -69,13 +69,18 @@ const Navigation = () => (
           </a>
         </li>
         <li className="pt-4">
-          <a className="inline-block rounded-2xl hover:shadow-lg">
-            <img
-              className="p-3"
-              src="/images/ic_feather_settings.svg"
-              alt="Setting"
-            />
-          </a>
+          <ActiveLink
+            activeClassName="shadow-activeLink"
+            href="/dashboard/settings"
+          >
+            <a className="inline-block rounded-2xl hover:shadow-lg">
+              <img
+                className="p-3"
+                src="/images/ic_feather_settings.svg"
+                alt="Setting"
+              />
+            </a>
+          </ActiveLink>
         </li>
       </ul>
     </Card>
