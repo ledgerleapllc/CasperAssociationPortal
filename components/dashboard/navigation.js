@@ -60,13 +60,18 @@ const Navigation = () => (
           </ActiveLink>
         </li>
         <li className="py-4">
-          <a className="inline-block rounded-2xl hover:shadow-lg">
-            <img
-              className="p-3"
-              src="/images/ic_feather_user_plus.svg"
-              alt="User Add"
-            />
-          </a>
+          <ActiveLink
+            activeClassName="shadow-activeLink"
+            href="/dashboard/member-perks"
+          >
+            <a className="inline-block rounded-2xl hover:shadow-lg">
+              <img
+                className="p-3"
+                src="/images/ic_feather_user_plus.svg"
+                alt="User Add"
+              />
+            </a>
+          </ActiveLink>
         </li>
         <li className="pt-4">
           <ActiveLink
