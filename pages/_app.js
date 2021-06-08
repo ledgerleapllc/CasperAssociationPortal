@@ -5,10 +5,21 @@ import '../styles/custom-animation.scss';
 import '../styles/responsive.scss';
 import '../styles/custom-circular.scss';
 import '../styles/custom-editor.scss';
+import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware } from 'redux';
+import { logger } from 'redux-logger';
+import { Provider } from 'react-redux';
+import appReducer from '../components/shared/app.reducers';
+import appMiddleware from '../components/shared/app.middleware';
+
+const middleware = createSagaMiddleware();
+const store = createStore(appReducer, applyMiddleware(middleware, logger));
+
+middleware.run(appMiddleware);
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <title>Casper Association Portal</title>
         <link rel="icon" href="/favicon.ico" />
@@ -19,7 +30,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
 
