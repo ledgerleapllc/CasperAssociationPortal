@@ -25,4 +25,22 @@ export default class AuthService {
         });
     });
   }
+
+  resetPassword(data) {
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(['auth/send-reset-password'], qs.stringify(data), {
+          headers,
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          reject(e);
+        });
+    });
+  }
 }

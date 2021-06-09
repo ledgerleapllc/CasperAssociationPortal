@@ -49,7 +49,7 @@ const TypeRegister = () => {
             </div>
             <p className="text-xs text-center mt-5 whitespace-pre-line animate__animated animate__fadeInUp">
               {`Already have an account? `}
-              <Link href="/sign-in">
+              <Link href="/login">
                 <a className="text-primary underline font-medium">Sign in</a>
               </Link>
             </p>

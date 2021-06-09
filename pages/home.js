@@ -28,7 +28,7 @@ const Home = () => {
             <p className="text-xl text-white whitespace-pre-line mt-5 animate__animated animate__fadeInUp animate__delay-3s">
               {`Please choose Sign In if you have an existing account or Register if this is your first time\nhere. If you’re just here to explore, sign in as a `}
               <span>
-                <Link href="/register">
+                <Link href="/register-type">
                   <a className="underline">guest.</a>
                 </Link>
               </span>

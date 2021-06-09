@@ -8,18 +8,14 @@ import { EMAIL_PATTERN } from '../components/helpers/form-validation';
 import AuthService from '../components/services/auth.service';
 
 const authService = new AuthService();
-const Login = () => {
+const ResetPassword = () => {
   const { formState, register, handleSubmit } = useForm();
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
   const onSubmit = data => {
-    authService.login(data).then(res => {
-      if (res.data) {
-        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-        localStorage.setItem('USER_ID', res.data.user_id);
-        router.push('/dashboard');
-      }
+    authService.resetPassword(data).then(res => {
+      router.push('/login');
     });
   };
 
@@ -46,17 +42,14 @@ const Login = () => {
               backgroundSize: 'cover',
             }}
           >
-            <p className="text-4xl text-center">Sign In</p>
+            <p className="text-4xl text-center">Reset Your Password</p>
             <p className="text-xs text-center mt-2">
-              {`Don’t have an account yet? `}
-              <Link href="/register-type">
-                <a className="text-primary underline font-medium">Register</a>
-              </Link>
+              Please enter your email to request a password reset link.
             </p>
             <div className="w-full flex flex-col">
               <input
                 type="email"
-                className="w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                className="font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                 placeholder="Email"
                 name="email"
                 {...register('email', {
@@ -73,42 +66,26 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="w-full flex flex-col">
-              <input
-                type="password"
-                className="w-full h-16 text-xl mt-5 px-7 rounded-full shadow-md focus:outline-none"
-                placeholder="Password"
-                name="password"
-                {...register('password', {
-                  required: 'Password is required',
-                })}
-              />
-              {formState.errors?.password && (
-                <p className="pl-7 mt-2 text-primary text-left">
-                  {formState.errors.password?.message}
-                </p>
-              )}
-            </div>
-            <div className="md:flex md:space-x-5 mt-14 md:justify-center">
+            <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center">
               <button
                 type="submit"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               >
-                Sign in
-              </button>
-              <button
-                type="button"
-                className="mt-2 md:mt-0 text-lg border-2 border-primary text-primary w-full md:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
-              >
-                Sign in as Guest
+                Submit
               </button>
             </div>
-            <p className="text-xs text-center mt-5">
-              {`Forgot your password? `}
-              <Link href="/reset-password">
-                <a className="text-primary underline font-medium">Reset</a>
-              </Link>
-            </p>
+            <Link href="/home">
+              <p className="cursor-pointer text-xs text-center mt-5 flex justify-center">
+                <img
+                  src="/images/ic_decline.svg"
+                  className="mr-2"
+                  alt="Go home page"
+                />
+                <a className="text-primary underline font-medium">
+                  Cancel and go back
+                </a>
+              </p>
+            </Link>
           </div>
         </form>
         <AppFooter theme="light" />
@@ -117,4 +94,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
