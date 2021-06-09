@@ -1,18 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
+import Countries from '../public/json/country.json';
 import {
   NAME_PATTERN,
   EMAIL_PATTERN,
   PASSWORD_PATTERN,
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
+  ENTITY_PATTERN,
 } from '../components/helpers/form_validation';
 import RegisterService from '../components/services/register.service';
 
-const RegisterIndividual = () => {
+const entityTypeList = [
+  {
+    code: 'LLC',
+    name: 'LLC',
+  },
+  {
+    code: 'Coporation',
+    name: 'Coporation',
+  },
+  {
+    code: 'Trust',
+    name: 'Trust',
+  },
+  {
+    code: 'Foundation',
+    name: 'Foundation',
+  },
+  {
+    code: 'Association',
+    name: 'Association',
+  },
+  {
+    code: 'Sole Proprietorship',
+    name: 'Sole Proprietorship',
+  },
+  {
+    code: 'Other',
+    name: 'Other',
+  },
+];
+
+const RegisterEntity = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
   const registerService = new RegisterService();
@@ -26,14 +59,16 @@ const RegisterIndividual = () => {
     setValue,
     clearErrors,
     setError,
+    watch,
   } = useForm({
     mode: 'onBlur',
   });
   const onSubmit = data => {
-    registerService
-      .registerIndividual(data)
-      .then(res => router.push('/welcome'));
+    registerService.registerEntity(data).then(res => router.push('/welcome'));
   };
+
+  const watchRegisterCountry = watch('entityRegisterCountry');
+  const watchEntityType = watch('entityType');
 
   const validateFields = () => {
     if (!agreeChecked || !understandChecked) {
@@ -73,18 +108,141 @@ const RegisterIndividual = () => {
         >
           <div className="w-full md:w-9/12">
             <p className="text-2xl animate__animated animate__fadeInLeft">
-              New Individual User
+              New Entity User
             </p>
             <p className="text-sm text-dark mt-2 animate__animated animate__fadeInLeft animate__delay-2s">
-              Fill out the form to register.
+              LLC/Corp/Trust/Etc. Please fill out the form to register.
             </p>
             <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-4s">
-              <div className="md:flex mt-10 md:space-x-5">
+              <div className="md:flex mt-5 md:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
                     className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
-                    placeholder="First Name *"
+                    placeholder="Entity Name *"
+                    name="entityName"
+                    {...register('entityName', {
+                      required: 'Entity name is required',
+                      pattern: {
+                        message: 'Entity name is invalid',
+                        value: ENTITY_PATTERN,
+                      },
+                    })}
+                  />
+                  {formState.errors?.entityName && (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors.entityName?.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1 flex-col">
+                  <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+                    <select
+                      className={`w-full h-full cursor-pointer focus:outline-none ${
+                        watchEntityType?.length > 0
+                          ? 'text-black1'
+                          : 'text-gray'
+                      }`}
+                      name="entityType"
+                      {...register('entityType', {
+                        required: 'Entity type is require',
+                      })}
+                    >
+                      <option className="text-gray" value="" disabled selected>
+                        Select Entity Type *
+                      </option>
+                      {entityTypeList.map((type, index) => (
+                        <option key={index} value={type.code}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </select>
+                    <img src="/images/ic_arrow_down.svg" alt="down" />
+                  </div>
+                  {formState.errors?.entityType && (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors.entityType?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="md:flex mt-5 md:space-x-5">
+                <div className="flex-1 flex-col">
+                  <input
+                    type="text"
+                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    placeholder="Entity Registration Number *"
+                    name="entityRegisterNumber"
+                    {...register('entityRegisterNumber', {
+                      required: 'Entity registration number is required',
+                      pattern: {
+                        message: 'Entity registration number is invalid',
+                        value: ENTITY_PATTERN,
+                      },
+                    })}
+                  />
+                  {formState.errors?.entityRegisterNumber && (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors.entityRegisterNumber?.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1 flex-col">
+                  <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+                    <select
+                      className={`w-full h-full cursor-pointer focus:outline-none ${
+                        watchRegisterCountry?.length > 0
+                          ? 'text-black1'
+                          : 'text-gray'
+                      }`}
+                      name="entityRegisterCountry"
+                      {...register('entityRegisterCountry', {
+                        required: 'Entity Registration Country is require',
+                      })}
+                    >
+                      <option className="text-gray" value="" disabled selected>
+                        Entity Registration Country *
+                      </option>
+                      {Countries.map((country, index) => (
+                        <option key={index} value={country.code}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                    <img src="/images/ic_arrow_down.svg" alt="down" />
+                  </div>
+                  {formState.errors?.entityRegisterCountry && (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors.entityRegisterCountry?.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1 flex-col">
+                  <input
+                    type="text"
+                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    placeholder="Entity Tax ID/VAT Number"
+                    name="entityTax"
+                    {...register('entityTax', {
+                      pattern: {
+                        message: 'Entity Tax ID/VAT Number is invalid',
+                        value: ENTITY_PATTERN,
+                      },
+                    })}
+                  />
+                  {formState.errors?.entityTax && (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors.entityTax?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="md:flex mt-5 md:space-x-5">
+                <div className="flex-1 flex-col">
+                  <input
+                    type="text"
+                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    placeholder="First Name of Entity Representative *"
                     name="firstName"
                     {...register('firstName', {
                       required: 'First name is required',
@@ -104,7 +262,7 @@ const RegisterIndividual = () => {
                   <input
                     type="text"
                     className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
-                    placeholder="Last Name *"
+                    placeholder="Last Name of Entity Representative *"
                     name="lastName"
                     {...register('lastName', {
                       required: 'Last name is required',
@@ -348,4 +506,4 @@ const RegisterIndividual = () => {
   );
 };
 
-export default RegisterIndividual;
+export default RegisterEntity;
