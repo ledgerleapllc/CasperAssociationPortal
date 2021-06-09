@@ -239,8 +239,8 @@ const RegisterIndividual = () => {
                     type="text"
                     className="w-full h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Forum Name / Pseudonym *"
-                    name="forumName"
-                    {...register('forumName', {
+                    name="pseudonym"
+                    {...register('pseudonym', {
                       required: 'Forum name is required',
                       pattern: {
                         message: 'Forum name is invalid',
@@ -248,9 +248,9 @@ const RegisterIndividual = () => {
                       },
                     })}
                   />
-                  {formState.errors?.forumName && (
+                  {formState.errors?.pseudonym && (
                     <p className="pl-7 mt-2 text-primary">
-                      {formState.errors.forumName?.message}
+                      {formState.errors.pseudonym?.message}
                     </p>
                   )}
                 </div>

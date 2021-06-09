@@ -15,9 +15,9 @@ export default class RegisterService {
     const params = qs.stringify({
       email: data.email,
       first_name: data.firstName,
-      forumn: data.forumName,
       last_name: data.lastName,
       password: data.password,
+      pseudonym: data.pseudonym,
       telegram: data.telegram,
     });
     return new Promise((resolve, reject) => {
