@@ -35,14 +35,14 @@ const TypeRegister = () => {
               <button
                 type="button"
                 className=" my-4 text-lg text-white w-full lg:w-full h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-4s"
-                onClick={() => router.push('/register')}
+                onClick={() => router.push('/register-individual')}
               >
                 Individual
               </button>
               <button
                 type="button"
                 className="my-4 text-lg border-2 border-primary text-primary w-full lg:w-full h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-5s"
-                onClick={() => router.push('/register')}
+                onClick={() => router.push('/register-individual')}
               >
                 Entity
               </button>

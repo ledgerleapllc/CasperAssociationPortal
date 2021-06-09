@@ -1,6 +1,10 @@
+require('dotenv').config();
 const path = require('path');
 
 module.exports = {
+  env: {
+    BASE_URL: process.env.BASE_URL,
+  },
   future: {
     webpack5: true,
   },

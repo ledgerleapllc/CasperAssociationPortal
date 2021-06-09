@@ -10,11 +10,12 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
 } from '../components/helpers/form_validation';
+import RegisterService from '../components/services/register.service';
 
-const Register = () => {
+const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
-
+  const registerService = new RegisterService();
   const router = useRouter();
   const {
     control,
@@ -28,7 +29,11 @@ const Register = () => {
   } = useForm({
     mode: 'onBlur',
   });
-  const onSubmit = data => router.push('/welcome');
+  const onSubmit = data => {
+    registerService
+      .registerIndividual(data)
+      .then(res => router.push('/welcome'));
+  };
 
   const validateFields = () => {
     if (!agreeChecked || !understandChecked) {
@@ -347,4 +352,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterIndividual;
