@@ -9,7 +9,7 @@ import {
   PASSWORD_PATTERN,
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
-} from '../components/helpers/form_validation';
+} from '../components/helpers/form-validation';
 import RegisterService from '../components/services/register.service';
 
 const RegisterIndividual = () => {
