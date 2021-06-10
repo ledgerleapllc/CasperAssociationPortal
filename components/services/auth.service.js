@@ -43,4 +43,24 @@ export default class AuthService {
         });
     });
   }
+
+  verifyEmail(data) {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    return new Promise((resolve, reject) => {
+      this.http
+        .post(['users/verify-email'], qs.stringify(data), {
+          headers,
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          reject(e);
+        });
+    });
+  }
 }

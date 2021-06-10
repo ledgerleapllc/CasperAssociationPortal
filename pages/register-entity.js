@@ -64,7 +64,13 @@ const RegisterEntity = () => {
     mode: 'onBlur',
   });
   const onSubmit = data => {
-    registerService.registerEntity(data).then(res => router.push('/welcome'));
+    registerService.registerEntity(data).then(res => {
+      if (res.data) {
+        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+        localStorage.setItem('USER_ID', res.data.user_id);
+        router.push('/verify-email');
+      }
+    });
   };
 
   const watchRegisterCountry = watch('entityRegisterCountry');

@@ -8,14 +8,14 @@ import { EMAIL_PATTERN } from '../components/helpers/form-validation';
 import AuthService from '../components/services/auth.service';
 
 const authService = new AuthService();
-const ResetPassword = () => {
+const VerifyEmail = () => {
   const { formState, register, handleSubmit } = useForm();
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
   const onSubmit = data => {
-    authService.resetPassword(data).then(res => {
-      router.push('/login');
+    authService.verifyEmail(data).then(res => {
+      router.push('/onboard');
     });
   };
 
@@ -42,29 +42,27 @@ const ResetPassword = () => {
               backgroundSize: 'cover',
             }}
           >
-            <p className="text-4xl text-center whitespace-pre-line animate__animated animate__fadeInUp">
-              Reset Your Password
+            <p className="text-4xl text-center animate__animated animate__fadeInUp">
+              Verify Your Email
             </p>
             <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
-              Please enter your email to request a password reset link.
+              A verification code was sent to your email [show email]. You must
+              enter this code in the field below to proceed. If you did not get
+              the code, please check your spam folder.
             </p>
-            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s ">
               <input
-                type="email"
-                className="font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
-                placeholder="Email"
-                name="email"
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    message: 'Email is invalid',
-                    value: EMAIL_PATTERN,
-                  },
+                type="text"
+                className="fw-full text-center h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                placeholder="Enter Code"
+                name="code"
+                {...register('code', {
+                  required: 'Code is required',
                 })}
               />
-              {formState.errors?.email && (
+              {formState.errors?.code && (
                 <p className="pl-7 mt-2 text-primary text-left">
-                  {formState.errors.email?.message}
+                  {formState.errors.code?.message}
                 </p>
               )}
             </div>
@@ -73,18 +71,20 @@ const ResetPassword = () => {
                 type="submit"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               >
-                Submit
+                Verify
               </button>
             </div>
             <Link href="/home">
-              <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
-                <img
-                  src="/images/ic_decline.svg"
-                  className="mr-2"
-                  alt="Go home page"
-                />
+              <p className="text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
                 <a className="text-primary underline font-medium">
-                  Cancel and go back
+                  Resend 2fa Code
+                </a>
+              </p>
+            </Link>
+            <Link href="/home">
+              <p className="text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+                <a className="text-primary underline font-medium">
+                  Update Email Address
                 </a>
               </p>
             </Link>
@@ -96,4 +96,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default VerifyEmail;

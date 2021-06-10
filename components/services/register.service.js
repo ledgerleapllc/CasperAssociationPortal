@@ -35,7 +35,6 @@ export default class RegisterService {
   }
 
   registerEntity(data) {
-    console.log('aaa', data);
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };

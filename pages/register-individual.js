@@ -30,9 +30,11 @@ const RegisterIndividual = () => {
     mode: 'onBlur',
   });
   const onSubmit = data => {
-    registerService
-      .registerIndividual(data)
-      .then(res => router.push('/welcome'));
+    registerService.registerIndividual(data).then(res => {
+      localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+      localStorage.setItem('USER_ID', res.data.user_id);
+      router.push('/verify-email');
+    });
   };
 
   const validateFields = () => {

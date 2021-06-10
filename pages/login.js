@@ -46,14 +46,16 @@ const Login = () => {
               backgroundSize: 'cover',
             }}
           >
-            <p className="text-4xl text-center">Sign In</p>
-            <p className="text-xs text-center mt-2">
+            <p className="text-4xl text-center animate__animated animate__fadeInUp">
+              Sign In
+            </p>
+            <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
               {`Don’t have an account yet? `}
               <Link href="/register-type">
                 <a className="text-primary underline font-medium">Register</a>
               </Link>
             </p>
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
                 type="email"
                 className="w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -73,7 +75,7 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
                 type="password"
                 className="w-full h-16 text-xl mt-5 px-7 rounded-full shadow-md focus:outline-none"
@@ -89,7 +91,7 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="md:flex md:space-x-5 mt-14 md:justify-center">
+            <div className="md:flex md:space-x-5 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
               <button
                 type="submit"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
@@ -103,7 +105,7 @@ const Login = () => {
                 Sign in as Guest
               </button>
             </div>
-            <p className="text-xs text-center mt-5">
+            <p className="text-xs text-center mt-5 animate__animated animate__fadeInUp animate__delay-4s">
               {`Forgot your password? `}
               <Link href="/reset-password">
                 <a className="text-primary underline font-medium">Reset</a>
