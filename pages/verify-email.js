@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import AuthService from '../services/auth.service';
+import AuthService from '../services/auth';
 
 const authService = new AuthService();
 const VerifyEmail = () => {

@@ -10,7 +10,7 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
 } from '../helpers/form-validation';
-import RegisterService from '../services/register.service';
+import RegisterService from '../services/register';
 
 const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);

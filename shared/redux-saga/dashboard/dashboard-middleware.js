@@ -2,7 +2,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import {
   getListCategorySupportSuccess,
   getListCategorySupportError,
-} from './dashboard.actions';
+} from './dashboard-actions';
 
 export function* getListDataDemo() {
   try {

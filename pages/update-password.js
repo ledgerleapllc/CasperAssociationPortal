@@ -6,7 +6,7 @@ import { useState } from 'react';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { PASSWORD_PATTERN } from '../helpers/form-validation';
-import AuthService from '../services/auth.service';
+import AuthService from '../services/auth';
 
 const authService = new AuthService();
 const UpdatePassword = () => {
