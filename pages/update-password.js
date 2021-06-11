@@ -7,6 +7,7 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { PASSWORD_PATTERN } from '../helpers/form-validation';
 import AuthService from '../services/auth';
+import { Button } from '../components/partials/button';
 
 const authService = new AuthService();
 const UpdatePassword = () => {
@@ -22,14 +23,20 @@ const UpdatePassword = () => {
   const detectMobile = useMobileDetect();
   const [isUpdatedPassword, setIsUpdatedPassword] = useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
+    setIsSubmitting(true);
     data.email = router.query.email;
     data.code = router.query.code;
-    authService.updateNewPassword(data).then(res => {
-      if (res.data) {
-        setIsUpdatedPassword(true);
-      }
-    });
+    authService
+      .updateNewPassword(data)
+      .then(res => {
+        if (res.data) {
+          setIsUpdatedPassword(true);
+          setIsSubmitting(false);
+        }
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   return (
@@ -141,12 +148,13 @@ const UpdatePassword = () => {
                 )}
               </div>
               <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-                <button
+                <Button
                   type="submit"
+                  isDisabled={isSubmitting}
+                  isLoading={isSubmitting}
+                  title="Submit"
                   className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-                >
-                  Submit
-                </button>
+                />
               </div>
               <Link href="/home">
                 <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">

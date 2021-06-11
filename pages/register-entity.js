@@ -13,6 +13,7 @@ import {
   ENTITY_PATTERN,
 } from '../helpers/form-validation';
 import RegisterService from '../services/register';
+import { Button } from '../components/partials/button';
 
 const entityTypeList = [
   {
@@ -63,14 +64,20 @@ const RegisterEntity = () => {
   } = useForm({
     mode: 'onBlur',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
-    registerService.registerEntity(data).then(res => {
-      if (res.data) {
-        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-        localStorage.setItem('USER_ID', res.data.user_id);
-        router.push('/verify-email');
-      }
-    });
+    setIsSubmitting(true);
+    registerService
+      .registerEntity(data)
+      .then(res => {
+        if (res.data) {
+          localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+          localStorage.setItem('USER_ID', res.data.user_id);
+          router.push('/verify-email');
+          setIsSubmitting(false);
+        }
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   const watchRegisterCountry = watch('entityRegisterCountry');
@@ -495,13 +502,13 @@ const RegisterEntity = () => {
             </div>
             <div className="md:flex md:flex-row-reverse mt-10">
               <div className="animate__animated animate__fadeInLeft animate__delay-8s">
-                <button
+                <Button
                   type="submit"
+                  isDisabled={!validateFields() || isSubmitting}
+                  isLoading={isSubmitting}
+                  title="Submit"
                   className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  disabled={!validateFields()}
-                >
-                  Submit
-                </button>
+                />
               </div>
             </div>
           </div>

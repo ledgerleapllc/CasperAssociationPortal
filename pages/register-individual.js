@@ -11,6 +11,7 @@ import {
   TELEGRAM_PATTERN,
 } from '../helpers/form-validation';
 import RegisterService from '../services/register';
+import { Button } from '../components/partials/button';
 
 const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
@@ -29,12 +30,18 @@ const RegisterIndividual = () => {
   } = useForm({
     mode: 'onBlur',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
-    registerService.registerIndividual(data).then(res => {
-      localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-      localStorage.setItem('USER_ID', res.data.user_id);
-      router.push('/verify-email');
-    });
+    setIsSubmitting(true);
+    registerService
+      .registerIndividual(data)
+      .then(res => {
+        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+        localStorage.setItem('USER_ID', res.data.user_id);
+        router.push('/verify-email');
+        setIsSubmitting(false);
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   const validateFields = () => {
@@ -333,13 +340,13 @@ const RegisterIndividual = () => {
             </div>
             <div className="md:flex md:flex-row-reverse mt-10">
               <div className="animate__animated animate__fadeInLeft animate__delay-8s">
-                <button
+                <Button
                   type="submit"
+                  isDisabled={!validateFields() || isSubmitting}
+                  isLoading={isSubmitting}
+                  title="Submit"
                   className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  disabled={!validateFields()}
-                >
-                  Submit
-                </button>
+                />
               </div>
             </div>
           </div>

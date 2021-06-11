@@ -2,10 +2,12 @@ import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import AuthService from '../services/auth';
+import { Button } from '../components/partials/button';
 
 const authService = new AuthService();
 const ResetPassword = () => {
@@ -13,10 +15,16 @@ const ResetPassword = () => {
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
-    authService.resetPassword(data).then(res => {
-      router.push('/login');
-    });
+    setIsSubmitting(true);
+    authService
+      .resetPassword(data)
+      .then(res => {
+        router.push('/login');
+        setIsSubmitting(false);
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   return (
@@ -69,12 +77,13 @@ const ResetPassword = () => {
               )}
             </div>
             <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-              <button
+              <Button
                 type="submit"
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+                title="Submit"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              >
-                Submit
-              </button>
+              />
             </div>
             <Link href="/home">
               <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">

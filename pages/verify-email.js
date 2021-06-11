@@ -2,9 +2,11 @@ import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import AuthService from '../services/auth';
+import { Button } from '../components/partials/button';
 
 const authService = new AuthService();
 const VerifyEmail = () => {
@@ -12,10 +14,16 @@ const VerifyEmail = () => {
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
-    authService.verifyEmail(data).then(res => {
-      router.push('/welcome');
-    });
+    setIsSubmitting(true);
+    authService
+      .verifyEmail(data)
+      .then(res => {
+        router.push('/welcome');
+        setIsSubmitting(false);
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   const onResend2FaCode = () => {
@@ -70,21 +78,22 @@ const VerifyEmail = () => {
               )}
             </div>
             <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-              <button
+              <Button
                 type="submit"
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+                title="Verify"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              >
-                Verify
-              </button>
+              />
             </div>
             <a onClick={onResend2FaCode}>
               <p className="text-primary underline font-medium cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
-                <a>Resend 2fa Code</a>
+                Resend 2fa Code
               </p>
             </a>
             <Link href="/update-email">
               <p className="text-primary underline font-medium cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
-                <a>Update Email Address</a>
+                Update Email Address
               </p>
             </Link>
           </div>

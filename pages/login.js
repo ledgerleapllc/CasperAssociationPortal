@@ -2,25 +2,33 @@ import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import AuthService from '../services/auth';
+import { Button } from '../components/partials/button';
 
 const authService = new AuthService();
 const Login = () => {
   const { formState, register, handleSubmit } = useForm();
   const router = useRouter();
   const detectMobile = useMobileDetect();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = data => {
-    authService.login(data).then(res => {
-      if (res.data) {
-        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-        localStorage.setItem('USER_ID', res.data.user_id);
-        router.push('/dashboard');
-      }
-    });
+    setIsSubmitting(true);
+    authService
+      .login(data)
+      .then(res => {
+        if (res.data) {
+          localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+          localStorage.setItem('USER_ID', res.data.user_id);
+          router.push('/dashboard');
+          setIsSubmitting(false);
+        }
+      })
+      .catch(() => setIsSubmitting(false));
   };
 
   return (
@@ -92,12 +100,13 @@ const Login = () => {
               )}
             </div>
             <div className="md:flex md:space-x-5 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-              <button
+              <Button
                 type="submit"
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+                title="Sign in"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              >
-                Sign in
-              </button>
+              />
               <button
                 type="button"
                 className="mt-2 md:mt-0 text-lg border-2 border-primary text-primary w-full md:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
