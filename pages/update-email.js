@@ -23,7 +23,7 @@ const UpdateEmail = () => {
   const onSubmit = data => {
     authService.updateEmail(data).then(res => {
       if (res.data) {
-        router.push('/onboard');
+        router.push('/login');
       }
     });
   };
@@ -60,7 +60,7 @@ const UpdateEmail = () => {
             </p>
             <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
-                type="email"
+                type="text"
                 className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                 placeholder="Enter Updated Email"
                 name="email"
@@ -82,7 +82,7 @@ const UpdateEmail = () => {
             </div>
             <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
-                type="email"
+                type="text"
                 className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                 placeholder="Confirm Updated Email"
                 name="confirmEmail"

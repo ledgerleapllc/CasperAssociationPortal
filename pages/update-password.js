@@ -23,7 +23,9 @@ const UpdatePassword = () => {
   const [isUpdatedPassword, setIsUpdatedPassword] = useState(false);
 
   const onSubmit = data => {
-    authService.updatePassword(data).then(res => {
+    data.email = router.query.email;
+    data.code = router.query.code;
+    authService.updateNewPassword(data).then(res => {
       if (res.data) {
         setIsUpdatedPassword(true);
       }

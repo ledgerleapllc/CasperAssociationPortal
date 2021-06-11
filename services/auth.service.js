@@ -106,18 +106,18 @@ export default class AuthService {
     });
   }
 
-  updatePassword(data) {
-    const token = localStorage.getItem('ACCESS-TOKEN');
+  updateNewPassword(data) {
     const headers = {
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     const params = qs.stringify({
-      new_password: data.password,
+      code: data.code,
+      email: data.email,
+      password: data.password,
     });
     return new Promise((resolve, reject) => {
       this.http
-        .post(['users/change-password'], params, {
+        .post(['auth/reset-password'], params, {
           headers,
         })
         .then(response => {

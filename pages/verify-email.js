@@ -14,7 +14,7 @@ const VerifyEmail = () => {
 
   const onSubmit = data => {
     authService.verifyEmail(data).then(res => {
-      router.push('/onboard');
+      router.push('/welcome');
     });
   };
 

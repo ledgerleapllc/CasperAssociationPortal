@@ -50,7 +50,7 @@ const ResetPassword = () => {
             </p>
             <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
-                type="email"
+                type="text"
                 className="font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                 placeholder="Email"
                 name="email"
