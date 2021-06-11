@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import { EMAIL_PATTERN } from '../components/helpers/form-validation';
-import AuthService from '../components/services/auth.service';
+import { EMAIL_PATTERN } from '../helpers/form-validation';
+import AuthService from '../services/auth.service';
 
 const authService = new AuthService();
 const Login = () => {

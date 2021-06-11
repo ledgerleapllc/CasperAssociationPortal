@@ -11,8 +11,8 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
   ENTITY_PATTERN,
-} from '../components/helpers/form-validation';
-import RegisterService from '../components/services/register.service';
+} from '../helpers/form-validation';
+import RegisterService from '../services/register.service';
 
 const entityTypeList = [
   {

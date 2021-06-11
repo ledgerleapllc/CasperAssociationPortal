@@ -8,14 +8,23 @@ import { EMAIL_PATTERN } from '../helpers/form-validation';
 import AuthService from '../services/auth.service';
 
 const authService = new AuthService();
-const ResetPassword = () => {
-  const { formState, register, handleSubmit } = useForm();
+const UpdateEmail = () => {
+  const {
+    clearErrors,
+    formState,
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+  } = useForm();
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
   const onSubmit = data => {
-    authService.resetPassword(data).then(res => {
-      router.push('/login');
+    authService.updateEmail(data).then(res => {
+      if (res.data) {
+        router.push('/onboard');
+      }
     });
   };
 
@@ -42,17 +51,18 @@ const ResetPassword = () => {
               backgroundSize: 'cover',
             }}
           >
-            <p className="text-4xl text-center whitespace-pre-line animate__animated animate__fadeInUp">
-              Reset Your Password
+            <p className="text-4xl text-center animate__animated animate__fadeInUp">
+              Update Your Email Address
             </p>
             <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
-              Please enter your email to request a password reset link.
+              Please enter the email you want to change to. This will resend the
+              code to that email and update the email on your account as well.
             </p>
             <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
               <input
                 type="email"
-                className="font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
-                placeholder="Email"
+                className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                placeholder="Enter Updated Email"
                 name="email"
                 {...register('email', {
                   required: 'Email is required',
@@ -60,6 +70,8 @@ const ResetPassword = () => {
                     message: 'Email is invalid',
                     value: EMAIL_PATTERN,
                   },
+                  validate: value =>
+                    value === getValues().confirmEmail || 'Email not match',
                 })}
               />
               {formState.errors?.email && (
@@ -68,12 +80,38 @@ const ResetPassword = () => {
                 </p>
               )}
             </div>
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+              <input
+                type="email"
+                className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                placeholder="Confirm Updated Email"
+                name="confirmEmail"
+                {...register('confirmEmail', {
+                  required: 'Email Confirm is required',
+                  pattern: {
+                    message: 'Email Confirm is invalid',
+                    value: EMAIL_PATTERN,
+                  },
+                  validate: value =>
+                    value === getValues().email
+                      ? clearErrors('email')
+                      : setError('email', {
+                          message: 'Email not match',
+                        }),
+                })}
+              />
+              {formState.errors?.confirmEmail && (
+                <p className="pl-7 mt-2 text-primary text-left">
+                  {formState.errors.confirmEmail?.message}
+                </p>
+              )}
+            </div>
             <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
               <button
                 type="submit"
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               >
-                Submit
+                Update & Resend Code
               </button>
             </div>
             <Link href="/home">
@@ -96,4 +134,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default UpdateEmail;

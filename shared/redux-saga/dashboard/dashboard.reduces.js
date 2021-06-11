@@ -1,4 +1,4 @@
-import { createReducer } from '../helpers/reducer-factory';
+import { createReducer } from '../../../helpers/reducer-factory';
 
 const initialState = {
   data: null,

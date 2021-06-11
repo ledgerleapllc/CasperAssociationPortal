@@ -4,7 +4,7 @@ import LayoutDashboard from '../components/layouts/layout-dashboard';
 import { Card } from '../components/partials';
 import InfoRightHome from '../components/dashboard/info-right-home';
 import ContentHome from '../components/dashboard/content-home';
-import { getDashboardDataDemo } from '../components/dashboard/dashboard.actions';
+import { getDashboardDataDemo } from '../shared/redux-saga/dashboard/dashboard.actions';
 
 const Dashboard = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
 import AppFooter from '../components/layouts/app-footer';
@@ -9,8 +9,8 @@ import {
   PASSWORD_PATTERN,
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
-} from '../components/helpers/form-validation';
-import RegisterService from '../components/services/register.service';
+} from '../helpers/form-validation';
+import RegisterService from '../services/register.service';
 
 const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);

@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import { EMAIL_PATTERN } from '../components/helpers/form-validation';
-import AuthService from '../components/services/auth.service';
+import AuthService from '../services/auth.service';
 
 const authService = new AuthService();
 const VerifyEmail = () => {
@@ -17,6 +16,10 @@ const VerifyEmail = () => {
     authService.verifyEmail(data).then(res => {
       router.push('/onboard');
     });
+  };
+
+  const onResend2FaCode = () => {
+    authService.resend2FaCode();
   };
 
   return (
@@ -74,18 +77,14 @@ const VerifyEmail = () => {
                 Verify
               </button>
             </div>
-            <Link href="/home">
-              <p className="text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
-                <a className="text-primary underline font-medium">
-                  Resend 2fa Code
-                </a>
+            <a onClick={onResend2FaCode}>
+              <p className="text-primary underline font-medium cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+                <a>Resend 2fa Code</a>
               </p>
-            </Link>
-            <Link href="/home">
-              <p className="text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
-                <a className="text-primary underline font-medium">
-                  Update Email Address
-                </a>
+            </a>
+            <Link href="/update-email">
+              <p className="text-primary underline font-medium cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+                <a>Update Email Address</a>
               </p>
             </Link>
           </div>

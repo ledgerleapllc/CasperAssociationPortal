@@ -9,8 +9,8 @@ import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
 import { logger } from 'redux-logger';
 import { Provider } from 'react-redux';
-import appReducer from '../components/shared/app.reducers';
-import appMiddleware from '../components/shared/app.middleware';
+import appReducer from '../shared/redux-saga/app.reducers';
+import appMiddleware from '../shared/redux-saga/app.middleware';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
