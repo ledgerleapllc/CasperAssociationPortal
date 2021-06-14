@@ -13,16 +13,6 @@ function createURL(uri) {
   return uri.join('/');
 }
 
-function _handleRespond(request, resolve, reject) {
-  return request
-    .then(resp => {
-      resolve(resp.data);
-    })
-    .catch(err => {
-      reject(err);
-    });
-}
-
 const API_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 export class ApiService {
   axiosInstance;
@@ -38,38 +28,19 @@ export class ApiService {
     });
   }
 
-  get(uri, params = {}, moreConfigs = {}) {
-    return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.get(createURL(uri), {
-        params,
-        ...moreConfigs,
-      });
-      this._handleRespond(request, resolve, reject);
-    });
+  doGet(uri, data = {}, moreConfigs = {}) {
+    return this.axiosInstance.get(createURL(uri), data, moreConfigs);
   }
 
-  post(uri, data = {}, moreConfigs = {}) {
-    return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.post(
-        createURL(uri),
-        data,
-        moreConfigs
-      );
-      _handleRespond(request, resolve, reject);
-    });
+  doPost(uri, data = {}, moreConfigs = {}) {
+    return this.axiosInstance.post(createURL(uri), data, moreConfigs);
   }
 
-  put(uri, data = {}, moreConfigs = {}) {
-    return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.put(createURL(uri), data, moreConfigs);
-      _handleRespond(request, resolve, reject);
-    });
+  doPut(uri, data = {}, moreConfigs = {}) {
+    return this.axiosInstance.put(createURL(uri), data, moreConfigs);
   }
 
-  delete(uri, moreConfigs = {}) {
-    return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.delete(createURL(uri), moreConfigs);
-      _handleRespond(request, resolve, reject);
-    });
+  doDelete(uri, data = {}, moreConfigs = {}) {
+    return this.axiosInstance.delete(createURL(uri), data, moreConfigs);
   }
 }

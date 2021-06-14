@@ -3,13 +3,13 @@ import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
-import AuthService from '../services/auth';
 import { Button } from '../components/partials/button';
+import { updateEmail } from '../shared/redux-saga/auth/auth-actions';
 
-const authService = new AuthService();
 const UpdateEmail = () => {
   const {
     clearErrors,
@@ -19,21 +19,26 @@ const UpdateEmail = () => {
     getValues,
     setError,
   } = useForm();
+  const dispatch = useDispatch();
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
     setIsSubmitting(true);
-    authService
-      .updateEmail(data)
-      .then(res => {
-        if (res.data) {
+    dispatch(
+      updateEmail(
+        {
+          ...data,
+        },
+        () => {
           router.push('/login');
+        },
+        () => {
           setIsSubmitting(false);
         }
-      })
-      .catch(() => setIsSubmitting(false));
+      )
+    );
   };
 
   return (

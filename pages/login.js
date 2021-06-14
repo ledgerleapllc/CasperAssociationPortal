@@ -3,32 +3,35 @@ import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
-import AuthService from '../services/auth';
 import { Button } from '../components/partials/button';
+import { loginApp } from '../shared/redux-saga/auth/auth-actions';
 
-const authService = new AuthService();
 const Login = () => {
   const { formState, register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   const router = useRouter();
   const detectMobile = useMobileDetect();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = data => {
     setIsSubmitting(true);
-    authService
-      .login(data)
-      .then(res => {
-        if (res.data) {
-          localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-          localStorage.setItem('USER_ID', res.data.user_id);
+    dispatch(
+      loginApp(
+        {
+          ...data,
+        },
+        () => {
           router.push('/dashboard');
+        },
+        () => {
           setIsSubmitting(false);
         }
-      })
-      .catch(() => setIsSubmitting(false));
+      )
+    );
   };
 
   return (

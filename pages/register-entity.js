@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import Countries from '../public/json/country.json';
@@ -12,8 +13,8 @@ import {
   TELEGRAM_PATTERN,
   ENTITY_PATTERN,
 } from '../helpers/form-validation';
-import RegisterService from '../services/register';
 import { Button } from '../components/partials/button';
+import { registerEntity } from '../shared/redux-saga/auth/auth-actions';
 
 const entityTypeList = [
   {
@@ -49,7 +50,6 @@ const entityTypeList = [
 const RegisterEntity = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
-  const registerService = new RegisterService();
   const router = useRouter();
   const {
     control,
@@ -64,20 +64,23 @@ const RegisterEntity = () => {
   } = useForm({
     mode: 'onBlur',
   });
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
     setIsSubmitting(true);
-    registerService
-      .registerEntity(data)
-      .then(res => {
-        if (res.data) {
-          localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-          localStorage.setItem('USER_ID', res.data.user_id);
+    dispatch(
+      registerEntity(
+        {
+          ...data,
+        },
+        () => {
           router.push('/verify-email');
+        },
+        () => {
           setIsSubmitting(false);
         }
-      })
-      .catch(() => setIsSubmitting(false));
+      )
+    );
   };
 
   const watchRegisterCountry = watch('entityRegisterCountry');

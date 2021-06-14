@@ -3,31 +3,41 @@ import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import AuthService from '../services/auth';
 import { Button } from '../components/partials/button';
+import {
+  resend2FaCode,
+  verifyEmail,
+} from '../shared/redux-saga/auth/auth-actions';
 
-const authService = new AuthService();
 const VerifyEmail = () => {
   const { formState, register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   const router = useRouter();
   const detectMobile = useMobileDetect();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
     setIsSubmitting(true);
-    authService
-      .verifyEmail(data)
-      .then(res => {
-        router.push('/welcome');
-        setIsSubmitting(false);
-      })
-      .catch(() => setIsSubmitting(false));
+    dispatch(
+      verifyEmail(
+        {
+          ...data,
+        },
+        () => {
+          router.push('/welcome');
+        },
+        () => {
+          setIsSubmitting(false);
+        }
+      )
+    );
   };
 
   const onResend2FaCode = () => {
-    authService.resend2FaCode();
+    dispatch(resend2FaCode());
   };
 
   return (

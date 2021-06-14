@@ -3,13 +3,13 @@ import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { PASSWORD_PATTERN } from '../helpers/form-validation';
-import AuthService from '../services/auth';
 import { Button } from '../components/partials/button';
+import { updatePassword } from '../shared/redux-saga/auth/auth-actions';
 
-const authService = new AuthService();
 const UpdatePassword = () => {
   const {
     clearErrors,
@@ -19,6 +19,7 @@ const UpdatePassword = () => {
     getValues,
     setError,
   } = useForm();
+  const dispatch = useDispatch();
   const router = useRouter();
   const detectMobile = useMobileDetect();
   const [isUpdatedPassword, setIsUpdatedPassword] = useState(false);
@@ -28,15 +29,19 @@ const UpdatePassword = () => {
     setIsSubmitting(true);
     data.email = router.query.email;
     data.code = router.query.code;
-    authService
-      .updateNewPassword(data)
-      .then(res => {
-        if (res.data) {
+    dispatch(
+      updatePassword(
+        {
+          ...data,
+        },
+        () => {
           setIsUpdatedPassword(true);
+        },
+        () => {
           setIsSubmitting(false);
         }
-      })
-      .catch(() => setIsSubmitting(false));
+      )
+    );
   };
 
   return (

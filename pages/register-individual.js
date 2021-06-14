@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import {
@@ -10,13 +11,12 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
 } from '../helpers/form-validation';
-import RegisterService from '../services/register';
 import { Button } from '../components/partials/button';
+import { registerIndividual } from '../shared/redux-saga/auth/auth-actions';
 
 const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
-  const registerService = new RegisterService();
   const router = useRouter();
   const {
     control,
@@ -30,18 +30,23 @@ const RegisterIndividual = () => {
   } = useForm({
     mode: 'onBlur',
   });
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
     setIsSubmitting(true);
-    registerService
-      .registerIndividual(data)
-      .then(res => {
-        localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-        localStorage.setItem('USER_ID', res.data.user_id);
-        router.push('/verify-email');
-        setIsSubmitting(false);
-      })
-      .catch(() => setIsSubmitting(false));
+    dispatch(
+      registerIndividual(
+        {
+          ...data,
+        },
+        () => {
+          router.push('/verify-email');
+        },
+        () => {
+          setIsSubmitting(false);
+        }
+      )
+    );
   };
 
   const validateFields = () => {
