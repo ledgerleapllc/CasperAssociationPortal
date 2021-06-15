@@ -1,7 +1,7 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { post } from '../../core/saga-api';
-import { saveApiResponseError } from '../api-controller/api-controller-actions';
+import { saveApiResponseError } from '../api-controller/actions';
 
 export function* loginApp({ payload, callback, resetSubmitting }) {
   try {

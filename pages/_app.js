@@ -11,6 +11,8 @@ import { logger } from 'redux-logger';
 import { Provider } from 'react-redux';
 import appReducer from '../shared/redux-saga/app-reducers';
 import appMiddleware from '../shared/redux-saga/app-middleware';
+import { DialogProvider } from '../components/partials/dialog';
+import AppResolver from '../components/layouts/app-resolver';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
@@ -19,18 +21,21 @@ middleware.run(appMiddleware);
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider store={store}>
-      <Head>
-        <title>Casper Association Portal</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Casper Association Portal" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, user-scalable=no"
-        />
-      </Head>
-      <Component {...pageProps} />
-    </Provider>
+    <DialogProvider>
+      <Provider store={store}>
+        <Head>
+          <title>Casper Association Portal</title>
+          <link rel="icon" href="/favicon.ico" />
+          <meta name="description" content="Casper Association Portal" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, user-scalable=no"
+          />
+        </Head>
+        <Component {...pageProps} />
+        <AppResolver />
+      </Provider>
+    </DialogProvider>
   );
 }
 

@@ -12,6 +12,7 @@ const saveApiResponse = state => ({
 
 const saveApiResponseSuccess = (state, payload) => ({
   ...state,
+  hasError: false,
   response: payload,
 });
 
@@ -22,10 +23,16 @@ const saveApiResponseError = (state, payload) => ({
   statusError: payload.statusCode,
 });
 
+const clearApiResponseError = () => ({
+  response: null,
+  statusError: null,
+});
+
 const strategiesList = {
   ['SAVE_API_RESPONSE']: saveApiResponse,
   ['SAVE_API_RESPONSE_SUCCESS']: saveApiResponseSuccess,
   ['SAVE_API_RESPONSE_ERROR']: saveApiResponseError,
+  ['CLEAR_API_RESPONSE_ERROR']: clearApiResponseError,
   __default__: state => state,
 };
 
