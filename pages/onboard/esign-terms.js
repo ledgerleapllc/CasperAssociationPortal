@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
+import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedDocument, setSelectedDocument] = useState(null);
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -35,8 +38,12 @@ const EsignTerms = () => {
       );
       steps.step1 = true;
       localStorage.setItem('steps', JSON.stringify(steps));
-    } else {
-      setCurrentStep(currentStep + 1);
+    } else if (currentStep === 1) {
+      dispatch(
+        helloSignRequest(() => {
+          setCurrentStep(currentStep + 1);
+        })
+      );
     }
   };
 

@@ -17,6 +17,7 @@ const VerifyNodeOwnershipFirstStep = ({ isVerified, onSubmit }) => {
         <input
           type="text"
           className="w-full h-16 text-xl px-7 md:pr-72 rounded-full shadow-md focus:outline-none"
+          readOnly={isVerified}
           value={publicAddress}
           onChange={e => setPublicAddress(e.target.value)}
         />

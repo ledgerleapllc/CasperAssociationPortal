@@ -12,8 +12,9 @@ const EsignTermsFirstStep = ({
       electronic signature
     </p>
     <div className="mt-10 flex flex-wrap space-x-10">
-      {documents.map(document => (
+      {documents.map((document, index) => (
         <button
+          key={index}
           type="button"
           className="text-center focus:outline-none"
           onClick={() => onDocumentSelect(document)}

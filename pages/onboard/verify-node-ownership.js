@@ -1,19 +1,39 @@
 import { useRouter } from 'next/router';
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
+import {
+  submitPublicAddress,
+  verifyFileCasperSigner,
+} from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
+  const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
+  const [publicAddress, setPublicAddress] = useState(null);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
+
+  const regex_ed22519 = /^01[0-9a-fA-F]{64}$/;
+  const regex_secp256k1 = /^02[0-9a-fA-F]{66}$/;
+
+  const check_validator_public_key_regex = pub_key => {
+    if (regex_ed22519.test(pub_key)) {
+      return 'valid_ed25519';
+    }
+    if (regex_secp256k1.test(pub_key)) {
+      return 'valid_secp256k1';
+    }
+    return false;
+  };
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -29,7 +49,16 @@ const VerifyNodeOwnership = () => {
     console.log(acceptedFiles);
     handleUpload('close');
     setShowUploadModal(false);
-    setSignedFileUploaded(true);
+    dispatch(
+      verifyFileCasperSigner(
+        {
+          acceptedFiles,
+        },
+        () => {
+          setSignedFileUploaded(true);
+        }
+      )
+    );
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
@@ -58,8 +87,21 @@ const VerifyNodeOwnership = () => {
       );
       steps.step2 = true;
       localStorage.setItem('steps', JSON.stringify(steps));
-    } else {
-      setCurrentStep(currentStep + 1);
+    } else if (currentStep === 1) {
+      dispatch(
+        submitPublicAddress(
+          {
+            publicAddress,
+          },
+          () => {
+            setCurrentStep(currentStep + 1);
+          }
+        )
+      );
+    } else if (currentStep === 2) {
+      if (signedFileUploaded) {
+        setCurrentStep(currentStep + 1);
+      }
     }
   };
 
@@ -75,9 +117,12 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 1) {
       return (
         <VerifyNodeOwnershipFirstStep
-          onSubmit={publicAddress => {
-            console.log(publicAddress);
-            setPublicAddressVerified(true);
+          onSubmit={pbAddress => {
+            console.log(pbAddress);
+            if (check_validator_public_key_regex(pbAddress) !== false) {
+              setPublicAddress(pbAddress);
+              setPublicAddressVerified(true);
+            }
           }}
           isVerified={publicAddressVerified}
         />

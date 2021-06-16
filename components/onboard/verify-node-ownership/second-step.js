@@ -23,7 +23,9 @@ const VerifyNodeOwnershipSecondStep = ({
             type="button"
             className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
           >
-            Download
+            <a href="/files/SAMPLE.pdf" download>
+              Download
+            </a>
           </button>
         </div>
       </div>
