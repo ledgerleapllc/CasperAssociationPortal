@@ -20,6 +20,7 @@
     "chart.js": "^3.0.0",
     "date-fns": "^2.22.1",
     "dotenv": "^10.0.0",
+    "hellosign-embedded": "^2.9.0",
     "next": "10.2.0",
     "postcss": "^8.2.15",
     "qs": "^6.10.1",

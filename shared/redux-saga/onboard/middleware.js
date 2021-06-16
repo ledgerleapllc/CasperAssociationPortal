@@ -10,14 +10,14 @@ export function* helloSignRequest({ callback }) {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    yield post(['users/hellosign-request'], null, { headers });
-    callback();
+    const res = yield post(['users/hellosign-request'], null, { headers });
+    callback(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* submitPublicAddress({ payload, callback }) {
+export function* submitPublicAddress({ payload, callback, isVerifying }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -25,12 +25,14 @@ export function* submitPublicAddress({ payload, callback }) {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     const params = qs.stringify({
-      public_address: payload.publicAddress,
+      public_address: payload,
     });
     yield post(['users/submit-public-address'], params, { headers });
     callback();
+    isVerifying();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    isVerifying();
   }
 }
 

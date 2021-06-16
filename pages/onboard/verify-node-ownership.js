@@ -8,32 +8,15 @@ import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
-import {
-  submitPublicAddress,
-  verifyFileCasperSigner,
-} from '../../shared/redux-saga/onboard/actions';
+import { verifyFileCasperSigner } from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
-  const [publicAddress, setPublicAddress] = useState(null);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
-
-  const regex_ed22519 = /^01[0-9a-fA-F]{64}$/;
-  const regex_secp256k1 = /^02[0-9a-fA-F]{66}$/;
-
-  const check_validator_public_key_regex = pub_key => {
-    if (regex_ed22519.test(pub_key)) {
-      return 'valid_ed25519';
-    }
-    if (regex_secp256k1.test(pub_key)) {
-      return 'valid_secp256k1';
-    }
-    return false;
-  };
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -87,21 +70,8 @@ const VerifyNodeOwnership = () => {
       );
       steps.step2 = true;
       localStorage.setItem('steps', JSON.stringify(steps));
-    } else if (currentStep === 1) {
-      dispatch(
-        submitPublicAddress(
-          {
-            publicAddress,
-          },
-          () => {
-            setCurrentStep(currentStep + 1);
-          }
-        )
-      );
-    } else if (currentStep === 2) {
-      if (signedFileUploaded) {
-        setCurrentStep(currentStep + 1);
-      }
+    } else {
+      setCurrentStep(currentStep + 1);
     }
   };
 
@@ -117,13 +87,7 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 1) {
       return (
         <VerifyNodeOwnershipFirstStep
-          onSubmit={pbAddress => {
-            console.log(pbAddress);
-            if (check_validator_public_key_regex(pbAddress) !== false) {
-              setPublicAddress(pbAddress);
-              setPublicAddressVerified(true);
-            }
-          }}
+          setPublicAddressVerified={setPublicAddressVerified}
           isVerified={publicAddressVerified}
         />
       );

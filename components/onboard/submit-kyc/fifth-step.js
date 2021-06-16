@@ -12,7 +12,7 @@ const defaultValues = {
   ],
 };
 
-const SubmitKYCFifthStep = ({ onNext }) => {
+const SubmitKYCFifthStep = ({ onNext, onHasOwner }) => {
   const {
     control,
     formState,
@@ -29,7 +29,12 @@ const SubmitKYCFifthStep = ({ onNext }) => {
   const checkKeyDown = e => {
     if (e.code === 'Enter') e.preventDefault();
   };
-  const onSubmit = data => console.log('data', data);
+
+  const onSubmit = data => {
+    if (data?.form?.length > 0) {
+      onHasOwner();
+    }
+  };
 
   return (
     <div className="pt-8">

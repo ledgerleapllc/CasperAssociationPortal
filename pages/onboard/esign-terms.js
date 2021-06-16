@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import HelloSign from 'hellosign-embedded';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
@@ -12,6 +13,9 @@ const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const dispatch = useDispatch();
+  const client = new HelloSign({
+    clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
+  });
 
   const router = useRouter();
 
@@ -40,8 +44,9 @@ const EsignTerms = () => {
       localStorage.setItem('steps', JSON.stringify(steps));
     } else if (currentStep === 1) {
       dispatch(
-        helloSignRequest(() => {
+        helloSignRequest((res) => {
           setCurrentStep(currentStep + 1);
+          // client.open(res.data.url);
         })
       );
     }

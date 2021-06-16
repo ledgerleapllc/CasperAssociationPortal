@@ -154,13 +154,27 @@ export default function FieldArrayFormCSPR({
                     {`${getValues(`form[${index}].cspr`)}%`}
                   </span>
                 ) : (
-                  <input
-                    type="number"
-                    className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-b
-                    focus:outline-none placeholder-gray-50`}
-                    placeholder="% of CSPR"
-                    {...register(`form.${index}.cspr`)}
-                  />
+                  <div className="flex flex-col items-baseline">
+                    <input
+                      type="number"
+                      className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-b
+                      focus:outline-none placeholder-gray-50`}
+                      placeholder="% of CSPR"
+                      {...register(`form.${index}.cspr`, {
+                        required: true,
+                        min: {
+                          value: 25,
+                          message: 'The owner should hold atleast 25% or more',
+                        },
+                      })}
+                    />
+                    {formState.errors.form &&
+                      formState.errors.form[index].cspr && (
+                        <p className="ml-7 md:ml-0 mt-2 text-primary md:text-xs">
+                          {formState.errors.form[index].cspr.message}
+                        </p>
+                      )}
+                  </div>
                 )}
                 <div className="flex items-center mt-3 ml-4 md:ml-0">
                   <label className="relative pl-8 inline-flex items-center mr-6">

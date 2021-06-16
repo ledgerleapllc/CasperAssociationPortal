@@ -3,9 +3,10 @@ export const helloSignRequest = callback => ({
   callback,
 });
 
-export const submitPublicAddress = (payload, callback) => ({
+export const submitPublicAddress = (payload, callback, isVerifying) => ({
   type: 'SUBMIT_PUBLIC_ADDRESS',
   callback,
+  isVerifying,
   payload,
 });
 

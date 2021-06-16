@@ -32,7 +32,7 @@ const UpdateEmail = () => {
           ...data,
         },
         () => {
-          router.push('/login');
+          router.push('/verify-email');
         },
         () => {
           setIsSubmitting(false);
@@ -128,12 +128,12 @@ const UpdateEmail = () => {
                 className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               />
             </div>
-            <Link href="/home">
+            <Link href="/verify-email">
               <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
                 <img
                   src="/images/ic_decline.svg"
                   className="mr-2"
-                  alt="Go home page"
+                  alt="Go verify email"
                 />
                 <a className="text-primary underline font-medium">
                   Cancel and go back

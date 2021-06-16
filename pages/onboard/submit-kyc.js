@@ -15,6 +15,7 @@ const SubmitKYC = () => {
   const [submitType, setSubmitType] = useState(null);
   const [information, setInformation] = useState(null);
   const [beginKYC, setBeginKYC] = useState(null);
+  const [hasOwner, setHasOwner] = useState(false);
 
   const router = useRouter();
 
@@ -50,6 +51,10 @@ const SubmitKYC = () => {
 
   const handleBeginKYC = () => {
     setBeginKYC(true);
+  };
+
+  const handleHasOwner = () => {
+    setHasOwner(true);
   };
 
   const getNextButtonTitle = () => {
@@ -104,7 +109,12 @@ const SubmitKYC = () => {
     }
 
     if (currentStep === 5) {
-      return <SubmitKYCFifthStep onNext={() => handleNext()} />;
+      return (
+        <SubmitKYCFifthStep
+          onNext={() => handleNext()}
+          onHasOwner={handleHasOwner}
+        />
+      );
     }
 
     if (currentStep === 6) {
@@ -117,6 +127,9 @@ const SubmitKYC = () => {
   const getNextButtonVisibility = () => {
     if (currentStep === 3) {
       return !!beginKYC;
+    }
+    if (currentStep === 5) {
+      return !!hasOwner;
     }
     return true;
   };
