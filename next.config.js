@@ -10,7 +10,7 @@ module.exports = {
   },
   images: {
     loader: 'imgix',
-    path: 'http://caspermember.com/',
+    path: 'https://caspermember.com/',
   },
   async redirects() {
     return [
