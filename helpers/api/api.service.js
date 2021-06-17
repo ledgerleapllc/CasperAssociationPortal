@@ -28,8 +28,8 @@ export class ApiService {
     });
   }
 
-  doGet(uri, data = {}, moreConfigs = {}) {
-    return this.axiosInstance.get(createURL(uri), data, moreConfigs);
+  doGet(uri, moreConfigs = {}) {
+    return this.axiosInstance.get(createURL(uri), moreConfigs);
   }
 
   doPost(uri, data = {}, moreConfigs = {}) {

@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import HelloSign from 'hellosign-embedded';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
@@ -9,13 +8,34 @@ import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-st
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 
+// Create the HelloSign Embedded instance.
+// Only do this once!
+
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedDocument, setSelectedDocument] = useState(null);
+  const [client, setClient] = useState(null);
   const dispatch = useDispatch();
-  const client = new HelloSign({
-    clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
-  });
+
+  useEffect(() => {
+    const HelloSign = require("hellosign-embedded");
+
+    setClient(
+      new HelloSign({
+        clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (client) {
+      client.on('sign', () => {
+        // data: signatureId
+        client.close();
+        setCurrentStep(currentStep + 1);
+      });
+    }
+  }, [client]);
 
   const router = useRouter();
 
@@ -44,9 +64,12 @@ const EsignTerms = () => {
       localStorage.setItem('steps', JSON.stringify(steps));
     } else if (currentStep === 1) {
       dispatch(
-        helloSignRequest((res) => {
-          setCurrentStep(currentStep + 1);
-          // client.open(res.data.url);
+        helloSignRequest(res => {
+          // setCurrentStep(currentStep + 1);
+          client.open(res.data.url, {
+            clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
+            skipDomainVerification: true,
+          });
         })
       );
     }

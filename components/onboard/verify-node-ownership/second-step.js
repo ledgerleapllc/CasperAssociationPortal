@@ -4,6 +4,7 @@ const VerifyNodeOwnershipSecondStep = ({
   isUploaded,
   onUpload,
   onContinue,
+  onHandleViewGuide,
 }) => (
   <div className="pt-8">
     <p className="text-2.5xl animate__animated animate__fadeInLeft animate__delay-2s">
@@ -38,6 +39,7 @@ const VerifyNodeOwnershipSecondStep = ({
           <button
             type="button"
             className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
+            onClick={onHandleViewGuide}
           >
             View Guide
           </button>

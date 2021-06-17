@@ -8,7 +8,10 @@ import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
-import { verifyFileCasperSigner } from '../../shared/redux-saga/onboard/actions';
+import {
+  verifyFileCasperSigner,
+  handleViewGuide,
+} from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
@@ -29,13 +32,20 @@ const VerifyNodeOwnership = () => {
   };
 
   const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles);
+    const fileConvert = acceptedFiles[0];
+    const fileName = 'signature';
+    const optionNewFile = {
+      lastModified: fileConvert.lastModified,
+      lastModifiedDate: fileConvert.lastModifiedDate,
+      type: fileConvert.type,
+    };
+    const newFile = new File([fileConvert], fileName, optionNewFile);
     handleUpload('close');
     setShowUploadModal(false);
     dispatch(
       verifyFileCasperSigner(
         {
-          acceptedFiles,
+          newFile,
         },
         () => {
           setSignedFileUploaded(true);
@@ -44,7 +54,10 @@ const VerifyNodeOwnership = () => {
     );
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    onDrop,
+  });
 
   const router = useRouter();
 
@@ -83,6 +96,10 @@ const VerifyNodeOwnership = () => {
     return 'Next';
   };
 
+  const onHandleViewGuide = () => {
+    dispatch(handleViewGuide());
+  };
+
   const getStepContent = () => {
     if (currentStep === 1) {
       return (
@@ -99,6 +116,7 @@ const VerifyNodeOwnership = () => {
             isUploaded={signedFileUploaded}
             onUpload={() => handleUpload('open')}
             onContinue={handleNext}
+            onHandleViewGuide={() => onHandleViewGuide()}
           />
           {showUploadModal && (
             <>

@@ -15,3 +15,7 @@ export const verifyFileCasperSigner = (payload, callback) => ({
   callback,
   payload,
 });
+
+export const handleViewGuide = () => ({
+  type: 'HANDLE_VIEW_GUIDE',
+});
