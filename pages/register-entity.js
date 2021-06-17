@@ -309,7 +309,9 @@ const RegisterEntity = () => {
                         value: EMAIL_PATTERN,
                       },
                       validate: value =>
-                        value === getValues().confirmEmail || 'Email not match',
+                        value === getValues().confirmEmail ||
+                        !formState.touchedFields.confirmEmail ||
+                        'Email not match',
                     })}
                   />
                   {formState.errors?.email && (
@@ -364,6 +366,7 @@ const RegisterEntity = () => {
                       },
                       validate: value =>
                         value === getValues().confirmPassword ||
+                        !formState.touchedFields.confirmPassword ||
                         'Password not match',
                     })}
                   />
