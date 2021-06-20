@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
-import { demoDataReducer } from './dashboard/dashboard-reduces';
-import { apiControllerReducer } from './api-controller/reduces';
+import { membersReducer } from './admin/reducers';
+import { demoDataReducer } from './dashboard/dashboard-reducers';
+import { apiControllerReducer } from './api-controller/reducers';
 
-const appReducer = combineReducers({ apiControllerReducer, demoDataReducer });
+const appReducer = combineReducers({
+  apiControllerReducer,
+  demoDataReducer,
+  membersReducer,
+});
 
 export default appReducer;

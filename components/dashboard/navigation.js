@@ -3,13 +3,13 @@ import AppHeader from '../layouts/app-header';
 
 const Navigation = () => (
   <>
-    <Card className="flex-col w-24 px-5 hidden lg:flex h-full">
+    <Card className="flex-col w-24 px-5 hidden lg:flex h-full overflow-y-scroll">
       <img
         className="py-6 border-b-2 border-primary align-center"
         src="/images/ic_logo_home.svg"
         alt="Casper"
       />
-      <ul className="flex flex-col items-center">
+      <ul className="mb-4 flex flex-col items-center border-b-2 border-primary">
         <li className="pb-4 pt-14">
           <ActiveLink activeClassName="shadow-activeLink" href="/dashboard">
             <a className="rounded-lg inline-block">
@@ -17,7 +17,7 @@ const Navigation = () => (
             </a>
           </ActiveLink>
         </li>
-        <li className="py-4">
+        <li className="py-2">
           <ActiveLink
             activeClassName="shadow-activeLink"
             href="/dashboard/nodes"
@@ -31,7 +31,7 @@ const Navigation = () => (
             </a>
           </ActiveLink>
         </li>
-        <li className="py-4">
+        <li className="py-2">
           <ActiveLink
             activeClassName="shadow-activeLink"
             href="/dashboard/discussion"
@@ -45,7 +45,7 @@ const Navigation = () => (
             </a>
           </ActiveLink>
         </li>
-        <li className="py-4">
+        <li className="py-2">
           <ActiveLink
             activeClassName="shadow-activeLink"
             href="/dashboard/votes"
@@ -59,7 +59,7 @@ const Navigation = () => (
             </a>
           </ActiveLink>
         </li>
-        <li className="py-4">
+        <li className="py-2">
           <ActiveLink
             activeClassName="shadow-activeLink"
             href="/dashboard/member-perks"
@@ -73,7 +73,7 @@ const Navigation = () => (
             </a>
           </ActiveLink>
         </li>
-        <li className="pt-4">
+        <li className="pt-2">
           <ActiveLink
             activeClassName="shadow-activeLink"
             href="/dashboard/settings"
@@ -85,6 +85,38 @@ const Navigation = () => (
                 alt="Setting"
               />
             </a>
+          </ActiveLink>
+        </li>
+      </ul>
+      <ul className="flex flex-col pb-4">
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin">
+            <p>Admin</p>
+          </ActiveLink>
+        </li>
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin/intake">
+            <p>Instake</p>
+          </ActiveLink>
+        </li>
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin/users">
+            <p>Users</p>
+          </ActiveLink>
+        </li>
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin/ballots">
+            <p>Ballots</p>
+          </ActiveLink>
+        </li>
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin/perks">
+            <p>Perks</p>
+          </ActiveLink>
+        </li>
+        <li className="py-1.5 cursor-pointer">
+          <ActiveLink activeClassName="text-primary" href="/admin/settings">
+            <p>Settings</p>
           </ActiveLink>
         </li>
       </ul>

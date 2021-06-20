@@ -75,6 +75,14 @@ const EsignTerms = () => {
     }
   };
 
+  const handleByPass = () => {
+    dispatch(
+      helloSignRequest(res => {
+        setCurrentStep(currentStep + 1);
+      })
+    );
+  };
+
   const getNextButtonTitle = () => {
     if (currentStep === 1) {
       return 'Go to Esign';
@@ -86,13 +94,22 @@ const EsignTerms = () => {
   const getStepContent = () => {
     if (currentStep === 1) {
       return (
-        <EsignTermsFirstStep
-          documents={documents}
-          selectedDocument={selectedDocument}
-          onDocumentSelect={document =>
-            setSelectedDocument(selectedDocument === document ? null : document)
-          }
-        />
+        <>
+          <EsignTermsFirstStep
+            documents={documents}
+            selectedDocument={selectedDocument}
+            onDocumentSelect={document =>
+              setSelectedDocument(
+                selectedDocument === document ? null : document
+              )
+            }
+          />
+          <div className="mt-8 text-primary">
+            <a className="cursor-pointer" onClick={handleByPass}>
+              By Pass
+            </a>
+          </div>
+        </>
       );
     }
 
