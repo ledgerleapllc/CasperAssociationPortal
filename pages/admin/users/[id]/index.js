@@ -6,13 +6,14 @@ import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 
-const AdminUserDetail = ({ userId }) => {
+const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { id } = router.query;
   const userDetail = useSelector(state => state.userDetailReducer.data);
   useEffect(() => {
-    if (userId) {
-      dispatch(getUserDetail(userId));
+    if (id) {
+      dispatch(getUserDetail(id));
     }
   }, []);
   return (
@@ -203,7 +204,7 @@ const AdminUserDetail = ({ userId }) => {
                 <p className="text-sm w-5/6">
                   Approved
                   <a
-                    href={`/admin/users/${userId}/kyc-aml-detail`}
+                    href={`/admin/users/${id}/kyc-aml-detail`}
                     className="pl-3 text-primary cursor-pointer underline"
                   >
                     View Details
@@ -230,12 +231,3 @@ const AdminUserDetail = ({ userId }) => {
 };
 
 export default AdminUserDetail;
-
-export const getServerSideProps = async context => {
-  try {
-    const userId = context.query.id;
-    return { props: { userId } };
-  } catch (err) {
-    return { props: { errors: err.message } };
-  }
-};

@@ -1,11 +1,10 @@
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card } from '../../../../components/partials';
 
-const KycAmlDetail = ({ userId }) => {
-  const dispatch = useDispatch();
+const KycAmlDetail = () => {
   const router = useRouter();
+  const { id } = router.query;
   return (
     <LayoutDashboard>
       <Card className="h-full px-24 py-14">
@@ -15,7 +14,7 @@ const KycAmlDetail = ({ userId }) => {
               <button
                 type="button"
                 className="flex items-center w-max focus:outline-none mb-5"
-                onClick={() => router.push(`/admin/users/${userId}`)}
+                onClick={() => router.push(`/admin/users/${id}`)}
               >
                 <img
                   src="/images/ic_prev_circle.svg"
@@ -168,12 +167,3 @@ const KycAmlDetail = ({ userId }) => {
 };
 
 export default KycAmlDetail;
-
-export const getServerSideProps = async context => {
-  try {
-    const userId = context.query.id;
-    return { props: { userId } };
-  } catch (err) {
-    return { props: { errors: err.message } };
-  }
-};
