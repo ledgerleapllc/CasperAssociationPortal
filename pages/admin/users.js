@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
-import { getListMembers } from '../../shared/redux-saga/admin/action';
+import { getListMembers } from '../../shared/redux-saga/admin/actions';
 
 const AdminUserList = () => {
   const dispatch = useDispatch();

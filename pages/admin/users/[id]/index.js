@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getListMembers } from '../../../shared/redux-saga/admin/action';
-import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card } from '../../../components/partials';
+import { getUserDetail } from '../../../../shared/redux-saga/admin/actions';
+import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
+import { Card } from '../../../../components/partials';
+import Countries from '../../../../public/json/country.json';
 
-const AdminUserDetail = () => {
-  // const dispatch = useDispatch();
+const AdminUserDetail = ({ userId }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
-  // const members = useSelector(state => state.membersReducer.data);
-  // useEffect(() => {
-  //   dispatch(getListMembers({ limit: 999 }));
-  // }, []);
+  const userDetail = useSelector(state => state.userDetailReducer.data);
+  useEffect(() => {
+    if (userId) {
+      dispatch(getUserDetail(userId));
+    }
+  }, []);
   return (
     <LayoutDashboard>
       <Card className="h-full px-24 py-14">
@@ -20,7 +23,7 @@ const AdminUserDetail = () => {
             <div className="lg:h-70px flex flex-col justify-center">
               <button
                 type="button"
-                className="flex items-center focus:outline-none pb-5"
+                className="flex items-center w-max focus:outline-none mb-5"
                 onClick={() => router.push('/admin/users')}
               >
                 <img
@@ -33,7 +36,7 @@ const AdminUserDetail = () => {
                 <span className="text-primary text-sm">Back</span>
               </button>
               <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-                {`User details for user {email address of user}`}
+                {`User details for user ${userDetail?.email}`}
               </h3>
               <p className="text-sm text-gray pb-3.5">
                 User details are displayed below with admin functions for user
@@ -45,66 +48,79 @@ const AdminUserDetail = () => {
           <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll">
             <div className="flex flex-row py-7 border-b border-gray">
               <p className="text-lg font-medium">User Status:</p>
-              <p className="text-lg font-medium pl-2">ACTIVE</p>
+              <p className="text-lg font-medium pl-2">
+                {userDetail?.member_status?.toUpperCase()}
+              </p>
             </div>
             {/* User Info */}
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-base font-medium pb-5">User Info</p>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">Email:</p>
-                <p className="text-sm w-5/6">jstone123@gmail.com</p>
+                <p className="text-sm w-5/6">{userDetail?.email}</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">User Id:</p>
-                <p className="text-sm w-5/6">2</p>
+                <p className="text-sm w-5/6">{userDetail?.id}</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">First Name:</p>
-                <p className="text-sm w-5/6">Jason</p>
+                <p className="text-sm w-5/6">{userDetail?.first_name}</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">Last Name:</p>
-                <p className="text-sm w-5/6">Stone</p>
+                <p className="text-sm w-5/6">{userDetail?.last_name}</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">Forum Username:</p>
-                <p className="text-sm w-5/6">bigjstone123</p>
+                <p className="text-sm w-5/6">{userDetail?.pseudonym}</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">Telegram:</p>
-                <p className="text-sm w-5/6">@bigjaystone</p>
+                <p className="text-sm w-5/6">{userDetail?.telegram}</p>
               </div>
             </div>
             {/* Company Info */}
-            <div className="flex flex-col py-7 border-b border-gray">
-              <p className="text-base font-medium pb-5">Company Info</p>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">Entity Name:</p>
-                <p className="text-sm w-5/6">Jay Stone Computing LLC.</p>
+            {userDetail?.type === 'Entity' && (
+              <div className="flex flex-col py-7 border-b border-gray">
+                <p className="text-base font-medium pb-5">Company Info</p>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">Entity Name:</p>
+                  <p className="text-sm w-5/6">{userDetail?.entity_name}</p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">Entity Type:</p>
+                  <p className="text-sm w-5/6">{userDetail?.entity_type}</p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">
+                    Registration Country:
+                  </p>
+                  <p className="text-sm w-5/6">
+                    {
+                      Countries.find(
+                        country =>
+                          country.code === userDetail?.entity_register_country
+                      ).name
+                    }
+                  </p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">
+                    Registration Number:
+                  </p>
+                  <p className="text-sm w-5/6">
+                    {userDetail?.entity_register_number}
+                  </p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">
+                    Tax ID or VAT Number:
+                  </p>
+                  <p className="text-sm w-5/6">{userDetail?.entity_tax}</p>
+                </div>
               </div>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">Entity Type:</p>
-                <p className="text-sm w-5/6">LLC</p>
-              </div>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">
-                  Registration Country:
-                </p>
-                <p className="text-sm w-5/6">United States</p>
-              </div>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">
-                  Registration Number:
-                </p>
-                <p className="text-sm w-5/6">21-321761683726</p>
-              </div>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">
-                  Tax ID or VAT Number:
-                </p>
-                <p className="text-sm w-5/6">684821494</p>
-              </div>
-            </div>
+            )}
             {/* Node Info */}
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-base font-medium pb-5">Node Info</p>
@@ -186,9 +202,12 @@ const AdminUserDetail = () => {
                 </p>
                 <p className="text-sm w-5/6">
                   Approved
-                  <span className="pl-3 text-primary underline">
+                  <a
+                    href={`/admin/users/${userId}/kyc-aml-detail`}
+                    className="pl-3 text-primary cursor-pointer underline"
+                  >
                     View Details
-                  </span>
+                  </a>
                 </p>
               </div>
               <div className="flex flex-row py-1">
@@ -211,3 +230,12 @@ const AdminUserDetail = () => {
 };
 
 export default AdminUserDetail;
+
+export const getServerSideProps = async context => {
+  try {
+    const userId = context.query.id;
+    return { props: { userId } };
+  } catch (err) {
+    return { props: { errors: err.message } };
+  }
+};
