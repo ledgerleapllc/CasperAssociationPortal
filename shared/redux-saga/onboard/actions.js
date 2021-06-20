@@ -9,6 +9,17 @@ export const submitKYC = (payload, resolve) => ({
   resolve,
 });
 
+export const saveShuftiproTemp = payload => ({
+  type: 'SAVE_SHUFTI',
+  payload,
+});
+
+export const updateShuftiproTemp = (payload, resolve) => ({
+  type: 'UPDATE_SHUFTI',
+  payload,
+  resolve,
+});
+
 export const submitPublicAddress = (payload, callback, isVerifying) => ({
   type: 'SUBMIT_PUBLIC_ADDRESS',
   callback,

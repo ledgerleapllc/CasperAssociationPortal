@@ -10,6 +10,8 @@ import SubmitKYCFourthStep from '../../components/onboard/submit-kyc/fourth-step
 import SubmitKYCFifthStep from '../../components/onboard/submit-kyc/fifth-step';
 import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
+import { useDialog } from '../../components/partials/dialog';
+import { Shuftipro } from '../../components/onboard/submit-kyc/shuftipro';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,6 +20,7 @@ const SubmitKYC = () => {
   const [beginKYC, setBeginKYC] = useState(null);
   const [hasOwner, setHasOwner] = useState(false);
   const submitBtnStep2 = useRef(null);
+  const { setDialog } = useDialog();
 
   const router = useRouter();
 
@@ -57,7 +60,28 @@ const SubmitKYC = () => {
   };
 
   const handleBeginKYC = () => {
-    setBeginKYC(true);
+    setDialog({
+      type: 'Dialog',
+      settings: {
+        style: {
+          height: '90vh',
+          width: '90%',
+          maxWidth: '800px',
+          overflow: 'scroll',
+        },
+        hideButton: true,
+      },
+      data: {
+        title: 'KYC',
+        content: <Shuftipro />,
+      },
+      afterClosed: (value) => {
+        console.log(value);
+        if (value === 'verified') {
+          setBeginKYC(true);
+        }
+      },
+    });
   };
 
   const handleHasOwner = () => {

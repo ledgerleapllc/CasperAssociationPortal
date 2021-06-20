@@ -36,8 +36,8 @@ const Container = props => {
 
 function MyApp({ Component, pageProps }) {
   return (
-    <DialogProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <DialogProvider>
         <Head>
           <title>Casper Association Portal</title>
           <link rel="icon" href="/favicon.ico" />
@@ -51,8 +51,8 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </Container>
         <AppResolver />
-      </Provider>
-    </DialogProvider>
+      </DialogProvider>
+    </Provider>
   );
 }
 

@@ -1,4 +1,5 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
+import { post, put as putApi } from '../../core/saga-api';
 import qs from 'qs';
 import { get, post } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -79,10 +80,37 @@ export function* submitKYC({ payload, resolve }) {
   }
 }
 
+export function* saveShuftiproTemp({ payload }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield post(['users/shuftipro-temp'], payload, { headers });
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateShuftiproTemp({ payload, resolve }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield putApi(['users/shuftipro-temp'], payload, { headers });
+    resolve();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
   yield all([takeLatest('HANDLE_VIEW_GUIDE', handleViewGuide)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
+  yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
+  yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
 }

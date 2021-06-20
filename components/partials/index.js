@@ -5,6 +5,7 @@ import Editor from './editor';
 import BackButton from './back-button';
 import ToggleButton from './toggle-button';
 import DateTimePicker from './date-time-picker';
+import Checkbox from './checkbox';
 
 export {
   Card,
@@ -14,4 +15,5 @@ export {
   BackButton,
   ToggleButton,
   DateTimePicker,
+  Checkbox,
 };
