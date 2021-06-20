@@ -8,7 +8,8 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { loginApp } from '../shared/redux-saga/auth/auth-actions';
+import { loginApp } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const Login = () => {
   const { formState, register, handleSubmit } = useForm();
@@ -17,7 +18,7 @@ const Login = () => {
   const detectMobile = useMobileDetect();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     setIsSubmitting(true);
     dispatch(
       loginApp(
@@ -131,4 +132,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoadingScreen(Login, 'auth');

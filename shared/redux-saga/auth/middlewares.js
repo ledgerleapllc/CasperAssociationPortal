@@ -1,22 +1,31 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
-import { post } from '../../core/saga-api';
+import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
+import { getToken, setToken } from '../../../helpers/api/auth.service';
+import {
+  clearUser,
+  fetchUserInfoError,
+  fetchUserInfoSuccess,
+  setUser,
+  updateUser,
+} from './actions';
 
 export function* loginApp({ payload, callback, resetSubmitting }) {
   try {
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    const res = yield post(['auth/login'], qs.stringify(payload), { headers });
-    localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-    localStorage.setItem('USER_ID', res.data.user_id);
+    const res = yield post(['auth/login'], payload);
+    setToken(res.data.access_token);
+    yield put(setUser(res.data));
     callback();
     resetSubmitting();
   } catch (error) {
     yield put(saveApiResponseError(error));
     resetSubmitting();
   }
+}
+
+export function* logoutApp() {
+  yield put(clearUser());
 }
 
 export function* registerEntity({ payload, callback, resetSubmitting }) {
@@ -38,7 +47,7 @@ export function* registerEntity({ payload, callback, resetSubmitting }) {
       telegram: payload.telegram,
     });
     const res = yield post(['auth/register-entity'], params, { headers });
-    localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
+    setToken(res.data.access_token);
     localStorage.setItem('USER_ID', res.data.user_id);
     callback();
     resetSubmitting();
@@ -62,8 +71,8 @@ export function* registerIndividual({ payload, callback, resetSubmitting }) {
       telegram: payload.telegram,
     });
     const res = yield post(['auth/register-individual'], params, { headers });
-    localStorage.setItem('ACCESS-TOKEN', res.data.access_token);
-    localStorage.setItem('USER_ID', res.data.user_id);
+    setToken(res.data.access_token);
+    yield put(setUser(res.data));
     callback();
     resetSubmitting();
   } catch (error) {
@@ -131,9 +140,13 @@ export function* verifyEmail({ payload, callback, resetSubmitting }) {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
     };
-    yield post(['users/verify-email'], qs.stringify(payload), { headers });
+    yield post(['users/verify-email'], payload, { headers });
+    yield put(
+      updateUser({
+        period: 'onboarding',
+      })
+    );
     callback();
     resetSubmitting();
   } catch (error) {
@@ -154,8 +167,22 @@ export function* resend2FaCode() {
   }
 }
 
+export function* fetchUserInfo() {
+  const headers = {
+    Authorization: `Bearer ${getToken()}`,
+  };
+  try {
+    const res = yield get(['users/profile'], { headers });
+    yield put(setUser(res.data));
+    yield put(fetchUserInfoSuccess(res.data));
+  } catch (error) {
+    yield put(fetchUserInfoError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
+  yield all([takeLatest('LOGOUT_APP', logoutApp)]);
   yield all([takeLatest('REGISTER_ENTITY', registerEntity)]);
   yield all([takeLatest('REGISTER_INDIVIDUAL', registerIndividual)]);
   yield all([takeLatest('RESET_PASSWORD', resetPassword)]);
@@ -163,4 +190,5 @@ export function* watchAuth() {
   yield all([takeLatest('UPDATE_PASSWORD', updateNewPassword)]);
   yield all([takeLatest('VERIFY_EMAIL', verifyEmail)]);
   yield all([takeLatest('RESEND_2FA_CODE', resend2FaCode)]);
+  yield all([takeLatest('FETCH_USER_INFO', fetchUserInfo)]);
 }

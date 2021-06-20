@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import useMobileDetect from 'use-mobile-detect-hook';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 
@@ -115,4 +116,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default LoadingScreen(Welcome, 'onboarding');

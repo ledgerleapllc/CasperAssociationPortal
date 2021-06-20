@@ -1,3 +1,4 @@
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 
@@ -74,4 +75,4 @@ const AdminIntake = () => (
   </LayoutDashboard>
 );
 
-export default AdminIntake;
+export default LoadingScreen(AdminIntake, 'final-admin');

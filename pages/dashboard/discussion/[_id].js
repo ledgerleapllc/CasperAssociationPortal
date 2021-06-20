@@ -5,6 +5,7 @@ import IconLike from '../../../public/images/ic_like.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import IconEye from '../../../public/images/ic_eye.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
+import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
 const chatBoxDetailFakeData = {
   desc: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec accumsan libero. Vivamus cursus, dui nec tristique bibendum, tortor eros ultrices libero, eu imperdiet ex est non tellus. Nullam eu iaculis neque. Nam congue felis consequat nunc maximus porttitor. Aliquam interdum vulputate magna, vitae scelerisque metus. Cras sem nunc, egestas ut ornare in, maximus ac sapien. Morbi interdum eget odio finibus volutpat. Sed sed condimentum mi. Aliquam purus quam, luctus eu lectus quis, tempor scelerisque massa. In viverra convallis nunc, nec posuere mi pretium ut. Praesent porta pretium feugiat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.`,
@@ -172,4 +173,4 @@ const DashboardDiscusionDetail = () => {
   );
 };
 
-export default DashboardDiscusionDetail;
+export default LoadingScreen(DashboardDiscusionDetail, 'final-all');

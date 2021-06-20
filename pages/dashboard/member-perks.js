@@ -1,3 +1,4 @@
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 
@@ -188,4 +189,4 @@ const DashboardMemberPerks = () => (
   </LayoutDashboard>
 );
 
-export default DashboardMemberPerks;
+export default LoadingScreen(DashboardMemberPerks, 'final-all');

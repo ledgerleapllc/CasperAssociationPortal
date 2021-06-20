@@ -1,3 +1,4 @@
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Tab } from '../../components/partials';
 
@@ -462,4 +463,4 @@ const DashboardVote = () => (
   </LayoutDashboard>
 );
 
-export default DashboardVote;
+export default LoadingScreen(DashboardVote, 'final-all');

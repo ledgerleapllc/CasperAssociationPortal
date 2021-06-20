@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 import { watchDemoData } from './dashboard/dashboard-middleware';
-import { watchAuth } from './auth/auth-middleware';
+import { watchAuth } from './auth/middlewares';
 import { watchOnboard } from './onboard/middleware';
 import { watchAdmin } from './admin/middleware';
 

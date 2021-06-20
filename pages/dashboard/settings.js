@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, ToggleButton } from '../../components/partials';
 
@@ -195,4 +196,4 @@ const DashboardSetting = () => {
   );
 };
 
-export default DashboardSetting;
+export default LoadingScreen(DashboardSetting, 'final-all');

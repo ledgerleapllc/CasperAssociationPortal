@@ -12,7 +12,8 @@ import {
   TELEGRAM_PATTERN,
 } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { registerIndividual } from '../shared/redux-saga/auth/auth-actions';
+import { registerIndividual } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const RegisterIndividual = () => {
   const [agreeChecked, setAgreeChecked] = useState(false);
@@ -365,4 +366,4 @@ const RegisterIndividual = () => {
   );
 };
 
-export default RegisterIndividual;
+export default LoadingScreen(RegisterIndividual, 'auth');

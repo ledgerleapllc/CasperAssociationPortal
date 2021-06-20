@@ -8,7 +8,8 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { updateEmail } from '../shared/redux-saga/auth/auth-actions';
+import { updateEmail } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const UpdateEmail = () => {
   const {
@@ -148,4 +149,4 @@ const UpdateEmail = () => {
   );
 };
 
-export default UpdateEmail;
+export default LoadingScreen(UpdateEmail, 'verifying');

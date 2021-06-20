@@ -9,6 +9,7 @@ import SubmitKYCThirdStep from '../../components/onboard/submit-kyc/third-step';
 import SubmitKYCFourthStep from '../../components/onboard/submit-kyc/fourth-step';
 import SubmitKYCFifthStep from '../../components/onboard/submit-kyc/fifth-step';
 import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -168,4 +169,4 @@ const SubmitKYC = () => {
   );
 };
 
-export default SubmitKYC;
+export default LoadingScreen(SubmitKYC, 'onboarding');

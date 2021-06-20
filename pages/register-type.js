@@ -3,6 +3,7 @@ import useMobileDetect from 'use-mobile-detect-hook';
 import { useRouter } from 'next/router';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const TypeRegister = () => {
   const router = useRouter();
@@ -61,4 +62,4 @@ const TypeRegister = () => {
   );
 };
 
-export default TypeRegister;
+export default LoadingScreen(TypeRegister, 'auth');

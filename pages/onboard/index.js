@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import AppFooter from '../components/layouts/app-footer';
-import AppHeader from '../components/layouts/app-header';
-import OnboardItem from '../components/onboard/onboard-item';
+import AppFooter from '../../components/layouts/app-footer';
+import AppHeader from '../../components/layouts/app-header';
+import OnboardItem from '../../components/onboard/onboard-item';
+import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const Onboard = () => {
   const router = useRouter();
@@ -19,7 +20,6 @@ const Onboard = () => {
     } else {
       setStepStatus(steps);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -70,4 +70,4 @@ const Onboard = () => {
   );
 };
 
-export default Onboard;
+export default LoadingScreen(Onboard, 'onboarding');

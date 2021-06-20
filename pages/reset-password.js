@@ -8,7 +8,8 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { resetPassword } from '../shared/redux-saga/auth/auth-actions';
+import { resetPassword } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const ResetPassword = () => {
   const { formState, register, handleSubmit } = useForm();
@@ -112,4 +113,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default LoadingScreen(ResetPassword, 'auth');

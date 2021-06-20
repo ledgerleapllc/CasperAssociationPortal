@@ -10,7 +10,8 @@ import { Button } from '../components/partials/button';
 import {
   resend2FaCode,
   verifyEmail,
-} from '../shared/redux-saga/auth/auth-actions';
+} from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const VerifyEmail = () => {
   const { formState, register, handleSubmit } = useForm();
@@ -114,4 +115,4 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+export default LoadingScreen(VerifyEmail, 'verifying');

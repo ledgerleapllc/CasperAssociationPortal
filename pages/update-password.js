@@ -8,7 +8,8 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { PASSWORD_PATTERN } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { updatePassword } from '../shared/redux-saga/auth/auth-actions';
+import { updatePassword } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const UpdatePassword = () => {
   const {
@@ -182,4 +183,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default UpdatePassword;
+export default LoadingScreen(UpdatePassword, 'final-all');

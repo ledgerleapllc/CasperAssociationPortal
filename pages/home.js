@@ -3,6 +3,7 @@ import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import AppHeader from '../components/layouts/app-header';
 import AppFooter from '../components/layouts/app-footer';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const Home = () => {
   const router = useRouter();
@@ -57,4 +58,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LoadingScreen(Home, 'auth');

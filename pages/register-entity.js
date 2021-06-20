@@ -14,7 +14,8 @@ import {
   ENTITY_PATTERN,
 } from '../helpers/form-validation';
 import { Button } from '../components/partials/button';
-import { registerEntity } from '../shared/redux-saga/auth/auth-actions';
+import { registerEntity } from '../shared/redux-saga/auth/actions';
+import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const entityTypeList = [
   {
@@ -525,4 +526,4 @@ const RegisterEntity = () => {
   );
 };
 
-export default RegisterEntity;
+export default LoadingScreen(RegisterEntity, 'auth');

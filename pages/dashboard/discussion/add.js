@@ -1,3 +1,4 @@
+import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton } from '../../../components/partials';
 
@@ -47,4 +48,4 @@ const DashboardAddDiscusion = () => (
   </LayoutDashboard>
 );
 
-export default DashboardAddDiscusion;
+export default LoadingScreen(DashboardAddDiscusion, 'final-all');
