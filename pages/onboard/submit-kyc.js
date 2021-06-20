@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
@@ -17,6 +17,7 @@ const SubmitKYC = () => {
   const [information, setInformation] = useState(null);
   const [beginKYC, setBeginKYC] = useState(null);
   const [hasOwner, setHasOwner] = useState(false);
+  const submitBtnStep2 = useRef(null);
 
   const router = useRouter();
 
@@ -46,7 +47,12 @@ const SubmitKYC = () => {
       steps.step3 = true;
       localStorage.setItem('steps', JSON.stringify(steps));
     } else {
-      setCurrentStep(currentStep + 1);
+      // eslint-disable-next-line no-lonely-if
+      if (currentStep === 2) {
+        submitBtnStep2.current.click();
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
     }
   };
 
@@ -84,8 +90,9 @@ const SubmitKYC = () => {
     if (currentStep === 2) {
       return (
         <SubmitKYCSecondStep
+          ref={submitBtnStep2}
           onNext={handleNext}
-          onChange={data => setInformation(data)}
+          nextStep={() => setCurrentStep(currentStep + 1)}
         />
       );
     }

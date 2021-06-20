@@ -3,6 +3,12 @@ export const helloSignRequest = callback => ({
   callback,
 });
 
+export const submitKYC = (payload, resolve) => ({
+  type: 'SUBMIT_KYC',
+  payload,
+  resolve,
+});
+
 export const submitPublicAddress = (payload, callback, isVerifying) => ({
   type: 'SUBMIT_PUBLIC_ADDRESS',
   callback,

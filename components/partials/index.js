@@ -4,5 +4,14 @@ import Tab from './tab';
 import Editor from './editor';
 import BackButton from './back-button';
 import ToggleButton from './toggle-button';
+import DateTimePicker from './date-time-picker';
 
-export { Card, ActiveLink, Tab, Editor, BackButton, ToggleButton };
+export {
+  Card,
+  ActiveLink,
+  Tab,
+  Editor,
+  BackButton,
+  ToggleButton,
+  DateTimePicker,
+};
