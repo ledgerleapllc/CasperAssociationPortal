@@ -27,3 +27,28 @@ export const getUserDetailError = error => ({
   type: 'GET_USER_DETAIL_ERROR',
   payload: error,
 });
+
+export const getUserKYCInfo = data => ({
+  type: 'GET_USER_KYC_INFO',
+  payload: data,
+});
+
+export const getUserKYCInfoSuccess = data => ({
+  type: 'GET_USER_KYC_INFO_SUCCESS',
+  payload: data,
+});
+
+export const getUserKYCInfoError = error => ({
+  type: 'GET_USER_KYC_INFO_ERROR',
+  payload: error,
+});
+
+export const approveKYC = data => ({
+  type: 'APPROVE_KYC',
+  payload: data,
+});
+
+export const denyKYC = data => ({
+  type: 'DENY_KYC',
+  payload: data,
+});

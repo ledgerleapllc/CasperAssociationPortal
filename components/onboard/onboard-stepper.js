@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const OnboardStepper = ({
   title,
@@ -17,22 +19,35 @@ const OnboardStepper = ({
 }) => {
   const router = useRouter();
   const [allStepsDone, setAllStepsDone] = useState(false);
-
+  const user = useSelector(state => state.authReducer.userInfo);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const steps = JSON.parse(localStorage.getItem('steps'));
     if (
-      (title === 'Submit KYC' && currentStep === 6 && steps.step1 && steps.step2) ||
-      (title === 'Esign Terms' && currentStep === 2 && steps.step2 && steps.step3) ||
-      (title === 'Verify Node Ownership' && currentStep === 3 && steps.step1 && steps.step3)
+      (title === 'Submit KYC' &&
+        currentStep === 6 &&
+        user.signature_request_id &&
+        user.node_verified_at) ||
+      (title === 'Esign Terms' &&
+        currentStep === 2 &&
+        user.node_verified_at &&
+        user.kyc_verified_at) ||
+      (title === 'Verify Node Ownership' &&
+        currentStep === 3 &&
+        user.signature_request_id &&
+        user.kyc_verified_at)
     ) {
       setAllStepsDone(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep, title]);
 
   const onHandleNextSteps = () => {
     if (allStepsDone) {
       router.push('/dashboard');
+      dispatch(
+        updateUser({
+          period: 'final',
+        })
+      );
     } else {
       onNext();
     }

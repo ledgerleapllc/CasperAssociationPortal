@@ -9,6 +9,7 @@ import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
+import { updateUser } from '../../shared/redux-saga/auth/actions';
 import {
   verifyFileCasperSigner,
   handleViewGuide,
@@ -75,15 +76,11 @@ const VerifyNodeOwnership = () => {
   const handleNext = () => {
     if (currentStep === totalSteps) {
       router.push('/onboard');
-      const steps = JSON.parse(
-        localStorage.getItem('steps') || {
-          step1: false,
-          step2: false,
-          step3: false,
-        }
+      dispatch(
+        updateUser({
+          node_verified_at: true,
+        })
       );
-      steps.step2 = true;
-      localStorage.setItem('steps', JSON.stringify(steps));
     } else {
       setCurrentStep(currentStep + 1);
     }

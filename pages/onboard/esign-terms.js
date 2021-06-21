@@ -8,6 +8,7 @@ import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-st
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
+import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 // Create the HelloSign Embedded instance.
 // Only do this once!
@@ -54,15 +55,11 @@ const EsignTerms = () => {
   const handleNext = () => {
     if (currentStep === totalSteps) {
       router.push('/onboard');
-      const steps = JSON.parse(
-        localStorage.getItem('steps') || {
-          step1: false,
-          step2: false,
-          step3: false,
-        }
+      dispatch(
+        updateUser({
+          signature_request_id: true,
+        })
       );
-      steps.step1 = true;
-      localStorage.setItem('steps', JSON.stringify(steps));
     } else if (currentStep === 1) {
       dispatch(
         helloSignRequest(res => {

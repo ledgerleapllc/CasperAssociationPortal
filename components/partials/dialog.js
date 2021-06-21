@@ -30,35 +30,68 @@ const Dialog = ({ dialog, onClosed }) => {
 
   return createPortal(
     <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
-      <div
-        className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
-        style={settings.style}
-      >
-        <div>
-          <p className="text-4xl text-center pt-4">{dialog.data.title}</p>
-          <a onClick={() => onCloseDialog(false)}>
-            <img
-              src="/images/ic_decline.svg"
-              className="absolute right-4 top-4"
-              alt="Cancel"
-            />
-          </a>
-          <div className="h-full w-full pt-16 pb-36 flex flex-col items-center justify-between border-gray">
-            <div className="h-full w-full flex flex-col items-center justify-between">
-              {dialog.data.content}
+      {dialog.type === 'Dialog' && (
+        <div
+          className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+          style={settings.style}
+        >
+          <div>
+            <p className="text-4xl text-center pt-4">{dialog.data.title}</p>
+            <a onClick={() => onCloseDialog(false)}>
+              <img
+                src="/images/ic_decline.svg"
+                className="absolute right-4 top-4"
+                alt="Cancel"
+              />
+            </a>
+            <div className="h-full w-full pt-16 pb-36 flex flex-col items-center justify-between border-gray">
+              <div className="h-full w-full flex flex-col items-center justify-between">
+                {dialog.data.content}
+              </div>
             </div>
           </div>
+          {!settings.hideButton && (
+            <button
+              type="button"
+              className="transform -translate-x-1/2 absolute left-1/2 bottom-6 text-lg text-white w-1/2 lg:w-1/2 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              onClick={() => onCloseDialog(false)}
+            >
+              OK
+            </button>
+          )}
         </div>
-        {!settings.hideButton && (
-          <button
-            type="button"
-            className="transform -translate-x-1/2 absolute left-1/2 bottom-6 text-lg text-white w-1/2 lg:w-1/2 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-            onClick={() => onCloseDialog(false)}
-          >
-            OK
-          </button>
-        )}
-      </div>
+      )}
+      {dialog.type === 'DialogConfirm' && (
+        <div
+          className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+          style={settings.style}
+        >
+          <div>
+            <p className="text-4xl text-center pt-4">{dialog.data.title}</p>
+            <div className="h-full w-full py-8 flex flex-col items-center justify-between border-gray">
+              <div className="pt-24 h-full w-full flex flex-col items-center justify-between">
+                {dialog.data.content}
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row justify-center pb-32">
+            <button
+              type="button"
+              className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              onClick={() => onCloseDialog(false)}
+            >
+              {dialog.data.cancel}
+            </button>
+            <button
+              type="button"
+              className="mx-2 bottom-6 text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              onClick={() => onCloseDialog(true)}
+            >
+              {dialog.data.ok}
+            </button>
+          </div>
+        </div>
+      )}
     </div>,
     document.body
   );

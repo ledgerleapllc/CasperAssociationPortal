@@ -4,10 +4,10 @@ import FieldArrayFormCSPR from './field-array-form-cspr';
 const defaultValues = {
   form: [
     {
-      cspr: null,
+      percent: null,
       email: '',
       isAdded: false,
-      typeCSPR: null,
+      type: null,
     },
   ],
 };
@@ -32,7 +32,7 @@ const SubmitKYCFifthStep = ({ onNext, onHasOwner }) => {
 
   const onSubmit = data => {
     if (data?.form?.length > 0) {
-      onHasOwner();
+      onHasOwner(data);
     }
   };
 

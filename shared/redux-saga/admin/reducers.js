@@ -44,6 +44,24 @@ const getUserDetailError = (state, payload) => ({
   isLoading: false,
 });
 
+const getUserKYCInfo = state => ({
+  ...state,
+  isLoading: true,
+});
+
+const getUserKYCInfoSuccess = (state, payload) => ({
+  ...state,
+  data: payload,
+  isLoading: false,
+});
+
+const getUserKYCInfoError = (state, payload) => ({
+  ...state,
+  error: payload,
+  hasError: true,
+  isLoading: false,
+});
+
 const strategiesListMembers = {
   ['GET_LIST_MEMBER']: getListMembers,
   ['GET_LIST_MEMBER_SUCCESS']: getListMembersSuccess,
@@ -58,11 +76,23 @@ const strategiesUserDetail = {
   __default__: state => state,
 };
 
+const strategiesUserKYC = {
+  ['GET_USER_KYC_INFO']: getUserKYCInfo,
+  ['GET_USER_KYC_INFO_SUCCESS']: getUserKYCInfoSuccess,
+  ['GET_USER_KYC_INFO_ERROR']: getUserKYCInfoError,
+  __default__: state => state,
+};
+
 export const membersReducer = createReducer(
   strategiesListMembers,
   initialState
 );
 export const userDetailReducer = createReducer(
   strategiesUserDetail,
+  initialState
+);
+
+export const userKYCInfoReducer = createReducer(
+  strategiesUserKYC,
   initialState
 );

@@ -13,6 +13,9 @@ const userInitialState = {
   period: null,
   type: null,
   isLoggedIn: false,
+  signature_request_id: null,
+  node_verified_at: null,
+  kyc_verified_at: null,
 };
 
 const setUser = (state, payload) => {
@@ -35,6 +38,9 @@ const setUser = (state, payload) => {
     period,
     role: payload.role,
     isLoggedIn: true,
+    signature_request_id: payload.signature_request_id,
+    node_verified_at: payload.node_verified_at,
+    kyc_verified_at: payload.kyc_verified_at,
   };
 };
 

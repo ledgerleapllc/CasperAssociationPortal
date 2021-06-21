@@ -33,6 +33,18 @@ export const verifyFileCasperSigner = (payload, callback) => ({
   payload,
 });
 
+export const updateTypeOwnerNode = (payload, resolve) => ({
+  type: 'UPDATE_TYPE_OWNER_NODE',
+  payload,
+  resolve,
+});
+
+export const postOwnerNodes = (payload, resolve) => ({
+  type: 'POST_OWNER_NODES',
+  payload,
+  resolve,
+});
+
 export const handleViewGuide = () => ({
   type: 'HANDLE_VIEW_GUIDE',
 });

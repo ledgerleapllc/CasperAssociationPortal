@@ -15,7 +15,22 @@ const AdminUserDetail = () => {
     if (id) {
       dispatch(getUserDetail(id));
     }
-  }, []);
+  }, [id]);
+
+  const renderShuftiproStatus = () => {
+    if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
+      if (userDetail.shuftipro.status === 'approved') return 'Approved';
+      return 'Denied';
+    }
+
+    if (
+      userDetail?.shuftipro_temp &&
+      userDetail?.shuftipro_temp?.status !== 'pending'
+    )
+      return 'Submitted';
+    return 'Not Submitted';
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full px-24 py-14">
@@ -202,9 +217,9 @@ const AdminUserDetail = () => {
                   User KYC/AML Status:
                 </p>
                 <p className="text-sm w-5/6">
-                  Approved
+                  {renderShuftiproStatus()}
                   <a
-                    href={`/admin/users/${id}/kyc-aml-detail`}
+                    href={`/admin/users/${id}/kyc`}
                     className="pl-3 text-primary cursor-pointer underline"
                   >
                     View Details

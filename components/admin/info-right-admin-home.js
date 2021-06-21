@@ -1,12 +1,13 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
 
 const percenCPU = 61;
 const percenPerformance = 83;
 const InfoRightAdminHome = () => {
   const dispatch = useDispatch();
+  const userAdmin = useSelector(state => state.authReducer.fetchUserInfo.data);
 
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
@@ -17,9 +18,11 @@ const InfoRightAdminHome = () => {
             src="/images/ic_awesome_user_circle.svg"
             alt="User"
           />
-          <span className="text-2.5xl">Admin</span>
+          <span className="text-2.5xl">
+            {userAdmin?.role === 'admin' ? 'Admin' : 'Member'}
+          </span>
         </div>
-        <span className="text-lg">jstone321@gmail.com</span>
+        <span className="text-lg">{userAdmin?.email}</span>
         <button
           type="button"
           className="inline-flex text-xs text-primary underline"

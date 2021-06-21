@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardItem from '../../components/onboard/onboard-item';
@@ -7,20 +8,7 @@ import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const Onboard = () => {
   const router = useRouter();
-  const [stepStatus, setStepStatus] = useState({
-    step1: false,
-    step2: false,
-    step3: false,
-  });
-
-  useEffect(() => {
-    const steps = JSON.parse(localStorage.getItem('steps'));
-    if (!steps) {
-      localStorage.setItem('steps', JSON.stringify(stepStatus));
-    } else {
-      setStepStatus(steps);
-    }
-  }, []);
+  const user = useSelector(state => state.authReducer.userInfo);
 
   return (
     <div className="flex justify-center min-h-screen">
@@ -39,7 +27,7 @@ const Onboard = () => {
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Esign Terms"
-                doneStep={stepStatus.step1}
+                doneStep={!!user.signature_request_id}
                 description="You must read and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
               />
@@ -48,7 +36,7 @@ const Onboard = () => {
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
-                doneStep={stepStatus.step2}
+                doneStep={!!user.node_verified_at}
                 description="Please choose Sign In if you have an existing account or Register if this is your first time here."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
               />
@@ -57,7 +45,7 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"
-                doneStep={stepStatus.step3}
+                doneStep={!!user.kyc_verified_at}
                 description="Upload your passport and utility bill here for identity and address verification."
                 onClick={() => router.push('/onboard/submit-kyc')}
               />

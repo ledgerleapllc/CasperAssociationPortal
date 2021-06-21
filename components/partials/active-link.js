@@ -7,7 +7,7 @@ const ActiveLink = ({ children, activeClassName, ...props }) => {
   const child = Children.only(children);
   const childClassName = child.props.className || '';
   const className =
-    pathname === props.href || pathname === props.as
+    pathname.includes(props.href) || pathname.includes(props.as)
       ? `${childClassName} ${activeClassName}`.trim()
       : childClassName;
 

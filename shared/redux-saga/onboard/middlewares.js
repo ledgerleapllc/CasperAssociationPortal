@@ -104,6 +104,32 @@ export function* updateShuftiproTemp({ payload, resolve }) {
   }
 }
 
+export function* updateTypeOwnerNode({ payload, resolve }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield putApi(['users/type-owner-node'], payload, { headers });
+    resolve();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* postOwnerNodes({ payload, resolve }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield post(['users/owner-node'], payload, { headers });
+    resolve();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
@@ -112,4 +138,6 @@ export function* watchOnboard() {
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
   yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
+  yield all([takeLatest('UPDATE_TYPE_OWNER_NODE', updateTypeOwnerNode)]);
+  yield all([takeLatest('POST_OWNER_NODES', postOwnerNodes)]);
 }

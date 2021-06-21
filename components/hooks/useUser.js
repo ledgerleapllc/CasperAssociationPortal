@@ -40,7 +40,7 @@ export default function useUser({ urlType = 'public' } = {}) {
         }
       } else if (user.role === 'admin') {
         if (urlType !== 'final-all' && urlType !== 'final-admin') {
-          Router.push('/admin');
+          Router.push('/admin/dashboard');
         }
       }
     } else if (urlType !== 'auth') {

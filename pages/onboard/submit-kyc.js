@@ -1,5 +1,7 @@
+/* eslint-disable no-lonely-if */
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
@@ -12,6 +14,8 @@ import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { useDialog } from '../../components/partials/dialog';
 import { Shuftipro } from '../../components/onboard/submit-kyc/shuftipro';
+import { postOwnerNodes, updateTypeOwnerNode } from '../../shared/redux-saga/onboard/actions';
+import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -21,6 +25,7 @@ const SubmitKYC = () => {
   const [hasOwner, setHasOwner] = useState(false);
   const submitBtnStep2 = useRef(null);
   const { setDialog } = useDialog();
+  const dispatch = useDispatch();
 
   const router = useRouter();
 
@@ -40,19 +45,36 @@ const SubmitKYC = () => {
   const handleNext = () => {
     if (currentStep === totalSteps) {
       router.push('/onboard');
-      const steps = JSON.parse(
-        localStorage.getItem('steps') || {
-          step1: false,
-          step2: false,
-          step3: false,
-        }
+      dispatch(
+        updateUser({
+          kyc_verified_at: true,
+        })
       );
-      steps.step3 = true;
-      localStorage.setItem('steps', JSON.stringify(steps));
     } else {
-      // eslint-disable-next-line no-lonely-if
       if (currentStep === 2) {
         submitBtnStep2.current.click();
+      } else if (currentStep === 3) {
+        if (submitType === 'individual') {
+          setCurrentStep(currentStep + 3);
+        } else {
+          setCurrentStep(currentStep + 1);
+        }
+      } else if (currentStep === 4) {
+        // dispatch(updateTypeOwnerNode(information), () => {
+        if (submitType === 'individual') {
+          setCurrentStep(currentStep + 2);
+        } else if (+information.type === 1) {
+          setCurrentStep(currentStep + 2);
+        } else if (+information.type === 2) {
+          setCurrentStep(currentStep + 1);
+        }
+        // });
+      } else if (currentStep === 5) {
+        dispatch(
+          postOwnerNodes(information, () => {
+            setCurrentStep(currentStep + 1);
+          })
+        );
       } else {
         setCurrentStep(currentStep + 1);
       }
@@ -77,15 +99,17 @@ const SubmitKYC = () => {
       },
       afterClosed: (value) => {
         console.log(value);
+        setBeginKYC(true);
         if (value === 'verified') {
-          setBeginKYC(true);
+          // setBeginKYC(true);
         }
       },
     });
   };
 
-  const handleHasOwner = () => {
+  const handleHasOwner = data => {
     setHasOwner(true);
+    setInformation(data.form);
   };
 
   const getNextButtonTitle = () => {
@@ -144,7 +168,7 @@ const SubmitKYC = () => {
       return (
         <SubmitKYCFifthStep
           onNext={() => handleNext()}
-          onHasOwner={handleHasOwner}
+          onHasOwner={data => handleHasOwner(data)}
         />
       );
     }

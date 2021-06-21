@@ -21,17 +21,17 @@ export default function FieldArrayFormCSPR({
   useEffect(() => {
     if (
       currentForm !== 0 &&
-      watchFormDefault[watchFormDefault.length - 1].cspr > 100
+      watchFormDefault[watchFormDefault.length - 1].percent > 100
     ) {
       setValue(
-        `form[${currentForm - 1}].cspr`,
-        watchFormDefault[watchFormDefault.length - 1].cspr.substring(
+        `form[${currentForm - 1}].percent`,
+        watchFormDefault[watchFormDefault.length - 1].percent.substring(
           0,
-          watchFormDefault[watchFormDefault.length - 1].cspr.length - 1
+          watchFormDefault[watchFormDefault.length - 1].percent.length - 1
         )
       );
     }
-  }, [watchFormDefault[watchFormDefault.length - 1]])
+  }, [watchFormDefault[watchFormDefault.length - 1]]);
 
   useEffect(() => {
     if (currentForm === 1) {
@@ -40,10 +40,10 @@ export default function FieldArrayFormCSPR({
     if (currentForm === 0) {
       append([
         {
-          cspr: null,
+          percent: null,
           email: '',
           isAdded: false,
-          typeCSPR: null,
+          type: null,
         },
       ]);
       setCurrentForm(prev => prev + 1);
@@ -69,8 +69,8 @@ export default function FieldArrayFormCSPR({
     if (currentForm !== 0) {
       return (
         formDefault[formDefault.length - 1].email !== '' &&
-        formDefault[formDefault.length - 1].cspr !== null &&
-        formDefault[formDefault.length - 1].typeCSPR !== null
+        formDefault[formDefault.length - 1].percent !== null &&
+        formDefault[formDefault.length - 1].type !== null
       );
     }
   };
@@ -151,7 +151,7 @@ export default function FieldArrayFormCSPR({
                     className={`flex justify-start items-center w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-0
                     focus:outline-none placeholder-gray-50`}
                   >
-                    {`${getValues(`form[${index}].cspr`)}%`}
+                    {`${getValues(`form[${index}].percent`)}%`}
                   </span>
                 ) : (
                   <div className="flex flex-col items-baseline">
@@ -160,7 +160,7 @@ export default function FieldArrayFormCSPR({
                       className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none mt-3 md:text-xs md:border-b
                       focus:outline-none placeholder-gray-50`}
                       placeholder="% of CSPR"
-                      {...register(`form.${index}.cspr`, {
+                      {...register(`form.${index}.percent`, {
                         required: true,
                         min: {
                           value: 25,
@@ -169,9 +169,9 @@ export default function FieldArrayFormCSPR({
                       })}
                     />
                     {formState.errors.form &&
-                      formState.errors.form[index].cspr && (
+                      formState.errors.form[index].percent && (
                         <p className="ml-7 md:ml-0 mt-2 text-primary md:text-xs">
-                          {formState.errors.form[index].cspr.message}
+                          {formState.errors.form[index].percent.message}
                         </p>
                       )}
                   </div>
@@ -183,7 +183,7 @@ export default function FieldArrayFormCSPR({
                       type="radio"
                       className="text-primary"
                       value="individual"
-                      {...register(`form.${index}.typeCSPR`)}
+                      {...register(`form.${index}.type`)}
                     />
                     <span className="text-sm text-dark1">Individual</span>
                   </label>
@@ -193,7 +193,7 @@ export default function FieldArrayFormCSPR({
                       type="radio"
                       className="text-primary"
                       value="entity"
-                      {...register(`form.${index}.typeCSPR`)}
+                      {...register(`form.${index}.type`)}
                     />
                     <span className="text-sm text-dark1">Entity</span>
                   </label>

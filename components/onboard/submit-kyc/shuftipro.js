@@ -173,6 +173,7 @@ export const Shuftipro = () => {
       })
       .catch(() => {
         onClosed();
+        dialog.afterClosed('');
       });
   };
 
