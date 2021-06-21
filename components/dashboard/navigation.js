@@ -3,9 +3,8 @@ import { ActiveLink, Card } from '../partials';
 import AppHeader from '../layouts/app-header';
 
 const Navigation = () => {
-  const userAdmin = useSelector(state => state.authReducer.fetchUserInfo.data);
+  const userAdmin = useSelector(state => state.authReducer.userInfo.fullInfo);
 
-  console.log('aaaa', userAdmin)
   return (
     <>
       <Card className="flex-col w-24 px-5 hidden lg:flex h-full overflow-y-scroll">

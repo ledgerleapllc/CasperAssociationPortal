@@ -7,7 +7,7 @@ const percenCPU = 61;
 const percenPerformance = 83;
 const InfoRightAdminHome = () => {
   const dispatch = useDispatch();
-  const userAdmin = useSelector(state => state.authReducer.fetchUserInfo.data);
+  const userAdmin = useSelector(state => state.authReducer.userInfo.fullInfo);
 
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
