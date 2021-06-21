@@ -1,7 +1,6 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
-import { post, put as putApi } from '../../core/saga-api';
 import qs from 'qs';
-import { get, post } from '../../core/saga-api';
+import { get, post, put as putApi } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 
 export function* helloSignRequest({ callback }) {
