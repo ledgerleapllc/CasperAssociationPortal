@@ -2,6 +2,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as putApi } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
+import { uploadLetterSuccess, uploadLetterError } from './actions';
 
 export function* helloSignRequest({ callback }) {
   try {
@@ -143,6 +144,25 @@ export function* postOwnerNodes({ payload, resolve }) {
   }
 }
 
+export function* uploadLetter({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    const formData = new FormData();
+    formData.append('file', payload.newFile);
+    const res = yield post(['users/upload-letter'], formData, { headers });
+    yield put(uploadLetterSuccess(res.data));
+    callback();
+  } catch (error) {
+    yield put(uploadLetterError(error));
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
@@ -154,4 +174,5 @@ export function* watchOnboard() {
   yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
   yield all([takeLatest('UPDATE_TYPE_OWNER_NODE', updateTypeOwnerNode)]);
   yield all([takeLatest('POST_OWNER_NODES', postOwnerNodes)]);
+  yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
 }

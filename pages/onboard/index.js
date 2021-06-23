@@ -26,9 +26,9 @@ const Onboard = () => {
                 className="md:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
-                title="Esign Terms"
+                title="Letter and Terms"
                 doneStep={!!user.signature_request_id}
-                description="You must read and agree to the terms of service before continuing to the portal"
+                description="You must upload a letter of motivation and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
               />
               <OnboardItem

@@ -30,7 +30,11 @@ const OnboardItem = ({
           } bg-white`}
           style={{ backgroundImage: `url(${blurImageUrl})` }}
         >
-          <div className={`transition duration-300 ease-in-out transform absolute bottom-0 mx-5 my-10 ${onHover ? 'translate-y-0' : 'translate-y-full'}`}>
+          <div
+            className={`transition duration-300 ease-in-out transform absolute bottom-0 mx-5 my-10 ${
+              onHover ? 'translate-y-0' : 'translate-y-full'
+            }`}
+          >
             <p className="text-2xl">
               {title}
               {doneStep && (
@@ -49,7 +53,11 @@ const OnboardItem = ({
       >
         <img src="/images/ic_next_circle_gradient_large.svg" alt="next" />
       </button>
-      <div className={`md:mx-4 md:my-6 transition transform duration-300 ease-in-out ${onHover ? 'opacity-0 -translate-y-20' : 'opacity-100'}`}>
+      <div
+        className={`md:mx-4 md:my-6 transition transform duration-300 ease-in-out ${
+          onHover ? 'opacity-0 -translate-y-20' : 'opacity-100'
+        }`}
+      >
         <p className="text-2xl">
           {title}
           {doneStep && (

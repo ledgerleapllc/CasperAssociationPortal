@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
+import LetterUpload from '../../components/onboard/esign-terms/letter-upload';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import {
   bypassHelloSignRequest,
   helloSignRequest,
+  uploadLetter,
 } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
@@ -18,12 +20,17 @@ import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedDocument, setSelectedDocument] = useState(null);
+  const [selectedDocument, setSelectedDocument] = useState({
+    step1: null, // null: not submit yet
+    step2: null,
+  });
   const [client, setClient] = useState(null);
   const dispatch = useDispatch();
-
+  const { isLoading } = useSelector(
+    state => state?.onboardReducer?.uploadLetter
+  );
   useEffect(() => {
-    const HelloSign = require("hellosign-embedded");
+    const HelloSign = require('hellosign-embedded');
 
     setClient(
       new HelloSign({
@@ -44,7 +51,7 @@ const EsignTerms = () => {
 
   const router = useRouter();
 
-  const totalSteps = 2;
+  const totalSteps = 3;
   const documents = ['Doc1', 'Doc2', 'Doc3', 'Doc4'];
 
   const handlePrev = () => {
@@ -63,7 +70,7 @@ const EsignTerms = () => {
           signature_request_id: true,
         })
       );
-    } else if (currentStep === 1) {
+    } else if (currentStep === 2) {
       dispatch(
         helloSignRequest(res => {
           // setCurrentStep(currentStep + 1);
@@ -72,6 +79,17 @@ const EsignTerms = () => {
             skipDomainVerification: true,
           });
         })
+      );
+    } else if (currentStep === 1) {
+      dispatch(
+        uploadLetter(
+          {
+            newFile: selectedDocument.step1.file,
+          },
+          () => {
+            setCurrentStep(currentStep + 1);
+          }
+        )
       );
     }
   };
@@ -85,7 +103,7 @@ const EsignTerms = () => {
   };
 
   const getNextButtonTitle = () => {
-    if (currentStep === 1) {
+    if (currentStep === 2) {
       return 'Go to Esign';
     }
 
@@ -95,15 +113,30 @@ const EsignTerms = () => {
   const getStepContent = () => {
     if (currentStep === 1) {
       return (
+        <LetterUpload
+          selectedDocument={selectedDocument?.step1}
+          onDocumentSelect={document => {
+            setSelectedDocument(pre => ({
+              ...pre,
+              ...{ step1: selectedDocument === document ? null : document },
+            }));
+          }}
+        />
+      );
+    }
+
+    if (currentStep === 2) {
+      return (
         <>
           <EsignTermsFirstStep
             documents={documents}
-            selectedDocument={selectedDocument}
-            onDocumentSelect={document =>
-              setSelectedDocument(
-                selectedDocument === document ? null : document
-              )
-            }
+            selectedDocument={selectedDocument?.step2}
+            onDocumentSelect={document => {
+              setSelectedDocument(pre => ({
+                ...pre,
+                ...{ step2: selectedDocument === document ? null : document },
+              }));
+            }}
           />
           <div className="mt-8 text-primary">
             <button
@@ -122,8 +155,8 @@ const EsignTerms = () => {
   };
 
   const getNextButtonVisibility = () => {
-    if (currentStep === 1) {
-      return !!selectedDocument;
+    if (currentStep !== 3) {
+      return !!selectedDocument[`step${currentStep}`] || isLoading;
     }
 
     return true;

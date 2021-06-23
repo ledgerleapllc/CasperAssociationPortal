@@ -7,6 +7,7 @@ import {
 } from './admin/reducers';
 import { demoDataReducer } from './dashboard/dashboard-reducers';
 import { apiControllerReducer } from './api-controller/reducers';
+import { onboardReducer } from './onboard/reducers';
 
 const appReducer = combineReducers({
   apiControllerReducer,
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   membersReducer,
   userDetailReducer,
   userKYCInfoReducer,
+  onboardReducer,
 });
 
 export default appReducer;

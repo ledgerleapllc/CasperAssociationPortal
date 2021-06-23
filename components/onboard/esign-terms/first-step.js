@@ -6,10 +6,11 @@ const EsignTermsFirstStep = ({
   onDocumentSelect,
 }) => (
   <div className="pt-8">
-    <p className="text-2.5xl">Members must sign the Membership Agreement</p>
+    <p className="text-2.5xl">Now, you must sign the Membership Agreement</p>
     <p className="text-sm mt-2 text-dark1">
-      Clicking below will open up the hellosign document for capturing your
-      electronic signature
+      Clicking the icons below will open them up on a new tab for viewing before
+      you sign. On the next screen, you will electronically sign these
+      documents. Please click next to proceed after your are done reviewing.
     </p>
     <div className="mt-10 flex flex-wrap space-x-10">
       {documents.map((document, index) => (
