@@ -6,7 +6,10 @@ import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
-import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
+import {
+  bypassHelloSignRequest,
+  helloSignRequest,
+} from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 
@@ -75,7 +78,7 @@ const EsignTerms = () => {
 
   const handleByPass = () => {
     dispatch(
-      helloSignRequest(res => {
+      bypassHelloSignRequest(res => {
         setCurrentStep(currentStep + 1);
       })
     );
@@ -103,9 +106,13 @@ const EsignTerms = () => {
             }
           />
           <div className="mt-8 text-primary">
-            <a className="cursor-pointer" onClick={handleByPass}>
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={handleByPass}
+            >
               By Pass
-            </a>
+            </button>
           </div>
         </>
       );

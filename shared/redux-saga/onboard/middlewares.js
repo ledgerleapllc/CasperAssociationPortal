@@ -17,6 +17,19 @@ export function* helloSignRequest({ callback }) {
   }
 }
 
+export function* bypassHelloSignRequest({ callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const res = yield post(['users/verify-bypass'], null, { headers });
+    callback(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* submitPublicAddress({ payload, callback, isVerifying }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -132,6 +145,7 @@ export function* postOwnerNodes({ payload, resolve }) {
 
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
+  yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
   yield all([takeLatest('HANDLE_VIEW_GUIDE', handleViewGuide)]);

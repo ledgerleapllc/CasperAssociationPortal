@@ -14,7 +14,10 @@ import SubmitKYCSixthStep from '../../components/onboard/submit-kyc/sixth-step';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { useDialog } from '../../components/partials/dialog';
 import { Shuftipro } from '../../components/onboard/submit-kyc/shuftipro';
-import { postOwnerNodes, updateTypeOwnerNode } from '../../shared/redux-saga/onboard/actions';
+import {
+  postOwnerNodes,
+  updateTypeOwnerNode,
+} from '../../shared/redux-saga/onboard/actions';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const SubmitKYC = () => {
@@ -60,15 +63,17 @@ const SubmitKYC = () => {
           setCurrentStep(currentStep + 1);
         }
       } else if (currentStep === 4) {
-        // dispatch(updateTypeOwnerNode(information), () => {
-        if (submitType === 'individual') {
-          setCurrentStep(currentStep + 2);
-        } else if (+information.type === 1) {
-          setCurrentStep(currentStep + 2);
-        } else if (+information.type === 2) {
-          setCurrentStep(currentStep + 1);
-        }
-        // });
+        dispatch(
+          updateTypeOwnerNode(information, () => {
+            if (submitType === 'individual') {
+              setCurrentStep(currentStep + 2);
+            } else if (+information.type === 1) {
+              setCurrentStep(currentStep + 2);
+            } else if (+information.type === 2) {
+              setCurrentStep(currentStep + 1);
+            }
+          })
+        );
       } else if (currentStep === 5) {
         dispatch(
           postOwnerNodes(information, () => {

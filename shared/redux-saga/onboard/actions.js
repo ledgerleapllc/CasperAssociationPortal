@@ -3,6 +3,11 @@ export const helloSignRequest = callback => ({
   callback,
 });
 
+export const bypassHelloSignRequest = callback => ({
+  type: 'BYPASS_HELLO_SIGN_REQUEST',
+  callback,
+});
+
 export const submitKYC = (payload, resolve) => ({
   type: 'SUBMIT_KYC',
   payload,
