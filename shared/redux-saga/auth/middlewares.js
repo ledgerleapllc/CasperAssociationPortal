@@ -2,7 +2,11 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import { getToken, setToken } from '../../../helpers/api/auth.service';
+import {
+  getToken,
+  removeToken,
+  setToken,
+} from '../../../helpers/api/auth.service';
 import {
   clearUser,
   fetchUserInfoError,
@@ -25,6 +29,7 @@ export function* loginApp({ payload, callback, resetSubmitting }) {
 }
 
 export function* logoutApp() {
+  removeToken();
   yield put(clearUser());
 }
 
