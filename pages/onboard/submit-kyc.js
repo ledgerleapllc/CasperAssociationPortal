@@ -143,6 +143,7 @@ const SubmitKYC = () => {
     if (currentStep === 2) {
       return (
         <SubmitKYCSecondStep
+          type={submitType}
           ref={submitBtnStep2}
           onNext={handleNext}
           nextStep={() => setCurrentStep(currentStep + 1)}

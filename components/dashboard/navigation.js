@@ -104,7 +104,7 @@ const Navigation = () => {
             </li>
             <li className="py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/intake">
-                <p>Instake</p>
+                <p>Intake</p>
               </ActiveLink>
             </li>
             <li className="py-1.5 cursor-pointer">

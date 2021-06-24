@@ -6,7 +6,7 @@ import Countries from '../../../public/json/country.json';
 import { submitKYC } from '../../../shared/redux-saga/onboard/actions';
 import { DateTimePicker } from '../../partials';
 
-const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep }, ref) => {
+const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
   const { control, watch, register, handleSubmit, formState } = useForm({
     mode: 'onChange',
   });
@@ -16,9 +16,15 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep }, ref) => {
 
   const onSubmit = data => {
     dispatch(
-      submitKYC(data, () => {
-        nextStep();
-      })
+      submitKYC(
+        {
+          ...data,
+          type,
+        },
+        () => {
+          nextStep();
+        }
+      )
     );
   };
 
