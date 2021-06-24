@@ -16,6 +16,7 @@ const OnboardStepper = ({
   hideContinueButton,
   onPrev,
   onNext,
+  ownerNodesDone,
 }) => {
   const router = useRouter();
   const [allStepsDone, setAllStepsDone] = useState(false);
@@ -25,6 +26,7 @@ const OnboardStepper = ({
     if (
       (title === 'Submit KYC' &&
         currentStep === 6 &&
+        ownerNodesDone &&
         user.signature_request_id &&
         user.node_verified_at) ||
       (title === 'Esign Terms' &&
@@ -107,7 +109,7 @@ const OnboardStepper = ({
           </ul>
         )}
       </div>
-      <div className="w-full md:w-9/12 md:max-w-6xl">
+      <div className="w-full md:w-8.85/10">
         <div className="hidden md:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
           <span className="font-bold text-dark2">{title}</span>
           {title === 'Submit KYC' && (

@@ -69,3 +69,22 @@ export const uploadLetterError = payload => ({
   type: 'UPLOAD_LETTER_ERROR',
   payload,
 });
+
+export const getOwnerNodes = () => ({
+  type: 'GET_OWNER_NODES',
+});
+
+export const getOwnerNodesSuccess = payload => ({
+  type: 'GET_OWNER_NODES_SUCCESS',
+  payload,
+});
+
+export const getOwnerNodesError = payload => ({
+  type: 'GET_OWNER_NODES_ERROR',
+  payload,
+});
+
+export const resendEmailOwnerNodes = payload => ({
+  type: 'RESEND_EMAIL_OWNER_NODES',
+  payload,
+});

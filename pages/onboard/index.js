@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardItem from '../../components/onboard/onboard-item';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
+import { getOwnerNodes } from '../../shared/redux-saga/onboard/actions';
 
 const Onboard = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.userInfo);
+  const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
+  const [isWaiting, setIsWaiting] = useState(undefined);
+
+  useEffect(() => {
+    dispatch(getOwnerNodes());
+  }, []);
+
+  useEffect(() => {
+    const _ownerNodes = ownerNodes?.data?.owner_node || [];
+    if (_ownerNodes.length) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < _ownerNodes.length; i++) {
+        if (!_ownerNodes[i].kyc_verified_at) {
+          setIsWaiting(true);
+          return;
+        }
+      }
+      setIsWaiting(false);
+    }
+  }, [ownerNodes]);
+
+  const getDetailOwnerNode = () => (
+    <div>
+      <p>Waiting for all users to verify KYC Details</p>
+      <button
+        type="button"
+        className="text-primary underline"
+        onClick={() => router.push('/onboard/submit-kyc')}
+      >
+        Details
+      </button>
+    </div>
+  );
 
   return (
     <div className="flex justify-center min-h-screen">
@@ -37,7 +72,7 @@ const Onboard = () => {
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
                 doneStep={!!user.node_verified_at}
-                description="Please choose Sign In if you have an existing account or Register if this is your first time here."
+                description="If you are a node operator, you must verify the ownership of your node."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
               />
               <OnboardItem
@@ -45,9 +80,22 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"
-                doneStep={!!user.kyc_verified_at}
-                description="Upload your passport and utility bill here for identity and address verification."
-                onClick={() => router.push('/onboard/submit-kyc')}
+                doneStep={
+                  // eslint-disable-next-line prettier/prettier
+                  (user.type === 'individual' && !!user.kyc_verified_at) ||
+                  (user.type === 'entity' && isWaiting === false)
+                }
+                waitingStep={isWaiting}
+                description={
+                  user.type === 'entity' && isWaiting
+                    ? getDetailOwnerNode()
+                    : 'Upload your passport and utility bill here for identity and address verification.'
+                }
+                onClick={
+                  isWaiting
+                    ? () => null
+                    : () => router.push('/onboard/submit-kyc')
+                }
               />
             </div>
           </div>

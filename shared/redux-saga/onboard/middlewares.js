@@ -2,7 +2,12 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as putApi } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import { uploadLetterSuccess, uploadLetterError } from './actions';
+import {
+  uploadLetterSuccess,
+  uploadLetterError,
+  getOwnerNodesSuccess,
+  getOwnerNodesError,
+} from './actions';
 
 export function* helloSignRequest({ callback }) {
   try {
@@ -163,6 +168,33 @@ export function* uploadLetter({ payload, callback }) {
   }
 }
 
+export function* getOwnerNodes() {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const res = yield get(['users/owner-node'], { headers });
+    yield put(getOwnerNodesSuccess(res.data));
+  } catch (error) {
+    yield put(getOwnerNodesError(error));
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resendEmailOwnerNodes({ payload }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield post(['users/resend-invite-owner'], payload, { headers });
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
@@ -175,4 +207,6 @@ export function* watchOnboard() {
   yield all([takeLatest('UPDATE_TYPE_OWNER_NODE', updateTypeOwnerNode)]);
   yield all([takeLatest('POST_OWNER_NODES', postOwnerNodes)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
+  yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
+  yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);
 }

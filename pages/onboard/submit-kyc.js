@@ -1,7 +1,7 @@
 /* eslint-disable no-lonely-if */
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
@@ -17,22 +17,53 @@ import { Shuftipro } from '../../components/onboard/submit-kyc/shuftipro';
 import {
   postOwnerNodes,
   updateTypeOwnerNode,
+  getOwnerNodes,
 } from '../../shared/redux-saga/onboard/actions';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const SubmitKYC = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(null);
   const [submitType, setSubmitType] = useState(null);
   const [information, setInformation] = useState(null);
   const [beginKYC, setBeginKYC] = useState(null);
   const [hasOwner, setHasOwner] = useState(false);
+  const [canGoToDashBoard, setGoToDashBoard] = useState(false);
   const submitBtnStep2 = useRef(null);
   const { setDialog } = useDialog();
   const dispatch = useDispatch();
 
   const router = useRouter();
 
+  const user = useSelector(state => state.authReducer.userInfo);
+  const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
+
   const totalSteps = 6;
+
+  useEffect(() => {
+    if (user.type === 'entity') {
+      dispatch(getOwnerNodes());
+    } else {
+      setCurrentStep(1);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const _ownerNodes = ownerNodes?.data?.owner_node || [];
+    if (_ownerNodes.length) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < _ownerNodes.length; i++) {
+        if (!_ownerNodes[i].kyc_verified_at) {
+          setGoToDashBoard(false);
+          setCurrentStep(6);
+          return;
+        }
+      }
+      setGoToDashBoard(true);
+      setCurrentStep(6);
+    } else {
+      setCurrentStep(5);
+    }
+  }, [ownerNodes]);
 
   const handlePrev = () => {
     if (currentStep === 1) {
@@ -77,7 +108,7 @@ const SubmitKYC = () => {
       } else if (currentStep === 5) {
         dispatch(
           postOwnerNodes(information, () => {
-            setCurrentStep(currentStep + 1);
+            dispatch(getOwnerNodes());
           })
         );
       } else {
@@ -180,7 +211,7 @@ const SubmitKYC = () => {
     }
 
     if (currentStep === 6) {
-      return <SubmitKYCSixthStep />;
+      return <SubmitKYCSixthStep canGoToDashBoard={canGoToDashBoard} />;
     }
 
     return <></>;
@@ -222,6 +253,7 @@ const SubmitKYC = () => {
             hideContinueButton={!getContinueButtonVisibility()}
             onPrev={handlePrev}
             onNext={handleNext}
+            ownerNodesDone={canGoToDashBoard}
           />
         </div>
         <AppFooter theme="dark" />
