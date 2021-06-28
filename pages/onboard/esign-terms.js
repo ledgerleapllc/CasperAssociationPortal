@@ -138,7 +138,7 @@ const EsignTerms = () => {
               }));
             }}
           />
-          <div className="mt-8 text-primary">
+          {/* <div className="mt-8 text-primary">
             <button
               type="button"
               className="cursor-pointer"
@@ -146,7 +146,7 @@ const EsignTerms = () => {
             >
               By Pass
             </button>
-          </div>
+          </div> */}
         </>
       );
     }

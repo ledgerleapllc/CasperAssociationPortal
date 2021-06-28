@@ -65,6 +65,7 @@ const Onboard = () => {
                 doneStep={!!user.signature_request_id}
                 description="You must upload a letter of motivation and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
+                stepType="hellosign"
               />
               <OnboardItem
                 className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
@@ -74,6 +75,7 @@ const Onboard = () => {
                 doneStep={!!user.node_verified_at}
                 description="If you are a node operator, you must verify the ownership of your node."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
+                stepType="verify-node"
               />
               <OnboardItem
                 className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
@@ -92,6 +94,7 @@ const Onboard = () => {
                     ? () => null
                     : () => router.push('/onboard/submit-kyc')
                 }
+                stepType="submit-kyc"
               />
             </div>
           </div>
