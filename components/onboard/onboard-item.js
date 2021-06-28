@@ -16,13 +16,18 @@ const OnboardItem = ({
   description,
   onClick,
   stepType,
+  handleBypass,
 }) => {
   const [onHover, setOnHover] = useState(false);
   const dispatch = useDispatch();
 
   const handleByPass = () => {
+    handleBypass(true);
     dispatch(
-      bypassOnboardStep({ type: stepType }, () => dispatch(fetchUserInfo()))
+      bypassOnboardStep({ type: stepType }, () => {
+        dispatch(fetchUserInfo());
+        handleBypass(false);
+      })
     );
   };
 
@@ -35,19 +40,22 @@ const OnboardItem = ({
       onKeyDown={onClick}
     >
       <div className="relative">
-        <img src={imageUrl} alt="esign terms" className="object-cover" />
-        <button
-          type="button"
-          className="text-xl text-white absolute left-4 bottom-4 z-3 focus:outline-none"
-          onClick={handleByPass}
-        >
-          Dev Clear
-        </button>
+        <img src={imageUrl} alt="esign terms" className="object-cover z-4" />
+        <div className="absolute left-0 bottom-0 p-4 z-3">
+          <button
+            type="button"
+            className="text-xl text-white focus:outline-none"
+            onClick={handleByPass}
+          >
+            Dev Clear
+          </button>
+        </div>
         <div
           className={`transition duration-300 ease-in-out absolute left-0 right-0 top-0 bottom-0 ${
             onHover && !waitingStep ? 'opacity-100 z-4' : 'opacity-0 z-2'
           } bg-white`}
           style={{ backgroundImage: `url(${blurImageUrl})` }}
+          onMouseEnter={() => setOnHover(true)}
         >
           {!waitingStep && (
             <div

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
+import ReactLoading from 'react-loading';
+
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardItem from '../../components/onboard/onboard-item';
@@ -13,6 +15,7 @@ const Onboard = () => {
   const user = useSelector(state => state.authReducer.userInfo);
   const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
   const [isWaiting, setIsWaiting] = useState(undefined);
+  const [isBypassing, setIsBypassing] = useState(false);
 
   useEffect(() => {
     dispatch(getOwnerNodes());
@@ -66,6 +69,7 @@ const Onboard = () => {
                 description="You must upload a letter of motivation and agree to the terms of service before continuing to the portal"
                 onClick={() => router.push('/onboard/esign-terms')}
                 stepType="hellosign"
+                handleBypass={setIsBypassing}
               />
               <OnboardItem
                 className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
@@ -76,6 +80,7 @@ const Onboard = () => {
                 description="If you are a node operator, you must verify the ownership of your node."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
                 stepType="verify-node"
+                handleBypass={setIsBypassing}
               />
               <OnboardItem
                 className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
@@ -95,12 +100,23 @@ const Onboard = () => {
                     : () => router.push('/onboard/submit-kyc')
                 }
                 stepType="submit-kyc"
+                handleBypass={setIsBypassing}
               />
             </div>
           </div>
         </div>
         <AppFooter theme="dark" />
       </div>
+      {isBypassing && (
+        <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
+          <ReactLoading
+            type="spinningBubbles"
+            color="#FF473E"
+            width={137}
+            height={141}
+          />
+        </div>
+      )}
     </div>
   );
 };
