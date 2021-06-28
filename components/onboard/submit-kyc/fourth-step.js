@@ -50,7 +50,7 @@ const SubmitKYCFourthStep = ({ onNext, onChange }) => {
             provided)
           </span>
         </label>
-        {data.type && (
+        {+data.type === 2 && (
           <p className="text-xs text-primary">
             On the next screen, you will provide the details of any individual,
             entity, or organization that owns 25% or more of the CSPR in the

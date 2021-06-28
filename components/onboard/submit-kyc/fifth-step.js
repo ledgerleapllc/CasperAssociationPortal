@@ -1,16 +1,28 @@
 import { useForm } from 'react-hook-form';
-import FieldArrayFormCSPR from './field-array-form-cspr';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FieldArrayFormCSPR, { defaultNode } from './field-array-form-cspr';
 
-const defaultValues = {
-  form: [
-    {
-      percent: null,
-      email: '',
-      isAdded: false,
-      type: null,
-    },
-  ],
-};
+const nodesFormSchema = yup.object().shape({
+  form: yup.array().of(
+    yup.object().shape({
+      email: yup
+        .string()
+        .required('Email is required')
+        .matches(
+          /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-+]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z‌​]{2,})$/,
+          'Email is not right format'
+        ),
+      percent: yup
+        .number()
+        .typeError('The owner should hold at least 25% or more')
+        .required('The owner should hold at least 25% or more')
+        .min(25, 'The owner should hold at least 25% or more')
+        .max(100, 'Percentage should below 100%'),
+      type: yup.string().required('Type is required'),
+    })
+  ),
+});
 
 const SubmitKYCFifthStep = ({ onNext, onHasOwner }) => {
   const {
@@ -22,8 +34,11 @@ const SubmitKYCFifthStep = ({ onNext, onHasOwner }) => {
     setValue,
     getValues,
   } = useForm({
-    defaultValues,
     mode: 'onChange',
+    defaultValues: {
+      form: [defaultNode],
+    },
+    resolver: yupResolver(nodesFormSchema),
   });
 
   const checkKeyDown = e => {

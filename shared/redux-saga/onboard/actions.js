@@ -88,3 +88,11 @@ export const resendEmailOwnerNodes = payload => ({
   type: 'RESEND_EMAIL_OWNER_NODES',
   payload,
 });
+
+export const clearOwnerNodes = () => ({
+  type: 'CLEAR_OWNER_NODES',
+});
+
+export const clearLetter = () => ({
+  type: 'CLEAR_LETTER',
+});

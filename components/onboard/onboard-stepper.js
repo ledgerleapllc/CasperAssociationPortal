@@ -16,7 +16,6 @@ const OnboardStepper = ({
   hideContinueButton,
   onPrev,
   onNext,
-  ownerNodesDone,
 }) => {
   const router = useRouter();
   const [allStepsDone, setAllStepsDone] = useState(false);
@@ -26,7 +25,6 @@ const OnboardStepper = ({
     if (
       (title === 'Submit KYC' &&
         currentStep === 6 &&
-        ownerNodesDone &&
         user.signature_request_id &&
         user.node_verified_at) ||
       (title === 'Esign Terms' &&

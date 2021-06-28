@@ -80,14 +80,10 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Submit KYC"
-                doneStep={
-                  // eslint-disable-next-line prettier/prettier
-                  (user.type === 'individual' && !!user.kyc_verified_at) ||
-                  (user.type === 'entity' && isWaiting === false)
-                }
+                doneStep={!!user.kyc_verified_at && !isWaiting}
                 waitingStep={isWaiting}
                 description={
-                  user.type === 'entity' && isWaiting
+                  isWaiting
                     ? getDetailOwnerNode()
                     : 'Upload your passport and utility bill here for identity and address verification.'
                 }

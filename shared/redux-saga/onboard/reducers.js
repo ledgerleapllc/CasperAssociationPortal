@@ -26,10 +26,13 @@ const uploadLetterError = (state, payload) => ({
   isLoading: false,
 });
 
+const clearLetter = () => ({ ...initialState });
+
 const uploadLetterStrategiesList = {
-  ['UPLOAD_LETTER']: uploadLetter,
-  ['UPLOAD_LETTER_SUCCESS']: uploadLetterSuccess,
-  ['UPLOAD_LETTER_ERROR']: uploadLetterError,
+  UPLOAD_LETTER: uploadLetter,
+  UPLOAD_LETTER_SUCCESS: uploadLetterSuccess,
+  UPLOAD_LETTER_ERROR: uploadLetterError,
+  CLEAR_OWNER_NODES: clearLetter,
   __default__: state => state,
 };
 
@@ -56,10 +59,13 @@ const getOwnerNodesError = (state, payload) => ({
   isLoading: false,
 });
 
+const clearOwnerNodes = () => ({ ...initialState });
+
 const getOwnerNodesStrategiesList = {
-  ['GET_OWNER_NODES']: getOwnerNodes,
-  ['GET_OWNER_NODES_SUCCESS']: getOwnerNodesSuccess,
-  ['GET_OWNER_NODES_ERROR']: getOwnerNodesError,
+  GET_OWNER_NODES: getOwnerNodes,
+  GET_OWNER_NODES_SUCCESS: getOwnerNodesSuccess,
+  GET_OWNER_NODES_ERROR: getOwnerNodesError,
+  CLEAR_OWNER_NODES: clearOwnerNodes,
   __default__: state => state,
 };
 

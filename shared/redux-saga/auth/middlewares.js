@@ -14,6 +14,7 @@ import {
   setUser,
   updateUser,
 } from './actions';
+import { clearLetter, clearOwnerNodes } from '../onboard/actions';
 
 export function* loginApp({ payload, callback, resetSubmitting }) {
   try {
@@ -30,6 +31,8 @@ export function* loginApp({ payload, callback, resetSubmitting }) {
 
 export function* logoutApp() {
   removeToken();
+  yield put(clearLetter());
+  yield put(clearOwnerNodes());
   yield put(clearUser());
 }
 

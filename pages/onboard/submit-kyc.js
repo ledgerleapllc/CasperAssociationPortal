@@ -27,41 +27,20 @@ const SubmitKYC = () => {
   const [information, setInformation] = useState(null);
   const [beginKYC, setBeginKYC] = useState(null);
   const [hasOwner, setHasOwner] = useState(false);
-  const [canGoToDashBoard, setGoToDashBoard] = useState(false);
   const submitBtnStep2 = useRef(null);
   const { setDialog } = useDialog();
   const dispatch = useDispatch();
-
   const router = useRouter();
-
-  const user = useSelector(state => state.authReducer.userInfo);
   const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
 
   const totalSteps = 6;
 
   useEffect(() => {
-    if (user.type === 'entity') {
-      dispatch(getOwnerNodes());
-    } else {
-      setCurrentStep(1);
-    }
-  }, [user]);
-
-  useEffect(() => {
     const _ownerNodes = ownerNodes?.data?.owner_node || [];
     if (_ownerNodes.length) {
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < _ownerNodes.length; i++) {
-        if (!_ownerNodes[i].kyc_verified_at) {
-          setGoToDashBoard(false);
-          setCurrentStep(6);
-          return;
-        }
-      }
-      setGoToDashBoard(true);
       setCurrentStep(6);
     } else {
-      setCurrentStep(5);
+      setCurrentStep(1);
     }
   }, [ownerNodes]);
 
@@ -88,17 +67,11 @@ const SubmitKYC = () => {
       if (currentStep === 2) {
         submitBtnStep2.current.click();
       } else if (currentStep === 3) {
-        if (submitType === 'individual') {
-          setCurrentStep(currentStep + 3);
-        } else {
-          setCurrentStep(currentStep + 1);
-        }
+        setCurrentStep(currentStep + 1);
       } else if (currentStep === 4) {
         dispatch(
           updateTypeOwnerNode(information, () => {
-            if (submitType === 'individual') {
-              setCurrentStep(currentStep + 2);
-            } else if (+information.type === 1) {
+            if (+information.type === 1) {
               setCurrentStep(currentStep + 2);
             } else if (+information.type === 2) {
               setCurrentStep(currentStep + 1);
@@ -211,7 +184,7 @@ const SubmitKYC = () => {
     }
 
     if (currentStep === 6) {
-      return <SubmitKYCSixthStep canGoToDashBoard={canGoToDashBoard} />;
+      return <SubmitKYCSixthStep />;
     }
 
     return <></>;
@@ -253,7 +226,6 @@ const SubmitKYC = () => {
             hideContinueButton={!getContinueButtonVisibility()}
             onPrev={handlePrev}
             onNext={handleNext}
-            ownerNodesDone={canGoToDashBoard}
           />
         </div>
         <AppFooter theme="dark" />
