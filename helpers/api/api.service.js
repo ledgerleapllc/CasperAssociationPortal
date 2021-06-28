@@ -26,6 +26,11 @@ export class ApiService {
         'Content-Type': 'application/json',
       },
     });
+    this.axiosInstance.interceptors.request.use(_config => {
+      const token = localStorage.getItem('ACCESS-TOKEN');
+      if (token) _config.headers.Authorization = `Bearer ${token}`;
+      return _config;
+    });
   }
 
   doGet(uri, moreConfigs = {}) {

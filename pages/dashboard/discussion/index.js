@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Tab, Card } from '../../../components/partials';
@@ -6,78 +7,9 @@ import IconEye from '../../../public/images/ic_eye.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
+import { ApiService } from '../../../helpers/api/api.service';
 
-const chatBoxFakeData = [
-  {
-    id: 1,
-    desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
-    elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
-    elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
-    quis. Fusce auctor urna sed suscipit pulvinar. Vivamus porta fermentum
-    fermentum. Aliquam facilisis.`,
-    image: '/images/img_signature.png',
-    pinned: false,
-    postedBy: 'Username16448',
-    reaction: {
-      comments: 25,
-      likes: 25,
-      read: 25,
-    },
-    title: 'Title goes here for each discussion',
-  },
-  {
-    id: 2,
-    desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
-    elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
-    elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
-    quis. Fusce auctor urna sed suscipit pulvinar. Vivamus porta fermentum
-    fermentum. Aliquam facilisis.`,
-    image: '/images/img_signature.png',
-    pinned: false,
-    postedBy: 'Username16448',
-    reaction: {
-      comments: 35,
-      likes: 2,
-      read: 2,
-    },
-    title: 'Title goes here for each discussion',
-  },
-  {
-    id: 3,
-    desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
-    elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
-    elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
-    quis. Fusce auctor urna sed suscipit pulvinar. Vivamus porta fermentum
-    fermentum. Aliquam facilisis.`,
-    image: '/images/img_signature.png',
-    pinned: false,
-    postedBy: 'Username16448',
-    reaction: {
-      comments: 25,
-      likes: 25,
-      read: 25,
-    },
-    title: 'Title goes here for each discussion',
-  },
-  {
-    id: 4,
-    desc: `Nunc eu viverra turpis. In tincidunt enim tellus, sit amet fermentum
-    elit facilisis sit amet. Donec quis quam egestas, dignissim odio eu,
-    elementum tortor. Vivamus egestas orci orci, in vehicula urna luctus
-    quis. Fusce auctor urna sed suscipit pulvinar. Vivamus porta fermentum
-    fermentum. Aliquam facilisis.`,
-    image: '/images/img_signature.png',
-    pinned: false,
-    postedBy: 'Username16448',
-    reaction: {
-      comments: 25,
-      likes: 25,
-      read: 25,
-    },
-    title: 'Title goes here for each discussion',
-  },
-];
-
+const http = new ApiService();
 const DashboardDiscusionContext = createContext();
 
 const ChatBox = ({ data }) => {
@@ -113,20 +45,20 @@ const ChatBox = ({ data }) => {
         </div>
         <div className="chat-content-footer flex text-sm flex-col md:flex-row">
           <p>
-            Posted by: <a className="text-primary">{data.postedBy}</a>
+            Posted by: <a className="text-primary">{data.user.pseudonym}</a>
           </p>
           <ul className="ml-8 flex -ml-6 mt-5 md:ml-0 md:mt-0">
             <li className="flex px-6 items-center">
               <IconChatBox />
-              <span className="pl-2.5">{data.reaction.comments || 0}</span>
+              <span className="pl-2.5">{data.comments || 0}</span>
             </li>
             <li className="flex px-6 items-center">
               <IconEye />
-              <span className="pl-2.5">{data.reaction.read || 0}</span>
+              <span className="pl-2.5">{data.read || 0}</span>
             </li>
             <li className="flex px-6 items-center">
               <IconLike />
-              <span className="pl-2.5">{data.reaction.likes || 0}</span>
+              <span className="pl-2.5">{data.likes || 0}</span>
             </li>
           </ul>
         </div>
@@ -163,6 +95,20 @@ const Tab2 = () => (
   </ul>
 );
 
+const Tab3 = () => (
+  <ul className="pb-20">
+    <DashboardDiscusionContext.Consumer>
+      {({ myList }) =>
+        myList.map((data, index) => (
+          <li key={index}>
+            <ChatBox data={data} />
+          </li>
+        ))
+      }
+    </DashboardDiscusionContext.Consumer>
+  </ul>
+);
+
 const tabsData = [
   {
     content: Tab1,
@@ -174,11 +120,31 @@ const tabsData = [
     id: 'pinned',
     title: 'Pinned',
   },
+  {
+    content: Tab3,
+    id: 'my-threads',
+    title: 'My Threads',
+  },
 ];
 
 const DashboardDiscusion = () => {
   const [pinnedList, setPinnedList] = useState([]);
-  const [discussionList, setDiscussionList] = useState(chatBoxFakeData);
+  const [discussionList, setDiscussionList] = useState([]);
+  const [myList, setMyList] = useState([]);
+
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+
+  useEffect(() => {
+    http.doGet(['discussions/list'])
+      .then(res => {
+        const data = res.data.data;
+        setDiscussionList(data.discussions);
+        setPinnedList(data.pinned_discussions);
+        setMyList(data.my_discussions);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
 
   const togglePinnedList = item => {
     const ind = discussionList.findIndex(x => x.id === item.id);
@@ -197,7 +163,7 @@ const DashboardDiscusion = () => {
   return (
     <LayoutDashboard>
       <DashboardDiscusionContext.Provider
-        value={{ discussionList, pinnedList, togglePinnedList }}
+        value={{ discussionList, pinnedList, myList, togglePinnedList }}
       >
         <Card className="h-full md:pl-24 md:py-10 md:shadow-2xl" noShadow>
           <div className="w-full h-full">
