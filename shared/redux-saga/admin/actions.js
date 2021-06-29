@@ -67,3 +67,21 @@ export const getListIntakeError = error => ({
   type: 'GET_LIST_INTAKE_ERROR',
   payload: error,
 });
+
+export const getBallots = (payload, callback) => ({
+  type: 'GET_BALLOTS',
+  payload,
+  callback,
+});
+
+export const getBallotDetail = (payload, callback) => ({
+  type: 'GET_BALLOT_DETAIL',
+  payload,
+  callback,
+});
+
+export const submitBallot = (payload, callback) => ({
+  type: 'SUBMIT_BALLOT',
+  payload,
+  callback,
+});

@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -10,42 +12,7 @@ import {
   ForAgainst,
 } from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
-
-const ballots = [
-  {
-    id: 1,
-    title: 'Title of ballot - There is room for a long title',
-    final_result: 'pass',
-    time_remaining: new Date('2021-06-30T16:55:06.439Z'),
-    total_votes: '199',
-    split_for: '100',
-    split_against: '99',
-    start_date: new Date('2021-06-25T16:55:06.439Z'),
-    end_date: new Date('2021-06-27T16:55:06.439Z'),
-  },
-  {
-    id: 2,
-    title: 'Title of ballot - There is room for a long long long long',
-    time_remaining: new Date('2021-06-28T16:55:06.439Z'),
-    total_votes: '199',
-    final_result: 'cancelled',
-    split_for: '4',
-    split_against: '22',
-    start_date: new Date('2021-06-25T16:55:06.439Z'),
-    end_date: new Date('2021-06-27T16:55:06.439Z'),
-  },
-  {
-    id: 3,
-    title: 'Title of ballot - There is room for a long long long long',
-    time_remaining: new Date('2021-06-28T16:55:06.439Z'),
-    total_votes: '199',
-    final_result: 'fail',
-    split_for: '8',
-    split_against: '9',
-    start_date: new Date('2021-06-25T16:55:06.439Z'),
-    end_date: new Date('2021-06-27T16:55:06.439Z'),
-  },
-];
+import { getBallots } from '../../../shared/redux-saga/admin/actions';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -93,119 +60,146 @@ const Styles = styled.div`
   }
 `;
 
-const Tab1 = () => (
-  <Styles>
-    <div className="active-ballot-table flex flex-col pt-4 h-full">
-      <div className="flex flex-col lg:pt-6 h-full min-w-250">
-        <div className="flex w-full">
-          <p className="col-1 text-base font-medium">Title</p>
-          <p className="col-2 text-base font-medium">Time Remaining</p>
-          <p className="col-3 text-base font-medium">
-            Total <br />
-            Votes
-          </p>
-          <p className="col-4 text-base font-medium">
-            Split <br />
-            For/Against
-          </p>
-          <p className="col-5 text-base font-medium">Start Date</p>
-          <p className="col-6 text-base font-medium">Admin Action</p>
-        </div>
-        <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-          {ballots.map(ballot => (
-            <div className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray">
-              <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
-              <p className="col-2 text-sm">
-                <ClockBar
-                  endTime={ballot.time_remaining}
-                  startTime={ballot.start_date}
-                />
-              </p>
-              <p className="col-3 text-sm">{ballot.total_votes}</p>
-              <p className="col-4 text-sm">
-                <ForAgainst
-                  splitFor={ballot.split_for}
-                  splitAgainst={ballot.split_against}
-                />
-              </p>
-              <p className="col-5 text-sm">{formatDate(ballot.start_date)}</p>
-              <p className="col-6 text-sm">
-                <Link href={`/admin/ballots/active/${ballot.id}`}>
-                  <button
-                    type="button"
-                    className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    Manage
-                  </button>
-                </Link>
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </Styles>
-);
+const Tab1 = () => {
+  const [activeBallots, setActiveBallots] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getBallots('active', res => {
+        setActiveBallots(res);
+      })
+    );
+  }, []);
 
-const Tab2 = () => (
-  <Styles>
-    <div className="complete-ballot-table flex flex-col pt-4 h-full">
-      <div className="flex flex-col lg:pt-6 h-full min-w-250">
-        <div className="flex w-full">
-          <p className="col-1 text-base font-medium">Title</p>
-          <p className="col-2 text-base font-medium">Final Result</p>
-          <p className="col-3 text-base font-medium">
-            Total <br />
-            Votes
-          </p>
-          <p className="col-4 text-base font-medium">
-            Split <br />
-            For/Against
-          </p>
-          <p className="col-5 text-base font-medium">Start Date</p>
-          <p className="col-6 text-base font-medium">End Date</p>
-          <p className="col-7 text-base font-medium">Admin Action</p>
-        </div>
-        <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-          {ballots.map(ballot => (
-            <div className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray">
-              <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
-              <p className="col-2 text-sm">
-                <StatusText
-                  className="capitalize"
-                  content={ballot.final_result}
-                />
-              </p>
-              <p className="col-3 text-sm">{ballot.total_votes}</p>
-              <p className="col-4 text-sm">
-                <ForAgainst
-                  splitFor={ballot.split_for}
-                  splitAgainst={ballot.split_against}
-                />
-              </p>
-              <p className="col-5 text-sm">
-                {formatDate(ballot.start_date, 'hh:mm aaa dd/MM/yyyy')}
-              </p>
-              <p className="col-6 text-sm">
-                {formatDate(ballot.end_date, 'hh:mm aaa dd/MM/yyyy')}
-              </p>
-              <p className="col-7 text-sm">
-                <Link href={`/admin/ballots/complete/${ballot.id}`}>
-                  <button
-                    type="button"
-                    className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    View
-                  </button>
-                </Link>
-              </p>
-            </div>
-          ))}
+  return (
+    <Styles>
+      <div className="active-ballot-table flex flex-col pt-4 h-full">
+        <div className="flex flex-col lg:pt-6 h-full min-w-250">
+          <div className="flex w-full">
+            <p className="col-1 text-base font-medium">Title</p>
+            <p className="col-2 text-base font-medium">Time Remaining</p>
+            <p className="col-3 text-base font-medium">
+              Total <br />
+              Votes
+            </p>
+            <p className="col-4 text-base font-medium">
+              Split <br />
+              For/Against
+            </p>
+            <p className="col-5 text-base font-medium">Start Date</p>
+            <p className="col-6 text-base font-medium">Admin Action</p>
+          </div>
+          <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
+            {activeBallots.map((ballot, ind) => (
+              <div
+                key={`active-${ind}`}
+                className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray"
+              >
+                <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
+                <div className="col-2 text-sm">
+                  <ClockBar
+                    endTime={new Date(ballot.time_end)}
+                    startTime={new Date(ballot.created_at)}
+                  />
+                </div>
+                <p className="col-3 text-sm">{ballot.vote.result_count}</p>
+                <div className="col-4 text-sm">
+                  <ForAgainst
+                    splitFor={ballot.vote.for_value}
+                    splitAgainst={ballot.vote.against_value}
+                  />
+                </div>
+                <p className="col-5 text-sm">{formatDate(ballot.created_at)}</p>
+                <div className="col-6 text-sm">
+                  <Link href={`/admin/ballots/active/${ballot.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      Manage
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </Styles>
-);
+    </Styles>
+  );
+};
+
+const Tab2 = () => {
+  const [completeBallots, setCompleteBallots] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getBallots('complete', res => {
+        setCompleteBallots(res);
+      })
+    );
+  }, []);
+
+  return (
+    <Styles>
+      <div className="complete-ballot-table flex flex-col pt-4 h-full">
+        <div className="flex flex-col lg:pt-6 h-full min-w-250">
+          <div className="flex w-full">
+            <p className="col-1 text-base font-medium">Title</p>
+            <p className="col-2 text-base font-medium">Final Result</p>
+            <p className="col-3 text-base font-medium">
+              Total <br />
+              Votes
+            </p>
+            <p className="col-4 text-base font-medium">
+              Split <br />
+              For/Against
+            </p>
+            <p className="col-5 text-base font-medium">Start Date</p>
+            <p className="col-6 text-base font-medium">End Date</p>
+            <p className="col-7 text-base font-medium">Admin Action</p>
+          </div>
+          <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
+            {completeBallots.map((ballot, ind) => (
+              <div
+                key={`complete-${ind}`}
+                className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray"
+              >
+                <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
+                <p className="col-2 text-sm">
+                  <StatusText className="capitalize" content="pass" />
+                </p>
+                <p className="col-3 text-sm">{ballot.vote.result_count}</p>
+                <div className="col-4 text-sm">
+                  <ForAgainst
+                    splitFor={ballot.vote.for_value}
+                    splitAgainst={ballot.vote.against_value}
+                  />
+                </div>
+                <p className="col-5 text-sm">
+                  {formatDate(ballot.created_at, 'hh:mm aaa dd/MM/yyyy')}
+                </p>
+                <p className="col-6 text-sm">
+                  {formatDate(ballot.time_end, 'hh:mm aaa dd/MM/yyyy')}
+                </p>
+                <div className="col-7 text-sm">
+                  <Link href={`/admin/ballots/complete/${ballot.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      View
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Styles>
+  );
+};
 
 const tabsData = [
   {

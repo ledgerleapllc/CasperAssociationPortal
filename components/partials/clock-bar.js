@@ -31,6 +31,8 @@ const ClockBar = props => {
     setIntervalId(intervalIdTemp);
     return () => {
       clearInterval(intervalId);
+      setDuration('');
+      setProgress(0);
     };
   }, [props.endTime]);
 

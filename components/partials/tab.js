@@ -43,7 +43,7 @@ const Tab = ({ data, className }) => {
                     ? 'opacity-100 text-primary'
                     : 'opacity-40'
                 } tab-header text-dark2 text-xl md:pr-32`}
-                key={`a-${index}`}
+                key={`tab-header-${index}`}
               >
                 <Link href={`#${x.id}`}>{x.title}</Link>
               </li>
@@ -59,7 +59,7 @@ const Tab = ({ data, className }) => {
           >
             {data.map((x, index) => (
               <div
-                key={`b-${index}`}
+                key={`tab-content-${index}`}
                 className="md:pr-24 h-full"
                 hidden={currentTab !== index}
               >

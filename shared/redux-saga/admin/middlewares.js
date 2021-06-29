@@ -1,4 +1,5 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
+import { put, takeLatest, all, takeEvery } from 'redux-saga/effects';
+import qs from 'qs';
 import { get, post } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 import {
@@ -97,6 +98,62 @@ export function* getIntake({ payload }) {
   }
 }
 
+export function* getBallots({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const query = qs.stringify({
+      status: payload,
+    });
+    const res = yield get([`admin/ballots?${query}`], {
+      headers,
+    });
+    callback(res.data?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* submitBallot({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const formData = new FormData();
+    Array.from(payload.files).forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    formData.append(`title`, payload.title);
+    formData.append(`description`, payload.description);
+    formData.append(`time`, payload.time);
+    formData.append(`time_unit`, payload.time_unit);
+    const res = yield post([`admin/ballots`], formData, {
+      headers,
+    });
+    callback(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getBallotDetail({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const res = yield get([`admin/ballots`, payload], {
+      headers,
+    });
+    callback(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -104,4 +161,7 @@ export function* watchAdmin() {
   yield all([takeLatest('APPROVE_KYC', approveKYC)]);
   yield all([takeLatest('DENY_KYC', denyKYC)]);
   yield all([takeLatest('GET_LIST_INTAKE', getIntake)]);
+  yield all([takeEvery('GET_BALLOTS', getBallots)]);
+  yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
+  yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
 }
