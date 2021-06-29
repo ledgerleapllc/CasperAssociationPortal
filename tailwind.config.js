@@ -11,6 +11,9 @@ module.exports = {
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
     extend: {
+      transitionProperty: {
+        width: 'width',
+      },
       boxShadow: {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
       },
@@ -23,6 +26,7 @@ module.exports = {
         pink: '#FFA5A0',
         primary: '#FF473E',
         success: '#211BAA',
+        green: '#2DDB33',
       },
       fontSize: {
         '2.5xl': '1.7rem',
@@ -47,6 +51,7 @@ module.exports = {
       },
       minWidth: {
         250: '62.5rem',
+        52: '13rem',
       },
       width: {
         '9/20': '45%',

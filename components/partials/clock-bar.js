@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const ClockBar = props => {
   const [duration, setDuration] = useState('');
-  const [progress, setProgress] = useState('');
+  const [progress, setProgress] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
@@ -39,9 +39,11 @@ const ClockBar = props => {
       <p>
         {duration.days}d:{duration.hours}h:{duration.minutes}m
       </p>
-      <div className="w-28 overflow-hidden h-4 mt-2 text-xs border border-gray flex rounded-lg bg-opacity-50">
+      <div
+        className={`${props.className} w-28 overflow-hidden h-4 mt-2 text-xs border border-gray flex rounded-lg bg-opacity-50`}
+      >
         <div
-          className="shadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
+          className="w-0 transition-width duration-600 ease-in-out transhadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
           style={{ width: `${progress}%` }}
         />
       </div>

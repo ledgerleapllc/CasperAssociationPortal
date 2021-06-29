@@ -7,6 +7,8 @@ import ToggleButton from './toggle-button';
 import DateTimePicker from './date-time-picker';
 import Checkbox from './checkbox';
 import ClockBar from './clock-bar';
+import StatusText from './status-text';
+import ForAgainst from './for-against';
 
 export {
   Card,
@@ -18,4 +20,6 @@ export {
   DateTimePicker,
   Checkbox,
   ClockBar,
+  StatusText,
+  ForAgainst,
 };

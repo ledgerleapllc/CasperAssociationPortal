@@ -24,6 +24,28 @@ select {
   -moz-appearance: none;
   /* for Chrome */
   -webkit-appearance: none;
+  outline: none;
+}
+
+.c-select {
+  select:invalid {
+    color: gray;
+  }
+  option[value=""][disabled] {
+    display: none;
+  }
+  position: relative;
+  .arrow {
+    right: 1.25rem;
+    top: 50%;
+    position: absolute;
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid black;
+    transform: translateY(-50%);
+  }
 }
 
 /* For IE10 */
