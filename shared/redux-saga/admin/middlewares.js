@@ -5,6 +5,8 @@ import {
   getListMembersSuccess,
   getUserDetailSuccess,
   getUserKYCInfoSuccess,
+  getListIntakeSuccess,
+  getListIntakeError,
 } from './actions';
 
 export function* getListMembers(data) {
@@ -76,10 +78,30 @@ export function* denyKYC(data) {
   }
 }
 
+export function* getIntake({ payload }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const res = yield get(
+      [`admin/users/intakes?limit=${payload.limit}&page=${payload.page}`],
+      {
+        headers,
+      }
+    );
+    yield put(getListIntakeSuccess(res.data));
+  } catch (error) {
+    yield put(getListIntakeError(error));
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
   yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
   yield all([takeLatest('APPROVE_KYC', approveKYC)]);
   yield all([takeLatest('DENY_KYC', denyKYC)]);
+  yield all([takeLatest('GET_LIST_INTAKE', getIntake)]);
 }

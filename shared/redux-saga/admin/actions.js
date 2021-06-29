@@ -52,3 +52,18 @@ export const denyKYC = data => ({
   type: 'DENY_KYC',
   payload: data,
 });
+
+export const getListIntake = payload => ({
+  type: 'GET_LIST_INTAKE',
+  payload,
+});
+
+export const getListIntakeSuccess = data => ({
+  type: 'GET_LIST_INTAKE_SUCCESS',
+  payload: data,
+});
+
+export const getListIntakeError = error => ({
+  type: 'GET_LIST_INTAKE_ERROR',
+  payload: error,
+});

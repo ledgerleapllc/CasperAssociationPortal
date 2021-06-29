@@ -62,6 +62,24 @@ const getUserKYCInfoError = (state, payload) => ({
   isLoading: false,
 });
 
+const getListIntake = state => ({
+  ...state,
+  isLoading: true,
+});
+
+const getListIntakeSuccess = (state, payload) => ({
+  ...state,
+  data: payload,
+  isLoading: false,
+});
+
+const getListIntakeError = (state, payload) => ({
+  ...state,
+  error: payload,
+  hasError: true,
+  isLoading: false,
+});
+
 const strategiesListMembers = {
   ['GET_LIST_MEMBER']: getListMembers,
   ['GET_LIST_MEMBER_SUCCESS']: getListMembersSuccess,
@@ -83,6 +101,13 @@ const strategiesUserKYC = {
   __default__: state => state,
 };
 
+const strategiesListIntake = {
+  ['GET_LIST_INTAKE']: getListIntake,
+  ['GET_LIST_INTAKE_SUCCESS']: getListIntakeSuccess,
+  ['GET_LIST_INTAKE_ERROR']: getListIntakeError,
+  __default__: state => state,
+};
+
 export const membersReducer = createReducer(
   strategiesListMembers,
   initialState
@@ -96,3 +121,5 @@ export const userKYCInfoReducer = createReducer(
   strategiesUserKYC,
   initialState
 );
+
+export const intakeReducer = createReducer(strategiesListIntake, initialState);

@@ -4,6 +4,7 @@ import {
   membersReducer,
   userDetailReducer,
   userKYCInfoReducer,
+  intakeReducer,
 } from './admin/reducers';
 import { demoDataReducer } from './dashboard/dashboard-reducers';
 import { apiControllerReducer } from './api-controller/reducers';
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   userDetailReducer,
   userKYCInfoReducer,
   onboardReducer,
+  intakeReducer,
 });
 
 export default appReducer;
