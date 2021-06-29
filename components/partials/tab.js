@@ -39,8 +39,10 @@ const Tab = ({ data, className }) => {
             {data.map((x, index) => (
               <li
                 className={`${
-                  currentTab === index ? 'opacity-100' : 'opacity-40'
-                } text-dark2 text-xl md:pr-32`}
+                  currentTab === index
+                    ? 'opacity-100 text-primary'
+                    : 'opacity-40'
+                } tab-header text-dark2 text-xl md:pr-32`}
                 key={`a-${index}`}
               >
                 <Link href={`#${x.id}`}>{x.title}</Link>

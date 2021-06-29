@@ -6,6 +6,7 @@ import BackButton from './back-button';
 import ToggleButton from './toggle-button';
 import DateTimePicker from './date-time-picker';
 import Checkbox from './checkbox';
+import ClockBar from './clock-bar';
 
 export {
   Card,
@@ -16,4 +17,5 @@ export {
   ToggleButton,
   DateTimePicker,
   Checkbox,
+  ClockBar,
 };
