@@ -78,6 +78,15 @@ const DashboardDiscusionDetail = () => {
       })
   }
 
+  const vote = (is_like) => {
+    http.doPost([`discussions/${_id}/vote`], { is_like })
+      .then(res => {
+        const _discussion = res.data.data.discussion;
+        console.log(_discussion);
+        setDiscussion(_discussion);
+      })
+  }
+
   useEffect(() => {
     http.doGet([`discussions/detail/${_id}`])
       .then(res => {
@@ -93,11 +102,15 @@ const DashboardDiscusionDetail = () => {
 
   const ReactionBar = () => (
     <ul className="flex">
-      <li className="flex px-6 items-center">
+      <li
+        className="flex px-6 items-center"
+        onClick={() => vote(true)}>
         <IconLike className="text-primary" />
         <span className="pl-2.5">{discussion.likes || 0}</span>
       </li>
-      <li className="flex px-6 items-center">
+      <li
+        className="flex px-6 items-center"
+        onClick={() => vote(false)}>
         <IconDislike />
         <span className="pl-2.5">{discussion.dislikes || 0}</span>
       </li>
@@ -146,7 +159,7 @@ const DashboardDiscusionDetail = () => {
                 }
                 <div className="hidden lg:block border-primary border-b" />
                 <ul className="pb-20">
-                  {discussion.comments_list.map((data, index) => (
+                  {discussion.comments_list && discussion.comments_list.map((data, index) => (
                     <li key={index}>
                       <ChatBox data={data} />
                     </li>

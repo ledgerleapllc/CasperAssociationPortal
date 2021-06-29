@@ -1,8 +1,11 @@
+import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 
 const ContentHome = () => {
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+
   const data = {
     datasets: [
       {
@@ -55,7 +58,7 @@ const ContentHome = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">Pinned</span>
-              <span className="text-base text-black1 font-thin">11</span>
+              <span className="text-base text-black1 font-thin">{userInfo.pinned}</span>
             </div>
           </Card>
         </div>

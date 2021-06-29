@@ -13,11 +13,14 @@ const http = new ApiService();
 const DashboardDiscusionContext = createContext();
 
 const ChatBox = ({ data }) => {
-  const { togglePinnedList } = useContext(DashboardDiscusionContext);
+  const { togglePinnedList, pinnedList } = useContext(DashboardDiscusionContext);
 
   const pin = item => {
     togglePinnedList(item);
   };
+
+  const isPinned = pinnedList ? pinnedList.findIndex(item => item.id === data.id) !== -1 : false;
+  console.log(pinnedList, isPinned);
 
   return (
     <div className="flex py-5 md:py-12 border-b border-gray1 flex-col md:flex-row">
@@ -31,7 +34,7 @@ const ChatBox = ({ data }) => {
         </div>
         <div className="px-6 pt-2 mt-auto md:mt-0">
           <IconEye
-            className={`cursor-pointer ${data.pinned ? 'text-primary' : ''}`}
+            className={`cursor-pointer ${isPinned ? 'text-primary' : ''}`}
             onClick={() => pin(data)}
           />
         </div>
@@ -41,11 +44,11 @@ const ChatBox = ({ data }) => {
           <Link href={`/dashboard/discussion/${data.id}`}>
             <h2 className="cursor-pointer text-lg mb-2.5">{data.title}</h2>
           </Link>
-          <p className="text-sm mb-5">{data.desc}</p>
+          <p className="text-sm mb-5" dangerouslySetInnerHTML={{ __html: data.description }} />
         </div>
         <div className="chat-content-footer flex text-sm flex-col md:flex-row">
           <p>
-            Posted by: <a className="text-primary">{data.user.pseudonym}</a>
+            Posted by: <a className="text-primary">{data.user?.pseudonym}</a>
           </p>
           <ul className="ml-8 flex -ml-6 mt-5 md:ml-0 md:mt-0">
             <li className="flex px-6 items-center">
@@ -138,8 +141,9 @@ const DashboardDiscusion = () => {
     http.doGet(['discussions/list'])
       .then(res => {
         const data = res.data.data;
-        setDiscussionList(data.discussions);
+        console.log(data);
         setPinnedList(data.pinned_discussions);
+        setDiscussionList(data.discussions);
         setMyList(data.my_discussions);
       })
       .catch(err => console.log(err));
@@ -147,17 +151,23 @@ const DashboardDiscusion = () => {
 
 
   const togglePinnedList = item => {
+
     const ind = discussionList.findIndex(x => x.id === item.id);
     const isExistedInPinnedList = pinnedList.findIndex(x => x.id === item.id) >= 0;
-    if (!isExistedInPinnedList) {
-      discussionList[ind].pinned = true;
-      setPinnedList([...pinnedList, item]);
-    } else {
-      discussionList[ind].pinned = false;
-      const newPinnedList = pinnedList.filter(x => x.id !== item.id);
-      setPinnedList(newPinnedList);
-    }
-    setDiscussionList([...discussionList]);
+    http.doPost([`discussions/${item.id}/pin`])
+      .then(res => {
+        if (res.data.code === 200) {
+          if (!isExistedInPinnedList) {
+            discussionList[ind].pinned = true;
+            setPinnedList([...pinnedList, item]);
+          } else {
+            discussionList[ind].pinned = false;
+            const newPinnedList = pinnedList.filter(x => x.id !== item.id);
+            setPinnedList(newPinnedList);
+          }
+          setDiscussionList([...discussionList]);
+        }
+      });
   };
 
   return (
