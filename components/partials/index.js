@@ -10,6 +10,7 @@ import ClockBar from './clock-bar';
 import StatusText from './status-text';
 import ForAgainst from './for-against';
 import TimeRemaining from './time-remaining';
+import ProgressBar from './progress-bar';
 
 export {
   Card,
@@ -24,4 +25,5 @@ export {
   StatusText,
   ForAgainst,
   TimeRemaining,
+  ProgressBar,
 };

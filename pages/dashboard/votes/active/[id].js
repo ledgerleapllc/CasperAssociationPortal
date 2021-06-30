@@ -16,6 +16,8 @@ const ActiveVoteDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, data } = useSelector(state => state?.voteDetailReducer);
+  const user = useSelector(state => state.authReducer.userInfo);
+
   const [userVote, setUserVote] = useState('');
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const ActiveVoteDetail = () => {
                 height="18"
                 className="mr-2"
               />
-              <span className="text-primary text-sm">Back</span>
+              <span className="text-sm">Back</span>
             </button>
             <div className="border-primary border-b-2" />
           </div>
@@ -70,33 +72,35 @@ const ActiveVoteDetail = () => {
             )}
             {data && (
               <>
-                <div className="flex items-center">
-                  <button
-                    type="button"
-                    disabled={userVote === 'for'}
-                    className={`rounded-full h-28 w-28 font-semibold ${
-                      userVote === 'for'
-                        ? 'border-transparent text-white bg-primary'
-                        : 'bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent focus:outline-none'
-                    }`}
-                    onClick={() => doRecordVote('for')}
-                  >
-                    Vote For
-                  </button>
-                  <button
-                    type="button"
-                    disabled={userVote === 'against'}
-                    className={`rounded-full h-28 w-28 font-semibold  ml-6 ${
-                      userVote === 'against'
-                        ? 'border-transparent text-white bg-primary'
-                        : 'bg-transparent hover:bg-primary text-primary font-semibold hover:text-white py-2 px-4 border border-primary hover:border-transparent focus:outline-none ml-6'
-                    }`}
-                    onClick={() => doRecordVote('against')}
-                  >
-                    Vote Against
-                  </button>
-                </div>
-                <div className="mt-10 w-full h-full overflow-y-scroll">
+                {user?.role !== 'admin' && (
+                  <div className="flex items-center mb-10">
+                    <button
+                      type="button"
+                      disabled={userVote === 'for'}
+                      className={`rounded-full h-28 w-28 font-semibold ${
+                        userVote === 'for'
+                          ? 'border-transparent text-white bg-primary'
+                          : 'bg-transparent hover:bg-primary text-primary hover:text-white py-2 px-4 border border-primary hover:border-transparent focus:outline-none'
+                      }`}
+                      onClick={() => doRecordVote('for')}
+                    >
+                      Vote For
+                    </button>
+                    <button
+                      type="button"
+                      disabled={userVote === 'against'}
+                      className={`rounded-full h-28 w-28 font-semibold  ml-6 ${
+                        userVote === 'against'
+                          ? 'border-transparent text-white bg-primary'
+                          : 'bg-transparent hover:bg-primary text-primary font-semibold hover:text-white py-2 px-4 border border-primary hover:border-transparent focus:outline-none ml-6'
+                      }`}
+                      onClick={() => doRecordVote('against')}
+                    >
+                      Vote Against
+                    </button>
+                  </div>
+                )}
+                <div className="w-full h-full overflow-y-scroll">
                   <h4 className="text-xl font-bold mb-7">{data.title}</h4>
                   <p
                     dangerouslySetInnerHTML={{

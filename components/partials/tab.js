@@ -23,8 +23,8 @@ const Tab = ({ data, className }) => {
     }
   }, [asPath]);
 
-  const SubTab = ({ i }) => {
-    const Temp = data[i].content;
+  const SubTab = () => {
+    const Temp = data[currentTab].content;
     return <Temp />;
   };
 
@@ -57,15 +57,9 @@ const Tab = ({ data, className }) => {
             }`}
             style={{ height: '90%' }}
           >
-            {data.map((x, index) => (
-              <div
-                key={`tab-content-${index}`}
-                className="md:pr-24 h-full"
-                hidden={currentTab !== index}
-              >
-                <SubTab i={index} />
-              </div>
-            ))}
+            <div className="md:pr-24 h-full">
+              <SubTab />
+            </div>
           </div>
         </>
       )}

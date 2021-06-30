@@ -20,7 +20,7 @@ export function* getListDataDemo() {
   }
 }
 
-export function* getVotes({ payload }) {
+export function* getVotes({ payload, callback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -35,12 +35,13 @@ export function* getVotes({ payload }) {
       }
     );
     yield put(getVotesSuccess(res.data));
+    callback(res.data);
   } catch (error) {
     yield put(getVotesError(error));
   }
 }
 
-export function* getVoteDetail({ payload }) {
+export function* getVoteDetail({ payload, callback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -50,6 +51,7 @@ export function* getVoteDetail({ payload }) {
       headers,
     });
     yield put(getVoteDetailSuccess(res.data));
+    callback(res.data);
   } catch (error) {
     yield put(getVoteDetailError(error));
   }
