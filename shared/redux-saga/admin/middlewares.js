@@ -154,6 +154,25 @@ export function* getBallotDetail({ payload, callback }) {
   }
 }
 
+export function* cancelBallot({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield post(
+      [`admin/ballots/${payload}/cancel`],
+      {},
+      {
+        headers,
+      }
+    );
+    callback();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -164,4 +183,5 @@ export function* watchAdmin() {
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
+  yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
 }

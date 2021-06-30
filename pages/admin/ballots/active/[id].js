@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, ClockBar, BackButton } from '../../../../components/partials';
-import { getBallotDetail } from '../../../../shared/redux-saga/admin/actions';
+import {
+  getBallotDetail,
+  cancelBallot,
+} from '../../../../shared/redux-saga/admin/actions';
+import { useDialog } from '../../../../components/partials/dialog';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -29,14 +33,37 @@ const AdminActiveBallot = () => {
   const [ballot, setBallot] = useState();
   const { id } = router.query;
   const dispatch = useDispatch();
+  const { setDialog } = useDialog();
+
   useEffect(() => {
     dispatch(
       getBallotDetail(id, res => {
-        console.log(res);
         setBallot(res);
       })
     );
   }, [id]);
+
+  const doCancelBallot = () => {
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: 'Are you sure?',
+        content:
+          'Canceling this will close the vote and record this as a “canceled” ballot',
+        ok: 'Yes, cancel this ballot',
+        cancel: 'No, leave the vote open',
+      },
+      afterClosed: res => {
+        if (res) {
+          dispatch(
+            cancelBallot(id, () => {
+              router.push('/admin/ballots');
+            })
+          );
+        }
+      },
+    });
+  };
 
   return (
     <LayoutDashboard>
@@ -58,6 +85,7 @@ const AdminActiveBallot = () => {
                 <button
                   type="button"
                   className="h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  onClick={doCancelBallot}
                 >
                   Cancel Ballot
                 </button>

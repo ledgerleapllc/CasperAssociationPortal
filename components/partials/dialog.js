@@ -63,21 +63,21 @@ const Dialog = ({ dialog, onClosed }) => {
       )}
       {dialog.type === 'DialogConfirm' && (
         <div
-          className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+          className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white p-16"
           style={settings.style}
         >
-          <div>
-            <p className="text-4xl text-center pt-4">{dialog.data.title}</p>
-            <div className="h-full w-full py-8 flex flex-col items-center justify-between border-gray">
-              <div className="pt-24 h-full w-full flex flex-col items-center justify-between">
-                {dialog.data.content}
-              </div>
+          {dialog.data.title && (
+            <h3 className="text-4xl text-center mb-6">{dialog.data.title}</h3>
+          )}
+          <div className="h-full w-full flex mb-6 flex-col items-center justify-between border-gray">
+            <div className="h-full w-full flex flex-col items-center justify-between">
+              {dialog.data.content}
             </div>
           </div>
-          <div className="flex flex-row justify-center pb-32">
+          <div className="flex flex-row justify-center">
             <button
               type="button"
-              className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              className="mx-2 bottom-6 text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               onClick={() => onCloseDialog(false)}
             >
               {dialog.data.cancel}

@@ -85,3 +85,9 @@ export const submitBallot = (payload, callback) => ({
   payload,
   callback,
 });
+
+export const cancelBallot = (payload, callback) => ({
+  type: 'CANCEL_BALLOT',
+  payload,
+  callback,
+});
