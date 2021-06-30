@@ -17,13 +17,14 @@ export function Button(props) {
     >
       {props.isLoading && (
         <ReactLoading
+          className="mr-3"
           type="spinningBubbles"
           color={colorSpinner}
-          width={30}
-          height={30}
+          width={props.size || 30}
+          height={props.size || 30}
         />
       )}
-      <span className="pl-3">{props.title}</span>
+      <span>{props.title}</span>
     </button>
   );
 }

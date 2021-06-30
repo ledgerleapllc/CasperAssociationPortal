@@ -12,13 +12,14 @@ import ForAgainst from './for-against';
 import Table from './table';
 import TimeRemaining from './time-remaining';
 import ProgressBar from './progress-bar';
-
+import { Button } from './button';
 
 export {
   Card,
   ActiveLink,
   Tab,
   Editor,
+  Button,
   BackButton,
   ToggleButton,
   DateTimePicker,

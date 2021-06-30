@@ -117,7 +117,7 @@ export function* getBallots({ payload, callback }) {
   }
 }
 
-export function* submitBallot({ payload, callback }) {
+export function* submitBallot({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -134,9 +134,10 @@ export function* submitBallot({ payload, callback }) {
     const res = yield post([`admin/ballots`], formData, {
       headers,
     });
-    callback(res);
+    resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 

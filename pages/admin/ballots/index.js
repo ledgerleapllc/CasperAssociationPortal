@@ -85,7 +85,7 @@ const Tab1 = () => {
         onLoadMore={fetchActiveBallots}
         hasMore={hasMore}
         dataLength={activeBallots.length}
-        height={300}
+        height={400}
       >
         <Table.Header>
           <Table.HeaderCell>
@@ -179,7 +179,7 @@ const Tab2 = () => {
         onLoadMore={fetchCompleteBallots}
         hasMore={hasMore}
         dataLength={completeBallots.length}
-        height={300}
+        height={400}
       >
         <Table.Header>
           <Table.HeaderCell>

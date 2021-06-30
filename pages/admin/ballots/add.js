@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import router from 'next/router';
+import { useState } from 'react';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Editor, BackButton } from '../../../components/partials';
+import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { submitBallot } from '../../../shared/redux-saga/admin/actions';
 
 const ballotSchema = yup.object().shape({
@@ -16,18 +17,27 @@ const ballotSchema = yup.object().shape({
 });
 
 const AdminAddBallot = () => {
+  const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
   const { register, watch, control, handleSubmit } = useForm({
     resolver: yupResolver(ballotSchema),
   });
-
+  const user = useSelector(state => state.authReducer.userInfo);
   const watchFiles = watch('files');
+  const watchUnit = watch('time_unit');
 
   const onSubmit = data => {
+    setIsSubmit(true);
     dispatch(
-      submitBallot(data, res => {
-        router.push('/admin/ballots');
-      })
+      submitBallot(
+        data,
+        () => {
+          router.push('/admin/ballots');
+        },
+        () => {
+          setIsSubmit(false);
+        }
+      )
     );
   };
 
@@ -46,7 +56,7 @@ const AdminAddBallot = () => {
             <div className="lg:pr-24">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">Usernameismine5859</a>
+                  Posting as: <a className="text-primary">{user?.fullInfo?.full_name}</a>
                 </p>
                 <div className="mt-4 flex items-center">
                   <input
@@ -82,7 +92,7 @@ const AdminAddBallot = () => {
                 </div>
                 <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center pt-8 justify-between">
                   <div className="flex">
-                    <div className="border border-gray1 mr-4 c-select flex items-center relative min-w-52 focus:outline-none shadow-md">
+                    <div className="border border-gray1 mr-4 c-select flex items-center relative w-72 focus:outline-none shadow-md">
                       <select
                         className="py-6 px-5 w-full cursor-pointer"
                         required
@@ -91,13 +101,28 @@ const AdminAddBallot = () => {
                         <option selected value="" disabled>
                           Select
                         </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
+                        {watchUnit === 'days' &&
+                          new Array(30)
+                            .fill(1)
+                            .map((x, ind) => (
+                              <option value={ind + 1}>{ind + 1}</option>
+                            ))}
+                        {watchUnit === 'hours' &&
+                          new Array(24)
+                            .fill(1)
+                            .map((x, ind) => (
+                              <option value={ind + 1}>{ind + 1}</option>
+                            ))}
+                        {watchUnit === 'minutes' &&
+                          new Array(60)
+                            .fill(1)
+                            .map((x, ind) => (
+                              <option value={ind + 1}>{ind + 1}</option>
+                            ))}
                       </select>
                       <div className="arrow ml-2" />
                     </div>
-                    <div className="border border-gray1 c-select flex items-center relative min-w-52 focus:outline-none shadow-md">
+                    <div className="border border-gray1 c-select flex items-center relative w-72 focus:outline-none shadow-md">
                       <select
                         className="px-5 py-6 w-full cursor-pointer"
                         required
@@ -113,12 +138,14 @@ const AdminAddBallot = () => {
                       <div className="arrow ml-2" />
                     </div>
                   </div>
-                  <button
+                  <Button
                     type="submit"
-                    className="my-1 h-16 lg:h-11 text-lg w-full text-white lg:w-56 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  >
-                    Submit & Begin Voting
-                  </button>
+                    isDisabled={isSubmit}
+                    isLoading={isSubmit}
+                    size={20}
+                    title="Submit & Begin Voting"
+                    className="px-4 my-1 h-16 lg:h-11 text-lg w-full text-white lg:w-auto rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  />
                 </div>
                 <div className="pt-8 border-primary border-b lg:border-b-2" />
               </form>

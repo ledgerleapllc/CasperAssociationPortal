@@ -72,7 +72,7 @@ Table.BodyRow = props => (
 );
 
 Table.BodyCell = props => (
-  <div className={`col col-${props.index} text-sm`}>{props.children}</div>
+  <div className={`col col-${props.index} text-sm pr-5`}>{props.children}</div>
 );
 
 Table.Body.Cell = Table.BodyCell;

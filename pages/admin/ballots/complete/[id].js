@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card, BackButton, StatusText, ForAgainst } from '../../../../components/partials';
+import {
+  Card,
+  BackButton,
+  StatusText,
+  ForAgainst,
+} from '../../../../components/partials';
 import { formatDate } from '../../../../shared/core/utils';
 
 const ballot = {
