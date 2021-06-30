@@ -32,10 +32,11 @@ select::-ms-expand {
 }
 
 /* pretty radio */
-label > input[type="radio"] {
+label>input[type="radio"] {
   display: none;
 }
-label > input[type="radio"] + *::before {
+
+label>input[type="radio"]+*::before {
   position: absolute;
   left: 0;
   content: "";
@@ -49,10 +50,12 @@ label > input[type="radio"] + *::before {
   border-width: 2px;
   border-color: #1D1D1D;
 }
-label > input[type="radio"]:checked + *::before {
+
+label>input[type="radio"]:checked+*::before {
   background: radial-gradient(#FF473E 0%, #FF473E 40%, transparent 50%, transparent);
 }
-label > input[type="radio"] + * {
+
+label>input[type="radio"]+* {
   display: inline-block;
 }
 
@@ -64,33 +67,40 @@ label > input[type="radio"] + * {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px transparent; 
+  box-shadow: inset 0 0 5px transparent;
   border-radius: 10px;
   width: 7px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #FF473E; 
+  background: #FF473E;
   border-radius: 15px;
   visibility: hidden;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF473E; 
+  background: #FF473E;
   opacity: 0.7;
 }
 
 *:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
+
 .off-tap-highlight {
   -webkit-tap-highlight-color: transparent;
 }
+
 .toggle-button {
-  input:checked ~ .dot {
+  input:checked~.dot {
     transform: translateX(1.75rem);
     background-color: #FF473E;
   }
+}
+
+.bg-primary-highlight {
+  --tw-bg-opacity: .2;
+  background-color: rgba(255, 71, 62, var(--tw-bg-opacity));
 }

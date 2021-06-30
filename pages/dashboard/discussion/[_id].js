@@ -27,7 +27,7 @@ const ChatBox = ({ data, noBorder }) => (
         />
       </div>
       <div className="pt-2 pr-6 mt-auto lg:mt-0">
-        <p className="text-sm font-bold py-1">{data.user.pseudonym}</p>
+        <p className="text-sm font-bold py-1">{data.user?.pseudonym}</p>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">Validator ID: {data.user.validatorId}</p>
         <div className="border-gray1 border-b" />
@@ -66,6 +66,7 @@ const DashboardDiscusionDetail = () => {
       .then(res => {
         if (res.data.data && res.data.data.comment) {
           const _comment = res.data.data.comment;
+          console.log(_comment);
           const comments = discussion.comments_list;
           if (commentId !== -1) {
             const index = comments.findIndex((item) => item.id === commentId);
@@ -103,13 +104,13 @@ const DashboardDiscusionDetail = () => {
   const ReactionBar = () => (
     <ul className="flex">
       <li
-        className="flex px-6 items-center"
+        className="flex px-6 items-center cursor-pointer"
         onClick={() => vote(true)}>
         <IconLike className="text-primary" />
         <span className="pl-2.5">{discussion.likes || 0}</span>
       </li>
       <li
-        className="flex px-6 items-center"
+        className="flex px-6 items-center cursor-pointer"
         onClick={() => vote(false)}>
         <IconDislike />
         <span className="pl-2.5">{discussion.dislikes || 0}</span>

@@ -1,11 +1,16 @@
+import moment from 'moment';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Card } from '../partials';
+import { ApiService } from '../../helpers/api/api.service';
 import InfoRightHome from './info-right-home';
+
+const http = new ApiService();
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-
+  const [trendingList, setTrendnigList] = useState([]);
   const data = {
     datasets: [
       {
@@ -41,6 +46,15 @@ const ContentHome = () => {
     },
   };
 
+  useEffect(() => {
+    http.doGet(['discussions/trending'])
+      .then(res => {
+        const { data } = res.data;
+        setTrendnigList(data.trendings);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
   return (
     <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex flex-wrap lg:flex-nowrap lg:h-1/10 -mx-3">
@@ -66,7 +80,7 @@ const ContentHome = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">New</span>
-              <span className="text-base text-black1 font-thin">5</span>
+              <span className="text-base text-black1 font-thin">{userInfo.new_threads}</span>
             </div>
           </Card>
         </div>
@@ -126,181 +140,35 @@ const ContentHome = () => {
                   </div>
                 </div>
                 <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
+                  {trendingList.map(discussion =>
+                    <div className="flex flex-col lg:flex-row w-full py-2.5">
+                      <p className="w-full lg:w-3/6 pb-2 text-sm">
+                        {discussion.title}
+                      </p>
+                      <div className="flex w-full lg:w-3/6">
+                        <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
+                          <div className="pr-3">
+                            <img
+                              src="/images/ic_material_mode_comment.svg"
+                              alt="Comment"
+                            />
+                          </div>
+                          <span className="text-sm">{discussion.comments}</span>
                         </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
+                        <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
+                          <div className="pr-3">
+                            <img
+                              src="/images/ic_awesome_calendar.svg"
+                              alt="Calendar"
+                            />
+                          </div>
+                          <span className="text-sm">
+                            {moment(discussion.created_at).format('M/d/YY')}
+                          </span>
                         </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span className="text-sm">26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span className="text-sm">5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
