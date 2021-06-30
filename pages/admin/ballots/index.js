@@ -10,6 +10,7 @@ import {
   ClockBar,
   StatusText,
   ForAgainst,
+  Table,
 } from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
 import { getBallots } from '../../../shared/redux-saga/admin/actions';
@@ -62,141 +63,194 @@ const Styles = styled.div`
 
 const Tab1 = () => {
   const [activeBallots, setActiveBallots] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const fetchActiveBallots = () => {
     dispatch(
-      getBallots('active', res => {
-        setActiveBallots(res);
+      getBallots('active', (data, isHasMore) => {
+        setHasMore(isHasMore);
+        setActiveBallots(prevBallots => [...prevBallots, ...data]);
       })
     );
+  };
+
+  useEffect(() => {
+    fetchActiveBallots();
   }, []);
 
   return (
     <Styles>
-      <div className="active-ballot-table flex flex-col pt-4 h-full">
-        <div className="flex flex-col lg:pt-6 h-full min-w-250">
-          <div className="flex w-full">
-            <p className="col-1 text-base font-medium">Title</p>
-            <p className="col-2 text-base font-medium">Time Remaining</p>
-            <p className="col-3 text-base font-medium">
+      <Table
+        className="active-ballot-table pt-10"
+        onLoadMore={fetchActiveBallots}
+        hasMore={hasMore}
+        dataLength={activeBallots.length}
+        height={300}
+      >
+        <Table.Header>
+          <Table.HeaderCell>
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Time Remaining</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>
               Total <br />
               Votes
             </p>
-            <p className="col-4 text-base font-medium">
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>
               Split <br />
               For/Against
             </p>
-            <p className="col-5 text-base font-medium">Start Date</p>
-            <p className="col-6 text-base font-medium">Admin Action</p>
-          </div>
-          <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-            {activeBallots.map((ballot, ind) => (
-              <div
-                key={`active-${ind}`}
-                className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray"
-              >
-                <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
-                <div className="col-2 text-sm">
-                  <ClockBar
-                    endTime={new Date(ballot.time_end)}
-                    startTime={new Date(ballot.created_at)}
-                  />
-                </div>
-                <p className="col-3 text-sm">{ballot.vote.result_count}</p>
-                <div className="col-4 text-sm">
-                  <ForAgainst
-                    splitFor={ballot.vote.for_value}
-                    splitAgainst={ballot.vote.against_value}
-                  />
-                </div>
-                <p className="col-5 text-sm">{formatDate(ballot.created_at)}</p>
-                <div className="col-6 text-sm">
-                  <Link href={`/admin/ballots/active/${ballot.id}`}>
-                    <button
-                      type="button"
-                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                    >
-                      Manage
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Start Date</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Admin Action</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body>
+          {activeBallots.map((row, ind) => (
+            <Table.BodyRow key={ind}>
+              <Table.BodyCell>
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <ClockBar
+                  endTime={new Date(row.time_end)}
+                  startTime={new Date(row.created_at)}
+                />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.vote.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <ForAgainst
+                  splitFor={row.vote.for_value}
+                  splitAgainst={row.vote.against_value}
+                />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(row.created_at)}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <Link href={`/admin/ballots/active/${row.id}`}>
+                  <button
+                    type="button"
+                    className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                  >
+                    Manage
+                  </button>
+                </Link>
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
     </Styles>
   );
 };
 
 const Tab2 = () => {
   const [completeBallots, setCompleteBallots] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const fetchCompleteBallots = () => {
     dispatch(
-      getBallots('complete', res => {
-        setCompleteBallots(res);
+      getBallots('complete', (data, isHasMore) => {
+        setHasMore(isHasMore);
+        setCompleteBallots(prevBallots => [...prevBallots, ...data]);
       })
     );
+  };
+
+  useEffect(() => {
+    fetchCompleteBallots();
   }, []);
 
   return (
     <Styles>
-      <div className="complete-ballot-table flex flex-col pt-4 h-full">
-        <div className="flex flex-col lg:pt-6 h-full min-w-250">
-          <div className="flex w-full">
-            <p className="col-1 text-base font-medium">Title</p>
-            <p className="col-2 text-base font-medium">Final Result</p>
-            <p className="col-3 text-base font-medium">
+      <Table
+        className="complete-ballot-table pt-10"
+        onLoadMore={fetchCompleteBallots}
+        hasMore={hasMore}
+        dataLength={completeBallots.length}
+        height={300}
+      >
+        <Table.Header>
+          <Table.HeaderCell>
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Final Result</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>
               Total <br />
               Votes
             </p>
-            <p className="col-4 text-base font-medium">
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>
               Split <br />
               For/Against
             </p>
-            <p className="col-5 text-base font-medium">Start Date</p>
-            <p className="col-6 text-base font-medium">End Date</p>
-            <p className="col-7 text-base font-medium">Admin Action</p>
-          </div>
-          <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-            {completeBallots.map((ballot, ind) => (
-              <div
-                key={`complete-${ind}`}
-                className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray"
-              >
-                <p className="col-1 text-sm truncate pr-4">{ballot.title}</p>
-                <p className="col-2 text-sm">
-                  <StatusText className="capitalize" content="pass" />
-                </p>
-                <p className="col-3 text-sm">{ballot.vote.result_count}</p>
-                <div className="col-4 text-sm">
-                  <ForAgainst
-                    splitFor={ballot.vote.for_value}
-                    splitAgainst={ballot.vote.against_value}
-                  />
-                </div>
-                <p className="col-5 text-sm">
-                  {formatDate(ballot.created_at, 'hh:mm aaa dd/MM/yyyy')}
-                </p>
-                <p className="col-6 text-sm">
-                  {formatDate(ballot.time_end, 'hh:mm aaa dd/MM/yyyy')}
-                </p>
-                <div className="col-7 text-sm">
-                  <Link href={`/admin/ballots/complete/${ballot.id}`}>
-                    <button
-                      type="button"
-                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                    >
-                      View
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Start Date</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>End Date</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Admin Action</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body>
+          {completeBallots.map((row, ind) => (
+            <Table.BodyRow key={ind}>
+              <Table.BodyCell>
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <StatusText className="capitalize" content={row.status} />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.vote.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.vote.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <ForAgainst
+                  splitFor={row.vote.for_value}
+                  splitAgainst={row.vote.against_value}
+                />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(row.created_at, 'hh:mm aaa dd/MM/yyyy')}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(row.time_end, 'hh:mm aaa dd/MM/yyyy')}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <Link href={`/admin/ballots/complete/${row.id}`}>
+                  <button
+                    type="button"
+                    className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                  >
+                    View
+                  </button>
+                </Link>
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
     </Styles>
   );
 };

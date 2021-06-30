@@ -1,4 +1,4 @@
-import { put, takeLatest, all, takeEvery } from 'redux-saga/effects';
+import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -110,7 +110,8 @@ export function* getBallots({ payload, callback }) {
     const res = yield get([`admin/ballots?${query}`], {
       headers,
     });
-    callback(res.data?.data);
+    yield delay(500); // => this need for scroll loadmore.
+    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
