@@ -6,7 +6,12 @@ import {
   userKYCInfoReducer,
   intakeReducer,
 } from './admin/reducers';
-import { demoDataReducer } from './dashboard/dashboard-reducers';
+import {
+  demoDataReducer,
+  votesReducer,
+  voteDetailReducer,
+  recordVoteReducer,
+} from './dashboard/dashboard-reducers';
 import { apiControllerReducer } from './api-controller/reducers';
 import { onboardReducer } from './onboard/reducers';
 
@@ -19,6 +24,9 @@ const appReducer = combineReducers({
   userKYCInfoReducer,
   onboardReducer,
   intakeReducer,
+  votesReducer,
+  voteDetailReducer,
+  recordVoteReducer,
 });
 
 export default appReducer;

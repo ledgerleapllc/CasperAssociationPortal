@@ -9,6 +9,7 @@ import Checkbox from './checkbox';
 import ClockBar from './clock-bar';
 import StatusText from './status-text';
 import ForAgainst from './for-against';
+import TimeRemaining from './time-remaining';
 
 export {
   Card,
@@ -22,4 +23,5 @@ export {
   ClockBar,
   StatusText,
   ForAgainst,
+  TimeRemaining,
 };
