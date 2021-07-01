@@ -3,6 +3,8 @@ import { cloneElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReactLoading from 'react-loading';
 
+const randomId = Math.random().toString(36).substring(7);
+
 const Table = props => (
   <div className={`${props.className} flex flex-col min-w-250`}>
     {props.children[0]}
@@ -16,7 +18,7 @@ const Table = props => (
 );
 
 Table.Header = props => (
-  <div className="flex w-full">
+  <div className="flex w-full" style={{ paddingRight: '7px', height: '50px' }}>
     {props.children.map((child, i) =>
       cloneElement(child, {
         index: i + 1,
@@ -34,32 +36,34 @@ Table.HeaderCell = props => (
 Table.Header.Cell = Table.HeaderCell;
 
 Table.Body = props => (
-  <InfiniteScroll
-    className="flex flex-col w-full mt-5"
-    dataLength={props.dataLength || 0}
-    next={props.onLoadMore}
-    hasMore={props.hasMore}
-    loader={
-      <div className="py-4 flex justify-center">
-        <ReactLoading
-          type="spinningBubbles"
-          color="#FF473E"
-          width={30}
-          height={30}
-        />
-      </div>
-    }
-    height={props.height}
-    scrollThreshold={0.99}
-  >
-    {props.dataLength ? (
-      props.children
-    ) : !props.hasMore ? (
-      <p className="py-4 text-center opacity-40">No Results Found</p>
-    ) : (
-      <></>
-    )}
-  </InfiniteScroll>
+  <div id={randomId} style={{ height: `calc(100% - 50px)`, overflow: 'auto' }}>
+    <InfiniteScroll
+      className="flex flex-col w-full mt-5"
+      dataLength={props.dataLength || 0}
+      next={props.onLoadMore}
+      hasMore={props.hasMore}
+      loader={
+        <div className="py-4 flex justify-center">
+          <ReactLoading
+            type="spinningBubbles"
+            color="#FF473E"
+            width={30}
+            height={30}
+          />
+        </div>
+      }
+      scrollableTarget={randomId}
+      scrollThreshold={0.99}
+    >
+      {props.dataLength ? (
+        props.children
+      ) : !props.hasMore ? (
+        <p className="py-4 text-center opacity-40">No Results Found</p>
+      ) : (
+        <></>
+      )}
+    </InfiniteScroll>
+  </div>
 );
 
 Table.BodyRow = props => {

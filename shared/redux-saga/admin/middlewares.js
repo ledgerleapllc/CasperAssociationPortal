@@ -106,7 +106,8 @@ export function* getBallots({ payload, callback }) {
       Authorization: `Bearer ${token}`,
     };
     const query = qs.stringify({
-      status: payload,
+      status: payload.status,
+      page: payload.page,
     });
     const res = yield get([`admin/ballots?${query}`], {
       headers,

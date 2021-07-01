@@ -64,12 +64,14 @@ const Styles = styled.div`
 const Tab1 = () => {
   const [activeBallots, setActiveBallots] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const fetchActiveBallots = () => {
     dispatch(
-      getBallots('active', (data, isHasMore) => {
+      getBallots({ status: 'active', page }, (data, isHasMore) => {
         setHasMore(isHasMore);
         setActiveBallots(prevBallots => [...prevBallots, ...data]);
+        setPage(prev => prev + 1);
       })
     );
   };
@@ -79,13 +81,12 @@ const Tab1 = () => {
   }, []);
 
   return (
-    <Styles>
+    <Styles className="h-full">
       <Table
-        className="active-ballot-table pt-10"
+        className="active-ballot-table pt-10 h-full"
         onLoadMore={fetchActiveBallots}
         hasMore={hasMore}
         dataLength={activeBallots.length}
-        height={400}
       >
         <Table.Header>
           <Table.HeaderCell>
@@ -126,19 +127,19 @@ const Tab1 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{row.vote.result_count}</p>
+                <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={row.vote.for_value}
-                  splitAgainst={row.vote.against_value}
+                  splitFor={row.vote?.for_value}
+                  splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>{formatDate(row.created_at)}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <Link href={`/admin/ballots/active/${row.id}`}>
+                <Link href={`/admin/ballots/detail/${row.id}`}>
                   <button
                     type="button"
                     className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
@@ -158,12 +159,14 @@ const Tab1 = () => {
 const Tab2 = () => {
   const [completeBallots, setCompleteBallots] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const fetchCompleteBallots = () => {
     dispatch(
-      getBallots('complete', (data, isHasMore) => {
+      getBallots({ status: 'complete', page }, (data, isHasMore) => {
         setHasMore(isHasMore);
         setCompleteBallots(prevBallots => [...prevBallots, ...data]);
+        setPage(prev => prev + 1);
       })
     );
   };
@@ -173,13 +176,12 @@ const Tab2 = () => {
   }, []);
 
   return (
-    <Styles>
+    <Styles className="h-full">
       <Table
-        className="complete-ballot-table pt-10"
+        className="complete-ballot-table pt-10 h-full"
         onLoadMore={fetchCompleteBallots}
         hasMore={hasMore}
         dataLength={completeBallots.length}
-        height={400}
       >
         <Table.Header>
           <Table.HeaderCell>
@@ -220,15 +222,12 @@ const Tab2 = () => {
                 <StatusText className="capitalize" content={row.status} />
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{row.vote.result_count}</p>
-              </Table.BodyCell>
-              <Table.BodyCell>
-                <p>{row.vote.result_count}</p>
+                <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={row.vote.for_value}
-                  splitAgainst={row.vote.against_value}
+                  splitFor={row.vote?.for_value}
+                  splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>
@@ -238,7 +237,7 @@ const Tab2 = () => {
                 <p>{formatDate(row.time_end, 'hh:mm aaa dd/MM/yyyy')}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <Link href={`/admin/ballots/complete/${row.id}`}>
+                <Link href={`/admin/ballots/detail/${row.id}`}>
                   <button
                     type="button"
                     className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"

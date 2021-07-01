@@ -115,8 +115,8 @@ const Tab1 = () => {
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={row.vote.for_value}
-                  splitAgainst={row.vote.against_value}
+                  splitFor={item.vote?.for_value}
+                  splitAgainst={item.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>
@@ -190,8 +190,8 @@ const Tab2 = () => {
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={row.vote.for_value}
-                  splitAgainst={row.vote.against_value}
+                  splitFor={item.vote?.for_value}
+                  splitAgainst={item.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>

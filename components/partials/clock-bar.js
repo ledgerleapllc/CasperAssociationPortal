@@ -34,7 +34,7 @@ const ClockBar = props => {
       setDuration('');
       setProgress(0);
     };
-  }, [props.endTime]);
+  }, [props.endTime, props.startTime]);
 
   return (
     <div>
