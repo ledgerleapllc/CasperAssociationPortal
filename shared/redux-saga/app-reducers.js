@@ -5,6 +5,7 @@ import {
   userDetailReducer,
   userKYCInfoReducer,
   intakeReducer,
+  cancelBallotReducer,
 } from './admin/reducers';
 import {
   demoDataReducer,
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
   intakeReducer,
   voteDetailReducer,
   recordVoteReducer,
+  cancelBallotReducer,
 });
 
 export default appReducer;

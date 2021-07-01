@@ -93,3 +93,13 @@ export const cancelBallot = (payload, callback) => ({
   payload,
   callback,
 });
+
+export const cancelBallotSuccess = data => ({
+  type: 'CANCEL_BALLOT_SUCCESS',
+  payload: data,
+});
+
+export const cancelBallotError = error => ({
+  type: 'CANCEL_BALLOT_ERROR',
+  payload: error,
+});

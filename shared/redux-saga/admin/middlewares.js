@@ -8,6 +8,8 @@ import {
   getUserKYCInfoSuccess,
   getListIntakeSuccess,
   getListIntakeError,
+  cancelBallotSuccess,
+  cancelBallotError,
 } from './actions';
 
 export function* getListMembers(data) {
@@ -155,21 +157,23 @@ export function* getBallotDetail({ payload, callback }) {
   }
 }
 
-export function* cancelBallot({ payload, callback }) {
+export function* cancelBallot({ payload, callback, finallyCallback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    yield post(
+    const res = yield post(
       [`admin/ballots/${payload}/cancel`],
       {},
       {
         headers,
       }
     );
+    yield put(cancelBallotSuccess(res));
     callback();
   } catch (error) {
+    yield put(cancelBallotError(error));
     yield put(saveApiResponseError(error));
   }
 }

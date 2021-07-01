@@ -1,7 +1,8 @@
 import router from 'next/router';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import ReactLoading from 'react-loading';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, ClockBar, BackButton } from '../../../../components/partials';
@@ -34,6 +35,7 @@ const AdminActiveBallot = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
+  const { isLoading } = useSelector(state => state?.cancelBallotReducer);
 
   useEffect(() => {
     dispatch(
@@ -150,6 +152,16 @@ const AdminActiveBallot = () => {
           </div>
         </div>
       </Card>
+      {isLoading && (
+        <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
+          <ReactLoading
+            type="spinningBubbles"
+            color="#FF473E"
+            width={137}
+            height={141}
+          />
+        </div>
+      )}
     </LayoutDashboard>
   );
 };

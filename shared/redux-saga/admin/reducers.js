@@ -80,6 +80,24 @@ const getListIntakeError = (state, payload) => ({
   isLoading: false,
 });
 
+const cancelBallot = state => ({
+  ...state,
+  isLoading: true,
+});
+
+const cancelBallotSuccess = (state, payload) => ({
+  ...state,
+  data: payload,
+  isLoading: false,
+});
+
+const cancelBallotError = (state, payload) => ({
+  ...state,
+  error: payload,
+  hasError: true,
+  isLoading: false,
+});
+
 const strategiesListMembers = {
   ['GET_LIST_MEMBER']: getListMembers,
   ['GET_LIST_MEMBER_SUCCESS']: getListMembersSuccess,
@@ -108,6 +126,13 @@ const strategiesListIntake = {
   __default__: state => state,
 };
 
+const strategiesCancelBallot = {
+  ['CANCEL_BALLOT']: cancelBallot,
+  ['CANCEL_BALLOT_SUCCESS']: cancelBallotSuccess,
+  ['CANCEL_BALLOT_ERROR']: cancelBallotError,
+  __default__: state => state,
+};
+
 export const membersReducer = createReducer(
   strategiesListMembers,
   initialState
@@ -123,3 +148,5 @@ export const userKYCInfoReducer = createReducer(
 );
 
 export const intakeReducer = createReducer(strategiesListIntake, initialState);
+
+export const cancelBallotReducer = createReducer(strategiesCancelBallot, initialState);
