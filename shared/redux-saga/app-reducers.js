@@ -8,7 +8,6 @@ import {
 } from './admin/reducers';
 import {
   demoDataReducer,
-  votesReducer,
   voteDetailReducer,
   recordVoteReducer,
 } from './dashboard/dashboard-reducers';
@@ -24,7 +23,6 @@ const appReducer = combineReducers({
   userKYCInfoReducer,
   onboardReducer,
   intakeReducer,
-  votesReducer,
   voteDetailReducer,
   recordVoteReducer,
 });

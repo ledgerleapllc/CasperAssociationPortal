@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { cloneElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReactLoading from 'react-loading';
@@ -25,7 +26,7 @@ Table.Header = props => (
 );
 
 Table.HeaderCell = props => (
-  <div className={`col col-${props.index} text-base font-medium`}>
+  <div className={`col col-${props.index} text-lg font-medium`}>
     {props.children}
   </div>
 );
@@ -61,18 +62,35 @@ Table.Body = props => (
   </InfiniteScroll>
 );
 
-Table.BodyRow = props => (
-  <div className="flex items-center flex-row w-full py-2.5 border-b border-gray">
-    {props.children.map((child, i) =>
-      cloneElement(child, {
-        index: i + 1,
-      })
-    )}
-  </div>
-);
+Table.BodyRow = props => {
+  const doSelectRow = () => {
+    if (
+      props.selectRowHandler &&
+      typeof props.selectRowHandler === 'function'
+    ) {
+      props.selectRowHandler();
+    }
+  };
+
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+      className={`flex items-center flex-row w-full py-7 border-b border-gray ${
+        props.selectRowHandler ? 'cursor-pointer' : ''
+      }`}
+      onClick={doSelectRow}
+    >
+      {props.children.map((child, i) =>
+        cloneElement(child, {
+          index: i + 1,
+        })
+      )}
+    </div>
+  );
+};
 
 Table.BodyCell = props => (
-  <div className={`col col-${props.index} text-sm pr-5`}>{props.children}</div>
+  <div className={`col col-${props.index} pr-5`}>{props.children}</div>
 );
 
 Table.Body.Cell = Table.BodyCell;

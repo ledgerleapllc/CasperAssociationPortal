@@ -37,7 +37,7 @@ const Tab = ({ data, className }) => {
                   currentTab === index
                     ? 'opacity-100 text-primary'
                     : 'opacity-40'
-                } tab-header text-dark2 text-xl md:pr-32`}
+                } tab-header text-dark2 text-2xl md:pr-32`}
                 key={`tab-header-${index}`}
               >
                 <Link href={`#${x.id}`}>{x.title}</Link>

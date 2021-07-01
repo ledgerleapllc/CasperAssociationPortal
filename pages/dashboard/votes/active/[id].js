@@ -55,7 +55,7 @@ const ActiveVoteDetail = () => {
                 height="18"
                 className="mr-2"
               />
-              <span className="text-sm">Back</span>
+              <span className="text-primary text-xl">Back</span>
             </button>
             <div className="border-primary border-b-2" />
           </div>

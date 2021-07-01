@@ -1,15 +1,15 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
+import { put, takeLatest, takeEvery, all, delay } from 'redux-saga/effects';
+import qs from 'qs';
 import {
   getListCategorySupportSuccess,
   getListCategorySupportError,
-  getVotesSuccess,
-  getVotesError,
   getVoteDetailSuccess,
   getVoteDetailError,
   recordVoteSuccess,
   recordVoteError,
 } from './dashboard-actions';
 import { get, post } from '../../core/saga-api';
+import { saveApiResponseError } from '../api-controller/actions';
 
 export function* getListDataDemo() {
   try {
@@ -20,24 +20,22 @@ export function* getListDataDemo() {
   }
 }
 
-export function* getVotes({ payload, callback }) {
+export function* getVotes({ payload, successCb }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get(
-      [
-        `users/votes?status=${payload.status}&limit=${payload.limit}&page=${payload.page}`,
-      ],
-      {
-        headers,
-      }
-    );
-    yield put(getVotesSuccess(res.data));
-    callback(res.data);
+    const query = qs.stringify({
+      status: payload,
+    });
+    const res = yield get([`users/votes?${query}`], {
+      headers,
+    });
+    yield delay(500); // => this need for scroll loadmore.
+    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
-    yield put(getVotesError(error));
+    yield put(saveApiResponseError(error));
   }
 }
 
@@ -79,7 +77,7 @@ export function* recordVote({ payload, callback }) {
 
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
-  yield all([takeLatest('GET_VOTES', getVotes)]);
+  yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
 }

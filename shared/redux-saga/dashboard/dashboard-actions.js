@@ -12,20 +12,10 @@ export const getListCategorySupportError = error => ({
   payload: error,
 });
 
-export const getVotes = (payload, callback) => ({
+export const getVotes = (payload, successCb) => ({
   type: 'GET_VOTES',
   payload,
-  callback,
-});
-
-export const getVotesSuccess = data => ({
-  type: 'GET_VOTES_SUCCESS',
-  payload: data,
-});
-
-export const getVotesError = error => ({
-  type: 'GET_VOTES_ERROR',
-  payload: error,
+  successCb,
 });
 
 export const getVoteDetail = (payload, callback) => ({

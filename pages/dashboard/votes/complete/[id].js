@@ -38,9 +38,9 @@ const CompleteVoteDetail = () => {
                   height="18"
                   className="mr-2"
                 />
-                <span className="text-sm">Back</span>
+                <span className="text-primary text-xl">Back</span>
               </button>
-              <p className="text-primary">Closed</p>
+              <p className="text-primary text-xl">Closed</p>
             </div>
             <div className="border-primary border-b-2" />
           </div>

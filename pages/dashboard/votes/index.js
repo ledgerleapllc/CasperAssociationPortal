@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
-import ReactLoading from 'react-loading';
+import styled from 'styled-components';
 
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -11,22 +11,61 @@ import {
   Tab,
   ForAgainst,
   TimeRemaining,
+  Table,
 } from '../../../components/partials';
 import { getVotes } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../../shared/core/utils';
 
+const Styles = styled.div`
+  .active-vote-table {
+    .col-1 {
+      width: 40%;
+    }
+    .col-2 {
+      width: 15%;
+    }
+    .col-3 {
+      width: 15%;
+    }
+    .col-4 {
+      width: 15%;
+    }
+    .col-5 {
+      width: 15%;
+    }
+  }
+  .complete-vote-table {
+    .col-1 {
+      width: 55%;
+    }
+    .col-2 {
+      width: 15%;
+    }
+    .col-3 {
+      width: 15%;
+    }
+    .col-4 {
+      width: 15%;
+    }
+  }
+`;
+
 const Tab1 = () => {
+  const [activeVotes, setActiveVotes] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLoading } = useSelector(state => state?.votesReducer);
-  const [activeVotes, setActiveVote] = useState([]);
-
-  useEffect(() => {
+  const fetchActiveVotes = () => {
     dispatch(
-      getVotes({ status: 'active', page: 1, limit: 999 }, data => {
-        setActiveVote(data);
+      getVotes('active', (data, isHasMore) => {
+        setHasMore(isHasMore);
+        setActiveVotes(prevVotes => [...prevVotes, ...data]);
       })
     );
+  };
+
+  useEffect(() => {
+    fetchActiveVotes();
   }, []);
 
   const goToActiveVoteDetail = id => {
@@ -34,153 +73,135 @@ const Tab1 = () => {
   };
 
   return (
-    <div className="flex flex-col w-full h-auto lg:h-full mt-5">
-      <div className="w-full hidden lg:flex flex-row pb-4">
-        <p className="w-2/6 text-base font-medium">Title</p>
-        <p className="w-1/6 text-base font-medium">Time Remainning</p>
-        <p className="w-1/6 text-base font-medium">Votes</p>
-        <p className="w-1/6 text-base font-medium">Current Split</p>
-        <p className="w-1/6 text-base font-medium">Date</p>
-      </div>
-      <div className="flex flex-col w-full h-full lg:overflow-y-scroll">
-        {isLoading && (
-          <div className="flex justify-center h-full items-center">
-            <ReactLoading
-              type="spinningBubbles"
-              color="#FF473E"
-              width={137}
-              height={141}
-            />
-          </div>
-        )}
-        {!!activeVotes?.data?.length &&
-          activeVotes?.data?.map((item, index) => (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <div
-              className="flex flex-col lg:flex-row w-full py-7 border-b border-gray"
-              key={index}
-              role="button"
-              tabIndex="0"
-              onClick={() => goToActiveVoteDetail(item.id)}
+    <Styles>
+      <Table
+        className="active-vote-table pt-10"
+        onLoadMore={fetchActiveVotes}
+        hasMore={hasMore}
+        dataLength={activeVotes.length}
+        height={300}
+      >
+        <Table.Header>
+          <Table.HeaderCell>
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Time Remaining</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Votes</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Current Split</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Date</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body>
+          {activeVotes.map((row, ind) => (
+            <Table.BodyRow
+              key={ind}
+              selectRowHandler={() => goToActiveVoteDetail(row.id)}
             >
-              <p className="block lg:hidden w-full text-sm py-2.5 lg:py-0">
-                <span className="font-medium pr-3">Started:</span>
-                {formatDate(item?.created_at)}
-              </p>
-              <p className="w-full lg:w-2/6 text-sm">{item.title}</p>
-              <p className="flex lg:block w-full lg:w-1/6 text-sm py-2.5 lg:py-0">
-                <span className="lg:hidden font-medium pr-3">
-                  Time Remaining:
-                </span>
-                <TimeRemaining endTime={new Date(item?.time_end)} />
-              </p>
-              <p className="flex lg:block w-full lg:w-1/6 text-sm py-2.5 lg:py-0">
-                <span className="lg:hidden font-medium pr-3">Votes:</span>
-                {item?.vote?.result_count}
-              </p>
-              <div className="flex lg:block w-full lg:w-1/6 text-sm py-2.5 lg:py-0">
-                <span className="lg:hidden font-medium pr-3">
-                  Current Split:
-                </span>
+              <Table.BodyCell>
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <TimeRemaining endTime={new Date(row?.time_end)} />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.vote.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
                 <ForAgainst
-                  splitFor={item.vote.for_value}
-                  splitAgainst={item.vote.against_value}
+                  splitFor={row.vote.for_value}
+                  splitAgainst={row.vote.against_value}
                 />
-              </div>
-              <p className="hidden lg:block w-full lg:w-1/6 text-sm">
-                {formatDate(item.created_at)}
-              </p>
-              <button
-                type="button"
-                className="block lg:hidden mt-4 transition text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                onClick={() => goToActiveVoteDetail(item.id)}
-              >
-                Vote Now
-              </button>
-            </div>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(row.created_at)}</p>
+              </Table.BodyCell>
+            </Table.BodyRow>
           ))}
-      </div>
-    </div>
+        </Table.Body>
+      </Table>
+    </Styles>
   );
 };
 
 const Tab2 = () => {
+  const [completeVotes, setCompleteVotes] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isLoading } = useSelector(state => state?.votesReducer);
-  const [completeVotes, setCompleteVotes] = useState([]);
 
-  useEffect(() => {
+  const fetchFinishVotes = () => {
     dispatch(
-      getVotes({ status: 'finish', page: 1, limit: 999 }, data => {
-        setCompleteVotes(data);
+      getVotes('finish', (data, isHasMore) => {
+        setHasMore(isHasMore);
+        setCompleteVotes(prevVotes => [...prevVotes, ...data]);
       })
     );
+  };
+
+  useEffect(() => {
+    fetchFinishVotes();
   }, []);
 
-  const goToActiveVoteDetail = id => {
+  const goToFinishedVoteDetail = id => {
     router.push(`/dashboard/votes/complete/${id}`);
   };
 
   return (
-    <div className="flex flex-col w-full h-full mt-5">
-      <div className="w-full hidden lg:flex flex-row pb-4">
-        <p className="w-2/5 text-base font-medium">Title</p>
-        <p className="w-1/5 text-base font-medium">Votes</p>
-        <p className="w-1/5 text-base font-medium">Results</p>
-        <p className="w-1/5 text-base font-medium">Date</p>
-      </div>
-      <div className="flex flex-col w-full h-full lg:overflow-y-scroll">
-        {isLoading && (
-          <div className="flex justify-center h-full items-center">
-            <ReactLoading
-              type="spinningBubbles"
-              color="#FF473E"
-              width={137}
-              height={141}
-            />
-          </div>
-        )}
-        {!!completeVotes?.data?.length &&
-          completeVotes.data.map((item, index) => (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-            <div
-              className="flex flex-col lg:flex-row w-full py-7 border-b border-gray"
-              key={index}
-              role="button"
-              tabIndex="0"
-              onClick={() => goToActiveVoteDetail(item.id)}
+    <Styles>
+      <Table
+        className="complete-vote-table pt-10"
+        onLoadMore={fetchFinishVotes}
+        hasMore={hasMore}
+        dataLength={completeVotes.length}
+        height={300}
+      >
+        <Table.Header>
+          <Table.HeaderCell>
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Votes</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Results</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Date</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body>
+          {completeVotes.map((row, ind) => (
+            <Table.BodyRow
+              key={ind}
+              selectRowHandler={() => goToFinishedVoteDetail(row.id)}
             >
-              <p className="block lg:hidden w-full text-sm py-2.5 lg:py-0">
-                <span className="font-medium pr-3">Ended:</span>
-                {formatDate(new Date(item?.time_end))}
-              </p>
-              <p className="w-full lg:w-2/5 text-sm">{item.title}</p>
-              <p className="flex lg:block w-full lg:w-1/5 text-sm py-2.5 lg:py-0">
-                <span className="lg:hidden font-medium pr-3">Votes:</span>
-                {item?.vote?.result_count}
-              </p>
-              <div className="flex lg:block w-full lg:w-1/5 text-sm py-2.5 lg:py-0">
-                <span className="lg:hidden font-medium pr-3">Results:</span>
+              <Table.BodyCell>
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.vote.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
                 <ForAgainst
-                  splitFor={item.vote.for_value}
-                  splitAgainst={item.vote.against_value}
+                  splitFor={row.vote.for_value}
+                  splitAgainst={row.vote.against_value}
                 />
-              </div>
-              <p className="hidden lg:block w-full lg:w-1/5 text-sm">
-                {formatDate(new Date(item?.time_end))}
-              </p>
-              <button
-                type="button"
-                className="block lg:hidden mt-4 transition text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                onClick={() => goToActiveVoteDetail(item.id)}
-              >
-                View Result
-              </button>
-            </div>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(new Date(row?.time_end))}</p>
+              </Table.BodyCell>
+            </Table.BodyRow>
           ))}
-      </div>
-    </div>
+        </Table.Body>
+      </Table>
+    </Styles>
   );
 };
 

@@ -35,33 +35,6 @@ const strategiesList = {
 
 export const demoDataReducer = createReducer(strategiesList, initialState);
 
-const getVotes = state => ({
-  ...state,
-  isLoading: true,
-});
-
-const getVotesSuccess = (state, payload) => ({
-  ...state,
-  data: payload,
-  isLoading: false,
-});
-
-const getVotesError = (state, payload) => ({
-  ...state,
-  error: payload,
-  hasError: true,
-  isLoading: false,
-});
-
-const strategiesListVotes = {
-  ['GET_VOTES']: getVotes,
-  ['GET_VOTES_SUCCESS']: getVotesSuccess,
-  ['GET_VOTES_ERROR']: getVotesError,
-  __default__: state => state,
-};
-
-export const votesReducer = createReducer(strategiesListVotes, initialState);
-
 const getVoteDetail = state => ({
   ...state,
   isLoading: true,

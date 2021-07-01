@@ -53,9 +53,10 @@ export const denyKYC = data => ({
   payload: data,
 });
 
-export const getListIntake = payload => ({
+export const getListIntake = (payload, successCb) => ({
   type: 'GET_LIST_INTAKE',
   payload,
+  successCb
 });
 
 export const getListIntakeSuccess = data => ({

@@ -46,7 +46,7 @@ const AdminAddBallot = () => {
       <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           <div className="card-header lg:mr-24 lg:h-70px">
-            <BackButton href="/admin/ballots" text="Cancel" />
+            <BackButton href="/admin/ballots" text="Cancel" force />
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
               New Ballot
             </h3>
@@ -56,7 +56,7 @@ const AdminAddBallot = () => {
             <div className="lg:pr-24">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">{user?.fullInfo?.full_name}</a>
+                  Posting as: <a className="text-primary">{user?.fullInfo?.email}</a>
                 </p>
                 <div className="mt-4 flex items-center">
                   <input
@@ -90,9 +90,12 @@ const AdminAddBallot = () => {
                     )}
                   />
                 </div>
-                <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center pt-8 justify-between">
+                <p className="py-4 text-sm text-gray">
+                  Choose a duration for your ballot:
+                </p>
+                <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between">
                   <div className="flex">
-                    <div className="border border-gray1 mr-4 c-select flex items-center relative w-72 focus:outline-none shadow-md">
+                    <div className="border border-gray1 mr-4 c-select flex items-center relative w-52 focus:outline-none shadow-md">
                       <select
                         className="py-6 px-5 w-full cursor-pointer"
                         required
@@ -122,7 +125,7 @@ const AdminAddBallot = () => {
                       </select>
                       <div className="arrow ml-2" />
                     </div>
-                    <div className="border border-gray1 c-select flex items-center relative w-72 focus:outline-none shadow-md">
+                    <div className="border border-gray1 c-select flex items-center relative w-52 focus:outline-none shadow-md">
                       <select
                         className="px-5 py-6 w-full cursor-pointer"
                         required
@@ -144,10 +147,9 @@ const AdminAddBallot = () => {
                     isLoading={isSubmit}
                     size={20}
                     title="Submit & Begin Voting"
-                    className="px-4 my-1 h-16 lg:h-11 text-lg w-full text-white lg:w-auto rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    className="px-4 my-1 h-16 lg:h-11 text-sm w-full text-white lg:w-auto rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   />
                 </div>
-                <div className="pt-8 border-primary border-b lg:border-b-2" />
               </form>
             </div>
           </div>

@@ -79,18 +79,17 @@ export function* denyKYC(data) {
   }
 }
 
-export function* getIntake({ payload }) {
+export function* getIntake({ payload, successCb }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get(
-      [`admin/users/intakes?limit=${payload.limit}&page=${payload.page}`],
-      {
-        headers,
-      }
-    );
+    const res = yield get([`admin/users/intakes`], {
+      headers,
+    });
+    yield delay(500); // => this need for scroll loadmore.
+    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
     yield put(getListIntakeSuccess(res.data));
   } catch (error) {
     yield put(getListIntakeError(error));
@@ -181,7 +180,7 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
   yield all([takeLatest('APPROVE_KYC', approveKYC)]);
   yield all([takeLatest('DENY_KYC', denyKYC)]);
-  yield all([takeLatest('GET_LIST_INTAKE', getIntake)]);
+  yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
