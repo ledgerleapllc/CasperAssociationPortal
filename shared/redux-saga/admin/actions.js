@@ -1,6 +1,7 @@
-export const getListMembers = payload => ({
+export const getListMembers = (payload, callback) => ({
   type: 'GET_LIST_MEMBER',
   payload,
+  callback,
 });
 
 export const getListMembersSuccess = data => ({

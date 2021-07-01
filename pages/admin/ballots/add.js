@@ -8,6 +8,7 @@ import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { submitBallot } from '../../../shared/redux-saga/admin/actions';
+import IconFeatureUpLoad from '../../../public/images/ic_feature_upload.svg';
 
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
@@ -69,9 +70,14 @@ const AdminAddBallot = () => {
                     htmlFor="ballotFile"
                     className="flex justify-center items-center cursor-pointer ml-5 h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
-                    {watchFiles && watchFiles.length > 0
-                      ? `${watchFiles.length} file(s) selected`
-                      : 'Upload Files'}
+                    {watchFiles && watchFiles.length > 0 ? (
+                      `${watchFiles.length} file(s) selected`
+                    ) : (
+                      <>
+                        <IconFeatureUpLoad className="text-primary mr-2" />
+                        Upload Files
+                      </>
+                    )}
                   </label>
                   <input
                     type="file"
@@ -95,9 +101,12 @@ const AdminAddBallot = () => {
                 </p>
                 <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between">
                   <div className="flex">
-                    <div className="border border-gray1 mr-4 c-select flex items-center relative w-52 focus:outline-none shadow-md">
+                    <div
+                      className="border border-gray1 mr-4 c-select flex items-center relative focus:outline-none shadow-md"
+                      style={{ width: '214px', height: '60px' }}
+                    >
                       <select
-                        className="py-6 px-5 w-full cursor-pointer"
+                        className="w-full h-full px-5 cursor-pointer"
                         required
                         {...register('time')}
                       >
@@ -125,9 +134,12 @@ const AdminAddBallot = () => {
                       </select>
                       <div className="arrow ml-2" />
                     </div>
-                    <div className="border border-gray1 c-select flex items-center relative w-52 focus:outline-none shadow-md">
+                    <div
+                      className="border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
+                      style={{ width: '214px', height: '60px' }}
+                    >
                       <select
-                        className="px-5 py-6 w-full cursor-pointer"
+                        className="px-5 w-full h-full cursor-pointer"
                         required
                         {...register('time_unit')}
                       >
@@ -147,7 +159,7 @@ const AdminAddBallot = () => {
                     isLoading={isSubmit}
                     size={20}
                     title="Submit & Begin Voting"
-                    className="px-4 my-1 h-16 lg:h-11 text-sm w-full text-white lg:w-auto rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    className="px-4 my-1 h-16 lg:h-11 text-sm w-full text-white lg:w-52 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   />
                 </div>
               </form>

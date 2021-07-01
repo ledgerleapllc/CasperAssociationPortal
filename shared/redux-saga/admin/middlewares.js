@@ -12,15 +12,21 @@ import {
   cancelBallotError,
 } from './actions';
 
-export function* getListMembers(data) {
+export function* getListMembers({ payload, callback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get([`admin/users?limit=${data.payload.limit}`], {
+    const query = qs.stringify({
+      page: payload.page,
+      limit: payload.limit || 10,
+    });
+    const res = yield get([`admin/users?${query}`], {
       headers,
     });
+    yield delay(500); // => this need for scroll loadmore.
+    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
     yield put(getListMembersSuccess(res.data));
   } catch (error) {
     yield put(saveApiResponseError(error));

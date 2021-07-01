@@ -1,22 +1,72 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import ReactLoading from 'react-loading';
+import router from 'next/router';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Card } from '../../components/partials';
+import { Card, Table } from '../../components/partials';
 import { getListMembers } from '../../shared/redux-saga/admin/actions';
+import { formatDate, getShortNodeAddress } from '../../shared/core/utils';
+
+const Styles = styled.div`
+  .members-table {
+    .col-1 {
+      width: 8%;
+    }
+    .col-2 {
+      width: 9%;
+    }
+    .col-3 {
+      width: 20%;
+    }
+    .col-4 {
+      width: 10%;
+    }
+    .col-5 {
+      width: 10%;
+    }
+    .col-6 {
+      width: 13%;
+    }
+    .col-7 {
+      width: 8%;
+    }
+    .col-8 {
+      width: 10%;
+    }
+    .col-9 {
+      width: 12%;
+    }
+  }
+`;
 
 const AdminUserList = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const members = useSelector(state => state.membersReducer.data);
-  const isLoadingMember = useSelector(state => state.membersReducer.isLoading);
+  const [members, setMembers] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+
+  const getMembers = () => {
+    dispatch(
+      getListMembers(
+        {
+          page,
+        },
+        (data, isHasMore) => {
+          setHasMore(isHasMore);
+          setMembers(prevMembers => [...prevMembers, ...data]);
+          setPage(prev => prev + 1);
+        }
+      )
+    );
+  };
+
   useEffect(() => {
-    dispatch(getListMembers({ limit: 999 }));
+    getMembers();
   }, []);
+
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-14">
+      <Card className="h-full px-24 py-14 overflow-auto">
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">
@@ -29,87 +79,96 @@ const AdminUserList = () => {
               <div className="border-primary border-b-2" />
             </div>
           </div>
-          <div className="flex flex-col pt-4 h-full">
-            <div className="flex flex-col lg:pt-6 h-full">
-              <div className="flex w-full">
-                <p className="px-2 w-1/12 text-base font-medium">User ID</p>
-                <p className="px-2 w-1/12 text-base font-medium">
-                  Membership status
-                </p>
-                <p className="px-2 w-2/12 text-base font-medium">User Email</p>
-                <p className="px-2 w-1/12 text-base font-medium">Entity Name</p>
-                <p className="px-2 w-1/12 text-base font-medium">
-                  Fist and Last Name
-                </p>
-                <p className="px-2 w-3/12 text-base font-medium">
-                  Node Addresses
-                </p>
-                <p className="px-2 w-1/12 text-base font-medium">
-                  CSPR delegated
-                </p>
-                <p className="px-2 w-1/12 text-base font-medium">
-                  Registration date
-                </p>
-                <p className="px-2 w-1/12 text-base font-medium">
-                  Further detail
-                </p>
-              </div>
-              <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-                {isLoadingMember ? (
-                  <div className="flex justify-center h-full items-center">
-                    <ReactLoading
-                      type="spinningBubbles"
-                      color="#FF473E"
-                      width={137}
-                      height={141}
-                    />
-                  </div>
-                ) : (
-                  <>
-                    {members?.data?.map((member, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray"
-                      >
-                        <p className="px-2 text-sm lg:w-1/12">{member.id}</p>
-                        <p className="px-2 text-sm lg:w-1/12">
-                          {member.member_status}
+          <div className="flex flex-col h-5/6">
+            <Styles className="h-full">
+              <Table
+                className="members-table pt-3 h-full"
+                onLoadMore={getMembers}
+                hasMore={hasMore}
+                dataLength={members?.length}
+              >
+                <Table.Header>
+                  <Table.HeaderCell>
+                    <p>User ID</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>
+                      Membership <br /> Status
+                    </p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>User Email</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Entity Name</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>First/Last Name</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Node Address</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>
+                      CSPR
+                      <br /> Delegated
+                    </p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>
+                      Registration
+                      <br /> Date
+                    </p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Further Details</p>
+                  </Table.HeaderCell>
+                </Table.Header>
+                <Table.Body>
+                  {members.map((row, ind) => (
+                    <Table.BodyRow key={ind}>
+                      <Table.BodyCell>
+                        <p>{row?.id}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{row?.member_status}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p className="truncate">{row?.email}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p className="truncate">
+                          {row?.entity_name ? row?.entity_name : '-'}
                         </p>
-                        <p className="px-2 text-sm lg:w-2/12 overflow-hidden overflow-ellipsis">
-                          {member.email}
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p className="truncate">
+                          {row?.first_name} {row?.last_name}
                         </p>
-                        <p className="px-2 text-sm lg:w-1/12">
-                          {member.entity_name ? member.entity_name : 'None'}
-                        </p>
-                        <p className="px-2 text-sm lg:w-1/12">{`${member.first_name} ${member.last_name}`}</p>
-                        <p className="px-2 text-sm lg:w-3/12 overflow-hidden overflow-ellipsis">
-                          {member.public_address_node}
-                        </p>
-                        <p className="px-2 text-sm lg:w-1/12">2,000,250</p>
-                        <p className="px-2 text-sm lg:w-1/12">
-                          {
-                            new Date(member.created_at)
-                              .toISOString()
-                              .split('T')[0]
-                          }
-                        </p>
-                        <p className="px-2 text-sm lg:w-1/12">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              router.push(`/admin/users/${member.id}`)
-                            }
-                            className="text-lg text-white rounded-lg bg-primary shadow-md focus:outline-none hover:opacity-40"
-                          >
-                            View & Manager
-                          </button>
-                        </p>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{getShortNodeAddress(row?.public_address_node)}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>2,000,250</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{formatDate(row?.created_at)}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <button
+                          type="button"
+                          onClick={() => router.push(`/admin/users/${row?.id}`)}
+                          className="px-4 py-1 text-sm text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                        >
+                          View/Manage
+                        </button>
+                      </Table.BodyCell>
+                    </Table.BodyRow>
+                  ))}
+                </Table.Body>
+              </Table>
+            </Styles>
           </div>
         </div>
       </Card>

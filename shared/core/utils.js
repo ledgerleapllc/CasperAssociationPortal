@@ -5,3 +5,10 @@ export const formatDate = (time, formatType = 'dd/MM/yyyy') => {
   if (timeConvert.toString() === 'Invalid Date') return timeConvert.toString();
   return format(timeConvert, formatType);
 };
+
+export const getShortNodeAddress = address => {
+  if (address) {
+    return `${address.substr(0, 10)}...${address.substr(-4)}`;
+  }
+  return '-';
+};
