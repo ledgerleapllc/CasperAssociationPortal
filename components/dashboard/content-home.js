@@ -1,8 +1,13 @@
+import { useState } from 'react';
+
 import { Line } from 'react-chartjs-2';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
+import OpenVotes from '../home/open-votes';
 
 const ContentHome = () => {
+  const [showOpenVotes, setShowOpenVotes] = useState(false);
+
   const data = {
     datasets: [
       {
@@ -124,7 +129,7 @@ const ContentHome = () => {
                 </div>
                 <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -135,7 +140,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -144,12 +149,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -160,7 +165,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -169,12 +174,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -185,7 +190,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -194,12 +199,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -210,7 +215,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -219,12 +224,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -235,7 +240,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -244,12 +249,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -260,7 +265,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -269,12 +274,12 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 text-sm">
+                    <p className="w-full lg:w-3/6 pb-2 truncate">
                       Lorem ipsum dolor sit amet, consectetur adipiscing
                     </p>
                     <div className="flex w-full lg:w-3/6">
@@ -285,7 +290,7 @@ const ContentHome = () => {
                             alt="Comment"
                           />
                         </div>
-                        <span className="text-sm">26</span>
+                        <span>26</span>
                       </div>
                       <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
                         <div className="pr-3">
@@ -294,7 +299,7 @@ const ContentHome = () => {
                             alt="Calendar"
                           />
                         </div>
-                        <span className="text-sm">5/6/21</span>
+                        <span>5/6/21</span>
                       </div>
                     </div>
                   </div>
@@ -302,88 +307,14 @@ const ContentHome = () => {
               </div>
             </div>
           </Card>
-          <Card className="flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full">
-            <div className="flex flex-col px-8 py-7 h-full">
-              <p className="text-2.5xl text-black1">Open Votes</p>
-              <div className="flex flex-col lg:pt-6 h-8.5/10">
-                <div className="hidden lg:flex w-full h-1/5">
-                  <p className="w-4/6 text-lg underline text-left font-normal">
-                    Title
-                  </p>
-                  <p className="w-3/6 text-lg pl-8 underline text-left font-normal text-left">
-                    Time Left
-                  </p>
-                </div>
-                <div className="flex flex-col w-full mt-5 overflow-y-scroll">
-                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5 border-b border-gray lg:border-0">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="text-sm w-full lg:w-4/6">
-                      Nam tincidunt, augue sit amet dignissim
-                    </p>
-                    <p className="flex text-sm lg:pl-8 w-full py-2.5 lg:py-0 lg:w-3/6 text-left">
-                      <span className="block lg:hidden font-medium text-sm mr-2">
-                        Time Left:
-                      </span>
-                      1d:21h:05m
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <Card
+            className={`${
+              showOpenVotes
+                ? 'flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full'
+                : 'w-0 h-0 opacity-0'
+            }`}
+          >
+            <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>
         </div>
       </div>

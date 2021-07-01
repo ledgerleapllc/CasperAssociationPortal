@@ -182,6 +182,26 @@ export function* cancelBallot({ payload, callback, finallyCallback }) {
   }
 }
 
+export function* getBallotVotes({ payload, callback }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`admin/ballots/${payload.id}/votes?${query}`], {
+      headers,
+    });
+    yield delay(500); // => this need for scroll loadmore.
+    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -192,5 +212,6 @@ export function* watchAdmin() {
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
+  yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
   yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
 }

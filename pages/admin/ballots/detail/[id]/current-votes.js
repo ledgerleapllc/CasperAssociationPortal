@@ -12,7 +12,10 @@ import {
   Table,
   StatusText,
 } from '../../../../../components/partials';
-import { getBallotDetail } from '../../../../../shared/redux-saga/admin/actions';
+import {
+  getBallotDetail,
+  getBallotVotes,
+} from '../../../../../shared/redux-saga/admin/actions';
 import { formatDate } from '../../../../../shared/core/utils';
 
 const Styles = styled.div`
@@ -53,16 +56,34 @@ const StylesVotes = styled.div`
 const AdminActiveBallotCurrentVotes = () => {
   const [ballot, setBallot] = useState();
   const [votes, setVotes] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const { id } = router.query;
   const dispatch = useDispatch();
+
+  const fetchBallotVotes = () => {
+    dispatch(
+      getBallotVotes(
+        {
+          id,
+          page,
+        },
+        (data, isHasMore) => {
+          setHasMore(isHasMore);
+          setVotes(prevVotes => [...prevVotes, ...data]);
+          setPage(prev => prev + 1);
+        }
+      )
+    );
+  };
 
   useEffect(() => {
     dispatch(
       getBallotDetail(id, res => {
         setBallot(res);
-        setVotes(res.vote_results);
       })
     );
+    fetchBallotVotes();
   }, [id]);
 
   return (
@@ -154,26 +175,25 @@ const AdminActiveBallotCurrentVotes = () => {
                 </tr>
               </table>
             </Styles>
-            <StylesVotes className="lg:pr-24">
+            <StylesVotes className="lg:pr-24 max-h-96">
               <Table
-                className="active-votes-table pt-3"
-                onLoadMore={() => {}}
-                hasMore={false}
-                dataLength={votes.length}
-                height={300}
+                className="active-votes-table pt-3 max-h-96"
+                onLoadMore={fetchBallotVotes}
+                hasMore={hasMore}
+                dataLength={votes?.length}
               >
                 <Table.Header>
                   <Table.HeaderCell>
-                    <p>User ID</p>
+                    <p className="py-2">User ID</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Email</p>
+                    <p className="py-2">Email</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Time of Vote</p>
+                    <p className="py-2">Time of Vote</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Direction</p>
+                    <p className="py-2">Direction</p>
                   </Table.HeaderCell>
                 </Table.Header>
                 <Table.Body>

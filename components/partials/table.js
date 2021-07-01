@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { cloneElement } from 'react';
+import { cloneElement, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReactLoading from 'react-loading';
-
-const randomId = Math.random().toString(36).substring(7);
 
 const Table = props => (
   <div className={`${props.className} flex flex-col min-w-250`}>
@@ -18,7 +16,7 @@ const Table = props => (
 );
 
 Table.Header = props => (
-  <div className="flex w-full" style={{ paddingRight: '7px', height: '50px' }}>
+  <div className="flex w-full pb-2" style={{ paddingRight: '7px' }}>
     {props.children.map((child, i) =>
       cloneElement(child, {
         index: i + 1,
@@ -28,43 +26,49 @@ Table.Header = props => (
 );
 
 Table.HeaderCell = props => (
-  <div className={`col col-${props.index} text-lg font-medium`}>
+  <div
+    className={`${props.className} col col-${props.index} text-sm font-medium`}
+  >
     {props.children}
   </div>
 );
 
 Table.Header.Cell = Table.HeaderCell;
 
-Table.Body = props => (
-  <div id={randomId} style={{ height: `calc(100% - 50px)`, overflow: 'auto' }}>
-    <InfiniteScroll
-      className="flex flex-col w-full mt-5"
-      dataLength={props.dataLength || 0}
-      next={props.onLoadMore}
-      hasMore={props.hasMore}
-      loader={
-        <div className="py-4 flex justify-center">
-          <ReactLoading
-            type="spinningBubbles"
-            color="#FF473E"
-            width={30}
-            height={30}
-          />
-        </div>
-      }
-      scrollableTarget={randomId}
-      scrollThreshold={0.99}
-    >
-      {props.dataLength ? (
-        props.children
-      ) : !props.hasMore ? (
-        <p className="py-4 text-center opacity-40">No Results Found</p>
-      ) : (
-        <></>
-      )}
-    </InfiniteScroll>
-  </div>
-);
+Table.Body = props => {
+  const [randomId] = useState(Math.random().toString(36).substring(7));
+
+  return (
+    <div id={randomId} style={{ overflow: 'auto' }}>
+      <InfiniteScroll
+        className="flex flex-col w-full"
+        dataLength={props.dataLength || 0}
+        next={props.onLoadMore}
+        hasMore={props.hasMore}
+        loader={
+          <div className="py-4 flex justify-center">
+            <ReactLoading
+              type="spinningBubbles"
+              color="#FF473E"
+              width={30}
+              height={30}
+            />
+          </div>
+        }
+        scrollableTarget={randomId}
+        scrollThreshold={0.99}
+      >
+        {props.dataLength ? (
+          props.children
+        ) : !props.hasMore ? (
+          <p className="py-4 text-center opacity-40">No Results Found</p>
+        ) : (
+          <></>
+        )}
+      </InfiniteScroll>
+    </div>
+  );
+};
 
 Table.BodyRow = props => {
   const doSelectRow = () => {
@@ -79,7 +83,9 @@ Table.BodyRow = props => {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
-      className={`flex items-center flex-row w-full py-7 border-b border-gray ${
+      className={`${
+        props.className
+      } flex items-center flex-row w-full py-2 border-b border-gray ${
         props.selectRowHandler ? 'cursor-pointer' : ''
       }`}
       onClick={doSelectRow}

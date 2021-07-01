@@ -81,6 +81,12 @@ export const getBallotDetail = (payload, callback) => ({
   callback,
 });
 
+export const getBallotVotes = (payload, callback) => ({
+  type: 'GET_BALLOT_VOTES',
+  payload,
+  callback,
+});
+
 export const submitBallot = (payload, resolve, reject) => ({
   type: 'SUBMIT_BALLOT',
   payload,

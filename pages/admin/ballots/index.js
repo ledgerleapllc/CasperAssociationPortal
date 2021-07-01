@@ -116,7 +116,7 @@ const Tab1 = () => {
         </Table.Header>
         <Table.Body>
           {activeBallots.map((row, ind) => (
-            <Table.BodyRow key={ind}>
+            <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell>
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
@@ -214,7 +214,7 @@ const Tab2 = () => {
         </Table.Header>
         <Table.Body>
           {completeBallots.map((row, ind) => (
-            <Table.BodyRow key={ind}>
+            <Table.BodyRow key={`a-${ind}`}>
               <Table.BodyCell>
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
