@@ -39,11 +39,14 @@ const AdminIntake = () => {
   const dispatch = useDispatch();
   const [intakes, setIntakes] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+
   const fetchIntakes = () => {
     dispatch(
-      getListIntake({}, (data, isHasMore) => {
+      getListIntake({ page }, (data, isHasMore) => {
         setHasMore(isHasMore);
         setIntakes(prevBallots => [...prevBallots, ...data]);
+        setPage(prev => prev + 1);
       })
     );
   };
@@ -67,14 +70,13 @@ const AdminIntake = () => {
               <div className="border-primary border-b-2" />
             </div>
           </div>
-          <div className="flex flex-col pt-4 h-full">
-            <Styles>
+          <div className="flex flex-col h-5/6">
+            <Styles className="h-full">
               <Table
-                className="intake-table pt-10"
+                className="intake-table pt-10 h-full"
                 onLoadMore={fetchIntakes}
                 hasMore={hasMore}
                 dataLength={intakes.length}
-                height={300}
               >
                 <Table.Header>
                   <Table.HeaderCell>

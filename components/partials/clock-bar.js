@@ -17,7 +17,7 @@ const ClockBar = props => {
     const totalSeconds = differenceInSeconds(props.endTime, props.startTime);
 
     const intervalIdTemp = setInterval(() => {
-      const currentTime =  new Date();
+      const currentTime = new Date();
       const diffTemp = intervalToDuration({
         start: currentTime,
         end: props.endTime,
@@ -41,14 +41,16 @@ const ClockBar = props => {
       <p>
         {duration.days}d:{duration.hours}h:{duration.minutes}m
       </p>
-      <div
-        className={`${props.className} w-28 overflow-hidden h-4 mt-2 text-xs border border-gray flex rounded-lg bg-opacity-50`}
-      >
+      {!props.hideProgressBar && (
         <div
-          className="w-0 transition-width duration-600 ease-in-out transhadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+          className={`${props.className} w-28 overflow-hidden h-4 mt-2 text-xs border border-gray flex rounded-lg bg-opacity-50`}
+        >
+          <div
+            className="w-0 transition-width duration-600 ease-in-out transhadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      )}
     </div>
   );
 };

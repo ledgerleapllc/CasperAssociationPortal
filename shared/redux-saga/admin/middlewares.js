@@ -87,7 +87,10 @@ export function* getIntake({ payload, successCb }) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get([`admin/users/intakes`], {
+    const query = qs.stringify({
+      page: payload.page,
+    });
+    const res = yield get([`admin/users/intakes?${query}`], {
       headers,
     });
     yield delay(500); // => this need for scroll loadmore.

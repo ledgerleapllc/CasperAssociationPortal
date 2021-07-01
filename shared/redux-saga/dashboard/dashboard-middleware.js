@@ -27,7 +27,8 @@ export function* getVotes({ payload, successCb }) {
       Authorization: `Bearer ${token}`,
     };
     const query = qs.stringify({
-      status: payload,
+      status: payload.status,
+      page: payload.page,
     });
     const res = yield get([`users/votes?${query}`], {
       headers,

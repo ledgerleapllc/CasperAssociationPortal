@@ -10,8 +10,8 @@ import {
   Card,
   Tab,
   ForAgainst,
-  TimeRemaining,
   Table,
+  ClockBar,
 } from '../../../components/partials';
 import { getVotes } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../../shared/core/utils';
@@ -53,13 +53,15 @@ const Styles = styled.div`
 const Tab1 = () => {
   const [activeVotes, setActiveVotes] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
   const fetchActiveVotes = () => {
     dispatch(
-      getVotes('active', (data, isHasMore) => {
+      getVotes({ status: 'active', page }, (data, isHasMore) => {
         setHasMore(isHasMore);
         setActiveVotes(prevVotes => [...prevVotes, ...data]);
+        setPage(prev => prev + 1);
       })
     );
   };
@@ -73,13 +75,12 @@ const Tab1 = () => {
   };
 
   return (
-    <Styles>
+    <Styles className="h-full">
       <Table
-        className="active-vote-table pt-10"
+        className="active-vote-table pt-10 h-full"
         onLoadMore={fetchActiveVotes}
         hasMore={hasMore}
         dataLength={activeVotes.length}
-        height={300}
       >
         <Table.Header>
           <Table.HeaderCell>
@@ -108,15 +109,19 @@ const Tab1 = () => {
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <TimeRemaining endTime={new Date(row?.time_end)} />
+                <ClockBar
+                  endTime={new Date(row.time_end)}
+                  startTime={new Date(row.created_at)}
+                  hideProgressBar
+                />
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>{row.vote.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={item.vote?.for_value}
-                  splitAgainst={item.vote?.against_value}
+                  splitFor={row.vote?.for_value}
+                  splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>
@@ -133,14 +138,17 @@ const Tab1 = () => {
 const Tab2 = () => {
   const [completeVotes, setCompleteVotes] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
   const fetchFinishVotes = () => {
     dispatch(
-      getVotes('finish', (data, isHasMore) => {
+      getVotes({ status: 'finish', page }, (data, isHasMore) => {
         setHasMore(isHasMore);
         setCompleteVotes(prevVotes => [...prevVotes, ...data]);
+        setPage(prev => prev + 1);
       })
     );
   };
@@ -154,13 +162,12 @@ const Tab2 = () => {
   };
 
   return (
-    <Styles>
+    <Styles className="h-full">
       <Table
-        className="complete-vote-table pt-10"
+        className="complete-vote-table pt-10 h-full"
         onLoadMore={fetchFinishVotes}
         hasMore={hasMore}
         dataLength={completeVotes.length}
-        height={300}
       >
         <Table.Header>
           <Table.HeaderCell>
@@ -190,8 +197,8 @@ const Tab2 = () => {
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
-                  splitFor={item.vote?.for_value}
-                  splitAgainst={item.vote?.against_value}
+                  splitFor={row.vote?.for_value}
+                  splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
               <Table.BodyCell>

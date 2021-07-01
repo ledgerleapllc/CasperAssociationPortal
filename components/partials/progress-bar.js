@@ -5,7 +5,7 @@ const ProgressBar = ({ counts, totalCounts }) => {
 
   useEffect(() => {
     const progressTemp = Math.round((counts / totalCounts) * 100);
-    setProgress(Math.round(progressTemp));
+    setProgress(progressTemp);
   }, [counts, totalCounts]);
 
   return (
