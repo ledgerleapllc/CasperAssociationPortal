@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16.763 16.763">
+  <defs><style>.a{stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs>
+  <g transform="translate(1 1)">
+    <path class="a" fill="none" stroke="currentColor" d="M19.263,22.5v3.281a1.64,1.64,0,0,1-1.64,1.64H6.14a1.64,1.64,0,0,1-1.64-1.64V22.5" transform="translate(-4.5 -12.658)"/>
+    <path class="a" fill="none" stroke="currentColor" d="M18.7,8.6,14.6,4.5,10.5,8.6" transform="translate(-7.219 -4.5)"/>
+    <path class="a" fill="none" stroke="currentColor" d="M18,4.5v9.842" transform="translate(-10.618 -4.5)"/>
+  </g>
+</svg>
