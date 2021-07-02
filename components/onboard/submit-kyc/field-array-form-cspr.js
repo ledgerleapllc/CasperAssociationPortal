@@ -49,11 +49,13 @@ export default function FieldArrayFormCSPR({
   };
 
   const insertNode = () => {
-    append({ ...defaultNode });
+    if (watchFormDefault[fields.length - 1].isAdded) {
+      append({ ...defaultNode });
+    }
   };
 
   const removeNode = index => {
-    // setValue(`form[${index}]`, { ...defaultNode });
+    setValue(`form[${index}]`, { ...defaultNode });
     remove(index);
     $submitOwnerNodes.current.click();
   };

@@ -73,22 +73,34 @@ const SubmitKYC = () => {
       } else if (currentStep === 4) {
         setLoading(true);
         dispatch(
-          updateTypeOwnerNode(information, () => {
-            setLoading(false);
-            if (+information.type === 1) {
-              setCurrentStep(currentStep + 2);
-            } else if (+information.type === 2) {
-              setCurrentStep(currentStep + 1);
+          updateTypeOwnerNode(
+            information,
+            () => {
+              setLoading(false);
+              if (+information.type === 1) {
+                setCurrentStep(currentStep + 2);
+              } else if (+information.type === 2) {
+                setCurrentStep(currentStep + 1);
+              }
+            },
+            () => {
+              setLoading(false);
             }
-          })
+          )
         );
       } else if (currentStep === 5) {
         setLoading(true);
         dispatch(
-          postOwnerNodes(information, () => {
-            dispatch(getOwnerNodes());
-            setLoading(false);
-          })
+          postOwnerNodes(
+            information,
+            () => {
+              dispatch(getOwnerNodes());
+              setLoading(false);
+            },
+            () => {
+              setLoading(false);
+            }
+          )
         );
       } else {
         setCurrentStep(currentStep + 1);

@@ -12,7 +12,7 @@ import {
 } from '../../../shared/redux-saga/onboard/actions';
 import { useDialog } from '../../partials/dialog';
 
-const { clientId, clientSecret } = SHUFTI_CONST[process.env.MODE];
+const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);

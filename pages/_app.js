@@ -28,7 +28,7 @@ const Container = props => {
     state => state.authReducer.fetchUserInfo
   );
   useEffect(() => {
-    console.log('app init');
+    console.log('app init', process.env.NODE_ENV);
     dispatch(fetchUserInfo());
   }, []);
 

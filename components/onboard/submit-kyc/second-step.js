@@ -29,6 +29,9 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
         () => {
           setLoading(false);
           nextStep();
+        },
+        () => {
+          setLoading(false);
         }
       )
     );

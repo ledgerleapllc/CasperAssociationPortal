@@ -1,6 +1,7 @@
-export const helloSignRequest = callback => ({
+export const helloSignRequest = (resolve, reject) => ({
   type: 'HELLO_SIGN_REQUEST',
-  callback,
+  resolve,
+  reject,
 });
 
 export const bypassHelloSignRequest = callback => ({
@@ -14,10 +15,11 @@ export const bypassOnboardStep = (payload, callback) => ({
   callback,
 });
 
-export const submitKYC = (payload, resolve) => ({
+export const submitKYC = (payload, resolve, reject) => ({
   type: 'SUBMIT_KYC',
   payload,
   resolve,
+  reject,
 });
 
 export const saveShuftiproTemp = payload => ({
@@ -44,16 +46,18 @@ export const verifyFileCasperSigner = (payload, callback) => ({
   payload,
 });
 
-export const updateTypeOwnerNode = (payload, resolve) => ({
+export const updateTypeOwnerNode = (payload, resolve, reject) => ({
   type: 'UPDATE_TYPE_OWNER_NODE',
   payload,
   resolve,
+  reject,
 });
 
-export const postOwnerNodes = (payload, resolve) => ({
+export const postOwnerNodes = (payload, resolve, reject) => ({
   type: 'POST_OWNER_NODES',
   payload,
   resolve,
+  reject,
 });
 
 export const handleViewGuide = (payload, resolve) => ({

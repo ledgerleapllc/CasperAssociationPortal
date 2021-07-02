@@ -58,14 +58,18 @@ const EsignTerms = () => {
     } else if (currentStep === 2) {
       setLoading(true);
       dispatch(
-        helloSignRequest(res => {
-          // setCurrentStep(currentStep + 1);
-          client.open(res.data.url, {
-            clientId: process.env.HELLOSIGN_CLIENT_ID,
-            skipDomainVerification: true,
-          });
-          setLoading(false);
-        })
+        helloSignRequest(
+          res => {
+            setLoading(false);
+            client.open(res.data.url, {
+              clientId: process.env.HELLOSIGN_CLIENT_ID,
+              skipDomainVerification: true,
+            });
+          },
+          () => {
+            setLoading(false);
+          }
+        )
       );
     } else if (currentStep === 1) {
       dispatch(

@@ -4,7 +4,6 @@ const path = require('path');
 module.exports = {
   env: {
     BASE_URL: process.env.BASE_URL,
-    MODE: process.env.MODE,
     HELLOSIGN_CLIENT_ID: process.env.HELLOSIGN_CLIENT_ID,
   },
   future: {

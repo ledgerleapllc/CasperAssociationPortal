@@ -9,7 +9,7 @@ import {
   getOwnerNodesError,
 } from './actions';
 
-export function* helloSignRequest({ callback }) {
+export function* helloSignRequest({ resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -17,9 +17,10 @@ export function* helloSignRequest({ callback }) {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     const res = yield post(['users/hellosign-request'], null, { headers });
-    callback(res);
+    resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
@@ -100,7 +101,7 @@ export function* handleViewGuide({ resolve }) {
   }
 }
 
-export function* submitKYC({ payload, resolve }) {
+export function* submitKYC({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -110,6 +111,7 @@ export function* submitKYC({ payload, resolve }) {
     resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
@@ -138,7 +140,7 @@ export function* updateShuftiproTemp({ payload, resolve }) {
   }
 }
 
-export function* updateTypeOwnerNode({ payload, resolve }) {
+export function* updateTypeOwnerNode({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -148,10 +150,11 @@ export function* updateTypeOwnerNode({ payload, resolve }) {
     resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
-export function* postOwnerNodes({ payload, resolve }) {
+export function* postOwnerNodes({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -161,6 +164,7 @@ export function* postOwnerNodes({ payload, resolve }) {
     resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
