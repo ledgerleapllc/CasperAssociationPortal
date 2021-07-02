@@ -85,7 +85,7 @@ export function* verifyFileCasperSigner({ payload, callback }) {
   }
 }
 
-export function* handleViewGuide() {
+export function* handleViewGuide({ resolve }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -93,6 +93,7 @@ export function* handleViewGuide() {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     yield get(['users/message-content'], { headers });
+    resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
   }

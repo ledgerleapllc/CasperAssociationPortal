@@ -20,6 +20,7 @@ import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [helloSignComplete, setHelloSignComplete] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState({
     step1: null, // null: not submit yet
     step2: null,
@@ -29,25 +30,6 @@ const EsignTerms = () => {
   const { isLoading } = useSelector(
     state => state?.onboardReducer?.uploadLetter
   );
-  useEffect(() => {
-    const HelloSign = require('hellosign-embedded');
-
-    setClient(
-      new HelloSign({
-        clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
-      })
-    );
-  }, []);
-
-  useEffect(() => {
-    if (client) {
-      client.on('sign', () => {
-        // data: signatureId
-        client.close();
-        setCurrentStep(currentStep + 1);
-      });
-    }
-  }, [client]);
 
   const router = useRouter();
 
@@ -75,7 +57,7 @@ const EsignTerms = () => {
         helloSignRequest(res => {
           // setCurrentStep(currentStep + 1);
           client.open(res.data.url, {
-            clientId: '986d4bc5f54a0b9a96e1816d2204a4a0',
+            clientId: process.env.HELLOSIGN_CLIENT_ID,
             skipDomainVerification: true,
           });
         })
@@ -93,6 +75,32 @@ const EsignTerms = () => {
       );
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line global-require
+    const HelloSign = require('hellosign-embedded');
+    setClient(
+      new HelloSign({
+        clientId: process.env.HELLOSIGN_CLIENT_ID,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (client) {
+      client.on('sign', () => {
+        // data: signatureId
+        client.close();
+        setHelloSignComplete(true);
+      });
+    }
+  }, [client]);
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      setCurrentStep(currentStep + 1);
+    }
+  }, [helloSignComplete]);
 
   const handleByPass = () => {
     dispatch(

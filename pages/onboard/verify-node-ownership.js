@@ -10,10 +10,7 @@ import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-o
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
-import {
-  verifyFileCasperSigner,
-  handleViewGuide,
-} from '../../shared/redux-saga/onboard/actions';
+import { verifyFileCasperSigner } from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
@@ -94,10 +91,6 @@ const VerifyNodeOwnership = () => {
     return 'Next';
   };
 
-  const onHandleViewGuide = () => {
-    dispatch(handleViewGuide());
-  };
-
   const getStepContent = () => {
     if (currentStep === 1) {
       return (
@@ -114,7 +107,6 @@ const VerifyNodeOwnership = () => {
             isUploaded={signedFileUploaded}
             onUpload={() => handleUpload('open')}
             onContinue={handleNext}
-            onHandleViewGuide={() => onHandleViewGuide()}
           />
           {showUploadModal && (
             <>

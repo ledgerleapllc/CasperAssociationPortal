@@ -56,8 +56,9 @@ export const postOwnerNodes = (payload, resolve) => ({
   resolve,
 });
 
-export const handleViewGuide = () => ({
+export const handleViewGuide = (payload, resolve) => ({
   type: 'HANDLE_VIEW_GUIDE',
+  resolve,
 });
 
 export const uploadLetter = (payload, callback) => ({
