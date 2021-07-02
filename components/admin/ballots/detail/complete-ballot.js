@@ -123,8 +123,12 @@ const AdminCompleteBallot = ({ ballot }) => (
                 <ul>
                   {ballot?.files?.map(file => (
                     <li className="flex pb-2">
-                      <p className="w-52">{file}</p>
-                      <a className="text-primary">View</a>
+                      <p className="w-52">{file.name}</p>
+                      <Link href={`${file.file_url}`}>
+                        <a target="_blank" className="text-primary">
+                          View
+                        </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -1,4 +1,4 @@
-import { intervalToDuration, differenceInSeconds } from 'date-fns';
+import { intervalToDuration, differenceInSeconds, compareDesc } from 'date-fns';
 import { useEffect, useState } from 'react';
 
 const ClockBar = props => {
@@ -7,30 +7,40 @@ const ClockBar = props => {
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
-    const diff = intervalToDuration({
-      start: new Date(),
-      end: props.endTime,
-    });
-
-    setDuration(diff);
-
-    const totalSeconds = differenceInSeconds(props.endTime, props.startTime);
-
-    const intervalIdTemp = setInterval(() => {
-      const currentTime = new Date();
-      const diffTemp = intervalToDuration({
-        start: currentTime,
+    if (compareDesc(new Date(), props.endTime) === 1) {
+      const diff = intervalToDuration({
+        start: new Date(),
         end: props.endTime,
       });
-      const currentSeconds = differenceInSeconds(props.endTime, currentTime);
-      const progressTemp = Math.round((currentSeconds / totalSeconds) * 100);
-      setProgress(Math.round(progressTemp));
-      setDuration(diffTemp);
-    }, 1000);
 
-    setIntervalId(intervalIdTemp);
+      setDuration(diff);
+
+      const totalSeconds = differenceInSeconds(props.endTime, props.startTime);
+
+      const intervalIdTemp = setInterval(() => {
+        const currentTime = new Date();
+        const diffTemp = intervalToDuration({
+          start: currentTime,
+          end: props.endTime,
+        });
+        const currentSeconds = differenceInSeconds(props.endTime, currentTime);
+        const progressTemp = Math.round((currentSeconds / totalSeconds) * 100);
+        setProgress(Math.round(progressTemp));
+        setDuration(diffTemp);
+      }, 1000);
+
+      setIntervalId(intervalIdTemp);
+    } else {
+      setDuration({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+      });
+    }
     return () => {
-      clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
       setDuration('');
       setProgress(0);
     };

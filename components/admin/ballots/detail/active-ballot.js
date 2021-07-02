@@ -124,7 +124,11 @@ const AdminActiveBallot = ({ ballot }) => {
                   {ballot?.files?.map((file, ind) => (
                     <li className="flex pb-2" key={`file-${ind}`}>
                       <p className="w-52">{file.name}</p>
-                      <a className="text-primary">View</a>
+                      <Link href={`${file.file_url}`}>
+                        <a target="_blank" className="text-primary">
+                          View
+                        </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
