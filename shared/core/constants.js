@@ -1,7 +1,8 @@
 export const SHUFTI_CONST = {
   production: {
-    clientId: '',
-    clientSecret: '',
+    clientId: 'KgeOivDVEpzTrAqkx8aBwLJenCgKnW4SSQDbv17hRq8fyhvZhD1612459148',
+    clientSecret:
+      '$2y$10$wHWfyqB/1dhfTKwQQnstv.k0y9z2gYHBhkkRMkBPtPPOpYODHi6l6',
   },
   development: {
     clientId: 'KgeOivDVEpzTrAqkx8aBwLJenCgKnW4SSQDbv17hRq8fyhvZhD1612459148',
