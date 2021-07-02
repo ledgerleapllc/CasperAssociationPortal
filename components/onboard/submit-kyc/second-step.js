@@ -1,21 +1,25 @@
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { NAME_PATTERN } from '../../../helpers/form-validation';
 import Countries from '../../../public/json/country.json';
 import { submitKYC } from '../../../shared/redux-saga/onboard/actions';
 import { DateTimePicker } from '../../partials';
+import { AppContext } from '../../../pages/_app';
 
 const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
-  const { control, watch, register, handleSubmit, formState, setValue } = useForm({
-    mode: 'onChange',
-  });
+  const { control, watch, register, handleSubmit, formState, setValue } =
+    useForm({
+      mode: 'onChange',
+    });
   const watchCitizenship = watch('country_citizenship', false);
   const watchResidence = watch('country_residence', false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.userInfo);
+  const { setLoading } = useContext(AppContext);
 
   const onSubmit = data => {
+    setLoading(true);
     dispatch(
       submitKYC(
         {
@@ -23,6 +27,7 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
           type,
         },
         () => {
+          setLoading(false);
           nextStep();
         }
       )

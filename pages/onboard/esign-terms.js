@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
@@ -14,6 +14,7 @@ import {
 } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
+import { AppContext } from '../_app';
 
 // Create the HelloSign Embedded instance.
 // Only do this once!
@@ -30,6 +31,8 @@ const EsignTerms = () => {
   const { isLoading } = useSelector(
     state => state?.onboardReducer?.uploadLetter
   );
+
+  const { setLoading } = useContext(AppContext);
 
   const router = useRouter();
 
@@ -53,6 +56,7 @@ const EsignTerms = () => {
         })
       );
     } else if (currentStep === 2) {
+      setLoading(true);
       dispatch(
         helloSignRequest(res => {
           // setCurrentStep(currentStep + 1);
@@ -60,6 +64,7 @@ const EsignTerms = () => {
             clientId: process.env.HELLOSIGN_CLIENT_ID,
             skipDomainVerification: true,
           });
+          setLoading(false);
         })
       );
     } else if (currentStep === 1) {

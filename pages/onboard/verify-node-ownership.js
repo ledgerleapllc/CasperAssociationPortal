@@ -17,6 +17,7 @@ const VerifyNodeOwnership = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
   const [signedFileUploaded, setSignedFileUploaded] = useState(false);
+  const [signedFileUploading, setSignedFileUploading] = useState(false);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -41,6 +42,7 @@ const VerifyNodeOwnership = () => {
     const newFile = new File([fileConvert], fileName, optionNewFile);
     handleUpload('close');
     setShowUploadModal(false);
+    setSignedFileUploading(true);
     dispatch(
       verifyFileCasperSigner(
         {
@@ -48,6 +50,7 @@ const VerifyNodeOwnership = () => {
         },
         () => {
           setSignedFileUploaded(true);
+          setSignedFileUploading(false);
         }
       )
     );
@@ -104,6 +107,7 @@ const VerifyNodeOwnership = () => {
       return (
         <>
           <VerifyNodeOwnershipSecondStep
+            isUploading={signedFileUploading}
             isUploaded={signedFileUploaded}
             onUpload={() => handleUpload('open')}
             onContinue={handleNext}

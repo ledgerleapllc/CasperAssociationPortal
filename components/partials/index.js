@@ -13,6 +13,7 @@ import Table from './table';
 import TimeRemaining from './time-remaining';
 import ProgressBar from './progress-bar';
 import { Button } from './button';
+import { LoadingButton } from './loading-button';
 
 export {
   Card,
@@ -30,4 +31,5 @@ export {
   ForAgainst,
   TimeRemaining,
   ProgressBar,
+  LoadingButton,
 };

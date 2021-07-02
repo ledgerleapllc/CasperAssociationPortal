@@ -82,6 +82,7 @@ export function* verifyFileCasperSigner({ payload, callback }) {
     callback();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    callback();
   }
 }
 

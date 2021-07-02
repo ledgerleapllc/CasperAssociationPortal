@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
 import { handleViewGuide } from '../../../shared/redux-saga/onboard/actions';
+import { LoadingButton } from '../../partials';
 
 const VerifyNodeOwnershipSecondStep = ({
+  isUploading,
   isUploaded,
   onUpload,
   onContinue,
@@ -15,6 +17,8 @@ const VerifyNodeOwnershipSecondStep = ({
     uploaded: false,
   });
 
+  const [isViewGuideLoading, setIsViewGuideLoading] = useState(false);
+
   const setDoneDownload = () => {
     setSteps({
       ...steps,
@@ -23,12 +27,14 @@ const VerifyNodeOwnershipSecondStep = ({
   };
 
   const setSeenGuide = () => {
+    setIsViewGuideLoading(true);
     dispatch(
       handleViewGuide(undefined, () => {
         setSteps({
           ...steps,
           seenguide: true,
         });
+        setIsViewGuideLoading(false);
       })
     );
   };
@@ -65,14 +71,15 @@ const VerifyNodeOwnershipSecondStep = ({
             <p className="text-sm md:flex-grow pb-1">
               Sign the message with your node. See guide for more details.
             </p>
-            <button
-              type="button"
+            <LoadingButton
+              isLoading={isViewGuideLoading}
               className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
               onClick={setSeenGuide}
-              disabled={!steps.downloaded}
+              sizeSpinner={15}
+              disabled={!steps.downloaded || isViewGuideLoading}
             >
               View Guide
-            </button>
+            </LoadingButton>
           </div>
         </div>
         <div className="flex animate__animated animate__fadeInUp animate__delay-8s">
@@ -82,14 +89,15 @@ const VerifyNodeOwnershipSecondStep = ({
               Upload the signed file for the system to check.
             </p>
             <div className="flex">
-              <button
-                disabled={!steps.downloaded || !steps.seenguide}
-                type="button"
+              <LoadingButton
+                isLoading={isUploading}
                 className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
                 onClick={onUpload}
+                sizeSpinner={15}
+                disabled={!steps.downloaded || !steps.seenguide || isUploading}
               >
                 Upload
-              </button>
+              </LoadingButton>
               {isUploaded && (
                 <IconCheckCircle className="-mr-8 ml-4 mt-2 text-primary text-base" />
               )}

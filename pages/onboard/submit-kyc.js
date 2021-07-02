@@ -1,5 +1,5 @@
 /* eslint-disable no-lonely-if */
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import AppFooter from '../../components/layouts/app-footer';
@@ -20,6 +20,7 @@ import {
   getOwnerNodes,
 } from '../../shared/redux-saga/onboard/actions';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
+import { AppContext } from '../_app';
 
 const SubmitKYC = () => {
   const [currentStep, setCurrentStep] = useState(null);
@@ -32,6 +33,7 @@ const SubmitKYC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
+  const { setLoading } = useContext(AppContext);
 
   const totalSteps = 6;
 
@@ -69,8 +71,10 @@ const SubmitKYC = () => {
       } else if (currentStep === 3) {
         setCurrentStep(currentStep + 1);
       } else if (currentStep === 4) {
+        setLoading(true);
         dispatch(
           updateTypeOwnerNode(information, () => {
+            setLoading(false);
             if (+information.type === 1) {
               setCurrentStep(currentStep + 2);
             } else if (+information.type === 2) {
@@ -79,9 +83,11 @@ const SubmitKYC = () => {
           })
         );
       } else if (currentStep === 5) {
+        setLoading(true);
         dispatch(
           postOwnerNodes(information, () => {
             dispatch(getOwnerNodes());
+            setLoading(false);
           })
         );
       } else {
