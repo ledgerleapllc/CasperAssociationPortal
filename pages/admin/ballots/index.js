@@ -12,6 +12,7 @@ import {
   ForAgainst,
   Table,
 } from '../../../components/partials';
+import { useTable } from '../../../components/partials/table';
 import { formatDate } from '../../../shared/core/utils';
 import { getBallots } from '../../../shared/redux-saga/admin/actions';
 
@@ -62,17 +63,30 @@ const Styles = styled.div`
 `;
 
 const Tab1 = () => {
-  const [activeBallots, setActiveBallots] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
+
   const dispatch = useDispatch();
-  const fetchActiveBallots = () => {
+  const fetchActiveBallots = (pageValue = page, paramsValue = params) => {
     dispatch(
-      getBallots({ status: 'active', page }, (data, isHasMore) => {
-        setHasMore(isHasMore);
-        setActiveBallots(prevBallots => [...prevBallots, ...data]);
-        setPage(prev => prev + 1);
-      })
+      getBallots(
+        { status: 'active', page: pageValue, ...paramsValue },
+        (result, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(result);
+          setPage(prev => prev + 1);
+        }
+      )
     );
   };
 
@@ -80,16 +94,28 @@ const Tab1 = () => {
     fetchActiveBallots();
   }, []);
 
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchActiveBallots(1, newParams);
+  };
+
   return (
     <Styles className="h-full">
       <Table
+        {...register}
         className="active-ballot-table pt-10 h-full"
         onLoadMore={fetchActiveBallots}
         hasMore={hasMore}
-        dataLength={activeBallots.length}
+        dataLength={data.length}
+        onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell sortKey="title">
             <p>Title</p>
           </Table.HeaderCell>
           <Table.HeaderCell>
@@ -115,7 +141,7 @@ const Tab1 = () => {
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body>
-          {activeBallots.map((row, ind) => (
+          {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell>
                 <p className="truncate">{row.title}</p>
@@ -157,17 +183,29 @@ const Tab1 = () => {
 };
 
 const Tab2 = () => {
-  const [completeBallots, setCompleteBallots] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
   const dispatch = useDispatch();
-  const fetchCompleteBallots = () => {
+  const fetchCompleteBallots = (pageValue = page, paramsValue = params) => {
     dispatch(
-      getBallots({ status: 'complete', page }, (data, isHasMore) => {
-        setHasMore(isHasMore);
-        setCompleteBallots(prevBallots => [...prevBallots, ...data]);
-        setPage(prev => prev + 1);
-      })
+      getBallots(
+        { status: 'complete', page: pageValue, ...paramsValue },
+        (results, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(results);
+          setPage(prev => prev + 1);
+        }
+      )
     );
   };
 
@@ -175,16 +213,28 @@ const Tab2 = () => {
     fetchCompleteBallots();
   }, []);
 
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchCompleteBallots(1, newParams);
+  };
+
   return (
     <Styles className="h-full">
       <Table
+        {...register}
         className="complete-ballot-table pt-10 h-full"
         onLoadMore={fetchCompleteBallots}
         hasMore={hasMore}
-        dataLength={completeBallots.length}
+        dataLength={data.length}
+        onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell sortKey="title">
             <p>Title</p>
           </Table.HeaderCell>
           <Table.HeaderCell>
@@ -213,9 +263,9 @@ const Tab2 = () => {
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body>
-          {completeBallots.map((row, ind) => (
+          {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
-              <Table.BodyCell>
+              <Table.BodyCell >
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell>

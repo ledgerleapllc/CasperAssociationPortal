@@ -18,10 +18,7 @@ export function* getListMembers({ payload, callback }) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const query = qs.stringify({
-      page: payload.page,
-      limit: payload.limit || 10,
-    });
+    const query = qs.stringify(payload);
     const res = yield get([`admin/users?${query}`], {
       headers,
     });
@@ -114,10 +111,7 @@ export function* getBallots({ payload, callback }) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const query = qs.stringify({
-      status: payload.status,
-      page: payload.page,
-    });
+    const query = qs.stringify(payload);
     const res = yield get([`admin/ballots?${query}`], {
       headers,
     });

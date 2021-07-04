@@ -15,6 +15,7 @@ import {
 } from '../../../components/partials';
 import { getVotes } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../../shared/core/utils';
+import { useTable } from '../../../components/partials/table';
 
 const Styles = styled.div`
   .active-vote-table {
@@ -51,24 +52,46 @@ const Styles = styled.div`
 `;
 
 const Tab1 = () => {
-  const [activeVotes, setActiveVotes] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
   const dispatch = useDispatch();
   const router = useRouter();
-  const fetchActiveVotes = () => {
+  const fetchActiveVotes = (pageValue = page, paramsValue = params) => {
     dispatch(
-      getVotes({ status: 'active', page }, (data, isHasMore) => {
-        setHasMore(isHasMore);
-        setActiveVotes(prevVotes => [...prevVotes, ...data]);
-        setPage(prev => prev + 1);
-      })
+      getVotes(
+        { status: 'active', page: pageValue, ...paramsValue },
+        (results, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(results);
+          setPage(prev => prev + 1);
+        }
+      )
     );
   };
 
   useEffect(() => {
     fetchActiveVotes();
   }, []);
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchActiveVotes(1, newParams);
+  };
 
   const goToActiveVoteDetail = id => {
     router.push(`/dashboard/votes/active/${id}`);
@@ -77,16 +100,18 @@ const Tab1 = () => {
   return (
     <Styles className="h-full">
       <Table
+        {...register}
         className="active-vote-table pt-10 h-full"
         onLoadMore={fetchActiveVotes}
         hasMore={hasMore}
-        dataLength={activeVotes.length}
+        dataLength={data.length}
+        onSort={handleSort}
       >
         <Table.Header>
           <Table.HeaderCell>
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell sortKey="time_end">
             <p>Time Remaining</p>
           </Table.HeaderCell>
           <Table.HeaderCell>
@@ -100,8 +125,9 @@ const Tab1 = () => {
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body>
-          {activeVotes.map((row, ind) => (
+          {data.map((row, ind) => (
             <Table.BodyRow
+              className="py-6"
               key={ind}
               selectRowHandler={() => goToActiveVoteDetail(row.id)}
             >
@@ -116,7 +142,7 @@ const Tab1 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{row.vote.result_count}</p>
+                <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst
@@ -186,6 +212,7 @@ const Tab2 = () => {
         <Table.Body>
           {completeVotes.map((row, ind) => (
             <Table.BodyRow
+              className="py-6"
               key={ind}
               selectRowHandler={() => goToFinishedVoteDetail(row.id)}
             >
@@ -193,7 +220,7 @@ const Tab2 = () => {
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{row.vote.result_count}</p>
+                <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <ForAgainst

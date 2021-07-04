@@ -1,19 +1,82 @@
+/* eslint-disable no-bitwise */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { cloneElement, useState } from 'react';
+
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReactLoading from 'react-loading';
+import styled from 'styled-components';
 
-const Table = props => (
-  <div className={`${props.className} flex flex-col min-w-250`}>
-    {props.children[0]}
-    {cloneElement(props.children[1], {
-      onLoadMore: props.onLoadMore,
-      hasMore: props.hasMore,
-      dataLength: props.dataLength,
-      height: props.height,
-    })}
-  </div>
-);
+const DIRECTION = {
+  0: 'asc',
+  1: 'desc',
+};
+
+const Styles = styled.span`
+  margin-left: 10px;
+  margin-top: 6px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  ${props => {
+    if (props.direction === 'desc') {
+      return `border-top: 7px solid black;`;
+    }
+    if (props.direction === 'asc') {
+      return `border-bottom: 7px solid black;`;
+    }
+  }}
+`;
+
+const TableContext = createContext({});
+
+const ArrowSort = ({ direction }) => <Styles direction={direction} />;
+
+const Table = props => {
+  const [sortKey, setSortKey] = useState();
+  const [sortDirection, setSortDirection] = useState();
+  const [randomId] = useState(Math.random().toString(36).substring(7));
+
+  useEffect(() => {
+    if (
+      sortKey &&
+      sortDirection >= 0 &&
+      props.onSort &&
+      typeof props.onSort === 'function'
+    ) {
+      props.onSort(sortKey, DIRECTION[sortDirection]);
+    }
+  }, [sortKey, sortDirection]);
+
+  useEffect(() => {
+    if (props.register && typeof props.register === 'function') {
+      props.register(randomId);
+    }
+  }, []);
+
+  return (
+    <TableContext.Provider
+      value={{ sortKey, setSortKey, sortDirection, setSortDirection, randomId }}
+    >
+      <div className={`${props.className} flex flex-col min-w-250`}>
+        {props.children[0]}
+        {cloneElement(props.children[1], {
+          onLoadMore: props.onLoadMore,
+          hasMore: props.hasMore,
+          dataLength: props.dataLength,
+          height: props.height,
+        })}
+      </div>
+    </TableContext.Provider>
+  );
+};
 
 Table.Header = props => (
   <div className="flex w-full pb-2" style={{ paddingRight: '7px' }}>
@@ -25,21 +88,47 @@ Table.Header = props => (
   </div>
 );
 
-Table.HeaderCell = props => (
-  <div
-    className={`${props.className} col col-${props.index} text-sm font-medium`}
-  >
-    {props.children}
-  </div>
-);
+Table.HeaderCell = props => {
+  const { sortKey, setSortKey, sortDirection, setSortDirection } = useContext(TableContext);
+  const [pendingSort, setPendingSort] = useState(false);
+  const triggerSort = () => {
+    if (props.sortKey) {
+      setPendingSort(true);
+      setSortKey(props.sortKey);
+      setSortDirection(sortDirection ^ 1);
+      setTimeout(() => setPendingSort(false), 1500);
+    }
+  };
+
+  return (
+    <div
+      className={`
+        ${props.className || ''} 
+        col col-${props.index} 
+        text-sm font-medium`}
+    >
+      <button
+        type="button"
+        className="text-left focus:outline-none flex cursor-pointer disabled:cursor-not-allowed"
+        onClick={triggerSort}
+        disabled={pendingSort}
+      >
+        {props.children}
+        {props.sortKey && sortKey === props.sortKey && (
+          <ArrowSort direction={DIRECTION[sortDirection]} />
+        )}
+      </button>
+    </div>
+  );
+};
 
 Table.Header.Cell = Table.HeaderCell;
 
 Table.Body = props => {
-  const [randomId] = useState(Math.random().toString(36).substring(7));
+  const { randomId } = useContext(TableContext);
 
   return (
-    <div id={randomId} style={{ overflow: 'auto' }}>
+    <div id={randomId} style={{ overflowY: 'scroll' }}>
       <InfiniteScroll
         className="flex flex-col w-full"
         dataLength={props.dataLength || 0}
@@ -81,7 +170,6 @@ Table.BodyRow = props => {
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <div
       className={`${
         props.className
@@ -105,5 +193,46 @@ Table.BodyCell = props => (
 
 Table.Body.Cell = Table.BodyCell;
 Table.Body.Row = Table.BodyRow;
+
+export const useTable = () => {
+  const [data, setData] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const [params, setParams] = useState({});
+  const [tableId, setTableId] = useState();
+
+  const appendData = res => {
+    setData(prevData => [...prevData, ...res]);
+  };
+
+  const getTableId = id => {
+    setTableId(id);
+  };
+
+  const resetData = () => {
+    const $table = document.getElementById(tableId);
+    $table.classList.add('opacity-0');
+    $table.scrollTop = 0;
+    setTimeout(() => {
+      setData([]);
+      setPage(1);
+      setHasMore(true);
+      $table.classList.remove('opacity-0');
+    }, 50);
+  };
+
+  return {
+    data,
+    register: { register: getTableId },
+    hasMore,
+    page,
+    appendData,
+    resetData,
+    setHasMore,
+    setPage,
+    params,
+    setParams,
+  };
+};
 
 export default Table;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Table } from '../../components/partials';
 import { getListIntake } from '../../shared/redux-saga/admin/actions';
 import { formatDate } from '../../shared/core/utils';
+import { useTable } from '../../components/partials/table';
 
 const Styles = styled.div`
   .intake-table {
@@ -21,31 +22,29 @@ const Styles = styled.div`
       width: 10%;
     }
     .col-4 {
-      width: 13%;
+      width: 16%;
     }
     .col-5 {
-      width: 13%;
+      width: 16%;
     }
     .col-6 {
       width: 13%;
     }
     .col-7 {
-      width: 13%;
+      width: 7%;
     }
   }
 `;
 
 const AdminIntake = () => {
   const dispatch = useDispatch();
-  const [intakes, setIntakes] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const { data, register, hasMore, appendData, setHasMore, page, setPage } = useTable();
 
   const fetchIntakes = () => {
     dispatch(
-      getListIntake({ page }, (data, isHasMore) => {
+      getListIntake({ page }, (results, isHasMore) => {
         setHasMore(isHasMore);
-        setIntakes(prevBallots => [...prevBallots, ...data]);
+        appendData(results);
         setPage(prev => prev + 1);
       })
     );
@@ -73,10 +72,11 @@ const AdminIntake = () => {
           <div className="flex flex-col h-5/6">
             <Styles className="h-full">
               <Table
+                {...register}
                 className="intake-table pt-10 h-full"
                 onLoadMore={fetchIntakes}
                 hasMore={hasMore}
-                dataLength={intakes.length}
+                dataLength={data.length}
               >
                 <Table.Header>
                   <Table.HeaderCell>
@@ -91,24 +91,22 @@ const AdminIntake = () => {
                     </p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>
-                      Node Operator <br /> KYC
-                    </p>
+                    <p>Node Operator KYC</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>
-                      Beneficial Owner <br /> KYC
-                    </p>
+                    <p>Beneficial Owner KYC</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
                     <p># of Beneficial Owners</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Unopened Invites</p>
+                    <p>
+                      Unopened <br /> Invites
+                    </p>
                   </Table.HeaderCell>
                 </Table.Header>
                 <Table.Body>
-                  {intakes.map((row, ind) => (
+                  {data.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell>
                         <p>{formatDate(new Date(row?.registration_date))}</p>
@@ -119,7 +117,7 @@ const AdminIntake = () => {
                       <Table.BodyCell>
                         <a
                           href={`/${row.signed_file_url}`}
-                          className="pl-3 text-primary cursor-pointer underline"
+                          className="text-primary cursor-pointer underline"
                         >
                           View
                         </a>

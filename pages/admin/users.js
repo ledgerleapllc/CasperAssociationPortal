@@ -1,11 +1,12 @@
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Table } from '../../components/partials';
 import { getListMembers } from '../../shared/redux-saga/admin/actions';
 import { formatDate, getShortNodeAddress } from '../../shared/core/utils';
+import { useTable } from '../../components/partials/table';
 
 const Styles = styled.div`
   .members-table {
@@ -40,20 +41,30 @@ const Styles = styled.div`
 `;
 
 const AdminUserList = () => {
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
   const dispatch = useDispatch();
-  const [members, setMembers] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
 
-  const getMembers = () => {
+  const getMembers = (pageValue = page, paramsValue = params) => {
     dispatch(
       getListMembers(
         {
-          page,
+          page: pageValue,
+          ...paramsValue,
         },
-        (data, isHasMore) => {
+        (results, isHasMore) => {
           setHasMore(isHasMore);
-          setMembers(prevMembers => [...prevMembers, ...data]);
+          appendData(results);
           setPage(prev => prev + 1);
         }
       )
@@ -63,6 +74,16 @@ const AdminUserList = () => {
   useEffect(() => {
     getMembers();
   }, []);
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    getMembers(1, newParams);
+  };
 
   return (
     <LayoutDashboard>
@@ -82,13 +103,15 @@ const AdminUserList = () => {
           <div className="flex flex-col h-5/6">
             <Styles className="h-full">
               <Table
+                {...register}
                 className="members-table pt-3 h-full"
                 onLoadMore={getMembers}
                 hasMore={hasMore}
-                dataLength={members?.length}
+                dataLength={data?.length}
+                onSort={handleSort}
               >
                 <Table.Header>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell sortKey="id">
                     <p>User ID</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
@@ -125,7 +148,7 @@ const AdminUserList = () => {
                   </Table.HeaderCell>
                 </Table.Header>
                 <Table.Body>
-                  {members.map((row, ind) => (
+                  {data.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell>
                         <p>{row?.id}</p>
