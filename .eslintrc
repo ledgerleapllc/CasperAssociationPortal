@@ -3,6 +3,7 @@
   "rules": {
     "react-hooks/exhaustive-deps": "off",
     "sort-keys": 0,
-    "react-hooks/rules-of-hooks": "off"
+    "react-hooks/rules-of-hooks": "off",
+    "prettier/prettier": 0,
   }
 }

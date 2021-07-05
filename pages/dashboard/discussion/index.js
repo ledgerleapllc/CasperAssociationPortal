@@ -1,7 +1,7 @@
-/* eslint-disable prettier/prettier */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import Link from 'next/link';
+// import { useSelector } from 'react-redux';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Tab, Card } from '../../../components/partials';
 import IconEye from '../../../public/images/ic_eye.svg';
@@ -184,7 +184,7 @@ const DashboardDiscusion = () => {
     if (pin_ind >= 0) pinnedList[pin_ind].is_new = false;
     if (my_ind >= 0) myList[my_ind].is_new = false;
 
-    http.doPost([`discussions/${item.id}/remove-new`])
+    http.doDelete([`discussions/${item.id}/new`])
       .then(() => {
         setDiscussionList([...discussionList]);
         setPinnedList([...pinnedList]);
@@ -204,7 +204,7 @@ const DashboardDiscusion = () => {
               <Link href="/dashboard/discussion/add">
                 <button
                   type="button"
-                  className="transition text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="transition text-lg text-white w-full md:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   + New Discussion
                 </button>

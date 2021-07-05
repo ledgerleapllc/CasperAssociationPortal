@@ -6,8 +6,6 @@ import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton } from '../../../components/partials';
 import IconLike from '../../../public/images/ic_like.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
-import IconEye from '../../../public/images/ic_eye.svg';
-import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import { ApiService } from '../../../helpers/api/api.service';
 
@@ -31,7 +29,7 @@ const ChatBox = ({ data, noBorder }) => (
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">Validator ID: {data.user.validatorId}</p>
         <div className="border-gray1 border-b" />
-        <p className="text-xxs py-1">{moment(data.user.created_at).format('M/d/YYYY - hh:mma')}</p>
+        <p className="text-xxs py-1">{moment(data.user.created_at).format('M/D/YYYY - hh:mma')}</p>
         <div className="border-gray1 border-b" />
       </div>
     </div>
@@ -59,24 +57,30 @@ const DashboardDiscusionDetail = () => {
   }
 
   const postComment = () => {
-    http.doPost([`discussions/${_id}/comment`], {
-      'comment_id': commentId,
-      description
-    })
-      .then(res => {
-        if (res.data.data && res.data.data.comment) {
-          const _comment = res.data.data.comment;
-          console.log(_comment);
-          const comments = discussion.comments_list;
-          if (commentId !== -1) {
-            const index = comments.findIndex((item) => item.id === commentId);
-            comments.splice(index, 1);
-          }
-          comments.push(_comment);
-          setDiscussion({ ...discussion, comments_list: comments });
-          setCommentEntity(_comment);
+    let result;
+    if (commentId === -1)
+      result = http.doPost([`discussions/${_id}/comment`], {
+        description
+      });
+    else
+      result = http.doPost([`discussions/${_id}/comment`], {
+        'comment_id': commentId,
+        description
+      });
+
+    result.then(res => {
+      if (res.data.data && res.data.data.comment) {
+        const _comment = res.data.data.comment;
+        const comments = discussion.comments_list;
+        if (commentId !== -1) {
+          const index = comments.findIndex((item) => item.id === commentId);
+          comments.splice(index, 1);
         }
-      })
+        comments.push(_comment);
+        setDiscussion({ ...discussion, comments_list: comments });
+        setCommentEntity(_comment);
+      }
+    })
   }
 
   const vote = (is_like) => {

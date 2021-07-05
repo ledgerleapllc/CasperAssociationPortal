@@ -18,15 +18,27 @@ const useDialog = () => {
 // Dialog Component
 const Dialog = ({ dialog, onClosed }) => {
   const settings = dialog.settings ? dialog.settings : {};
+  const [inputValue, setInputValue] = useState(dialog.defaultValue || '');
   const onCloseDialog = value => {
     // Close dialog on DialogProvider
     onClosed();
 
     // Execure afterClosed callback fn on Component
     if (dialog.afterClosed) {
-      dialog.afterClosed(value);
+      if (dialog.type === 'DialogPrompt') {
+        if (value) {
+          console.log(inputValue);
+          dialog.afterClosed(inputValue);
+        }
+      }
+      else
+        dialog.afterClosed(value);
     }
   };
+
+  const handleInputChanged = (e) => {
+    setInputValue(e.target.value);
+  }
 
   return createPortal(
     <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
@@ -78,16 +90,52 @@ const Dialog = ({ dialog, onClosed }) => {
             <button
               type="button"
               className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              onClick={() => onCloseDialog(false)}
+              onClick={() => onCloseDialog(true)}
             >
-              {dialog.data.cancel}
+              {dialog.data.ok}
             </button>
             <button
               type="button"
               className="mx-2 bottom-6 text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              onClick={() => onCloseDialog(false)}
+            >
+              {dialog.data.cancel}
+            </button>
+          </div>
+        </div>
+      )}
+      {dialog.type === 'DialogPrompt' && (
+        <div
+          className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white border border-gray"
+          style={settings.style}
+        >
+          <div>
+            <p className="text-2xl text-center m-20">{dialog.data.title}</p>
+            <div className="mx-20">
+              <input
+                type="text"
+                className="w-full h-16 text-xl px-4 shadow-md focus:outline-none"
+                placeholder="Email"
+                value={inputValue}
+                onChange={handleInputChanged}
+                name="email"
+              />
+            </div>
+          </div>
+          <div className="flex flex-row justify-center m-20">
+            <button
+              type="button"
+              className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               onClick={() => onCloseDialog(true)}
             >
               {dialog.data.ok}
+            </button>
+            <button
+              type="button"
+              className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+              onClick={() => onCloseDialog(false)}
+            >
+              {dialog.data.cancel}
             </button>
           </div>
         </div>
