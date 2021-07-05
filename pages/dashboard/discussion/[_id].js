@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton } from '../../../components/partials';
@@ -7,10 +7,9 @@ import { useDialog } from '../../../components/partials/dialog';
 import IconLike from '../../../public/images/ic_like.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { ApiService } from '../../../helpers/api/api.service';
 import { formatDate } from '../../../shared/core/utils';
+import { getDiscussionDetail, postDiscussionComment, voteDiscussion } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 
-const http = new ApiService();
 
 const ChatBox = ({ data, noBorder }) => (
   <div
@@ -52,6 +51,7 @@ const DashboardDiscusionDetail = () => {
   const [description, setDescription] = useState('');
   const { setDialog } = useDialog();
   const { _id } = useRouter().query;
+  const dispatch = useDispatch();
 
   const setCommentEntity = _comment => {
     setCommentId(_comment.id);
@@ -59,30 +59,27 @@ const DashboardDiscusionDetail = () => {
   }
 
   const postComment = () => {
-    let result;
-    if (commentId === -1)
-      result = http.doPost([`discussions/${_id}/comment`], {
-        description
-      });
-    else
-      result = http.doPost([`discussions/${_id}/comment`], {
-        'comment_id': commentId,
-        description
-      });
+    dispatch(
+      postDiscussionComment(
+        {
+          comment_id: commentId,
+          discussion_id: _id,
+          description,
+        },
+        res => {
+          const _comment = res.comment;
+          const comments = discussion.comments_list;
+          if (commentId !== -1) {
+            const index = comments.findIndex((item) => item.id === commentId);
+            comments.splice(index, 1);
+          }
+          comments.push(_comment);
+          setDiscussion({ ...discussion, comments_list: comments });
+          setCommentEntity(_comment);
 
-    result.then(res => {
-      if (res.data.data && res.data.data.comment) {
-        const _comment = res.data.data.comment;
-        const comments = discussion.comments_list;
-        if (commentId !== -1) {
-          const index = comments.findIndex((item) => item.id === commentId);
-          comments.splice(index, 1);
         }
-        comments.push(_comment);
-        setDiscussion({ ...discussion, comments_list: comments });
-        setCommentEntity(_comment);
-      }
-    })
+      ),
+    );
   }
 
   const vote = (is_like) => {
@@ -95,28 +92,33 @@ const DashboardDiscusionDetail = () => {
       },
       afterClosed: (value) => {
         if (value)
-          http.doPost([`discussions/${_id}/vote`], { is_like })
-            .then(res => {
-              const _discussion = res.data.data.discussion;
-              console.log(_discussion);
-              setDiscussion(_discussion);
-            })
+          dispatch(
+            voteDiscussion(
+              {
+                discussion_id: _id,
+                is_like,
+              },
+              res => {
+                setDiscussion(res.discussion);
+              })
+          )
       }
     });
 
   }
 
   useEffect(() => {
-    http.doGet([`discussions/detail/${_id}`])
-      .then(res => {
-        const _discussion = res.data.data.discussion;
+    dispatch(
+      getDiscussionDetail(_id, res => {
+        const _discussion = res.discussion;
         const _comments = _discussion.comments_list.filter((item) => item.user.id === userInfo.id);
         if (_comments.length) {
           setCommentEntity(_comments[0]);
         }
         setDiscussion(_discussion);
       })
-      .catch(err => console.log(err));
+    )
+
   }, []);
 
   const ReactionBar = () => (
@@ -164,7 +166,7 @@ const DashboardDiscusionDetail = () => {
                 {userInfo && discussion.user.id !== userInfo.id &&
                   <div className="relative pt-4 mb-8 lg:mb-12 ck-editor-reverse">
                     <Editor
-                      data={description}
+                      value={description}
                       onChange={(data) => setDescription(data)}
                     />
                     <button

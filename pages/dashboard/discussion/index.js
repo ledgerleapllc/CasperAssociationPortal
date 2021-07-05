@@ -9,7 +9,6 @@ import IconEye from '../../../public/images/ic_eye.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { ApiService } from '../../../helpers/api/api.service';
 import {
   getDiscussions,
   setDiscussionPin,
@@ -17,8 +16,6 @@ import {
   getPinnedDiscussions,
   getMyDiscussions
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
-import { is } from 'date-fns/locale';
-
 const DashboardDiscusionContext = createContext();
 
 const ChatBox = ({ data }) => {

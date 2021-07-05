@@ -71,6 +71,13 @@ export const getTrendingDiscussions = (successCb) => ({
   successCb,
 });
 
+
+export const getDiscussionDetail = (id, successCb) => ({
+  type: 'GET_DISCUSSION_DETAIL',
+  id,
+  successCb,
+});
+
 export const setDiscussionPin = (id, successCb) => ({
   type: 'SET_DISCUSSION_PIN',
   id,
@@ -89,3 +96,17 @@ export const setRemoveNewMark = (id, successCb) => ({
   id,
   successCb,
 });
+
+export const postDiscussionComment = (payload, successCb) => ({
+  type: 'POST_DISCUSSION_COMMENT',
+  payload,
+  successCb,
+});
+
+export const voteDiscussion = (payload, successCb) => ({
+  type: 'VOTE_DISCUSSION',
+  payload,
+  successCb,
+});
+
+

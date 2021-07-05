@@ -16,12 +16,6 @@ const ContentHome = () => {
   const [showOpenVotes, setShowOpenVotes] = useState(false);
   const dispatch = useDispatch();
   const getTrendingList = () => {
-    // http.doGet(['discussions/trending'])
-    //   .then(res => {
-    //     const { data } = res.data;
-    //     setTrendingList(data.trendings);
-    //   })
-    //   .catch(err => console.log(err));
     dispatch(getTrendingDiscussions(
       res => {
         setTrendingList(res.trendings);
