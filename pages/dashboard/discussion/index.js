@@ -1,19 +1,28 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Tab, Card } from '../../../components/partials';
+import { Tab, Card, Table } from '../../../components/partials';
+import { useTable } from '../../../components/partials/table';
 import IconEye from '../../../public/images/ic_eye.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import { ApiService } from '../../../helpers/api/api.service';
+import {
+  getDiscussions,
+  setDiscussionPin,
+  setRemoveNewMark,
+  getPinnedDiscussions,
+  getMyDiscussions
+} from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { is } from 'date-fns/locale';
 
-const http = new ApiService();
 const DashboardDiscusionContext = createContext();
 
 const ChatBox = ({ data }) => {
-  const { togglePinnedList, removeNewFromList, pinnedList } = useContext(DashboardDiscusionContext);
+  const { togglePinnedList, removeNewFromList, newsList, pinnedList } = useContext(DashboardDiscusionContext);
 
   const pin = item => {
     togglePinnedList(item);
@@ -25,10 +34,11 @@ const ChatBox = ({ data }) => {
   }
 
   const isPinned = pinnedList ? pinnedList.findIndex(item => item.id === data.id) !== -1 : false;
+  const isNew = newsList ? newsList.findIndex(item => item.id === data.id) !== -1 : false;
 
   return (
-    <div className="py-2 border-b border-gray1">
-      <div className={`flex py-5 px-3 md:py-12 flex-col md:flex-row rounded-lg ${data.is_new ? 'bg-primary-highlight' : ''}`}
+    <div className="py-2 ">
+      <div className={`flex py-8 px-3 md:py-8 flex-col md:flex-row rounded-lg ${isNew ? 'bg-primary-highlight' : ''}`}
         onClick={() => removeNew(data)}>
         <div className="flex-none flex">
           <div className="w-24 h-24">
@@ -77,21 +87,78 @@ const ChatBox = ({ data }) => {
   );
 };
 
-const Tab1 = () => (
-  <ul className="pb-20">
-    <DashboardDiscusionContext.Consumer>
-      {({ discussionList }) =>
-        discussionList.map((data, index) => (
-          <li key={index}>
-            <ChatBox data={data} />
-          </li>
-        ))
-      }
-    </DashboardDiscusionContext.Consumer>
-  </ul>
-);
+const Styles = styled.div`
+  .active-ballot-table {
+    .col-1 {
+      width: 0%;
+    }
+    .col-2 {
+      width: 100%;
+    }
+`;
+
+const Tab1 = () => {
+  const dispatch = useDispatch();
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    setHasMore,
+    page,
+    setPage
+  } = useTable();
+
+  const fetchDiscussions = (pageValue = page) => {
+    dispatch(
+      getDiscussions(
+        { page: pageValue },
+        (results, isHasMore) => {
+          appendData(results);
+          setHasMore(isHasMore);
+          setPage(prev => prev + 1);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    fetchDiscussions();
+  }, []);
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="active-ballot-table mr-5 h-full"
+        onLoadMore={fetchDiscussions}
+        hasMore={hasMore}
+        dataLength={data.length}
+        noMargin
+      >
+        <Table.Header>
+          <Table.HeaderCell />
+          <Table.HeaderCell />
+        </Table.Header>
+        <Table.Body>
+          {
+            data.map((row, index) => (
+              <Table.BodyRow key={`b-${index}`}>
+                <Table.BodyCell />
+                <Table.BodyCell>
+                  <ChatBox data={row} />
+                </Table.BodyCell>
+              </Table.BodyRow>
+            ))
+          }
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
 
 const Tab3 = () => (
+
   <ul className="pb-20">
     <DashboardDiscusionContext.Consumer>
       {({ pinnedList }) =>
@@ -138,64 +205,72 @@ const tabsData = [
 ];
 
 const DashboardDiscusion = () => {
+  const dispatch = useDispatch();
   const [pinnedList, setPinnedList] = useState([]);
-  const [discussionList, setDiscussionList] = useState([]);
   const [myList, setMyList] = useState([]);
+  const [newsList, setNewsList] = useState([]);
 
   // const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
 
+  const fetchPinnedDiscussions = () => {
+    dispatch(
+      getPinnedDiscussions(
+        (results) => {
+          setPinnedList(results.pinned_discussions);
+          setNewsList(results.new_discussions);
+        }
+      )
+    );
+  };
+
+  const fetchMyDiscussions = () => {
+    dispatch(
+      getMyDiscussions(
+        (results) => {
+          setMyList(results);
+        }
+      )
+    );
+  };
+
   useEffect(() => {
-    http.doGet(['discussions/list'])
-      .then(res => {
-        const { data } = res.data;
-        setPinnedList(data.pinned_discussions);
-        setDiscussionList(data.discussions);
-        setMyList(data.my_discussions);
-      })
-      .catch(err => console.log(err));
+    fetchPinnedDiscussions();
+    fetchMyDiscussions();
   }, []);
 
-
   const togglePinnedList = item => {
-    const ind = discussionList.findIndex(x => x.id === item.id);
     const isExistedInPinnedList = pinnedList.findIndex(x => x.id === item.id) >= 0;
-    http.doPost([`discussions/${item.id}/pin`])
-      .then(res => {
-        if (res.data.code === 200) {
+    dispatch(
+      setDiscussionPin(
+        item.id,
+        () => {
           if (!isExistedInPinnedList) {
-            discussionList[ind].pinned = true;
             setPinnedList([...pinnedList, item]);
           } else {
-            discussionList[ind].pinned = false;
             const newPinnedList = pinnedList.filter(x => x.id !== item.id);
             setPinnedList(newPinnedList);
           }
-          setDiscussionList([...discussionList]);
         }
-      });
+      ),
+    );
   };
 
   const removeNewFromList = item => {
-    const all_ind = discussionList.findIndex(x => x.id === item.id);
-    const pin_ind = pinnedList.findIndex(x => x.id === item.id);
-    const my_ind = myList.findIndex(x => x.id === item.id);
-    if (all_ind >= 0) discussionList[all_ind].is_new = false;
-    if (pin_ind >= 0) pinnedList[pin_ind].is_new = false;
-    if (my_ind >= 0) myList[my_ind].is_new = false;
 
-    http.doDelete([`discussions/${item.id}/new`])
-      .then(() => {
-        setDiscussionList([...discussionList]);
-        setPinnedList([...pinnedList]);
-        setMyList([...myList]);
-      });
-
+    dispatch(
+      setRemoveNewMark(
+        item.id,
+        () => {
+          setNewsList(newsList.filter(x => x.id !== item.id));
+        }
+      )
+    );
   }
 
   return (
     <LayoutDashboard>
       <DashboardDiscusionContext.Provider
-        value={{ discussionList, pinnedList, myList, togglePinnedList, removeNewFromList }}
+        value={{ pinnedList, myList, newsList, togglePinnedList, removeNewFromList }}
       >
         <Card className="h-full md:pl-24 md:py-10 md:shadow-2xl" noShadow>
           <div className="w-full h-full">

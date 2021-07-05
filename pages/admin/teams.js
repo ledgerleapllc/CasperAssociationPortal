@@ -6,6 +6,7 @@ import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 import { useDialog } from '../../components/partials/dialog';
 import { ApiService } from '../../helpers/api/api.service';
+import { formatDate } from '../../shared/core/utils';
 
 const http = new ApiService();
 
@@ -15,7 +16,7 @@ const AdminTeams = () => {
   const { setDialog } = useDialog();
   const [admins, setAdmins] = useState([]);
 
-  const registerAdmin = (email) => {
+  const registerAdmin = email => {
     if (email) {
       http.doPost(['admin/teams/invite'], { email })
         .then(res => {
@@ -115,7 +116,7 @@ const AdminTeams = () => {
               <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
                 {admins.map((admin) =>
                   <div className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray" key={`admin-team-${admin.id}`}>
-                    <p className="text-sm w-full lg:w-1/12">{moment(admin.created_at).format('DD/MM/YYYY')}</p>
+                    <p className="text-sm w-full lg:w-1/12">{formatDate(admin.created_at)}</p>
                     <div className="text-sm w-full lg:w-1/12">
                       <div>{admin.type}</div>
                       {admin.type === 'invited' &&

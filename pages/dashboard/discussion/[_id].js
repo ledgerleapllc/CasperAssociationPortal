@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import moment from 'moment';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton } from '../../../components/partials';
 import { useDialog } from '../../../components/partials/dialog';
@@ -9,6 +8,7 @@ import IconLike from '../../../public/images/ic_like.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import { ApiService } from '../../../helpers/api/api.service';
+import { formatDate } from '../../../shared/core/utils';
 
 const http = new ApiService();
 
@@ -30,7 +30,7 @@ const ChatBox = ({ data, noBorder }) => (
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">Validator ID: {data.user.validatorId}</p>
         <div className="border-gray1 border-b" />
-        <p className="text-xxs py-1">{moment(data.user.created_at).format('M/D/YYYY - hh:mma')}</p>
+        <p className="text-xxs py-1">{formatDate(data.user.created_at, 'd/m/yyyy - hh:mma')}</p>
         <div className="border-gray1 border-b" />
       </div>
     </div>

@@ -1,26 +1,36 @@
-import moment from 'moment';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { ApiService } from '../../helpers/api/api.service';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
+import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { formatDate } from '../../shared/core/utils';
 
 const http = new ApiService();
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [trendingList, setTrendnigList] = useState([]);
+  const [trendingList, setTrendingList] = useState([]);
   const [showOpenVotes, setShowOpenVotes] = useState(false);
+  const dispatch = useDispatch();
+  const getTrendingList = () => {
+    // http.doGet(['discussions/trending'])
+    //   .then(res => {
+    //     const { data } = res.data;
+    //     setTrendingList(data.trendings);
+    //   })
+    //   .catch(err => console.log(err));
+    dispatch(getTrendingDiscussions(
+      res => {
+        setTrendingList(res.trendings);
+      })
+    );
+  };
 
   useEffect(() => {
-    http.doGet(['discussions/trending'])
-      .then(res => {
-        const { data } = res.data;
-        setTrendnigList(data.trendings);
-      })
-      .catch(err => console.log(err));
+    getTrendingList();
   }, []);
 
   const data = {
@@ -166,7 +176,7 @@ const ContentHome = () => {
                             />
                           </div>
                           <span className="text-sm">
-                            {moment(discussion.created_at).format('M/d/YY')}
+                            {formatDate(discussion.created_at, 'd/M/yy')}
                           </span>
                         </div>
                       </div>

@@ -171,11 +171,9 @@ Table.BodyRow = props => {
 
   return (
     <div
-      className={`${
-        props.className
-      } flex items-center flex-row w-full py-2 border-b border-gray ${
-        props.selectRowHandler ? 'cursor-pointer' : ''
-      }`}
+      className={`${props.className
+        } flex items-center flex-row w-full py-2 border-b border-gray ${props.selectRowHandler ? 'cursor-pointer' : ''
+        }`}
       onClick={doSelectRow}
     >
       {props.children.map((child, i) =>
@@ -223,6 +221,7 @@ export const useTable = () => {
 
   return {
     data,
+    setData,
     register: { register: getTableId },
     hasMore,
     page,

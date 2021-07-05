@@ -27,7 +27,6 @@ const Dialog = ({ dialog, onClosed }) => {
     if (dialog.afterClosed) {
       if (dialog.type === 'DialogPrompt') {
         if (value) {
-          console.log(inputValue);
           dialog.afterClosed(inputValue);
         }
       }
