@@ -1,6 +1,6 @@
 import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
-import { get, post } from '../../core/saga-api';
+import { destroy, get, post, put as _put } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 import {
   getListMembersSuccess,
@@ -202,6 +202,56 @@ export function* getBallotVotes({ payload, callback }) {
   }
 }
 
+export function* getSubadmins({ payload, callback }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`admin/teams?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* inviteSubadmin({ email, callback }) {
+  try {
+    const res = yield post(['admin/teams/invite'], { email });
+    callback(res.data?.invited);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* revokeSubadmin({ id, callback }) {
+  try {
+    yield destroy([`admin/teams/${id}/revoke`]);
+    callback();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resetSubadminPassword({ id, callback }) {
+  try {
+    yield _put([`admin/teams/${id}/reset-password`]);
+    callback();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resendInviteLink({ id, callback }) {
+  try {
+    yield _put([`admin/teams/${id}/reinvite`]);
+    callback();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -214,4 +264,9 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
   yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
   yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
+  yield all([takeLatest('GET_SUBADMINS', getSubadmins)]);
+  yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
+  yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
+  yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
+  yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
 }

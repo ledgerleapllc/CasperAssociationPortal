@@ -110,3 +110,35 @@ export const cancelBallotError = error => ({
   type: 'CANCEL_BALLOT_ERROR',
   payload: error,
 });
+
+export const getSubadmins = (payload, callback) => ({
+  type: 'GET_SUBADMINS',
+  payload,
+  callback,
+});
+
+export const inviteSubadmin = (email, callback) => ({
+  type: 'INVITE_SUBADMIN',
+  email,
+  callback,
+});
+
+export const revokeSubadmin = (id, callback) => ({
+  type: 'REVOKE_SUBADMIN',
+  id,
+  callback,
+});
+
+export const resetSubadminPassword = (id, callback) => ({
+  type: 'RESET_SUBADMIN_PASSWORD',
+  id,
+  callback,
+});
+
+export const resendInviteLink = (id, callback) => ({
+  type: 'RESEND_INVITE_SUBADMIN',
+  id,
+  callback,
+});
+
+

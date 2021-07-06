@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Line } from 'react-chartjs-2';
-import { ApiService } from '../../helpers/api/api.service';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
 import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../shared/core/utils';
-
-const http = new ApiService();
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);

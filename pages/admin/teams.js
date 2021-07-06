@@ -1,29 +1,98 @@
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import Switch from "react-switch";
-import moment from 'moment';
+import {
+  getSubadmins,
+  inviteSubadmin,
+  resendInviteLink,
+  revokeSubadmin,
+  resetSubadminPassword
+} from '../../shared/redux-saga/admin/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Card } from '../../components/partials';
+import { Card, Table } from '../../components/partials';
+import { useTable } from '../../components/partials/table';
 import { useDialog } from '../../components/partials/dialog';
 import { ApiService } from '../../helpers/api/api.service';
 import { formatDate } from '../../shared/core/utils';
 
 const http = new ApiService();
 
+const Styles = styled.div`
+  .admin-table {
+    .col-1 {
+      width: 8%;
+    }
+    .col-2 {
+      width: 8%;
+    }
+    .col-3 {
+      width: 12%;
+    }
+    .col-4 {
+      width: 8%;
+    }
+    .col-5 {
+      width: 10%;
+    }
+    .col-6 {
+      width: 8%;
+    }
+    .col-7 {
+      width: 8%;
+    }
+    .col-8 {
+      width: 8%;
+    }
+    .col-9 {
+      width: 8%;
+    }
+    .col-10 {
+      width: 22%;
+    }
+  }
+`;
 
 const AdminTeams = () => {
   // const [checked, setChecked] = useState({ intake });
   const { setDialog } = useDialog();
   const [admins, setAdmins] = useState([]);
+  const dispatch = useDispatch();
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    setData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams
+  } = useTable();
 
   const registerAdmin = email => {
     if (email) {
-      http.doPost(['admin/teams/invite'], { email })
-        .then(res => {
-          const { data } = res.data;
-          setAdmins([...admins, data.invited_admin]);
-        })
-        .catch(err => console.log(err));
+      dispatch(
+        inviteSubadmin(
+          email,
+          (res) => {
+            setData(prevData => [res, ...prevData])
+            setDialog({
+              type: 'Dialog',
+              data: {
+                title: `Success`,
+                content: `Sent invitation successfully to the ${email}`,
+                ok: 'Invite',
+                cancel: 'Cancel'
+              },
+              afterClosed: () => { },
+            });
+          }
+        )
+      );
     }
   };
 
@@ -38,20 +107,72 @@ const AdminTeams = () => {
       },
       afterClosed: registerAdmin,
     });
-  }
+  };
 
-  const revokeAdmin = (item) => {
-    http.doDelete([`admin/teams/${item.id}/revoke`], {})
-      .then(res => {
-        const { code } = res.data;
-        if (code === 200) {
-          const ind = admins.findIndex(admin => admin.id === item.id);
-          admins[ind].type = 'revoked';
-          if (ind >= 0)
-            setAdmins([...admins]);
+  const revokeAdmin = item => {
+    dispatch(
+      revokeSubadmin(
+        item.id,
+        () => {
+          const ind = data.findIndex(admin => admin.id === item.id);
+          if (ind >= 0) {
+            data[ind].type = 'revoked';
+            setData([...data]);
+            setDialog({
+              type: 'Dialog',
+              data: {
+                title: `Success`,
+                content: `Successfully revoked the admin with ${item.email}`,
+                ok: 'Invite',
+                cancel: 'Cancel'
+              },
+              afterClosed: () => { },
+            });
+          }
+
         }
-      })
-      .catch(err => console.log(err))
+      )
+    );
+  };
+
+  const resetPassword = item => {
+    dispatch(
+      resetSubadminPassword(
+        item.id,
+        () => {
+          setDialog({
+            type: 'Dialog',
+            data: {
+              title: `Success`,
+              content: `Sent reset password link successfully to the ${item.email}`,
+              ok: 'Invite',
+              cancel: 'Cancel'
+            },
+            afterClosed: () => { },
+          });
+        }
+      )
+    );
+  };
+
+  const resendLink = item => {
+    dispatch(
+      resendInviteLink(
+        item.id,
+        () => {
+          setDialog({
+            type: 'Dialog',
+            data: {
+              title: `Success`,
+              content: `Successfully sent invitation to the ${item.email} again`,
+              ok: 'Invite',
+              cancel: 'Cancel'
+            },
+            afterClosed: () => { },
+          });
+        }
+      )
+    );
   }
 
   const setPermission = (id, perm, value) => {
@@ -66,13 +187,34 @@ const AdminTeams = () => {
       });
   }
 
+  const fetchSubadmins = (pageValue = page, paramsValue = params) => {
+    dispatch(
+      getSubadmins(
+        {
+          page: pageValue,
+          ...paramsValue,
+        },
+        (results, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(results);
+          setPage(prev => prev + 1);
+        }
+      )
+    )
+  }
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    getSubadmins(1, newParams);
+  };
+
   useEffect(() => {
-    http.doGet(['admin/teams'])
-      .then(res => {
-        const { data } = res.data;
-        setAdmins(data);
-      })
-      .catch(err => console.log(err));
+    fetchSubadmins();
   }, []);
 
   return (
@@ -100,110 +242,149 @@ const AdminTeams = () => {
             </button>
           </div>
           <div className="flex flex-col h-full">
-            <div className="flex flex-col lg:pt-6 h-full">
-              <div className="flex w-full">
-                <p className="w-1/12 text-base font-medium">Added Date</p>
-                <p className="w-1/12 text-base font-medium">Status</p>
-                <p className="w-1/12 text-base font-medium">Email</p>
-                <p className="w-1/12 text-base font-medium">Last Login</p>
-                <p className="w-1/12 text-base font-medium">IP</p>
-                <p className="w-1/12 text-base font-medium">Intake</p>
-                <p className="w-1/12 text-base font-medium">Users</p>
-                <p className="w-1/12 text-base font-medium">Ballots</p>
-                <p className="w-1/12 text-base font-medium">Perks</p>
-                <p className="w-1/4 text-base font-medium">Admin Action</p>
-              </div>
-              <div className="flex flex-col w-full h-4/5 mt-5 overflow-y-scroll">
-                {admins.map((admin) =>
-                  <div className="flex items-center lg:flex-row w-full py-2.5 border-b border-gray" key={`admin-team-${admin.id}`}>
-                    <p className="text-sm w-full lg:w-1/12">{formatDate(admin.created_at)}</p>
-                    <div className="text-sm w-full lg:w-1/12">
-                      <div>{admin.type}</div>
-                      {admin.type === 'invited' &&
+            <Styles className="h-full pt-8">
+              <Table
+                className="admin-table w-full h-full min-w-full"
+                {...register}
+                onLoadMore={fetchSubadmins}
+                hasMore={hasMore}
+                dataLength={data?.length}
+                onSort={handleSort}
+              >
+                <Table.Header>
+                  <Table.HeaderCell sortKey="id">
+                    <p>Added Date</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Status</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Email</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Last Login</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>IP</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Intake</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Users</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Ballots</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Perks</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Admin Action</p>
+                  </Table.HeaderCell>
+                </Table.Header>
+                <Table.Body>
+                  {data.map((admin) =>
+                    <Table.BodyRow key={`admin-team-${admin.id}`} >
+                      <Table.BodyCell>
+                        {formatDate(admin.created_at)}
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <div>{admin.type}</div>
+                        {admin.type === 'invited' &&
+                          <button
+                            type="button"
+                            className="inline-flex text-xs text-primary underline"
+                            onClick={() => resendLink(admin)}>
+                            Resend Link
+                          </button>
+                        }
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p className="text-break">
+                          {admin.email}
+                        </p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        21/06/2021<br />2:15PM
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        255.255.255.255
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+
+                        <Switch
+                          onChange={(_check) => setPermission(admin.id, 'intake', _check)}
+                          checked={admin.permissions?.intake || false}
+                          checkedIcon={null}
+                          uncheckedIcon={null}
+                          offColor='#bbb'
+                          onColor='#ff474e'
+                          height={18}
+                          width={40}
+                        />
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <Switch
+                          onChange={(_check) => setPermission(admin.id, 'users', _check)}
+                          checked={admin.permissions?.users || false}
+                          checkedIcon={null}
+                          uncheckedIcon={null}
+                          offColor='#bbb'
+                          onColor='#ff474e'
+                          height={18}
+                          width={40}
+                        />
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <Switch
+                          onChange={(_check) => setPermission(admin.id, 'ballots', _check)}
+                          checked={admin.permissions?.ballots || false}
+                          checkedIcon={null}
+                          uncheckedIcon={null}
+                          offColor='#bbb'
+                          onColor='#ff474e'
+                          height={18}
+                          width={40}
+                        />
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <Switch
+                          onChange={(_check) => setPermission(admin.id, 'perks', _check)}
+                          checked={admin.permissions?.perks || false}
+                          checkedIcon={null}
+                          uncheckedIcon={null}
+                          offColor='#bbb'
+                          onColor='#ff474e'
+                          height={18}
+                          width={40}
+                        />
+                      </Table.BodyCell>
+                      <Table.BodyCell>
                         <button
                           type="button"
-                          className="inline-flex text-xs text-primary underline"
-                          onClick={async e => {
-                            e.preventDefault();
-                          }}>
-                          Resend Link
+                          className="text-md text-primary px-4 py-1 rounded-full border-primary border-2 mr-2 bg-white shadow-md focus:outline-none hover:opacity-40"
+                          onClick={() => { resetPassword(admin) }}
+                        >
+                          Reset Password
                         </button>
-                      }
-                    </div>
-                    <p className="text-sm w-full lg:w-1/12 text-break">{admin.email}</p>
-                    <p className="text-sm w-full lg:w-1/12">21/06/2021<br />2:15PM</p>
-                    <p className="text-sm w-full lg:w-1/12">255.255.255.255</p>
-                    <div className="text-sm w-full lg:w-1/12">
-                      <Switch
-                        onChange={(_check) => setPermission(admin.id, 'intake', _check)}
-                        checked={admin.permission.intake}
-                        checkedIcon={null}
-                        uncheckedIcon={null}
-                        offColor='#bbb'
-                        onColor='#ff474e'
-                        height={18}
-                        width={40}
-                      />
-                    </div>
-                    <div className="text-sm w-full lg:w-1/12">
-                      <Switch
-                        onChange={(_check) => setPermission(admin.id, 'users', _check)}
-                        checked={admin.permission.users}
-                        checkedIcon={null}
-                        uncheckedIcon={null}
-                        offColor='#bbb'
-                        onColor='#ff474e'
-                        height={18}
-                        width={40}
-                      />
-                    </div>
-                    <div className="text-sm w-full lg:w-1/12">
-                      <Switch
-                        onChange={(_check) => setPermission(admin.id, 'ballots', _check)}
-                        checked={admin.permission.ballots}
-                        checkedIcon={null}
-                        uncheckedIcon={null}
-                        offColor='#bbb'
-                        onColor='#ff474e'
-                        height={18}
-                        width={40}
-                      />
-                    </div>
-                    <div className="text-sm w-full lg:w-1/12">
-                      <Switch
-                        onChange={(_check) => setPermission(admin.id, 'perks', _check)}
-                        checked={admin.permission.perks}
-                        checkedIcon={null}
-                        uncheckedIcon={null}
-                        offColor='#bbb'
-                        onColor='#ff474e'
-                        height={18}
-                        width={40}
-                      />
-                    </div>
-                    <p className="text-sm w-full lg:w-1/4">
-                      <button
-                        type="button"
-                        className="text-md text-primary px-4 py-1 rounded-full border-primary border-2 mr-2 bg-white shadow-md focus:outline-none hover:opacity-40"
-                      >
-                        Reset Password
-                      </button>
-                      <button
-                        type="button"
-                        className="text-md text-white px-4 py-1 rounded-full bg-primary border-primary border-2 shadow-md focus:outline-none hover:opacity-40"
-                        onClick={() => { revokeAdmin(admin) }}
-                      >
-                        Revoke
-                      </button>
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+                        <button
+                          type="button"
+                          className="text-md text-white px-4 py-1 rounded-full bg-primary border-primary border-2 shadow-md focus:outline-none hover:opacity-40"
+                          onClick={() => { revokeAdmin(admin) }}
+                        >
+                          Revoke
+                        </button>
+                      </Table.BodyCell>
+                    </Table.BodyRow>
+                  )}
+                </Table.Body>
+              </Table>
+            </Styles>
           </div>
         </div>
       </Card>
-    </LayoutDashboard>
+    </LayoutDashboard >
   )
 };
 

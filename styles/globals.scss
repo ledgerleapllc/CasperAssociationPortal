@@ -127,3 +127,7 @@ label > input[type="radio"] + * {
   --tw-bg-opacity: .2;
   background-color: rgba(255, 71, 62, var(--tw-bg-opacity));
 }
+
+.text-break{
+  word-wrap: break-word;
+}
