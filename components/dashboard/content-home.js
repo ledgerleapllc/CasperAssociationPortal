@@ -1,12 +1,31 @@
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Line } from 'react-chartjs-2';
+import { ApiService } from '../../helpers/api/api.service';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
+import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { formatDate } from '../../shared/core/utils';
+
+const http = new ApiService();
 
 const ContentHome = () => {
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const [trendingList, setTrendingList] = useState([]);
   const [showOpenVotes, setShowOpenVotes] = useState(false);
+  const dispatch = useDispatch();
+  const getTrendingList = () => {
+    dispatch(getTrendingDiscussions(
+      res => {
+        setTrendingList(res.trendings);
+      })
+    );
+  };
+
+  useEffect(() => {
+    getTrendingList();
+  }, []);
 
   const data = {
     datasets: [
@@ -60,7 +79,7 @@ const ContentHome = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">Pinned</span>
-              <span className="text-base text-black1 font-thin">11</span>
+              <span className="text-base text-black1 font-thin">{userInfo.pinned}</span>
             </div>
           </Card>
         </div>
@@ -68,7 +87,7 @@ const ContentHome = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-9 py-4">
               <span className="text-lg font-medium text-black1">New</span>
-              <span className="text-base text-black1 font-thin">5</span>
+              <span className="text-base text-black1 font-thin">{userInfo.new_threads}</span>
             </div>
           </Card>
         </div>
@@ -128,191 +147,44 @@ const ContentHome = () => {
                   </div>
                 </div>
                 <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
+                  {trendingList.map(discussion =>
+                    <div className="flex flex-col lg:flex-row w-full py-2.5">
+                      <p className="w-full lg:w-3/6 pb-2 text-sm">
+                        {discussion.title}
+                      </p>
+                      <div className="flex w-full lg:w-3/6">
+                        <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
+                          <div className="pr-3">
+                            <img
+                              src="/images/ic_material_mode_comment.svg"
+                              alt="Comment"
+                            />
+                          </div>
+                          <span className="text-sm">{discussion.comments}</span>
                         </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
+                        <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
+                          <div className="pr-3">
+                            <img
+                              src="/images/ic_awesome_calendar.svg"
+                              alt="Calendar"
+                            />
+                          </div>
+                          <span className="text-sm">
+                            {formatDate(discussion.created_at, 'd/M/yy')}
+                          </span>
                         </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:flex-row w-full py-2.5">
-                    <p className="w-full lg:w-3/6 pb-2 truncate">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing
-                    </p>
-                    <div className="flex w-full lg:w-3/6">
-                      <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_material_mode_comment.svg"
-                            alt="Comment"
-                          />
-                        </div>
-                        <span>26</span>
-                      </div>
-                      <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                        <div className="pr-3">
-                          <img
-                            src="/images/ic_awesome_calendar.svg"
-                            alt="Calendar"
-                          />
-                        </div>
-                        <span>5/6/21</span>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
           </Card>
           <Card
-            className={`${
-              showOpenVotes
-                ? 'flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full'
-                : 'w-0 h-0 opacity-0'
-            }`}
+            className={`${showOpenVotes
+              ? 'flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full'
+              : 'w-0 h-0 opacity-0'
+              }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>

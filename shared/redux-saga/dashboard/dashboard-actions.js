@@ -49,3 +49,64 @@ export const recordVoteError = error => ({
   type: 'RECORD_VOTE_ERROR',
   payload: error,
 });
+
+export const getDiscussions = (payload, successCb) => ({
+  type: 'GET_DISCUSSIONS',
+  payload,
+  successCb,
+});
+
+export const getPinnedDiscussions = (successCb) => ({
+  type: 'GET_PINNED_DISCUSSIONS',
+  successCb,
+});
+
+export const getMyDiscussions = (successCb) => ({
+  type: 'GET_MY_DISCUSSIONS',
+  successCb,
+});
+
+export const getTrendingDiscussions = (successCb) => ({
+  type: 'GET_TRENDING_DISCUSSIONS',
+  successCb,
+});
+
+
+export const getDiscussionDetail = (id, successCb) => ({
+  type: 'GET_DISCUSSION_DETAIL',
+  id,
+  successCb,
+});
+
+export const setDiscussionPin = (id, successCb) => ({
+  type: 'SET_DISCUSSION_PIN',
+  id,
+  successCb,
+});
+
+export const createDiscussion = (payload, successCb, resetSubmitting) => ({
+  type: 'CREATE_DISCUSSION',
+  payload,
+  successCb,
+  resetSubmitting,
+});
+
+export const setRemoveNewMark = (id, successCb) => ({
+  type: 'SET_REMOVE_NEW',
+  id,
+  successCb,
+});
+
+export const postDiscussionComment = (payload, successCb) => ({
+  type: 'POST_DISCUSSION_COMMENT',
+  payload,
+  successCb,
+});
+
+export const voteDiscussion = (payload, successCb) => ({
+  type: 'VOTE_DISCUSSION',
+  payload,
+  successCb,
+});
+
+

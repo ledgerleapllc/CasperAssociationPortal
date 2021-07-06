@@ -123,6 +123,11 @@ const Navigation = () => {
               </ActiveLink>
             </li>
             <li className="py-1.5 cursor-pointer">
+              <ActiveLink activeClassName="text-primary" href="/admin/teams">
+                <p>Teams</p>
+              </ActiveLink>
+            </li>
+            <li className="py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/settings">
                 <p>Settings</p>
               </ActiveLink>
