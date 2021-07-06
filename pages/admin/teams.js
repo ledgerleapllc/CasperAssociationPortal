@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import Switch from "react-switch";
-import moment from 'moment';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
