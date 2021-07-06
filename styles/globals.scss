@@ -122,3 +122,8 @@ label > input[type="radio"] + * {
     line-height: 1;
   }
 }
+
+.bg-primary-highlight {
+  --tw-bg-opacity: .2;
+  background-color: rgba(255, 71, 62, var(--tw-bg-opacity));
+}
