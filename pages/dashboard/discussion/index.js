@@ -35,7 +35,7 @@ const ChatBox = ({ data }) => {
 
   return (
     <div className="py-2 ">
-      <div className={`flex py-8 px-3 md:py-8 flex-col md:flex-row rounded-lg ${isNew ? 'bg-primary-highlight' : ''}`}
+      <div className={`flex py-8 px-3 lg:py-8 flex-col lg:flex-row rounded-lg ${isNew ? 'bg-primary-highlight' : ''}`}
         onClick={() => removeNew(data)}>
         <div className="flex-none flex">
           <div className="w-24 h-24">
@@ -45,25 +45,25 @@ const ChatBox = ({ data }) => {
               alt="avatar"
             />
           </div>
-          <div className="px-6 pt-2 mt-auto md:mt-0">
+          <div className="px-6 pt-2 mt-auto lg:mt-0">
             <IconEye
               className={`cursor-pointer ${isPinned ? 'text-primary' : ''}`}
               onClick={() => pin(data)}
             />
           </div>
         </div>
-        <div className="chat-content mt-5 md:m-0">
+        <div className="chat-content mt-5 lg:m-0">
           <div className="chat-content-body">
             <Link href={`/dashboard/discussion/${data.id}`}>
               <h2 className="cursor-pointer text-lg mb-2.5">{data.title}</h2>
             </Link>
             <p className="text-sm mb-5" dangerouslySetInnerHTML={{ __html: data.description }} />
           </div>
-          <div className="chat-content-footer flex text-sm flex-col md:flex-row">
+          <div className="chat-content-footer flex text-sm flex-col lg:flex-row">
             <p>
               Posted by: <a className="text-primary">{data.user?.pseudonym}</a>
             </p>
-            <ul className="ml-8 flex -ml-6 mt-5 md:ml-0 md:mt-0">
+            <ul className="ml-8 flex -ml-6 mt-5 lg:ml-0 lg:mt-0">
               <li className="flex px-6 items-center">
                 <IconChatBox />
                 <span className="pl-2.5">{data.comments || 0}</span>
@@ -269,20 +269,20 @@ const DashboardDiscusion = () => {
       <DashboardDiscusionContext.Provider
         value={{ pinnedList, myList, newsList, togglePinnedList, removeNewFromList }}
       >
-        <Card className="h-full md:pl-24 md:py-10 md:shadow-2xl" noShadow>
+        <Card className="h-full lg:pl-24 lg:py-10 lg:shadow-2xl" noShadow>
           <div className="w-full h-full">
-            <div className="flex justify-end md:mr-24">
+            <div className="flex justify-end lg:mr-24">
               <Link href="/dashboard/discussion/add">
                 <button
                   type="button"
-                  className="transition text-lg text-white w-full md:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   + New Discussion
                 </button>
               </Link>
             </div>
             <Tab
-              className="w-full h-full pt-12 md:pt-0 md:-mt-7"
+              className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
               data={tabsData}
             />
           </div>
