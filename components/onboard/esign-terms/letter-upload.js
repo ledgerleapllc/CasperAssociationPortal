@@ -1,16 +1,11 @@
 /* eslint-disable no-use-before-define */
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useSelector } from 'react-redux';
-import ReactLoading from 'react-loading';
 
 import { Button } from '../../partials/button';
 
 const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const { isLoading } = useSelector(
-    state => state?.onboardReducer?.uploadLetter
-  );
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -54,37 +49,28 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
           the node operator or person in a management role within your
           organization.
         </p>
-        {isLoading ? (
-          <ReactLoading
-            type="spinningBubbles"
-            color="#FF473E"
-            width={80}
-            height={80}
+        <div className="md:flex-column md:space-x-5 md:justify-start animate__animated animate__fadeInUp animate__delay-2s">
+          <Button
+            type="submit"
+            title="Upload letter"
+            className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+            onClick={() => handleUpload('open')}
           />
-        ) : (
-          <div className="md:flex-column md:space-x-5 md:justify-start animate__animated animate__fadeInUp animate__delay-2s">
-            <Button
-              type="submit"
-              title="Upload letter"
-              className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              onClick={() => handleUpload('open')}
-            />
-            {selectedDocument && (
-              <div className="flex mt-5 items-center">
-                <button
-                  className="pr-3 w-7"
-                  onClick={() => onDocumentSelect(null)}
-                  type="button"
-                >
-                  <img className="w-full" src="/images/ic_x.svg" alt="icon x" />
-                </button>
-                <span className="text-sm text-primary">
-                  {selectedDocument.name}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
+          {selectedDocument && (
+            <div className="flex mt-5 items-center">
+              <button
+                className="pr-3 w-7"
+                onClick={() => onDocumentSelect(null)}
+                type="button"
+              >
+                <img className="w-full" src="/images/ic_x.svg" alt="icon x" />
+              </button>
+              <span className="text-sm text-primary">
+                {selectedDocument.name}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
       {showUploadModal && (
         <>

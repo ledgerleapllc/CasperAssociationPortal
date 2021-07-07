@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import IconCheckCircle from '../../public/images/ic_check_circle.svg';
 import IconWaitingCircle from '../../public/images/ic-time.svg';
 import { bypassOnboardStep } from '../../shared/redux-saga/onboard/actions';
-import { fetchUserInfo } from '../../shared/redux-saga/auth/actions';
+import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const OnboardItem = ({
   className,
@@ -16,6 +16,7 @@ const OnboardItem = ({
   description,
   onClick,
   stepType,
+  userInfoKey,
   handleBypass,
 }) => {
   const [onHover, setOnHover] = useState(false);
@@ -25,7 +26,12 @@ const OnboardItem = ({
     handleBypass(true);
     dispatch(
       bypassOnboardStep({ type: stepType }, () => {
-        dispatch(fetchUserInfo());
+        dispatch(
+          updateUser({
+            [userInfoKey]: true,
+          })
+        );
+
         handleBypass(false);
       })
     );
