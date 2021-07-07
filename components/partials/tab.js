@@ -29,7 +29,7 @@ const Tab = ({ data, className }) => {
         <>
           <ul
             id="tabs"
-            className="inline-flex w-full pb-3 justify-between md:justify-start"
+            className="inline-flex w-full pb-3 justify-between lg:justify-start"
           >
             {data.map((x, index) => (
               <li
@@ -37,14 +37,14 @@ const Tab = ({ data, className }) => {
                   currentTab === index
                     ? 'opacity-100 text-primary'
                     : 'opacity-40'
-                } tab-header text-dark2 text-2xl md:pr-32`}
+                } tab-header text-dark2 text-2xl lg:pr-32`}
                 key={`tab-header-${index}`}
               >
                 <Link href={`#${x.id}`}>{x.title}</Link>
               </li>
             ))}
           </ul>
-          <div className="border-primary border-b-2 md:mr-24" />
+          <div className="border-primary border-b-2 lg:mr-24" />
           <div
             id="tab-contents"
             className={`${
@@ -55,7 +55,7 @@ const Tab = ({ data, className }) => {
             {data.map((x, index) => (
               <div
                 key={`tab-content-${index}`}
-                className="md:pr-24 h-full"
+                className="lg:pr-24 h-full"
                 hidden={currentTab !== index}
               >
                 {data[index].content()}

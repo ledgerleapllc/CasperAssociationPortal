@@ -1,100 +1,97 @@
 import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { ActiveLink, Card } from '../partials';
 import AppHeader from '../layouts/app-header';
+import HomeIcon from '../../public/images/ic_home.svg';
+import InfoIcon from '../../public/images/ic_infor.svg';
+import ChatIcon from '../../public/images/ic_material_chat.svg';
+import VoteIcon from '../../public/images/ic_awesome_vote.svg';
+import UserIcon from '../../public/images/ic_feather_user_plus.svg';
+import SettingIcon from '../../public/images/ic_feather_settings.svg';
+
+const mainNavs = [
+  {
+    key: 'dashboard',
+    icon: HomeIcon,
+    path: '/dashboard',
+  },
+  {
+    key: 'info',
+    icon: InfoIcon,
+    path: '/dashboard/nodes',
+  },
+  {
+    key: 'chat',
+    icon: ChatIcon,
+    path: '/dashboard/discussion',
+  },
+  {
+    key: 'vote',
+    icon: VoteIcon,
+    path: '/dashboard/votes',
+  },
+  {
+    key: 'user',
+    icon: UserIcon,
+    path: '/dashboard/member-perks',
+  },
+  {
+    key: 'setting',
+    icon: SettingIcon,
+    path: '/dashboard/settings',
+  },
+];
 
 const Navigation = () => {
   const userAdmin = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    setIsAdmin(userAdmin?.role === 'admin');
+  }, [userAdmin]);
 
   return (
     <>
       <Card className="flex-col w-24 px-5 hidden lg:flex h-full overflow-y-scroll">
         <img
-          className="py-6 border-b-2 border-primary align-center"
+          className="py-6 border-b-2 align-center border-primary"
           src="/images/ic_logo_home.svg"
           alt="Casper"
         />
-        <ul className="mb-4 flex flex-col items-center border-b-2 border-primary">
-          <li className="pb-4 pt-14">
-            <ActiveLink activeClassName="shadow-activeLink" href="/dashboard">
-              <a className="rounded-lg inline-block">
-                <img className="p-3" src="/images/ic_home.svg" alt="Home" />
-              </a>
-            </ActiveLink>
-          </li>
-          <li className="py-2">
-            <ActiveLink
-              activeClassName="shadow-activeLink"
-              href="/dashboard/nodes"
-            >
-              <a className="inline-block rounded-2xl hover:shadow-lg">
-                <img
-                  className="p-3"
-                  src="/images/ic_infor.svg"
-                  alt="Validator Info"
-                />
-              </a>
-            </ActiveLink>
-          </li>
-          <li className="py-2">
-            <ActiveLink
-              activeClassName="shadow-activeLink"
-              href="/dashboard/discussion"
-            >
-              <a className="rounded-lg inline-block">
-                <img
-                  className="p-3"
-                  src="/images/ic_material_chat.svg"
-                  alt="Material Chat"
-                />
-              </a>
-            </ActiveLink>
-          </li>
-          <li className="py-2">
-            <ActiveLink
-              activeClassName="shadow-activeLink"
-              href="/dashboard/votes"
-            >
-              <a className="inline-block rounded-2xl hover:shadow-lg">
-                <img
-                  className="p-3"
-                  src="/images/ic_awesome_vote.svg"
-                  alt="Vote"
-                />
-              </a>
-            </ActiveLink>
-          </li>
-          <li className="py-2">
-            <ActiveLink
-              activeClassName="shadow-activeLink"
-              href="/dashboard/member-perks"
-            >
-              <a className="inline-block rounded-2xl hover:shadow-lg">
-                <img
-                  className="p-3"
-                  src="/images/ic_feather_user_plus.svg"
-                  alt="User Add"
-                />
-              </a>
-            </ActiveLink>
-          </li>
-          <li className="pt-2">
-            <ActiveLink
-              activeClassName="shadow-activeLink"
-              href="/dashboard/settings"
-            >
-              <a className="inline-block rounded-2xl hover:shadow-lg">
-                <img
-                  className="p-3"
-                  src="/images/ic_feather_settings.svg"
-                  alt="Setting"
-                />
-              </a>
-            </ActiveLink>
-          </li>
+        <ul
+          className="
+            mb-4 flex flex-col items-center
+            xl:pt-8 2xl:pt-12
+          "
+        >
+          {mainNavs.map(nav => (
+            <li className={`${isAdmin ? 'xl:py-1 2xl:py-2' : 'py-3'}`}>
+              <ActiveLink
+                activeClassName="shadow-activeLink"
+                href={`${
+                  isAdmin && nav.key === 'dashboard'
+                    ? '/admin/dashboard'
+                    : nav.path
+                }`}
+              >
+                <a
+                  className="
+                    rounded-lg inline-block 
+                    xl:p-2 2xl:p-3
+                  "
+                >
+                  <nav.icon
+                    width={isAdmin ? '1.25rem' : '1.5rem'}
+                    height={isAdmin ? '1.25rem' : '1.5rem'}
+                  />
+                </a>
+              </ActiveLink>
+            </li>
+          ))}
         </ul>
-        {userAdmin?.role === 'admin' && (
-          <ul className="flex flex-col pb-4">
-            <li className="py-1.5 cursor-pointer">
+        {isAdmin && (
+          <ul className="flex flex-col py-4 border-t-2 border-primary">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink
                 activeClassName="text-primary"
                 href="/admin/dashboard"
@@ -102,32 +99,32 @@ const Navigation = () => {
                 <p>Admin</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/intake">
                 <p>Intake</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/users">
                 <p>Users</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/ballots">
                 <p>Ballots</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/perks">
                 <p>Perks</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/teams">
                 <p>Teams</p>
               </ActiveLink>
             </li>
-            <li className="py-1.5 cursor-pointer">
+            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/settings">
                 <p>Settings</p>
               </ActiveLink>

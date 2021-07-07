@@ -122,7 +122,7 @@ const ContentNode = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 py-4">
               <div className="flex">
-                <span className="text-base md:text-lg lg:text-lg font-normal text-black1">
+                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Stake Amount
                 </span>
                 <img
@@ -139,7 +139,7 @@ const ContentNode = () => {
           <Card className="lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 py-4">
               <div className="flex">
-                <span className="text-base md:text-lg lg:text-lg font-normal text-black1">
+                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Delegators
                 </span>
                 <img

@@ -8,18 +8,18 @@ const InfoRightHome = () => {
 
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
-      <div className="flex flex-col pb-8 border-b-2 border-gray">
+      <div className="flex flex-col pb-8 xl:pb-4 2xl:pb-8 border-b-2 border-gray">
         <div className="flex">
           <img
             className="pr-2"
             src="/images/ic_awesome_user_circle.svg"
             alt="User"
           />
-          <span className="text-2.5xl truncate">{user?.full_name}</span>
+          <span className="text-2xl truncate">{user?.full_name}</span>
         </div>
         <button
           type="button"
-          className="inline-flex text-xs text-primary underline"
+          className="mt-2 inline-flex text-xs text-primary underline"
           onClick={async e => {
             e.preventDefault();
             dispatch(logoutApp());

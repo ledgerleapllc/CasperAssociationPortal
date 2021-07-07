@@ -11,7 +11,7 @@ const VerifyNodeOwnershipThirdStep = ({ status, onContinue }) => (
         <p className="text-sm mt-2 text-dark1 whitespace-pre-line animate__animated animate__fadeInLeft animate__delay-4s">
           We are checking your message file. Do not exit this screen.
         </p>
-        <div className="md:relative mt-24 animate__animated animate__fadeIn animate__delay-6s">
+        <div className="lg:relative mt-24 animate__animated animate__fadeIn animate__delay-6s">
           <ReactLoading
             type="spinningBubbles"
             color="#FF473E"
@@ -47,7 +47,7 @@ const VerifyNodeOwnershipThirdStep = ({ status, onContinue }) => (
     )}
     <button
       type="button"
-      className={`text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary focus:outline-none mt-12 disabled:opacity-30 md:hidden ${
+      className={`text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary focus:outline-none mt-12 disabled:opacity-30 lg:hidden ${
         status !== 'checking' ? 'block' : ''
       }`}
       onClick={onContinue}

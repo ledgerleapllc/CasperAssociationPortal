@@ -95,7 +95,7 @@ const OnboardItem = ({
         </button>
       )}
       <div
-        className={`md:mx-4 md:my-6 transition transform duration-300 ease-in-out ${
+        className={`lg:mx-4 lg:my-6 transition transform duration-300 ease-in-out ${
           onHover && !waitingStep ? 'opacity-0 -translate-y-20' : 'opacity-100'
         }`}
         onMouseEnter={() => setOnHover(true)}

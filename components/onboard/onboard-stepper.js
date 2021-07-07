@@ -62,7 +62,7 @@ const OnboardStepper = ({
 
   return (
     <>
-      <div className="block md:hidden w-full flex justify-between animate__animated animate__fadeInUp">
+      <div className="block lg:hidden w-full flex justify-between animate__animated animate__fadeInUp">
         <button
           type="button"
           className="flex items-center focus:outline-none"
@@ -78,7 +78,7 @@ const OnboardStepper = ({
           <span className="text-primary text-sm">Back</span>
         </button>
         {title === 'Submit KYC' ? (
-          <ul className="list-disc md:list-none">
+          <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">
               {handleTopNextButton()}
             </li>
@@ -102,13 +102,13 @@ const OnboardStepper = ({
           </button>
         )}
         {!showNextButton && title === 'Submit KYC' && (
-          <ul className="list-disc md:list-none">
+          <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">Operator KYC</li>
           </ul>
         )}
       </div>
-      <div className="w-full md:w-8.85/10">
-        <div className="hidden md:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
+      <div className="w-full lg:w-8.85/10">
+        <div className="hidden lg:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
           <span className="font-bold text-dark2">{title}</span>
           {title === 'Submit KYC' && (
             <ul className="flex list-disc">
@@ -130,18 +130,18 @@ const OnboardStepper = ({
           )}
         </div>
         <div
-          className="hidden md:block border-b border-primary border-2 animate__animated animate__fadeInUp"
+          className="hidden lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
           style={{ width: `${(currentStep * 100) / totalSteps}%` }}
         />
         <div
           id="custom-content"
-          className="mt-2 md:flex md:space-x-12 animate__animated animate__fadeInUp"
+          className="mt-2 lg:flex lg:space-x-12 animate__animated animate__fadeInUp"
         >
-          <div className="relative w-full md:w-auto md:flex-none md:h-114">
+          <div className="relative w-full lg:w-auto lg:flex-none lg:h-114">
             <img
               src={imageUrl}
               alt="esign terms"
-              className="w-full h-44 md:h-auto object-cover"
+              className="w-full h-44 lg:h-auto object-cover"
             />
             <div className="absolute bottom-0 mx-4 my-8 opacity-30">
               <p className="text-2xl">{title}</p>
@@ -150,7 +150,7 @@ const OnboardStepper = ({
           </div>
           <div className="flex-grow">{stepContent}</div>
         </div>
-        <div className="hidden md:flex justify-between border-b border-gray pb-2">
+        <div className="hidden lg:flex justify-between border-b border-gray pb-2">
           <button
             type="button"
             className={`${

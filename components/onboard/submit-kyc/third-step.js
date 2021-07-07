@@ -17,7 +17,7 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
       If you have your documents ready to upload and all information matches,
       press the Start KYC button below.
     </p>
-    <div className="md:flex md:space-x-8 md:items-center mt-12">
+    <div className="lg:flex lg:space-x-8 lg:items-center mt-12">
       {beginKYC ? (
         <>
           <p className="text-sm text-primary">
@@ -26,7 +26,7 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
           </p>
           <button
             type="button"
-            className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
+            className="lg:hidden my-5 text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
             onClick={onNext}
           >
             Continue
@@ -35,7 +35,7 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
       ) : (
         <button
           type="button"
-          className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+          className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
           onClick={() => onBeginKYC()}
         >
           Begin KYC

@@ -41,7 +41,7 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
         <p className="text-2.5xl">
           First, please upload a letter explaining why you would like to join.
         </p>
-        <p className="text-sm mt-2 md:mb-14 mb-14 text-dark1">
+        <p className="text-sm mt-2 lg:mb-14 mb-14 text-dark1">
           Each member in the portal must upload a “letter of motivation”
           summarizing why they are requesting to become a member. This letter
           should explain, in a short paragraph or two, why you would like to
@@ -49,11 +49,11 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
           the node operator or person in a management role within your
           organization.
         </p>
-        <div className="md:flex-column md:space-x-5 md:justify-start animate__animated animate__fadeInUp animate__delay-2s">
+        <div className="lg:flex-column lg:space-x-5 lg:justify-start animate__animated animate__fadeInUp animate__delay-2s">
           <Button
             type="submit"
             title="Upload letter"
-            className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+            className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-lg"
             onClick={() => handleUpload('open')}
           />
           {selectedDocument && (
@@ -91,7 +91,7 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
                     >
                       Upload Letter of Motivation
                     </button>
-                    <span className="hidden md:block">Or Drap File Here</span>
+                    <span className="hidden lg:block">Or Drap File Here</span>
                   </div>
                 </div>
               </div>
