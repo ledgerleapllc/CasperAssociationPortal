@@ -23,18 +23,18 @@ const OnboardStepper = ({
   const dispatch = useDispatch();
   useEffect(() => {
     if (
-      (title === 'Submit KYC' &&
-        currentStep === 6 &&
+      (title === 'Upload Letter' &&
+        user.letter_file &&
         user.signature_request_id &&
         user.node_verified_at) ||
       (title === 'Esign Terms' &&
         currentStep === 2 &&
         user.node_verified_at &&
-        user.kyc_verified_at) ||
+        user.letter_file) ||
       (title === 'Verify Node Ownership' &&
         currentStep === 3 &&
         user.signature_request_id &&
-        user.kyc_verified_at)
+        user.letter_file)
     ) {
       setAllStepsDone(true);
     }

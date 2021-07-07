@@ -168,7 +168,7 @@ export function* postOwnerNodes({ payload, resolve, reject }) {
   }
 }
 
-export function* uploadLetter({ payload, callback }) {
+export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -180,8 +180,9 @@ export function* uploadLetter({ payload, callback }) {
     formData.append('file', payload.newFile);
     const res = yield post(['users/upload-letter'], formData, { headers });
     yield put(uploadLetterSuccess(res.data));
-    callback();
+    resolve();
   } catch (error) {
+    reject();
     yield put(uploadLetterError(error));
     yield put(saveApiResponseError(error));
   }

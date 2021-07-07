@@ -5,12 +5,10 @@ import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
-import LetterUpload from '../../components/onboard/esign-terms/letter-upload';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import {
   bypassHelloSignRequest,
   helloSignRequest,
-  uploadLetter,
 } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
@@ -22,10 +20,7 @@ import { AppContext } from '../_app';
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [helloSignComplete, setHelloSignComplete] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState({
-    step1: null, // null: not submit yet
-    step2: null,
-  });
+  const [selectedDocument, setSelectedDocument] = useState(null);
   const [client, setClient] = useState(null);
   const dispatch = useDispatch();
   const { isLoading } = useSelector(
@@ -36,7 +31,7 @@ const EsignTerms = () => {
 
   const router = useRouter();
 
-  const totalSteps = 3;
+  const totalSteps = 2;
   const documents = ['Doc1', 'Doc2', 'Doc3', 'Doc4'];
 
   const handlePrev = () => {
@@ -55,7 +50,7 @@ const EsignTerms = () => {
           signature_request_id: true,
         })
       );
-    } else if (currentStep === 2) {
+    } else if (currentStep === 1) {
       setLoading(true);
       dispatch(
         helloSignRequest(
@@ -68,17 +63,6 @@ const EsignTerms = () => {
           },
           () => {
             setLoading(false);
-          }
-        )
-      );
-    } else if (currentStep === 1) {
-      dispatch(
-        uploadLetter(
-          {
-            newFile: selectedDocument.step1.file,
-          },
-          () => {
-            setCurrentStep(currentStep + 1);
           }
         )
       );
@@ -106,21 +90,13 @@ const EsignTerms = () => {
   }, [client]);
 
   useEffect(() => {
-    if (currentStep === 2) {
+    if (currentStep === 1 && helloSignComplete) {
       setCurrentStep(currentStep + 1);
     }
   }, [helloSignComplete]);
 
-  const handleByPass = () => {
-    dispatch(
-      bypassHelloSignRequest(res => {
-        setCurrentStep(currentStep + 1);
-      })
-    );
-  };
-
   const getNextButtonTitle = () => {
-    if (currentStep === 2) {
+    if (currentStep === 1) {
       return 'Go to Esign';
     }
 
@@ -130,29 +106,12 @@ const EsignTerms = () => {
   const getStepContent = () => {
     if (currentStep === 1) {
       return (
-        <LetterUpload
-          selectedDocument={selectedDocument?.step1}
-          onDocumentSelect={document => {
-            setSelectedDocument(pre => ({
-              ...pre,
-              ...{ step1: selectedDocument === document ? null : document },
-            }));
-          }}
-        />
-      );
-    }
-
-    if (currentStep === 2) {
-      return (
         <>
           <EsignTermsFirstStep
             documents={documents}
-            selectedDocument={selectedDocument?.step2}
+            selectedDocument={selectedDocument}
             onDocumentSelect={document => {
-              setSelectedDocument(pre => ({
-                ...pre,
-                ...{ step2: selectedDocument === document ? null : document },
-              }));
+              setSelectedDocument(pre => (pre === document ? null : document));
             }}
           />
           {/* <div className="mt-8 text-primary">
@@ -172,8 +131,8 @@ const EsignTerms = () => {
   };
 
   const getNextButtonVisibility = () => {
-    if (currentStep !== 3) {
-      return !!selectedDocument[`step${currentStep}`] || isLoading;
+    if (currentStep === 1) {
+      return !!selectedDocument || isLoading;
     }
 
     return true;

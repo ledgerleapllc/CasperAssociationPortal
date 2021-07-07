@@ -65,10 +65,11 @@ export const handleViewGuide = (payload, resolve) => ({
   resolve,
 });
 
-export const uploadLetter = (payload, callback) => ({
+export const uploadLetter = (payload, resolve, reject) => ({
   type: 'UPLOAD_LETTER',
-  callback,
   payload,
+  resolve,
+  reject,
 });
 
 export const uploadLetterSuccess = payload => ({
