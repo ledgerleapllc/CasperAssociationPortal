@@ -59,11 +59,11 @@ const VerifyNodeOwnershipFirstStep = ({
         Clicking below will open up the hellosign document for capturing your
         electronic signature
       </p>
-      <div className="md:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
+      <div className="lg:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
         <input
           type="text"
           readOnly={isVerified}
-          className="w-full h-16 text-xl px-7 md:pr-72 rounded-full shadow-md focus:outline-none"
+          className="w-full h-16 text-xl px-7 lg:pr-72 rounded-full shadow-md focus:outline-none"
           name="publicAddress"
           {...register('publicAddress', {
             validate: value =>
@@ -71,17 +71,17 @@ const VerifyNodeOwnershipFirstStep = ({
               'This is not a valid address',
           })}
         />
-        <span className="md:absolute right-0">
+        <span className="lg:absolute right-0">
           <Button
             type="submit"
             isDisabled={isVerifying || !watchAddress}
             isLoading={isVerifying}
             title="Verify"
-            className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary focus:outline-none mt-2 md:mt-0 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary focus:outline-none mt-2 lg:mt-0 disabled:opacity-30 disabled:cursor-not-allowed"
           />
         </span>
         {isVerified && (
-          <IconCheckCircle className="absolute bottom-4 -right-20 hidden md:block text-primary text-3xl" />
+          <IconCheckCircle className="absolute bottom-4 -right-20 hidden lg:block text-primary text-3xl" />
         )}
       </div>
       {formState.errors?.publicAddress && (

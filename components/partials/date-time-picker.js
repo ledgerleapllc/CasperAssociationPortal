@@ -27,7 +27,7 @@ const DateTimePicker = ({ onChange }) => {
   return (
     <input
       type="text"
-      className="px-7 w-full md:auto h-14 rounded-full shadow-md focus:outline-none"
+      className="px-7 w-full lg:auto h-14 rounded-full shadow-md focus:outline-none"
       placeholder="DOB (mm/dd/yyyy) *"
       onFocus={e => toogleDateInput(e)}
       onBlur={e => toogleDateInput(e)}

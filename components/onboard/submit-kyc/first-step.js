@@ -28,17 +28,17 @@ const SubmitKYCFirstStep = ({ onIndividual, onEntity }) => (
       Please begin by selecting one of the following options. My node is
       operated by a/an:
     </p>
-    <div className="md:flex md:space-x-8 md:items-center mt-12">
+    <div className="lg:flex lg:space-x-8 lg:items-center mt-12">
       <button
         type="button"
-        className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
+        className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40 animate__animated animate__fadeInUp animate__delay-6s"
         onClick={onIndividual}
       >
         Individual
       </button>
       <button
         type="button"
-        className="text-lg text-primary w-full md:w-64 h-16 rounded-full bg-white border-2 border-primary shadow-md focus:outline-none mt-2 md:mt-0 hover:bg-primary hover:bg-opacity-40 hover:text-white animate__animated animate__fadeInUp animate__delay-7s"
+        className="text-lg text-primary w-full lg:w-64 h-16 rounded-full bg-white border-2 border-primary shadow-md focus:outline-none mt-2 lg:mt-0 hover:bg-primary hover:bg-opacity-40 hover:text-white animate__animated animate__fadeInUp animate__delay-7s"
         onClick={onEntity}
       >
         Entity

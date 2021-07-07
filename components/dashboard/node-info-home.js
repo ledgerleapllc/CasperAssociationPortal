@@ -6,29 +6,29 @@ const NodeInfoHome = () => {
   const percenPerformance = 83;
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
-      <span className="text-2.5xl">Node Info</span>
-      <div className="flex flex-col py-3">
+      <span className="text-2xl">Node Info</span>
+      <div className="flex flex-col py-2 2xl:py-3">
         <div className="flex flex-row">
           <span className="text-lg">Node Rank</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">8</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2 2xl:py-3">
         <div className="flex flex-row">
           <span className="text-lg">Stake Amount</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">2,502,815</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2 2xl:py-3">
         <div className="flex flex-row">
           <span className="text-lg">Delegators</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">8</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2 2xl:py-3">
         <div className="flex flex-row">
           <span className="text-lg">Uptime</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
@@ -51,7 +51,7 @@ const NodeInfoHome = () => {
         </div>
       </div>
       <div className="flex justify-between py-9">
-        <div className="flex flex-col">
+        <div className="flex w-1/2 pr-2 flex-col">
           <div className="flex flex-row pb-4">
             <span className="text-sm font-medium">CPU Load</span>
             <img
@@ -60,7 +60,7 @@ const NodeInfoHome = () => {
               alt="Info"
             />
           </div>
-          <div style={{ height: 100, width: 100 }}>
+          <div style={{ height: '100%', width: '100%' }}>
             <CircularProgressbar
               value={percenCPU}
               text={`${percenCPU}%`}
@@ -74,7 +74,7 @@ const NodeInfoHome = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex w-1/2 pl-2 flex-col">
           <div className="flex flex-row pb-4">
             <span className="text-sm font-medium">Performance</span>
             <img
@@ -83,7 +83,7 @@ const NodeInfoHome = () => {
               alt="Info"
             />
           </div>
-          <div style={{ height: 100, width: 100 }}>
+          <div style={{ height: '100%', width: '100%' }}>
             <CircularProgressbar
               value={percenPerformance}
               text={`${percenPerformance}%`}

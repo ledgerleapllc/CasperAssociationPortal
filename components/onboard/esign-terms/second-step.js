@@ -6,7 +6,7 @@ const EsignTermsSecondStep = ({ onContinue }) => (
     </p>
     <button
       type="button"
-      className="block md:hidden text-lg text-white w-full h-16 rounded-full bg-primary focus:outline-none mt-12"
+      className="block lg:hidden text-lg text-white w-full h-16 rounded-full bg-primary focus:outline-none mt-12"
       onClick={onContinue}
     >
       Continue

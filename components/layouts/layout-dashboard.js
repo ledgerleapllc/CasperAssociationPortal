@@ -5,7 +5,13 @@ export default function LayoutDashboard({ children }) {
   return (
     <div>
       <div className="dashboard-layout">
-        <div className="relative h-screen h-px mx-auto 2xl:min-h-105 max-w-404 px-4 lg:py-4 xl:py-16 2xl:py-24 flex flex-col">
+        <div
+          className="
+            relative h-screen h-px mx-auto flex flex-col max-w-404 px-4
+            lg:py-4
+            xl:py-20
+            2xl:py-24 2xl:min-h-105"
+        >
           <div className="flex h-full flex-col lg:flex-row">
             <div className="flex-none">
               <Navigation />
