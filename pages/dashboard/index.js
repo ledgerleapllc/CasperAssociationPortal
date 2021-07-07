@@ -2,7 +2,6 @@ import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 import InfoRightHome from '../../components/dashboard/info-right-home';
 import ContentHome from '../../components/dashboard/content-home';
-import AppLoading from '../../components/layouts/app-loading';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const Dashboard = () => (

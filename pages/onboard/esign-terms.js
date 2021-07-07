@@ -95,6 +95,15 @@ const EsignTerms = () => {
     }
   }, [helloSignComplete]);
 
+  // eslint-disable-next-line no-unused-vars
+  const handleByPass = () => {
+    dispatch(
+      bypassHelloSignRequest(res => {
+        setCurrentStep(currentStep + 1);
+      })
+    );
+  };
+
   const getNextButtonTitle = () => {
     if (currentStep === 1) {
       return 'Go to Esign';
@@ -140,9 +149,16 @@ const EsignTerms = () => {
 
   return (
     <div className="flex justify-center min-h-screen">
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-screen-xl lg:p-9
+          2xl:max-w-screen-2xl
+        "
+      >
         <AppHeader theme="dark" />
-        <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
+        <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
           <OnboardStepper
             title="Esign Terms"
             description="You must read and agree to the terms of service before continuing to the portal"

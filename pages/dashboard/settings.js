@@ -59,7 +59,7 @@ const DashboardSetting = () => {
                         name="username"
                         type="text"
                         disabled={disableInputs.username}
-                        className="w-full lg:w-3/4 md:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                        className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
                       />
                       {disableInputs.username && (
                         <button
@@ -92,7 +92,7 @@ const DashboardSetting = () => {
                         name="email"
                         type="text"
                         disabled={disableInputs.email}
-                        className="w-full lg:w-3/4 md:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                        className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
                       />
                       {disableInputs.email && (
                         <button
@@ -128,7 +128,7 @@ const DashboardSetting = () => {
                         name="password"
                         placeholder="Type Current Password"
                         type="text"
-                        className="w-full lg:w-3/4 md:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                        className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
                       />
                       {disableInputs.updatePassword && (
                         <button
@@ -145,7 +145,7 @@ const DashboardSetting = () => {
                         disabled={disableInputs.updatePassword}
                         placeholder="New Password"
                         type="text"
-                        className="w-full lg:w-3/4 mr-6 md:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                        className="w-full lg:w-3/4 mr-6 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
                       />
                     </div>
                     <div className="pt-8">
@@ -153,7 +153,7 @@ const DashboardSetting = () => {
                         placeholder="Confirm New Password"
                         type="text"
                         disabled={disableInputs.updatePassword}
-                        className="w-full lg:w-3/4 mr-6 md:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                        className="w-full lg:w-3/4 mr-6 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
                       />
                     </div>
                   </div>

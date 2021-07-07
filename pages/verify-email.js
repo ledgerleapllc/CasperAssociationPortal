@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
@@ -7,10 +9,7 @@ import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { Button } from '../components/partials/button';
-import {
-  resend2FaCode,
-  verifyEmail,
-} from '../shared/redux-saga/auth/actions';
+import { resend2FaCode, verifyEmail } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const VerifyEmail = () => {
@@ -51,14 +50,20 @@ const VerifyEmail = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-screen-xl lg:p-9
+          2xl:max-w-screen-2xl"
+      >
         <AppHeader theme="light" />
         <form
           className="flex-grow flex items-center justify-center"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div
-            className="bg-white w-full md:w-2/3 text-center px-4 py-12 md:p-44"
+            className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:p-44"
             style={{
               backgroundImage: `url('/images/login_overlay.png')`,
               backgroundSize: 'cover',
@@ -88,13 +93,13 @@ const VerifyEmail = () => {
                 </p>
               )}
             </div>
-            <div className="md:flex md:space-x-5 md:mt-4 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+            <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
               <Button
                 type="submit"
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}
                 title="Verify"
-                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+                className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               />
             </div>
             <a onClick={onResend2FaCode}>

@@ -23,17 +23,23 @@ const Welcome = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-screen-xl lg:p-9
+          2xl:max-w-screen-2xl"
+      >
         <AppHeader theme="light" />
-        <div className="flex-grow flex items-center justify-center mt-24 md:mt-0">
+        <div className="flex-grow flex items-center justify-center mt-24 lg:mt-0">
           <div
-            className="bg-white w-full md:w-2/3 px-4 py-12 md:px-28 animate__animated animate__fadeInUp animate__delay-4s"
+            className="bg-white w-full lg:w-2/3 px-4 py-12 lg:px-28 animate__animated animate__fadeInUp animate__delay-4s"
             style={{
               backgroundImage: `url('/images/login_overlay.png')`,
               backgroundSize: 'cover',
             }}
           >
-            <p className="text-2xl md:text-3xl text-center">
+            <p className="text-2xl lg:text-3xl text-center">
               {`Welcome to the Casper ${
                 detectMobile.isMobile() ? '' : 'Portal'
               }`}
@@ -73,7 +79,7 @@ const Welcome = () => {
                 width={16}
                 height={14}
               />
-              <p className="text-xs md:text-sm text-dark1 ml-5">
+              <p className="text-xs lg:text-sm text-dark1 ml-5">
                 Electronically sign the membership agreement.
               </p>
             </div>
@@ -84,7 +90,7 @@ const Welcome = () => {
                 width={16}
                 height={14}
               />
-              <p className="text-xs md:text-sm text-dark1 ml-5">
+              <p className="text-xs lg:text-sm text-dark1 ml-5">
                 Register your node and prove ownership.
               </p>
             </div>
@@ -95,14 +101,14 @@ const Welcome = () => {
                 width={16}
                 height={14}
               />
-              <p className="text-xs md:text-sm text-dark1 ml-5">
+              <p className="text-xs lg:text-sm text-dark1 ml-5">
                 Submit KYC details for your node.
               </p>
             </div>
             <div className="flex justify-center">
               <button
                 type="button"
-                className="mt-12 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeIn animate__delay-8s"
+                className="mt-12 text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeIn animate__delay-8s"
                 onClick={() => beginOnboard()}
               >
                 Begin
