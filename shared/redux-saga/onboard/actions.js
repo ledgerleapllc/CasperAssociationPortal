@@ -40,10 +40,11 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
-export const verifyFileCasperSigner = (payload, callback) => ({
+export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
-  callback,
   payload,
+  resolve,
+  reject,
 });
 
 export const updateTypeOwnerNode = (payload, resolve, reject) => ({

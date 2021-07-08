@@ -10,14 +10,12 @@ import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-o
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
-import { verifyFileCasperSigner } from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
-  const [signedFileUploaded, setSignedFileUploaded] = useState(false);
-  const [signedFileUploading, setSignedFileUploading] = useState(false);
+  const [signedFileUploaded, setSignedFileUploaded] = useState(null);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -42,18 +40,7 @@ const VerifyNodeOwnership = () => {
     const newFile = new File([fileConvert], fileName, optionNewFile);
     handleUpload('close');
     setShowUploadModal(false);
-    setSignedFileUploading(true);
-    dispatch(
-      verifyFileCasperSigner(
-        {
-          newFile,
-        },
-        () => {
-          setSignedFileUploaded(true);
-          setSignedFileUploading(false);
-        }
-      )
-    );
+    setSignedFileUploaded(newFile);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -69,12 +56,13 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 1) {
       router.back();
     } else {
+      setSignedFileUploaded(null);
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handleNext = () => {
-    if (currentStep === totalSteps) {
+    if (currentStep === totalSteps && messageFileStatus === 'succeed') {
       router.push('/onboard');
       dispatch(
         updateUser({
@@ -107,7 +95,6 @@ const VerifyNodeOwnership = () => {
       return (
         <>
           <VerifyNodeOwnershipSecondStep
-            isUploading={signedFileUploading}
             isUploaded={signedFileUploaded}
             onUpload={() => handleUpload('open')}
             onContinue={handleNext}
@@ -153,13 +140,11 @@ const VerifyNodeOwnership = () => {
       );
     }
     if (currentStep === 3) {
-      setTimeout(() => {
-        setMessageFileStatus('succeed');
-      }, 3000);
       return (
         <VerifyNodeOwnershipThirdStep
-          status={messageFileStatus}
+          newFile={signedFileUploaded}
           onContinue={handleNext}
+          setMessageFileStatus={setMessageFileStatus}
         />
       );
     }
@@ -173,6 +158,9 @@ const VerifyNodeOwnership = () => {
     }
     if (currentStep === 2) {
       return signedFileUploaded;
+    }
+    if (currentStep === 3) {
+      return messageFileStatus === 'succeed';
     }
 
     return true;
