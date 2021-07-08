@@ -69,7 +69,7 @@ export function* submitPublicAddress({ payload, callback, isVerifying }) {
   }
 }
 
-export function* verifyFileCasperSigner({ payload, callback }) {
+export function* verifyFileCasperSigner({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -80,10 +80,9 @@ export function* verifyFileCasperSigner({ payload, callback }) {
     const formData = new FormData();
     formData.append('file', payload.newFile);
     yield post(['users/verify-file-casper-signer'], formData, { headers });
-    callback();
+    resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
-    callback();
+    reject();
   }
 }
 
