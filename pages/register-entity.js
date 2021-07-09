@@ -13,7 +13,7 @@ import {
   TELEGRAM_PATTERN,
   ENTITY_PATTERN,
 } from '../helpers/form-validation';
-import { Button } from '../components/partials/button';
+import { LoadingButton } from '../components/partials';
 import { registerEntity } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
@@ -515,7 +515,7 @@ const RegisterEntity = () => {
             </div>
             <div className="lg:flex lg:flex-row-reverse mt-10">
               <div className="animate__animated animate__fadeInLeft animate__delay-8s">
-                <Button
+                <LoadingButton
                   type="submit"
                   isDisabled={!validateFields() || isSubmitting}
                   isLoading={isSubmitting}

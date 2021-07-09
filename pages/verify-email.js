@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import { Button } from '../components/partials/button';
+import { LoadingButton } from '../components/partials';
 import { resend2FaCode, verifyEmail } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
@@ -94,7 +94,7 @@ const VerifyEmail = () => {
               )}
             </div>
             <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-              <Button
+              <LoadingButton
                 type="submit"
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}

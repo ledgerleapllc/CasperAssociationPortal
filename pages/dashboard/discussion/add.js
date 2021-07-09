@@ -4,21 +4,14 @@ import { useForm, Controller } from 'react-hook-form';
 import Router from 'next/router';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Editor, BackButton } from '../../../components/partials';
-import { Button } from '../../../components/partials/button';
+import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { createDiscussion } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 
 const DashboardAddDiscusion = () => {
-
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    control,
-    formState,
-    register,
-    handleSubmit,
-  } = useForm({
+  const { control, formState, register, handleSubmit } = useForm({
     mode: 'onBlur',
   });
 
@@ -35,7 +28,7 @@ const DashboardAddDiscusion = () => {
         }
       )
     );
-  }
+  };
 
   return (
     <LayoutDashboard>
@@ -49,9 +42,7 @@ const DashboardAddDiscusion = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:pr-24">
                 <p className="text-sm">
                   Posting as: <a className="text-primary">{userInfo?.pseudonym}</a>

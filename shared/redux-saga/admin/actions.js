@@ -57,7 +57,13 @@ export const denyKYC = data => ({
 export const getListIntake = (payload, successCb) => ({
   type: 'GET_LIST_INTAKE',
   payload,
-  successCb
+  successCb,
+});
+
+export const getListVerifications = (payload, resolve) => ({
+  type: 'GET_LIST_VERIFICATIONS',
+  payload,
+  resolve,
 });
 
 export const getListIntakeSuccess = data => ({
@@ -109,4 +115,31 @@ export const cancelBallotSuccess = data => ({
 export const cancelBallotError = error => ({
   type: 'CANCEL_BALLOT_ERROR',
   payload: error,
+});
+
+export const approveUser = (payload, resolve, reject) => ({
+  type: 'APPROVE_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const resetUser = (payload, resolve, reject) => ({
+  type: 'RESET_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const banUser = (payload, resolve, reject) => ({
+  type: 'BAN_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getVerificationDetail = (payload, resolve) => ({
+  type: 'GET_LIST_VERIFICATION_DETAIL',
+  payload,
+  resolve,
 });
