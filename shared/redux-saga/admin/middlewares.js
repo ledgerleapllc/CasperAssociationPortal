@@ -105,6 +105,19 @@ export function* getIntake({ payload, successCb }) {
   }
 }
 
+export function* getVerifications({ payload, resolve }) {
+  try {
+    const query = qs.stringify({
+      page: payload.page,
+    });
+    const res = yield get([`admin/users/verification?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(getListIntakeError(error));
+  }
+}
+
 export function* getBallots({ payload, callback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -202,6 +215,46 @@ export function* getBallotVotes({ payload, callback }) {
   }
 }
 
+export function* approveUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/intakes/${payload.id}/approve`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* resetUser({ payload, resolve, reject }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`admin/users/intakes/${id}/reset`], { message });
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* banUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/ban`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getVerificationDetail({ payload, resolve }) {
+  try {
+    const res = yield get([`admin/users/verification/${payload.id}`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -214,4 +267,11 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
   yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
   yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
+  yield all([takeLatest('APPROVE_USER', approveUser)]);
+  yield all([takeLatest('BAN_USER', banUser)]);
+  yield all([takeLatest('RESET_USER', resetUser)]);
+  yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
+  yield all([
+    takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
+  ]);
 }

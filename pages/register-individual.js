@@ -11,7 +11,7 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
 } from '../helpers/form-validation';
-import { Button } from '../components/partials/button';
+import { LoadingButton } from '../components/partials';
 import { registerIndividual } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
@@ -355,7 +355,7 @@ const RegisterIndividual = () => {
             </div>
             <div className="lg:flex lg:flex-row-reverse mt-10">
               <div className="animate__animated animate__fadeInLeft animate__delay-8s">
-                <Button
+                <LoadingButton
                   type="submit"
                   isDisabled={!validateFields() || isSubmitting}
                   isLoading={isSubmitting}

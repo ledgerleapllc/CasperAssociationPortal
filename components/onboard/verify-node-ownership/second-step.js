@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
 import { handleViewGuide } from '../../../shared/redux-saga/onboard/actions';
-import { LoadingButton } from '../../partials';
+import { Button } from '../../partials';
 
 const VerifyNodeOwnershipSecondStep = ({
   isUploading,
@@ -71,7 +71,7 @@ const VerifyNodeOwnershipSecondStep = ({
             <p className="text-sm lg:flex-grow pb-1">
               Sign the message with your node. See guide for more details.
             </p>
-            <LoadingButton
+            <Button
               isLoading={isViewGuideLoading}
               className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
               onClick={setSeenGuide}
@@ -79,7 +79,7 @@ const VerifyNodeOwnershipSecondStep = ({
               disabled={!steps.downloaded || isViewGuideLoading}
             >
               View Guide
-            </LoadingButton>
+            </Button>
           </div>
         </div>
         <div className="flex animate__animated animate__fadeInUp animate__delay-8s">
@@ -89,7 +89,7 @@ const VerifyNodeOwnershipSecondStep = ({
               Upload the signed file for the system to check.
             </p>
             <div className="flex">
-              <LoadingButton
+              <Button
                 isLoading={isUploading}
                 className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
                 onClick={onUpload}
@@ -97,7 +97,7 @@ const VerifyNodeOwnershipSecondStep = ({
                 disabled={!steps.downloaded || !steps.seenguide || isUploading}
               >
                 Upload
-              </LoadingButton>
+              </Button>
               {isUploaded && (
                 <IconCheckCircle className="-mr-8 ml-4 mt-2 text-primary text-base" />
               )}

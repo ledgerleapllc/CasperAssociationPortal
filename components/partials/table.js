@@ -105,11 +105,11 @@ Table.HeaderCell = props => {
       className={`
         ${props.className || ''} 
         col col-${props.index} 
-        text-sm font-medium`}
+        text-sm`}
     >
       <button
         type="button"
-        className="text-left focus:outline-none flex cursor-pointer disabled:cursor-not-allowed"
+        className="text-left font-semibold focus:outline-none flex cursor-pointer disabled:cursor-not-allowed"
         onClick={triggerSort}
         disabled={pendingSort}
       >
@@ -171,9 +171,11 @@ Table.BodyRow = props => {
 
   return (
     <div
-      className={`${props.className
-        } flex items-center flex-row w-full py-2 border-b border-gray ${props.selectRowHandler ? 'cursor-pointer' : ''
-        }`}
+      className={`${
+        props.className
+      } flex items-center flex-row w-full py-2 border-b border-gray ${
+        props.selectRowHandler ? 'cursor-pointer' : ''
+      }`}
       onClick={doSelectRow}
     >
       {props.children.map((child, i) =>

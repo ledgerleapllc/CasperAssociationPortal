@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
-import { Button } from '../../partials/button';
+import { LoadingButton } from '../../partials';
 import { submitPublicAddress } from '../../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnershipFirstStep = ({
@@ -72,7 +72,7 @@ const VerifyNodeOwnershipFirstStep = ({
           })}
         />
         <span className="lg:absolute right-0">
-          <Button
+          <LoadingButton
             type="submit"
             isDisabled={isVerifying || !watchAddress}
             isLoading={isVerifying}

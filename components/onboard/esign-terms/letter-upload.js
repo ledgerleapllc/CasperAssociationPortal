@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-import { Button } from '../../partials/button';
+import { LoadingButton } from '../../partials';
 
 const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -50,7 +50,7 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
           organization.
         </p>
         <div className="lg:flex-column lg:space-x-5 lg:justify-start animate__animated animate__fadeInUp animate__delay-2s">
-          <Button
+          <LoadingButton
             type="submit"
             title="Upload letter"
             className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-lg"
