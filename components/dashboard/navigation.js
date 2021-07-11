@@ -8,6 +8,7 @@ import ChatIcon from '../../public/images/ic_material_chat.svg';
 import VoteIcon from '../../public/images/ic_awesome_vote.svg';
 import UserIcon from '../../public/images/ic_feather_user_plus.svg';
 import SettingIcon from '../../public/images/ic_feather_settings.svg';
+import VerificationIcon from '../../public/images/ic_check_mark.svg';
 
 const mainNavs = [
   {
@@ -36,6 +37,11 @@ const mainNavs = [
     path: '/dashboard/member-perks',
   },
   {
+    key: 'verification',
+    icon: VerificationIcon,
+    path: '/dashboard/verification',
+  },
+  {
     key: 'setting',
     icon: SettingIcon,
     path: '/dashboard/settings',
@@ -43,12 +49,13 @@ const mainNavs = [
 ];
 
 const Navigation = () => {
-  const userAdmin = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const [isApprovedProfile, setIsApprovedProfile] = useState(false);
   useEffect(() => {
-    setIsAdmin(userAdmin?.role === 'admin');
-  }, [userAdmin]);
+    setIsAdmin(userInfo?.role === 'admin');
+    setIsApprovedProfile(userInfo?.profile?.status === 'approved');
+  }, [userInfo]);
 
   return (
     <>
@@ -64,29 +71,38 @@ const Navigation = () => {
             xl:pt-8 2xl:pt-12
           "
         >
-          {mainNavs.map(nav => (
-            <li className={`${isAdmin ? 'xl:py-1 2xl:py-2' : 'py-3'}`}>
-              <ActiveLink
-                activeClassName="shadow-activeLink"
-                href={`${
-                  isAdmin && nav.key === 'dashboard'
-                    ? '/admin/dashboard'
-                    : nav.path
-                }`}
-              >
-                <a
-                  className="
-                    rounded-lg inline-block 
-                    xl:p-2 2xl:p-3
-                  "
+          {mainNavs.map((nav, index) => (
+            <>
+              {(isAdmin || isApprovedProfile) && nav.key === 'verification' ? (
+                <></>
+              ) : (
+                <li
+                  className={`${isAdmin ? 'xl:py-1 2xl:py-2' : 'py-3'}`}
+                  key={index}
                 >
-                  <nav.icon
-                    width={isAdmin ? '1.25rem' : '1.5rem'}
-                    height={isAdmin ? '1.25rem' : '1.5rem'}
-                  />
-                </a>
-              </ActiveLink>
-            </li>
+                  <ActiveLink
+                    activeClassName="shadow-activeLink"
+                    href={`${
+                      isAdmin && nav.key === 'dashboard'
+                        ? '/admin/dashboard'
+                        : nav.path
+                    }`}
+                  >
+                    <a
+                      className="
+                        rounded-lg inline-block 
+                        xl:p-2 2xl:p-3
+                      "
+                    >
+                      <nav.icon
+                        width={isAdmin ? '1.25rem' : '1.5rem'}
+                        height={isAdmin ? '1.25rem' : '1.5rem'}
+                      />
+                    </a>
+                  </ActiveLink>
+                </li>
+              )}
+            </>
           ))}
         </ul>
         {isAdmin && (

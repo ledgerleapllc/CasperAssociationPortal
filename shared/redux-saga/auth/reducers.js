@@ -41,8 +41,9 @@ const setUser = (state, payload) => {
     signature_request_id: payload.signature_request_id,
     node_verified_at: payload.node_verified_at,
     kyc_verified_at: payload.kyc_verified_at,
-    type: payload.profile ? payload.profile.type : null,
+    type: payload?.profile?.type || payload?.type,
     letter_file: payload?.letter_file,
+    status: payload?.profile?.status || null,
   };
 };
 

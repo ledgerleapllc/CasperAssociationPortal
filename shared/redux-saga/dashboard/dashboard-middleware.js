@@ -180,6 +180,44 @@ export function* voteDiscussion({ payload, successCb }) {
   }
 }
 
+export function* submitNode({ payload, resolve, reject }) {
+  try {
+    const endpoint = 'users/verification/submit-node';
+    const res = yield post([endpoint], payload);
+
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* submitDetail({ payload, resolve, reject }) {
+  try {
+    const endpoint = 'users/verification/submit-detail';
+    const res = yield post([endpoint], payload);
+
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* uploadVerificationDocuments({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    Array.from(payload).forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    const res = yield post(['users/verification/upload-document'], formData);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -195,4 +233,9 @@ export function* watchDemoData() {
   yield all([takeEvery('SET_REMOVE_NEW', setRemoveNewMark)]);
   yield all([takeEvery('POST_DISCUSSION_COMMENT', postDiscussionComment)]);
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
+  yield all([takeEvery('SUBMIT_NODE', submitNode)]);
+  yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
+  yield all([
+    takeEvery('UPDATE_VERIFICATION_DOCUMENTS', uploadVerificationDocuments),
+  ]);
 }

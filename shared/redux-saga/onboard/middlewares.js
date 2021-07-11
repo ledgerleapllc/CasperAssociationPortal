@@ -135,7 +135,11 @@ export function* updateShuftiproTemp({ payload, resolve }) {
     yield putApi(['users/shuftipro-temp'], payload, { headers });
     resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
+    if (error.data.code === 400) {
+      resolve();
+    } else {
+      yield put(saveApiResponseError(error));
+    }
   }
 }
 

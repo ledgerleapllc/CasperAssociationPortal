@@ -175,13 +175,14 @@ export function* resend2FaCode() {
   }
 }
 
-export function* fetchUserInfo() {
+export function* fetchUserInfo({ resolve }) {
   const headers = {
     Authorization: `Bearer ${getToken()}`,
   };
   try {
     const res = yield get(['users/profile'], { headers });
     yield put(setUser(res.data));
+    resolve();
     yield put(fetchUserInfoSuccess(res.data));
   } catch (error) {
     yield put(fetchUserInfoError(error));
