@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import router from 'next/router';
 import { Line } from 'react-chartjs-2';
 import { ApiService } from '../../helpers/api/api.service';
 import { Card } from '../partials';
@@ -7,6 +8,7 @@ import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
 import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../shared/core/utils';
+import Alert from '../home/alert';
 
 const http = new ApiService();
 
@@ -14,10 +16,24 @@ const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [trendingList, setTrendingList] = useState([]);
   const [showOpenVotes, setShowOpenVotes] = useState(false);
+  const [alerts, setAlerts] = useState([
+    {
+      id: 'dummy-1',
+      title: 'New Alert',
+      content: 'There are new comments to be read!',
+    },
+    {
+      id: 'dummy-2',
+      title: 'New Alert',
+      content: 'There are new comments to be read!',
+    },
+  ]);
+
   const dispatch = useDispatch();
+
   const getTrendingList = () => {
-    dispatch(getTrendingDiscussions(
-      res => {
+    dispatch(
+      getTrendingDiscussions(res => {
         setTrendingList(res.trendings);
       })
     );
@@ -26,6 +42,23 @@ const ContentHome = () => {
   useEffect(() => {
     getTrendingList();
   }, []);
+
+  useEffect(() => {
+    if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
+      setAlerts(pre => {
+        pre.unshift({
+          id: 'verification',
+          title: 'Get IDverified with Casper’s red checkmark!',
+          content:
+            'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
+          handler: () => {
+            router.push('/dashboard/verification');
+          },
+        });
+        return pre;
+      });
+    }
+  }, [userInfo]);
 
   const data = {
     datasets: [
@@ -66,28 +99,25 @@ const ContentHome = () => {
     <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex flex-wrap lg:flex-nowrap lg:h-1/10 -mx-3">
         <div className="w-full lg:w-3/5 px-3 mb-3">
-          <Card className="lg:flex-grow bg-primary">
-            <div className="flex flex-col px-9 py-4">
-              <span className="text-lg font-bold text-white">New Alert</span>
-              <span className="text-base text-white">
-                There are new comments to be read!
+          <Alert alerts={alerts} />
+        </div>
+        <div className="w-2/4 lg:w-1/5 px-3 mb-3">
+          <Card className="lg:flex-none">
+            <div className="flex flex-col px-9 h-70px justify-center">
+              <span className="text-lg font-medium text-black1">Pinned</span>
+              <span className="text-base text-black1 font-thin">
+                {userInfo.pinned}
               </span>
             </div>
           </Card>
         </div>
         <div className="w-2/4 lg:w-1/5 px-3 mb-3">
           <Card className="lg:flex-none">
-            <div className="flex flex-col px-9 py-4">
-              <span className="text-lg font-medium text-black1">Pinned</span>
-              <span className="text-base text-black1 font-thin">{userInfo.pinned}</span>
-            </div>
-          </Card>
-        </div>
-        <div className="w-2/4 lg:w-1/5 px-3 mb-3">
-          <Card className="lg:flex-none">
-            <div className="flex flex-col px-9 py-4">
+            <div className="flex flex-col px-9 h-70px justify-center">
               <span className="text-lg font-medium text-black1">New</span>
-              <span className="text-base text-black1 font-thin">{userInfo.new_threads}</span>
+              <span className="text-base text-black1 font-thin">
+                {userInfo.new_threads}
+              </span>
             </div>
           </Card>
         </div>
@@ -147,7 +177,7 @@ const ContentHome = () => {
                   </div>
                 </div>
                 <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
-                  {trendingList.map(discussion =>
+                  {trendingList.map(discussion => (
                     <div className="flex flex-col lg:flex-row w-full py-2.5">
                       <p className="w-full lg:w-3/6 pb-2 text-sm">
                         {discussion.title}
@@ -175,16 +205,17 @@ const ContentHome = () => {
                         </div>
                       </div>
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             </div>
           </Card>
           <Card
-            className={`${showOpenVotes
-              ? 'flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full'
-              : 'w-0 h-0 opacity-0'
-              }`}
+            className={`${
+              showOpenVotes
+                ? 'flex-grow w-full lg:w-1/3 mt-10 lg:mt-0 lg:ml-3 h-full'
+                : 'w-0 h-0 opacity-0'
+            }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>

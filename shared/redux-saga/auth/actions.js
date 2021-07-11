@@ -55,8 +55,9 @@ export const resend2FaCode = () => ({
   type: 'RESEND_2FA_CODE',
 });
 
-export const fetchUserInfo = () => ({
+export const fetchUserInfo = (resolve) => ({
   type: 'FETCH_USER_INFO',
+  resolve,
 });
 
 export const fetchUserInfoSuccess = payload => ({

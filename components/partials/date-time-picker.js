@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const DateTimePicker = ({ onChange }) => {
+const DateTimePicker = props => {
+  const { onChange, className } = props;
   const [date, setDate] = useState('');
   const toogleDateInput = e => {
     if (e.target.type === 'date') {
@@ -27,7 +28,7 @@ const DateTimePicker = ({ onChange }) => {
   return (
     <input
       type="text"
-      className="px-7 w-full lg:auto h-14 rounded-full shadow-md focus:outline-none"
+      className={`${className} px-7 lg:auto h-14 rounded-full shadow-md focus:outline-none`}
       placeholder="DOB (mm/dd/yyyy) *"
       onFocus={e => toogleDateInput(e)}
       onBlur={e => toogleDateInput(e)}

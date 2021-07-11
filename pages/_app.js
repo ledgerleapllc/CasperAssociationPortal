@@ -29,7 +29,7 @@ const Container = props => {
   );
   useEffect(() => {
     console.log('app init', process.env.NODE_ENV);
-    dispatch(fetchUserInfo());
+    dispatch(fetchUserInfo(() => {}));
   }, []);
 
   return fetchUserInfoResponse.process > 1 && <>{props.children}</>;

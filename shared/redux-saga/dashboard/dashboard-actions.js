@@ -109,4 +109,23 @@ export const voteDiscussion = (payload, successCb) => ({
   successCb,
 });
 
+export const submitNode = (payload, resolve, reject) => ({
+  type: 'SUBMIT_NODE',
+  payload,
+  resolve,
+  reject,
+});
 
+export const submitDetail = (payload, resolve, reject) => ({
+  type: 'SUBMIT_DETAIL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const uploadVerificationDocs = (payload, resolve, reject) => ({
+  type: 'UPDATE_VERIFICATION_DOCUMENTS',
+  payload,
+  resolve,
+  reject,
+});
