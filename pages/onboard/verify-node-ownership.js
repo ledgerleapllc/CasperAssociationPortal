@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
@@ -18,6 +18,15 @@ const VerifyNodeOwnership = () => {
   const [signedFileUploaded, setSignedFileUploaded] = useState(null);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const uploadFileRef = useRef(null);
+
+  useEffect(() => {
+    // Close upload dialog when click outside
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -102,7 +111,10 @@ const VerifyNodeOwnership = () => {
           {showUploadModal && (
             <>
               <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
-                <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
+                <div
+                  className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+                  ref={uploadFileRef}
+                >
                   <div {...getRootProps()}>
                     <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                       <div className="flex flex-col items-center justify-between">
@@ -164,6 +176,13 @@ const VerifyNodeOwnership = () => {
     }
 
     return true;
+  };
+
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
   };
 
   return (

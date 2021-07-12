@@ -1,11 +1,20 @@
 /* eslint-disable no-use-before-define */
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import { LoadingButton } from '../../partials';
 
-const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
+const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const uploadFileRef = useRef(null);
+
+  useEffect(() => {
+    // Close upload dialog when click outside
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -35,20 +44,40 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
     onDrop,
   });
 
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
+  };
+
   return (
     <>
       <div className="pt-8">
-        <p className="text-2.5xl">
-          First, please upload a letter explaining why you would like to join.
-        </p>
-        <p className="text-sm mt-2 lg:mb-14 mb-14 text-dark1">
-          Each member in the portal must upload a “letter of motivation”
-          summarizing why they are requesting to become a member. This letter
-          should explain, in a short paragraph or two, why you would like to
-          become a member of the Casper Association and include the signature of
-          the node operator or person in a management role within your
-          organization.
-        </p>
+        {status === 'rejected' ? (
+          <>
+            <p className="text-2.5xl">Thank you for your uploading.</p>
+            <p className="text-sm mt-2 lg:mb-14 mb-14 text-dark1">
+              Unfortunately at this time we are unable to accept you letter of
+              motivation. You can resubmit your letter and try again.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-2.5xl">
+              First, please upload a letter explaining why you would like to
+              join.
+            </p>
+            <p className="text-sm mt-2 lg:mb-14 mb-14 text-dark1">
+              Each member in the portal must upload a “letter of motivation”
+              summarizing why they are requesting to become a member. This
+              letter should explain, in a short paragraph or two, why you would
+              like to become a member of the Casper Association and include the
+              signature of the node operator or person in a management role
+              within your organization.
+            </p>
+          </>
+        )}
         <div className="lg:flex-column lg:space-x-5 lg:justify-start animate__animated animate__fadeInUp animate__delay-2s">
           <LoadingButton
             type="submit"
@@ -75,7 +104,10 @@ const LetterUpload = ({ selectedDocument, onDocumentSelect }) => {
       {showUploadModal && (
         <>
           <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
-            <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
+            <div
+              className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+              ref={uploadFileRef}
+            >
               <div {...getRootProps()}>
                 <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                   <div className="flex flex-col items-center justify-between">

@@ -61,11 +61,11 @@ const Onboard = () => {
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Upload Letter"
-                doneStep={!!user.letter_file}
+                doneStep={!!user?.letter_verified_at}
                 description="Write and upload a short letter outlining why you would like to sign up."
                 onClick={() => router.push('/onboard/upload-letter')}
                 stepType="letter-upload"
-                userInfoKey="letter_file"
+                userInfoKey="letter_verified_at"
                 handleBypass={setIsBypassing}
               />
             </div>

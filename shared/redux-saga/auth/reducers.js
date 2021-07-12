@@ -25,7 +25,7 @@ const setUser = (state, payload) => {
   } else if (
     !payload.signature_request_id ||
     !payload.node_verified_at ||
-    !payload.letter_file
+    !payload.letter_verified_at
   ) {
     period = 'onboarding';
   } else {
@@ -43,6 +43,8 @@ const setUser = (state, payload) => {
     kyc_verified_at: payload.kyc_verified_at,
     type: payload?.profile?.type || payload?.type,
     letter_file: payload?.letter_file,
+    letter_verified_at: payload?.letter_verified_at,
+    letter_rejected_at: payload?.letter_rejected_at,
     status: payload?.profile?.status || null,
   };
 };

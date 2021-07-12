@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
@@ -28,6 +28,7 @@ export const EntityVerification = ({ goNext }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
+  const uploadFileRef = useRef(null);
 
   const {
     control,
@@ -43,6 +44,14 @@ export const EntityVerification = ({ goNext }) => {
   });
   const watchRegisterCountry = watch('entity_register_country');
   const watchPageIsRepresentative = watch('page_is_representative');
+
+  useEffect(() => {
+    // Close upload dialog when click outside
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   useEffect(() => {
     if (uploadedDocuments.length) {
@@ -159,6 +168,13 @@ export const EntityVerification = ({ goNext }) => {
         }
       )
     );
+  };
+
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
   };
 
   return (
@@ -380,7 +396,10 @@ export const EntityVerification = ({ goNext }) => {
       {showUploadModal && (
         <>
           <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
-            <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
+            <div
+              className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+              ref={uploadFileRef}
+            >
               <div {...getRootProps()}>
                 <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                   <div className="flex flex-col items-center justify-between">
