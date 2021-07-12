@@ -21,20 +21,21 @@ const OnboardStepper = ({
   const [allStepsDone, setAllStepsDone] = useState(false);
   const user = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (
       (title === 'Upload Letter' &&
-        user.letter_file &&
+        user?.letter_verified_at &&
         user.signature_request_id &&
         user.node_verified_at) ||
       (title === 'Esign Terms' &&
         currentStep === 2 &&
         user.node_verified_at &&
-        user.letter_file) ||
+        user?.letter_verified_at) ||
       (title === 'Verify Node Ownership' &&
         currentStep === 3 &&
         user.signature_request_id &&
-        user.letter_file)
+        user?.letter_verified_at)
     ) {
       setAllStepsDone(true);
     }
