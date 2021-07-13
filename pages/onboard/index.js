@@ -67,6 +67,7 @@ const Onboard = () => {
                 stepType="letter-upload"
                 userInfoKey="letter_verified_at"
                 handleBypass={setIsBypassing}
+                waitingStep={user?.letter_file && !user?.letter_verified_at}
               />
             </div>
           </div>
