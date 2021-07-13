@@ -145,7 +145,8 @@ export const Shuftipro = () => {
     })
       .then(response => {
         let isValid = false;
-        if (response && response.data) {
+        console.log(response.data);
+        if (response && response) {
           const { data } = response;
 
           const { event, proofs } = data;

@@ -1,0 +1,175 @@
+import router from 'next/router';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
+import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
+import { BackButton, Card, Button } from '../../../../../components/partials';
+import { useDialog } from '../../../../../components/partials/dialog';
+import {
+  BanUserView,
+  ResetUserView,
+} from '../../../../../components/admin/intake/dialogs/letter-review';
+import {
+  resetUserAML,
+  banVerifiedUser,
+  approveUserAML,
+} from '../../../../../shared/redux-saga/admin/actions';
+
+const Styles = styled.div`
+  .verification-table {
+    width: 68%;
+    & > tr {
+      td {
+        vertical-align: top;
+        padding-bottom: 1.8rem;
+      }
+      &:last-child {
+        td {
+          padding-bottom: 0;
+        }
+      }
+      td:nth-child(1) {
+        width: 30%;
+        font-weight: 500;
+      }
+      td:nth-child(2) {
+        width: 70%;
+      }
+    }
+  }
+`;
+
+const AdminIntakeVerificationAML = () => {
+  const { id } = router.query;
+  const { setDialog, onClosed } = useDialog();
+  const dispatch = useDispatch();
+
+  const doBanAMLUser = () => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <BanUserView
+            onBanUser={() => {
+              dispatch(
+                banVerifiedUser({ id }, res => {
+                  console.log(res);
+                  router.push('../../');
+                  onClosed();
+                })
+              );
+            }}
+            onBack={() => onClosed()}
+          />
+        ),
+      },
+    });
+  };
+
+  const doApproveAMLUser = () => {
+    dispatch(
+      approveUserAML({ id }, res => {
+        console.log(res);
+        router.push(`../${id}/kyc-review`);
+      })
+    );
+  };
+
+  const doResetAMLUser = () => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <ResetUserView
+            description="This will reset the AML step and tell the user through email to submit again for the following reason:"
+            onResetUser={message => {
+              dispatch(
+                resetUserAML({ id, message }, res => {
+                  console.log(res);
+                  router.push('../../');
+                  onClosed();
+                })
+              );
+            }}
+            onBack={() => onClosed()}
+          />
+        ),
+      },
+    });
+  };
+
+  return (
+    <LayoutDashboard>
+      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+        <div className="w-full h-full">
+          <div className="card-header lg:mr-24 lg:h-70px">
+            <BackButton href="/admin/intake" text="Back" force />
+            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
+              AML Review
+            </h3>
+            <div className="border-primary border-b-2" />
+          </div>
+          <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
+            <div className="lg:pr-24">
+              <p>
+                The following information was provided by the user and checked
+                for KYC and AML:
+              </p>
+              <Styles className="pt-12">
+                <table className="verification-table border-0">
+                  <tr>
+                    <td>
+                      <span>Response:</span>
+                    </td>
+                    <td>
+                      <span>
+                        Sed ut perspi ciatis unde omnis iste natus error sit
+                        volup tatem accu santium doloremque laudantium, totam
+                        rem aperiam, eaque ipsa quae ab illo invent veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo
+                        enim voluptatem quia voluptas sit aspernatur aut odit
+                        aut fugit, sed quia conseur magni dolores eos qui
+                        ratione voluptatem sequi nesciunt. Neque porro qquam
+                        est, qui dolorem ipsum quia dolor sit amet
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="2">
+                      <span className="font-normal">
+                        Please verify with the user that the flagged account is
+                        not them before allowing this person to have a Verified
+                        account.
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </Styles>
+              <div className="pt-12 actions">
+                <Button primary onClick={doApproveAMLUser}>
+                  Approve Manually
+                </Button>
+                <div className="pt-7 flex gap-5">
+                  <Button primaryOutline onClick={doBanAMLUser}>
+                    Deny & Ban
+                  </Button>
+                  <Button primaryOutline onClick={doResetAMLUser}>
+                    Reset With Reason
+                  </Button>
+                  <Link href={`../${id}`}>
+                    <a>
+                      <Button primaryOutline>Pause for Now</Button>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </LayoutDashboard>
+  );
+};
+
+export default LoadingScreen(AdminIntakeVerificationAML, 'final-admin');

@@ -1,18 +1,28 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Link from 'next/link';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Button } from '../../../../../components/partials';
-import { getVerificationDetail } from '../../../../../shared/redux-saga/admin/actions';
+import {
+  approveDocuments,
+  getVerificationDetail,
+  resetUserKYC,
+} from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
+import { formatDate } from '../../../../../shared/core/utils';
+import { useDialog } from '../../../../../components/partials/dialog';
+import { ResetUserView } from '../../../../../components/admin/intake/dialogs/letter-review';
 
 const Styles = styled.div`
   .verification-table {
     width: 100%;
-    & > tr {
+    tr {
       td {
         vertical-align: top;
         padding-bottom: 10px;
@@ -30,37 +40,196 @@ const Styles = styled.div`
 
 const AdminIntakeVerificationDetail = () => {
   const [intakeDetail, setIntakeDetail] = useState();
+  const [representativeDoc, setRepresentativeDoc] = useState();
+  const [readUploadDocs, setReadUploadDocs] = useState(false);
+
+  const [confirmationInfoAt, setConfirmationInfoAt] = useState();
   const dispatch = useDispatch();
   const { id } = router.query;
+  const { setDialog, onClosed } = useDialog();
 
   useEffect(() => {
     dispatch(
       getVerificationDetail({ id }, res => {
         setIntakeDetail(res);
+        setConfirmationInfoAt(res?.profile?.document_verified_at);
+        const temp = res?.document_files?.find(
+          x => +x.id === +res?.profile?.page_is_representative
+        );
+        setRepresentativeDoc(temp);
       })
     );
   }, []);
 
   const getCountry = code => Countries.find(x => x.code === code)?.name;
 
+  const readDoc = () => {
+    setReadUploadDocs(true);
+    intakeDetail.document_files.forEach(file => {
+      window.open(`${process.env.BASE_URL}${file.url}`, '_blank');
+    });
+  };
+
+  const confirmDocs = () => {
+    dispatch(
+      approveDocuments({ id }, res => {
+        console.log(res);
+        setConfirmationInfoAt(new Date());
+      })
+    );
+  };
+
+  const doResetUser = () => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <ResetUserView
+            description="This will reset the KYC step and tell the user through email to submit again for the following reason:"
+            onResetUser={message => {
+              dispatch(
+                resetUserKYC({ id, message }, res => {
+                  console.log(res);
+                  onClosed();
+                })
+              );
+            }}
+            onBack={() => onClosed()}
+          />
+        ),
+      },
+    });
+  };
+
+  const checkReview = () => {
+    const link = intakeDetail?.shuftipro?.background_checks_result
+      ? `${id}/kyc-review`
+      : `${id}/aml-review`;
+    router.push(link);
+  };
+
+  const activate = () => {
+    router.push('../');
+  };
+
   const EntityDetail = () => (
-    <div>
+    <div className="pr-44">
       <p className="text-sm">
         This is an <b>ENTITY</b>. Please click the link to review the{' '}
-        <a className="text-primary cursor-pointer underline">
+        <a
+          className="text-primary cursor-pointer underline"
+          onClick={() => readDoc()}
+        >
           uploaded document
         </a>{' '}
         to make sure the name appears in the document. The user has indicated
         this name is on{' '}
-        <a className="text-primary cursor-pointer underline">Page 2</a>. If you
-        can confirm this, click confirm. If you cannot see the above name in the
-        document, click reset. You can log your reason after clicking reset.
+        <a
+          className="text-primary cursor-pointer underline"
+          href={`${process.env.BASE_URL}${representativeDoc?.url}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {representativeDoc?.name}
+        </a>
+        . If you can confirm this, click confirm. If you cannot see the above
+        name in the document, click reset. You can log your reason after
+        clicking reset.
       </p>
+      {!confirmationInfoAt && (
+        <div className="pt-12 actions">
+          <Button
+            primary
+            className="mr-5"
+            onClick={() => confirmDocs()}
+            disabled={!readUploadDocs}
+          >
+            <IconCheck /> <span className="pl-2">Confirm</span>
+          </Button>
+          <Button
+            primaryOutline
+            onClick={() => doResetUser()}
+            disabled={!readUploadDocs}
+          >
+            Reset
+          </Button>
+        </div>
+      )}
+      {confirmationInfoAt && (
+        <>
+          <div className="pt-4 text-primary">
+            <b>Confirmed in Document:</b>
+            <span className="pl-7">
+              {formatDate(confirmationInfoAt, 'dd/MM/yyyy hh:mm aa')}
+            </span>
+          </div>
+          <CommonDetail />
+        </>
+      )}
+    </div>
+  );
+
+  const CommonDetail = () => (
+    <div className="pt-8">
+      <div className="mb-12 w-14 border-b border-primary" />
+      <p className="text-sm">The KYC/AML provider returned the following:</p>
+      <Styles className="pt-12">
+        <table className="verification-table border-0">
+          <tbody>
+            <tr>
+              <td>
+                <span>AML Status:</span>
+              </td>
+              <td>
+                <span>
+                  {intakeDetail?.shuftipro?.background_checks_result
+                    ? 'VERIFIED'
+                    : 'Needs Review'}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>KYC Status:</span>
+              </td>
+              <td>
+                <span>
+                  {intakeDetail?.shuftipro?.status === 'approved'
+                    ? 'VERIFIED'
+                    : 'Needs Review'}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Styles>
       <div className="pt-12 actions">
-        <Button primary className="mr-5">
-          <IconCheck /> <span className="pl-2">Confirm</span>
-        </Button>
-        <Button primaryOutline>Reset</Button>
+        {!intakeDetail?.shuftipro?.background_checks_result ||
+        intakeDetail?.shuftipro?.status !== 'approved' ? (
+          <>
+            <Button primary className="mr-5" onClick={() => checkReview()}>
+              Begin Review
+            </Button>
+            {intakeDetail?.profile?.type === 'entity' ? (
+              <Button
+                primaryOutline
+                onClick={() => setConfirmationInfoAt(null)}
+              >
+                Go Back
+              </Button>
+            ) : (
+              <Link href="../">
+                <a>
+                  <Button primaryOutline>Go Back</Button>
+                </a>
+              </Link>
+            )}
+          </>
+        ) : (
+          <Button primary className="mr-5" onClick={() => activate()}>
+            Activate Verified Status
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -70,9 +239,10 @@ const AdminIntakeVerificationDetail = () => {
       <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           <div className="card-header lg:mr-24 lg:h-70px">
-            <BackButton href="/admin/intake" text="Cancel" force />
+            <BackButton href="/admin/intake" text="Back" force />
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-              IDverification for {intakeDetail?.type}
+              IDverification for{' '}
+              <span className="capitalize">{intakeDetail?.profile?.type}</span>
             </h3>
             <div className="border-primary border-b-2" />
           </div>
@@ -84,44 +254,51 @@ const AdminIntakeVerificationDetail = () => {
               </p>
               <Styles className="pt-12">
                 <table className="verification-table border-0">
-                  <tr>
-                    <td>
-                      <span>First Name:</span>
-                    </td>
-                    <td>
-                      <span>{intakeDetail?.first_name}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>Last Name:</span>
-                    </td>
-                    <td>
-                      <span>{intakeDetail?.last_name}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>Date of Birth:</span>
-                    </td>
-                    <td>
-                      <span>{intakeDetail?.profile?.dob}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span>Contry:</span>
-                    </td>
-                    <td>
-                      <span>
-                        {getCountry(intakeDetail?.profile.country_residence)}
-                      </span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span>First Name:</span>
+                      </td>
+                      <td>
+                        <span>{intakeDetail?.first_name}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>Last Name:</span>
+                      </td>
+                      <td>
+                        <span>{intakeDetail?.last_name}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>Date of Birth:</span>
+                      </td>
+                      <td>
+                        <span>{intakeDetail?.profile?.dob}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>Country:</span>
+                      </td>
+                      <td>
+                        <span>
+                          {getCountry(
+                            intakeDetail?.profile?.country_citizenship
+                          )}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </Styles>
-              <div className="pt-8 pr-44">
-                <EntityDetail />
+              <div>
+                {intakeDetail?.profile?.type === 'entity' && <EntityDetail />}
+                {intakeDetail?.profile?.type === 'individual' && (
+                  <CommonDetail />
+                )}
               </div>
             </div>
           </div>

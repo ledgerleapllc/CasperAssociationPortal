@@ -86,22 +86,22 @@ export const IDverifications = () => {
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>
-                <p>{formatDate(new Date(row?.registration_date))}</p>
+                <p>{formatDate(new Date(row?.created_at))}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <p className="truncate">{row.email}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>Individual</p>
+                <p className="capitalize">{row?.type}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>OK</p>
+                <p>{row?.background_checks_result ? 'OK' : 'Needs Review'}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>Needs Review</p>
+                <p>{row?.kyc_status === 'approved' ? 'OK' : 'Needs Review'}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <Link href={`/admin/intake/verification/${row.id}`}>
+                <Link href={`/admin/intake/verification/${row.user_id}`}>
                   <a className="text-primary cursor-pointer underline">
                     Review
                   </a>

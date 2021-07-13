@@ -138,8 +138,44 @@ export const banUser = (payload, resolve, reject) => ({
   reject,
 });
 
+export const banVerifiedUser = (payload, resolve) => ({
+  type: 'BAN_VERIFIED_USER',
+  payload,
+  resolve,
+});
+
+export const approveDocuments = (payload, resolve) => ({
+  type: 'APPROVED_DOCUMENTS',
+  payload,
+  resolve,
+});
+
 export const getVerificationDetail = (payload, resolve) => ({
   type: 'GET_LIST_VERIFICATION_DETAIL',
+  payload,
+  resolve,
+});
+
+export const approveUserAML = (payload, resolve) => ({
+  type: 'APPROVE_USER_AML',
+  payload,
+  resolve,
+});
+
+export const resetUserAML = (payload, resolve) => ({
+  type: 'RESET_USER_AML',
+  payload,
+  resolve,
+});
+
+export const approveUserKYC = (payload, resolve) => ({
+  type: 'APPROVE_USER_KYC',
+  payload,
+  resolve,
+});
+
+export const resetUserKYC = (payload, resolve) => ({
+  type: 'RESET_USER_KYC',
   payload,
   resolve,
 });
