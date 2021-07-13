@@ -246,9 +246,66 @@ export function* banUser({ payload, resolve, reject }) {
   }
 }
 
+export function* banVerifiedUser({ payload, resolve }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/deny-ban`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVerificationDetail({ payload, resolve }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* approveUserAML({ payload, resolve }) {
+  try {
+    const res = yield post([`/admin/users/${payload.id}/approve-aml`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resetUserAML({ payload, resolve }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`/admin/users/${id}/reset-aml`], { message });
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* approveUserKYC({ payload, resolve }) {
+  try {
+    const res = yield post([`/admin/users/${payload.id}/approve-kyc`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resetUserKYC({ payload, resolve }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* approveDocuments({ payload, resolve }) {
+  try {
+    const { id } = payload;
+    const res = yield post([`/admin/users/${id}/approve-document`], {});
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -269,9 +326,15 @@ export function* watchAdmin() {
   yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
   yield all([takeLatest('BAN_USER', banUser)]);
+  yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
   yield all([takeLatest('RESET_USER', resetUser)]);
   yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
   yield all([
     takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
   ]);
+  yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
+  yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
+  yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
+  yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
+  yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
 }

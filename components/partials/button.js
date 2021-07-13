@@ -3,7 +3,7 @@ import ReactLoading from 'react-loading';
 
 const BUTTON_STYLES = {
   primary: `text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md`,
-  primaryOutline: `text-primary rounded-full bg-white border-2 border-primary shadow-md focus:outline-none hover:bg-primary hover:bg-opacity-40 hover:text-white`,
+  primaryOutline: `text-primary rounded-full bg-white border-2 border-primary disabled:opacity-40 disabled:cursor-not-allowed shadow-md focus:outline-none hover:bg-primary hover:bg-opacity-40 hover:text-white`,
 };
 
 const BUTTON_SIZES = {

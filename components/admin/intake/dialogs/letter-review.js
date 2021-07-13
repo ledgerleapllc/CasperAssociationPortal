@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
+export const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
   <div className="py-16 text-center w-96 mx-auto">
     <h3 className="text-xl text-center mb-2.5">Letter Review</h3>
     <p className="text-xs text-gray">
@@ -38,15 +38,12 @@ const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
   </div>
 );
 
-const ResetUserView = ({ onResetUser, onBack }) => {
+export const ResetUserView = ({ description, onResetUser, onBack }) => {
   const [message, setMessage] = useState('');
   return (
     <div className="py-16 text-center mx-auto" style={{ maxWidth: '37.5rem' }}>
       <h3 className="text-xl text-center mb-2.5">Reset User</h3>
-      <p className="text-xs text-gray pb-5">
-        This will reset the AML step and tell the user through email to submit
-        again for the following reason:
-      </p>
+      <p className="text-xs text-gray pb-5">{description}</p>
       <textarea
         value={message}
         onChange={e => setMessage(e.target.value)}
@@ -73,7 +70,7 @@ const ResetUserView = ({ onResetUser, onBack }) => {
   );
 };
 
-const BanUserView = ({ onBanUser, onBack }) => (
+export const BanUserView = ({ onBanUser, onBack }) => (
   <div className="text-center mx-auto py-28" style={{ maxWidth: '26rem' }}>
     <h3 className="text-xl text-center mb-2.5">Ban User</h3>
     <p className="text-xs text-gray">
@@ -122,6 +119,7 @@ export const LetterReviewDialog = ({
       )}
       {screen === 'reset' && (
         <ResetUserView
+          description="This will reset the submit letter step and tell the user through email to submit again for the following reason:"
           onResetUser={message => onResetUser(message)}
           onBack={() => setScreen('approve')}
         />

@@ -35,10 +35,18 @@ const StylesIntake = styled.div`
 `;
 
 export const GeneralIntakes = () => {
-  const { setDialog } = useDialog();
+  const { setDialog, onClosed } = useDialog();
   const dispatch = useDispatch();
-  const { data, register, hasMore, appendData, setHasMore, page, setPage } =
-    useTable();
+  const {
+    data,
+    setData,
+    register,
+    hasMore,
+    appendData,
+    setHasMore,
+    page,
+    setPage,
+  } = useTable();
 
   const fetchIntakes = () => {
     dispatch(
@@ -54,45 +62,57 @@ export const GeneralIntakes = () => {
     fetchIntakes();
   }, []);
 
-  const doBanUser = id => {
+  const doBanUser = (id, index) => {
     dispatch(
       banUser(
         { id },
-        () => {},
+        () => {
+          data.splice(index, 1);
+          setData([...data]);
+          onClosed();
+        },
         () => {}
       )
     );
   };
 
-  const doApproveUser = id => {
+  const doApproveUser = (id, index) => {
     dispatch(
       approveUser(
         { id },
-        () => {},
+        () => {
+          data[index].letter_verified_at = true;
+          setData([...data]);
+          onClosed();
+        },
         () => {}
       )
     );
   };
 
-  const doResetUser = (id, message) => {
+  const doResetUser = (id, message, index) => {
     dispatch(
       resetUser(
         { id, message },
-        () => {},
+        () => {
+          data[index].letter_file = null;
+          setData([...data]);
+          onClosed();
+        },
         () => {}
       )
     );
   };
 
-  const reviewIntake = row => {
+  const reviewIntake = (row, ind) => {
     setDialog({
       type: 'DialogCustom',
       data: {
         content: (
           <LetterReviewDialog
-            onResetUser={message => doResetUser(row.id, message)}
-            onBanUser={() => doBanUser(row.id)}
-            onApproveUser={() => doApproveUser(row.id)}
+            onResetUser={message => doResetUser(row.id, message, ind)}
+            onBanUser={() => doBanUser(row.id, ind)}
+            onApproveUser={() => doApproveUser(row.id, ind)}
           />
         ),
       },
@@ -149,14 +169,18 @@ export const GeneralIntakes = () => {
                 )}
               </Table.BodyCell>
               <Table.BodyCell>
-                <button
-                  type="button"
-                  onClick={() => reviewIntake(row)}
-                  className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
-                  disabled={!row.letter_file}
-                >
-                  Review
-                </button>
+                {row.letter_verified_at ? (
+                  <IconCheck className="text-primary" />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => reviewIntake(row, ind)}
+                    className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={!row.letter_file}
+                  >
+                    Review
+                  </button>
+                )}
               </Table.BodyCell>
             </Table.BodyRow>
           ))}
