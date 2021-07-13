@@ -48,7 +48,7 @@ export const SwitchUserType = ({ goNext }) => {
   const user = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
 
-  const { formState, register, handleSubmit, watch } = useForm({
+  const { formState, register, handleSubmit, watch, setValue } = useForm({
     mode: 'onChange',
   });
   const watchEntityType = watch('entity_type');
@@ -56,6 +56,36 @@ export const SwitchUserType = ({ goNext }) => {
 
   useEffect(() => {
     setUserType(user?.type);
+    if (user.type === UserType.entity) {
+      setValue('entity_name', user?.fullInfo?.entity_name, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      setValue('entity_type', user?.fullInfo?.entity_type, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      setValue(
+        'entity_registration_number',
+        user?.fullInfo?.entity_register_number,
+        {
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+      setValue(
+        'entity_registration_country',
+        user?.fullInfo?.entity_register_country,
+        {
+          shouldDirty: true,
+          shouldValidate: true,
+        }
+      );
+      setValue('vat_number', user?.fullInfo?.entity_tax, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
   }, [user]);
 
   const submitIndividual = () => {
