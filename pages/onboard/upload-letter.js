@@ -25,12 +25,16 @@ const UploadLetter = () => {
 
   useEffect(() => {
     if (user.letter_verified_at) {
-      dispatch(
-        updateUser({
-          period: 'final',
-        })
-      );
-      router.push('/dashboard');
+      if (user.signature_request_id && user.node_verified_at) {
+        dispatch(
+          updateUser({
+            period: 'final',
+          })
+        );
+        router.push('/dashboard');
+      } else {
+        router.push('/onboard');
+      }
       return;
     }
 
@@ -67,6 +71,7 @@ const UploadLetter = () => {
           dispatch(
             updateUser({
               letter_file: selectedDocument.name,
+              letter_rejected_at: null,
             })
           );
           setCurrentStep(2);
