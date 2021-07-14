@@ -68,7 +68,7 @@ const Navigation = () => {
         <ul
           className="
             mb-4 flex flex-col items-center
-            xl:pt-8 2xl:pt-12
+            lg:pt-8 xl:pt-8 2xl:pt-12
           "
         >
           {mainNavs.map((nav, index) => (

@@ -17,6 +17,9 @@ module.exports = {
       boxShadow: {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
       },
+      screens: {
+        xl: '1281px',
+      },
       colors: {
         dark1: '#313131',
         dark2: '#1D1D1D',
@@ -44,6 +47,7 @@ module.exports = {
         '9/10': '90%',
       },
       maxWidth: {
+        380: '95rem',
         404: '101rem',
         60: '15rem',
       },

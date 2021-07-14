@@ -121,7 +121,8 @@ const RegisterEntity = () => {
         className="
           flex flex-col w-full
           p-4
-          lg:max-w-screen-xl lg:p-9
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
           2xl:max-w-screen-2xl"
       >
         <AppHeader theme="dark" />

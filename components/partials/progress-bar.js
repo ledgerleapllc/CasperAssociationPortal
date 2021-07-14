@@ -43,7 +43,7 @@ const ProgressBar = props => {
 
   return (
     <>
-      <div className="w-full h-5 overflow-hidden h-4 mt-2 text-xs border border-gray1 flex rounded-lg bg-gray1">
+      <div className="w-full h-5 overflow-hidden h-4 mt-1 text-xs border border-gray1 flex rounded-lg bg-gray1">
         <div
           className="w-0 transition-width duration-600 ease-in-out transhadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
           style={{ width: `${progress}%` }}
