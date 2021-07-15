@@ -3,15 +3,15 @@ import { useState } from 'react';
 export const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
   <div className="py-16 text-center w-96 mx-auto">
     <h3 className="text-xl text-center mb-2.5">Letter Review</h3>
-    <p className="text-xs text-gray">
+    <p className="text-xs text-gray mb-8">
       Please click to review the provided letter and make a decision
     </p>
-    <img
+    {/* <img
       className="mx-auto my-8"
       style={{ height: '100px' }}
       src="/images/img_pdf.png"
       alt="pdf"
-    />
+    /> */}
     <div className="flex gap-2.5 flex-col items-center">
       <button
         type="button"

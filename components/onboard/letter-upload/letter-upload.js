@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-
+import IconX from '../../../public/images/ic_x.svg';
 import { LoadingButton } from '../../partials';
 
 const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
@@ -92,7 +92,7 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
                 onClick={() => onDocumentSelect(null)}
                 type="button"
               >
-                <img className="w-full" src="/images/ic_x.svg" alt="icon x" />
+                <IconX className="text-primary" />
               </button>
               <span className="text-sm text-primary">
                 {selectedDocument.name}

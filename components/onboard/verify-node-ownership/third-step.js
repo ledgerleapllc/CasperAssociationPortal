@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
 import ReactLoading from 'react-loading';
+import IconX from '../../../public/images/ic_x.svg';
 import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
 import { verifyFileCasperSigner } from '../../../shared/redux-saga/onboard/actions';
 
@@ -66,7 +66,9 @@ const VerifyNodeOwnershipThirdStep = ({
       )}
       {status === 'failed' && (
         <>
-          <img src="/images/ic_x.svg" alt="fail" />
+          <div className="text-5xl">
+            <IconX className="text-primary" />
+          </div>
           <p className="mt-12 text-2.5xl">
             Your node is: <span className="text-primary">Not Verified</span>
           </p>
