@@ -179,3 +179,37 @@ export const resetUserKYC = (payload, resolve) => ({
   payload,
   resolve,
 });
+
+export const getEmailerData = (resolve, reject) => ({
+  type: 'GET_EMAILER_DATA',
+  resolve,
+  reject,
+});
+
+export const addEmailerAdmin = (payload, resolve, reject) => ({
+  type: 'ADD_EMAILER_ADMIN',
+  payload,
+  resolve,
+  reject,
+});
+
+export const deleteEmailerAdmin = (payload, resolve, reject) => ({
+  type: 'DELETE_EMAILER_ADMIN',
+  payload,
+  resolve,
+  reject,
+});
+
+export const updateEmailerTriggerUser = (payload, resolve, reject) => ({
+  type: 'UPDATE_EMAILER_TRIGGER_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const updateEmailerTriggerAdmin = (payload, resolve, reject) => ({
+  type: 'UPDATE_EMAILER_TRIGGER_ADMIN',
+  payload,
+  resolve,
+  reject,
+});
