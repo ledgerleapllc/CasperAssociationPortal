@@ -14,6 +14,7 @@ import TimeRemaining from './time-remaining';
 import ProgressBar from './progress-bar';
 import { Button } from './button';
 import { LoadingButton } from './loading-button';
+import Switch from './switch';
 
 export {
   Card,
@@ -32,4 +33,5 @@ export {
   TimeRemaining,
   ProgressBar,
   LoadingButton,
+  Switch,
 };

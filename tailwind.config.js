@@ -45,6 +45,7 @@ module.exports = {
         '70px': '70px',
         '8.5/10': '85%',
         '9/10': '90%',
+        '300px': '300px',
       },
       maxWidth: {
         380: '95rem',
@@ -53,6 +54,9 @@ module.exports = {
       },
       minHeight: {
         105: '26.25rem',
+      },
+      maxHeight: {
+        '200px': '200px',
       },
       minWidth: {
         250: '62.5rem',

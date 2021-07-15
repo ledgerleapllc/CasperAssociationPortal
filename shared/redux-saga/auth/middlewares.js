@@ -57,6 +57,7 @@ export function* registerEntity({ payload, callback, resetSubmitting }) {
     const res = yield post(['auth/register-entity'], params, { headers });
     setToken(res.data.access_token);
     localStorage.setItem('USER_ID', res.data.user_id);
+    yield put(setUser(res.data));
     callback();
     resetSubmitting();
   } catch (error) {

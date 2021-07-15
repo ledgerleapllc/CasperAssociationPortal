@@ -1,6 +1,6 @@
 import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
-import { get, post } from '../../core/saga-api';
+import { get, post, put as _put } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 import {
   getListMembersSuccess,
@@ -11,6 +11,9 @@ import {
   cancelBallotSuccess,
   cancelBallotError,
 } from './actions';
+import { ApiService } from '../../../helpers/api/api.service';
+
+const http = new ApiService();
 
 export function* getListMembers({ payload, callback }) {
   try {
@@ -312,6 +315,62 @@ export function* approveDocuments({ payload, resolve }) {
   }
 }
 
+export function* getEmailerData({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/emailer-data`]);
+    resolve(res?.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* addEmailerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/emailer-admin`], payload);
+    resolve(res?.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* deleteEmailerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield http.doDelete([`admin/emailer-admin/${payload.id}`], {});
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateEmailerTriggerUser({ payload, resolve, reject }) {
+  try {
+    const res = yield _put(
+      [`admin/emailer-trigger-user/${payload.id}`],
+      payload.data
+    );
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield _put(
+      [`admin/emailer-trigger-admin/${payload.id}`],
+      payload.data
+    );
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -337,4 +396,13 @@ export function* watchAdmin() {
   yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
+  yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
+  yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
+  yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([
+    takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
+  ]);
+  yield all([
+    takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
+  ]);
 }
