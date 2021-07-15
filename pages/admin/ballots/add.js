@@ -9,6 +9,7 @@ import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { submitBallot } from '../../../shared/redux-saga/admin/actions';
 import IconFeatureUpLoad from '../../../public/images/ic_feature_upload.svg';
+import IconX from '../../../public/images/ic_x.svg';
 
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
@@ -20,7 +21,7 @@ const ballotSchema = yup.object().shape({
 const AdminAddBallot = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const dispatch = useDispatch();
-  const { register, watch, control, handleSubmit } = useForm({
+  const { register, setValue, watch, control, handleSubmit } = useForm({
     resolver: yupResolver(ballotSchema),
   });
   const user = useSelector(state => state.authReducer.userInfo);
@@ -42,6 +43,19 @@ const AdminAddBallot = () => {
     );
   };
 
+  const removeFile = index => {
+    const temp = watchFiles || [];
+    temp.splice(index, 1);
+    setValue('files', temp);
+  };
+
+  const appendFiles = e => {
+    const fileArr = Array.from(e.target.files);
+    const temp = watchFiles || [];
+    temp.push(...fileArr);
+    setValue('files', temp);
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
@@ -59,7 +73,7 @@ const AdminAddBallot = () => {
                 <p className="text-sm">
                   Posting as: <a className="text-primary">{user?.fullInfo?.email}</a>
                 </p>
-                <div className="mt-4 flex items-center">
+                <div className="mt-4 pb-8 relative flex items-center">
                   <input
                     type="text"
                     className="border border-gray1 w-full flex-1 h-14 px-7 shadow-md focus:outline-none"
@@ -70,24 +84,42 @@ const AdminAddBallot = () => {
                     htmlFor="ballotFile"
                     className="flex justify-center items-center cursor-pointer ml-5 h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
-                    {watchFiles && watchFiles.length > 0 ? (
-                      `${watchFiles.length} file(s) selected`
-                    ) : (
-                      <>
-                        <IconFeatureUpLoad className="text-primary mr-2" />
-                        Upload Files
-                      </>
-                    )}
+                    <IconFeatureUpLoad className="text-primary mr-2" />
+                    Upload Files
                   </label>
                   <input
                     type="file"
                     multiple
                     id="ballotFile"
-                    {...register('files')}
+                    onClick={e => {
+                      e.target.value = null;
+                    }}
+                    onChange={appendFiles}
                     hidden
                   />
+                  <input {...register('files')} hidden />
+                  <div className="absolute bottom-1 right-0 flex">
+                    {watchFiles &&
+                      Array.from(watchFiles).map((file, index) => (
+                        <div
+                          key={index}
+                          className="flex mt-5 items-center text-dark3 ml-5"
+                        >
+                          <IconX
+                            className="mr-1 cursor-pointer"
+                            onClick={() => removeFile(index)}
+                          />
+                          <span
+                            className="text-sm truncate"
+                            style={{ maxWidth: '10rem' }}
+                          >
+                            {file.name}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
                 </div>
-                <div className="mt-4 shadow-md">
+                <div className="shadow-md">
                   <Controller
                     name="description"
                     control={control}
@@ -114,23 +146,23 @@ const AdminAddBallot = () => {
                           Select
                         </option>
                         {watchUnit === 'days' &&
-                          new Array(30)
-                            .fill(1)
-                            .map((x, ind) => (
-                              <option value={ind + 1}>{ind + 1}</option>
-                            ))}
+                          new Array(30).fill(1).map((x, ind) => (
+                            <option key={ind} value={ind + 1}>
+                              {ind + 1}
+                            </option>
+                          ))}
                         {watchUnit === 'hours' &&
-                          new Array(24)
-                            .fill(1)
-                            .map((x, ind) => (
-                              <option value={ind + 1}>{ind + 1}</option>
-                            ))}
+                          new Array(24).fill(1).map((x, ind) => (
+                            <option key={ind} value={ind + 1}>
+                              {ind + 1}
+                            </option>
+                          ))}
                         {watchUnit === 'minutes' &&
-                          new Array(60)
-                            .fill(1)
-                            .map((x, ind) => (
-                              <option value={ind + 1}>{ind + 1}</option>
-                            ))}
+                          new Array(60).fill(1).map((x, ind) => (
+                            <option key={ind} value={ind + 1}>
+                              {ind + 1}
+                            </option>
+                          ))}
                       </select>
                       <div className="arrow ml-2" />
                     </div>
@@ -154,13 +186,14 @@ const AdminAddBallot = () => {
                     </div>
                   </div>
                   <Button
+                    primary
                     type="submit"
-                    isDisabled={isSubmit}
+                    disabled={isSubmit}
                     isLoading={isSubmit}
-                    size={20}
-                    title="Submit & Begin Voting"
-                    className="px-4 my-1 h-16 lg:h-11 text-sm w-full text-white lg:w-52 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  />
+                    sizeSpinner={20}
+                  >
+                    Submit & Begin Voting
+                  </Button>
                 </div>
               </form>
             </div>

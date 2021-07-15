@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
-
+import IconX from '../../../public/images/ic_x.svg';
 import IconFeatureUpLoad from '../../../public/images/ic_feature_upload.svg';
 import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import { DateTimePicker, LoadingButton } from '../../partials';
@@ -208,7 +208,7 @@ export const EntityVerification = ({ goNext }) => {
                   onClick={() => removeFile(uploadedDocuments, index)}
                   type="button"
                 >
-                  <img className="w-full" src="/images/ic_x.svg" alt="icon x" />
+                  <IconX className="text-primary" />
                 </button>
                 <span className="text-sm text-primary">{item.name}</span>
               </div>

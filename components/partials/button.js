@@ -13,7 +13,16 @@ const BUTTON_SIZES = {
 };
 
 export function Button(props) {
-  const { primary, primaryOutline, className, size, ...otherProps } = props;
+  const {
+    primary,
+    primaryOutline,
+    className,
+    size,
+    sizeSpinner,
+    isLoading,
+    colorSpinner,
+    ...otherProps
+  } = props;
   const [groupClass, setGroupClass] = useState('');
 
   useEffect(() => {
@@ -32,13 +41,13 @@ export function Button(props) {
       {...otherProps}
     >
       <div className="flex items-center justify-center">
-        {props.isLoading && (
+        {isLoading && (
           <ReactLoading
             className="mr-3"
             type="spinningBubbles"
-            color={props.colorSpinner || '#FFFFFF'}
-            width={props.sizeSpinner || 30}
-            height={props.sizeSpinner || 30}
+            color={colorSpinner || '#FFFFFF'}
+            width={sizeSpinner || 30}
+            height={sizeSpinner || 30}
           />
         )}
         {props.children}

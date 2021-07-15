@@ -105,6 +105,7 @@ export const GeneralIntakes = () => {
   };
 
   const reviewIntake = (row, ind) => {
+    window.open(`${row.letter_file_url}`, '_blank');
     setDialog({
       type: 'DialogCustom',
       data: {

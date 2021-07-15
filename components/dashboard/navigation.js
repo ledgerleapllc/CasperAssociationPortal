@@ -77,7 +77,7 @@ const Navigation = () => {
                 <></>
               ) : (
                 <li
-                  className={`${isAdmin ? 'xl:py-1 2xl:py-2' : 'py-3'}`}
+                  className={`${isAdmin ? 'lg:py-1 2xl:py-2' : 'py-3'}`}
                   key={index}
                 >
                   <ActiveLink
@@ -107,7 +107,7 @@ const Navigation = () => {
         </ul>
         {isAdmin && (
           <ul className="flex flex-col py-4 border-t-2 border-primary">
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink
                 activeClassName="text-primary"
                 href="/admin/dashboard"
@@ -115,32 +115,32 @@ const Navigation = () => {
                 <p>Admin</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/intake">
                 <p>Intake</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/users">
                 <p>Users</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/ballots">
                 <p>Ballots</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/perks">
                 <p>Perks</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/teams">
                 <p>Teams</p>
               </ActiveLink>
             </li>
-            <li className="xl:py-1 2xl:py-1.5 cursor-pointer">
+            <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
               <ActiveLink activeClassName="text-primary" href="/admin/settings">
                 <p>Settings</p>
               </ActiveLink>
