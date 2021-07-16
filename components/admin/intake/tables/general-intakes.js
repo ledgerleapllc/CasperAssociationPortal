@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
@@ -13,6 +13,7 @@ import { LetterReviewDialog } from '../dialogs/letter-review';
 import { useDialog } from '../../../partials/dialog';
 import { formatDate } from '../../../../shared/core/utils';
 import IconCheck from '../../../../public/images/ic-feather-check.svg';
+import { AppContext } from '../../../../pages/_app';
 
 const StylesIntake = styled.div`
   .intake-table {
@@ -37,6 +38,7 @@ const StylesIntake = styled.div`
 export const GeneralIntakes = () => {
   const { setDialog, onClosed } = useDialog();
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
   const {
     data,
     setData,
@@ -63,6 +65,7 @@ export const GeneralIntakes = () => {
   }, []);
 
   const doBanUser = (id, index) => {
+    setLoading(true);
     dispatch(
       banUser(
         { id },
@@ -70,13 +73,17 @@ export const GeneralIntakes = () => {
           data.splice(index, 1);
           setData([...data]);
           onClosed();
+          setLoading(false);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   };
 
   const doApproveUser = (id, index) => {
+    setLoading(true);
     dispatch(
       approveUser(
         { id },
@@ -84,13 +91,17 @@ export const GeneralIntakes = () => {
           data[index].letter_verified_at = true;
           setData([...data]);
           onClosed();
+          setLoading(false);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   };
 
   const doResetUser = (id, message, index) => {
+    setLoading(true);
     dispatch(
       resetUser(
         { id, message },
@@ -98,8 +109,11 @@ export const GeneralIntakes = () => {
           data[index].letter_file = null;
           setData([...data]);
           onClosed();
+          setLoading(false);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   };

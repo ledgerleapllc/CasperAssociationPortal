@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-vars */
 import router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { useContext, useState } from 'react';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Button } from '../../../../../components/partials';
@@ -15,6 +17,7 @@ import {
   banVerifiedUser,
   approveUserAML,
 } from '../../../../../shared/redux-saga/admin/actions';
+import { AppContext } from '../../../../_app';
 
 const Styles = styled.div`
   .verification-table {
@@ -44,6 +47,8 @@ const AdminIntakeVerificationAML = () => {
   const { id } = router.query;
   const { setDialog, onClosed } = useDialog();
   const dispatch = useDispatch();
+  const [loadingApproved, setLoadingApproved] = useState(false);
+  const { setLoading } = useContext(AppContext);
 
   const doBanAMLUser = () => {
     setDialog({
@@ -52,12 +57,19 @@ const AdminIntakeVerificationAML = () => {
         content: (
           <BanUserView
             onBanUser={() => {
+              setLoading(true);
               dispatch(
-                banVerifiedUser({ id }, res => {
-                  console.log(res);
-                  router.push('../../');
-                  onClosed();
-                })
+                banVerifiedUser(
+                  { id },
+                  res => {
+                    router.push('../../');
+                    onClosed();
+                    setLoading(false);
+                  },
+                  () => {
+                    setLoading(false);
+                  }
+                )
               );
             }}
             onBack={() => onClosed()}
@@ -68,11 +80,18 @@ const AdminIntakeVerificationAML = () => {
   };
 
   const doApproveAMLUser = () => {
+    setLoadingApproved(true);
     dispatch(
-      approveUserAML({ id }, res => {
-        console.log(res);
-        router.push(`../${id}/kyc-review`);
-      })
+      approveUserAML(
+        { id },
+        res => {
+          router.push(`../${id}/kyc-review`);
+          setLoadingApproved(false);
+        },
+        () => {
+          setLoadingApproved(false);
+        }
+      )
     );
   };
 
@@ -84,12 +103,19 @@ const AdminIntakeVerificationAML = () => {
           <ResetUserView
             description="This will reset the AML step and tell the user through email to submit again for the following reason:"
             onResetUser={message => {
+              setLoading(true);
               dispatch(
-                resetUserAML({ id, message }, res => {
-                  console.log(res);
-                  router.push('../../');
-                  onClosed();
-                })
+                resetUserAML(
+                  { id, message },
+                  res => {
+                    router.push('../../');
+                    onClosed();
+                    setLoading(false);
+                  },
+                  () => {
+                    setLoading(false);
+                  }
+                )
               );
             }}
             onBack={() => onClosed()}
@@ -147,7 +173,13 @@ const AdminIntakeVerificationAML = () => {
                 </table>
               </Styles>
               <div className="pt-12 actions">
-                <Button primary onClick={doApproveAMLUser}>
+                <Button
+                  primary
+                  isLoading={loadingApproved}
+                  disabled={loadingApproved}
+                  sizeSpinner={20}
+                  onClick={doApproveAMLUser}
+                >
                   Approve Manually
                 </Button>
                 <div className="pt-7 flex gap-5">

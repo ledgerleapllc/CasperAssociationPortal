@@ -47,6 +47,7 @@ const AdminIntakeVerificationDetail = () => {
   const dispatch = useDispatch();
   const { id } = router.query;
   const { setDialog, onClosed } = useDialog();
+  const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
 
   useEffect(() => {
     dispatch(
@@ -71,11 +72,18 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const confirmDocs = () => {
+    setLoadingConfirmDocs(true);
     dispatch(
-      approveDocuments({ id }, res => {
-        console.log(res);
-        setConfirmationInfoAt(new Date());
-      })
+      approveDocuments(
+        { id },
+        res => {
+          setConfirmationInfoAt(new Date());
+          setLoadingConfirmDocs(false);
+        },
+        () => {
+          setLoadingConfirmDocs(false);
+        }
+      )
     );
   };
 
@@ -89,7 +97,6 @@ const AdminIntakeVerificationDetail = () => {
             onResetUser={message => {
               dispatch(
                 resetUserKYC({ id, message }, res => {
-                  console.log(res);
                   onClosed();
                 })
               );
@@ -142,7 +149,9 @@ const AdminIntakeVerificationDetail = () => {
             primary
             className="mr-5"
             onClick={() => confirmDocs()}
-            disabled={!readUploadDocs}
+            isLoading={loadingConfirmDocs}
+            sizeSpinner={20}
+            disabled={!readUploadDocs || loadingConfirmDocs}
           >
             <IconCheck /> <span className="pl-2">Confirm</span>
           </Button>
@@ -295,6 +304,7 @@ const AdminIntakeVerificationDetail = () => {
                 </table>
               </Styles>
               <div>
+                <EntityDetail />
                 {intakeDetail?.profile?.type === 'entity' && <EntityDetail />}
                 {intakeDetail?.profile?.type === 'individual' && (
                   <CommonDetail />

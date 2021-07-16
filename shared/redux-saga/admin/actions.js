@@ -138,16 +138,18 @@ export const banUser = (payload, resolve, reject) => ({
   reject,
 });
 
-export const banVerifiedUser = (payload, resolve) => ({
+export const banVerifiedUser = (payload, resolve, reject) => ({
   type: 'BAN_VERIFIED_USER',
   payload,
   resolve,
+  reject,
 });
 
-export const approveDocuments = (payload, resolve) => ({
+export const approveDocuments = (payload, resolve, reject) => ({
   type: 'APPROVED_DOCUMENTS',
   payload,
   resolve,
+  reject,
 });
 
 export const getVerificationDetail = (payload, resolve) => ({
@@ -156,28 +158,32 @@ export const getVerificationDetail = (payload, resolve) => ({
   resolve,
 });
 
-export const approveUserAML = (payload, resolve) => ({
+export const approveUserAML = (payload, resolve, reject) => ({
   type: 'APPROVE_USER_AML',
   payload,
   resolve,
+  reject,
 });
 
-export const resetUserAML = (payload, resolve) => ({
+export const resetUserAML = (payload, resolve, reject) => ({
   type: 'RESET_USER_AML',
   payload,
   resolve,
+  reject,
 });
 
-export const approveUserKYC = (payload, resolve) => ({
+export const approveUserKYC = (payload, resolve, reject) => ({
   type: 'APPROVE_USER_KYC',
   payload,
   resolve,
+  reject,
 });
 
-export const resetUserKYC = (payload, resolve) => ({
+export const resetUserKYC = (payload, resolve, reject) => ({
   type: 'RESET_USER_KYC',
   payload,
   resolve,
+  reject,
 });
 
 export const getEmailerData = (resolve, reject) => ({
