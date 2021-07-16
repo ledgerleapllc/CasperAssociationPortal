@@ -78,7 +78,7 @@ export const EntityVerification = ({ goNext }) => {
 
   const onDrop = acceptedFiles => {
     const newFiles = [];
-    acceptedFiles.forEach(file => {
+    acceptedFiles?.forEach(file => {
       if (uploadedDocuments?.length) {
         const index = uploadedDocuments?.findIndex(
           item => item.name === file.name
@@ -99,6 +99,7 @@ export const EntityVerification = ({ goNext }) => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop,
+    accept: '.pdf, .doc, .docx, .txt, .rtf',
   });
 
   const removeFile = (_uploadFiles, index) => {

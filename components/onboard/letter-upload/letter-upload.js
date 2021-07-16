@@ -28,6 +28,11 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
 
   const onDrop = useCallback(acceptedFiles => {
     const fileConvert = acceptedFiles[0];
+
+    if (!fileConvert) {
+      return;
+    }
+
     const fileName = fileConvert.name;
     const optionNewFile = {
       lastModified: fileConvert.lastModified,
@@ -39,10 +44,12 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
     onDocumentSelect({ name: fileName, file: newFile });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({
-    multiple: false,
-    onDrop,
-  });
+  const { getRootProps, getInputProps, isDragReject, fileRejections } =
+    useDropzone({
+      multiple: false,
+      onDrop,
+      accept: '.pdf, .doc, .docx, .txt, .rtf',
+    });
 
   const doClickOutside = e => {
     const { target } = e;
@@ -50,6 +57,8 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
       handleUpload('close');
     }
   };
+
+  console.log('isDragReject', isDragReject, fileRejections);
 
   return (
     <>
@@ -124,6 +133,12 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
                       Upload Letter of Motivation
                     </button>
                     <span className="hidden lg:block">Or Drap File Here</span>
+                    {(isDragReject || !!fileRejections.length) && (
+                      <span className="hidden lg:block text-primary">
+                        Only *.pdf, *.doc, *.docx, *.txt, *.rtf file will be
+                        accepted
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

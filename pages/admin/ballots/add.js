@@ -96,6 +96,7 @@ const AdminAddBallot = () => {
                     }}
                     onChange={appendFiles}
                     hidden
+                    accept=".pdf, .doc, .docx, .txt, .rtf"
                   />
                   <input {...register('files')} hidden />
                   <div className="absolute bottom-1 right-0 flex">
