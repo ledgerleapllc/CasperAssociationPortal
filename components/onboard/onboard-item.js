@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import IconCheckCircle from '../../public/images/ic_check_circle.svg';
 import IconWaitingCircle from '../../public/images/ic-time.svg';
@@ -21,6 +22,23 @@ const OnboardItem = ({
 }) => {
   const [onHover, setOnHover] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector(state => state.authReducer.userInfo);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      user?.letter_verified_at &&
+      user?.signature_request_id &&
+      user?.node_verified_at
+    ) {
+      router.push('/dashboard');
+      dispatch(
+        updateUser({
+          period: 'final',
+        })
+      );
+    }
+  }, [user]);
 
   const handleByPass = () => {
     handleBypass(true);
@@ -31,7 +49,6 @@ const OnboardItem = ({
             [userInfoKey]: true,
           })
         );
-
         handleBypass(false);
       })
     );
