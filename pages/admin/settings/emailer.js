@@ -309,8 +309,8 @@ const Emailer = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-7">
-        <div className="bg-transparent xl:pb-2 2xl:pb-5">
+      <Card className="h-full py-7">
+        <div className="bg-transparent xl:pb-2 2xl:pb-5 px-24">
           <div className="w-full" style={{ height: '70px' }}>
             <div className="lg:h-70px flex flex-col justify-center">
               <BackButton href="/admin/settings" text="Back" force />
@@ -322,7 +322,7 @@ const Emailer = () => {
           </div>
         </div>
         <div
-          className="bg-transparent"
+          className="bg-transparent px-24"
           style={{ height: 'calc(100% - 80px)', overflowY: 'auto' }}
         >
           <div>
