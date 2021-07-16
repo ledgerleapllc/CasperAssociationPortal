@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
 
 const InfoRightNode = () => {
@@ -8,17 +9,21 @@ const InfoRightNode = () => {
   return (
     <div className="flex flex-col mx-2 lg:mx-4 py-3 bg-white h-full">
       <div className="hidden lg:flex flex-col mx-3 lg:mx-5 pb-8 border-b-2 border-gray">
-        <div className="flex">
-          <img
-            className="pr-2"
-            src="/images/ic_awesome_user_circle.svg"
-            alt="User"
-          />
-          <span className="text-2.5xl truncate">{user?.full_name}</span>
-        </div>
+        <Link href="/dashboard/profile">
+          <a>
+            <div className="flex">
+              <img
+                className="pr-2"
+                src="/images/ic_awesome_user_circle.svg"
+                alt="User"
+              />
+              <span className="text-2xl truncate">{user?.full_name}</span>
+            </div>
+          </a>
+        </Link>
         <button
           type="button"
-          className="inline-flex text-xs text-primary underline"
+          className="mt-2 inline-flex text-xs text-primary underline focus:outline-none"
           onClick={async e => {
             e.preventDefault();
             dispatch(logoutApp());

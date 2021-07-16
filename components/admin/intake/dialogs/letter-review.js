@@ -48,7 +48,7 @@ export const ResetUserView = ({ description, onResetUser, onBack }) => {
         value={message}
         onChange={e => setMessage(e.target.value)}
         rows="6"
-        className="w-full border border-gray"
+        className="w-full border border-gray focus:outline-none p-3"
       />
       <div className="mt-8 mx-auto w-96 flex gap-2.5 flex-col items-center">
         <button

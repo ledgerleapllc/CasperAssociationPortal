@@ -32,7 +32,7 @@ const InfoRightAdminHome = () => {
         <span className="text-lg">{userAdmin?.email}</span>
         <button
           type="button"
-          className="inline-flex text-xs text-primary underline"
+          className="inline-flex text-xs text-primary underline focus:outline-none"
           onClick={async e => {
             e.preventDefault();
             dispatch(logoutApp());

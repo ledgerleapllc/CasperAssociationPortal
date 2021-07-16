@@ -101,10 +101,11 @@ export const submitBallot = (payload, resolve, reject) => ({
   reject,
 });
 
-export const cancelBallot = (payload, callback) => ({
+export const cancelBallot = (payload, resolve, reject) => ({
   type: 'CANCEL_BALLOT',
   payload,
-  callback,
+  resolve,
+  reject,
 });
 
 export const cancelBallotSuccess = data => ({
