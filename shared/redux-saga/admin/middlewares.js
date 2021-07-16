@@ -249,12 +249,13 @@ export function* banUser({ payload, resolve, reject }) {
   }
 }
 
-export function* banVerifiedUser({ payload, resolve }) {
+export function* banVerifiedUser({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/users/${payload.id}/deny-ban`]);
     resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
@@ -267,51 +268,56 @@ export function* getVerificationDetail({ payload, resolve }) {
   }
 }
 
-export function* approveUserAML({ payload, resolve }) {
+export function* approveUserAML({ payload, resolve, reject }) {
   try {
     const res = yield post([`/admin/users/${payload.id}/approve-aml`]);
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
-export function* resetUserAML({ payload, resolve }) {
+export function* resetUserAML({ payload, resolve, reject }) {
   try {
     const { message, id } = payload;
     const res = yield post([`/admin/users/${id}/reset-aml`], { message });
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
-export function* approveUserKYC({ payload, resolve }) {
+export function* approveUserKYC({ payload, resolve, reject }) {
   try {
     const res = yield post([`/admin/users/${payload.id}/approve-kyc`]);
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
-export function* resetUserKYC({ payload, resolve }) {
+export function* resetUserKYC({ payload, resolve, reject }) {
   try {
     const { message, id } = payload;
     const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
-export function* approveDocuments({ payload, resolve }) {
+export function* approveDocuments({ payload, resolve, reject }) {
   try {
     const { id } = payload;
     const res = yield post([`/admin/users/${id}/approve-document`], {});
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 

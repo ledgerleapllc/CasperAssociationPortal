@@ -106,11 +106,12 @@ const AdminAddBallot = () => {
                           className="flex mt-5 items-center text-dark3 ml-5"
                         >
                           <IconX
-                            className="mr-1 cursor-pointer"
+                            className="mr-2.5 cursor-pointer"
+                            style={{ fontSize: '10px' }}
                             onClick={() => removeFile(index)}
                           />
                           <span
-                            className="text-sm truncate"
+                            className="truncate text-sm"
                             style={{ maxWidth: '10rem' }}
                           >
                             {file.name}
