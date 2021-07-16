@@ -275,7 +275,7 @@ const DashboardDiscusion = () => {
               <Link href="/dashboard/discussion/add">
                 <button
                   type="button"
-                  className="transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="z-40 transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   + New Discussion
                 </button>

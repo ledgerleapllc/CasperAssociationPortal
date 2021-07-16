@@ -153,8 +153,8 @@ const AdminActiveBallotCurrentVotes = () => {
                   <td>
                     <p>
                       <ForAgainst
-                        splitFor={ballot?.split_for}
-                        splitAgainst={ballot?.split_against}
+                        splitFor={ballot?.for_value}
+                        splitAgainst={ballot?.against_value}
                       />
                     </p>
                   </td>
