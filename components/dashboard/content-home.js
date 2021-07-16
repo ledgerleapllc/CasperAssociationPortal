@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import router from 'next/router';
 import { Line } from 'react-chartjs-2';
 import { ApiService } from '../../helpers/api/api.service';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
-import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
-import { formatDate } from '../../shared/core/utils';
+import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 
 const http = new ApiService();
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [trendingList, setTrendingList] = useState([]);
   const [showOpenVotes, setShowOpenVotes] = useState(false);
   const [alerts, setAlerts] = useState([
     {
@@ -28,20 +26,6 @@ const ContentHome = () => {
       content: 'There are new comments to be read!',
     },
   ]);
-
-  const dispatch = useDispatch();
-
-  const getTrendingList = () => {
-    dispatch(
-      getTrendingDiscussions(res => {
-        setTrendingList(res.trendings);
-      })
-    );
-  };
-
-  useEffect(() => {
-    getTrendingList();
-  }, []);
 
   useEffect(() => {
     if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
@@ -160,55 +144,7 @@ const ContentHome = () => {
         </div>
         <div className="flex flex-col-reverse lg:flex-row h-3/5">
           <Card className="flex-grow w-full mt-10 lg:mt-0 lg:w-2/3 lg:mr-3 h-full">
-            <div className="flex flex-col px-8 py-7 h-full">
-              <p className="text-2.5xl text-black1">Trending Discussions</p>
-              <div className="flex flex-col pt-6 h-8.5/10">
-                <div className="hidden lg:flex w-full h-1/5">
-                  <p className="w-3/6 pb-2 text-lg underline text-left font-normal">
-                    Title
-                  </p>
-                  <div className="flex w-3/6">
-                    <p className="w-3/5 pl-12 pb-2 text-lg underline text-left font-normal">
-                      Comments
-                    </p>
-                    <p className="w-3/5 pl-12 pb-2 text-lg underline text-left font-normal">
-                      Date
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col w-full lg:mt-5 overflow-y-scroll">
-                  {trendingList.map(discussion => (
-                    <div className="flex flex-col lg:flex-row w-full py-2.5">
-                      <p className="w-full lg:w-3/6 pb-2 text-sm">
-                        {discussion.title}
-                      </p>
-                      <div className="flex w-full lg:w-3/6">
-                        <div className="flex items-center lg:items-start lg:w-3/5 lg:pl-12 pb-2">
-                          <div className="pr-3">
-                            <img
-                              src="/images/ic_material_mode_comment.svg"
-                              alt="Comment"
-                            />
-                          </div>
-                          <span className="text-sm">{discussion.comments}</span>
-                        </div>
-                        <div className="flex items-center lg:items-start lg:w-3/5 pl-12 pb-2">
-                          <div className="pr-3">
-                            <img
-                              src="/images/ic_awesome_calendar.svg"
-                              alt="Calendar"
-                            />
-                          </div>
-                          <span className="text-sm">
-                            {formatDate(discussion.created_at, 'd/M/yy')}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <TrendingDiscussion />
           </Card>
           <Card
             className={`${
