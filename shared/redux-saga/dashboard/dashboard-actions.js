@@ -129,3 +129,16 @@ export const uploadVerificationDocs = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getMyInfo = (resolve, reject) => ({
+  type: 'GET_MY_INFO',
+  resolve,
+  reject,
+});
+
+export const uploadAvatar = (payload, resolve, reject) => ({
+  type: 'UPLOAD_AVATAR',
+  payload,
+  resolve,
+  reject,
+});

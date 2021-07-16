@@ -177,7 +177,7 @@ export function* getBallotDetail({ payload, callback }) {
   }
 }
 
-export function* cancelBallot({ payload, callback, finallyCallback }) {
+export function* cancelBallot({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -191,10 +191,11 @@ export function* cancelBallot({ payload, callback, finallyCallback }) {
       }
     );
     yield put(cancelBallotSuccess(res));
-    callback();
+    resolve(res);
   } catch (error) {
     yield put(cancelBallotError(error));
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 

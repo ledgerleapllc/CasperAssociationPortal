@@ -218,6 +218,30 @@ export function* uploadVerificationDocuments({ payload, resolve, reject }) {
   }
 }
 
+export function* getMyInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/profile';
+    const res = yield get([endpoint]);
+
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* uploadAvatar({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    formData.append(`avatar`, payload.file);
+    const res = yield post([`users/upload-avatar`], formData);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -235,6 +259,8 @@ export function* watchDemoData() {
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
+  yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
+  yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);
   yield all([
     takeEvery('UPDATE_VERIFICATION_DOCUMENTS', uploadVerificationDocuments),
   ]);
