@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable node/no-unsupported-features/node-builtins */
 import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
@@ -56,9 +55,9 @@ const StylesAdvanced = styled.div`
   }
 `;
 
-const Profile = () => {
+const UserProfile = () => {
   const dispatch = useDispatch();
-  const [myInfo, setMyInfo] = useState();
+  const [myInfo, setMyInfo] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
   useEffect(() => {
@@ -81,11 +80,14 @@ const Profile = () => {
         { file },
         res => {
           setIsUploadingAvatar(false);
-          const link = URL.createObjectURL(file);
-          setMyInfo({
-            ...myInfo,
-            avatar_url: link,
-          });
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setMyInfo({
+              ...myInfo,
+              avatar_url: reader.result,
+            });
+          };
+          reader.readAsDataURL(file);
         },
         () => {
           setIsUploadingAvatar(false);
@@ -358,4 +360,4 @@ const Profile = () => {
   );
 };
 
-export default LoadingScreen(Profile, 'final-all');
+export default LoadingScreen(UserProfile, 'final-all');
