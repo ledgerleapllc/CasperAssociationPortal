@@ -6,17 +6,17 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
-import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Button, ProgressBar } from '../../../components/partials';
+import { LoadingScreen } from '../../components/hoc/loading-screen';
+import LayoutDashboard from '../../components/layouts/layout-dashboard';
+import { Card, Button, ProgressBar } from '../../components/partials';
 import {
   getMyInfo,
   uploadAvatar,
-} from '../../../shared/redux-saga/dashboard/dashboard-actions';
-import IconCamera from '../../../public/images/ic_camera.svg';
-import { formatDate } from '../../../shared/core/utils';
-import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
-import { logoutApp } from '../../../shared/redux-saga/auth/actions';
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
+import IconCamera from '../../public/images/ic_camera.svg';
+import { formatDate } from '../../shared/core/utils';
+import VerifiedIcon from '../../public/images/ic_check_mark.svg';
+import { logoutApp } from '../../shared/redux-saga/auth/actions';
 
 const StylesBasic = styled.div`
   .basic-info-table {
