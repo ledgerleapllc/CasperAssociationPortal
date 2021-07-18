@@ -52,7 +52,7 @@ const ChatBox = ({ data, noBorder }) => (
       <div className="w-24 h-24 mr-5 lg:mr-12">
         <img
           className="h-full w-full object-cover rounded-lg shadow-lg"
-          src="/images/img_signature.png"
+          src={data?.user?.avatar_url || '/images/img_signature.png'}
           alt="avatar"
         />
       </div>
