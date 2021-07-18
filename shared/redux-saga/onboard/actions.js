@@ -27,10 +27,11 @@ export const saveShuftiproTemp = payload => ({
   payload,
 });
 
-export const updateShuftiproTemp = (payload, resolve) => ({
+export const updateShuftiproTemp = (payload, resolve, reject) => ({
   type: 'UPDATE_SHUFTI',
   payload,
   resolve,
+  reject,
 });
 
 export const submitPublicAddress = (payload, callback, isVerifying) => ({

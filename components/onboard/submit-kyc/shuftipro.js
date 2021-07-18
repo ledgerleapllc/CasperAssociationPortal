@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-import { sha256 } from  'js-sha256';
+import { sha256 } from 'js-sha256';
 import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
-import { Checkbox } from '../../partials';
+import { Button, Checkbox } from '../../partials';
 import {
   saveShuftiproTemp,
   updateShuftiproTemp,
@@ -24,6 +24,7 @@ export const Shuftipro = () => {
   const authUser = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
   const { dialog, onClosed } = useDialog();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validatesignature = (data, signature, SK) => {
     let dataTemp = JSON.stringify(data);
@@ -132,6 +133,8 @@ export const Shuftipro = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     axios({
       method: 'POST',
       headers: {
@@ -145,7 +148,6 @@ export const Shuftipro = () => {
     })
       .then(response => {
         let isValid = false;
-        console.log(response.data);
         if (response && response) {
           const { data } = response;
 
@@ -163,16 +165,22 @@ export const Shuftipro = () => {
                 user_id: authUser.id,
               },
               () => {
+                setIsSubmitting(false);
                 onClosed();
                 dialog.afterClosed('verified');
+              },
+              () => {
+                setIsSubmitting(false);
               }
             )
           );
         } else {
+          setIsSubmitting(false);
           throw new Error();
         }
       })
       .catch(() => {
+        setIsSubmitting(false);
         onClosed();
         dialog.afterClosed('');
       });
@@ -208,14 +216,15 @@ export const Shuftipro = () => {
             </div>
           </div>
           <div className="text-center mt-4">
-            <button
-              type="button"
-              disabled={!finalKYC}
-              className="disabled:opacity-25 disabled:cursor-not-allowed text-lg text-white w-1/2 lg:w-1/2 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+            <Button
+              primary
+              disabled={!finalKYC || isSubmitting}
+              isLoading={isSubmitting}
+              className="w-1/2 lg:w-1/2 h-16 text-lg"
               onClick={() => clickContinue()}
             >
               Continue
-            </button>
+            </Button>
           </div>
         </>
       )}

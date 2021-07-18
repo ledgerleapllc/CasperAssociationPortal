@@ -153,10 +153,11 @@ export const approveDocuments = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getVerificationDetail = (payload, resolve) => ({
+export const getVerificationDetail = (payload, resolve, reject) => ({
   type: 'GET_LIST_VERIFICATION_DETAIL',
   payload,
   resolve,
+  reject,
 });
 
 export const approveUserAML = (payload, resolve, reject) => ({

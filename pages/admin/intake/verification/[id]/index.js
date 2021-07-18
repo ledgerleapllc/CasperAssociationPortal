@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Button } from '../../../../../components/partials';
+import { AppContext } from '../../../../_app';
 import {
   approveDocuments,
   getVerificationDetail,
@@ -48,17 +49,26 @@ const AdminIntakeVerificationDetail = () => {
   const { id } = router.query;
   const { setDialog, onClosed } = useDialog();
   const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(
-      getVerificationDetail({ id }, res => {
-        setIntakeDetail(res);
-        setConfirmationInfoAt(res?.profile?.document_verified_at);
-        const temp = res?.document_files?.find(
-          x => +x.id === +res?.profile?.page_is_representative
-        );
-        setRepresentativeDoc(temp);
-      })
+      getVerificationDetail(
+        { id },
+        res => {
+          setLoading(false);
+          setIntakeDetail(res);
+          setConfirmationInfoAt(res?.profile?.document_verified_at);
+          const temp = res?.document_files?.find(
+            x => +x.id === +res?.profile?.page_is_representative
+          );
+          setRepresentativeDoc(temp);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
     );
   }, []);
 

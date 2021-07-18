@@ -126,7 +126,7 @@ export function* saveShuftiproTemp({ payload }) {
   }
 }
 
-export function* updateShuftiproTemp({ payload, resolve }) {
+export function* updateShuftiproTemp({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -139,6 +139,7 @@ export function* updateShuftiproTemp({ payload, resolve }) {
       resolve();
     } else {
       yield put(saveApiResponseError(error));
+      reject();
     }
   }
 }
