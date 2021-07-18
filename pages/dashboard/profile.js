@@ -114,16 +114,18 @@ const UserProfile = () => {
                 </p>
               </div>
               <div>
-                <Button
-                  primaryOutline
-                  className="mr-5"
-                  onClick={async e => {
-                    e.preventDefault();
-                    router.push('/dashboard/verification');
-                  }}
-                >
-                  <VerifiedIcon className="mr-2" /> Get Verified
-                </Button>
+                {!myInfo?.approve_at && (
+                  <Button
+                    primaryOutline
+                    className="mr-5"
+                    onClick={async e => {
+                      e.preventDefault();
+                      router.push('/dashboard/verification');
+                    }}
+                  >
+                    <VerifiedIcon className="mr-2" /> Get Verified
+                  </Button>
+                )}
                 <Button
                   primary
                   onClick={async e => {
@@ -162,21 +164,21 @@ const UserProfile = () => {
                               <IconCamera className="text-2xl z-40" />
                             </div>
                           </div>
-                          {isUploadingAvatar && (
-                            <div className="opacity-100 absolute inset-0 w-full h-full transition duration-100 ease-in-out">
-                              <div className="relative flex justify-center items-center w-full h-full">
-                                <div className="absolute inset-0 w-full h-full bg-white opacity-80" />
-                                <ReactLoading
-                                  className="z-50"
-                                  type="spinningBubbles"
-                                  color="#FF473E"
-                                  width={20}
-                                  height={20}
-                                />
-                              </div>
-                            </div>
-                          )}
                         </>
+                      )}
+                      {isUploadingAvatar && (
+                        <div className="opacity-100 absolute inset-0 w-full h-full transition duration-100 ease-in-out">
+                          <div className="relative flex justify-center items-center w-full h-full">
+                            <div className="absolute inset-0 w-full h-full bg-white opacity-80" />
+                            <ReactLoading
+                              className="z-50"
+                              type="spinningBubbles"
+                              color="#FF473E"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </div>
                       )}
                     </label>
                     <input
@@ -217,10 +219,10 @@ const UserProfile = () => {
                               <span>Verified Since:</span>
                             </td>
                             <td>
-                              {myInfo?.kyc_verified_at ? (
+                              {myInfo?.approve_at ? (
                                 <span>
                                   {formatDate(
-                                    myInfo?.kyc_verified_at,
+                                    myInfo?.approve_at,
                                     'dd/MM/yyyy'
                                   )}
                                 </span>
