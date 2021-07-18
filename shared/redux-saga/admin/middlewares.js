@@ -260,12 +260,13 @@ export function* banVerifiedUser({ payload, resolve, reject }) {
   }
 }
 
-export function* getVerificationDetail({ payload, resolve }) {
+export function* getVerificationDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
