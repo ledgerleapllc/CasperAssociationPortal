@@ -335,6 +335,7 @@ const Ballots = () => (
         <Tab
           className="w-full h-full pt-12 lg:pt-0 ballot-tabs"
           data={tabsData}
+          scrollable
         />
       </div>
     </Card>

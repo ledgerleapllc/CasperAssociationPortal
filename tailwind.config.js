@@ -7,7 +7,12 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
-  plugins: [require('tailwindcss'), require('precss'), require('autoprefixer')],
+  plugins: [
+    require('tailwindcss'),
+    require('precss'),
+    require('autoprefixer'),
+    require('@tailwindcss/line-clamp'),
+  ],
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
     extend: {
@@ -46,6 +51,7 @@ module.exports = {
         '8.5/10': '85%',
         '9/10': '90%',
         '300px': '300px',
+        '500px': '500px',
       },
       maxWidth: {
         380: '95rem',

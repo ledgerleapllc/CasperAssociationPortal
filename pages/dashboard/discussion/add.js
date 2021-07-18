@@ -22,6 +22,7 @@ const DashboardAddDiscusion = () => {
         data,
         () => {
           Router.push('/dashboard/discussion');
+          setIsSubmitting(false);
         },
         () => {
           setIsSubmitting(false);
@@ -45,7 +46,7 @@ const DashboardAddDiscusion = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:pr-24">
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">{userInfo?.pseudonym}</a>
+                  Posting as: <a className="text-primary">{userInfo?.email}</a>
                 </p>
                 <input
                   type="text"
@@ -68,6 +69,9 @@ const DashboardAddDiscusion = () => {
                     render={({ field: { value, onChange } }) => (
                       <Editor value={value} onChange={onChange} />
                     )}
+                    rules={{
+                      required: 'Description is required',
+                    }}
                   />
                 </div>
                 {formState.errors?.description && (
@@ -84,10 +88,11 @@ const DashboardAddDiscusion = () => {
                   </button>
                   <Button
                     type="submit"
-                    isDisabled={isSubmitting}
+                    disabled={isSubmitting}
                     isLoading={isSubmitting}
-                    title="Post"
-                    className="my-1 h-16 lg:h-11 text-lg w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    sizeSpinner={20}
+                    primary
+                    className="my-1 text-lg"
                   >
                     Post
                   </Button>

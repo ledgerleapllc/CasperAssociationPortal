@@ -75,7 +75,10 @@ export function* recordVote({ payload, callback }) {
 
 export function* getDiscussions({ payload, successCb }) {
   try {
-    const query = qs.stringify(payload);
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
     const res = yield get([`discussions/all?${query}`]);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -83,75 +86,104 @@ export function* getDiscussions({ payload, successCb }) {
   }
 }
 
-export function* getPinnedDiscussions({ successCb }) {
+export function* getPinnedDiscussions({ payload, resolve, reject }) {
   try {
-    const res = yield get([`discussions/pin`]);
-    successCb(res.data);
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`discussions/pin?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getMyDiscussions({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`discussions/my?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getTrendingDiscussions({ payload, resolve }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`discussions/trending?${query}`]);
+    resolve(res.data.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* getMyDiscussions({ successCb }) {
+export function* setDiscussionPin({ id }) {
   try {
-    const res = yield get([`discussions/my`]);
-    successCb(res.data);
+    yield post([`discussions/${id}/pin`]);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* getTrendingDiscussions({ successCb }) {
-  try {
-    const res = yield get(['discussions/trending']);
-    successCb(res.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* setDiscussionPin({ id, successCb }) {
-  try {
-    const res = yield post([`discussions/${id}/pin`]);
-    successCb(res.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* createDiscussion({ payload, successCb, resetSubmitting }) {
+export function* createDiscussion({ payload, resolve, reject }) {
   try {
     const res = yield post([`discussions/new`], payload);
-    successCb(res.data);
-    resetSubmitting();
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
-export function* setRemoveNewMark({ id, successCb }) {
+export function* setRemoveNewMark({ id }) {
   try {
-    const res = yield destroy([`discussions/${id}/new`]);
-    successCb(res.data);
+    yield destroy([`discussions/${id}/new`]);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* getDiscussionDetail({ id, successCb }) {
+export function* getDiscussionDetail({ id, resolve, reject }) {
   try {
     const res = yield get([`discussions/detail/${id}`]);
-    successCb(res.data);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getDiscussionComments({ payload, resolve }) {
+  const query = qs.stringify({
+    limit: payload.limit || 10,
+    page: payload.page,
+  });
+  try {
+    const res = yield get([`discussions/${payload.id}/comment?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* postDiscussionComment({ payload, successCb }) {
+export function* postDiscussionComment({ payload, resolve, reject }) {
   try {
     let res;
     const endpoint = `discussions/${payload.discussion_id}/comment`;
-    if (payload.comment_id === -1)
+    if (!payload.comment_id)
       res = yield post([endpoint], {
         description: payload.description,
       });
@@ -161,8 +193,9 @@ export function* postDiscussionComment({ payload, successCb }) {
         description: payload.description,
       });
 
-    successCb(res.data);
+    resolve(res.data);
   } catch (error) {
+    reject();
     yield put(saveApiResponseError(error));
   }
 }
@@ -249,6 +282,7 @@ export function* watchDemoData() {
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
   yield all([takeEvery('GET_DISCUSSIONS', getDiscussions)]);
   yield all([takeEvery('GET_DISCUSSION_DETAIL', getDiscussionDetail)]);
+  yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
