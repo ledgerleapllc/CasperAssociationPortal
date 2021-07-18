@@ -304,7 +304,6 @@ const AdminIntakeVerificationDetail = () => {
                 </table>
               </Styles>
               <div>
-                <EntityDetail />
                 {intakeDetail?.profile?.type === 'entity' && <EntityDetail />}
                 {intakeDetail?.profile?.type === 'individual' && (
                   <CommonDetail />
