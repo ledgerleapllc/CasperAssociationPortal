@@ -7,6 +7,7 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
+  corePlugins: ['margin', 'padding'],
   plugins: [
     require('tailwindcss'),
     require('precss'),
