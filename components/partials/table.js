@@ -201,8 +201,12 @@ export const useTable = () => {
   const [params, setParams] = useState({});
   const [tableId, setTableId] = useState();
 
-  const appendData = res => {
-    setData(prevData => [...prevData, ...res]);
+  const appendData = (res, reverse = false) => {
+    if (reverse) {
+      setData(prevData => [...res, ...prevData]);
+    } else {
+      setData(prevData => [...prevData, ...res]);
+    }
   };
 
   const getTableId = id => {

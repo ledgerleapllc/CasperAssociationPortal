@@ -9,8 +9,13 @@ const getHash = url => {
   return null;
 };
 
-const Tab = ({ data, className }) => {
-  const { asPath, pathname } = useRouter();
+const TabView = React.memo(({ data, currentTab }) => {
+  const View = data[currentTab].content;
+  return <View />;
+});
+
+const Tab = ({ data, className, scrollable, lazy }) => {
+  const { asPath } = useRouter();
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
@@ -40,27 +45,33 @@ const Tab = ({ data, className }) => {
                 } tab-header text-dark2 text-2xl lg:pr-32`}
                 key={`tab-header-${index}`}
               >
-                <Link href={`#${x.id}`}>{x.title}</Link>
+                <Link href={`#${x.id}`}>
+                  <a>{x.title}</a>
+                </Link>
               </li>
             ))}
           </ul>
           <div className="border-primary border-b-2 lg:mr-24" />
           <div
             id="tab-contents"
-            className={`${
-              pathname === '/dashboard/votes' ? '' : 'overflow-y-scroll'
-            }`}
+            className={`${scrollable ? 'overflow-y-scroll' : ''}`}
             style={{ height: '90%' }}
           >
-            {data.map((x, index) => (
-              <div
-                key={`tab-content-${index}`}
-                className="lg:pr-24 h-full"
-                hidden={currentTab !== index}
-              >
-                {data[index].content()}
+            {!lazy ? (
+              data.map((x, index) => (
+                <div
+                  key={`tab-content-${index}`}
+                  className="lg:pr-24 h-full"
+                  hidden={currentTab !== index}
+                >
+                  {{ ...data[index].content() }}
+                </div>
+              ))
+            ) : (
+              <div className="lg:pr-24 h-full">
+                <TabView data={data} currentTab={currentTab} />
               </div>
-            ))}
+            )}
           </div>
         </>
       )}

@@ -56,51 +56,61 @@ export const getDiscussions = (payload, successCb) => ({
   successCb,
 });
 
-export const getPinnedDiscussions = (successCb) => ({
+export const getPinnedDiscussions = (payload, resolve, reject) => ({
   type: 'GET_PINNED_DISCUSSIONS',
-  successCb,
+  payload,
+  resolve,
+  reject,
 });
 
-export const getMyDiscussions = (successCb) => ({
+export const getMyDiscussions = (payload, resolve, reject) => ({
   type: 'GET_MY_DISCUSSIONS',
-  successCb,
+  payload,
+  resolve,
+  reject,
 });
 
-export const getTrendingDiscussions = (successCb) => ({
+export const getTrendingDiscussions = (payload, resolve) => ({
   type: 'GET_TRENDING_DISCUSSIONS',
-  successCb,
+  payload,
+  resolve,
 });
 
-
-export const getDiscussionDetail = (id, successCb) => ({
+export const getDiscussionDetail = (id, resolve, reject) => ({
   type: 'GET_DISCUSSION_DETAIL',
   id,
-  successCb,
+  resolve,
+  reject,
 });
 
-export const setDiscussionPin = (id, successCb) => ({
+export const getDiscussionComments = (payload, resolve) => ({
+  type: 'GET_DISCUSSION_COMMENTS',
+  payload,
+  resolve,
+});
+
+export const setDiscussionPin = id => ({
   type: 'SET_DISCUSSION_PIN',
   id,
-  successCb,
 });
 
-export const createDiscussion = (payload, successCb, resetSubmitting) => ({
+export const createDiscussion = (payload, resolve, reject) => ({
   type: 'CREATE_DISCUSSION',
   payload,
-  successCb,
-  resetSubmitting,
+  resolve,
+  reject,
 });
 
-export const setRemoveNewMark = (id, successCb) => ({
+export const setRemoveNewMark = id => ({
   type: 'SET_REMOVE_NEW',
   id,
-  successCb,
 });
 
-export const postDiscussionComment = (payload, successCb) => ({
+export const postDiscussionComment = (payload, resolve, reject) => ({
   type: 'POST_DISCUSSION_COMMENT',
   payload,
-  successCb,
+  resolve,
+  reject,
 });
 
 export const voteDiscussion = (payload, successCb) => ({
