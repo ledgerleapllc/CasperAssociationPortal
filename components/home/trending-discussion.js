@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import styled from 'styled-components';
 
+import Link from 'next/link';
 import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../shared/core/utils';
 import { useTable } from '../partials/table';
@@ -34,6 +35,7 @@ const TrendingDiscussion = () => {
   const getTrendingList = (pageValue = page) => {
     dispatch(
       getTrendingDiscussions({ page: pageValue }, (result, isHasMore) => {
+        console.log(result);
         setHasMore(isHasMore);
         appendData(result);
         setPage(prev => prev + 1);
@@ -71,31 +73,37 @@ const TrendingDiscussion = () => {
               {data.map((row, ind) => (
                 <Table.BodyRow key={ind} className="custom-row">
                   <Table.BodyCell>
-                    <p className="truncate">{row.title}</p>
+                    <Link href={`/dashboard/discussion/${row.id}`}>
+                      <p className="truncate cursor-pointer">{row.title}</p>
+                    </Link>
                   </Table.BodyCell>
                   <Table.BodyCell>
-                    <div className="flex items-center lg:items-start">
-                      <div className="pr-3">
-                        <img
-                          src="/images/ic_material_mode_comment.svg"
-                          alt="Comment"
-                        />
+                    <Link href={`/dashboard/discussion/${row.id}`}>
+                      <div className="cursor-pointer flex items-center lg:items-start">
+                        <div className="pr-3">
+                          <img
+                            src="/images/ic_material_mode_comment.svg"
+                            alt="Comment"
+                          />
+                        </div>
+                        <span className="text-sm">{row.comments}</span>
                       </div>
-                      <span className="text-sm">{row.comments}</span>
-                    </div>
+                    </Link>
                   </Table.BodyCell>
                   <Table.BodyCell>
-                    <div className="flex items-center lg:items-start">
-                      <div className="pr-3">
-                        <img
-                          src="/images/ic_awesome_calendar.svg"
-                          alt="Calendar"
-                        />
+                    <Link href={`/dashboard/discussion/${row.id}`}>
+                      <div className="cursor-pointer flex items-center lg:items-start">
+                        <div className="pr-3">
+                          <img
+                            src="/images/ic_awesome_calendar.svg"
+                            alt="Calendar"
+                          />
+                        </div>
+                        <span className="text-sm">
+                          {formatDate(row.created_at, 'd/M/yy')}
+                        </span>
                       </div>
-                      <span className="text-sm">
-                        {formatDate(row.created_at, 'd/M/yy')}
-                      </span>
-                    </div>
+                    </Link>
                   </Table.BodyCell>
                 </Table.BodyRow>
               ))}

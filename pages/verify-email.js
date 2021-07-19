@@ -4,21 +4,24 @@ import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { LoadingButton } from '../components/partials';
 import { resend2FaCode, verifyEmail } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
+import { AppContext } from './_app';
 
 const VerifyEmail = () => {
   const { formState, register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const router = useRouter();
   const detectMobile = useMobileDetect();
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { setLoading } = useContext(AppContext);
   const onSubmit = data => {
     setIsSubmitting(true);
     dispatch(
@@ -37,7 +40,17 @@ const VerifyEmail = () => {
   };
 
   const onResend2FaCode = () => {
-    dispatch(resend2FaCode());
+    setLoading(true);
+    dispatch(
+      resend2FaCode(
+        () => {
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
   };
 
   return (
@@ -74,9 +87,9 @@ const VerifyEmail = () => {
               Verify Your Email
             </p>
             <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
-              A verification code was sent to your email [show email]. You must
-              enter this code in the field below to proceed. If you did not get
-              the code, please check your spam folder.
+              A verification code was sent to your email {userInfo?.email}. You
+              must enter this code in the field below to proceed. If you did not
+              get the code, please check your spam folder.
             </p>
             <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s ">
               <input

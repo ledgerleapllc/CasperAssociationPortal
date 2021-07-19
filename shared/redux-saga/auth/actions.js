@@ -51,11 +51,13 @@ export const verifyEmail = (payload, callback, resetSubmitting) => ({
   resetSubmitting,
 });
 
-export const resend2FaCode = () => ({
+export const resend2FaCode = (resolve, reject) => ({
   type: 'RESEND_2FA_CODE',
+  resolve,
+  reject,
 });
 
-export const fetchUserInfo = (resolve) => ({
+export const fetchUserInfo = resolve => ({
   type: 'FETCH_USER_INFO',
   resolve,
 });

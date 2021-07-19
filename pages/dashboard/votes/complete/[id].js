@@ -1,22 +1,34 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-
-import ReactLoading from 'react-loading';
 
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, ProgressBar } from '../../../../components/partials';
 import { getVoteDetail } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../../_app';
 
 const CompleteVoteDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const { isLoading, data } = useSelector(state => state?.voteDetailReducer);
+  const { setLoading } = useContext(AppContext);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (id) {
-      dispatch(getVoteDetail(id));
+      setLoading(true);
+      dispatch(
+        getVoteDetail(
+          id,
+          res => {
+            setLoading(false);
+            setData(res);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
     }
   }, [id]);
 
@@ -45,16 +57,6 @@ const CompleteVoteDetail = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="py-14 h-5/6">
-            {isLoading && (
-              <div className="flex justify-center h-full items-center">
-                <ReactLoading
-                  type="spinningBubbles"
-                  color="#FF473E"
-                  width={137}
-                  height={141}
-                />
-              </div>
-            )}
             {data && (
               <>
                 <div className="w-2/5 mb-10">

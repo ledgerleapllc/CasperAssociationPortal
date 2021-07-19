@@ -37,7 +37,7 @@ export function* getVotes({ payload, successCb }) {
   }
 }
 
-export function* getVoteDetail({ payload, callback }) {
+export function* getVoteDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -47,13 +47,14 @@ export function* getVoteDetail({ payload, callback }) {
       headers,
     });
     yield put(getVoteDetailSuccess(res.data));
-    callback(res.data);
+    resolve(res.data);
   } catch (error) {
+    reject();
     yield put(getVoteDetailError(error));
   }
 }
 
-export function* recordVote({ payload, callback }) {
+export function* recordVote({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -67,8 +68,9 @@ export function* recordVote({ payload, callback }) {
       }
     );
     yield put(recordVoteSuccess(res));
-    callback();
+    resolve();
   } catch (error) {
+    reject();
     yield put(recordVoteError(error));
   }
 }
