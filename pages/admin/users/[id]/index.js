@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { getUserDetail } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card } from '../../../../components/partials';
@@ -218,12 +219,11 @@ const AdminUserDetail = () => {
                 </p>
                 <p className="text-sm w-5/6">
                   {renderShuftiproStatus()}
-                  <a
-                    href={`/admin/users/${id}/kyc`}
-                    className="pl-3 text-primary cursor-pointer underline"
-                  >
-                    View Details
-                  </a>
+                  <Link href={`/admin/users/${id}/kyc`}>
+                    <a className="pl-3 text-primary cursor-pointer underline">
+                      View Details
+                    </a>
+                  </Link>
                 </p>
               </div>
               <div className="flex flex-row py-1">

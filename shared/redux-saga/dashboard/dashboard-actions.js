@@ -18,10 +18,11 @@ export const getVotes = (payload, successCb) => ({
   successCb,
 });
 
-export const getVoteDetail = (payload, callback) => ({
+export const getVoteDetail = (payload, resolve, reject) => ({
   type: 'GET_VOTE_DETAIL',
   payload,
-  callback,
+  resolve,
+  reject,
 });
 
 export const getVoteDetailSuccess = data => ({
@@ -34,10 +35,11 @@ export const getVoteDetailError = error => ({
   payload: error,
 });
 
-export const recordVote = (payload, callback) => ({
+export const recordVote = (payload, resolve, reject) => ({
   type: 'RECORD_VOTE',
   payload,
-  callback,
+  resolve,
+  reject,
 });
 
 export const recordVoteSuccess = data => ({

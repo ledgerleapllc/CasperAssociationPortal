@@ -57,6 +57,16 @@ const Navigation = () => {
     setIsApprovedProfile(userInfo?.profile?.status === 'approved');
   }, [userInfo]);
 
+  const buildUrl = nav => {
+    if (isAdmin && nav.key === 'dashboard') {
+      return '/admin/dashboard';
+    }
+    if (isAdmin && nav.key === 'setting') {
+      return '/admin/settings';
+    }
+    return nav.path;
+  };
+
   return (
     <>
       <Card className="flex-col w-24 px-5 hidden lg:flex h-full overflow-y-scroll">
@@ -82,11 +92,7 @@ const Navigation = () => {
                 >
                   <ActiveLink
                     activeClassName="shadow-activeLink"
-                    href={`${
-                      isAdmin && nav.key === 'dashboard'
-                        ? '/admin/dashboard'
-                        : nav.path
-                    }`}
+                    href={`${buildUrl(nav)}`}
                   >
                     <a
                       className="

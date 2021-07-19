@@ -1,61 +1,91 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { useState } from 'react';
+import { useRef } from 'react';
+import Slider from 'react-slick';
+import ReactLoading from 'react-loading';
 import { Card } from '../partials';
 import ArrowIcon from '../../public/images/ic_arrow.svg';
 
-const Alert = ({ alerts }) => {
-  const [currentAlert, setCurrentAlert] = useState(0);
+const settings = {
+  arrows: false,
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
+const Alert = ({ alerts, isLoading }) => {
+  const sliderRef = useRef(null);
+
+  const next = () => {
+    sliderRef.current.slickNext();
+  };
+
+  const prev = () => {
+    sliderRef.current.slickPrev();
+  };
 
   return (
-    <Card className="lg:flex-grow bg-primary flex items-center justify-between px-5 h-70px items-center">
-      <button
-        type="button"
-        className="text-3xl text-white focus:outline-none"
-        onClick={() =>
-          setCurrentAlert(pre => {
-            if (pre < 1) {
-              return alerts.length - 1;
-            }
-            return pre - 1;
-          })
-        }
-      >
-        <ArrowIcon />
-      </button>
-      <div
-        role="button"
-        className="flex flex-col flex-grow overflow-y-auto h-2/3 mx-2 text-white"
-        onClick={() => {
-          if (alerts?.[currentAlert]?.handler) {
-            alerts[currentAlert].handler();
-          }
-        }}
-      >
-        <p className="text-xl font-bold">
-          <span>
-            Alert {currentAlert + 1} of {alerts?.length}:
-          </span>
-          <span> </span>
-          <span>{alerts?.[currentAlert]?.title}</span>
-        </p>
-        <p className="text-md">{alerts?.[currentAlert]?.content}</p>
-      </div>
-      <button
-        type="button"
-        className="text-3xl text-white focus:outline-none transform rotate-180"
-        onClick={() =>
-          setCurrentAlert(pre => {
-            if (+pre === alerts.length - 1) {
-              return 0;
-            }
-            return pre + 1;
-          })
-        }
-      >
-        <ArrowIcon />
-      </button>
+    <Card className="w-full flex bg-primary items-center h-full justify-between px-5 items-center">
+      {isLoading ? (
+        <div className="w-full">
+          <ReactLoading
+            className="mx-auto"
+            type="spinningBubbles"
+            color="white"
+            width={25}
+            height={25}
+          />
+        </div>
+      ) : (
+        <>
+          <button
+            type="button"
+            className="text-3xl text-white focus:outline-none"
+            onClick={prev}
+          >
+            <ArrowIcon />
+          </button>
+          <div style={{ width: 'calc(100% - 3.75rem)' }}>
+            <div
+              className="overflow-hidden px-5 text-white h-full block min-w-full"
+              style={{ width: 0 }}
+            >
+              <Slider ref={sliderRef} {...settings}>
+                {alerts.map((alert, ind) => (
+                  <div
+                    className="h-full"
+                    role="button"
+                    onClick={() => {
+                      if (alert?.handler) {
+                        alert.handler();
+                      }
+                    }}
+                  >
+                    <p className="text-base font-bold pb-1">
+                      <span>
+                        Alert {ind + 1} of {alerts?.length}:
+                      </span>
+                      <span> </span>
+                      <span>{alert?.title}</span>
+                    </p>
+                    <p className="text-xs line-clamp-2">{alert?.content}</p>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="text-3xl text-white focus:outline-none transform rotate-180"
+            onClick={next}
+          >
+            <ArrowIcon />
+          </button>
+        </>
+      )}
     </Card>
   );
 };

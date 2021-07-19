@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-
-import ReactLoading from 'react-loading';
 
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card } from '../../../../components/partials';
@@ -10,19 +8,33 @@ import {
   getVoteDetail,
   recordVote,
 } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../../_app';
 
 const ActiveVoteDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const { isLoading, data } = useSelector(state => state?.voteDetailReducer);
   const user = useSelector(state => state.authReducer.userInfo);
+  const { setLoading } = useContext(AppContext);
 
   const [userVote, setUserVote] = useState('');
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (id) {
-      dispatch(getVoteDetail(id));
+      setLoading(true);
+      dispatch(
+        getVoteDetail(
+          id,
+          res => {
+            setData(res);
+            setLoading(false);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
     }
   }, [id]);
 
@@ -31,10 +43,18 @@ const ActiveVoteDetail = () => {
   }, [data?.user_vote?.type]);
 
   const doRecordVote = vote => {
+    setLoading(true);
     dispatch(
-      recordVote({ id, vote }, () => {
-        setUserVote(vote);
-      })
+      recordVote(
+        { id, vote },
+        () => {
+          setLoading(false);
+          setUserVote(vote);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
     );
   };
 
@@ -60,16 +80,6 @@ const ActiveVoteDetail = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="py-14 h-5/6">
-            {isLoading && (
-              <div className="flex justify-center h-full items-center">
-                <ReactLoading
-                  type="spinningBubbles"
-                  color="#FF473E"
-                  width={137}
-                  height={141}
-                />
-              </div>
-            )}
             {data && (
               <>
                 {user?.role !== 'admin' && (

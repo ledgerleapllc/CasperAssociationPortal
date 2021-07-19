@@ -164,15 +164,13 @@ export function* verifyEmail({ payload, callback, resetSubmitting }) {
   }
 }
 
-export function* resend2FaCode() {
+export function* resend2FaCode({ resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/resend-verify-email'], null, { headers });
+    yield post(['users/resend-verify-email'], null);
+    resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 

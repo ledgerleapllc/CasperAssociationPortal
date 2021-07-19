@@ -6,6 +6,8 @@ import '../styles/custom-animation.scss';
 import '../styles/responsive.scss';
 import '../styles/custom-circular.scss';
 import '../styles/custom-editor.scss';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
 import { logger } from 'redux-logger';
