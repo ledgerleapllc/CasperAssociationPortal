@@ -101,7 +101,7 @@ const MembersViewerDetail = () => {
                     type="button"
                     className="transition text-lg text-white px-5 mb-2.5 w-auto h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
-                    Become new Members
+                    Become a Member
                   </button>
                 </Link>
               </div>
