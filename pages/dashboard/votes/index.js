@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import styled from 'styled-components';
@@ -12,8 +12,12 @@ import {
   ForAgainst,
   Table,
   ClockBar,
+  StatusText,
 } from '../../../components/partials';
-import { getVotes } from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import {
+  getMyVotes,
+  getVotes,
+} from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
 
@@ -238,27 +242,163 @@ const Tab2 = () => {
   );
 };
 
-const tabsData = [
-  {
-    content: Tab1,
-    id: 'active_votes',
-    title: 'Active Votes',
-  },
-  {
-    content: Tab2,
-    id: 'finished',
-    title: 'Finished',
-  },
-];
+const Tab3 = () => {
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const fetchMyVotes = (pageValue = page, paramsValue = params) => {
+    dispatch(
+      getMyVotes({ page: pageValue, ...paramsValue }, (results, isHasMore) => {
+        setHasMore(isHasMore);
+        appendData(results);
+        setPage(prev => prev + 1);
+      })
+    );
+  };
 
-const DashboardVote = () => (
-  <LayoutDashboard>
-    <Card className="h-full lg:pl-24 lg:py-20 lg:shadow-2xl" noShadow>
-      <div className="w-full h-full">
-        <Tab className="w-full h-full pt-12 lg:pt-0 lg:-mt-7" data={tabsData} />
-      </div>
-    </Card>
-  </LayoutDashboard>
-);
+  useEffect(() => {
+    fetchMyVotes();
+  }, []);
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchMyVotes(1, newParams);
+  };
+
+  const goToActiveVoteDetail = id => {
+    router.push(`/dashboard/votes/active/${id}`);
+  };
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="active-vote-table pt-10 h-full"
+        onLoadMore={fetchMyVotes}
+        hasMore={hasMore}
+        dataLength={data.length}
+        onSort={handleSort}
+      >
+        <Table.Header>
+          <Table.HeaderCell>
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell sortKey="time_end">
+            <p>My Vote</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Date Placed</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>Total Votes</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell>
+            <p>For/Against</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body>
+          {data.map((row, ind) => (
+            <Table.BodyRow
+              className="py-6"
+              key={ind}
+              selectRowHandler={() => goToActiveVoteDetail(row.id)}
+            >
+              <Table.BodyCell>
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <StatusText content={row.voteType} className="uppercase" />
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{formatDate(row.date_placed)}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <p>{row.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell>
+                <ForAgainst
+                  splitFor={row.for_value}
+                  splitAgainst={row.against_value}
+                />
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
+
+const DashboardVote = () => {
+  const [tabsData, setTabsData] = useState([]);
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+
+  useEffect(() => {
+    if (userInfo && userInfo.role !== 'admin') {
+      setTabsData([
+        {
+          content: Tab1,
+          id: 'active-votes',
+          title: 'Active Votes',
+        },
+        {
+          content: Tab2,
+          id: 'finished',
+          title: 'Finished',
+        },
+        {
+          content: Tab3,
+          id: 'my-votes',
+          title: 'My Votes',
+        },
+      ]);
+    } else {
+      setTabsData([
+        {
+          content: Tab1,
+          id: 'active-votes',
+          title: 'Active Votes',
+        },
+        {
+          content: Tab2,
+          id: 'finished',
+          title: 'Finished',
+        },
+      ]);
+    }
+  }, [userInfo]);
+
+  return (
+    <LayoutDashboard>
+      <Card className="h-full lg:pl-24 lg:py-20 lg:shadow-2xl" noShadow>
+        <div className="w-full h-full">
+          {tabsData.length > 0 && (
+            <Tab
+              className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
+              data={tabsData}
+              lazy
+            />
+          )}
+        </div>
+      </Card>
+    </LayoutDashboard>
+  );
+};
 
 export default LoadingScreen(DashboardVote, 'final-all');

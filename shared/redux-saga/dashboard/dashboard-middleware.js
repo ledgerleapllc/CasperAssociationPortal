@@ -37,6 +37,17 @@ export function* getVotes({ payload, successCb }) {
   }
 }
 
+export function* getMyVotes({ payload, successCb }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`users/my-votes?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVoteDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -280,6 +291,7 @@ export function* uploadAvatar({ payload, resolve, reject }) {
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
+  yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
   yield all([takeEvery('GET_DISCUSSIONS', getDiscussions)]);

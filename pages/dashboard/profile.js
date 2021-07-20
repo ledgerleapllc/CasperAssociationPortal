@@ -101,19 +101,20 @@ const UserProfile = () => {
       <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           <div className="card-header lg:mr-24 lg:h-70px">
-            <div className="flex justify-between">
-              <div>
-                <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2">
-                  My Profile
+            <div className="flex justify-between items-end mb-3.5">
+              <div className="flex items-center">
+                <h3 className="text-gray text-xl font-medium mr-20">
+                  <Link href="/dashboard/settings/">
+                    <a>User Settings</a>
+                  </Link>
                 </h3>
-                <p className="text-xs mb-3">
-                  <span className="text-gray">Member Type:</span>
-                  <span className="pl-2 uppercase text-primary font-medium">
-                    {myInfo?.profile?.type}
-                  </span>
-                </p>
+                <h3 className="text-dark2 text-xl font-medium">
+                  <Link href="/dashboard/profile">
+                    <a>My profile</a>
+                  </Link>
+                </h3>
               </div>
-              <div>
+              <div className="flex">
                 {!myInfo?.approve_at && (
                   <Button
                     primaryOutline
@@ -216,15 +217,22 @@ const UserProfile = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span>Member Type:</span>
+                            </td>
+                            <td>
+                              <span className="text-primary uppercase font-medium">
+                                {myInfo?.profile?.type}
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span>Verified Since:</span>
                             </td>
                             <td>
                               {myInfo?.approve_at ? (
                                 <span>
-                                  {formatDate(
-                                    myInfo?.approve_at,
-                                    'dd/MM/yyyy'
-                                  )}
+                                  {formatDate(myInfo?.approve_at, 'dd/MM/yyyy')}
                                 </span>
                               ) : (
                                 <Link href="/dashboard/verification">
