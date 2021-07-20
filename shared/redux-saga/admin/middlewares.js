@@ -1,10 +1,6 @@
 import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
-<<<<<<< HEAD
 import { destroy, get, post, put as _put } from '../../core/saga-api';
-=======
-import { get, post, put as _put } from '../../core/saga-api';
->>>>>>> development
 import { saveApiResponseError } from '../api-controller/actions';
 import {
   getListMembersSuccess,
@@ -454,35 +450,32 @@ export function* changeSubadminPermissions({ id, payload, callback }) {
     yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
     yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
     yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
-<<<<<<< HEAD
     yield all([takeLatest('GET_SUBADMINS', getSubadmins)]);
     yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
     yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
     yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
     yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
     yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
-=======
-  yield all([takeLatest('APPROVE_USER', approveUser)]);
-  yield all([takeLatest('BAN_USER', banUser)]);
-  yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
-  yield all([takeLatest('RESET_USER', resetUser)]);
-  yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
-  yield all([
-    takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
-  ]);
-  yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
-  yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
-  yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
-  yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
-  yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
-  yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
-  yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
-  yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
-  yield all([
-    takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
-  ]);
-  yield all([
-    takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
-  ]);
->>>>>>> development
+    yield all([takeLatest('APPROVE_USER', approveUser)]);
+    yield all([takeLatest('BAN_USER', banUser)]);
+    yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
+    yield all([takeLatest('RESET_USER', resetUser)]);
+    yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
+    yield all([
+      takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
+    ]);
+    yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
+    yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
+    yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
+    yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
+    yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
+    yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
+    yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
+    yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+    yield all([
+      takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
+    ]);
+    yield all([
+      takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
+    ]);
   }
