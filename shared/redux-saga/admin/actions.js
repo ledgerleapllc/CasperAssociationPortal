@@ -141,4 +141,10 @@ export const resendInviteLink = (id, callback) => ({
   callback,
 });
 
+export const changeSubadminPermissions = (id, payload, callback) => ({
+  type: 'CHANGE_SUBADMIN_PERMISSIONS',
+  id,
+  payload,
+  callback,
+});
 

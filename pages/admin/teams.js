@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import Switch from "react-switch";
@@ -7,17 +7,15 @@ import {
   inviteSubadmin,
   resendInviteLink,
   revokeSubadmin,
-  resetSubadminPassword
+  resetSubadminPassword,
+  changeSubadminPermissions
 } from '../../shared/redux-saga/admin/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Table } from '../../components/partials';
 import { useTable } from '../../components/partials/table';
 import { useDialog } from '../../components/partials/dialog';
-import { ApiService } from '../../helpers/api/api.service';
 import { formatDate } from '../../shared/core/utils';
-
-const http = new ApiService();
 
 const Styles = styled.div`
   .admin-table {
@@ -57,7 +55,6 @@ const Styles = styled.div`
 const AdminTeams = () => {
   // const [checked, setChecked] = useState({ intake });
   const { setDialog } = useDialog();
-  const [admins, setAdmins] = useState([]);
   const dispatch = useDispatch();
   const {
     data,
@@ -108,31 +105,42 @@ const AdminTeams = () => {
       afterClosed: registerAdmin,
     });
   };
-
   const revokeAdmin = item => {
-    dispatch(
-      revokeSubadmin(
-        item.id,
-        () => {
-          const ind = data.findIndex(admin => admin.id === item.id);
-          if (ind >= 0) {
-            data[ind].type = 'revoked';
-            setData([...data]);
-            setDialog({
-              type: 'Dialog',
-              data: {
-                title: `Success`,
-                content: `Successfully revoked the admin with ${item.email}`,
-                ok: 'Invite',
-                cancel: 'Cancel'
-              },
-              afterClosed: () => { },
-            });
-          }
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: `Are you sure you want to revoke admin privileges from ${item.email}?`,
+        ok: 'Revoke',
+        cancel: 'Cancel'
+      },
+      afterClosed: (confirm) => {
+        if (confirm)
+          dispatch(
+            revokeSubadmin(
+              item.id,
+              () => {
+                const ind = data.findIndex(admin => admin.id === item.id);
+                if (ind >= 0) {
+                  data[ind].type = 'revoked';
+                  setData([...data]);
+                  setDialog({
+                    type: 'Dialog',
+                    data: {
+                      title: `Success`,
+                      content: `Successfully revoked the admin with ${item.email}`,
+                      ok: 'Invite',
+                      cancel: 'Cancel'
+                    },
+                    afterClosed: () => { },
+                  });
+                }
+              }
+            )
+          )
+      },
+    });
 
-        }
-      )
-    );
+    ;
   };
 
   const resetPassword = item => {
@@ -176,15 +184,27 @@ const AdminTeams = () => {
   }
 
   const setPermission = (id, perm, value) => {
-    const ind = admins.findIndex(admin => admin.id === id);
-    admins[ind].permission[perm] = value;
-    http.doPost([`admin/teams/${id}/change-permissions`], { permission: admins[ind].permission })
-      .then(res => {
-        const { code } = res.data;
-        if (code === 200) {
-          setAdmins([...admins]);
+    const permissions = {
+      intake: false,
+      users: false,
+      ballots: false,
+      perks: false
+    };
+    const ind = data.findIndex(admin => admin.id === id);
+    if (!data[ind].permissions)
+      data[ind].permissions = permissions;
+    data[ind].permissions[perm] = value;
+    dispatch(
+      changeSubadminPermissions(
+        id,
+        {
+          permissions: data[ind].permissions
+        },
+        () => {
+          setData([...data]);
         }
-      });
+      )
+    )
   }
 
   const fetchSubadmins = (pageValue = page, paramsValue = params) => {
@@ -242,7 +262,7 @@ const AdminTeams = () => {
             </button>
           </div>
           <div className="flex flex-col h-full">
-            <Styles className="h-full pt-8">
+            <Styles className="h-full pt-8 overflow-y-scroll" style={{ height: '85%' }}>
               <Table
                 className="admin-table w-full h-full min-w-full"
                 {...register}

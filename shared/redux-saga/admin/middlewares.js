@@ -252,6 +252,17 @@ export function* resendInviteLink({ id, callback }) {
   }
 }
 
+
+export function* changeSubadminPermissions({ id, payload, callback }) {
+  try {
+    yield _put([`admin/teams/${id}/change-permissions`], payload);
+    callback();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -269,4 +280,5 @@ export function* watchAdmin() {
   yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
   yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
   yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
+  yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
 }
