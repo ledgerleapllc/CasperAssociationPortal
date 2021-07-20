@@ -319,22 +319,23 @@ const tabsData = [
 
 const Ballots = () => (
   <LayoutDashboard>
-    <Card className="h-full md:pl-24 md:py-10 md:shadow-2xl" noShadow>
+    <Card className="h-full lg:pl-24 lg:py-10 lg:shadow-2xl" noShadow>
       <div className="w-full h-full">
-        <div className="flex justify-between md:mr-24">
+        <div className="flex justify-between lg:mr-24">
           <h3 className="text-dark2 text-xl lg:pr-32 font-medium">Ballots</h3>
           <Link href="/admin/ballots/add">
             <button
               type="button"
-              className="transition text-lg text-white w-36 md:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+              className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
             >
-              New Ballots
+              + New Ballot
             </button>
           </Link>
         </div>
         <Tab
-          className="w-full h-full pt-12 md:pt-0 ballot-tabs"
+          className="w-full h-full pt-12 lg:pt-0 ballot-tabs"
           data={tabsData}
+          scrollable
         />
       </div>
     </Card>

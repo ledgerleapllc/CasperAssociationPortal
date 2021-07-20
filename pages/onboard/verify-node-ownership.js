@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
@@ -10,16 +10,23 @@ import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-o
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
 import VerifyNodeOwnershipThirdStep from '../../components/onboard/verify-node-ownership/third-step';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
-import { verifyFileCasperSigner } from '../../shared/redux-saga/onboard/actions';
 
 const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
-  const [signedFileUploaded, setSignedFileUploaded] = useState(false);
-  const [signedFileUploading, setSignedFileUploading] = useState(false);
+  const [signedFileUploaded, setSignedFileUploaded] = useState(null);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const uploadFileRef = useRef(null);
+
+  useEffect(() => {
+    // Close upload dialog when click outside
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   const handleUpload = action => {
     if (action === 'open') {
@@ -42,18 +49,7 @@ const VerifyNodeOwnership = () => {
     const newFile = new File([fileConvert], fileName, optionNewFile);
     handleUpload('close');
     setShowUploadModal(false);
-    setSignedFileUploading(true);
-    dispatch(
-      verifyFileCasperSigner(
-        {
-          newFile,
-        },
-        () => {
-          setSignedFileUploaded(true);
-          setSignedFileUploading(false);
-        }
-      )
-    );
+    setSignedFileUploaded(newFile);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -69,12 +65,13 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 1) {
       router.back();
     } else {
+      setSignedFileUploaded(null);
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handleNext = () => {
-    if (currentStep === totalSteps) {
+    if (currentStep === totalSteps && messageFileStatus === 'succeed') {
       router.push('/onboard');
       dispatch(
         updateUser({
@@ -107,7 +104,6 @@ const VerifyNodeOwnership = () => {
       return (
         <>
           <VerifyNodeOwnershipSecondStep
-            isUploading={signedFileUploading}
             isUploaded={signedFileUploaded}
             onUpload={() => handleUpload('open')}
             onContinue={handleNext}
@@ -115,7 +111,10 @@ const VerifyNodeOwnership = () => {
           {showUploadModal && (
             <>
               <div className="backdrop-filter backdrop-blur-sm justify-center items-center flex fixed inset-0 z-50">
-                <div className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white">
+                <div
+                  className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
+                  ref={uploadFileRef}
+                >
                   <div {...getRootProps()}>
                     <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
                       <div className="flex flex-col items-center justify-between">
@@ -131,7 +130,7 @@ const VerifyNodeOwnership = () => {
                         >
                           Upload Signed File
                         </button>
-                        <span className="hidden md:block">
+                        <span className="hidden lg:block">
                           Or Drap File Here
                         </span>
                       </div>
@@ -153,13 +152,11 @@ const VerifyNodeOwnership = () => {
       );
     }
     if (currentStep === 3) {
-      setTimeout(() => {
-        setMessageFileStatus('succeed');
-      }, 3000);
       return (
         <VerifyNodeOwnershipThirdStep
-          status={messageFileStatus}
+          newFile={signedFileUploaded}
           onContinue={handleNext}
+          setMessageFileStatus={setMessageFileStatus}
         />
       );
     }
@@ -174,15 +171,33 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 2) {
       return signedFileUploaded;
     }
+    if (currentStep === 3) {
+      return messageFileStatus === 'succeed';
+    }
 
     return true;
   };
 
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
+  };
+
   return (
     <div className="flex justify-center min-h-screen">
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl
+        "
+      >
         <AppHeader theme="dark" />
-        <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
+        <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
           <OnboardStepper
             title="Verify Node Ownership"
             description="Please choose Sign In if you have an existing account or Register if this is your first time here."

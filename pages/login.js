@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
-import { Button } from '../components/partials/button';
-import { loginApp } from '../shared/redux-saga/auth/actions';
+import { LoadingButton } from '../components/partials';
+import { loginApp, fetchUserInfo } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const Login = () => {
@@ -26,7 +26,11 @@ const Login = () => {
           ...data,
         },
         () => {
-          router.push('/dashboard');
+          dispatch(
+            fetchUserInfo(() => {
+              router.push('/dashboard');
+            })
+          );
         },
         () => {
           setIsSubmitting(false);
@@ -45,14 +49,22 @@ const Login = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl
+        "
+      >
         <AppHeader theme="light" />
         <form
           className="flex-grow flex items-center justify-center"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div
-            className="bg-white w-full md:w-2/3 text-center px-4 py-12 md:p-44"
+            className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:p-44"
             style={{
               backgroundImage: `url('/images/login_overlay.png')`,
               backgroundSize: 'cover',
@@ -103,17 +115,17 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="md:flex md:space-x-5 mt-14 md:justify-center animate__animated animate__fadeInUp animate__delay-2s">
-              <Button
+            <div className="lg:flex lg:space-x-5 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+              <LoadingButton
                 type="submit"
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}
                 title="Sign in"
-                className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+                className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               />
               <button
                 type="button"
-                className="mt-2 md:mt-0 text-lg border-2 border-primary text-primary w-full md:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
+                className="mt-2 lg:mt-0 text-lg border-2 border-primary text-primary w-full lg:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
               >
                 Sign in as Guest
               </button>

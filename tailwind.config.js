@@ -7,7 +7,12 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
-  plugins: [require('tailwindcss'), require('precss'), require('autoprefixer')],
+  plugins: [
+    require('tailwindcss'),
+    require('precss'),
+    require('autoprefixer'),
+    require('@tailwindcss/line-clamp'),
+  ],
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
     extend: {
@@ -16,6 +21,9 @@ module.exports = {
       },
       boxShadow: {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
+      },
+      screens: {
+        xl: '1281px',
       },
       colors: {
         dark1: '#313131',
@@ -30,10 +38,12 @@ module.exports = {
       },
       fontSize: {
         '2.5xl': '1.7rem',
+        xxl: '1.4rem',
         xxs: '0.625rem',
       },
       height: {
         '1/10': '10%',
+        '1.5/10': '15%',
         '100%-70px': 'calc(100% - 70px)',
         '11/20': '55%',
         114: '28.5rem',
@@ -41,13 +51,19 @@ module.exports = {
         '70px': '70px',
         '8.5/10': '85%',
         '9/10': '90%',
+        '300px': '300px',
+        '500px': '500px',
       },
       maxWidth: {
+        380: '95rem',
         404: '101rem',
         60: '15rem',
       },
       minHeight: {
         105: '26.25rem',
+      },
+      maxHeight: {
+        '200px': '200px',
       },
       minWidth: {
         250: '62.5rem',

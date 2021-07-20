@@ -27,10 +27,11 @@ export const saveShuftiproTemp = payload => ({
   payload,
 });
 
-export const updateShuftiproTemp = (payload, resolve) => ({
+export const updateShuftiproTemp = (payload, resolve, reject) => ({
   type: 'UPDATE_SHUFTI',
   payload,
   resolve,
+  reject,
 });
 
 export const submitPublicAddress = (payload, callback, isVerifying) => ({
@@ -40,10 +41,11 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
-export const verifyFileCasperSigner = (payload, callback) => ({
+export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
-  callback,
   payload,
+  resolve,
+  reject,
 });
 
 export const updateTypeOwnerNode = (payload, resolve, reject) => ({
@@ -65,10 +67,11 @@ export const handleViewGuide = (payload, resolve) => ({
   resolve,
 });
 
-export const uploadLetter = (payload, callback) => ({
+export const uploadLetter = (payload, resolve, reject) => ({
   type: 'UPLOAD_LETTER',
-  callback,
   payload,
+  resolve,
+  reject,
 });
 
 export const uploadLetterSuccess = payload => ({

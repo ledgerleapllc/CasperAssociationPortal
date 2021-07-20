@@ -138,7 +138,6 @@ const Tab1 = () => {
                 <ClockBar
                   endTime={new Date(row.time_end)}
                   startTime={new Date(row.created_at)}
-                  hideProgressBar
                 />
               </Table.BodyCell>
               <Table.BodyCell>

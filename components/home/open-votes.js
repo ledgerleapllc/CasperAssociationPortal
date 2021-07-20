@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import { getVotes } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { ClockBar, Table } from '../partials';
+import { useTable } from '../partials/table';
 
 const Styles = styled.div`
   .active-vote-table {
@@ -23,18 +24,22 @@ const Styles = styled.div`
 `;
 
 const OpenVotes = ({ toggleOpenVotes }) => {
-  const [activeVotes, setActiveVotes] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const router = useRouter();
-  const fetchActiveVotes = () => {
+
+  const { data, hasMore, appendData, setHasMore, page, setPage, params } =
+    useTable();
+
+  const fetchActiveVotes = (pageValue = page, paramsValue = params) => {
     dispatch(
-      getVotes({ status: 'active', page }, (data, isHasMore) => {
-        setHasMore(isHasMore);
-        setActiveVotes(prevVotes => [...prevVotes, ...data]);
-        setPage(prev => prev + 1);
-      })
+      getVotes(
+        { status: 'active', page: pageValue, ...paramsValue },
+        (result, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(result);
+          setPage(prev => prev + 1);
+        }
+      )
     );
   };
 
@@ -43,16 +48,15 @@ const OpenVotes = ({ toggleOpenVotes }) => {
   }, []);
 
   useEffect(() => {
-    console.log('!!activeVotes.length', !!activeVotes.length);
-    toggleOpenVotes(!!activeVotes.length);
-  }, [JSON.stringify(activeVotes)]);
+    toggleOpenVotes(!!data.length);
+  }, [JSON.stringify(data)]);
 
   const goToActiveVoteDetail = id => {
     router.push(`/dashboard/votes/active/${id}`);
   };
 
   return (
-    <div className="flex flex-col px-8 py-7 h-full">
+    <div className="flex flex-col pl-8 py-7 h-full">
       <p className="text-2.5xl text-black1">Open Votes</p>
       <div className="flex flex-col lg:pt-6 h-8.5/10">
         <Styles className="h-full w-full">
@@ -60,7 +64,7 @@ const OpenVotes = ({ toggleOpenVotes }) => {
             className="active-vote-table w-full h-full min-w-full"
             onLoadMore={fetchActiveVotes}
             hasMore={hasMore}
-            dataLength={activeVotes.length}
+            dataLength={data.length}
           >
             <Table.Header>
               <Table.HeaderCell>
@@ -71,7 +75,7 @@ const OpenVotes = ({ toggleOpenVotes }) => {
               </Table.HeaderCell>
             </Table.Header>
             <Table.Body>
-              {activeVotes.map((row, ind) => (
+              {data.map((row, ind) => (
                 <Table.BodyRow
                   key={ind}
                   selectRowHandler={() => goToActiveVoteDetail(row.id)}

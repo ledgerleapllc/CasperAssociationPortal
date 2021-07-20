@@ -13,7 +13,7 @@ import {
   TELEGRAM_PATTERN,
   ENTITY_PATTERN,
 } from '../helpers/form-validation';
-import { Button } from '../components/partials/button';
+import { LoadingButton } from '../components/partials';
 import { registerEntity } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
@@ -117,13 +117,20 @@ const RegisterEntity = () => {
 
   return (
     <div className="flex justify-center min-h-screen">
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl"
+      >
         <AppHeader theme="dark" />
         <form
-          className="flex-grow flex items-center justify-center mt-16 md:mt-0"
+          className="flex-grow flex items-center justify-center mt-16 lg:mt-0"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="w-full md:w-9/12">
+          <div className="w-full lg:w-9/12">
             <p className="text-2xl animate__animated animate__fadeInLeft">
               New Entity User
             </p>
@@ -131,11 +138,11 @@ const RegisterEntity = () => {
               LLC/Corp/Trust/Etc. Please fill out the form to register.
             </p>
             <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-4s">
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Entity Name *"
                     name="entityName"
                     {...register('entityName', {
@@ -153,7 +160,7 @@ const RegisterEntity = () => {
                   )}
                 </div>
                 <div className="flex-1 flex-col">
-                  <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+                  <div className="w-full lg:flex-1 flex items-center justify-between px-7 mt-2 lg:mt-0 h-14 rounded-full shadow-md">
                     <select
                       className={`w-full h-full cursor-pointer focus:outline-none ${
                         watchEntityType?.length > 0
@@ -183,11 +190,11 @@ const RegisterEntity = () => {
                   )}
                 </div>
               </div>
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Entity Registration Number *"
                     name="entityRegisterNumber"
                     {...register('entityRegisterNumber', {
@@ -205,7 +212,7 @@ const RegisterEntity = () => {
                   )}
                 </div>
                 <div className="flex-1 flex-col">
-                  <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+                  <div className="w-full lg:flex-1 flex items-center justify-between px-7 mt-2 lg:mt-0 h-14 rounded-full shadow-md">
                     <select
                       className={`w-full h-full cursor-pointer focus:outline-none ${
                         watchRegisterCountry?.length > 0
@@ -237,7 +244,7 @@ const RegisterEntity = () => {
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Entity Tax ID/VAT Number"
                     name="entityTax"
                     {...register('entityTax', {
@@ -254,11 +261,11 @@ const RegisterEntity = () => {
                   )}
                 </div>
               </div>
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="First Name of Entity Representative *"
                     name="firstName"
                     {...register('firstName', {
@@ -278,7 +285,7 @@ const RegisterEntity = () => {
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Last Name of Entity Representative *"
                     name="lastName"
                     {...register('lastName', {
@@ -296,7 +303,7 @@ const RegisterEntity = () => {
                   )}
                 </div>
               </div>
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
@@ -324,7 +331,7 @@ const RegisterEntity = () => {
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Confirm Email *"
                     name="confirmEmail"
                     {...register('confirmEmail', {
@@ -348,7 +355,7 @@ const RegisterEntity = () => {
                   )}
                 </div>
               </div>
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="password"
@@ -380,7 +387,7 @@ const RegisterEntity = () => {
                 <div className="flex-1 flex-col">
                   <input
                     type="password"
-                    className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                    className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                     placeholder="Confirm Password *"
                     name="confirmPassword"
                     {...register('confirmPassword', {
@@ -408,7 +415,7 @@ const RegisterEntity = () => {
                   )}
                 </div>
               </div>
-              <div className="md:flex mt-5 md:space-x-5">
+              <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
                     type="text"
@@ -442,7 +449,7 @@ const RegisterEntity = () => {
                     render={({ field: { value, onChange, onBlur } }) => (
                       <input
                         type="text"
-                        className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                        className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                         placeholder="Telegram"
                         name="telegram"
                         value={value}
@@ -507,14 +514,14 @@ const RegisterEntity = () => {
                 that I will be required to prove I am a node operator.
               </p>
             </div>
-            <div className="md:flex md:flex-row-reverse mt-10">
+            <div className="lg:flex lg:flex-row-reverse mt-10">
               <div className="animate__animated animate__fadeInLeft animate__delay-8s">
-                <Button
+                <LoadingButton
                   type="submit"
                   isDisabled={!validateFields() || isSubmitting}
                   isLoading={isSubmitting}
                   title="Submit"
-                  className="text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 />
               </div>
             </div>

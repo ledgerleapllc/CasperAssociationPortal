@@ -255,7 +255,7 @@ const AdminTeams = () => {
             </h4>
             <button
               type="button"
-              className="transition text-lg text-white w-full md:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+              className="transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               onClick={showNewAdminDlg}
             >
               + New Admin

@@ -19,7 +19,14 @@ const TypeRegister = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="w-full lg:max-w-screen-2xl lg:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl"
+      >
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center justify-center">
           <div

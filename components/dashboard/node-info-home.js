@@ -1,57 +1,73 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { ProgressBar } from '../partials';
 
 const NodeInfoHome = () => {
   const percenCPU = 61;
   const percenPerformance = 83;
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
-      <span className="text-2.5xl">Node Info</span>
-      <div className="flex flex-col py-3">
+      <span className="text-2xl">Node Info</span>
+      <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Node Rank</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">8</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Stake Amount</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">2,502,815</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Delegators</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <span className="text-base text-black1 font-thin">8</span>
       </div>
-      <div className="flex flex-col py-3">
+      <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Uptime</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-          <div className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-            75%
-          </div>
+        <p className="text-sm text-gray mb-2">{`Average: {X}%`}</p>
+        <ProgressBar percent={75} />
+      </div>
+      <div className="flex flex-col py-2">
+        <div className="flex flex-row">
+          <span className="text-lg">Block Height</span>
+          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
+        <p className="text-sm text-gray mb-2">Current: 1 block behind</p>
+        <ProgressBar counts={504} totalCounts={505} type="count" />
+      </div>
+      <div className="flex flex-col py-2">
+        <div className="flex flex-row">
+          <span className="text-lg">Update Responsiveness</span>
+          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+        </div>
+        <p className="text-sm text-gray mb-2">Average: 2+ days early</p>
+        <ProgressBar
+          percent={100}
+          type="text"
+          startText="Needs Improvement"
+          endText="Great"
+        />
       </div>
       <div className="flex flex-col pt-2 pb-9 border-b-2 border-gray">
         <div className="flex flex-row">
           <span className="text-lg">Peers</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-          <div className="w-1/2 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-            49/88
-          </div>
-        </div>
+        <p className="text-sm text-gray mb-2">Average: 63</p>
+        <ProgressBar counts={62} totalCounts={88} type="count" />
       </div>
       <div className="flex justify-between py-9">
-        <div className="flex flex-col">
+        <div className="flex w-1/2 pr-2 flex-col">
           <div className="flex flex-row pb-4">
             <span className="text-sm font-medium">CPU Load</span>
             <img
@@ -60,7 +76,7 @@ const NodeInfoHome = () => {
               alt="Info"
             />
           </div>
-          <div style={{ height: 100, width: 100 }}>
+          <div style={{ height: '100%', width: '100%' }}>
             <CircularProgressbar
               value={percenCPU}
               text={`${percenCPU}%`}
@@ -74,7 +90,7 @@ const NodeInfoHome = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex w-1/2 pl-2 flex-col">
           <div className="flex flex-row pb-4">
             <span className="text-sm font-medium">Performance</span>
             <img
@@ -83,7 +99,7 @@ const NodeInfoHome = () => {
               alt="Info"
             />
           </div>
-          <div style={{ height: 100, width: 100 }}>
+          <div style={{ height: '100%', width: '100%' }}>
             <CircularProgressbar
               value={percenPerformance}
               text={`${percenPerformance}%`}

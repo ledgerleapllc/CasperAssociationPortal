@@ -4,21 +4,14 @@ import { useForm, Controller } from 'react-hook-form';
 import Router from 'next/router';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Editor, BackButton } from '../../../components/partials';
-import { Button } from '../../../components/partials/button';
+import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { createDiscussion } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 
 const DashboardAddDiscusion = () => {
-
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    control,
-    formState,
-    register,
-    handleSubmit,
-  } = useForm({
+  const { control, formState, register, handleSubmit } = useForm({
     mode: 'onBlur',
   });
 
@@ -29,13 +22,14 @@ const DashboardAddDiscusion = () => {
         data,
         () => {
           Router.push('/dashboard/discussion');
+          setIsSubmitting(false);
         },
         () => {
           setIsSubmitting(false);
         }
       )
     );
-  }
+  };
 
   return (
     <LayoutDashboard>
@@ -49,12 +43,10 @@ const DashboardAddDiscusion = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-            >
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:pr-24">
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">{userInfo?.pseudonym}</a>
+                  Posting as: <a className="text-primary">{userInfo?.email}</a>
                 </p>
                 <input
                   type="text"
@@ -77,6 +69,9 @@ const DashboardAddDiscusion = () => {
                     render={({ field: { value, onChange } }) => (
                       <Editor value={value} onChange={onChange} />
                     )}
+                    rules={{
+                      required: 'Description is required',
+                    }}
                   />
                 </div>
                 {formState.errors?.description && (
@@ -93,10 +88,11 @@ const DashboardAddDiscusion = () => {
                   </button>
                   <Button
                     type="submit"
-                    isDisabled={isSubmitting}
+                    disabled={isSubmitting}
                     isLoading={isSubmitting}
-                    title="Post"
-                    className="my-1 h-16 lg:h-11 text-lg w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    sizeSpinner={20}
+                    primary
+                    className="my-1 text-lg"
                   >
                     Post
                   </Button>

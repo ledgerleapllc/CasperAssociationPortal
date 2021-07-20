@@ -19,11 +19,19 @@ const Home = () => {
         backgroundSize: 'cover',
       }}
     >
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl
+        "
+      >
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center">
           <div>
-            <p className="text-5xl md:text-7xl font-bold text-white whitespace-pre-line animate__animated animate__fadeInUp">
+            <p className="text-5xl lg:text-7xl font-bold text-white whitespace-pre-line animate__animated animate__fadeInUp">
               {`Welcome to the Casper\nvoting engine`}
             </p>
             <p className="text-xl text-white whitespace-pre-line mt-5 animate__animated animate__fadeInUp animate__delay-3s">

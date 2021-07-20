@@ -1,78 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import OnboardItem from '../../components/onboard/onboard-item';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
-import { getOwnerNodes } from '../../shared/redux-saga/onboard/actions';
 
 const Onboard = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.userInfo);
-  const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
-  const [isWaiting, setIsWaiting] = useState(undefined);
   const [isBypassing, setIsBypassing] = useState(false);
-
-  useEffect(() => {
-    dispatch(getOwnerNodes());
-  }, []);
-
-  useEffect(() => {
-    const _ownerNodes = ownerNodes?.data?.owner_node || [];
-    if (_ownerNodes.length) {
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < _ownerNodes.length; i++) {
-        if (!_ownerNodes[i].kyc_verified_at) {
-          setIsWaiting(true);
-          return;
-        }
-      }
-      setIsWaiting(false);
-    }
-  }, [ownerNodes]);
-
-  const getDetailOwnerNode = () => (
-    <div>
-      <p>Waiting for all users to verify KYC Details</p>
-      <button
-        type="button"
-        className="text-primary underline"
-        onClick={() => router.push('/onboard/submit-kyc')}
-      >
-        Details
-      </button>
-    </div>
-  );
 
   return (
     <div className="flex justify-center min-h-screen">
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+      <div
+        className="
+          flex flex-col w-full
+          p-4
+          lg:max-w-380 lg:p-9
+          xl:max-w-screen-xl xl:p-9
+          2xl:max-w-screen-2xl
+        "
+      >
         <AppHeader theme="dark" />
-        <div className="flex-grow flex items-center justify-center mt-16 md:mt-0">
-          <div className="w-full md:w-9/12">
-            <div className="hidden md:flex space-x-5 border-b border-gray pb-1 mb-3">
+        <div className="flex-grow flex items-center justify-center mt-16 lg:mt-0">
+          <div className="w-full lg:w-9/12">
+            <div className="hidden lg:flex space-x-5 border-b border-gray pb-1 mb-3">
               <p className="flex-1 text-gray">Esign Terms</p>
               <p className="flex-1 text-gray">Verify Node Ownership</p>
-              <p className="flex-1 text-gray">Submit KYC</p>
+              <p className="flex-1 text-gray">Upload Letter</p>
             </div>
-            <div className="md:flex md:space-x-5">
+            <div className="lg:flex lg:space-x-5">
               <OnboardItem
-                className="md:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
+                className="lg:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
-                title="Letter and Terms"
+                title="Terms Agreement"
                 doneStep={!!user.signature_request_id}
-                description="You must upload a letter of motivation and agree to the terms of service before continuing to the portal"
+                description="You must agree to the terms of service before you can access the portal."
                 onClick={() => router.push('/onboard/esign-terms')}
                 stepType="hellosign"
+                userInfoKey="signature_request_id"
                 handleBypass={setIsBypassing}
               />
               <OnboardItem
-                className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
+                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
@@ -80,27 +54,21 @@ const Onboard = () => {
                 description="If you are a node operator, you must verify the ownership of your node."
                 onClick={() => router.push('/onboard/verify-node-ownership')}
                 stepType="verify-node"
+                userInfoKey="node_verified_at"
                 handleBypass={setIsBypassing}
               />
               <OnboardItem
-                className="md:flex-1 mt-10 md:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
+                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
-                title="Submit KYC"
-                doneStep={!!user.kyc_verified_at && !isWaiting}
-                waitingStep={isWaiting}
-                description={
-                  isWaiting
-                    ? getDetailOwnerNode()
-                    : 'Upload your passport and utility bill here for identity and address verification.'
-                }
-                onClick={
-                  isWaiting
-                    ? () => null
-                    : () => router.push('/onboard/submit-kyc')
-                }
-                stepType="submit-kyc"
+                title="Upload Letter"
+                doneStep={!!user?.letter_verified_at}
+                description="Write and upload a short letter outlining why you would like to sign up."
+                onClick={() => router.push('/onboard/upload-letter')}
+                stepType="letter-upload"
+                userInfoKey="letter_verified_at"
                 handleBypass={setIsBypassing}
+                waitingStep={user?.letter_file && !user?.letter_verified_at}
               />
             </div>
           </div>

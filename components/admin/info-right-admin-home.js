@@ -11,7 +11,14 @@ const InfoRightAdminHome = () => {
 
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
-      <div className="flex flex-col pb-8 border-b-2 border-gray">
+      <div
+        className="
+          flex flex-col border-b-2 border-gray
+          pb-8
+          xl:pb-4
+          2xl:pb-8
+        "
+      >
         <div className="flex">
           <img
             className="pr-2"
@@ -25,7 +32,7 @@ const InfoRightAdminHome = () => {
         <span className="text-lg">{userAdmin?.email}</span>
         <button
           type="button"
-          className="inline-flex text-xs text-primary underline"
+          className="inline-flex text-xs text-primary underline focus:outline-none"
           onClick={async e => {
             e.preventDefault();
             dispatch(logoutApp());
@@ -34,9 +41,15 @@ const InfoRightAdminHome = () => {
           Logout
         </button>
       </div>
-      <div className="flex flex-col pt-5 lg:pb-3">
+      <div
+        className="
+          flex flex-col 
+          pt-3 lg:pb-3
+          2xl:pt-5
+        "
+      >
         <span className="text-2.5xl">Metrics</span>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-3 xl:py-1 2xl:py-3">
           <div className="flex flex-row">
             <span className="text-lg">Total Users</span>
             <img
@@ -47,7 +60,7 @@ const InfoRightAdminHome = () => {
           </div>
           <span className="text-base text-black1 font-thin">2,1155</span>
         </div>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-2 2xl:py-3">
           <div className="flex flex-row">
             <span className="text-lg">Member’s Stake</span>
             <img
@@ -58,7 +71,7 @@ const InfoRightAdminHome = () => {
           </div>
           <span className="text-base text-black1 font-thin">12,382,414</span>
         </div>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-2 2xl:py-3">
           <div className="flex flex-row">
             <span className="text-lg">Total Delegators</span>
             <img
@@ -69,7 +82,7 @@ const InfoRightAdminHome = () => {
           </div>
           <span className="text-base text-black1 font-thin">19</span>
         </div>
-        <div className="flex flex-col py-3">
+        <div className="flex flex-col py-2 2xl:py-3">
           <div className="flex flex-row">
             <span className="text-lg">Average Uptime</span>
             <img
@@ -84,7 +97,7 @@ const InfoRightAdminHome = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col pt-2 pb-9 border-b-2 border-gray">
+        <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9 border-b-2 border-gray">
           <div className="flex flex-row">
             <span className="text-lg">Average Peers</span>
             <img
@@ -99,17 +112,17 @@ const InfoRightAdminHome = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-between py-9">
-          <div className="flex flex-col pr-4 justify-between">
+        <div className="flex justify-between py-9 xl:py-6 2xl:py-9">
+          <div className="flex w-1/2 flex-col pr-4 justify-between">
             <div className="flex flex-row pb-4 items-baseline">
-              <span className="text-sm font-medium">Average CPU Load</span>
+              <span className="text-sm font-medium h-12">Average CPU Load</span>
               <img
                 className="pl-2"
                 src="/images/ic_feather_info.svg"
                 alt="Info"
               />
             </div>
-            <div style={{ height: 100, width: 100 }}>
+            <div style={{ height: '100%', width: '100%' }}>
               <CircularProgressbar
                 value={percenCPU}
                 text={`${percenCPU}%`}
@@ -123,16 +136,16 @@ const InfoRightAdminHome = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col pl-4 justify-between">
+          <div className="flex w-1/2 flex-col pl-4 justify-between">
             <div className="flex flex-row pb-4 items-baseline">
-              <span className="text-sm font-medium">Performance</span>
+              <span className="text-sm font-medium h-12">Performance</span>
               <img
                 className="pl-2"
                 src="/images/ic_feather_info.svg"
                 alt="Info"
               />
             </div>
-            <div style={{ height: 100, width: 100 }}>
+            <div style={{ height: '100%', width: '100%' }}>
               <CircularProgressbar
                 value={percenPerformance}
                 text={`${percenPerformance}%`}
@@ -150,6 +163,6 @@ const InfoRightAdminHome = () => {
       </div>
     </div>
   );
-}
+};
 
 export default InfoRightAdminHome;

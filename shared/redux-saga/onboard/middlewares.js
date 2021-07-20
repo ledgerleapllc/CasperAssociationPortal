@@ -69,7 +69,7 @@ export function* submitPublicAddress({ payload, callback, isVerifying }) {
   }
 }
 
-export function* verifyFileCasperSigner({ payload, callback }) {
+export function* verifyFileCasperSigner({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -80,10 +80,9 @@ export function* verifyFileCasperSigner({ payload, callback }) {
     const formData = new FormData();
     formData.append('file', payload.newFile);
     yield post(['users/verify-file-casper-signer'], formData, { headers });
-    callback();
+    resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
-    callback();
+    reject();
   }
 }
 
@@ -127,7 +126,7 @@ export function* saveShuftiproTemp({ payload }) {
   }
 }
 
-export function* updateShuftiproTemp({ payload, resolve }) {
+export function* updateShuftiproTemp({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -136,7 +135,12 @@ export function* updateShuftiproTemp({ payload, resolve }) {
     yield putApi(['users/shuftipro-temp'], payload, { headers });
     resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
+    if (error.data.code === 400) {
+      resolve();
+    } else {
+      yield put(saveApiResponseError(error));
+      reject();
+    }
   }
 }
 
@@ -168,7 +172,7 @@ export function* postOwnerNodes({ payload, resolve, reject }) {
   }
 }
 
-export function* uploadLetter({ payload, callback }) {
+export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -180,8 +184,9 @@ export function* uploadLetter({ payload, callback }) {
     formData.append('file', payload.newFile);
     const res = yield post(['users/upload-letter'], formData, { headers });
     yield put(uploadLetterSuccess(res.data));
-    callback();
+    resolve();
   } catch (error) {
+    reject();
     yield put(uploadLetterError(error));
     yield put(saveApiResponseError(error));
   }

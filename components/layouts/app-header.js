@@ -24,8 +24,8 @@ const AppHeader = ({ className, theme }) => {
         }}
       >
         <Hamburger
-          width={35}
-          height={20}
+          width="2rem"
+          height="1.25rem"
           className={`${theme === 'light' ? 'text-white' : 'text-dark2'}`}
         />
       </button>

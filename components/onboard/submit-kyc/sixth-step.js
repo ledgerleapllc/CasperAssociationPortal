@@ -74,10 +74,10 @@ const SubmitKYCSixthStep = () => {
           </div>
         </div>
       )}
-      <div className="md:flex md:space-x-8 md:items-center mt-12">
+      <div className="lg:flex lg:space-x-8 lg:items-center mt-12">
         <button
           type="button"
-          className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+          className="lg:hidden my-5 text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
           onClick={() => router.push('/dashboard')}
         >
           To Dashboard

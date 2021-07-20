@@ -9,8 +9,13 @@ const getHash = url => {
   return null;
 };
 
-const Tab = ({ data, className }) => {
-  const { asPath, pathname } = useRouter();
+const TabView = React.memo(({ data, currentTab }) => {
+  const View = data[currentTab].content;
+  return <View />;
+});
+
+const Tab = ({ data, className, scrollable, lazy }) => {
+  const { asPath } = useRouter();
   const [currentTab, setCurrentTab] = useState(0);
 
   useEffect(() => {
@@ -29,7 +34,7 @@ const Tab = ({ data, className }) => {
         <>
           <ul
             id="tabs"
-            className="inline-flex w-full pb-3 justify-between md:justify-start"
+            className="inline-flex w-full pb-3 justify-between lg:justify-start"
           >
             {data.map((x, index) => (
               <li
@@ -37,30 +42,36 @@ const Tab = ({ data, className }) => {
                   currentTab === index
                     ? 'opacity-100 text-primary'
                     : 'opacity-40'
-                } tab-header text-dark2 text-2xl md:pr-32`}
+                } tab-header text-dark2 text-2xl lg:pr-32`}
                 key={`tab-header-${index}`}
               >
-                <Link href={`#${x.id}`}>{x.title}</Link>
+                <Link href={`#${x.id}`}>
+                  <a>{x.title}</a>
+                </Link>
               </li>
             ))}
           </ul>
-          <div className="border-primary border-b-2 md:mr-24" />
+          <div className="border-primary border-b-2 lg:mr-24" />
           <div
             id="tab-contents"
-            className={`${
-              pathname === '/dashboard/votes' ? '' : 'overflow-y-scroll'
-            }`}
+            className={`${scrollable ? 'overflow-y-scroll' : ''}`}
             style={{ height: '90%' }}
           >
-            {data.map((x, index) => (
-              <div
-                key={`tab-content-${index}`}
-                className="md:pr-24 h-full"
-                hidden={currentTab !== index}
-              >
-                {data[index].content()}
+            {!lazy ? (
+              data.map((x, index) => (
+                <div
+                  key={`tab-content-${index}`}
+                  className="lg:pr-24 h-full"
+                  hidden={currentTab !== index}
+                >
+                  {{ ...data[index].content() }}
+                </div>
+              ))
+            ) : (
+              <div className="lg:pr-24 h-full">
+                <TabView data={data} currentTab={currentTab} />
               </div>
-            ))}
+            )}
           </div>
         </>
       )}

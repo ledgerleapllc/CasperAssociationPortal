@@ -2,9 +2,11 @@ import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useContext } from 'react';
 import { ClockBar, BackButton } from '../../../partials';
 import { cancelBallot } from '../../../../shared/redux-saga/admin/actions';
 import { useDialog } from '../../../partials/dialog';
+import { AppContext } from '../../../../pages/_app';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -27,6 +29,7 @@ const Styles = styled.div`
 const AdminActiveBallot = ({ ballot }) => {
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
+  const { setLoading } = useContext(AppContext);
 
   const doCancelBallot = () => {
     setDialog({
@@ -40,10 +43,18 @@ const AdminActiveBallot = ({ ballot }) => {
       },
       afterClosed: res => {
         if (res) {
+          setLoading(true);
           dispatch(
-            cancelBallot(ballot?.id, () => {
-              router.push('/admin/ballots');
-            })
+            cancelBallot(
+              ballot?.id,
+              () => {
+                router.push('/admin/ballots');
+                setLoading(false);
+              },
+              () => {
+                setLoading(false);
+              }
+            )
           );
         }
       },

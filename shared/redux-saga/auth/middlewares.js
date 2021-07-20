@@ -57,6 +57,7 @@ export function* registerEntity({ payload, callback, resetSubmitting }) {
     const res = yield post(['auth/register-entity'], params, { headers });
     setToken(res.data.access_token);
     localStorage.setItem('USER_ID', res.data.user_id);
+    yield put(setUser(res.data));
     callback();
     resetSubmitting();
   } catch (error) {
@@ -163,25 +164,24 @@ export function* verifyEmail({ payload, callback, resetSubmitting }) {
   }
 }
 
-export function* resend2FaCode() {
+export function* resend2FaCode({ resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/resend-verify-email'], null, { headers });
+    yield post(['users/resend-verify-email'], null);
+    resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
-export function* fetchUserInfo() {
+export function* fetchUserInfo({ resolve }) {
   const headers = {
     Authorization: `Bearer ${getToken()}`,
   };
   try {
     const res = yield get(['users/profile'], { headers });
     yield put(setUser(res.data));
+    resolve();
     yield put(fetchUserInfoSuccess(res.data));
   } catch (error) {
     yield put(fetchUserInfoError(error));
