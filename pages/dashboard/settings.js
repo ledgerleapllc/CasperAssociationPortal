@@ -24,7 +24,10 @@ const DashboardSetting = () => {
           <div className="card-header lg:mr-24 lg:h-70px">
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
-                <h3 className="mr-24 text-dark2 text-xl font-medium">
+                <h3
+                  className="text-dark2 text-xl font-medium"
+                  style={{ marginRight: '6rem' }}
+                >
                   <Link href="/dashboard/settings">
                     <a>User Settings</a>
                   </Link>
