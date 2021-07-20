@@ -277,205 +277,206 @@ export function* changeSubadminPermissions({ id, payload, callback }) {
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
+}
 
-  export function* approveUser({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`admin/users/intakes/${payload.id}/approve`]);
-      resolve(res);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* approveUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/intakes/${payload.id}/approve`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* resetUser({ payload, resolve, reject }) {
-    try {
-      const { message, id } = payload;
-      const res = yield post([`admin/users/intakes/${id}/reset`], { message });
-      resolve(res);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* resetUser({ payload, resolve, reject }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`admin/users/intakes/${id}/reset`], { message });
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* banUser({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`admin/users/${payload.id}/ban`]);
-      resolve(res);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* banUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/ban`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* banVerifiedUser({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`admin/users/${payload.id}/deny-ban`]);
-      resolve(res);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* banVerifiedUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/deny-ban`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* getVerificationDetail({ payload, resolve, reject }) {
-    try {
-      const res = yield get([`admin/users/verification/${payload.id}`]);
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* getVerificationDetail({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/users/verification/${payload.id}`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* approveUserAML({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`/admin/users/${payload.id}/approve-aml`]);
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* approveUserAML({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`/admin/users/${payload.id}/approve-aml`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* resetUserAML({ payload, resolve, reject }) {
-    try {
-      const { message, id } = payload;
-      const res = yield post([`/admin/users/${id}/reset-aml`], { message });
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* resetUserAML({ payload, resolve, reject }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`/admin/users/${id}/reset-aml`], { message });
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* approveUserKYC({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`/admin/users/${payload.id}/approve-kyc`]);
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* approveUserKYC({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`/admin/users/${payload.id}/approve-kyc`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* resetUserKYC({ payload, resolve, reject }) {
-    try {
-      const { message, id } = payload;
-      const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* resetUserKYC({ payload, resolve, reject }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* approveDocuments({ payload, resolve, reject }) {
-    try {
-      const { id } = payload;
-      const res = yield post([`/admin/users/${id}/approve-document`], {});
-      resolve(res?.data);
-    } catch (error) {
-      yield put(saveApiResponseError(error));
-      reject(error);
-    }
+export function* approveDocuments({ payload, resolve, reject }) {
+  try {
+    const { id } = payload;
+    const res = yield post([`/admin/users/${id}/approve-document`], {});
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
+}
 
-  export function* getEmailerData({ resolve, reject }) {
-    try {
-      const res = yield get([`admin/emailer-data`]);
-      resolve(res?.data);
-    } catch (error) {
-      reject();
-      yield put(saveApiResponseError(error));
-    }
+export function* getEmailerData({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/emailer-data`]);
+    resolve(res?.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
   }
+}
 
-  export function* addEmailerAdmin({ payload, resolve, reject }) {
-    try {
-      const res = yield post([`admin/emailer-admin`], payload);
-      resolve(res?.data);
-    } catch (error) {
-      reject();
-      yield put(saveApiResponseError(error));
-    }
+export function* addEmailerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/emailer-admin`], payload);
+    resolve(res?.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
   }
+}
 
-  export function* deleteEmailerAdmin({ payload, resolve, reject }) {
-    try {
-      const res = yield http.doDelete([`admin/emailer-admin/${payload.id}`], {});
-      resolve();
-    } catch (error) {
-      reject();
-      yield put(saveApiResponseError(error));
-    }
+export function* deleteEmailerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield http.doDelete([`admin/emailer-admin/${payload.id}`], {});
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
   }
+}
 
-  export function* updateEmailerTriggerUser({ payload, resolve, reject }) {
-    try {
-      const res = yield _put(
-        [`admin/emailer-trigger-user/${payload.id}`],
-        payload.data
-      );
-      resolve();
-    } catch (error) {
-      reject();
-      yield put(saveApiResponseError(error));
-    }
+export function* updateEmailerTriggerUser({ payload, resolve, reject }) {
+  try {
+    const res = yield _put(
+      [`admin/emailer-trigger-user/${payload.id}`],
+      payload.data
+    );
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
   }
+}
 
-  export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
-    try {
-      const res = yield _put(
-        [`admin/emailer-trigger-admin/${payload.id}`],
-        payload.data
-      );
-      resolve();
-    } catch (error) {
-      reject();
-      yield put(saveApiResponseError(error));
-    }
+export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
+  try {
+    const res = yield _put(
+      [`admin/emailer-trigger-admin/${payload.id}`],
+      payload.data
+    );
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
   }
+}
 
-  export function* watchAdmin() {
-    yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
-    yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
-    yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
-    yield all([takeLatest('APPROVE_KYC', approveKYC)]);
-    yield all([takeLatest('DENY_KYC', denyKYC)]);
-    yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
-    yield all([takeEvery('GET_BALLOTS', getBallots)]);
-    yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
-    yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
-    yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
-    yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
-    yield all([takeLatest('GET_SUBADMINS', getSubadmins)]);
-    yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
-    yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
-    yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
-    yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
-    yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
-    yield all([takeLatest('APPROVE_USER', approveUser)]);
-    yield all([takeLatest('BAN_USER', banUser)]);
-    yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
-    yield all([takeLatest('RESET_USER', resetUser)]);
-    yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
-    yield all([
-      takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
-    ]);
-    yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
-    yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
-    yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
-    yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
-    yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
-    yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
-    yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
-    yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
-    yield all([
-      takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
-    ]);
-    yield all([
-      takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
-    ]);
-  }
+export function* watchAdmin() {
+  yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
+  yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
+  yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
+  yield all([takeLatest('APPROVE_KYC', approveKYC)]);
+  yield all([takeLatest('DENY_KYC', denyKYC)]);
+  yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
+  yield all([takeEvery('GET_BALLOTS', getBallots)]);
+  yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
+  yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
+  yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
+  yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
+  yield all([takeLatest('GET_SUBADMINS', getSubadmins)]);
+  yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
+  yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
+  yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
+  yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
+  yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
+  yield all([takeLatest('APPROVE_USER', approveUser)]);
+  yield all([takeLatest('BAN_USER', banUser)]);
+  yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
+  yield all([takeLatest('RESET_USER', resetUser)]);
+  yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
+  yield all([
+    takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
+  ]);
+  yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
+  yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
+  yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
+  yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
+  yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
+  yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
+  yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
+  yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([
+    takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
+  ]);
+  yield all([
+    takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
+  ]);
+}
