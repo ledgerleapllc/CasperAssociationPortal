@@ -20,8 +20,9 @@ import { useTable } from '../../../components/partials/table';
 
 import { useDialog } from '../../../components/partials/dialog';
 import IconLike from '../../../public/images/ic_like.svg';
+import IconLikeSolid from '../../../public/images/ic_like_solid.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
-import IconDislikeTrue from '../../../public/images/ic_dislike_true.svg';
+import IconDislikeSolid from '../../../public/images/ic_dislike_solid.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import { formatDate } from '../../../shared/core/utils';
 import {
@@ -130,7 +131,9 @@ const DashboardDiscusionDetail = () => {
     setDialog({
       type: 'DialogConfirm',
       data: {
-        title: `Are you sure to ${is_like ? 'vote' : 'unvote'} to discussion?`,
+        title: `Are you sure you want to ${
+          is_like ? 'upvote' : 'downvote'
+        } this discussion post?`,
         ok: 'OK',
         cancel: 'Cancel',
       },
@@ -202,11 +205,11 @@ const DashboardDiscusionDetail = () => {
         className="flex px-6 items-center focus:outline-none"
         onClick={() => vote(1)}
       >
-        <IconLike
-          className={
-            discussion.is_vote && discussion.is_like ? 'text-primary' : ''
-          }
-        />
+        {discussion.is_vote && discussion.is_like ? (
+          <IconLikeSolid className="text-primary" />
+        ) : (
+          <IconLike />
+        )}
         <span className="pl-2.5">{discussion.likes || 0}</span>
       </button>
       <button
@@ -215,7 +218,7 @@ const DashboardDiscusionDetail = () => {
         onClick={() => vote(0)}
       >
         {discussion.is_vote && !discussion.is_like ? (
-          <IconDislikeTrue className="text-primary" />
+          <IconDislikeSolid className="text-primary" />
         ) : (
           <IconDislike />
         )}
