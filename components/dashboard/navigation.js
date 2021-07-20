@@ -97,7 +97,7 @@ const Navigation = () => {
                     <a
                       className="
                         rounded-lg inline-block 
-                        xl:p-2 2xl:p-3
+                        lg:p-2 2xl:p-3
                       "
                     >
                       <nav.icon
