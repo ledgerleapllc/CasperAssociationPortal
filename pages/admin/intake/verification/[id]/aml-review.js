@@ -3,7 +3,7 @@ import router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Button } from '../../../../../components/partials';
@@ -16,6 +16,7 @@ import {
   resetUserAML,
   banVerifiedUser,
   approveUserAML,
+  getVerificationDetail,
 } from '../../../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../../../_app';
 
@@ -49,6 +50,27 @@ const AdminIntakeVerificationAML = () => {
   const dispatch = useDispatch();
   const [loadingApproved, setLoadingApproved] = useState(false);
   const { setLoading } = useContext(AppContext);
+  const [shuftiData, setShuftiData] = useState();
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(
+      getVerificationDetail(
+        { id },
+        res => {
+          setLoading(false);
+          if (res.shuftipro.background_checks_result === 1) {
+            router.push(`${id}/kyc-review`);
+          } else {
+            setShuftiData(JSON.parse(res.shuftipro?.data));
+          }
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  }, []);
 
   const doBanAMLUser = () => {
     setDialog({
@@ -150,14 +172,7 @@ const AdminIntakeVerificationAML = () => {
                     </td>
                     <td>
                       <span>
-                        Sed ut perspi ciatis unde omnis iste natus error sit
-                        volup tatem accu santium doloremque laudantium, totam
-                        rem aperiam, eaque ipsa quae ab illo invent veritatis et
-                        quasi architecto beatae vitae dicta sunt explicabo. Nemo
-                        enim voluptatem quia voluptas sit aspernatur aut odit
-                        aut fugit, sed quia conseur magni dolores eos qui
-                        ratione voluptatem sequi nesciunt. Neque porro qquam
-                        est, qui dolorem ipsum quia dolor sit amet
+                        {shuftiData?.aml_declined_reason || 'Unknown Reason'}
                       </span>
                     </td>
                   </tr>

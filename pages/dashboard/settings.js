@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Card, ToggleButton } from '../../components/partials';
+import { Button, Card, ToggleButton } from '../../components/partials';
 
 const DashboardSetting = () => {
   const [disableInputs, setDisableInputs] = useState({
@@ -23,17 +23,21 @@ const DashboardSetting = () => {
         <div className="w-full h-full">
           <div className="card-header lg:mr-24 lg:h-70px">
             <div className="flex justify-between items-end mb-3.5">
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
-                User Settings
-              </h3>
-              <Link href="/dashboard/discussion/add">
-                <button
-                  type="button"
-                  className="transition text-lg text-white w-48 h-11 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                >
-                  Save Changes
-                </button>
-              </Link>
+              <div className="flex items-center">
+                <h3 className="text-dark2 text-xl font-medium mr-20">
+                  <Link href="/dashboard/settings">
+                    <a>User Settings</a>
+                  </Link>
+                </h3>
+                <h3 className="text-gray text-xl font-medium">
+                  <Link href="/dashboard/profile">
+                    <a>My profile</a>
+                  </Link>
+                </h3>
+              </div>
+              <div>
+                <Button primary>Save Changes</Button>
+              </div>
             </div>
             <div className="border-primary border-b-2" />
           </div>

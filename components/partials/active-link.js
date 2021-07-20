@@ -12,6 +12,9 @@ const ActiveLink = ({ children, activeClassName, ...props }) => {
   if (props.href === '/dashboard') {
     if (pathname === props.href)
       className = `${childClassName} ${activeClassName}`.trim();
+  } else if (props.href === '/dashboard/settings') {
+    if (['/dashboard/profile', '/dashboard/settings'].includes(pathname))
+      className = `${childClassName} ${activeClassName}`.trim();
   } else if (pathname.includes(props.href) || pathname.includes(props.as)) {
     className = `${childClassName} ${activeClassName}`.trim();
   }
