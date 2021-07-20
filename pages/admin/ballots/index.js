@@ -328,7 +328,7 @@ const Ballots = () => (
               type="button"
               className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
             >
-              New Ballots
+              + New Ballot
             </button>
           </Link>
         </div>

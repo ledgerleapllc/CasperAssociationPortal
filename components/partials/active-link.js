@@ -6,10 +6,15 @@ const ActiveLink = ({ children, activeClassName, ...props }) => {
   const { pathname } = useRouter();
   const child = Children.only(children);
   const childClassName = child.props.className || '';
-  const className =
-    pathname.includes(props.href) || pathname.includes(props.as)
-      ? `${childClassName} ${activeClassName}`.trim()
-      : childClassName;
+
+  let className = childClassName;
+
+  if (props.href === '/dashboard') {
+    if (pathname === props.href)
+      className = `${childClassName} ${activeClassName}`.trim();
+  } else if (pathname.includes(props.href) || pathname.includes(props.as)) {
+    className = `${childClassName} ${activeClassName}`.trim();
+  }
 
   return (
     <Link {...props}>

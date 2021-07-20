@@ -15,7 +15,7 @@ export const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
     <div className="flex gap-2.5 flex-col items-center">
       <button
         type="button"
-        className="w-full text-lg text-primary h-16 rounded-full bg-white border-2 border-primary shadow-md focus:outline-none hover:bg-primary hover:bg-opacity-40 hover:text-white"
+        className="w-full text-lg text-white h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
         onClick={onApproveUser}
       >
         Approve User
@@ -29,7 +29,7 @@ export const ApproveUserView = ({ onApproveUser, onResetUser, onBanUser }) => (
       </button>
       <button
         type="button"
-        className="w-full text-lg text-white h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+        className="mt-3 text-primary underline"
         onClick={onBanUser}
       >
         Deny & Ban User
