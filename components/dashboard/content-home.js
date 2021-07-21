@@ -21,17 +21,8 @@ const ContentHome = () => {
   }, [alerts]);
 
   useEffect(() => {
-    if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
-      setAlerts([
-        {
-          id: 'verification',
-          title: 'Get IDverified with Casper’s red checkmark!',
-          content:
-            'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
-          handler: () => {
-            router.push('/dashboard/verification');
-          },
-        },
+    if (userInfo) {
+      const alertsTemp = [
         {
           id: 'dummy-1',
           title: 'New Alert',
@@ -42,7 +33,24 @@ const ContentHome = () => {
           title: 'New Alert',
           content: 'There are new comments to be read!',
         },
-      ]);
+      ];
+
+      if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
+        setAlerts([
+          {
+            id: 'verification',
+            title: 'Get IDverified with Casper’s red checkmark!',
+            content:
+              'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
+            handler: () => {
+              router.push('/dashboard/verification');
+            },
+          },
+          ...alertsTemp,
+        ]);
+      } else {
+        setAlerts(alertsTemp);
+      }
     }
   }, [userInfo]);
 
