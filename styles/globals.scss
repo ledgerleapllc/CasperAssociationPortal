@@ -210,3 +210,9 @@ input:checked + .slider:before {
     }
   }
 }
+
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .backdrop-filter {
+    background-color: rgba(0, 0, 0, .5);
+  }
+}
