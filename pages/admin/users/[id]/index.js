@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { getUserDetail } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card } from '../../../../components/partials';
+import { Card, BackButton } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 
 const AdminUserDetail = () => {
@@ -38,20 +38,7 @@ const AdminUserDetail = () => {
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">
-              <button
-                type="button"
-                className="flex items-center w-max focus:outline-none mb-5"
-                onClick={() => router.push('/admin/users')}
-              >
-                <img
-                  src="/images/ic_prev_circle.svg"
-                  alt="prev"
-                  width="18"
-                  height="18"
-                  className="mr-2"
-                />
-                <span className="text-primary text-sm">Back</span>
-              </button>
+              <BackButton href="/admin/users" text="Back" force />
               <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
                 {`User details for user ${userDetail?.email}`}
               </h3>
