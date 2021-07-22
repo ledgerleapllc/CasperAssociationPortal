@@ -87,7 +87,7 @@ const MembersViewerDetail = () => {
       >
         <Card className="lg:py-10 lg:shadow-2xl my-10 h-9/10" noShadow>
           <div className="bg-transparent h-full px-24">
-            <div className="w-full" style={{ height: '70px' }}>
+            <div className="w-full h-70px">
               <div className="lg:h-70px flex items-center justify-between">
                 <div className="flex flex-col justify-center">
                   <BackButton href="/member-viewer" text="Back" force />
@@ -107,10 +107,7 @@ const MembersViewerDetail = () => {
               </div>
               <div className="border-primary border-b-2" />
             </div>
-            <div
-              className="flex w-full mt-10"
-              style={{ height: 'calc(100% - 70px)' }}
-            >
+            <div className="flex w-full mt-10 h-100%-70px">
               <div className="lg:pr-24">
                 <section className="basic-info">
                   <div className="flex">

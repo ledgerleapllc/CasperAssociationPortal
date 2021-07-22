@@ -8,7 +8,7 @@ const AdminIntake = () => (
   <LayoutDashboard>
     <Card className="h-full px-24 py-7">
       <div className="bg-transparent h-1/2 xl:pb-2 2xl:pb-5">
-        <div className="w-full" style={{ height: '70px' }}>
+        <div className="w-full h-70px">
           <div className="lg:h-70px flex flex-col justify-center">
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2.5">
               General Intake
@@ -19,12 +19,12 @@ const AdminIntake = () => (
             <div className="border-primary border-b-2" />
           </div>
         </div>
-        <div className="flex flex-col" style={{ height: 'calc(100% - 70px)' }}>
+        <div className="flex flex-col h-100%-70px">
           <GeneralIntakes />
         </div>
       </div>
       <div className="bg-transparent h-1/2 xl:pt-2 2xl:pt-5">
-        <div className="w-full" style={{ height: '70px' }}>
+        <div className="w-full h-70px">
           <div className="lg:h-70px flex flex-col justify-center">
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2.5">
               IDverification
@@ -35,7 +35,7 @@ const AdminIntake = () => (
             <div className="border-primary border-b-2" />
           </div>
         </div>
-        <div className="flex flex-col" style={{ height: 'calc(100% - 70px)' }}>
+        <div className="flex flex-col h-100%-70px">
           <IDverifications />
         </div>
       </div>

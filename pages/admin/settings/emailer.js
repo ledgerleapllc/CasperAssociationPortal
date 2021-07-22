@@ -312,7 +312,7 @@ const Emailer = () => {
       <Card className="h-full py-7">
         <div className="bg-transparent h-full">
           <div className="xl:pb-2 2xl:pb-5 px-24">
-            <div className="w-full" style={{ height: '70px' }}>
+            <div className="w-full h-70px">
               <div className="lg:h-70px flex flex-col justify-center">
                 <BackButton href="/admin/settings" text="Back" force />
                 <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">

@@ -8,7 +8,7 @@ const Settings = () => (
   <LayoutDashboard>
     <Card className="h-full px-24 py-7">
       <div className="bg-transparent h-full">
-        <div className="w-full" style={{ height: '70px' }}>
+        <div className="w-full h-70px">
           <div className="lg:h-70px flex flex-col justify-center">
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-6">
               Admin settings
@@ -16,7 +16,7 @@ const Settings = () => (
             <div className="border-primary border-b-2" />
           </div>
         </div>
-        <div className="flex flex-col" style={{ height: 'calc(100% - 70px)' }}>
+        <div className="flex flex-col h-100%-70px">
           <p>Settings</p>
           <Link href="/admin/settings/emailer">
             <button
