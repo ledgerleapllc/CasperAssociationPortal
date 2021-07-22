@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card } from '../../../../components/partials';
+import { Card, BackButton } from '../../../../components/partials';
 import {
   getVoteDetail,
   recordVote,
@@ -63,20 +63,7 @@ const ActiveVoteDetail = () => {
       <Card className="h-full px-24 py-14">
         <div className="bg-transparent h-full">
           <div className="w-full">
-            <button
-              type="button"
-              className="flex items-center w-max focus:outline-none mb-5"
-              onClick={() => router.push('/dashboard/votes')}
-            >
-              <img
-                src="/images/ic_prev_circle.svg"
-                alt="prev"
-                width="18"
-                height="18"
-                className="mr-2"
-              />
-              <span className="text-primary text-xl">Back</span>
-            </button>
+            <BackButton href="/dashboard/votes" text="Back" force />
             <div className="border-primary border-b-2" />
           </div>
           <div className="py-14 h-5/6">

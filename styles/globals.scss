@@ -149,7 +149,7 @@ label > input[type="radio"] + * {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #C4C4BE;
   -webkit-transition: .4s;
   transition: .4s;
   &::before {
@@ -200,9 +200,8 @@ input:checked + .slider:before {
       width: 100%;
       resize: none;
       color: #000000;
-      border: 1px solid #FF473E;
-      border-radius: 4px;
-      padding: 15px 30px;
+      border: 1px solid #C4C4BE;
+      padding: 28px 16px;
       margin-top: 6px;
     }
     .btn {

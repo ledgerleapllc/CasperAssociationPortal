@@ -86,7 +86,7 @@ const MembersViewerDetail = () => {
           2xl:max-w-screen-2xl"
       >
         <Card className="lg:py-10 lg:shadow-2xl my-10 h-9/10" noShadow>
-          <div className="bg-transparent h-full px-32">
+          <div className="bg-transparent h-full px-24">
             <div className="w-full" style={{ height: '70px' }}>
               <div className="lg:h-70px flex items-center justify-between">
                 <div className="flex flex-col justify-center">

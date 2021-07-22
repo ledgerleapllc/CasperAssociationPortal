@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card, ProgressBar } from '../../../../components/partials';
+import { Card, ProgressBar, BackButton } from '../../../../components/partials';
 import { getVoteDetail } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../_app';
 
@@ -38,20 +38,7 @@ const CompleteVoteDetail = () => {
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="mb-5 w-full flex items-center justify-between">
-              <button
-                type="button"
-                className="flex items-center w-max focus:outline-none"
-                onClick={() => router.push('/dashboard/votes/#finished')}
-              >
-                <img
-                  src="/images/ic_prev_circle.svg"
-                  alt="prev"
-                  width="18"
-                  height="18"
-                  className="mr-2"
-                />
-                <span className="text-primary text-xl">Back</span>
-              </button>
+              <BackButton href="/dashboard/votes/#finished" text="Back" force />
               <p className="text-primary text-xl">Closed</p>
             </div>
             <div className="border-primary border-b-2" />
