@@ -9,7 +9,7 @@ const BUTTON_STYLES = {
 const BUTTON_SIZES = {
   default: `text-sm h-11 lg:w-52`,
   small: ``,
-  large: ``,
+  large: `text-lg h-16 w-52`,
 };
 
 export function Button(props) {
@@ -37,7 +37,7 @@ export function Button(props) {
   return (
     <button
       type="button"
-      className={`${groupClass} ${className || ''}`}
+      className={`${className || ''} ${groupClass}`}
       {...otherProps}
     >
       <div className="flex items-center justify-center">

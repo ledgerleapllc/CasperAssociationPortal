@@ -51,8 +51,8 @@ export const verifyEmail = (payload, callback, resetSubmitting) => ({
   resetSubmitting,
 });
 
-export const resend2FaCode = (resolve, reject) => ({
-  type: 'RESEND_2FA_CODE',
+export const resendVerificationCode = (resolve, reject) => ({
+  type: 'RESEND_VERIFICATION_CODE',
   resolve,
   reject,
 });
@@ -84,4 +84,40 @@ export const updateUser = payload => ({
 
 export const clearUser = () => ({
   type: 'CLEAR_USER_INFO',
+});
+
+export const changeEmailConfirm = (payload, resolve, reject) => ({
+  type: 'CHANGE_EMAIL_CONFIRM',
+  payload,
+  resolve,
+  reject,
+});
+
+export const changeEmailCancel = (payload, resolve, reject) => ({
+  type: 'CHANGE_EMAIL_CANCEL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const verify2FA = (payload, resolve, reject) => ({
+  type: 'VERIFY_2FA',
+  payload,
+  resolve,
+  reject,
+});
+
+export const resend2FACode = (payload, resolve, reject) => ({
+  type: 'RESEND_2FA_CODE',
+  resolve,
+  reject,
+});
+
+export const getMyMetrics = () => ({
+  type: 'GET_MY_METRICS',
+});
+
+export const setMetrics = payload => ({
+  type: 'SET_METRICS',
+  payload,
 });

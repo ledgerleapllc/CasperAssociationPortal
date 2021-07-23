@@ -160,3 +160,17 @@ export const uploadAvatar = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const checkPassword = (payload, resolve, reject) => ({
+  type: 'CHECK_PASSWORD',
+  payload,
+  resolve,
+  reject,
+});
+
+export const updateUserSettings = (payload, resolve, reject) => ({
+  type: 'UPDATE_USER_SETTINGS',
+  payload,
+  resolve,
+  reject,
+});

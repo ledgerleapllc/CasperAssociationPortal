@@ -1,8 +1,11 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useSelector } from 'react-redux';
 import { ProgressBar } from '../partials';
 
 const NodeInfoHome = () => {
+  const metrics = useSelector(state => state.authReducer.metrics);
+
   const percenCPU = 61;
   const percenPerformance = 83;
   return (
@@ -34,23 +37,31 @@ const NodeInfoHome = () => {
           <span className="text-lg">Uptime</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <p className="text-sm text-gray mb-2">{`Average: {X}%`}</p>
-        <ProgressBar percent={75} />
+        <p className="text-sm text-gray mb-2">{`Average: ${metrics?.uptime}%`}</p>
+        <ProgressBar percent={metrics?.uptime} />
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Block Height</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <p className="text-sm text-gray mb-2">Current: 1 block behind</p>
-        <ProgressBar counts={504} totalCounts={505} type="count" />
+        <p className="text-sm text-gray mb-2">
+          Current: {metrics?.block_height_average} block behind
+        </p>
+        <ProgressBar
+          counts={505 - metrics?.block_height_average}
+          totalCounts={505}
+          type="count"
+        />
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Update Responsiveness</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <p className="text-sm text-gray mb-2">Average: 2+ days early</p>
+        <p className="text-sm text-gray mb-2">
+          Average: {metrics?.update_responsiveness}+ days early
+        </p>
         <ProgressBar
           percent={100}
           type="text"
@@ -63,8 +74,10 @@ const NodeInfoHome = () => {
           <span className="text-lg">Peers</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <p className="text-sm text-gray mb-2">Average: 63</p>
-        <ProgressBar counts={62} totalCounts={88} type="count" />
+        <p className="text-sm text-gray mb-2">
+          Average: {(metrics?.peers / 88) * 100}
+        </p>
+        <ProgressBar counts={metrics?.peers} totalCounts={88} type="count" />
       </div>
       <div className="flex justify-between py-9">
         <div className="flex w-1/2 pr-2 flex-col">

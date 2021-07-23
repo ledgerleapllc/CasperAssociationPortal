@@ -196,7 +196,7 @@ const AdminActiveBallotCurrentVotes = () => {
                     <p className="py-2">Direction</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body>
+                <Table.Body className="lg:-mr-24 lg:pr-24">
                   {votes.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell>

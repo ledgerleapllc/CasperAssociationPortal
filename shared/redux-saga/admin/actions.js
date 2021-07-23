@@ -19,6 +19,20 @@ export const getUserDetail = data => ({
   payload: data,
 });
 
+export const getUserMetrics = (payload, resolve, reject) => ({
+  type: 'GET_USER_METRICS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const updateUserMetrics = (payload, resolve, reject) => ({
+  type: 'UPDATE_USER_METRICS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getUserDetailSuccess = data => ({
   type: 'GET_USER_DETAIL_SUCCESS',
   payload: data,

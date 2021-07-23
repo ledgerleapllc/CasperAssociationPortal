@@ -296,7 +296,7 @@ const DashboardDiscusionDetail = () => {
                         <Table.HeaderCell />
                         <Table.HeaderCell />
                       </Table.Header>
-                      <Table.Body>
+                      <Table.Body className="lg:-mr-24 lg:pr-24">
                         {data.map((row, index) => (
                           <Table.BodyRow key={`b-${index}`}>
                             <Table.BodyCell />

@@ -161,7 +161,7 @@ const Tab1 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -209,7 +209,7 @@ const Tab2 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -275,7 +275,7 @@ const Tab3 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />

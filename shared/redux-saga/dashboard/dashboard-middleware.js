@@ -288,6 +288,40 @@ export function* uploadAvatar({ payload, resolve, reject }) {
   }
 }
 
+export function* checkPassword({ payload, resolve, reject }) {
+  try {
+    const endpoint = 'users/check-password';
+    const res = yield post([endpoint], {
+      current_password: payload.current_password,
+    });
+
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateUserSettings({ payload, resolve, reject }) {
+  try {
+    const body = {
+      twoFA_login: payload.twoFA_login,
+    };
+    if (payload.username) body.username = payload.username;
+    if (payload.email) body.email = payload.email;
+    if (payload.password) body.new_password = payload.password;
+
+    yield post(['users/settings'], body);
+    delete body.new_password;
+    body.new_email = body.email;
+    delete body.email;
+    resolve(body);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -309,6 +343,8 @@ export function* watchDemoData() {
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
   yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
   yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);
+  yield all([takeEvery('CHECK_PASSWORD', checkPassword)]);
+  yield all([takeEvery('UPDATE_USER_SETTINGS', updateUserSettings)]);
   yield all([
     takeEvery('UPDATE_VERIFICATION_DOCUMENTS', uploadVerificationDocuments),
   ]);

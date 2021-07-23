@@ -1,8 +1,11 @@
 import { Line } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 import { Card } from '../partials';
 import InfoRightNode from './info-right-node';
 
 const ContentNode = () => {
+  const metrics = useSelector(state => state.authReducer.metrics);
+
   const lineData = {
     datasets: [
       {
@@ -220,8 +223,11 @@ const ContentNode = () => {
                   />
                 </div>
                 <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    75%
+                  <div
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary"
+                    style={{ width: `${metrics?.uptime}%` }}
+                  >
+                    {metrics?.uptime}%
                   </div>
                 </div>
               </div>
@@ -235,8 +241,10 @@ const ContentNode = () => {
                   />
                 </div>
                 <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-1/2 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    49/88
+                  <div
+                    style={{ width: `calc(${metrics?.peers} / 88 * 100%)` }}
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
+                    {metrics?.peers}/88
                   </div>
                 </div>
               </div>

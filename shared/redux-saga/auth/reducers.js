@@ -20,7 +20,7 @@ const userInitialState = {
 
 const setUser = (state, payload) => {
   let period;
-  if (!payload.email_verified_at) {
+  if (!payload.email_verified_at || payload.factor_auth_guard) {
     period = 'verifying';
   } else if (
     !payload.signature_request_id ||
@@ -73,7 +73,17 @@ const fetchUserInfo = createReducer(fetchUserInfoStrategies, {
   ...initialState,
 });
 
+const setMetrics = (state, payload) => payload;
+
+const metricsStrategies = {
+  SET_METRICS: setMetrics,
+  __default__: state => state,
+};
+
+const metrics = createReducer(metricsStrategies, {});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
+  metrics,
 });

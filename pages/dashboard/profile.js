@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import router from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
@@ -59,6 +59,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const [myInfo, setMyInfo] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+  const metrics = useSelector(state => state.authReducer.metrics);
 
   useEffect(() => {
     dispatch(
@@ -310,8 +311,8 @@ const UserProfile = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: {X}%`}</p>
-                    <ProgressBar percent={75} />
+                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.uptime}%`}</p>
+                    <ProgressBar percent={metrics?.uptime} />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
                     <div className="flex flex-row">
@@ -323,9 +324,13 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: 1 block behind
+                      Current: {metrics?.block_height_average} block behind
                     </p>
-                    <ProgressBar counts={504} totalCounts={505} type="count" />
+                    <ProgressBar
+                      counts={505 - metrics?.block_height_average}
+                      totalCounts={505}
+                      type="count"
+                    />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
                     <div className="flex flex-row">
@@ -337,7 +342,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: 2+ days early
+                      Average: {metrics?.update_responsiveness}+ days early
                     </p>
                     <ProgressBar
                       percent={100}
@@ -356,9 +361,13 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: 63
+                      Average: {(metrics?.peers / 88) * 100}
                     </p>
-                    <ProgressBar counts={62} totalCounts={88} type="count" />
+                    <ProgressBar
+                      counts={metrics?.peers}
+                      totalCounts={88}
+                      type="count"
+                    />
                   </div>
                 </div>
               </section>

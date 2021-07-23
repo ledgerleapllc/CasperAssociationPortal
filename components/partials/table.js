@@ -128,7 +128,11 @@ Table.Body = props => {
   const { randomId } = useContext(TableContext);
 
   return (
-    <div id={randomId} style={{ overflowY: 'scroll' }}>
+    <div
+      id={randomId}
+      className={props.className || ''}
+      style={{ overflowY: 'scroll' }}
+    >
       <InfiniteScroll
         className="flex flex-col w-full"
         dataLength={props.dataLength || 0}
