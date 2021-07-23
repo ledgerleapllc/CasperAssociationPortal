@@ -259,13 +259,18 @@ const DashboardSetting = () => {
                           name="username"
                           type="text"
                           disabled={!enableInput.username}
-                          {...register('username', {
-                            required: 'User Name is required',
-                            pattern: {
-                              message: 'User Name is invalid',
-                              value: USERNAME_PATTERN,
-                            },
-                          })}
+                          {...register(
+                            'username',
+                            enableInput.username
+                              ? {
+                                  required: 'User Name is required',
+                                  pattern: {
+                                    message: 'User Name is invalid',
+                                    value: USERNAME_PATTERN,
+                                  },
+                                }
+                              : {}
+                          )}
                           className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
                         />
                         <EditButton field="username" />
