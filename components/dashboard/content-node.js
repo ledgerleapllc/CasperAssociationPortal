@@ -244,7 +244,7 @@ const ContentNode = () => {
                   <div
                     style={{ width: `calc(${metrics?.peers} / 88 * 100%)` }}
                     className="shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    {metrics?.peers}/88
+                    {Math.round((metrics?.peers / 88) * 100)} %
                   </div>
                 </div>
               </div>
@@ -258,8 +258,12 @@ const ContentNode = () => {
                   />
                 </div>
                 <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    75%
+                  <div
+                    style={{
+                      width: `calc(${metrics?.update_responsiveness} / 5 * 100%)`,
+                    }}
+                    className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
+                    {Math.round((metrics?.update_responsiveness / 5) * 100)} %
                   </div>
                 </div>
               </div>

@@ -49,7 +49,7 @@ const NodeInfoHome = () => {
           Current: {metrics?.block_height_average} block behind
         </p>
         <ProgressBar
-          counts={505 - metrics?.block_height_average}
+          counts={metrics?.block_height_average}
           totalCounts={505}
           type="count"
         />
@@ -63,7 +63,8 @@ const NodeInfoHome = () => {
           Average: {metrics?.update_responsiveness}+ days early
         </p>
         <ProgressBar
-          percent={100}
+          counts={metrics?.update_responsiveness}
+          totalCounts={5}
           type="text"
           startText="Needs Improvement"
           endText="Great"
@@ -74,9 +75,7 @@ const NodeInfoHome = () => {
           <span className="text-lg">Peers</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
-        <p className="text-sm text-gray mb-2">
-          Average: {(metrics?.peers / 88) * 100}
-        </p>
+        <p className="text-sm text-gray mb-2">Average: {metrics?.peers}</p>
         <ProgressBar counts={metrics?.peers} totalCounts={88} type="count" />
       </div>
       <div className="flex justify-between py-9">

@@ -327,7 +327,7 @@ const UserProfile = () => {
                       Current: {metrics?.block_height_average} block behind
                     </p>
                     <ProgressBar
-                      counts={505 - metrics?.block_height_average}
+                      counts={metrics?.block_height_average}
                       totalCounts={505}
                       type="count"
                     />
@@ -345,7 +345,8 @@ const UserProfile = () => {
                       Average: {metrics?.update_responsiveness}+ days early
                     </p>
                     <ProgressBar
-                      percent={100}
+                      counts={metrics?.update_responsiveness}
+                      totalCounts={5}
                       type="text"
                       startText="Needs Improvement"
                       endText="Great"
@@ -361,7 +362,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: {(metrics?.peers / 88) * 100}
+                      Average: {metrics?.peers}
                     </p>
                     <ProgressBar
                       counts={metrics?.peers}
