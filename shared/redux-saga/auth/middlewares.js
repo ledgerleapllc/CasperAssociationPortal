@@ -243,10 +243,10 @@ export function* getMyMetrics() {
   try {
     const res = yield get(['users/metrics']);
     const temp = {
-      uptime: res.data.uptime,
-      block_height_average: res.data.block_height_average,
-      peers: res.data.peers,
-      update_responsiveness: res.data.update_responsiveness,
+      uptime: res.data?.uptime || 0,
+      block_height_average: res.data?.block_height_average || 0,
+      peers: res.data?.peers || 0,
+      update_responsiveness: res.data?.update_responsiveness || 0,
     };
     yield put(setMetrics(temp));
   } catch (error) {
