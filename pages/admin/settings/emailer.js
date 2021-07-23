@@ -343,7 +343,7 @@ const Emailer = () => {
                       <p>Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
-                  <Table.Body>
+                  <Table.Body className="lg:-mr-24 lg:pr-24">
                     {data.map((row, ind) => (
                       <Table.BodyRow key={`b-${ind}`}>
                         <Table.BodyCell>

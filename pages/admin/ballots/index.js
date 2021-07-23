@@ -140,7 +140,7 @@ const Tab1 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell>
@@ -262,7 +262,7 @@ const Tab2 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
               <Table.BodyCell >
@@ -335,7 +335,6 @@ const Ballots = () => (
         <Tab
           className="w-full h-full pt-12 lg:pt-0 ballot-tabs"
           data={tabsData}
-          scrollable
         />
       </div>
     </Card>

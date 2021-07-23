@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { useState, useEffect } from 'react';
 import IconCheck from '../../public/images/ic_check.svg';
 import IconUncheck from '../../public/images/ic_uncheck.svg';
 
-const Checkbox = ({ labelText, onChange }) => {
+const Checkbox = ({ value, labelText, onChange }) => {
   const [check, setCheck] = useState(false);
 
   const toggle = () => {
     setCheck(!check);
+    onChange(!check);
   };
 
   useEffect(() => {
-    onChange(check);
-  }, [check]);
+    setCheck(value);
+  }, [value]);
 
   return (
     <label className="inline-flex items-center" onClick={() => toggle()}>

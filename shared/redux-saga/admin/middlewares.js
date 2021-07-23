@@ -379,9 +379,38 @@ export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
   }
 }
 
+export function* getUserMetrics({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/metrics/${payload.id}`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateUserMetrics({ payload, resolve, reject }) {
+  try {
+    const body = {};
+    if (payload.uptime) body.uptime = payload.uptime;
+    if (payload.block_height_average)
+      body.block_height_average = payload.block_height_average;
+    if (payload.update_responsiveness)
+      body.update_responsiveness = payload.update_responsiveness;
+    if (payload.peers) body.peers = payload.peers;
+    const res = yield _put([`admin/metrics/${payload.id}`], body);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
+  yield all([takeLatest('GET_USER_METRICS', getUserMetrics)]);
+  yield all([takeLatest('UPDATE_USER_METRICS', updateUserMetrics)]);
   yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
   yield all([takeLatest('APPROVE_KYC', approveKYC)]);
   yield all([takeLatest('DENY_KYC', denyKYC)]);

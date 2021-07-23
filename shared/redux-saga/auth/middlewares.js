@@ -11,6 +11,7 @@ import {
   clearUser,
   fetchUserInfoError,
   fetchUserInfoSuccess,
+  setMetrics,
   setUser,
   updateUser,
 } from './actions';
@@ -20,7 +21,12 @@ export function* loginApp({ payload, callback, resetSubmitting }) {
   try {
     const res = yield post(['auth/login'], payload);
     setToken(res.data.access_token);
-    yield put(setUser(res.data));
+    yield put(
+      setUser({
+        ...res.data,
+        factor_auth_guard: !!res.data?.twoFA_login,
+      })
+    );
     callback();
     resetSubmitting();
   } catch (error) {
@@ -164,7 +170,7 @@ export function* verifyEmail({ payload, callback, resetSubmitting }) {
   }
 }
 
-export function* resend2FaCode({ resolve, reject }) {
+export function* resendVerificationCode({ resolve, reject }) {
   try {
     yield post(['users/resend-verify-email'], null);
     resolve();
@@ -188,6 +194,66 @@ export function* fetchUserInfo({ resolve }) {
   }
 }
 
+export function* changeEmailConfirm({ payload, resolve, reject }) {
+  try {
+    const res = yield post(['users/confirm-change-email'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* changeEmailCancel({ payload, resolve, reject }) {
+  try {
+    const res = yield post(['users/cancel-change-email'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* verify2FA({ payload, resolve, reject }) {
+  try {
+    const res = yield post(['users/check-login-2fa'], payload);
+    yield put(
+      updateUser({
+        period: 'final',
+      })
+    );
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* resend2FACode({ resolve, reject }) {
+  try {
+    const res = yield post(['users/resend-2fa']);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getMyMetrics() {
+  try {
+    const res = yield get(['users/metrics']);
+    const temp = {
+      uptime: res.data.uptime,
+      block_height_average: res.data.block_height_average,
+      peers: res.data.peers,
+      update_responsiveness: res.data.update_responsiveness,
+    };
+    yield put(setMetrics(temp));
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -197,6 +263,12 @@ export function* watchAuth() {
   yield all([takeLatest('UPDATE_EMAIL', updateEmail)]);
   yield all([takeLatest('UPDATE_PASSWORD', updateNewPassword)]);
   yield all([takeLatest('VERIFY_EMAIL', verifyEmail)]);
-  yield all([takeLatest('RESEND_2FA_CODE', resend2FaCode)]);
+  yield all([takeLatest('RESEND_VERIFICATION_CODE', resendVerificationCode)]);
+  yield all([takeLatest('RESEND_2FA_CODE', resend2FACode)]);
+  yield all([takeLatest('GET_MY_METRICS', getMyMetrics)]);
   yield all([takeLatest('FETCH_USER_INFO', fetchUserInfo)]);
+  yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
+  yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);
+  yield all([takeLatest('VERIFY_2FA', verify2FA)]);
+  
 }

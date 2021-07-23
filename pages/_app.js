@@ -16,7 +16,7 @@ import appReducer from '../shared/redux-saga/app-reducers';
 import appMiddleware from '../shared/redux-saga/app-middleware';
 import { DialogProvider } from '../components/partials/dialog';
 import AppResolver from '../components/layouts/app-resolver';
-import { fetchUserInfo } from '../shared/redux-saga/auth/actions';
+import { fetchUserInfo, getMyMetrics } from '../shared/redux-saga/auth/actions';
 import AppLoading from '../components/layouts/app-loading';
 
 const middleware = createSagaMiddleware();
@@ -32,6 +32,7 @@ const Container = props => {
   useEffect(() => {
     console.log('app init', process.env.NODE_ENV);
     dispatch(fetchUserInfo(() => {}));
+    dispatch(getMyMetrics());
   }, []);
 
   return fetchUserInfoResponse.process > 1 && <>{props.children}</>;

@@ -128,7 +128,7 @@ const Tab1 = () => {
             <p>Date</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -212,7 +212,7 @@ const Tab2 = () => {
             <p>Date</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {completeVotes.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -312,7 +312,7 @@ const Tab3 = () => {
             <p>For/Against</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"

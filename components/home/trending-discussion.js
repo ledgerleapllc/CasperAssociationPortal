@@ -35,7 +35,6 @@ const TrendingDiscussion = () => {
   const getTrendingList = (pageValue = page) => {
     dispatch(
       getTrendingDiscussions({ page: pageValue }, (result, isHasMore) => {
-        console.log(result);
         setHasMore(isHasMore);
         appendData(result);
         setPage(prev => prev + 1);

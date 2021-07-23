@@ -1,22 +1,76 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getUserDetail } from '../../../../shared/redux-saga/admin/actions';
+import {
+  getUserDetail,
+  updateUserMetrics,
+  getUserMetrics,
+} from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card, BackButton } from '../../../../components/partials';
+import { Button, Card, Checkbox } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
+import { AppContext } from '../../../_app';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
+  const { setLoading } = useContext(AppContext);
   const userDetail = useSelector(state => state.userDetailReducer.data);
+  const [overrideInfo, setOverrideInfo] = useState({
+    uptime: false,
+    block_height_average: false,
+    update_responsiveness: false,
+    peers: false,
+  });
+
+  const [overrideValue, setOverrideValue] = useState({
+    uptime: '',
+    block_height_average: '',
+    update_responsiveness: '',
+    peers: '',
+  });
+
+  const [metrics, setMetrics] = useState({
+    uptime: '0',
+    block_height_average: '0',
+    update_responsiveness: '0',
+    peers: '0',
+  });
+
   useEffect(() => {
     if (id) {
       dispatch(getUserDetail(id));
+      dispatch(
+        getUserMetrics(
+          { id },
+          res => {
+            setMetrics(
+              res || {
+                uptime: '0',
+                block_height_average: '0',
+                update_responsiveness: '0',
+                peers: '0',
+              }
+            );
+          },
+          () => {}
+        )
+      );
     }
   }, [id]);
+
+  const toggleOverride = field => {
+    setOverrideInfo({
+      ...overrideInfo,
+      [field]: !overrideInfo[field],
+    });
+    setOverrideValue({
+      ...overrideValue,
+      [field]: '',
+    });
+  };
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
@@ -32,9 +86,39 @@ const AdminUserDetail = () => {
     return 'Not Submitted';
   };
 
+  const updateField = (field, value) => {
+    setOverrideValue({
+      ...overrideValue,
+      [field]: value,
+    });
+  };
+
+  const save = field => {
+    setLoading(true);
+    dispatch(
+      updateUserMetrics(
+        {
+          id,
+          [field]: overrideValue[field],
+        },
+        () => {
+          setMetrics({
+            ...metrics,
+            [field]: overrideValue[field],
+          });
+          toggleOverride(field);
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-14">
+      <Card className="h-full py-14 pl-24">
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">
@@ -46,10 +130,10 @@ const AdminUserDetail = () => {
                 User details are displayed below with admin functions for user
                 management.
               </p>
-              <div className="border-primary border-b-2" />
+              <div className="border-primary border-b-2 mr-24" />
             </div>
           </div>
-          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll">
+          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll pr-24">
             <div className="flex flex-row py-7 border-b border-gray">
               <p className="text-lg font-medium">User Status:</p>
               <p className="text-lg font-medium pl-2">
@@ -129,71 +213,155 @@ const AdminUserDetail = () => {
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-base font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
-                <p className=" py-1text-sm font-medium w-1/6">NODE 1:</p>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Signed File:</p>
-                  <p className="text-sm text-primary underline w-5/6">
-                    Download
-                  </p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Verified Date:</p>
-                  <p className="text-sm w-5/6">21/06/2021</p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Status:</p>
-                  <p className="text-sm w-5/6">
-                    Above Minimum Criteria
-                    <span className="pl-3 text-primary underline">
-                      View Metrics
-                    </span>
-                  </p>
-                </div>
-                <div className="flex flex-row py-1">
+                <p className="pb-4 text-sm font-medium w-full">
+                  {userDetail?.public_address_node}
+                </p>
+                <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
                   <p className="text-sm w-5/6">2,200,300</p>
                 </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Average CPU:</p>
-                  <p className="text-sm w-5/6">16%</p>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">Uptime:</p>
+                  <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
+                  <div className="text-sm w-1/6">
+                    <Checkbox
+                      value={overrideInfo.uptime}
+                      onChange={() => toggleOverride('uptime')}
+                      labelText="override"
+                    />
+                  </div>
+                  <div
+                    className={`flex text-sm w-3/6 ${
+                      overrideInfo.uptime
+                        ? 'opacity-100'
+                        : 'opacity-50 pointer-events-none'
+                    }`}
+                  >
+                    <input
+                      type="number"
+                      max="100"
+                      value={overrideValue.uptime}
+                      onChange={e => updateField('uptime', e.target.value)}
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                    />
+                    <Button
+                      primary
+                      style={{ width: '7rem' }}
+                      onClick={() => save('uptime')}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Average Peers:</p>
-                  <p className="text-sm w-5/6">12</p>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <p className=" py-1text-sm font-medium w-1/6">NODE 2:</p>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Signed File:</p>
-                  <p className="text-sm text-primary underline w-5/6">
-                    Download
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">
+                    Block height average:
                   </p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Verified Date:</p>
-                  <p className="text-sm w-5/6">25/06/2021</p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Status:</p>
-                  <p className="text-sm w-5/6">
-                    Above Minimum Criteria
-                    <span className="pl-3 text-primary underline">
-                      View Metrics
-                    </span>
+                  <p className="text-sm w-1/6">
+                    {metrics?.block_height_average || 0} behind
                   </p>
+                  <div className="text-sm w-1/6">
+                    <Checkbox
+                      value={overrideInfo.block_height_average}
+                      onChange={() => toggleOverride('block_height_average')}
+                      labelText="override"
+                    />
+                  </div>
+                  <div
+                    className={`flex text-sm w-3/6 ${
+                      overrideInfo.block_height_average
+                        ? 'opacity-100'
+                        : 'opacity-50 pointer-events-none'
+                    }`}
+                  >
+                    <input
+                      type="number"
+                      value={overrideValue.block_height_average}
+                      onChange={e =>
+                        updateField('block_height_average', e.target.value)
+                      }
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                    />
+                    <Button
+                      primary
+                      style={{ width: '7rem' }}
+                      onClick={() => save('block_height_average')}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Member Stake:</p>
-                  <p className="text-sm w-5/6">1,800,000</p>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">
+                    Update responsiveness:
+                  </p>
+                  <p className="text-sm w-1/6">
+                    {metrics?.update_responsiveness || 0} days early
+                  </p>
+                  <div className="text-sm w-1/6">
+                    <Checkbox
+                      value={overrideInfo.update_responsiveness}
+                      onChange={() => toggleOverride('update_responsiveness')}
+                      labelText="override"
+                    />
+                  </div>
+                  <div
+                    className={`flex text-sm w-3/6 ${
+                      overrideInfo.update_responsiveness
+                        ? 'opacity-100'
+                        : 'opacity-50 pointer-events-none'
+                    }`}
+                  >
+                    <input
+                      type="number"
+                      value={overrideValue.update_responsiveness}
+                      onChange={e =>
+                        updateField('update_responsiveness', e.target.value)
+                      }
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                    />
+                    <Button
+                      primary
+                      style={{ width: '7rem' }}
+                      onClick={() => save('update_responsiveness')}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Average CPU:</p>
-                  <p className="text-sm w-5/6">35%</p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Average Peers:</p>
-                  <p className="text-sm w-5/6">8</p>
+                <div className="flex items-center flex-row mt-1 h-11">
+                  <p className="text-sm font-medium w-1/6">Peers:</p>
+                  <p className="text-sm w-1/6">
+                    {metrics?.peers || 0} days early
+                  </p>
+                  <div className="text-sm w-1/6">
+                    <Checkbox
+                      value={overrideInfo.peers}
+                      onChange={() => toggleOverride('peers')}
+                      labelText="override"
+                    />
+                  </div>
+                  <div
+                    className={`flex text-sm w-3/6 ${
+                      overrideInfo.peers
+                        ? 'opacity-100'
+                        : 'opacity-50 pointer-events-none'
+                    }`}
+                  >
+                    <input
+                      type="number"
+                      value={overrideValue.peers}
+                      onChange={e => updateField('peers', e.target.value)}
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                    />
+                    <Button
+                      primary
+                      style={{ width: '7rem' }}
+                      onClick={() => save('peers')}
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
