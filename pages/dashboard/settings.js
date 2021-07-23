@@ -89,8 +89,6 @@ const DashboardSetting = () => {
     watch,
   } = useForm();
 
-  const watchFA = watch('twoFA_login', false);
-
   const toggle = field => {
     if (!enableInput[field]) {
       setEnableInput({
@@ -101,7 +99,20 @@ const DashboardSetting = () => {
       setEnableInput({
         ...DEFAULT_INPUTS,
       });
-      setValue(field, user[field]);
+      setValue(field, user?.fullInfo[field]);
+    }
+  };
+
+  const toggleRadio = (field, value) => {
+    if (+user?.fullInfo[field] !== +value) {
+      setEnableInput({
+        ...DEFAULT_INPUTS,
+        [field]: true,
+      });
+    } else {
+      setEnableInput({
+        ...DEFAULT_INPUTS,
+      });
     }
   };
 
@@ -142,6 +153,9 @@ const DashboardSetting = () => {
   };
 
   const canSubmit = () => Object.values(enableInput).some(item => item);
+
+  const is2FAInputDisabled = () =>
+    Object.values(enableInput).some(item => item) && !enableInput.twoFA_login;
 
   const onSubmit = data => {
     setIsSaving(true);
@@ -185,16 +199,6 @@ const DashboardSetting = () => {
       username: user.fullInfo?.username,
     });
   }, [user]);
-
-  useEffect(() => {
-    if (
-      watchFA !== false &&
-      +user.fullInfo.twoFA_login !== +watchFA &&
-      !enableInput.twoFA_login
-    ) {
-      toggle('twoFA_login');
-    }
-  }, [watchFA]);
 
   const EditButton = ({ mobile, field }) => {
     const isDisabled = canSubmit();
@@ -389,24 +393,32 @@ const DashboardSetting = () => {
                     <div className="form-group">
                       <label htmlFor="2fa">2FA toggle</label>
                       <div className="hidden lg:block pl-5 mt-5">
-                        <label className="relative pl-8 inline-flex items-center mr-6">
-                          <input
-                            type="radio"
-                            className="text-primary"
-                            value="1"
-                            {...register('twoFA_login')}
-                          />
-                          <span className="text-sm text-dark1">ON</span>
-                        </label>
-                        <label className="relative pl-8 pt-6 flex">
-                          <input
-                            type="radio"
-                            className="text-primary"
-                            value="0"
-                            {...register('twoFA_login')}
-                          />
-                          <span className="text-sm text-dark1">OFF</span>
-                        </label>
+                        <fieldset
+                          className="disabled:opacity-40"
+                          disabled={is2FAInputDisabled()}
+                        >
+                          <label className="relative pl-8 inline-flex items-center mr-6">
+                            <input
+                              type="radio"
+                              className="text-primary"
+                              onClick={() => toggleRadio('twoFA_login', 1)}
+                              value="1"
+                              {...register('twoFA_login')}
+                            />
+                            <span className="text-sm text-dark1">ON</span>
+                          </label>
+                          <br />
+                          <label className="relative inline-flex pl-8 mt-6 flex">
+                            <input
+                              type="radio"
+                              className="text-primary"
+                              onClick={() => toggleRadio('twoFA_login', 0)}
+                              value="0"
+                              {...register('twoFA_login')}
+                            />
+                            <span className="text-sm text-dark1">OFF</span>
+                          </label>
+                        </fieldset>
                       </div>
                       <div className="block lg:hidden pl-5 mt-5">
                         <ToggleButton />

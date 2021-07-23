@@ -8,7 +8,11 @@ import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
-import { loginApp, fetchUserInfo } from '../shared/redux-saga/auth/actions';
+import {
+  loginApp,
+  getMyMetrics,
+  fetchUserInfo,
+} from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const Login = () => {
@@ -26,6 +30,7 @@ const Login = () => {
           ...data,
         },
         () => {
+          dispatch(getMyMetrics());
           dispatch(
             fetchUserInfo(() => {
               router.push('/dashboard');

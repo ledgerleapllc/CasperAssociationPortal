@@ -23,7 +23,7 @@ const ProgressBar = props => {
     if (type === 'count') {
       return (
         <>
-          {(!!counts || !!totalCounts) && (
+          {!!totalCounts && counts !== 0 && (
             <p className="w-full text-center text-white">
               {counts}/{totalCounts}
             </p>
@@ -54,9 +54,11 @@ const ProgressBar = props => {
           {!progress && type !== 'text' && (
             <>
               {type === 'count' ? (
-                <p className="w-full text-center text-white">
-                  {counts}/{totalCounts}
-                </p>
+                counts === 0 && (
+                  <p className="w-full text-center text-white">
+                    {counts}/{totalCounts}
+                  </p>
+                )
               ) : (
                 <p className="w-full text-center text-white">0%</p>
               )}
