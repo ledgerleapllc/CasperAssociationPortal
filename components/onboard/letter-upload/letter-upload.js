@@ -58,8 +58,6 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
     }
   };
 
-  console.log('isDragReject', isDragReject, fileRejections);
-
   return (
     <>
       <div className="pt-8">

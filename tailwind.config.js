@@ -21,6 +21,7 @@ module.exports = {
       },
       boxShadow: {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
+        card: '0px 5px 30px -5px rgb(0, 0, 0, 0.2)',
       },
       screens: {
         xl: '1281px',
@@ -36,6 +37,9 @@ module.exports = {
         success: '#211BAA',
         green: '#2DDB33',
       },
+      margin: {
+        '-29': '-7.25rem',
+      },
       fontSize: {
         '2.5xl': '1.7rem',
         xxl: '1.4rem',
@@ -50,15 +54,20 @@ module.exports = {
         152: '38rem',
         '40px': '40px',
         '70px': '70px',
+        '40px': '40px',
         '8.5/10': '85%',
         '9/10': '90%',
         '300px': '300px',
         '500px': '500px',
+        '30px': '30px',
+        '100%-40px': 'calc(100% - 40px)',
+        '100%-100px': 'calc(100% - 100px)',
       },
       maxWidth: {
         380: '95rem',
         404: '101rem',
         60: '15rem',
+        200: '50rem',
       },
       minHeight: {
         105: '26.25rem',
@@ -67,6 +76,7 @@ module.exports = {
         '200px': '200px',
       },
       minWidth: {
+        20: '5rem',
         250: '62.5rem',
         52: '13rem',
       },

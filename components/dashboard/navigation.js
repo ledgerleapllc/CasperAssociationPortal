@@ -34,7 +34,7 @@ const mainNavs = [
   {
     key: 'user',
     icon: UserIcon,
-    path: '/dashboard/member-perks',
+    path: '/dashboard/perks',
   },
   {
     key: 'verification',

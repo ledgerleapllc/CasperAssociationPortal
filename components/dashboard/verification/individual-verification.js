@@ -204,7 +204,11 @@ export const IndividualVerification = ({ goNext }) => {
                 }}
                 defaultValue=""
                 render={({ field: { onChange: onChangeDate } }) => (
-                  <DateTimePicker onChange={onChangeDate} className="w-10/12" />
+                  <DateTimePicker
+                    placeholder="DOB (mm/dd/yyyy) *"
+                    onChange={onChangeDate}
+                    className="w-10/12"
+                  />
                 )}
               />
               {formState.errors?.dob && (

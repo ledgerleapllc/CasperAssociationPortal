@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 
 const DateTimePicker = props => {
-  const { onChange, className } = props;
+  const { onChange, className, value, disabled } = props;
   const [date, setDate] = useState('');
   const toogleDateInput = e => {
     if (e.target.type === 'date') {
       if (e.target.value) {
         const [year, month, day] = e.target.value.split('-');
         setDate(`${month}/${day}/${year}`);
+        onChange(`${month}/${day}/${year}`);
+      } else {
+        setDate('');
+        onChange('');
       }
       e.target.type = 'text';
     } else {
@@ -20,20 +24,21 @@ const DateTimePicker = props => {
   };
 
   useEffect(() => {
-    if (date) {
-      onChange(date);
+    if (!date) {
+      setDate(value);
     }
-  }, [date]);
+  }, [value]);
 
   return (
     <input
       type="text"
       className={`${className} px-7 lg:auto h-14 rounded-full shadow-md focus:outline-none`}
-      placeholder="DOB (mm/dd/yyyy) *"
+      placeholder={props.placeholder}
       onFocus={e => toogleDateInput(e)}
       onBlur={e => toogleDateInput(e)}
       value={date}
       onChange={e => setDate(e.target.value)}
+      disabled={disabled}
     />
   );
 };

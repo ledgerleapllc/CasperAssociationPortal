@@ -9,6 +9,13 @@ const directionText = {
   against: 'text-primary',
 };
 
+const perkStatus = {
+  active: 'text-green uppercase',
+  waiting: 'capitalize',
+  expired: 'text-primary capitalize',
+  inactive: 'text-primary uppercase',
+};
+
 const StatusText = props => (
   <>
     {['pass', 'cancelled', 'fail'].includes(props.content) && (
@@ -23,6 +30,15 @@ const StatusText = props => (
     {['for', 'against'].includes(props.content) && (
       <span
         className={`${directionText[props.content?.toLowerCase()]} ${
+          props.className
+        }`}
+      >
+        {props.content}
+      </span>
+    )}
+    {['active', 'waiting', 'ended', 'inactive'].includes(props.content) && (
+      <span
+        className={`${perkStatus[props.content?.toLowerCase()]} ${
           props.className
         }`}
       >

@@ -65,7 +65,6 @@ const UserProfile = () => {
     dispatch(
       getMyInfo(
         data => {
-          console.log(data);
           setMyInfo(data);
         },
         () => {}
