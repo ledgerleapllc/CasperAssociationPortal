@@ -419,7 +419,7 @@ export function* getActivePerks({ payload, resolve, reject }) {
     const res = yield get([`perks?${query}`]);
     res.data.data = res.data.data.map(x => ({
       ...x,
-      image: { link: x.image_url },
+      image: { url: x.image_url },
     }));
     yield delay(500); // => this need for scroll loadmore.
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
@@ -477,7 +477,7 @@ export function* getPerkDetail({ payload, resolve, reject }) {
     if (res.data.end_date)
       res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
     res.data.image = {
-      link: res.data.image_url,
+      url: res.data.image_url,
       name: res.data.image,
       file: null,
     };
@@ -511,7 +511,7 @@ export function* getActivePerkDetail({ payload, resolve, reject }) {
     );
     res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
     res.data.image = {
-      link: res.data.image_url,
+      url: res.data.image_url,
       name: res.data.image,
       file: null,
     };
