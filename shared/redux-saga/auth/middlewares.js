@@ -9,6 +9,7 @@ import {
 } from '../../../helpers/api/auth.service';
 import {
   clearUser,
+  clearMetrics,
   fetchUserInfoError,
   fetchUserInfoSuccess,
   setMetrics,
@@ -40,6 +41,7 @@ export function* logoutApp() {
   yield put(clearLetter());
   yield put(clearOwnerNodes());
   yield put(clearUser());
+  yield put(clearMetrics());
 }
 
 export function* registerEntity({ payload, callback, resetSubmitting }) {

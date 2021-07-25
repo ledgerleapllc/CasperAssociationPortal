@@ -309,9 +309,6 @@ export const PerkForm = React.memo(
               >
                 Cancel
               </Button>
-              <button type="button" className="text-primary">
-                <span className="underline">Refresh Preview</span>
-              </button>
             </>
           )}
           {editMode && isDisableAllFields && (
@@ -319,9 +316,6 @@ export const PerkForm = React.memo(
               <Button primary type="button" onClick={() => toggleEdit(false)}>
                 Edit
               </Button>
-              <button type="button" className="text-primary">
-                <span className="underline">Refresh Preview</span>
-              </button>
             </>
           )}
           {editMode && !isDisableAllFields && (
@@ -338,9 +332,6 @@ export const PerkForm = React.memo(
               <Button primaryOutline onClick={() => toggleEdit(true)}>
                 Cancel
               </Button>
-              <button type="button" className="text-primary">
-                <span className="underline">Refresh Preview</span>
-              </button>
             </>
           )}
         </div>

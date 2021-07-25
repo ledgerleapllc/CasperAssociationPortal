@@ -1,10 +1,10 @@
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { useSelector } from 'react-redux';
+import useMetrics from '../hooks/useMetrics';
 import { ProgressBar } from '../partials';
 
 const NodeInfoHome = () => {
-  const metrics = useSelector(state => state.authReducer.metrics);
+  const { metrics } = useMetrics();
 
   const percenCPU = 61;
   const percenPerformance = 83;

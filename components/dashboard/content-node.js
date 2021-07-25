@@ -1,11 +1,10 @@
 import { Line } from 'react-chartjs-2';
-import { useSelector } from 'react-redux';
+import useMetrics from '../hooks/useMetrics';
 import { Card } from '../partials';
 import InfoRightNode from './info-right-node';
 
 const ContentNode = () => {
-  const metrics = useSelector(state => state.authReducer.metrics);
-
+  const { metrics } = useMetrics();
   const lineData = {
     datasets: [
       {
