@@ -12,6 +12,7 @@ import {
   cancelBallotError,
 } from './actions';
 import { ApiService } from '../../../helpers/api/api.service';
+import { formatDate } from '../../core/utils';
 
 const http = new ApiService();
 
@@ -140,10 +141,6 @@ export function* getBallots({ payload, callback }) {
 
 export function* submitBallot({ payload, resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     const formData = new FormData();
     Array.from(payload.files).forEach((file, index) => {
       formData.append(`files[${index}]`, file);
@@ -152,9 +149,7 @@ export function* submitBallot({ payload, resolve, reject }) {
     formData.append(`description`, payload.description);
     formData.append(`time`, payload.time);
     formData.append(`time_unit`, payload.time_unit);
-    const res = yield post([`admin/ballots`], formData, {
-      headers,
-    });
+    const res = yield post([`admin/ballots`], formData);
     resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -406,6 +401,127 @@ export function* updateUserMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* getListPerks({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/perks?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getActivePerks({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`perks?${query}`]);
+    res.data.data = res.data.data.map(x => ({
+      ...x,
+      image: { link: x.image_url },
+    }));
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* submitPerk({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    formData.append(`title`, payload.title);
+    formData.append(`content`, payload.content);
+    formData.append(`action_link`, payload.action_link);
+    formData.append(`image`, payload.image.file);
+    formData.append(`start_date`, payload.start_date);
+    formData.append(`end_date`, payload.end_date);
+    formData.append(`setting`, payload.setting ? 1 : 0);
+    const res = yield post([`admin/perks`], formData);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* editPerk({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    formData.append(`title`, payload.title);
+    formData.append(`content`, payload.content);
+    formData.append(`action_link`, payload.action_link);
+    if (payload.image.file) formData.append(`image`, payload.image.file);
+    formData.append(`start_date`, payload.start_date);
+    formData.append(`end_date`, payload.end_date);
+    formData.append(`setting`, payload.setting ? 1 : 0);
+    const res = yield post([`admin/perks/update/${payload.id}`], formData);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getPerkDetail({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/perks`, payload.id]);
+    res.data.setting = res.data.setting === 1;
+    if (res.data.start_date)
+      res.data.start_date = formatDate(
+        new Date(res.data.start_date),
+        'MM/dd/yyyy'
+      );
+    if (res.data.end_date)
+      res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+    res.data.image = {
+      link: res.data.image_url,
+      name: res.data.image,
+      file: null,
+    };
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getListPerkEngagements({ payload, resolve, reject }) {
+  try {
+    const { id, ...params } = payload;
+    const query = qs.stringify(params);
+    const res = yield get([`admin/perks/${id}/result?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getActivePerkDetail({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`perks`, payload.id]);
+    res.data.setting = res.data.setting === 1;
+    res.data.start_date = formatDate(
+      new Date(res.data.start_date),
+      'MM/dd/yyyy'
+    );
+    res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+    res.data.image = {
+      link: res.data.image_url,
+      name: res.data.image,
+      file: null,
+    };
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getWarningMetrics({ resolve, reject }) {
   try {
     const res = yield get(['admin/monitoring-criteria']);
@@ -428,6 +544,7 @@ export function* updateWarningMetrics({ payload, resolve, reject }) {
     yield put(saveApiResponseError(error));
   }
 }
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -439,7 +556,11 @@ export function* watchAdmin() {
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
+  yield all([takeLatest('SUBMIT_PERK', submitPerk)]);
+  yield all([takeLatest('EDIT_PERK', editPerk)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
+  yield all([takeLatest('GET_PERK_DETAIL', getPerkDetail)]);
+  yield all([takeLatest('GET_ACTIVE_PERK_DETAIL', getActivePerkDetail)]);
   yield all([takeLatest('GET_BALLOT_VOTES', getBallotVotes)]);
   yield all([takeLatest('CANCEL_BALLOT', cancelBallot)]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
@@ -458,6 +579,9 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
   yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([takeEvery('GET_LIST_PERKS', getListPerks)]);
+  yield all([takeEvery('GET_ACTIVE_PERKS', getActivePerks)]);
+  yield all([takeEvery('GET_LIST_PERK_ENGAGEMENT', getListPerkEngagements)]);
   yield all([
     takeLatest('UPDATE_EMAILER_TRIGGER_USER', updateEmailerTriggerUser),
   ]);

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
@@ -265,7 +265,7 @@ const Tab2 = () => {
         <Table.Body className="lg:-mr-24 lg:pr-24">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
-              <Table.BodyCell >
+              <Table.BodyCell>
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell>

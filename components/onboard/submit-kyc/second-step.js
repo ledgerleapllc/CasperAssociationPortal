@@ -98,7 +98,10 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               }}
               defaultValue=""
               render={({ field: { onChange: onChangeDate } }) => (
-                <DateTimePicker onChange={onChangeDate} />
+                <DateTimePicker
+                  placeholder="DOB (mm/dd/yyyy) *"
+                  onChange={onChangeDate}
+                />
               )}
             />
             {formState.errors?.dob && (

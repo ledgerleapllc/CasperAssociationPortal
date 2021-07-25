@@ -8,7 +8,7 @@ const BUTTON_STYLES = {
 
 const BUTTON_SIZES = {
   default: `text-sm h-11 lg:w-52`,
-  small: ``,
+  small: `text-xs h-8 min-w-20`,
   large: `text-lg h-16 w-52`,
 };
 

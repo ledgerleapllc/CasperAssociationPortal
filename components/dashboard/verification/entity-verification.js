@@ -353,6 +353,7 @@ export const EntityVerification = ({ goNext }) => {
                         <DateTimePicker
                           onChange={onChangeDate}
                           className="w-10/12"
+                          placeholder="DOB (mm/dd/yyyy) *"
                         />
                       )}
                     />

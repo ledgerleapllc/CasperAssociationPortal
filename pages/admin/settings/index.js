@@ -16,7 +16,7 @@ import {
   NEGATIVE_NUMBER_PATTERN,
 } from '../../../helpers/form-validation';
 import {
-  getWaringMetrics,
+  getWarningMetrics,
   updateWarningMetrics,
 } from '../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../_app';
@@ -510,7 +510,7 @@ const Settings = () => {
 
   const fetchWarningMetrics = () => {
     dispatch(
-      getWaringMetrics(
+      getWarningMetrics(
         res => {
           const obj = res?.reduce((result, item) => {
             // eslint-disable-next-line no-param-reassign

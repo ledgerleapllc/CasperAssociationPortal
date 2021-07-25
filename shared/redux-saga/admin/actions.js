@@ -115,6 +115,20 @@ export const submitBallot = (payload, resolve, reject) => ({
   reject,
 });
 
+export const submitPerk = (payload, resolve, reject) => ({
+  type: 'SUBMIT_PERK',
+  payload,
+  resolve,
+  reject,
+});
+
+export const editPerk = (payload, resolve, reject) => ({
+  type: 'EDIT_PERK',
+  payload,
+  resolve,
+  reject,
+});
+
 export const cancelBallot = (payload, resolve, reject) => ({
   type: 'CANCEL_BALLOT',
   payload,
@@ -236,8 +250,43 @@ export const updateEmailerTriggerAdmin = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getWaringMetrics = (resolve, reject) => ({
+export const getListPerks = (payload, resolve, reject) => ({
+  type: 'GET_LIST_PERKS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getActivePerks = (payload, resolve, reject) => ({
+  type: 'GET_ACTIVE_PERKS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getPerkEngagements = (payload, resolve, reject) => ({
+  type: 'GET_LIST_PERK_ENGAGEMENT',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getPerkDetail = (payload, resolve, reject) => ({
+  type: 'GET_PERK_DETAIL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getWarningMetrics = (resolve, reject) => ({
   type: 'GET_WARNING_METRICS',
+  resolve,
+  reject,
+});
+
+export const getActivePerkDetail = (payload, resolve, reject) => ({
+  type: 'GET_ACTIVE_PERK_DETAIL',
+  payload,
   resolve,
   reject,
 });

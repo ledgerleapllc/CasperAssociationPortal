@@ -79,7 +79,10 @@ const Table = props => {
 };
 
 Table.Header = props => (
-  <div className="flex w-full pb-2" style={{ paddingRight: '7px' }}>
+  <div
+    className="table-header flex w-full pb-2"
+    style={{ paddingRight: '7px' }}
+  >
     {props.children.map((child, i) =>
       cloneElement(child, {
         index: i + 1,
@@ -130,7 +133,7 @@ Table.Body = props => {
   return (
     <div
       id={randomId}
-      className={props.className || ''}
+      className={`table-body ${props.className || ''}`}
       style={{ overflowY: 'scroll' }}
     >
       <InfiniteScroll
@@ -139,7 +142,7 @@ Table.Body = props => {
         next={props.onLoadMore}
         hasMore={props.hasMore}
         loader={
-          <div className="py-4 flex justify-center">
+          <div className="py-4 flex justify-center loading-data">
             <ReactLoading
               type="spinningBubbles"
               color="#FF473E"
@@ -154,7 +157,9 @@ Table.Body = props => {
         {props.dataLength ? (
           props.children
         ) : !props.hasMore ? (
-          <p className="py-4 text-center opacity-40">No Results Found</p>
+          <p className="py-4 text-center opacity-40 no-result-text">
+            No Results Found
+          </p>
         ) : (
           <></>
         )}
