@@ -50,8 +50,10 @@ const NodeInfoHome = () => {
         </p>
         <ProgressBar
           counts={metrics?.block_height_average}
-          totalCounts={505}
-          type="count"
+          totalCounts={
+            metrics?.monitoring_criteria?.['block-height']?.warning_level || 0
+          }
+          type="split"
         />
       </div>
       <div className="flex flex-col py-2">

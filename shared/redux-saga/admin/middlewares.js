@@ -406,6 +406,28 @@ export function* updateUserMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* getWarningMetrics({ resolve, reject }) {
+  try {
+    const res = yield get(['admin/monitoring-criteria']);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* updateWarningMetrics({ payload, resolve, reject }) {
+  try {
+    const res = yield _put(
+      [`admin/monitoring-criteria/${payload.type}`],
+      payload.data
+    );
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -442,4 +464,6 @@ export function* watchAdmin() {
   yield all([
     takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
   ]);
+  yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
+  yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
 }
