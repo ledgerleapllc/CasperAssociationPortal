@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
@@ -9,6 +9,7 @@ import { PerkPage } from '../../../../../components/admin/perks/components/perk-
 import { PerkForm } from '../../../../../components/admin/perks/components/perk-form';
 import { getPerkDetail } from '../../../../../shared/redux-saga/admin/actions';
 import { PerksEngagement } from '../../../../../components/admin/perks/tables/perk-engagement';
+import { AppContext } from '../../../../_app';
 
 const AdminEditPerk = () => {
   const [value, setValue] = useState();
@@ -16,6 +17,7 @@ const AdminEditPerk = () => {
   const [currentPerk, setCurrentPerk] = useState();
   const { id } = router.query;
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   const getValue = React.useCallback(val => {
     setValue(val);
@@ -26,13 +28,17 @@ const AdminEditPerk = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(
       getPerkDetail(
         { id },
         res => {
+          setLoading(false);
           setCurrentPerk(res);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   }, [id]);

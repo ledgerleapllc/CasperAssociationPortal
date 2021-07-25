@@ -174,19 +174,23 @@ export const PerkForm = React.memo(
             <div className="relative pb-2 mb-6">
               <label
                 htmlFor="perkImage"
-                className="flex justify-center items-center cursor-pointer h-16 lg:h-11 text-lg text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                className={`${
+                  isDisableAllFields && 'opacity-40 cursor-not-allowed'
+                } flex justify-center items-center cursor-pointer h-16 lg:h-11 text-lg text-white lg:w-48 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md`}
               >
                 Upload Image
               </label>
               {watchAllFields.image?.name && (
                 <div className="flex items-center text-primary absolute -bottom-5 left-4 truncate w-60">
-                  <button
-                    className="pr-1 w-5 focus:outline-none"
-                    onClick={() => removeFile()}
-                    type="button"
-                  >
-                    <IconX className="text-primary" />
-                  </button>
+                  {!isDisableAllFields && (
+                    <button
+                      className="pr-1 w-5 focus:outline-none"
+                      onClick={() => removeFile()}
+                      type="button"
+                    >
+                      <IconX className="text-primary" />
+                    </button>
+                  )}
                   <span className="text-sm text-primary">
                     {watchAllFields.image?.name}
                   </span>
