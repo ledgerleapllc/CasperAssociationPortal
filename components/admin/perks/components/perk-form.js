@@ -110,7 +110,7 @@ export const PerkForm = React.memo(
           setValue(
             'image',
             {
-              link: reader.result,
+              url: reader.result,
               file,
               name: file.name,
             },

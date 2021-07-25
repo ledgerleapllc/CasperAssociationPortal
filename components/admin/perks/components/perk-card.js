@@ -4,11 +4,15 @@ import { Button, ClockBar } from '../../../partials';
 export const PerkCard = ({ perk }) => (
   <div className="h-56 flex p-5 pr-2 shadow-card gap-4 rounded-2xl">
     <div className="w-1/2">
-      <img
-        className="object-cover w-full h-full bg-gray1"
-        src={perk?.image?.link || ''}
-        alt=""
-      />
+      {perk?.image?.url ? (
+        <img
+          className="object-cover w-full h-full bg-gray1"
+          src={perk?.image?.url || ''}
+          alt=""
+        />
+      ) : (
+        <div className="bg-gray1 w-full h-full" />
+      )}
     </div>
     <div className="w-1/2">
       <div className="h-2/3 flex flex-col justify-between">
