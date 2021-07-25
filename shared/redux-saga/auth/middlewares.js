@@ -242,11 +242,22 @@ export function* resend2FACode({ resolve, reject }) {
 export function* getMyMetrics() {
   try {
     const res = yield get(['users/metrics']);
+    if (res.data?.monitoring_criteria) {
+      res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
+        (result, item) => {
+          // eslint-disable-next-line no-param-reassign
+          result[item.type] = item;
+          return result;
+        },
+        {}
+      );
+    }
     const temp = {
       uptime: res.data?.uptime || 0,
       block_height_average: res.data?.block_height_average || 0,
       peers: res.data?.peers || 0,
       update_responsiveness: res.data?.update_responsiveness || 0,
+      monitoring_criteria: res.data?.monitoring_criteria || null,
     };
     yield put(setMetrics(temp));
   } catch (error) {
@@ -270,5 +281,4 @@ export function* watchAuth() {
   yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
   yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
-  
 }

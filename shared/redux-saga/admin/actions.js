@@ -235,3 +235,16 @@ export const updateEmailerTriggerAdmin = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getWaringMetrics = (resolve, reject) => ({
+  type: 'GET_WARNING_METRICS',
+  resolve,
+  reject,
+});
+
+export const updateWarningMetrics = (payload, resolve, reject) => ({
+  type: 'UPDATE_WARNING_METRICS',
+  payload,
+  resolve,
+  reject,
+});

@@ -5,7 +5,10 @@ const ProgressBar = props => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const progressTemp = Math.round((counts / totalCounts) * 100);
+    const progressTemp =
+      !!counts > 0 && !!totalCounts
+        ? Math.round((counts / totalCounts) * 100)
+        : 0;
     setProgress(progressTemp);
   }, [counts, totalCounts]);
 
@@ -20,7 +23,7 @@ const ProgressBar = props => {
       return <></>;
     }
 
-    if (type === 'count') {
+    if (type === 'count' || type === 'split') {
       return (
         <>
           {!!totalCounts && counts !== 0 && (
@@ -53,12 +56,10 @@ const ProgressBar = props => {
         <>
           {!progress && type !== 'text' && (
             <>
-              {type === 'count' ? (
-                counts === 0 && (
-                  <p className="w-full text-center text-white">
-                    {counts}/{totalCounts}
-                  </p>
-                )
+              {type === 'split' ? (
+                <p className="w-full text-center text-white">
+                  {counts}/{totalCounts}
+                </p>
               ) : (
                 <p className="w-full text-center text-white">0%</p>
               )}
