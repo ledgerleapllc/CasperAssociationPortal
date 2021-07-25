@@ -16,6 +16,7 @@ import IconCamera from '../../public/images/ic_camera.svg';
 import { formatDate } from '../../shared/core/utils';
 import VerifiedIcon from '../../public/images/ic_check_mark.svg';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
+import useMetrics from '../../components/hooks/useMetrics';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -59,7 +60,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const [myInfo, setMyInfo] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const metrics = useSelector(state => state.authReducer.metrics);
+  const { metrics } = useMetrics();
 
   useEffect(() => {
     dispatch(

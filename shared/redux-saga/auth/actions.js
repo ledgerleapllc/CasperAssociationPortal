@@ -86,6 +86,10 @@ export const clearUser = () => ({
   type: 'CLEAR_USER_INFO',
 });
 
+export const clearMetrics = () => ({
+  type: 'CLEAR_METRICS',
+});
+
 export const changeEmailConfirm = (payload, resolve, reject) => ({
   type: 'CHANGE_EMAIL_CONFIRM',
   payload,

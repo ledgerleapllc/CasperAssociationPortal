@@ -75,8 +75,11 @@ const fetchUserInfo = createReducer(fetchUserInfoStrategies, {
 
 const setMetrics = (state, payload) => payload;
 
+const clearMetrics = () => ({});
+
 const metricsStrategies = {
   SET_METRICS: setMetrics,
+  CLEAR_METRICS: clearMetrics,
   __default__: state => state,
 };
 
