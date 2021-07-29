@@ -297,3 +297,43 @@ export const updateWarningMetrics = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const addNotification = (payload, resolve, reject) => ({
+  type: 'ADD_NOTIFICATION',
+  payload,
+  resolve,
+  reject,
+});
+
+export const editNotification = (payload, resolve, reject) => ({
+  type: 'EDIT_NOTIFICATION',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getNotificationDetail = (payload, resolve, reject) => ({
+  type: 'GET_NOTIFICATION_DETAIL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getListNotifications = (payload, resolve, reject) => ({
+  type: 'GET_LIST_NOTIFICATIONS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getNotificationViewLogs = (payload, resolve) => ({
+  type: 'GET_NOTIFICATION_VIEW_LOGS',
+  payload,
+  resolve,
+});
+
+export const getHighPriorityNotification = (resolve, reject) => ({
+  type: 'GET_HIGH_PRIORITY_NOTIFICATION',
+  resolve,
+  reject,
+});

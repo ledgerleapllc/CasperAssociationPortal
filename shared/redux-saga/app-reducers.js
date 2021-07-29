@@ -11,6 +11,7 @@ import {
   demoDataReducer,
   voteDetailReducer,
   recordVoteReducer,
+  notificationsReducer,
 } from './dashboard/dashboard-reducers';
 import { apiControllerReducer } from './api-controller/reducers';
 import { onboardReducer } from './onboard/reducers';
@@ -27,6 +28,7 @@ const appReducer = combineReducers({
   voteDetailReducer,
   recordVoteReducer,
   cancelBallotReducer,
+  notificationsReducer,
 });
 
 export default appReducer;

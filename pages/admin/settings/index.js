@@ -37,7 +37,6 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
     });
 
   useEffect(() => {
-    console.log('metrics', metrics);
     setData(metrics);
   }, [metrics]);
 
@@ -540,18 +539,31 @@ const Settings = () => {
             </div>
           </div>
           <div className="flex flex-col h-100%-70px overflow-y-auto">
-            <section className="mt-5 mb-20">
+            <section className="mt-5">
               <h4 className="mb-7 text-lg font-medium">Mailer Settings</h4>
               <Link href="/admin/settings/emailer">
                 <button
                   type="button"
-                  className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="mr-5 transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   Access Mailer
                 </button>
               </Link>
             </section>
-            <section>
+            <section className="mt-20">
+              <h4 className="mb-7 text-lg font-medium">
+                Notification Settings
+              </h4>
+              <Link href="settings/notifications">
+                <button
+                  type="button"
+                  className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                >
+                  Access Notifications
+                </button>
+              </Link>
+            </section>
+            <section className="mt-20">
               <h4 className="mb-7 text-lg font-medium">Monitoring Criteria</h4>
               <SettingForm
                 metrics={metrics?.uptime}

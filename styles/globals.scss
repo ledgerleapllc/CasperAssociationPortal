@@ -78,6 +78,18 @@ label > input[type="radio"] + * {
   display: inline-block;
 }
 
+/* pretty radio square*/
+label.radio-square > input[type="radio"] + *::before {
+  content: "";
+  display: none;
+}
+label.radio-square > input[type="radio"]:checked + *::before {
+  background: radial-gradient(#FF473E 0%, #FF473E 40%, transparent 50%, transparent);
+}
+label.radio-square > input[type="radio"] + * {
+  display: inline-block;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 7px;

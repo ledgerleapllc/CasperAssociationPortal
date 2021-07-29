@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import router from 'next/router';
 import { Line } from 'react-chartjs-2';
 import { Card } from '../partials';
@@ -7,12 +8,25 @@ import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
+import {
+  getNotifications,
+  dismissNotification,
+  updateClickCTANotification,
+  updateViewNotification,
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { useDialog } from '../partials/dialog';
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [showOpenVotes, setShowOpenVotes] = useState(false);
   const [isAlertLoading, setIsAlertLoading] = useState(true);
   const [alerts, setAlerts] = useState();
+  const [bannerAlerts, setBannerAlerts] = useState();
+  const notifications = useSelector(state => state?.notificationsReducer?.data);
+  const [currentNotification, setCurrentNotifications] = useState(null);
+
+  const dispatch = useDispatch();
+  const { setDialog } = useDialog();
 
   useEffect(() => {
     if (alerts) {
@@ -21,38 +35,107 @@ const ContentHome = () => {
   }, [alerts]);
 
   useEffect(() => {
-    if (userInfo) {
-      const alertsTemp = [
-        {
-          id: 'dummy-1',
-          title: 'New Alert',
-          content: 'There are new comments to be read!',
+    dispatch(
+      getNotifications(
+        { type: 'Banner' },
+        res => {
+          setBannerAlerts(res);
         },
-        {
-          id: 'dummy-2',
-          title: 'New Alert',
-          content: 'There are new comments to be read!',
-        },
-      ];
+        () => {
+          setBannerAlerts([]);
+        }
+      )
+    );
+    dispatch(
+      getNotifications(
+        { type: 'Popup' },
+        () => {},
+        () => {}
+      )
+    );
+  }, []);
 
-      if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
-        setAlerts([
-          {
-            id: 'verification',
-            title: 'Get IDverified with Casper’s red checkmark!',
-            content:
-              'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
-            handler: () => {
-              router.push('/dashboard/verification');
-            },
-          },
-          ...alertsTemp,
-        ]);
-      } else {
-        setAlerts(alertsTemp);
+  useEffect(() => {
+    if (userInfo && bannerAlerts) {
+      let _alerts = [];
+      if (bannerAlerts.length) {
+        const highPriorityAlert = bannerAlerts.find(item => item.high_priority);
+        const otherAlerts = bannerAlerts.filter(item => !item.high_priority);
+        if (highPriorityAlert) {
+          _alerts = [..._alerts, ...[highPriorityAlert], ...otherAlerts];
+        } else {
+          _alerts = [..._alerts, ...bannerAlerts];
+        }
       }
+      if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
+        _alerts = [
+          ..._alerts,
+          ...[
+            {
+              id: 'verification',
+              title: 'Get IDverified with Casper’s red checkmark!',
+              body: 'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
+              handler: () => {
+                router.push('/dashboard/verification');
+              },
+            },
+          ],
+        ];
+      }
+      setAlerts(_alerts);
     }
-  }, [userInfo]);
+  }, [userInfo, bannerAlerts]);
+
+  useEffect(() => {
+    if (notifications?.length) {
+      setCurrentNotifications(1);
+    }
+  }, [notifications]);
+
+  useEffect(() => {
+    if (notifications?.[currentNotification - 1]) {
+      const alert = notifications[currentNotification - 1];
+      setDialog({
+        type: 'Notification',
+        data: {
+          title: alert.title,
+          content: alert.body,
+          ok: alert.btn_text,
+          link: alert.action_link,
+        },
+        settings: {
+          zIndex: 50,
+        },
+        afterClosed: res => {
+          if (res) {
+            doUpdateClickCTA(alert?.id);
+          }
+          doUpdateViewNotifications(alert?.id);
+          setCurrentNotifications(pre => pre + 1);
+        },
+      });
+    }
+  }, [currentNotification]);
+
+  const doDismiss = (index, id) => {
+    dispatch(
+      dismissNotification({ id }, () => {
+        const _alerts = [...alerts];
+        _alerts.splice(index, 1);
+        setAlerts(_alerts);
+      })
+    );
+  };
+
+  const doUpdateClickCTA = id => {
+    dispatch(updateClickCTANotification({ id }, () => {}));
+  };
+
+  const doUpdateViewNotifications = id => {
+    if (id !== 'verification') {
+      dispatch(updateViewNotification({ id }, () => {}));
+    }
+  };
 
   const data = {
     datasets: [
@@ -92,10 +175,18 @@ const ContentHome = () => {
   return (
     <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex flex-wrap lg:flex-nowrap lg:h-1.5/10 -mx-3 pb-5">
-        <div className="w-full px-3 mb-3 lg:w-3/5 lg:mb-0">
-          <Alert isLoading={isAlertLoading} alerts={alerts} />
-        </div>
-        <div className="w-2/4 lg:w-1/5 h-full px-3">
+        {(isAlertLoading || !!alerts.length) && (
+          <div className="w-full px-3 mb-3 lg:w-3/5 lg:mb-0">
+            <Alert
+              isLoading={isAlertLoading}
+              alerts={alerts}
+              doDismiss={doDismiss}
+              doUpdateClickCTA={doUpdateClickCTA}
+              doUpdateView={doUpdateViewNotifications}
+            />
+          </div>
+        )}
+        <div className="w-2/4 flex-grow lg:w-1/5 h-full px-3">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">Pinned</span>
@@ -105,7 +196,7 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/5 h-full px-3">
+        <div className="w-2/4 flex-grow lg:w-1/5 h-full px-3">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">New</span>

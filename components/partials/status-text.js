@@ -14,6 +14,7 @@ const perkStatus = {
   waiting: 'capitalize',
   expired: 'text-primary capitalize',
   inactive: 'text-primary uppercase',
+  off: 'capitalize',
 };
 
 const StatusText = props => (
@@ -36,7 +37,7 @@ const StatusText = props => (
         {props.content}
       </span>
     )}
-    {['active', 'waiting', 'ended', 'inactive'].includes(props.content) && (
+    {['active', 'waiting', 'ended', 'inactive', 'OFF'].includes(props.content) && (
       <span
         className={`${perkStatus[props.content?.toLowerCase()]} ${
           props.className
