@@ -40,7 +40,11 @@ const Dialog = ({ dialog, onClosed }) => {
   };
 
   return createPortal(
-    <div className="w-screen h-screen justify-center items-center flex fixed inset-0">
+    <div
+      className={`w-screen h-screen justify-center items-center flex fixed inset-0 ${
+        settings?.zIndex ? `z-${settings?.zIndex}` : ''
+      }`}
+    >
       <div
         onClick={() => onCloseDialog(false)}
         className="backdrop-filter backdrop-blur-sm fixed inset-0 z-40"
@@ -143,6 +147,39 @@ const Dialog = ({ dialog, onClosed }) => {
         )}
         {dialog.type === 'DialogCustom' && (
           <div className="rounded-xl">{dialog.data.content}</div>
+        )}
+        {dialog.type === 'Notification' && (
+          <div className="p-16">
+            {dialog.data.title && (
+              <h3 className="text-4xl text-center mb-6">{dialog.data.title}</h3>
+            )}
+            <a onClick={() => onCloseDialog(false)}>
+              <img
+                src="/images/ic_decline.svg"
+                className="absolute right-6 top-6"
+                alt="Cancel"
+              />
+            </a>
+            <div className="h-full w-full flex mb-6 flex-col items-center justify-between border-gray">
+              <div className="h-full w-full flex flex-col items-center justify-between">
+                {dialog.data.content}
+              </div>
+            </div>
+            <div className="flex flex-row justify-center">
+              {dialog.data.ok && (
+                <button
+                  type="button"
+                  className="mx-2 bottom-6 text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
+                  onClick={() => {
+                    window.open(dialog.data.link, '_blank');
+                    onCloseDialog(true);
+                  }}
+                >
+                  {dialog.data.ok}
+                </button>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </div>,

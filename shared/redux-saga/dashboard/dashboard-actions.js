@@ -174,3 +174,38 @@ export const updateUserSettings = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getNotifications = (payload, resolve, reject) => ({
+  type: 'GET_NOTIFICATIONS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getNotificationsSuccess = data => ({
+  type: 'GET_NOTIFICATIONS_SUCCESS',
+  payload: data,
+});
+
+export const getNotificationsErrpr = error => ({
+  type: 'GET_NOTIFICATIONS_ERROR',
+  payload: error,
+});
+
+export const dismissNotification = (payload, resolve) => ({
+  type: 'DISMISS_NOTIFICATION',
+  payload,
+  resolve,
+});
+
+export const updateViewNotification = (payload, resolve) => ({
+  type: 'UPDATE_VIEW_NOTIFICATION',
+  payload,
+  resolve,
+});
+
+export const updateClickCTANotification = (payload, resolve) => ({
+  type: 'UPDATE_CLICK_CTA',
+  payload,
+  resolve,
+});

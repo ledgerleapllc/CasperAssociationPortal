@@ -545,6 +545,99 @@ export function* updateWarningMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* addNotification({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/notification`], payload);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* editNotification({ payload, resolve, reject }) {
+  try {
+    const res = yield _put([`admin/notification/${payload.id}`], payload.data);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getNotificationDetail({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/notification`, payload.id]);
+    res.data.setting = res.data.setting === 1;
+    if (res.data.start_date)
+      res.data.start_date = formatDate(
+        new Date(res.data.start_date),
+        'MM/dd/yyyy'
+      );
+    if (res.data.end_date)
+      res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getListNotifications({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/notification?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(
+      res.data?.notifications?.data,
+      res.data?.notifications?.current_page <
+        res.data?.notifications?.last_page,
+      res.data?.ids,
+      res.data?.total_member
+    );
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getNotificationViewLogs({ payload, resolve }) {
+  try {
+    console.log('getNotificationViewLogs');
+    const query = qs.stringify({
+      limit: payload.limit || 5,
+      page: payload.page,
+    });
+    const res = yield get([
+      `admin/notification/${payload.id}/view-logs?${query}`,
+    ]);
+    yield delay(500); // => this need for scroll loadmore.
+    const viewPercent =
+      !res.data?.notification?.total_views || !res.data?.total_member
+        ? 0
+        : Math.round(
+            (res.data?.notification?.total_views / res.data?.total_member) * 100
+          );
+    resolve(
+      res.data?.users?.data,
+      res.data?.users?.current_page < res.data?.users?.last_page,
+      viewPercent
+    );
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getHighPriorityNotification({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/notification/high-priority`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -590,4 +683,14 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
   yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
+  yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
+  yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
+  yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);
+  yield all([takeLatest('GET_LIST_NOTIFICATIONS', getListNotifications)]);
+  yield all([
+    takeLatest('GET_NOTIFICATION_VIEW_LOGS', getNotificationViewLogs),
+  ]);
+  yield all([
+    takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
+  ]);
 }

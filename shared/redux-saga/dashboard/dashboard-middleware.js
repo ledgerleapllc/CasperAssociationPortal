@@ -7,6 +7,8 @@ import {
   getVoteDetailError,
   recordVoteSuccess,
   recordVoteError,
+  getNotificationsSuccess,
+  getNotificationsError
 } from './dashboard-actions';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -322,6 +324,50 @@ export function* updateUserSettings({ payload, resolve, reject }) {
   }
 }
 
+export function* getNotifications({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify({
+      type: payload?.type,
+    });
+    const res = yield get([`users/notification?${query}`]);
+    if (payload.type === 'Popup') {
+      yield put(getNotificationsSuccess(res.data));
+    }
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(getNotificationsError(error));
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* dismissNotification({ payload, resolve }) {
+  try {
+    const res = yield _put([`users/notification/${payload.id}/dismiss`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateViewNotification({ payload, resolve }) {
+  try {
+    const res = yield _put([`users/notification/${payload.id}/view`]);
+    resolve(res);
+  } catch (error) {
+    // yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateClickCTANotification({ payload, resolve }) {
+  try {
+    const res = yield _put([`users/notification/${payload.id}/click-cta`]);
+    resolve(res);
+  } catch (error) {
+    // yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -348,4 +394,8 @@ export function* watchDemoData() {
   yield all([
     takeEvery('UPDATE_VERIFICATION_DOCUMENTS', uploadVerificationDocuments),
   ]);
+  yield all([takeEvery('GET_NOTIFICATIONS', getNotifications)]);
+  yield all([takeLatest('DISMISS_NOTIFICATION', dismissNotification)]);
+  yield all([takeLatest('UPDATE_VIEW_NOTIFICATION', updateViewNotification)]);
+  yield all([takeLatest('UPDATE_CLICK_CTA', updateClickCTANotification)]);
 }
