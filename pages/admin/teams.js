@@ -330,13 +330,14 @@ const AdminTeams = () => {
             <h4 className="text-dark2 text-lg lg:pr-32 font-medium mb-4">
               Admins
             </h4>
-            <button
+            <Button
+              className="px-6"
+              primary
               type="button"
-              className="transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               onClick={showNewAdminDlg}
             >
               + New Admin
-            </button>
+            </Button>
           </div>
           <div className="flex flex-col h-full">
             <Styles className="h-full pt-8" style={{ height: '85%' }}>
@@ -483,6 +484,8 @@ const AdminTeams = () => {
                       <Table.BodyCell>
                         <div className="flex gap-4">
                           <Button
+                            className="px-6"
+                            size="small"
                             primaryOutline
                             onClick={() => {
                               resetPassword(admin);
@@ -492,6 +495,8 @@ const AdminTeams = () => {
                           </Button>
                           {admin.member_status !== 'revoked' ? (
                             <Button
+                              className="w-28"
+                              size="small"
                               primary
                               onClick={() => {
                                 revokeAdmin(admin);
@@ -501,6 +506,8 @@ const AdminTeams = () => {
                             </Button>
                           ) : (
                             <Button
+                              className="w-28"
+                              size="small"
                               primary
                               onClick={() => {
                                 undoRevokeAdmin(admin);
