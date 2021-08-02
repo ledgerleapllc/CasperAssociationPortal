@@ -179,6 +179,13 @@ export const revokeSubadmin = (id, resolve, reject) => ({
   reject,
 });
 
+export const undoRevokeSubadmin = (id, resolve, reject) => ({
+  type: 'UNDO_REVOKE_SUBADMIN',
+  id,
+  resolve,
+  reject,
+});
+
 export const resetSubadminPassword = (id, resolve, reject) => ({
   type: 'RESET_SUBADMIN_PASSWORD',
   id,

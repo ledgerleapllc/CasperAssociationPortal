@@ -11,6 +11,7 @@ import {
   revokeSubadmin,
   resetSubadminPassword,
   changeSubadminPermissions,
+  undoRevokeSubadmin,
 } from '../../shared/redux-saga/admin/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
@@ -23,6 +24,10 @@ import { IPHistoriesDialog } from '../../components/admin/teams/ip-histories';
 
 const Styles = styled.div`
   .admin-table {
+    .col {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
     .col-1 {
       width: 8%;
     }
@@ -30,7 +35,7 @@ const Styles = styled.div`
       width: 8%;
     }
     .col-3 {
-      width: 14%;
+      width: 18%;
     }
     .col-4 {
       width: 8%;
@@ -39,19 +44,20 @@ const Styles = styled.div`
       width: 12%;
     }
     .col-6 {
-      width: 7%;
+      width: 6%;
     }
     .col-7 {
-      width: 7%;
+      width: 6%;
     }
     .col-8 {
-      width: 7%;
+      width: 6%;
     }
     .col-9 {
-      width: 7%;
+      width: 6%;
     }
     .col-10 {
       width: 22%;
+      padding-right: 0;
     }
   }
 `;
@@ -157,7 +163,49 @@ const AdminTeams = () => {
                     data: {
                       title: `Success`,
                       content: `Successfully revoked the admin with ${item.email}`,
-                      ok: 'Invite',
+                      ok: 'OK',
+                      cancel: 'Cancel',
+                    },
+                    afterClosed: () => {},
+                  });
+                }
+              },
+              () => {
+                setLoading(false);
+              }
+            )
+          );
+        }
+      },
+    });
+  };
+
+  const undoRevokeAdmin = item => {
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: `Are you sure you want to undo revoke admin privileges from ${item.email}?`,
+        ok: 'Undo',
+        cancel: 'Cancel',
+      },
+      afterClosed: confirm => {
+        if (confirm) {
+          setLoading(true);
+          dispatch(
+            undoRevokeSubadmin(
+              item.id,
+              res => {
+                setLoading(false);
+                const currentUser = data.find(admin => admin.id === item.id);
+                if (currentUser) {
+                  currentUser.member_status = res.member_status;
+                  setData([...data]);
+                  setDialog({
+                    type: 'Dialog',
+                    data: {
+                      title: `Success`,
+                      content: `Successfully undo revoked the admin with ${item.email}`,
+                      ok: 'OK',
                       cancel: 'Cancel',
                     },
                     afterClosed: () => {},
@@ -353,14 +401,16 @@ const AdminTeams = () => {
                         <p className="break-words">{admin.email}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
-                        <p>
-                          {admin.last_login_at
-                            ? formatDate(
-                                admin.last_login_at,
-                                'dd/MM/yyyy HH:mm aa'
-                              )
-                            : ''}
-                        </p>
+                        {admin.last_login_at && (
+                          <>
+                            <p>
+                              {formatDate(admin.last_login_at, 'dd/MM/yyyy')}
+                            </p>
+                            <p className="text-xs">
+                              {formatDate(admin.last_login_at, 'HH:mm aa')}
+                            </p>
+                          </>
+                        )}
                       </Table.BodyCell>
                       <Table.BodyCell>
                         <p className="relative h-4">
@@ -433,21 +483,32 @@ const AdminTeams = () => {
                       <Table.BodyCell>
                         <div className="flex gap-4">
                           <Button
-                            primary
+                            primaryOutline
                             onClick={() => {
                               resetPassword(admin);
                             }}
                           >
                             Reset Password
                           </Button>
-                          <Button
-                            primary
-                            onClick={() => {
-                              revokeAdmin(admin);
-                            }}
-                          >
-                            Revoke
-                          </Button>
+                          {admin.member_status !== 'revoked' ? (
+                            <Button
+                              primary
+                              onClick={() => {
+                                revokeAdmin(admin);
+                              }}
+                            >
+                              Revoke
+                            </Button>
+                          ) : (
+                            <Button
+                              primary
+                              onClick={() => {
+                                undoRevokeAdmin(admin);
+                              }}
+                            >
+                              Undo
+                            </Button>
+                          )}
                         </div>
                       </Table.BodyCell>
                     </Table.BodyRow>

@@ -273,6 +273,16 @@ export function* revokeSubadmin({ id, resolve, reject }) {
   }
 }
 
+export function* undoRevokeSubadmin({ id, resolve, reject }) {
+  try {
+    const res = yield post([`admin/teams/${id}/undo-revoke`]);
+    resolve(res?.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* resetSubadminPassword({ id, resolve, reject }) {
   try {
     yield post([`admin/teams/${id}/reset-password`]);
@@ -760,6 +770,7 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_IP_HISTORIES', getIpHistories)]);
   yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
   yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
+  yield all([takeLatest('UNDO_REVOKE_SUBADMIN', undoRevokeSubadmin)]);
   yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
   yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
   yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
