@@ -61,7 +61,7 @@ export const IPHistoriesDialog = ({ id }) => {
 
   return (
     <div className="pt-12 text-center mx-auto">
-      <h3 className="text-xl text-center font-normal mb-2.5">IP History</h3>
+      <h3 className="text-xl text-center font-medium mb-2.5">IP History</h3>
       <Styles>
         <Table
           className="ip-table h-300px w-full"
