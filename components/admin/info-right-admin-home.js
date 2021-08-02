@@ -5,6 +5,13 @@ import { logoutApp } from '../../shared/redux-saga/auth/actions';
 
 const percenCPU = 61;
 const percenPerformance = 83;
+
+const roleText = {
+  admin: 'Admin',
+  member: 'Member',
+  'sub-admin': 'Sub Admin',
+};
+
 const InfoRightAdminHome = () => {
   const dispatch = useDispatch();
   const userAdmin = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -25,9 +32,7 @@ const InfoRightAdminHome = () => {
             src="/images/ic_awesome_user_circle.svg"
             alt="User"
           />
-          <span className="text-2.5xl">
-            {userAdmin?.role === 'admin' ? 'Admin' : 'Member'}
-          </span>
+          <span className="text-2.5xl">{roleText[userAdmin?.role]}</span>
         </div>
         <span className="text-lg">{userAdmin?.email}</span>
         <button

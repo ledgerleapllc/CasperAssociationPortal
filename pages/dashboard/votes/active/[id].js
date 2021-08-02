@@ -69,7 +69,7 @@ const ActiveVoteDetail = () => {
           <div className="py-14 h-5/6">
             {data && (
               <>
-                {user?.role !== 'admin' && (
+                {['admin', 'sub-admin'].includes(user?.role) && (
                   <div className="flex items-center mb-10">
                     <button
                       type="button"

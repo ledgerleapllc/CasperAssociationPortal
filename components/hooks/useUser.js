@@ -38,7 +38,7 @@ export default function useUser({ urlType = 'public' } = {}) {
           if (user.period === 'onboarding') Router.push('/onboard');
           if (user.period === 'final') Router.push('/dashboard');
         }
-      } else if (user.role === 'admin') {
+      } else if (['admin', 'sub-admin'].includes(user.role)) {
         if (urlType !== 'final-all' && urlType !== 'final-admin') {
           Router.push('/admin/dashboard');
         }

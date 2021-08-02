@@ -350,7 +350,7 @@ const DashboardVote = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
 
   useEffect(() => {
-    if (userInfo && userInfo.role !== 'admin') {
+    if (userInfo && !['admin', 'sub-admin'].includes(userInfo.role)) {
       setTabsData([
         {
           content: Tab1,

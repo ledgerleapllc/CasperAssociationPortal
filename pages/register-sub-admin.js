@@ -6,12 +6,12 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
-import { PASSWORD_PATTERN } from '../helpers/form-validation';
+import { NAME_PATTERN, PASSWORD_PATTERN } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
-import { updatePassword } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
+import { registerSubAdmin } from '../shared/redux-saga/admin/actions';
 
-const UpdatePassword = () => {
+const RegisterSubAdmin = () => {
   const {
     clearErrors,
     formState,
@@ -32,7 +32,7 @@ const UpdatePassword = () => {
     temp.email = router.query.email;
     temp.code = router.query.code;
     dispatch(
-      updatePassword(
+      registerSubAdmin(
         {
           ...temp,
         },
@@ -92,18 +92,58 @@ const UpdatePassword = () => {
             </div>
           ) : (
             <div
-              className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:p-44"
+              className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:px-44"
               style={{
                 backgroundImage: `url('/images/login_overlay.png')`,
                 backgroundSize: 'cover',
               }}
             >
               <p className="text-4xl text-center animate__animated animate__fadeInUp">
-                Update Your Password
+                Create Your Password
               </p>
               <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
                 Please create a new password and click Submit
               </p>
+              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+                <input
+                  type="text"
+                  className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                  placeholder="Enter First Name"
+                  name="password"
+                  {...register('first_name', {
+                    required: 'First name is required',
+                    pattern: {
+                      message: 'First name is invalid',
+                      value: NAME_PATTERN,
+                    },
+                  })}
+                />
+                {formState.errors?.first_name && (
+                  <p className="pl-7 mt-2 text-primary text-left">
+                    {formState.errors.first_name?.message}
+                  </p>
+                )}
+              </div>
+              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+                <input
+                  type="text"
+                  className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                  placeholder="Enter Last Name"
+                  name="password"
+                  {...register('last_name', {
+                    required: 'Last name is required',
+                    pattern: {
+                      message: 'Last name is invalid',
+                      value: NAME_PATTERN,
+                    },
+                  })}
+                />
+                {formState.errors?.last_name && (
+                  <p className="pl-7 mt-2 text-primary text-left">
+                    {formState.errors.last_name?.message}
+                  </p>
+                )}
+              </div>
               <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
                 <input
                   type="password"
@@ -191,4 +231,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default LoadingScreen(UpdatePassword, 'auth');
+export default LoadingScreen(RegisterSubAdmin, 'auth');
