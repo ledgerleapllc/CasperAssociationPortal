@@ -35,7 +35,7 @@ export const LoadingScreen = (Wrapper, typeRoute) => props => {
       }
     }
 
-    if (user.role === 'admin') {
+    if (['admin', 'sub-admin'].includes(user.role)) {
       if (['verifying', 'onboarding', 'final-member'].includes(typeRoute)) {
         return <AppLoading />;
       }

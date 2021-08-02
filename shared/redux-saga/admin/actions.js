@@ -146,6 +146,60 @@ export const cancelBallotError = error => ({
   payload: error,
 });
 
+export const getSubadmins = (payload, callback) => ({
+  type: 'GET_SUBADMINS',
+  payload,
+  callback,
+});
+
+export const registerSubAdmin = (payload, resolve, reject) => ({
+  type: 'REGISTER_SUB_ADMIN',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getIPHistories = (payload, callback) => ({
+  type: 'GET_IP_HISTORIES',
+  payload,
+  callback,
+});
+
+export const inviteSubadmin = (email, resolve, reject) => ({
+  type: 'INVITE_SUBADMIN',
+  email,
+  resolve,
+  reject,
+});
+
+export const revokeSubadmin = (id, resolve, reject) => ({
+  type: 'REVOKE_SUBADMIN',
+  id,
+  resolve,
+  reject,
+});
+
+export const resetSubadminPassword = (id, resolve, reject) => ({
+  type: 'RESET_SUBADMIN_PASSWORD',
+  id,
+  resolve,
+  reject,
+});
+
+export const resendInviteLink = (id, resolve, reject) => ({
+  type: 'RESEND_INVITE_SUBADMIN',
+  id,
+  resolve,
+  reject,
+});
+
+export const changeSubadminPermissions = (id, payload, callback) => ({
+  type: 'CHANGE_SUBADMIN_PERMISSIONS',
+  id,
+  payload,
+  callback,
+});
+
 export const approveUser = (payload, resolve, reject) => ({
   type: 'APPROVE_USER',
   payload,

@@ -53,7 +53,7 @@ const Navigation = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isApprovedProfile, setIsApprovedProfile] = useState(false);
   useEffect(() => {
-    setIsAdmin(userInfo?.role === 'admin');
+    setIsAdmin(['admin', 'sub-admin'].includes(userInfo?.role));
     setIsApprovedProfile(userInfo?.profile?.status === 'approved');
   }, [userInfo]);
 

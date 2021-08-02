@@ -67,7 +67,10 @@ const ContentHome = () => {
           _alerts = [..._alerts, ...bannerAlerts];
         }
       }
-      if (!userInfo?.profile?.status && userInfo?.role !== 'admin') {
+      if (
+        !userInfo?.profile?.status &&
+        !['admin', 'sub-admin'].includes(userInfo?.role)
+      ) {
         _alerts = [
           ..._alerts,
           ...[
@@ -248,11 +251,10 @@ const ContentHome = () => {
             <TrendingDiscussion />
           </Card>
           <Card
-            className={`${
-              showOpenVotes
+            className={`${showOpenVotes
                 ? 'z-30 flex-grow w-full lg:w-1/3 lg:mt-0 lg:ml-3 h-full'
                 : 'w-0 h-0 opacity-0'
-            }`}
+              }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>
