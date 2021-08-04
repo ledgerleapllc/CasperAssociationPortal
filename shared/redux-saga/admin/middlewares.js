@@ -406,6 +406,17 @@ export function* resetUserKYC({ payload, resolve, reject }) {
   }
 }
 
+export function* activateVerifiedStatus({ payload, resolve, reject }) {
+  try {
+    const { id } = payload;
+    const res = yield post([`/admin/users/${id}/active`]);
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* approveDocuments({ payload, resolve, reject }) {
   try {
     const { id } = payload;
@@ -786,6 +797,7 @@ export function* watchAdmin() {
   yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
   yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
+  yield all([takeLatest('ACTIVATE_VERIFIED_STATUS', activateVerifiedStatus)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);

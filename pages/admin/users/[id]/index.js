@@ -59,6 +59,22 @@ const AdminUserDetail = () => {
                 peers: '0',
               }
             );
+            setOverrideInfo({
+              uptime: !!res.uptime,
+              block_height_average: !!res.block_height_average,
+              update_responsiveness: !!res.update_responsiveness,
+              peers: !!res.peers,
+            });
+            setOverrideValue({
+              uptime: +res.uptime ? +res.uptime : '',
+              block_height_average: +res.block_height_average
+                ? +res.block_height_average
+                : '',
+              update_responsiveness: +res.update_responsiveness
+                ? +res.update_responsiveness
+                : '',
+              peers: +res.peers ? +res.peers : '',
+            });
           },
           () => {}
         )
@@ -70,10 +86,6 @@ const AdminUserDetail = () => {
     setOverrideInfo({
       ...overrideInfo,
       [field]: !overrideInfo[field],
-    });
-    setOverrideValue({
-      ...overrideValue,
-      [field]: '',
     });
   };
 
@@ -111,7 +123,6 @@ const AdminUserDetail = () => {
             ...metrics,
             [field]: overrideValue[field],
           });
-          toggleOverride(field);
           setLoading(false);
         },
         () => {
@@ -128,10 +139,10 @@ const AdminUserDetail = () => {
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">
               <BackButton href="/admin/users" text="Back" force />
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
+              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-1">
                 {`User details for user ${userDetail?.email}`}
               </h3>
-              <p className="text-sm text-gray pb-3.5">
+              <p className="text-sm text-gray pb-2.5">
                 User details are displayed below with admin functions for user
                 management.
               </p>
@@ -253,6 +264,7 @@ const AdminUserDetail = () => {
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('uptime')}
+                      className={!overrideValue.uptime && 'pointer-events-none'}
                     >
                       Save
                     </Button>
@@ -291,6 +303,10 @@ const AdminUserDetail = () => {
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('block_height_average')}
+                      className={
+                        !overrideValue.block_height_average &&
+                        'pointer-events-none'
+                      }
                     >
                       Save
                     </Button>
@@ -329,6 +345,10 @@ const AdminUserDetail = () => {
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('update_responsiveness')}
+                      className={
+                        !overrideValue.update_responsiveness &&
+                        'pointer-events-none'
+                      }
                     >
                       Save
                     </Button>
@@ -363,6 +383,7 @@ const AdminUserDetail = () => {
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('peers')}
+                      className={!overrideValue.peers && 'pointer-events-none'}
                     >
                       Save
                     </Button>
@@ -386,7 +407,7 @@ const AdminUserDetail = () => {
                   </Link>
                 </p>
               </div>
-              <div className="flex flex-row py-1">
+              {/* <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">
                   Beneficial Owner Tree Status:
                 </p>
@@ -396,7 +417,7 @@ const AdminUserDetail = () => {
                     View Details
                   </span>
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

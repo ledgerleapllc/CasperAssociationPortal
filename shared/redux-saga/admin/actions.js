@@ -277,6 +277,13 @@ export const resetUserKYC = (payload, resolve, reject) => ({
   reject,
 });
 
+export const activateVerifiedStatus = (payload, resolve, reject) => ({
+  type: 'ACTIVATE_VERIFIED_STATUS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getEmailerData = (resolve, reject) => ({
   type: 'GET_EMAILER_DATA',
   resolve,

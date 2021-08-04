@@ -66,6 +66,7 @@ const RegisterSubAdmin = () => {
       >
         <AppHeader theme="light" />
         <form
+          autoComplete="off"
           className="flex-grow flex items-center justify-center"
           onSubmit={handleSubmit(onSubmit)}
         >
@@ -104,52 +105,54 @@ const RegisterSubAdmin = () => {
               <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
                 Please create a new password and click Submit
               </p>
-              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
-                <input
-                  type="text"
-                  className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
-                  placeholder="Enter First Name"
-                  name="password"
-                  {...register('first_name', {
-                    required: 'First name is required',
-                    pattern: {
-                      message: 'First name is invalid',
-                      value: NAME_PATTERN,
-                    },
-                  })}
-                />
-                {formState.errors?.first_name && (
-                  <p className="pl-7 mt-2 text-primary text-left">
-                    {formState.errors.first_name?.message}
-                  </p>
-                )}
-              </div>
-              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
-                <input
-                  type="text"
-                  className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
-                  placeholder="Enter Last Name"
-                  name="password"
-                  {...register('last_name', {
-                    required: 'Last name is required',
-                    pattern: {
-                      message: 'Last name is invalid',
-                      value: NAME_PATTERN,
-                    },
-                  })}
-                />
-                {formState.errors?.last_name && (
-                  <p className="pl-7 mt-2 text-primary text-left">
-                    {formState.errors.last_name?.message}
-                  </p>
-                )}
+              <div className="w-full gap-4 flex animate__animated animate__fadeInLeft animate__delay-4s">
+                <div className="w-1/2 flex flex-col">
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                    placeholder="Enter First Name"
+                    {...register('first_name', {
+                      required: 'First name is required',
+                      pattern: {
+                        message: 'First name is invalid',
+                        value: NAME_PATTERN,
+                      },
+                    })}
+                  />
+                  {formState.errors?.first_name && (
+                    <p className="pl-7 mt-2 text-primary text-left">
+                      {formState.errors.first_name?.message}
+                    </p>
+                  )}
+                </div>
+                <div className="w-1/2 flex flex-col">
+                  <input
+                    type="text"
+                    autoComplete="off"
+                    className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                    placeholder="Enter Last Name"
+                    {...register('last_name', {
+                      required: 'Last name is required',
+                      pattern: {
+                        message: 'Last name is invalid',
+                        value: NAME_PATTERN,
+                      },
+                    })}
+                  />
+                  {formState.errors?.last_name && (
+                    <p className="pl-7 mt-2 text-primary text-left">
+                      {formState.errors.last_name?.message}
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
                 <input
                   type="password"
+                  autoComplete="new-password"
                   className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                   placeholder="Enter New Password"
-                  name="password"
                   {...register('password', {
                     required: 'Password is required',
                     minLength: {
@@ -174,6 +177,7 @@ const RegisterSubAdmin = () => {
               <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
                 <input
                   type="password"
+                  autoComplete="new-password"
                   className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
                   placeholder="Verify New Password"
                   name="confirmPassword"
@@ -211,7 +215,7 @@ const RegisterSubAdmin = () => {
                 />
               </div>
               <Link href="/home">
-                <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+                <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
                   <img
                     src="/images/ic_decline.svg"
                     className="mr-2"

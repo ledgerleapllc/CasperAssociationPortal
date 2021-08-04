@@ -13,6 +13,7 @@ import {
   approveDocuments,
   getVerificationDetail,
   resetUserKYC,
+  activateVerifiedStatus,
 } from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
@@ -126,7 +127,20 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const activate = () => {
-    router.push('../');
+    setLoading(true);
+    dispatch(
+      activateVerifiedStatus(
+        { id },
+        () => {
+          setLoading(false);
+          onClosed();
+          router.push('../');
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
   };
 
   const EntityDetail = () => (

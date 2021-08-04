@@ -1,60 +1,34 @@
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useContext, useEffect, useState } from 'react';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, BackButton } from '../../../../components/partials';
-import {
-  getUserKYCInfo,
-  approveKYC,
-  denyKYC,
-} from '../../../../shared/redux-saga/admin/actions';
+import { getVerificationDetail } from '../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../public/json/country.json';
-import { useDialog } from '../../../../components/partials/dialog';
+import { AppContext } from '../../../_app';
 
 const KycAmlDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
-  const userKYC = useSelector(state => state.userKYCInfoReducer.data);
-  useEffect(() => {
-    if (id) {
-      dispatch(getUserKYCInfo(id));
-    }
-  }, [id]);
-  const { setDialog } = useDialog();
-  const onHandleApproved = idUser => {
-    setDialog({
-      type: 'DialogConfirm',
-      data: {
-        title: '',
-        content: 'Are you sure you want to approve this user',
-        ok: 'Yes, Please continue',
-        cancel: 'Cancel',
-      },
-      afterClosed: res => {
-        if (res) {
-          dispatch(approveKYC(idUser));
-        }
-      },
-    });
-  };
+  const { setLoading } = useContext(AppContext);
+  const [userKYC, setUserKYC] = useState();
 
-  const onHandleDeny = idUser => {
-    setDialog({
-      type: 'DialogConfirm',
-      data: {
-        title: '',
-        content: 'Are you sure you want to deny this user',
-        ok: 'Yes, Please continue',
-        cancel: 'Cancel',
-      },
-      afterClosed: res => {
-        if (res) {
-          dispatch(denyKYC(idUser));
+  useEffect(() => {
+    setLoading(true);
+    dispatch(
+      getVerificationDetail(
+        { id },
+        res => {
+          setLoading(false);
+          setUserKYC(res);
+        },
+        () => {
+          setLoading(false);
         }
-      },
-    });
-  };
+      )
+    );
+  }, []);
 
   return (
     <LayoutDashboard>
@@ -71,28 +45,6 @@ const KycAmlDetail = () => {
                   <p className="text-sm text-gray pb-3.5">
                     Submitted by membership applicant review
                   </p>
-                </div>
-                <div className="flex flex-row space-x-2">
-                  <button
-                    type="button"
-                    onClick={() => onHandleApproved(id)}
-                    className="text-lg text-white px-9 h-11 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    Manually Approve
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onHandleDeny(id)}
-                    className="text-lg text-white px-9 h-11 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    Manually Deny
-                  </button>
-                  <button
-                    type="button"
-                    className="text-lg text-white px-9 h-11 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    Reset
-                  </button>
                 </div>
               </div>
               <div className="border-primary border-b-2" />

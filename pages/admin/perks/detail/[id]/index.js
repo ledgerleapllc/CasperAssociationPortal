@@ -67,10 +67,7 @@ const AdminEditPerk = () => {
                   Card Preview
                 </h3>
                 <div className="border-primary border-b-2" />
-                <div
-                  className="mt-4"
-                  style={{ width: '400px', maxWidth: '100%' }}
-                >
+                <div className="mt-4 w-120 max-w-full">
                   <PerkCard perk={value} />
                 </div>
               </div>

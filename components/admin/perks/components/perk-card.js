@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button, ClockBar } from '../../../partials';
 
 export const PerkCard = ({ perk }) => (
-  <div className="h-56 flex p-5 pr-2 shadow-card gap-4 rounded-2xl">
+  <div className="w-full h-56 flex p-5 pr-2 shadow-card gap-4 rounded-2xl">
     <div className="w-1/2">
       {perk?.image?.url ? (
         <img
