@@ -131,7 +131,7 @@ const VerifyNodeOwnership = () => {
                           Upload Signed File
                         </button>
                         <span className="hidden lg:block">
-                          Or Drap File Here
+                          Or Drop File Here
                         </span>
                       </div>
                     </div>

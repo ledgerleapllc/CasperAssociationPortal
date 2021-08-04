@@ -137,7 +137,7 @@ const UpdateEmail = () => {
               />
             </div>
             <Link href="/verify-email">
-              <p className="cursor-pointer text-xs text-center mt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+              <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
                 <img
                   src="/images/ic_decline.svg"
                   className="mr-2"

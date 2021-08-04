@@ -417,7 +417,7 @@ export const EntityVerification = ({ goNext }) => {
                     >
                       Upload Docs
                     </button>
-                    <span className="hidden lg:block">Or Drap File Here</span>
+                    <span className="hidden lg:block">Or Drop File Here</span>
                   </div>
                 </div>
               </div>
