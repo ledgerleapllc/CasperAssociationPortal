@@ -10,6 +10,7 @@ import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 import {
   getNotifications,
+  getNotificationsSuccess,
   dismissNotification,
   updateClickCTANotification,
   updateViewNotification,
@@ -44,13 +45,6 @@ const ContentHome = () => {
         () => {
           setBannerAlerts([]);
         }
-      )
-    );
-    dispatch(
-      getNotifications(
-        { type: 'Popup' },
-        () => {},
-        () => {}
       )
     );
   }, []);
@@ -96,6 +90,11 @@ const ContentHome = () => {
   }, [notifications]);
 
   useEffect(() => {
+    // Clear popup notification state after viewing all
+    if (currentNotification > notifications?.length) {
+      dispatch(getNotificationsSuccess(null));
+    }
+
     if (notifications?.[currentNotification - 1]) {
       const alert = notifications[currentNotification - 1];
       setDialog({
@@ -177,9 +176,9 @@ const ContentHome = () => {
 
   return (
     <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex flex-wrap lg:flex-nowrap lg:h-1.5/10 -mx-3 pb-5">
+      <div className="flex flex-wrap lg:flex-nowrap lg:h-1.8/10 -mx-3 pb-5">
         {(isAlertLoading || !!alerts.length) && (
-          <div className="w-full px-3 mb-3 lg:w-3/5 lg:mb-0">
+          <div className="w-full h-full px-3 mb-3 lg:w-3/5 lg:mb-0">
             <Alert
               isLoading={isAlertLoading}
               alerts={alerts}
@@ -215,7 +214,7 @@ const ContentHome = () => {
           <InfoRightHome />
         </div>
       </Card>
-      <div className="flex flex-col-reverse lg:flex-col lg:h-8.5/10 lg:justify-between">
+      <div className="flex flex-col-reverse lg:flex-col lg:h-8.2/10 lg:justify-between">
         <div className="z-50 lg:z-20 my-5 lg:my-0 flex h-auto lg:h-1/3">
           <Card className="w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
@@ -251,10 +250,11 @@ const ContentHome = () => {
             <TrendingDiscussion />
           </Card>
           <Card
-            className={`${showOpenVotes
+            className={`${
+              showOpenVotes
                 ? 'z-30 flex-grow w-full lg:w-1/3 lg:mt-0 lg:ml-3 h-full'
                 : 'w-0 h-0 opacity-0'
-              }`}
+            }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>

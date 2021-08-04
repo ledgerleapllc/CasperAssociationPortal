@@ -1,8 +1,29 @@
 /* eslint-disable no-use-before-define */
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import IconX from '../../../public/images/ic_x.svg';
 import { LoadingButton } from '../../partials';
+
+const baseStyle = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  borderWidth: 2,
+  borderRadius: 2,
+  borderColor: '#9A9A9A',
+  borderStyle: 'dashed',
+  outline: 'none',
+  transition: 'border .24s ease-in-out',
+};
+
+const acceptStyle = {
+  borderColor: '#2DDB33',
+};
+
+const rejectStyle = {
+  borderColor: '#ff1744',
+};
 
 const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -44,12 +65,27 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
     onDocumentSelect({ name: fileName, file: newFile });
   }, []);
 
-  const { getRootProps, getInputProps, isDragReject, fileRejections } =
-    useDropzone({
-      multiple: false,
-      onDrop,
-      accept: '.pdf, .doc, .docx, .txt, .rtf',
-    });
+  const {
+    getRootProps,
+    getInputProps,
+    fileRejections,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    multiple: false,
+    onDrop,
+    accept:
+      'application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, text/rtf',
+  });
+
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {}),
+    }),
+    [isDragReject, isDragAccept]
+  );
 
   const doClickOutside = e => {
     const { target } = e;
@@ -115,8 +151,8 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
               className="w-full max-w-2xl shadow-2xl mx-4 relative bg-white"
               ref={uploadFileRef}
             >
-              <div {...getRootProps()}>
-                <div className="py-36 flex flex-col items-center justify-between border-2 border-dashed border-gray">
+              <div {...getRootProps({ style })}>
+                <div className="py-36 flex flex-col items-center justify-between">
                   <div className="flex flex-col items-center justify-between">
                     <input {...getInputProps()} />
                     <img

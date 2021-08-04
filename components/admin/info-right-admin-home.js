@@ -102,7 +102,7 @@ const InfoRightAdminHome = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9 border-b-2 border-gray">
+        <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9">
           <div className="flex flex-row">
             <span className="text-lg">Average Peers</span>
             <img
@@ -114,54 +114,6 @@ const InfoRightAdminHome = () => {
           <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
             <div className="w-1/2 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
               49/88
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-between py-9 xl:py-6 2xl:py-9">
-          <div className="flex w-1/2 flex-col pr-4 justify-between">
-            <div className="flex flex-row pb-4 items-baseline">
-              <span className="text-sm font-medium h-12">Average CPU Load</span>
-              <img
-                className="pl-2"
-                src="/images/ic_feather_info.svg"
-                alt="Info"
-              />
-            </div>
-            <div style={{ height: '100%', width: '100%' }}>
-              <CircularProgressbar
-                value={percenCPU}
-                text={`${percenCPU}%`}
-                styles={buildStyles({
-                  pathColor: '#FF473E',
-                  strokeLinecap: 'butt',
-                  textColor: '#313131',
-                  textSize: '26px',
-                  trailColor: '#9A9A9A',
-                })}
-              />
-            </div>
-          </div>
-          <div className="flex w-1/2 flex-col pl-4 justify-between">
-            <div className="flex flex-row pb-4 items-baseline">
-              <span className="text-sm font-medium h-12">Performance</span>
-              <img
-                className="pl-2"
-                src="/images/ic_feather_info.svg"
-                alt="Info"
-              />
-            </div>
-            <div style={{ height: '100%', width: '100%' }}>
-              <CircularProgressbar
-                value={percenPerformance}
-                text={`${percenPerformance}%`}
-                styles={buildStyles({
-                  pathColor: '#FF473E',
-                  strokeLinecap: 'butt',
-                  textColor: '#313131',
-                  textSize: '26px',
-                  trailColor: '#9A9A9A',
-                })}
-              />
             </div>
           </div>
         </div>

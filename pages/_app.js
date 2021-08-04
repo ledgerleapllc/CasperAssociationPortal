@@ -7,6 +7,7 @@ import '../styles/responsive.scss';
 import '../styles/custom-circular.scss';
 import '../styles/custom-editor.scss';
 import '../styles/custom-style.scss';
+import '../styles/custom-slider.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import createSagaMiddleware from 'redux-saga';
