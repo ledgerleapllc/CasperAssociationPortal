@@ -51,6 +51,7 @@ const AdminIntakeVerificationDetail = () => {
   const { setDialog, onClosed } = useDialog();
   const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
   const { setLoading } = useContext(AppContext);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -127,17 +128,17 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const activate = () => {
-    setLoading(true);
+    setIsVerifying(true);
     dispatch(
       activateVerifiedStatus(
         { id },
         () => {
-          setLoading(false);
+          setIsVerifying(false);
           onClosed();
           router.push('../');
         },
         () => {
-          setLoading(false);
+          setIsVerifying(false);
         }
       )
     );
@@ -259,7 +260,14 @@ const AdminIntakeVerificationDetail = () => {
             )}
           </>
         ) : (
-          <Button primary className="mr-5" onClick={() => activate()}>
+          <Button
+            isLoading={isVerifying}
+            disabled={isVerifying}
+            primary
+            className="mr-5"
+            sizeSpinner={20}
+            onClick={() => activate()}
+          >
             Activate Verified Status
           </Button>
         )}
