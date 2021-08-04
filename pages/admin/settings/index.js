@@ -105,14 +105,14 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
       });
       setWatchSystemCheck(data?.system_check_unit);
     } else {
-      setValue('warning_level', null);
-      setValue('probation_start', null);
-      setValue('frame_calculate_unit', null);
-      setValue('given_to_correct_unit', null);
-      setValue('system_check_unit', null);
-      setValue('frame_calculate_value', null);
-      setValue('given_to_correct_value', null);
-      setValue('system_check_value', null);
+      setValue('warning_level', '');
+      setValue('probation_start', '');
+      setValue('frame_calculate_unit', '');
+      setValue('given_to_correct_unit', '');
+      setValue('system_check_unit', '');
+      setValue('frame_calculate_value', '');
+      setValue('given_to_correct_value', '');
+      setValue('system_check_value', '');
       setIsEditWarningLevel(true);
       setIsEditProbationStart(true);
     }
@@ -174,7 +174,7 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
                     })}
                   />
                   {formState.errors?.warning_level && (
-                    <p className="pl-7 mt-2 text-primary">
+                    <p className="mt-2 text-primary text-sm">
                       {formState.errors.warning_level?.message}
                     </p>
                   )}
@@ -238,7 +238,7 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
                     })}
                   />
                   {formState.errors?.probation_start && (
-                    <p className="pl-7 mt-2 text-primary">
+                    <p className="mt-2 text-primary text-sm">
                       {formState.errors.probation_start?.message}
                     </p>
                   )}
@@ -279,66 +279,81 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
         </p>
         <div className="w-full lg:w-7/12 mb-10 flex">
           <div className="w-full lg:w-6/12 flex flex-row justify-between">
-            <div className="w-full lg:w-6/12 h-40px mr-10 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="frame_calculate_unit"
-                rules={{ required: true }}
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <select
-                    className="px-5 w-full h-full cursor-pointer"
-                    required
-                    {...register('frame_calculate_unit')}
-                    onChange={e => {
-                      setWatchCalculate(e.target.value);
-                      onChange(e);
-                    }}
-                  >
-                    <option selected value="" disabled>
-                      Select Scale
-                    </option>
-                    <option value="Weeks">Weeks</option>
-                    <option value="Days">Days</option>
-                    <option value="Hours">Hours</option>
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12 mr-10 relative flex flex-col">
+              <div className="h-40px border border-gray1 c-select flex items-center focus:outline-none shadow-md">
+                <Controller
+                  name="frame_calculate_unit"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="px-5 w-full h-full cursor-pointer"
+                      {...register('frame_calculate_unit')}
+                      onChange={e => {
+                        setWatchCalculate(e.target.value);
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select Scale
+                      </option>
+                      <option value="Weeks">Weeks</option>
+                      <option value="Days">Days</option>
+                      <option value="Hours">Hours</option>
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.frame_calculate_unit && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.frame_calculate_unit?.message}
+                </p>
+              )}
             </div>
-            <div className="w-full lg:w-6/12 h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="frame_calculate_value"
-                rules={{ required: true }}
-                control={control}
-                render={() => (
-                  <select
-                    className="w-full h-full px-5 cursor-pointer"
-                    required
-                    {...register('frame_calculate_value')}
-                  >
-                    <option selected value="" disabled>
-                      Select...
-                    </option>
-                    {watchCalculate === 'Days' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchCalculate === 'Hours' &&
-                      new Array(24).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchCalculate === 'Weeks' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12">
+              <div className="h-40px border border-gray1 c-select flex items-center focus:outline-none shadow-md">
+                <Controller
+                  name="frame_calculate_value"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="w-full h-full px-5 cursor-pointer"
+                      {...register('frame_calculate_value')}
+                      onChange={e => {
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select...
+                      </option>
+                      {watchCalculate === 'Days' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchCalculate === 'Hours' &&
+                        new Array(24).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchCalculate === 'Weeks' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.frame_calculate_value && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.frame_calculate_value?.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -349,66 +364,82 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
         </p>
         <div className="w-full lg:w-7/12 mb-10 flex">
           <div className="w-full lg:w-6/12 flex flex-row justify-between">
-            <div className="w-full lg:w-6/12 h-40px mr-10 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="given_to_correct_unit"
-                rules={{ required: true }}
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <select
-                    className="px-5 w-full h-full cursor-pointer"
-                    required
-                    {...register('given_to_correct_unit')}
-                    onChange={e => {
-                      setWatchCorrect(e.target.value);
-                      onChange(e);
-                    }}
-                  >
-                    <option selected value="" disabled>
-                      Select Scale
-                    </option>
-                    <option value="Weeks">Weeks</option>
-                    <option value="Days">Days</option>
-                    <option value="Hours">Hours</option>
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12 relative flex flex-col mr-10">
+              <div className="h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
+                <Controller
+                  name="given_to_correct_unit"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="px-5 w-full h-full cursor-pointer"
+                      // required
+                      {...register('given_to_correct_unit')}
+                      onChange={e => {
+                        setWatchCorrect(e.target.value);
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select Scale
+                      </option>
+                      <option value="Weeks">Weeks</option>
+                      <option value="Days">Days</option>
+                      <option value="Hours">Hours</option>
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.given_to_correct_unit && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.given_to_correct_unit?.message}
+                </p>
+              )}
             </div>
-            <div className="w-full lg:w-6/12 h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="given_to_correct_value"
-                rules={{ required: true }}
-                control={control}
-                render={() => (
-                  <select
-                    className="w-full h-full px-5 cursor-pointer"
-                    required
-                    {...register('given_to_correct_value')}
-                  >
-                    <option selected value="" disabled>
-                      Select...
-                    </option>
-                    {watchCorrect === 'Days' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchCorrect === 'Hours' &&
-                      new Array(24).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchCorrect === 'Weeks' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12 relative flex flex-col">
+              <div className="h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
+                <Controller
+                  name="given_to_correct_value"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="w-full h-full px-5 cursor-pointer"
+                      {...register('given_to_correct_value')}
+                      onChange={e => {
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select...
+                      </option>
+                      {watchCorrect === 'Days' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchCorrect === 'Hours' &&
+                        new Array(24).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchCorrect === 'Weeks' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.given_to_correct_value && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.given_to_correct_value?.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -420,66 +451,81 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
         </p>
         <div className="w-full lg:w-7/12 mb-10 flex">
           <div className="w-full lg:w-6/12 flex flex-row justify-between">
-            <div className="w-full lg:w-6/12 h-40px mr-10 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="system_check_unit"
-                rules={{ required: true }}
-                control={control}
-                render={({ field: { value, onChange } }) => (
-                  <select
-                    className="px-5 w-full h-full cursor-pointer"
-                    required
-                    {...register('system_check_unit')}
-                    onChange={e => {
-                      setWatchSystemCheck(e.target.value);
-                      onChange(e);
-                    }}
-                  >
-                    <option selected value="" disabled>
-                      Select Scale
-                    </option>
-                    <option value="Weeks">Weeks</option>
-                    <option value="Days">Days</option>
-                    <option value="Hours">Hours</option>
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12 mr-10 relative flex flex-col">
+              <div className="h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
+                <Controller
+                  name="system_check_unit"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="px-5 w-full h-full cursor-pointer"
+                      {...register('system_check_unit')}
+                      onChange={e => {
+                        setWatchSystemCheck(e.target.value);
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select Scale
+                      </option>
+                      <option value="Weeks">Weeks</option>
+                      <option value="Days">Days</option>
+                      <option value="Hours">Hours</option>
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.system_check_unit && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.system_check_unit?.message}
+                </p>
+              )}
             </div>
-            <div className="w-full lg:w-6/12 h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
-              <Controller
-                name="system_check_value"
-                rules={{ required: true }}
-                control={control}
-                render={() => (
-                  <select
-                    className="w-full h-full px-5 cursor-pointer"
-                    required
-                    {...register('system_check_value')}
-                  >
-                    <option selected value="" disabled>
-                      Select...
-                    </option>
-                    {watchSystemCheck === 'Days' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchSystemCheck === 'Hours' &&
-                      new Array(24).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                    {watchSystemCheck === 'Weeks' &&
-                      new Array(30).fill(1).map((x, ind) => (
-                        <option key={ind} value={ind + 1}>
-                          {ind + 1}
-                        </option>
-                      ))}
-                  </select>
-                )}
-              />
+            <div className="w-full lg:w-6/12 relative flex flex-col">
+              <div className="h-40px border border-gray1 c-select flex items-center relative focus:outline-none shadow-md">
+                <Controller
+                  name="system_check_value"
+                  rules={{ required: 'Please select this field' }}
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <select
+                      className="w-full h-full px-5 cursor-pointer"
+                      {...register('system_check_value')}
+                      onChange={e => {
+                        onChange(e);
+                      }}
+                    >
+                      <option selected value="" disabled>
+                        Select...
+                      </option>
+                      {watchSystemCheck === 'Days' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchSystemCheck === 'Hours' &&
+                        new Array(24).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                      {watchSystemCheck === 'Weeks' &&
+                        new Array(30).fill(1).map((x, ind) => (
+                          <option key={ind} value={ind + 1}>
+                            {ind + 1}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                />
+              </div>
+              {formState.errors?.system_check_value && (
+                <p className="mt-2 text-primary text-sm">
+                  {formState.errors.system_check_value?.message}
+                </p>
+              )}
             </div>
           </div>
 

@@ -60,9 +60,9 @@ const Alert = ({
           >
             <ArrowIcon />
           </button>
-          <div style={{ width: 'calc(100% - 3.75rem)' }}>
+          <div className="h-full" style={{ width: 'calc(100% - 3.75rem)' }}>
             <div
-              className="overflow-hidden px-5 text-white h-full block min-w-full"
+              className="overflow-hidden px-2 text-white h-full block min-w-full"
               style={{ width: 0 }}
             >
               <Slider
@@ -76,7 +76,7 @@ const Alert = ({
               >
                 {alerts.map((alert, ind) => (
                   <div className="h-full">
-                    <div className="flex items-center h-full">
+                    <div className="flex items-center h-full py-2">
                       <div
                         className="h-full flex-grow"
                         role="button"
@@ -86,7 +86,7 @@ const Alert = ({
                           }
                         }}
                       >
-                        <p className="text-base font-bold pb-1">
+                        <p className="text-base font-bold pb-1 leading-tight">
                           <span>
                             Alert {ind + 1} of {alerts?.length}:
                           </span>
@@ -111,7 +111,7 @@ const Alert = ({
                       {+alert?.have_action === 1 && (
                         <button
                           type="button"
-                          className="ml-5 text-lg text-primary w-64 h-12 rounded-full bg-white cursor-pointer disabled:cursor-not-allowed focus:outline-none shadow-md flex items-center justify-center"
+                          className="ml-2 text-lg text-primary w-80 h-12 rounded-full bg-white cursor-pointer disabled:cursor-not-allowed focus:outline-none shadow-md flex items-center justify-center"
                           onClick={() => {
                             doUpdateClickCTA(alert?.id);
                             window.open(alert?.action_link, '_blank');

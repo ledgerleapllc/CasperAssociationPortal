@@ -531,7 +531,7 @@ export const NotificationForm = React.memo(
                 <div className="w-full lg:w-6/12 pb-4 flex gap-4">
                   <div className="w-1/2">
                     <label htmlFor="title">
-                      {`Date & Time for ${watchAllFields.type} to show live`}
+                      {`Date for ${watchAllFields.type} to show live`}
                     </label>
                     <Controller
                       name="start_date"

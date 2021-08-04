@@ -72,61 +72,13 @@ const NodeInfoHome = () => {
           endText="Great"
         />
       </div>
-      <div className="flex flex-col pt-2 pb-9 border-b-2 border-gray">
+      <div className="flex flex-col pt-2 pb-9">
         <div className="flex flex-row">
           <span className="text-lg">Peers</span>
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <p className="text-sm text-gray mb-2">Average: {metrics?.peers}</p>
         <ProgressBar counts={metrics?.peers} totalCounts={88} type="count" />
-      </div>
-      <div className="flex justify-between py-9">
-        <div className="flex w-1/2 pr-2 flex-col">
-          <div className="flex flex-row pb-4">
-            <span className="text-sm font-medium">CPU Load</span>
-            <img
-              className="pl-2"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
-          </div>
-          <div style={{ height: '100%', width: '100%' }}>
-            <CircularProgressbar
-              value={percenCPU}
-              text={`${percenCPU}%`}
-              styles={buildStyles({
-                pathColor: '#FF473E',
-                strokeLinecap: 'butt',
-                textColor: '#313131',
-                textSize: '26px',
-                trailColor: '#9A9A9A',
-              })}
-            />
-          </div>
-        </div>
-        <div className="flex w-1/2 pl-2 flex-col">
-          <div className="flex flex-row pb-4">
-            <span className="text-sm font-medium">Performance</span>
-            <img
-              className="pl-2"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
-          </div>
-          <div style={{ height: '100%', width: '100%' }}>
-            <CircularProgressbar
-              value={percenPerformance}
-              text={`${percenPerformance}%`}
-              styles={buildStyles({
-                pathColor: '#FF473E',
-                strokeLinecap: 'butt',
-                textColor: '#313131',
-                textSize: '26px',
-                trailColor: '#9A9A9A',
-              })}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
