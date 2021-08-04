@@ -356,9 +356,7 @@ const AdminUserDetail = () => {
                 </div>
                 <div className="flex items-center flex-row mt-1 h-11">
                   <p className="text-sm font-medium w-1/6">Peers:</p>
-                  <p className="text-sm w-1/6">
-                    {metrics?.peers || 0} days early
-                  </p>
+                  <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
                   <div className="text-sm w-1/6">
                     <Checkbox
                       value={overrideInfo.peers}
