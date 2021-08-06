@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 23 22.02">
   <g id="Group_1075" data-name="Group 1075" transform="translate(-67.543 -228.98)">
-    <path id="Path_11164" data-name="Path 11164" d="M-19724.957-7250v-22.019" transform="translate(19804 7501)" fill="none" stroke="#ff473e" stroke-width="3"/>
-    <path id="Path_11166" data-name="Path 11166" d="M-19724.957-7258.555v-13.464" transform="translate(19809 7505.277)" fill="none" stroke="#ff473e" stroke-width="3"/>
-    <path id="Path_11167" data-name="Path 11167" d="M-19724.957-7267.054v-4.965" transform="translate(19814 7509.527)" fill="none" stroke="#ff473e" stroke-width="3"/>
-    <path id="Path_11165" data-name="Path 11165" d="M-19724.957-7258.555v-13.464" transform="translate(19799 7505.277)" fill="none" stroke="#ff473e" stroke-width="3"/>
-    <path id="Path_11168" data-name="Path 11168" d="M-19724.957-7267.054v-4.965" transform="translate(19794 7509.527)" fill="none" stroke="#ff473e" stroke-width="3"/>
+    <path id="Path_11164" data-name="Path 11164" d="M-19724.957-7250v-22.019" transform="translate(19804 7501)" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path id="Path_11166" data-name="Path 11166" d="M-19724.957-7258.555v-13.464" transform="translate(19809 7505.277)" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path id="Path_11167" data-name="Path 11167" d="M-19724.957-7267.054v-4.965" transform="translate(19814 7509.527)" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path id="Path_11165" data-name="Path 11165" d="M-19724.957-7258.555v-13.464" transform="translate(19799 7505.277)" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path id="Path_11168" data-name="Path 11168" d="M-19724.957-7267.054v-4.965" transform="translate(19794 7509.527)" fill="none" stroke="currentColor" stroke-width="3"/>
   </g>
 </svg>
