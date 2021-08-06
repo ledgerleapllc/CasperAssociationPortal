@@ -9,13 +9,12 @@ import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 import {
-  getNotifications,
-  getNotificationsSuccess,
   dismissNotification,
   updateClickCTANotification,
   updateViewNotification,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
+import useNotifications from '../hooks/useNotifications';
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -23,8 +22,8 @@ const ContentHome = () => {
   const [isAlertLoading, setIsAlertLoading] = useState(true);
   const [alerts, setAlerts] = useState();
   const [bannerAlerts, setBannerAlerts] = useState();
-  const notifications = useSelector(state => state?.notificationsReducer?.data);
   const [currentNotification, setCurrentNotifications] = useState(null);
+  const { bannerNotis, popupNotis } = useNotifications();
 
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
@@ -36,18 +35,10 @@ const ContentHome = () => {
   }, [alerts]);
 
   useEffect(() => {
-    dispatch(
-      getNotifications(
-        { type: 'Banner' },
-        res => {
-          setBannerAlerts(res);
-        },
-        () => {
-          setBannerAlerts([]);
-        }
-      )
-    );
-  }, []);
+    if (bannerNotis) {
+      setBannerAlerts(bannerNotis);
+    }
+  }, [bannerNotis]);
 
   useEffect(() => {
     if (userInfo && bannerAlerts) {
@@ -83,20 +74,25 @@ const ContentHome = () => {
     }
   }, [userInfo, bannerAlerts]);
 
+  const doUpdateClickCTA = id => {
+    dispatch(updateClickCTANotification({ id }, () => {}));
+  };
+
+  const doUpdateViewNotifications = id => {
+    if (id !== 'verification') {
+      dispatch(updateViewNotification({ id }, () => {}));
+    }
+  };
+
   useEffect(() => {
-    if (notifications?.length) {
+    if (popupNotis?.length) {
       setCurrentNotifications(1);
     }
-  }, [notifications]);
+  }, [popupNotis]);
 
   useEffect(() => {
-    // Clear popup notification state after viewing all
-    if (currentNotification > notifications?.length) {
-      dispatch(getNotificationsSuccess(null));
-    }
-
-    if (notifications?.[currentNotification - 1]) {
-      const alert = notifications[currentNotification - 1];
+    if (popupNotis?.[currentNotification - 1]) {
+      const alert = popupNotis[currentNotification - 1];
       setDialog({
         type: 'Notification',
         data: {
@@ -114,6 +110,9 @@ const ContentHome = () => {
           }
           doUpdateViewNotifications(alert?.id);
           setCurrentNotifications(pre => pre + 1);
+          if (currentNotification === popupNotis.length) {
+            localStorage.setItem('SEEN_POPUP_NOTIFICATIONS', 1);
+          }
         },
       });
     }
@@ -127,16 +126,6 @@ const ContentHome = () => {
         setAlerts(_alerts);
       })
     );
-  };
-
-  const doUpdateClickCTA = id => {
-    dispatch(updateClickCTANotification({ id }, () => {}));
-  };
-
-  const doUpdateViewNotifications = id => {
-    if (id !== 'verification') {
-      dispatch(updateViewNotification({ id }, () => {}));
-    }
   };
 
   const data = {
@@ -175,10 +164,10 @@ const ContentHome = () => {
   };
 
   return (
-    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex flex-wrap lg:flex-nowrap lg:h-1.8/10 -mx-3 pb-5">
+    <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
+      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
         {(isAlertLoading || !!alerts.length) && (
-          <div className="w-full h-full px-3 mb-3 lg:w-3/5 lg:mb-0">
+          <div className="w-full h-full lg:w-3/5">
             <Alert
               isLoading={isAlertLoading}
               alerts={alerts}
@@ -188,7 +177,7 @@ const ContentHome = () => {
             />
           </div>
         )}
-        <div className="w-2/4 flex-grow lg:w-1/5 h-full px-3">
+        <div className="w-2/4 flex-grow lg:w-1/5 h-full">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">Pinned</span>
@@ -198,7 +187,7 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 flex-grow lg:w-1/5 h-full px-3">
+        <div className="w-2/4 flex-grow lg:w-1/5 h-full">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">New</span>
@@ -214,8 +203,8 @@ const ContentHome = () => {
           <InfoRightHome />
         </div>
       </Card>
-      <div className="flex flex-col-reverse lg:flex-col lg:h-8.2/10 lg:justify-between">
-        <div className="z-50 lg:z-20 my-5 lg:my-0 flex h-auto lg:h-1/3">
+      <div className="flex flex-1 gap-5 flex-col-reverse lg:flex-col lg:h-8.5/10 lg:justify-between min-h-0">
+        <div className="z-50 lg:z-20 flex h-auto lg:h-1/3">
           <Card className="w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -245,7 +234,7 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="flex pt-5 flex-col-reverse lg:flex-row h-2/3">
+        <div className="flex flex-1 min-h-0 flex-col-reverse lg:flex-row h-2/3">
           <Card className="z-40 flex-grow w-full mt-5 lg:mt-0 lg:w-2/3 lg:mr-3 h-full">
             <TrendingDiscussion />
           </Card>

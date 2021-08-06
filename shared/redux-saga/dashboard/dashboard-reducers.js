@@ -94,33 +94,3 @@ export const recordVoteReducer = createReducer(
   strategiesRecordVote,
   initialState
 );
-
-const getNotifications = state => ({
-  ...state,
-  isLoading: true,
-});
-
-const getNotificationsSuccess = (state, payload) => ({
-  ...state,
-  data: payload,
-  isLoading: false,
-});
-
-const getNotificationsError = (state, payload) => ({
-  ...state,
-  error: payload,
-  hasError: true,
-  isLoading: false,
-});
-
-const strategiesGetNotifications = {
-  ['GET_NOTIFICATIONS']: getNotifications,
-  ['GET_NOTIFICATIONS_SUCCESS']: getNotificationsSuccess,
-  ['GET_NOTIFICATIONS_ERROR']: getNotificationsError,
-  __default__: state => state,
-};
-
-export const notificationsReducer = createReducer(
-  strategiesGetNotifications,
-  initialState
-);

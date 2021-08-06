@@ -15,6 +15,8 @@ import {
   setMetrics,
   setUser,
   updateUser,
+  setNotifications,
+  clearNotifications,
 } from './actions';
 import { clearLetter, clearOwnerNodes } from '../onboard/actions';
 
@@ -42,6 +44,8 @@ export function* logoutApp() {
   yield put(clearOwnerNodes());
   yield put(clearUser());
   yield put(clearMetrics());
+  yield put(clearNotifications());
+  localStorage.removeItem('SEEN_POPUP_NOTIFICATIONS');
 }
 
 export function* registerEntity({ payload, callback, resetSubmitting }) {
@@ -267,6 +271,30 @@ export function* getMyMetrics() {
   }
 }
 
+export function* getBannerNotifications() {
+  try {
+    const query = qs.stringify({
+      type: 'banner',
+    });
+    const res = yield get([`users/notification?${query}`]);
+    yield put(setNotifications({ banner: res.data }));
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getPopupNotifications() {
+  try {
+    const query = qs.stringify({
+      type: 'popup',
+    });
+    const res = yield get([`users/notification?${query}`]);
+    yield put(setNotifications({ popup: res.data }));
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -279,6 +307,8 @@ export function* watchAuth() {
   yield all([takeLatest('RESEND_VERIFICATION_CODE', resendVerificationCode)]);
   yield all([takeLatest('RESEND_2FA_CODE', resend2FACode)]);
   yield all([takeLatest('GET_MY_METRICS', getMyMetrics)]);
+  yield all([takeLatest('GET_BANNER_NOTIFICATIONS', getBannerNotifications)]);
+  yield all([takeLatest('GET_POPUP_NOTIFICATIONS', getPopupNotifications)]);
   yield all([takeLatest('FETCH_USER_INFO', fetchUserInfo)]);
   yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
   yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);

@@ -8,6 +8,10 @@
   }
 }
 
+.animate__fastest {
+  animation-duration: 0.1s;
+}
+
 .remove-animation {
   animation-name: none !important;
 }

@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import IconCheck from '../../public/images/ic_check.svg';
 import IconUncheck from '../../public/images/ic_uncheck.svg';
 
-const Checkbox = ({ value, labelText, onChange }) => {
+const Checkbox = ({ value, labelText, onChange, readOnly }) => {
   const [check, setCheck] = useState(false);
 
   const toggle = () => {
-    setCheck(!check);
-    onChange(!check);
+    if (!readOnly) {
+      setCheck(!check);
+      onChange(!check);
+    }
   };
 
   useEffect(() => {

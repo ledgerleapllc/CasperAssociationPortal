@@ -85,8 +85,31 @@ const metricsStrategies = {
 
 const metrics = createReducer(metricsStrategies, {});
 
+// my notifications
+const setNotifications = (state, payload) => ({
+  ...state,
+  ...payload,
+});
+
+const clearNotifications = () => ({
+  banner: null,
+  popup: null,
+});
+
+const notificationsStrategies = {
+  SET_NOTIFICATIONS: setNotifications,
+  CLEAR_NOTIFICATIONS: clearNotifications,
+  __default__: state => state,
+};
+
+const notifications = createReducer(notificationsStrategies, {
+  banner: null,
+  popup: null,
+});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
   metrics,
+  notifications,
 });
