@@ -1,4 +1,3 @@
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import useMetrics from '../hooks/useMetrics';
 import { ProgressBar } from '../partials';
@@ -6,8 +5,6 @@ import { ProgressBar } from '../partials';
 const NodeInfoHome = () => {
   const { metrics } = useMetrics();
 
-  const percenCPU = 61;
-  const percenPerformance = 83;
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-2xl">Node Info</span>

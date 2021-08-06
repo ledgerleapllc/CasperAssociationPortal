@@ -10,7 +10,6 @@ import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { loginApp, fetchUserInfo } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
-import { getNotifications } from '../shared/redux-saga/dashboard/dashboard-actions';
 
 const Login = () => {
   const { formState, register, handleSubmit } = useForm();
@@ -31,13 +30,6 @@ const Login = () => {
             fetchUserInfo(() => {
               router.push('/dashboard');
             })
-          );
-          dispatch(
-            getNotifications(
-              { type: 'Popup' },
-              () => {},
-              () => {}
-            )
           );
         },
         () => {

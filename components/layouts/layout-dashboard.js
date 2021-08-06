@@ -1,27 +1,17 @@
-import AppFooter from './app-footer';
-import Navigation from '../dashboard/navigation';
+import Sidebar from '../dashboard/sidebar';
+import Header from '../dashboard/header';
+import AppHeader from './app-header';
 
 export default function LayoutDashboard({ children }) {
   return (
     <div>
-      <div className="dashboard-layout">
-        <div
-          className="
-            relative h-screen h-px mx-auto flex flex-col px-4
-            lg:pt-10 lg:pb-20 lg:max-w-380
-            xl:py-20 xl:max-w-404 
-            2xl:py-24 2xl:min-h-105"
-        >
-          <div className="flex h-full flex-col lg:flex-row">
-            <div className="flex-none">
-              <Navigation />
-            </div>
-            <div className="pt-12 lg:pt-0 lg:pl-6 dashboard-content flex-grow h-full">
-              {children}
-            </div>
-          </div>
-          <div className="absolute py-8 left-0 bottom-0 right-0">
-            <AppFooter theme="dark" />
+      <div className="dashboard-layout flex h-screen min-h-600px">
+        <Sidebar />
+        <div className="flex-1 h-full">
+          <AppHeader className="px-5 py-4 lg:hidden" theme="dark" />
+          <Header />
+          <div className="px-5 py-6.25 dashboard-content flex-1 h-100%-18">
+            {children}
           </div>
         </div>
       </div>

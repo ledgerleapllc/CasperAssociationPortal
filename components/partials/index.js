@@ -7,6 +7,7 @@ import ToggleButton from './toggle-button';
 import DateTimePicker from './date-time-picker';
 import Checkbox from './checkbox';
 import ClockBar from './clock-bar';
+import Avatar from './avatar';
 import StatusText from './status-text';
 import ForAgainst from './for-against';
 import Table from './table';
@@ -15,6 +16,7 @@ import ProgressBar from './progress-bar';
 import { Button } from './button';
 import { LoadingButton } from './loading-button';
 import Switch from './switch';
+import Dropdown from './dropdown';
 
 export {
   Card,
@@ -33,5 +35,7 @@ export {
   TimeRemaining,
   ProgressBar,
   LoadingButton,
+  Dropdown,
   Switch,
+  Avatar,
 };

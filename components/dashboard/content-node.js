@@ -98,10 +98,10 @@ const ContentNode = () => {
   };
 
   return (
-    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex flex-wrap lg:flex-nowrap lg:h-1/10 -mx-3">
-        <div className="hidden lg:block lg:w-4/6 px-3 mb-3">
-          <Card className="lg:flex-grow">
+    <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
+      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
+        <div className="hidden lg:block lg:w-4/6">
+          <Card className="h-full lg:flex-grow">
             <div className="flex flex-col px-9 py-4">
               <div className="flex">
                 <span className="text-lg font-normal">Node Name</span>
@@ -120,8 +120,8 @@ const ContentNode = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 px-3 mb-3">
-          <Card className="lg:flex-none">
+        <div className="w-2/4 lg:w-1/3">
+          <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 py-4">
               <div className="flex">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
@@ -137,8 +137,8 @@ const ContentNode = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 px-3 mb-3">
-          <Card className="lg:flex-none">
+        <div className="w-2/4 lg:w-1/3">
+          <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 py-4">
               <div className="flex">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
@@ -160,9 +160,9 @@ const ContentNode = () => {
           <InfoRightNode />
         </div>
       </Card>
-      <div className="flex flex-col lg:h-8.5/10 lg:justify-between">
-        <div className="hidden lg:flex my-10 lg:mt-0 h-auto lg:h-1/3">
-          <Card className="w-full px-9 py-5">
+      <div className="flex gap-5 flex-col lg:h-8.5/10 lg:justify-between">
+        <div className="hidden lg:flex h-auto lg:h-2/5">
+          <Card className="h-full w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <div className="flex">
@@ -201,8 +201,8 @@ const ContentNode = () => {
             </div>
           </Card>
         </div>
-        <div className="flex flex-col-reverse mb-20 lg:mb-0 lg:flex-row auto lg:h-3/5">
-          <Card className="flex-grow w-full lg:w-2/5 mt-5 lg:mt-0 lg:mr-3 h-full">
+        <div className="flex gap-5 flex-col-reverse lg:mb-0 lg:flex-row auto lg:h-3/5">
+          <Card className="flex-grow w-full lg:w-2/5 h-full">
             <div className="w-full px-9 py-5 flex flex-col h-full justify-between">
               <p className="text-lg">CPU Usage</p>
               <div className="h-full py-4">
@@ -210,8 +210,8 @@ const ContentNode = () => {
               </div>
             </div>
           </Card>
-          <div className="flex flex-col justify-between w-full mt-5 lg:mt-0 lg:w-3/5 lg:ml-3 h-auto lg:h-full">
-            <Card className="flex flex-col justify-between px-5 lg:px-9 py-7 h-auto lg:h-3/5 w-full overflow-y-scroll">
+          <div className="flex gap-5 flex-col justify-between w-full lg:w-3/5 h-auto lg:h-full">
+            <Card className="flex flex-col justify-between p-5 h-auto lg:h-3/5 w-full overflow-y-scroll">
               <div className="flex flex-col">
                 <div className="flex flex-row py-1">
                   <span className="text-lg">Uptime</span>
@@ -267,7 +267,7 @@ const ContentNode = () => {
                 </div>
               </div>
             </Card>
-            <Card className="flex flex-row mt-5 lg:mt-0 py-4 lg:py-6 lg:h-1/3">
+            <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5 z-20">
               <div className="flex flex-col w-1/2 px-5 lg:px-0 border-r border-gray lg:pl-20 justify-center">
                 <div className="flex flex-row">
                   <span className="text-lg">Daily Earnings</span>

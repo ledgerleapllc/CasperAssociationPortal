@@ -1,3 +1,8 @@
 .date-time-perks {
   @apply mt-2 rounded-none w-full border border-gray1 shadow-md;
 }
+.active-link {
+  .line-hr {
+    display: block;
+  }
+}

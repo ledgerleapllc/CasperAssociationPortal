@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
       <DialogProvider>
         <Head>
           <title>Casper Association Portal</title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.svg" />
           <meta name="description" content="Casper Association Portal" />
           <meta
             name="viewport"

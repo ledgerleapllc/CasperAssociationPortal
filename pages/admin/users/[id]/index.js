@@ -23,7 +23,7 @@ const AdminUserDetail = () => {
   const { id } = router.query;
   const { setLoading } = useContext(AppContext);
   const userDetail = useSelector(state => state.userDetailReducer.data);
-  const [overrideInfo, setOverrideInfo] = useState({
+  const [unlockField, setUnlockField] = useState({
     uptime: false,
     block_height_average: false,
     update_responsiveness: false,
@@ -59,12 +59,6 @@ const AdminUserDetail = () => {
                 peers: '0',
               }
             );
-            setOverrideInfo({
-              uptime: !!res.uptime,
-              block_height_average: !!res.block_height_average,
-              update_responsiveness: !!res.update_responsiveness,
-              peers: !!res.peers,
-            });
             setOverrideValue({
               uptime: +res.uptime ? +res.uptime : '',
               block_height_average: +res.block_height_average
@@ -82,10 +76,26 @@ const AdminUserDetail = () => {
     }
   }, [id]);
 
-  const toggleOverride = field => {
-    setOverrideInfo({
-      ...overrideInfo,
-      [field]: !overrideInfo[field],
+  const finishEditting = () => {
+    setUnlockField({
+      uptime: false,
+      block_height_average: false,
+      update_responsiveness: false,
+      peers: false,
+    });
+  };
+
+  const cancelEditting = () => {
+    finishEditting();
+    setOverrideValue({
+      uptime: +metrics.uptime ? +metrics.uptime : '',
+      block_height_average: +metrics.block_height_average
+        ? +metrics.block_height_average
+        : '',
+      update_responsiveness: +metrics.update_responsiveness
+        ? +metrics.update_responsiveness
+        : '',
+      peers: +metrics.peers ? +metrics.peers : '',
     });
   };
 
@@ -111,26 +121,42 @@ const AdminUserDetail = () => {
   };
 
   const save = field => {
-    setLoading(true);
-    dispatch(
-      updateUserMetrics(
-        {
-          id,
-          [field]: overrideValue[field],
-        },
-        () => {
-          setMetrics({
-            ...metrics,
+    if (!unlockField[field]) {
+      setUnlockField({
+        uptime: false,
+        block_height_average: false,
+        update_responsiveness: false,
+        peers: false,
+        [field]: true,
+      });
+    } else {
+      setLoading(true);
+      finishEditting();
+      dispatch(
+        updateUserMetrics(
+          {
+            id,
             [field]: overrideValue[field],
-          });
-          setLoading(false);
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
+          },
+          () => {
+            setMetrics({
+              ...metrics,
+              [field]: overrideValue[field],
+            });
+            setLoading(false);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
+    }
   };
+
+  const checkUnlockField = currentField =>
+    Object.keys(unlockField).some(
+      field => field !== currentField && unlockField[field]
+    );
 
   return (
     <LayoutDashboard>
@@ -241,33 +267,36 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
                   <div className="text-sm w-1/6">
                     <Checkbox
-                      value={overrideInfo.uptime}
-                      onChange={() => toggleOverride('uptime')}
+                      value={!!overrideValue.uptime}
                       labelText="override"
+                      readOnly
                     />
                   </div>
-                  <div
-                    className={`flex text-sm w-3/6 ${
-                      overrideInfo.uptime
-                        ? 'opacity-100'
-                        : 'opacity-50 pointer-events-none'
-                    }`}
-                  >
+                  <div className="flex text-sm w-3/6">
                     <input
                       type="number"
                       max="100"
                       value={overrideValue.uptime}
                       onChange={e => updateField('uptime', e.target.value)}
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
+                      disabled={!unlockField.uptime}
                     />
                     <Button
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('uptime')}
-                      className={!overrideValue.uptime && 'pointer-events-none'}
+                      disabled={checkUnlockField('uptime')}
                     >
-                      Save
+                      {!unlockField.uptime ? 'Edit' : 'Save'}
                     </Button>
+                    <button
+                      type="button"
+                      className="ml-4 underline text-base text-primary disabled:opacity-40"
+                      onClick={() => cancelEditting()}
+                      disabled={!unlockField.uptime}
+                    >
+                      cancel
+                    </button>
                   </div>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
@@ -279,37 +308,37 @@ const AdminUserDetail = () => {
                   </p>
                   <div className="text-sm w-1/6">
                     <Checkbox
-                      value={overrideInfo.block_height_average}
-                      onChange={() => toggleOverride('block_height_average')}
+                      value={!!overrideValue.block_height_average}
                       labelText="override"
+                      readOnly
                     />
                   </div>
-                  <div
-                    className={`flex text-sm w-3/6 ${
-                      overrideInfo.block_height_average
-                        ? 'opacity-100'
-                        : 'opacity-50 pointer-events-none'
-                    }`}
-                  >
+                  <div className="flex text-sm w-3/6">
                     <input
                       type="number"
                       value={overrideValue.block_height_average}
                       onChange={e =>
                         updateField('block_height_average', e.target.value)
                       }
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
+                      disabled={!unlockField.block_height_average}
                     />
                     <Button
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('block_height_average')}
-                      className={
-                        !overrideValue.block_height_average &&
-                        'pointer-events-none'
-                      }
+                      disabled={checkUnlockField('block_height_average')}
                     >
-                      Save
+                      {!unlockField.block_height_average ? 'Edit' : 'Save'}
                     </Button>
+                    <button
+                      type="button"
+                      className="ml-4 underline text-base text-primary disabled:opacity-40"
+                      onClick={() => cancelEditting()}
+                      disabled={!unlockField.block_height_average}
+                    >
+                      cancel
+                    </button>
                   </div>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
@@ -321,37 +350,37 @@ const AdminUserDetail = () => {
                   </p>
                   <div className="text-sm w-1/6">
                     <Checkbox
-                      value={overrideInfo.update_responsiveness}
-                      onChange={() => toggleOverride('update_responsiveness')}
+                      value={!!overrideValue.update_responsiveness}
                       labelText="override"
+                      readOnly
                     />
                   </div>
-                  <div
-                    className={`flex text-sm w-3/6 ${
-                      overrideInfo.update_responsiveness
-                        ? 'opacity-100'
-                        : 'opacity-50 pointer-events-none'
-                    }`}
-                  >
+                  <div className="flex text-sm w-3/6">
                     <input
                       type="number"
                       value={overrideValue.update_responsiveness}
                       onChange={e =>
                         updateField('update_responsiveness', e.target.value)
                       }
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
+                      disabled={!unlockField.update_responsiveness}
                     />
                     <Button
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('update_responsiveness')}
-                      className={
-                        !overrideValue.update_responsiveness &&
-                        'pointer-events-none'
-                      }
+                      disabled={checkUnlockField('update_responsiveness')}
                     >
-                      Save
+                      {!unlockField.update_responsiveness ? 'Edit' : 'Save'}
                     </Button>
+                    <button
+                      type="button"
+                      className="ml-4 underline text-base text-primary disabled:opacity-40"
+                      onClick={() => cancelEditting()}
+                      disabled={!unlockField.update_responsiveness}
+                    >
+                      cancel
+                    </button>
                   </div>
                 </div>
                 <div className="flex items-center flex-row mt-1 h-11">
@@ -359,32 +388,35 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
                   <div className="text-sm w-1/6">
                     <Checkbox
-                      value={overrideInfo.peers}
-                      onChange={() => toggleOverride('peers')}
+                      value={!!overrideValue.peers}
                       labelText="override"
+                      readOnly
                     />
                   </div>
-                  <div
-                    className={`flex text-sm w-3/6 ${
-                      overrideInfo.peers
-                        ? 'opacity-100'
-                        : 'opacity-50 pointer-events-none'
-                    }`}
-                  >
+                  <div className="flex text-sm w-3/6">
                     <input
                       type="number"
                       value={overrideValue.peers}
                       onChange={e => updateField('peers', e.target.value)}
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none"
+                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
+                      disabled={!unlockField.peers}
                     />
                     <Button
                       primary
                       style={{ width: '7rem' }}
                       onClick={() => save('peers')}
-                      className={!overrideValue.peers && 'pointer-events-none'}
+                      disabled={checkUnlockField('peers')}
                     >
-                      Save
+                      {!unlockField.peers ? 'Edit' : 'Save'}
                     </Button>
+                    <button
+                      type="button"
+                      className="ml-4 underline text-base text-primary disabled:opacity-40"
+                      onClick={() => cancelEditting()}
+                      disabled={!unlockField.peers}
+                    >
+                      cancel
+                    </button>
                   </div>
                 </div>
               </div>

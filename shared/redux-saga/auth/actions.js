@@ -86,10 +86,6 @@ export const clearUser = () => ({
   type: 'CLEAR_USER_INFO',
 });
 
-export const clearMetrics = () => ({
-  type: 'CLEAR_METRICS',
-});
-
 export const changeEmailConfirm = (payload, resolve, reject) => ({
   type: 'CHANGE_EMAIL_CONFIRM',
   payload,
@@ -124,4 +120,25 @@ export const getMyMetrics = () => ({
 export const setMetrics = payload => ({
   type: 'SET_METRICS',
   payload,
+});
+
+export const clearMetrics = () => ({
+  type: 'CLEAR_METRICS',
+});
+
+export const getBannerNotifications = () => ({
+  type: 'GET_BANNER_NOTIFICATIONS',
+});
+
+export const getPopupNotifications = () => ({
+  type: 'GET_POPUP_NOTIFICATIONS',
+});
+
+export const setNotifications = payload => ({
+  type: 'SET_NOTIFICATIONS',
+  payload,
+});
+
+export const clearNotifications = () => ({
+  type: 'CLEAR_NOTIFICATIONS',
 });

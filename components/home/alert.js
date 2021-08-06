@@ -55,8 +55,9 @@ const Alert = ({
         <>
           <button
             type="button"
-            className="text-3xl text-white focus:outline-none"
+            className="text-3xl text-white focus:outline-none disabled:opacity-40"
             onClick={prev}
+            disabled={alerts?.length === 1}
           >
             <ArrowIcon />
           </button>
@@ -76,7 +77,7 @@ const Alert = ({
               >
                 {alerts.map((alert, ind) => (
                   <div className="h-full">
-                    <div className="flex items-center h-full py-2">
+                    <div className="flex items-center h-full py-5">
                       <div
                         className="h-full flex-grow"
                         role="button"
@@ -128,8 +129,9 @@ const Alert = ({
           </div>
           <button
             type="button"
-            className="text-3xl text-white focus:outline-none transform rotate-180"
+            className="text-3xl text-white focus:outline-none transform rotate-180 disabled:opacity-40"
             onClick={next}
+            disabled={alerts?.length === 1}
           >
             <ArrowIcon />
           </button>

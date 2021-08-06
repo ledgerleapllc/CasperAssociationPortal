@@ -9,7 +9,7 @@ const DashboardNode = () => (
     <div className="flex h:auto lg:h-full">
       <ContentNode />
       <Card className="hidden lg:block h-full">
-        <div className="h-full w-80">
+        <div className="py-5 pl-5 h-full">
           <InfoRightNode />
         </div>
       </Card>

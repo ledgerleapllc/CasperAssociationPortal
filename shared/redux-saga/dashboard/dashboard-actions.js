@@ -175,23 +175,6 @@ export const updateUserSettings = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getNotifications = (payload, resolve, reject) => ({
-  type: 'GET_NOTIFICATIONS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const getNotificationsSuccess = data => ({
-  type: 'GET_NOTIFICATIONS_SUCCESS',
-  payload: data,
-});
-
-export const getNotificationsErrpr = error => ({
-  type: 'GET_NOTIFICATIONS_ERROR',
-  payload: error,
-});
-
 export const dismissNotification = (payload, resolve) => ({
   type: 'DISMISS_NOTIFICATION',
   payload,

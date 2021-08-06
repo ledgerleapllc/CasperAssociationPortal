@@ -6,7 +6,7 @@ import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const AdminDashboard = () => (
   <LayoutDashboard>
-    <div className="flex h:auto lg:h-full">
+    <div className="flex gap-5 h-auto lg:h-full">
       <ContentAdminHome />
       <Card className="hidden lg:block h-full">
         <div className="overflow-y-scroll h-full w-80">

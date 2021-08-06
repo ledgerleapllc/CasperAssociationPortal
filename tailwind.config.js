@@ -22,9 +22,13 @@ module.exports = {
       boxShadow: {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
         card: '0px 5px 30px -5px rgb(0, 0, 0, 0.2)',
+        light: '3px 0px 6px #00000026',
       },
       screens: {
         xl: '1281px',
+      },
+      zIndex: {
+        '-1': '-1',
       },
       colors: {
         dark1: '#313131',
@@ -44,6 +48,7 @@ module.exports = {
         '2.5xl': '1.7rem',
         xxl: '1.4rem',
         xxs: '0.625rem',
+        '16px': '16px',
       },
       height: {
         '1/10': '10%',
@@ -75,6 +80,7 @@ module.exports = {
       },
       minHeight: {
         105: '26.25rem',
+        '600px': '600px',
       },
       maxHeight: {
         '200px': '200px',
@@ -90,6 +96,10 @@ module.exports = {
         92: '23rem',
         '8.85/10': '88.5%',
         '90px': '90px',
+        '200px': '200px',
+      },
+      padding: {
+        '6.25': '1.5625rem',
       },
       zIndex: {
         '-1': '-1',
