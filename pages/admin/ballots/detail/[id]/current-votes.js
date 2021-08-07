@@ -88,9 +88,9 @@ const AdminActiveBallotCurrentVotes = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
-          <div className="card-header lg:mr-24 lg:h-70px">
+          <div className="card-header lg:mr-card lg:h-70px">
             <BackButton
               href={`/admin/ballots/detail/${id}`}
               text="Back"
@@ -104,7 +104,7 @@ const AdminActiveBallotCurrentVotes = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-            <Styles className="lg:pr-24">
+            <Styles className="lg:pr-card">
               <table className="active-ballot-table border-0">
                 <tr>
                   <td>
@@ -175,7 +175,7 @@ const AdminActiveBallotCurrentVotes = () => {
                 </tr>
               </table>
             </Styles>
-            <StylesVotes className="lg:pr-24 max-h-96">
+            <StylesVotes className="lg:pr-card max-h-96">
               <Table
                 className="active-votes-table pt-3 max-h-96"
                 onLoadMore={fetchBallotVotes}
@@ -196,7 +196,7 @@ const AdminActiveBallotCurrentVotes = () => {
                     <p className="py-2">Direction</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="lg:-mr-24 lg:pr-24">
+                <Table.Body className="lg:-mr-card lg:pr-card">
                   {votes.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell>

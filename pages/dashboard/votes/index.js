@@ -128,7 +128,7 @@ const Tab1 = () => {
             <p>Date</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -212,7 +212,7 @@ const Tab2 = () => {
             <p>Date</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {completeVotes.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -312,7 +312,7 @@ const Tab3 = () => {
             <p>For/Against</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -386,14 +386,10 @@ const DashboardVote = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-20 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           {tabsData.length > 0 && (
-            <Tab
-              className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
-              data={tabsData}
-              lazy
-            />
+            <Tab className="w-full h-full pt-12 lg:pt-0" data={tabsData} lazy />
           )}
         </div>
       </Card>

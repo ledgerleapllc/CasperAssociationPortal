@@ -9,7 +9,7 @@ const InfoRightAdminHome = () => (
         2xl:pt-5
       "
     >
-      <span className="text-2.5xl">Metrics</span>
+      <span className="text-lg font-medium pb-5">Metrics</span>
       <div className="flex flex-col py-3 xl:py-1 2xl:py-3">
         <div className="flex flex-row">
           <span className="text-lg">Total Users</span>

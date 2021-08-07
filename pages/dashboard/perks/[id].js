@@ -27,9 +27,9 @@ const PerkDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
-          <div className="card-header lg:mr-24 lg:h-40px">
+          <div className="card-header lg:mr-card lg:h-40px">
             <div className="mb-2 flex justify-between items-center">
               <BackButton
                 href={
@@ -43,7 +43,7 @@ const PerkDetail = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pb-10 overflow-y-auto lg:h-100%-40px">
-            <div className="lg:pr-24">
+            <div className="lg:pr-card">
               <PerkPage perk={currentPerk} />
             </div>
           </div>

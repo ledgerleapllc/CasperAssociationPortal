@@ -32,7 +32,7 @@ const KycAmlDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-14">
+      <Card className="h-full px-card py-14">
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">

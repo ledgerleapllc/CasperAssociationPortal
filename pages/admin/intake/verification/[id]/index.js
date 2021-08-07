@@ -277,9 +277,9 @@ const AdminIntakeVerificationDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
-          <div className="card-header lg:mr-24 lg:h-70px">
+          <div className="card-header lg:mr-card lg:h-70px">
             <BackButton href="/admin/intake" text="Back" force />
             <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
               IDverification for{' '}
@@ -288,7 +288,7 @@ const AdminIntakeVerificationDetail = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-            <div className="lg:pr-24">
+            <div className="lg:pr-card">
               <p>
                 The following information was provided by the user and checked
                 for KYC and AML:

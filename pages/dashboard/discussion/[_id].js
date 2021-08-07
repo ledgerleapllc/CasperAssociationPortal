@@ -229,10 +229,10 @@ const DashboardDiscusionDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         {discussion && (
           <div className="w-full h-full">
-            <div className="card-header lg:mr-24 lg:h-70px">
+            <div className="card-header lg:mr-card lg:h-70px">
               <div className="flex justify-between items-center">
                 <BackButton href="/dashboard/discussion" text="Discussions" />
                 <div className="inline-block lg:hidden pb-2.5">
@@ -250,7 +250,7 @@ const DashboardDiscusionDetail = () => {
               <div className="border-primary border-b-2" />
             </div>
             <div className="card-body overflow-y-auto lg:h-100%-70px">
-              <div className="lg:pr-24">
+              <div className="lg:pr-card">
                 <ChatBox data={discussion} noBorder />
                 {userInfo && discussion.user.id !== userInfo.id && (
                   <div className="relative pt-4 mb-8 lg:mb-12 ck-editor-reverse">
@@ -296,7 +296,7 @@ const DashboardDiscusionDetail = () => {
                         <Table.HeaderCell />
                         <Table.HeaderCell />
                       </Table.Header>
-                      <Table.Body className="lg:-mr-24 lg:pr-24">
+                      <Table.Body className="lg:-mr-card lg:pr-card">
                         {data.map((row, index) => (
                           <Table.BodyRow key={`b-${index}`}>
                             <Table.BodyCell />

@@ -23,7 +23,7 @@ import { AppContext } from '../_app';
 import { IPHistoriesDialog } from '../../components/admin/teams/ip-histories';
 
 const Styles = styled.div`
-  .admin-table {
+  .teams-table {
     .col {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
@@ -316,33 +316,35 @@ const AdminTeams = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-14">
-        <div className="bg-transparent h-full">
-          <div className="w-full">
-            <div className="lg:h-70px flex flex-col justify-center">
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-                Team Management
-              </h3>
-              <div className="border-primary border-b-2" />
+      <Card className="h-full px-card py-5">
+        <div className="flex flex-col bg-transparent h-full">
+          <div>
+            <div className="w-full">
+              <div className="flex flex-col justify-center">
+                <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3">
+                  Team Management
+                </h3>
+                <div className="border-primary border-b-2" />
+              </div>
+            </div>
+            <div className="pt-5 flex items-center justify-between">
+              <h4 className="text-dark2 text-lg lg:pr-32 font-medium mb-4">
+                Admins
+              </h4>
+              <Button
+                className="px-6"
+                primary
+                type="button"
+                onClick={showNewAdminDlg}
+              >
+                + New Admin
+              </Button>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <h4 className="text-dark2 text-lg lg:pr-32 font-medium mb-4">
-              Admins
-            </h4>
-            <Button
-              className="px-6"
-              primary
-              type="button"
-              onClick={showNewAdminDlg}
-            >
-              + New Admin
-            </Button>
-          </div>
-          <div className="flex flex-col h-full">
-            <Styles className="h-full pt-8" style={{ height: '85%' }}>
+          <div className="flex flex-1 flex-col min-h-0">
+            <Styles className="h-full pt-8">
               <Table
-                className="admin-table h-full"
+                className="teams-table h-full"
                 {...register}
                 onLoadMore={fetchSubadmins}
                 hasMore={hasMore}
@@ -380,7 +382,7 @@ const AdminTeams = () => {
                     <p>Admin Action</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="lg:-mr-24 lg:pr-24">
+                <Table.Body className="lg:-mr-card lg:pr-card">
                   {data.map(admin => (
                     <Table.BodyRow key={`admin-team-${admin.id}`}>
                       <Table.BodyCell>

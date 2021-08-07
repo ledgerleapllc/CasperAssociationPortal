@@ -85,7 +85,8 @@ const ContentHome = () => {
   };
 
   useEffect(() => {
-    if (popupNotis?.length) {
+    const value = localStorage.getItem('SEEN_POPUP_NOTIFICATIONS');
+    if (popupNotis?.length && !value) {
       setCurrentNotifications(1);
     }
   }, [popupNotis]);

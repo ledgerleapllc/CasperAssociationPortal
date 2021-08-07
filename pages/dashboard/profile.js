@@ -15,7 +15,7 @@ import {
 import IconCamera from '../../public/images/ic_camera.svg';
 import { formatDate } from '../../shared/core/utils';
 import VerifiedIcon from '../../public/images/ic_check_mark.svg';
-import { logoutApp } from '../../shared/redux-saga/auth/actions';
+import { logoutApp, updateUser } from '../../shared/redux-saga/auth/actions';
 import useMetrics from '../../components/hooks/useMetrics';
 
 const StylesBasic = styled.div`
@@ -61,6 +61,7 @@ const UserProfile = () => {
   const [myInfo, setMyInfo] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const { metrics } = useMetrics();
+  const user = useSelector(state => state.authReducer.userInfo);
 
   useEffect(() => {
     dispatch(
@@ -87,6 +88,14 @@ const UserProfile = () => {
               ...myInfo,
               avatar_url: reader.result,
             });
+            dispatch(
+              updateUser({
+                fullInfo: {
+                  ...user.fullInfo,
+                  avatar_url: reader.result,
+                },
+              })
+            );
           };
           reader.readAsDataURL(file);
         },
@@ -99,12 +108,12 @@ const UserProfile = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-24 lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
-          <div className="card-header lg:mr-24 lg:h-70px">
+          <div className="card-header lg:mr-card lg:h-70px">
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
-                <h3 className="mr-24 text-gray text-xl font-medium">
+                <h3 className="mr-card text-gray text-xl font-medium">
                   <Link href="/dashboard/settings/">
                     <a>User Settings</a>
                   </Link>
@@ -142,7 +151,7 @@ const UserProfile = () => {
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pb-28 overflow-y-auto lg:h-100%-70px lg:pt-4 2xl:pt-8">
-            <div className="lg:pr-24">
+            <div className="lg:pr-card">
               <section className="basic-info">
                 <div className="flex">
                   <div className="upload-avatar-box mr-9">

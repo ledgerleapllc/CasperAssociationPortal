@@ -57,9 +57,9 @@ const ChatBox = ({ data, togglePinCallback }) => {
   };
 
   return (
-    <div className="py-2 ">
+    <div className="py-3">
       <div
-        className={`flex py-8 px-3 lg:py-8 flex-col lg:flex-row rounded-lg ${
+        className={`w-full flex flex-col lg:flex-row rounded-lg ${
           discuss?.is_new ? 'bg-primary-highlight' : ''
         }`}
         onClick={() => removeNew(discuss)}
@@ -81,10 +81,10 @@ const ChatBox = ({ data, togglePinCallback }) => {
             />
           </div>
         </div>
-        <div className="chat-content mt-5 lg:m-0">
+        <div className="flex-1 chat-content mt-5 lg:m-0">
           <div className="chat-content-body">
             <Link href={`/dashboard/discussion/${discuss?.id}`}>
-              <h2 className="cursor-pointer text-lg mb-2.5 line-clamp-2">
+              <h2 className="cursor-pointer text-base mb-2.5 font-medium line-clamp-2">
                 {discuss?.title}
               </h2>
             </Link>
@@ -93,20 +93,21 @@ const ChatBox = ({ data, togglePinCallback }) => {
               dangerouslySetInnerHTML={{ __html: discuss?.description }}
             />
           </div>
-          <div className="chat-content-footer flex text-sm flex-col lg:flex-row">
+          <div className="w-full chat-content-footer flex text-sm justify-between flex-col lg:flex-row">
             <p>
-              Posted by: <a className="text-primary">{discuss?.user?.email}</a>
+              <span className="text-gray pr-2">Posted by:</span>
+              <a className="text-primary font-medium">{discuss?.user?.email}</a>
             </p>
-            <ul className="ml-8 flex -ml-6 mt-5 lg:ml-0 lg:mt-0">
-              <li className="flex px-6 items-center">
+            <ul className="ml-8 flex gap-12 -ml-6 mt-5 lg:ml-0 lg:mt-0">
+              <li className="flex items-center">
                 <IconChatBox />
                 <span className="pl-2.5">{discuss?.comments || 0}</span>
               </li>
-              <li className="flex px-6 items-center">
+              <li className="flex items-center">
                 <IconEye />
                 <span className="pl-2.5">{discuss?.read || 0}</span>
               </li>
-              <li className="flex px-6 items-center">
+              <li className="flex items-center">
                 <IconLike />
                 <span className="pl-2.5">{discuss?.likes || 0}</span>
               </li>
@@ -122,9 +123,11 @@ const Styles = styled.div`
   .discussion-table {
     .col-1 {
       width: 0%;
+      display: none;
     }
     .col-2 {
       width: 100%;
+      padding-right: 0;
     }
 `;
 
@@ -161,7 +164,7 @@ const Tab1 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -209,7 +212,7 @@ const Tab2 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -275,7 +278,7 @@ const Tab3 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -327,9 +330,9 @@ const DashboardDiscusion = () => {
           removeNewFromList,
         }}
       >
-        <Card className="h-full lg:pl-24 lg:py-10 lg:shadow-2xl" noShadow>
+        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
           <div className="w-full h-full">
-            <div className="flex justify-end lg:mr-24">
+            <div className="flex justify-end lg:mr-card">
               <Link href="/dashboard/discussion/add">
                 <button
                   type="button"

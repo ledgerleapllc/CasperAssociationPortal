@@ -160,7 +160,7 @@ const AdminUserDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full py-14 pl-24">
+      <Card className="h-full py-5 pl-card">
         <div className="bg-transparent h-full">
           <div className="w-full">
             <div className="lg:h-70px flex flex-col justify-center">
@@ -172,10 +172,10 @@ const AdminUserDetail = () => {
                 User details are displayed below with admin functions for user
                 management.
               </p>
-              <div className="border-primary border-b-2 mr-24" />
+              <div className="border-primary border-b-2 mr-card" />
             </div>
           </div>
-          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll pr-24">
+          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll pr-card">
             <div className="flex flex-row py-7 border-b border-gray">
               <p className="text-lg font-medium">User Status:</p>
               <p className="text-lg font-medium pl-2">
@@ -253,7 +253,7 @@ const AdminUserDetail = () => {
             )}
             {/* Node Info */}
             <div className="flex flex-col py-7 border-b border-gray">
-              <p className="text-base font-medium pb-5">Node Info</p>
+              <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
                 <p className="pb-4 text-sm font-medium w-full">
                   {userDetail?.public_address_node}

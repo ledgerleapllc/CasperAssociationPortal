@@ -140,7 +140,7 @@ const Tab1 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell>
@@ -262,7 +262,7 @@ const Tab2 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
               <Table.BodyCell>
@@ -319,10 +319,10 @@ const tabsData = [
 
 const Ballots = () => (
   <LayoutDashboard>
-    <Card className="h-full lg:pl-24 lg:py-10 lg:shadow-2xl" noShadow>
+    <Card className="h-full lg:pl-card lg:py-10 lg:shadow-2xl" noShadow>
       <div className="w-full h-full">
-        <div className="flex justify-between lg:mr-24">
-          <h3 className="text-dark2 text-xl lg:pr-32 font-medium">Ballots</h3>
+        <div className="flex justify-between lg:mr-card">
+          <h3 className="text-xl lg:pr-32 font-medium">Ballots</h3>
           <Link href="/admin/ballots/add">
             <button
               type="button"
@@ -332,10 +332,7 @@ const Ballots = () => (
             </button>
           </Link>
         </div>
-        <Tab
-          className="w-full h-full pt-12 lg:pt-0 ballot-tabs"
-          data={tabsData}
-        />
+        <Tab className="w-full h-full pt-12 lg:pt-0" data={tabsData} />
       </div>
     </Card>
   </LayoutDashboard>

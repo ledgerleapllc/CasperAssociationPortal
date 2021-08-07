@@ -7,13 +7,13 @@ const DashboardMemberPerks = () => (
   <LayoutDashboard>
     <div className="bg-transparent h-full">
       <div className="h-3/5 w-full">
-        <div className="lg:mr-24 lg:h-70px flex flex-col justify-center">
+        <div className="lg:mr-card lg:h-70px flex flex-col justify-center">
           <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
             Member Perks
           </h3>
           <div className="border-primary border-b-2" />
         </div>
-        <div className="h-full lg:pr-24">
+        <div className="h-full lg:pr-card">
           <div className="flex pb-5 h-11/20">
             <div className="w-9/20 pr-2.5">
               <Card className="p-6 lg:shadow-2xl h-full" noShadow>
@@ -155,14 +155,14 @@ const DashboardMemberPerks = () => (
         </div>
       </div>
       <div className="flex flex-col h-2/5 w-full">
-        <div className="lg:mr-24 lg:h-40px flex flex-col justify-center">
+        <div className="lg:mr-card lg:h-40px flex flex-col justify-center">
           <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2">
             Member Perks
           </h3>
           <div className="border-primary border-b-2" />
         </div>
         <div className="lg:h-100%-40px">
-          <div className="lg:pr-24 flex h-full">
+          <div className="lg:pr-card flex h-full">
             <PerksPreview />
           </div>
         </div>
