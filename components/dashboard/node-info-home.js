@@ -7,7 +7,7 @@ const NodeInfoHome = () => {
 
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
-      <span className="text-2xl">Node Info</span>
+      <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Node Rank</span>

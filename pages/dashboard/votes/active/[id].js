@@ -60,7 +60,7 @@ const ActiveVoteDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 py-14">
+      <Card className="h-full px-card py-5">
         <div className="bg-transparent h-full">
           <div className="w-full">
             <BackButton href="/dashboard/votes" text="Back" force />

@@ -27,9 +27,6 @@ module.exports = {
       screens: {
         xl: '1281px',
       },
-      zIndex: {
-        '-1': '-1',
-      },
       colors: {
         dark1: '#313131',
         dark2: '#1D1D1D',
@@ -43,6 +40,8 @@ module.exports = {
       },
       margin: {
         '-29': '-7.25rem',
+        card: '2rem',
+        '-card': '-2rem',
       },
       fontSize: {
         '2.5xl': '1.7rem',
@@ -100,6 +99,7 @@ module.exports = {
       },
       padding: {
         '6.25': '1.5625rem',
+        card: '2rem',
       },
       zIndex: {
         '-1': '-1',

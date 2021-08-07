@@ -57,7 +57,7 @@ const OpenVotes = ({ toggleOpenVotes }) => {
 
   return (
     <div className="flex flex-col pl-8 py-7 h-full">
-      <p className="text-2.5xl text-black1">Open Votes</p>
+      <p className="text-lg font-medium">Open Votes</p>
       <div className="flex flex-col lg:pt-6 h-8.5/10">
         <Styles className="h-full w-full">
           <Table

@@ -6,7 +6,7 @@ import { IDverifications } from '../../../components/admin/intake/tables/id-veri
 
 const AdminIntake = () => (
   <LayoutDashboard>
-    <Card className="h-full px-24 py-7">
+    <Card className="h-full px-card py-7">
       <div className="bg-transparent h-1/2 xl:pb-2 2xl:pb-5">
         <div className="w-full h-70px">
           <div className="lg:h-70px flex flex-col justify-center">

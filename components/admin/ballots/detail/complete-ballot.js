@@ -23,7 +23,7 @@ const Styles = styled.div`
 
 const AdminCompleteBallot = ({ ballot }) => (
   <>
-    <div className="card-header lg:mr-24 lg:h-70px">
+    <div className="card-header lg:mr-card lg:h-70px">
       <BackButton href="/admin/ballots" text="Back" force />
       <div className="flex justify-between items-center mb-3.5">
         <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
@@ -43,7 +43,7 @@ const AdminCompleteBallot = ({ ballot }) => (
       <div className="border-primary border-b-2" />
     </div>
     <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-      <div className="lg:pr-24">
+      <div className="lg:pr-card">
         <Styles>
           <table className="complete-ballot-table border-0">
             <tr>

@@ -311,7 +311,7 @@ const Emailer = () => {
     <LayoutDashboard>
       <Card className="h-full py-7">
         <div className="bg-transparent h-full">
-          <div className="xl:pb-2 2xl:pb-5 px-24">
+          <div className="xl:pb-2 2xl:pb-5 px-card">
             <div className="w-full h-70px">
               <div className="lg:h-70px flex flex-col justify-center">
                 <BackButton href="/admin/settings" text="Back" force />
@@ -323,7 +323,7 @@ const Emailer = () => {
             </div>
           </div>
           <div
-            className="px-24"
+            className="px-card"
             style={{ height: 'calc(100% - 80px)', overflowY: 'auto' }}
           >
             <div>
@@ -343,7 +343,7 @@ const Emailer = () => {
                       <p>Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
-                  <Table.Body className="lg:-mr-24 lg:pr-24">
+                  <Table.Body className="lg:-mr-card lg:pr-card">
                     {data.map((row, ind) => (
                       <Table.BodyRow key={`b-${ind}`}>
                         <Table.BodyCell>

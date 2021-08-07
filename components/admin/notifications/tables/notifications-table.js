@@ -136,7 +136,7 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-24 lg:pr-24">
+        <Table.Body className="lg:-mr-card lg:pr-card">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>

@@ -574,9 +574,9 @@ const Settings = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full pl-24 py-7">
+      <Card className="h-full pl-card py-7">
         <div className="bg-transparent h-full">
-          <div className="w-full h-70px pr-24">
+          <div className="w-full h-70px pr-card">
             <div className="lg:h-70px flex flex-col justify-center">
               <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-6">
                 Admin settings

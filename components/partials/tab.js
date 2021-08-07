@@ -42,7 +42,7 @@ const Tab = ({ data, className, scrollable, lazy }) => {
                   currentTab === index
                     ? 'opacity-100 text-primary'
                     : 'opacity-40'
-                } tab-header text-dark2 text-2xl lg:pr-32`}
+                } tab-header text-lg font-medium lg:pr-14`}
                 key={`tab-header-${index}`}
               >
                 <Link href={`#${x.id}`}>
@@ -51,7 +51,7 @@ const Tab = ({ data, className, scrollable, lazy }) => {
               </li>
             ))}
           </ul>
-          <div className="border-primary border-b-2 lg:mr-24" />
+          <div className="border-primary border-b-2 lg:mr-card" />
           <div
             id="tab-contents"
             className={`${scrollable ? 'overflow-y-scroll' : ''}`}
@@ -61,14 +61,14 @@ const Tab = ({ data, className, scrollable, lazy }) => {
               data.map((x, index) => (
                 <div
                   key={`tab-content-${index}`}
-                  className="lg:pr-24 h-full"
+                  className="lg:pr-card h-full"
                   hidden={currentTab !== index}
                 >
                   {{ ...data[index].content() }}
                 </div>
               ))
             ) : (
-              <div className="lg:pr-24 h-full">
+              <div className="lg:pr-card h-full">
                 <TabView data={data} currentTab={currentTab} />
               </div>
             )}

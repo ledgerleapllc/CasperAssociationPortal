@@ -12,7 +12,7 @@ const AdminPerks = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-24 pt-1">
+      <Card className="h-full px-card py-5">
         <div className="bg-transparent h-3/5 2xl:pb-5">
           <div className="w-full h-70px">
             <div className="h-70px flex flex-col justify-center">
