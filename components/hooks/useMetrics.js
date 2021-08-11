@@ -4,6 +4,8 @@ import { getMyMetrics } from '../../shared/redux-saga/auth/actions';
 
 export default function useMetrics() {
   const metrics = useSelector(state => state.authReducer.metrics);
+  const metricConfig = useSelector(state => state.authReducer.metricConfig);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,5 +14,9 @@ export default function useMetrics() {
     }
   }, [metrics]);
 
-  return { metrics };
+  const refreshMetrics = () => {
+    dispatch(getMyMetrics());
+  };
+
+  return { metrics, refreshMetrics, metricConfig };
 }

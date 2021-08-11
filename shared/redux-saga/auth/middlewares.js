@@ -1,4 +1,4 @@
-import { put, takeLatest, all } from 'redux-saga/effects';
+import { put, takeLatest, all, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -249,16 +249,23 @@ export function* getMyMetrics() {
   try {
     const res = yield get(['users/metrics']);
     if (res.data?.monitoring_criteria) {
+      const key = {
+        uptime: 'uptime',
+        'block-height': 'block_height_average',
+        'update-responsiveness': 'update_responsiveness',
+      };
+
       res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
         (result, item) => {
           // eslint-disable-next-line no-param-reassign
-          result[item.type] = item;
+          result[key[item.type]] = item;
           return result;
         },
         {}
       );
     }
     const temp = {
+      ...res.data,
       uptime: res.data?.uptime || 0,
       block_height_average: res.data?.block_height_average || 0,
       peers: res.data?.peers || 0,
@@ -295,6 +302,29 @@ export function* getPopupNotifications() {
   }
 }
 
+export function* getNodesFromUser({ payload, resolve, reject }) {
+  try {
+    console.log(123123123);
+    const query = qs.stringify(payload);
+    const res = yield get([`users/list-node?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getUserDashboard({ resolve, reject }) {
+  try {
+    const res = yield get([`users/dashboard`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -313,4 +343,6 @@ export function* watchAuth() {
   yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
   yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
+  yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
+  yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
 }

@@ -3,7 +3,7 @@ import useMetrics from '../hooks/useMetrics';
 import { ProgressBar } from '../partials';
 
 const NodeInfoHome = () => {
-  const { metrics } = useMetrics();
+  const { metrics, metricConfig } = useMetrics();
 
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
@@ -35,7 +35,11 @@ const NodeInfoHome = () => {
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <p className="text-sm text-gray mb-2">{`Average: ${metrics?.uptime}%`}</p>
-        <ProgressBar percent={metrics?.uptime} />
+        <ProgressBar
+          value={metrics?.uptime}
+          total={metricConfig?.max?.uptime}
+          mask="x%"
+        />
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
@@ -46,11 +50,9 @@ const NodeInfoHome = () => {
           Current: {metrics?.block_height_average} block behind
         </p>
         <ProgressBar
-          counts={metrics?.block_height_average}
-          totalCounts={
-            metrics?.monitoring_criteria?.['block-height']?.warning_level || 0
-          }
-          type="split"
+          value={metrics?.block_height_average}
+          total={metricConfig?.max?.block_height_average}
+          mask="x/y"
         />
       </div>
       <div className="flex flex-col py-2">
@@ -62,11 +64,13 @@ const NodeInfoHome = () => {
           Average: {metrics?.update_responsiveness}+ days early
         </p>
         <ProgressBar
-          counts={metrics?.update_responsiveness}
-          totalCounts={5}
-          type="text"
-          startText="Needs Improvement"
-          endText="Great"
+          value={metrics?.update_responsiveness}
+          total={metricConfig?.max?.update_responsiveness}
+          mask=""
+          options={{
+            startText: 'Needs Improvement',
+            endText: 'Great',
+          }}
         />
       </div>
       <div className="flex flex-col pt-2 pb-9">
@@ -75,7 +79,11 @@ const NodeInfoHome = () => {
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <p className="text-sm text-gray mb-2">Average: {metrics?.peers}</p>
-        <ProgressBar counts={metrics?.peers} totalCounts={88} type="count" />
+        <ProgressBar
+          value={metrics?.peers}
+          total={metricConfig?.max?.peers}
+          mask="x/y"
+        />
       </div>
     </div>
   );

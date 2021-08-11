@@ -142,3 +142,16 @@ export const setNotifications = payload => ({
 export const clearNotifications = () => ({
   type: 'CLEAR_NOTIFICATIONS',
 });
+
+export const getNodesFromUser = (payload, resolve, reject) => ({
+  type: 'GET_NODES_FROM_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getUserDashboard = (resolve, reject) => ({
+  type: 'GET_USER_DASHBOARD',
+  resolve,
+  reject,
+});

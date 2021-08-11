@@ -405,3 +405,16 @@ export const getHighPriorityNotification = (resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getAdminDashboard = (resolve, reject) => ({
+  type: 'GET_ADMIN_DASHBOARD',
+  resolve,
+  reject,
+});
+
+export const getNodesFromAdmin = (payload, resolve, reject) => ({
+  type: 'GET_NODES_FROM_ADMIN',
+  payload,
+  resolve,
+  reject,
+});

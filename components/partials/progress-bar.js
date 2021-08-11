@@ -1,82 +1,122 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 
-const ProgressBar = props => {
-  const { counts, totalCounts, percent, type, startText, endText } = props;
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const progressTemp =
-      !!counts > 0 && !!totalCounts
-        ? Math.round((counts / totalCounts) * 100)
-        : 0;
-    setProgress(progressTemp);
-  }, [counts, totalCounts]);
-
-  useEffect(() => {
-    if (percent) {
-      setProgress(percent);
+const LineProgressBar = ({ text, progress, options }) => {
+  const progressbarTextPosition = () => {
+    if (progress >= 15 && progress <= 55) {
+      return {
+        left: `${progress / 2}%`,
+      };
     }
-  }, [percent]);
-
-  const generateProgressPercent = () => {
-    if (type === 'text') {
-      return <></>;
-    }
-
-    if (type === 'count' || type === 'split') {
-      return (
-        <>
-          {!!totalCounts && counts !== 0 && (
-            <p className="w-full text-center text-white">
-              {counts}/{totalCounts}
-            </p>
-          )}
-        </>
-      );
-    }
-
-    return (
-      <>
-        {!!progress && (
-          <p className="w-full text-center text-white">{progress}%</p>
-        )}
-      </>
-    );
+    return {
+      left: `50%`,
+    };
   };
 
   return (
     <>
-      <div className="w-full h-5 overflow-hidden h-4 mt-1 text-xs border border-gray1 flex rounded-lg bg-gray1">
+      <div className="progress-bar progress-bar-line relative w-full h-5 overflow-hidden h-4 mt-1 text-xs border border-gray1 flex rounded-lg bg-gray1">
         <div
-          className="w-0 transition-width duration-600 ease-in-out transhadow-none flex flex-col text-center whitespace-nowrap rounded-lg bg-primary"
+          className="w-0 transition-width duration-600 ease-in-out transhadow-none flex whitespace-nowrap rounded-lg bg-primary"
           style={{ width: `${progress}%` }}
+        />
+        <span
+          className="progress-label text-white absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          style={progressbarTextPosition()}
         >
-          {generateProgressPercent()}
-        </div>
-        <>
-          {!progress && type !== 'text' && (
-            <>
-              {type === 'split' ? (
-                <p className="w-full text-center text-white">
-                  {counts}/{totalCounts}
-                </p>
-              ) : (
-                <p className="w-full text-center text-white">0%</p>
-              )}
-            </>
-          )}
-        </>
+          {text}
+        </span>
       </div>
-      <>
-        {type === 'text' && (
-          <div className="w-full flex justify-between">
-            <span className="text-xs text-gray">{startText}</span>
-            <span className="text-xs text-gray">{endText}</span>
-          </div>
-        )}
-      </>
+      <div className="w-full flex justify-between">
+        <span className="text-xs text-gray">{options?.startText}</span>
+        <span className="text-xs text-gray">{options?.endText}</span>
+      </div>
     </>
   );
+};
+
+const CircleProgressBar = ({ text, progress, options }) => {
+  console.log();
+  return (
+    <div className="progress-bar progress-bar-circle h-0 aspect-w-1 aspect-h-1 relative w-full inline-flex items-center justify-center overflow-hidden rounded-full">
+      <div className="">
+        <svg width="100%" height="100%">
+          <circle
+            className="progress-tracker shadow-light"
+            strokeWidth="3"
+            stroke="currentColor"
+            fill="transparent"
+            r="40%"
+            cx="50%"
+            cy="50%"
+          />
+          <circle
+            className="progress-tracking"
+            strokeWidth="6"
+            strokeDasharray={40 * 2 * Math.PI}
+            strokeDashoffset={
+              40 * 2 * Math.PI - (progress / 100) * 40 * 2 * Math.PI
+            }
+            stroke="currentColor"
+            style={{ transform: 'rotate(-90deg)', transformOrigin: 'center' }}
+            fill="transparent"
+            r="40%"
+            cx="50%"
+            cy="50%"
+          />
+        </svg>
+        <div className="absolute top-1/2 left-1/2 transform -translate-y-2/4 -translate-x-2/4 h-4/5 w-4/5 shadow-normal rounded-full" />
+        <span className="progress-label font-thin absolute text-3xl top-1/2 left-1/2 transform -translate-y-2/4 -translate-x-2/4">
+          {text}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+/*
+  Progress shape:
+  - Line (have types):
+    - percent
+    - split
+    - text
+  - Circle:
+    - percent
+    - split
+*/
+const ProgressBar = props => {
+  const { shape = 'line', value, mask = '', total } = props;
+
+  const [progress, setProgress] = useState(0);
+
+  const renderText = () => mask.replace('x', value).replace('y', total);
+
+  useEffect(() => {
+    let progressTemp;
+    if (!total) {
+      progressTemp = value;
+    } else {
+      progressTemp =
+        value > 0 && !!total ? Math.round((value / total) * 100) : 0;
+    }
+    setProgress(progressTemp);
+  }, [value]);
+
+  if (shape === 'line') {
+    return (
+      <>
+        <LineProgressBar progress={progress} text={renderText()} {...props} />
+      </>
+    );
+  }
+  if (shape === 'circle') {
+    return (
+      <>
+        <CircleProgressBar progress={progress} text={renderText()} {...props} />
+      </>
+    );
+  }
+  return <></>;
 };
 
 export default ProgressBar;

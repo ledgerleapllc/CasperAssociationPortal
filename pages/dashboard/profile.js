@@ -60,7 +60,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const [myInfo, setMyInfo] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const { metrics } = useMetrics();
+  const { metrics, metricConfig } = useMetrics();
   const user = useSelector(state => state.authReducer.userInfo);
 
   useEffect(() => {
@@ -321,7 +321,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.uptime}%`}</p>
-                    <ProgressBar percent={metrics?.uptime} />
+                    <ProgressBar mask="x%" value={metrics?.uptime} />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
                     <div className="flex flex-row">
@@ -336,9 +336,9 @@ const UserProfile = () => {
                       Current: {metrics?.block_height_average} block behind
                     </p>
                     <ProgressBar
-                      counts={metrics?.block_height_average}
-                      totalCounts={505}
-                      type="count"
+                      value={metrics?.block_height_average}
+                      total={metricConfig?.max?.block_height_average}
+                      mask="x/y"
                     />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -354,11 +354,13 @@ const UserProfile = () => {
                       Average: {metrics?.update_responsiveness}+ days early
                     </p>
                     <ProgressBar
-                      counts={metrics?.update_responsiveness}
-                      totalCounts={5}
-                      type="text"
-                      startText="Needs Improvement"
-                      endText="Great"
+                      value={metrics?.update_responsiveness}
+                      total={metricConfig?.max?.update_responsiveness}
+                      mask=""
+                      options={{
+                        startText: 'Needs Improvement',
+                        endText: 'Great',
+                      }}
                     />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -374,9 +376,9 @@ const UserProfile = () => {
                       Average: {metrics?.peers}
                     </p>
                     <ProgressBar
-                      counts={metrics?.peers}
-                      totalCounts={88}
-                      type="count"
+                      value={metrics?.peers}
+                      total={metricConfig?.max?.peers}
+                      mask="x/y"
                     />
                   </div>
                 </div>

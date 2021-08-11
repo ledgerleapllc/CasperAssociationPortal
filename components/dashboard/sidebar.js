@@ -5,17 +5,34 @@ import HomeIcon from '../../public/images/ic_home.svg';
 import InfoIcon from '../../public/images/ic_infor.svg';
 import ChatIcon from '../../public/images/ic_material_chat.svg';
 import VoteIcon from '../../public/images/ic_awesome_vote.svg';
-import UserIcon from '../../public/images/ic_feather_user_plus.svg';
-import SettingIcon from '../../public/images/ic_feather_settings.svg';
+import UserIcon from '../../public/images/ic_users.svg';
+import AddUserIcon from '../../public/images/ic_feather_user_plus.svg';
+import PlusIcon from '../../public/images/ic_plus.svg';
+import SettingIcon from '../../public/images/ic_settings.svg';
+import IntakeIcon from '../../public/images/ic_intake.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
+import ListIcon from '../../public/images/ic_list.svg';
+
 import { ActiveLink } from '../partials';
 
-const mainNavs = [
+const mainUserNavs = [
   {
     key: 'dashboard',
     icon: HomeIcon,
     label: 'dashboard',
     path: '/dashboard',
+  },
+  {
+    key: 'verification',
+    icon: VerificationIcon,
+    label: 'get verified',
+    path: '/dashboard/verification',
+  },
+  {
+    key: 'membership',
+    icon: UserIcon,
+    label: 'membership',
+    path: '/dashboard/membership',
   },
   {
     key: 'info',
@@ -36,66 +53,75 @@ const mainNavs = [
     path: '/dashboard/votes',
   },
   {
-    key: 'user',
-    icon: UserIcon,
+    key: 'perks',
+    icon: PlusIcon,
     label: 'perks',
     path: '/dashboard/perks',
   },
+];
+
+const mainAdminNavs = [
   {
-    key: 'verification',
-    icon: VerificationIcon,
-    label: 'get verified',
-    path: '/dashboard/verification',
+    key: 'dashboard',
+    icon: HomeIcon,
+    label: 'dashboard',
+    path: '/admin/dashboard',
   },
   {
-    key: 'setting',
-    icon: SettingIcon,
-    label: 'settings',
-    path: '/dashboard/settings',
+    key: 'info',
+    icon: InfoIcon,
+    label: 'nodes',
+    path: '/dashboard/nodes',
+  },
+  {
+    key: 'chat',
+    icon: ChatIcon,
+    label: 'discussions',
+    path: '/dashboard/discussion',
+  },
+  {
+    key: 'vote',
+    icon: VoteIcon,
+    label: 'votes',
+    path: '/dashboard/votes',
   },
 ];
 
 const adminNavs = [
   {
-    key: 'admin',
-    icon: HomeIcon,
-    label: 'Admin',
-    path: '/admin/dashboard',
-  },
-  {
     key: 'intake',
-    icon: InfoIcon,
+    icon: IntakeIcon,
     label: 'Intake',
     path: '/admin/intake',
   },
   {
     key: 'users',
-    icon: ChatIcon,
+    icon: UserIcon,
     label: 'users',
     path: '/admin/users',
   },
   {
     key: 'ballots',
-    icon: VoteIcon,
+    icon: ListIcon,
     label: 'ballots',
     path: '/admin/ballots',
   },
   {
     key: 'perks',
-    icon: UserIcon,
+    icon: PlusIcon,
     label: 'perks',
     path: '/admin/perks',
   },
   {
     key: 'teams',
-    icon: VerificationIcon,
+    icon: AddUserIcon,
     label: 'teams',
     path: '/admin/teams',
   },
   {
     key: 'setting',
     icon: SettingIcon,
-    label: 'settings',
+    label: 'global settings',
     path: '/admin/settings',
   },
 ];
@@ -103,27 +129,21 @@ const adminNavs = [
 const Sidebar = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [navs, setNavs] = useState([]);
   const [isApprovedProfile, setIsApprovedProfile] = useState(false);
 
   useEffect(() => {
-    setIsAdmin(['admin', 'sub-admin'].includes(userInfo?.role));
+    const checkAdmin = ['admin', 'sub-admin'].includes(userInfo?.role);
+    setIsAdmin(checkAdmin);
+    setNavs(checkAdmin ? mainAdminNavs : mainUserNavs);
     setIsApprovedProfile(userInfo?.profile?.status === 'approved');
   }, [userInfo]);
 
-  const buildUrl = nav => {
-    if (isAdmin && nav.key === 'dashboard') {
-      return '/admin/dashboard';
-    }
-    if (isAdmin && nav.key === 'setting') {
-      return '/admin/settings';
-    }
-    return nav.path;
-  };
   return (
     <sidebar className="hidden lg:flex flex-col p-6.25 pr-3 z-10 block h-full w-200px bg-white shadow-light">
       <CasperLogoDark />
       <ul className="mt-14 flex flex-col">
-        {mainNavs.map((nav, index) => (
+        {navs.map((nav, index) => (
           <>
             {(isAdmin || isApprovedProfile) && nav.key === 'verification' ? (
               <></>
@@ -131,7 +151,7 @@ const Sidebar = () => {
               <li className="mb-6" key={index}>
                 <ActiveLink
                   activeClassName="text-primary active-link"
-                  href={`${buildUrl(nav)}`}
+                  href={nav.path}
                 >
                   <a className="relative flex text-base">
                     <div
@@ -154,7 +174,7 @@ const Sidebar = () => {
             <li className="mb-6" key={index}>
               <ActiveLink
                 activeClassName="text-primary active-link"
-                href={`${buildUrl(nav)}`}
+                href={nav.path}
               >
                 <a className="relative flex text-base">
                   <div
