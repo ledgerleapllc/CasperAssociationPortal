@@ -97,9 +97,7 @@ const ContentAdminHome = () => {
           </Card>
           <Card
             className={`${
-              showOpenVotes
-                ? 'flex-grow w-full lg:w-1/3 h-full'
-                : 'w-0 h-0 opacity-0'
+              showOpenVotes ? 'flex-grow w-full lg:w-1/3 h-full' : 'hidden'
             }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
