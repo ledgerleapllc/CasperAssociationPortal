@@ -64,8 +64,9 @@ const CompleteVoteDetail = () => {
                       </button>
                     </div>
                     <ProgressBar
-                      counts={data.vote?.for_value}
-                      totalCounts={data.vote?.result_count}
+                      value={data.vote?.for_value}
+                      total={data.vote?.result_count}
+                      mask="x%"
                     />
                   </div>
                   <div>
@@ -85,8 +86,9 @@ const CompleteVoteDetail = () => {
                       </button>
                     </div>
                     <ProgressBar
-                      counts={data.vote?.against_value}
-                      totalCounts={data.vote?.result_count}
+                      value={data.vote?.against_value}
+                      total={data.vote?.result_count}
+                      mask="x%"
                     />
                   </div>
                 </div>

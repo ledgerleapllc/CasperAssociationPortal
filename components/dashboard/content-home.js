@@ -15,6 +15,7 @@ import {
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import useNotifications from '../hooks/useNotifications';
+import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -24,9 +25,18 @@ const ContentHome = () => {
   const [bannerAlerts, setBannerAlerts] = useState();
   const [currentNotification, setCurrentNotifications] = useState(null);
   const { bannerNotis, popupNotis } = useNotifications();
+  const [stats, setStats] = useState();
 
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
+
+  useEffect(() => {
+    dispatch(
+      getUserDashboard(res => {
+        setStats(res);
+      })
+    );
+  }, []);
 
   useEffect(() => {
     if (alerts) {
@@ -181,9 +191,12 @@ const ContentHome = () => {
         <div className="w-2/4 flex-grow lg:w-1/5 h-full">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
-              <span className="text-lg font-medium text-black1">Pinned</span>
-              <span className="text-base text-black1 font-thin">
-                {userInfo.pinned}
+              <span className="text-lg font-medium text-black1">
+                Pinned {(isAlertLoading || !!alerts.length) && <br />}{' '}
+                Discussions
+              </span>
+              <span className="text-4xl text-black1 font-thin">
+                {stats?.totalPinDiscusstion}
               </span>
             </div>
           </Card>
@@ -191,9 +204,11 @@ const ContentHome = () => {
         <div className="w-2/4 flex-grow lg:w-1/5 h-full">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
-              <span className="text-lg font-medium text-black1">New</span>
-              <span className="text-base text-black1 font-thin">
-                {userInfo.new_threads}
+              <span className="text-lg font-medium text-black1">
+                New {(isAlertLoading || !!alerts.length) && <br />} Discussions
+              </span>
+              <span className="text-4xl text-black1 font-thin">
+                {stats?.totalNewDiscusstion}
               </span>
             </div>
           </Card>

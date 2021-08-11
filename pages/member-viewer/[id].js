@@ -11,6 +11,7 @@ import AppFooter from '../../components/layouts/app-footer';
 import { formatDate } from '../../shared/core/utils';
 import { AppContext } from '../_app';
 import { getPublicMemberDetail } from '../../shared/redux-saga/member-viewer/actions';
+import useMetrics from '../../components/hooks/useMetrics';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -55,6 +56,7 @@ const MembersViewerDetail = () => {
   const { id } = router.query;
   const dispatch = useDispatch();
   const [memberInfo, setMemberInfo] = useState(null);
+  const { metrics, metricConfig } = useMetrics();
 
   useEffect(() => {
     if (id) {
@@ -238,7 +240,7 @@ const MembersViewerDetail = () => {
                         />
                       </div>
                       <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: {X}%`}</p>
-                      <ProgressBar percent={75} />
+                      <ProgressBar value={metrics.uptime} mask="x%" />
                     </div>
                     <div className="flex flex-col lg:py-1 2xl:py-2">
                       <div className="flex flex-row">
@@ -253,9 +255,9 @@ const MembersViewerDetail = () => {
                         Current: 1 block behind
                       </p>
                       <ProgressBar
-                        counts={504}
-                        totalCounts={505}
-                        type="count"
+                        value={metrics?.block_height_average}
+                        total={metricConfig?.max?.block_height_average}
+                        mask="x/y"
                       />
                     </div>
                     <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -271,10 +273,13 @@ const MembersViewerDetail = () => {
                         Average: 2+ days early
                       </p>
                       <ProgressBar
-                        percent={100}
-                        type="text"
-                        startText="Needs Improvement"
-                        endText="Great"
+                        value={metrics?.update_responsiveness}
+                        total={metricConfig?.max?.update_responsiveness}
+                        mask=""
+                        options={{
+                          startText: 'Needs Improvement',
+                          endText: 'Great',
+                        }}
                       />
                     </div>
                     <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -289,7 +294,11 @@ const MembersViewerDetail = () => {
                       <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
                         Average: 63
                       </p>
-                      <ProgressBar counts={62} totalCounts={88} type="count" />
+                      <ProgressBar
+                        value={metrics?.peers}
+                        total={metricConfig?.max?.peers}
+                        mask="x/y"
+                      />
                     </div>
                   </div>
                 </section>

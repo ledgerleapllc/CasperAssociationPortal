@@ -176,10 +176,16 @@ const AdminUserDetail = () => {
             </div>
           </div>
           <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll pr-card">
-            <div className="flex flex-row py-7 border-b border-gray">
-              <p className="text-lg font-medium">User Status:</p>
+            <div className="flex flex-row pt-7">
+              <p className="text-lg font-medium">Membership Status:</p>
               <p className="text-lg font-medium pl-2">
-                {userDetail?.member_status?.toUpperCase()}
+                {userDetail?.membership_status}
+              </p>
+            </div>
+            <div className="flex flex-row pb-7 border-b border-gray">
+              <p className="text-lg font-medium">Node Status:</p>
+              <p className="text-lg font-medium pl-2">
+                {userDetail?.node_status}
               </p>
             </div>
             {/* User Info */}

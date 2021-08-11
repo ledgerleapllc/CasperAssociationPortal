@@ -225,7 +225,7 @@ const SettingForm = ({ metrics, title, type, doReloadData }) => {
                       pattern: {
                         message: 'Probation start is invalid',
                         value:
-                          type === 'block-height'
+                          type === 'block_height_average'
                             ? NEGATIVE_NUMBER_PATTERN
                             : NUMBER_PATTERN,
                       },
@@ -562,6 +562,7 @@ const Settings = () => {
             result[item.type] = item;
             return result;
           }, {});
+          console.log(obj);
           setLoading(false);
           setMetrics(obj);
         },

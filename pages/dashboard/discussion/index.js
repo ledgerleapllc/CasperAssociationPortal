@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Tab, Card, Table } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
-import IconEye from '../../../public/images/ic_eye.svg';
+import IconPin from '../../../public/images/ic_pin.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
@@ -57,11 +57,13 @@ const ChatBox = ({ data, togglePinCallback }) => {
   };
 
   return (
-    <div className="py-3">
+    <div
+      className={`py-3 ${
+        discuss?.is_new ? 'bg-primary-highlight rounded-lg' : ''
+      }`}
+    >
       <div
-        className={`w-full flex flex-col lg:flex-row rounded-lg ${
-          discuss?.is_new ? 'bg-primary-highlight' : ''
-        }`}
+        className="w-full flex flex-col lg:flex-row pr-4"
         onClick={() => removeNew(discuss)}
       >
         <div className="flex-none flex">
@@ -72,11 +74,11 @@ const ChatBox = ({ data, togglePinCallback }) => {
               alt="avatar"
             />
           </div>
-          <div className="px-6 pt-2 mt-auto lg:mt-0">
-            <IconEye
+          <div className="px-3 pt-2 mt-auto lg:mt-0">
+            <IconPin
               className={`cursor-pointer ${
                 discuss?.is_pin ? 'text-primary' : ''
-              }`}
+              } text-5xl`}
               onClick={() => pin(discuss)}
             />
           </div>
@@ -104,7 +106,7 @@ const ChatBox = ({ data, togglePinCallback }) => {
                 <span className="pl-2.5">{discuss?.comments || 0}</span>
               </li>
               <li className="flex items-center">
-                <IconEye />
+                <IconPin />
                 <span className="pl-2.5">{discuss?.read || 0}</span>
               </li>
               <li className="flex items-center">

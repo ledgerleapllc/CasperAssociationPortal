@@ -12,6 +12,7 @@ module.exports = {
     require('precss'),
     require('autoprefixer'),
     require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/aspect-ratio'),
   ],
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
@@ -23,6 +24,7 @@ module.exports = {
         activeLink: '0 2px 5px rgba(0, 0, 0, 0.3)',
         card: '0px 5px 30px -5px rgb(0, 0, 0, 0.2)',
         light: '3px 0px 6px #00000026',
+        normal: '3px 0px 10px #00000026',
       },
       screens: {
         xl: '1281px',
@@ -33,15 +35,19 @@ module.exports = {
         dark3: '#323339',
         gray: '#9A9A9A',
         gray1: '#D3D3D3',
+        gray2: '#EEEEF0',
         pink: '#FFA5A0',
         primary: '#FF473E',
         success: '#211BAA',
         green: '#2DDB33',
+        white1: '#FCFCFC',
+        red: '#C63831',
       },
       margin: {
         '-29': '-7.25rem',
         card: '2rem',
         '-card': '-2rem',
+        '-6.25': '-1.5625rem',
       },
       fontSize: {
         '2.5xl': '1.7rem',
@@ -92,6 +98,7 @@ module.exports = {
       width: {
         '9/20': '45%',
         120: '30rem',
+        328: '82rem',
         92: '23rem',
         '8.85/10': '88.5%',
         '90px': '90px',

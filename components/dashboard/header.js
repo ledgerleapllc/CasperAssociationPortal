@@ -25,11 +25,18 @@ const Header = () => {
       >
         <ul>
           {!['admin', 'sub-admin'].includes(userInfo?.role) && (
-            <li className="py-2 hover:text-primary cursor-pointer">
-              <Link href="/dashboard/profile">
-                <a>My Profile</a>
-              </Link>
-            </li>
+            <>
+              <li className="py-2 hover:text-primary cursor-pointer">
+                <Link href="/dashboard/profile">
+                  <a>My Profile</a>
+                </Link>
+              </li>
+              <li className="py-2 hover:text-primary cursor-pointer">
+                <Link href="/dashboard/settings">
+                  <a>Settings</a>
+                </Link>
+              </li>
+            </>
           )}
           <li
             className="py-2 hover:text-primary cursor-pointer"

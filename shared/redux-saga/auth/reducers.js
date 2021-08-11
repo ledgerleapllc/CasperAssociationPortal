@@ -107,9 +107,22 @@ const notifications = createReducer(notificationsStrategies, {
   popup: null,
 });
 
+const metricConfigStrategies = {
+  __default__: state => state,
+};
+
+const metricConfig = createReducer(metricConfigStrategies, {
+  max: {
+    block_height_average: 505,
+    peers: 88,
+    update_responsiveness: 5,
+  },
+});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
   metrics,
   notifications,
+  metricConfig,
 });

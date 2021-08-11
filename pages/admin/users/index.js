@@ -11,30 +11,33 @@ import { useTable } from '../../../components/partials/table';
 const Styles = styled.div`
   .members-table {
     .col-1 {
-      width: 8%;
+      width: 5%;
     }
     .col-2 {
       width: 9%;
     }
     .col-3 {
-      width: 20%;
+      width: 7%;
     }
     .col-4 {
-      width: 10%;
+      width: 16%;
     }
     .col-5 {
       width: 10%;
     }
     .col-6 {
-      width: 13%;
-    }
-    .col-7 {
-      width: 8%;
-    }
-    .col-8 {
       width: 10%;
     }
+    .col-7 {
+      width: 13%;
+    }
+    .col-8 {
+      width: 8%;
+    }
     .col-9 {
+      width: 10%;
+    }
+    .col-10 {
       width: 12%;
     }
   }
@@ -118,6 +121,11 @@ const AdminUserList = () => {
                     </p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
+                    <p>
+                      Node <br /> Status
+                    </p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
                     <p>User Email</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
@@ -152,7 +160,10 @@ const AdminUserList = () => {
                         <p>{row?.id}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
-                        <p>{row?.member_status}</p>
+                        <p>{row?.membership_status}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{row?.node_status}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
                         <p className="truncate">{row?.email}</p>

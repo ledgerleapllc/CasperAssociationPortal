@@ -6,3 +6,48 @@
     display: block;
   }
 }
+
+.membership {
+  .metrics-card {
+    .desc {
+      @apply text-gray;
+    }
+    &-warning {
+      @apply bg-primary text-white;
+      .desc {
+        @apply text-white;
+      }
+      .progress-bar-circle {
+        .progress-tracker {
+          @apply text-white;
+        }
+        .progress-tracking {
+          @apply text-red;
+        }
+      }
+    }
+  }
+}
+.progress-bar {
+  &-circle {
+    .progress-tracker {
+      @apply text-gray1;
+    }
+    .progress-tracking {
+      @apply text-primary;
+    }
+  }
+}
+.nodes-table {
+  .highlight {
+    @apply lg:rounded-2xl lg:bg-primary text-white;
+  }
+  .fail-node {
+    @apply text-primary font-normal;
+  }
+}
+.table-body {
+  .infinite-scroll-component__outerdiv {
+    margin-right: -7px;
+  }
+}

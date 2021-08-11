@@ -138,6 +138,7 @@ Table.Body = props => {
     >
       <InfiniteScroll
         className="flex flex-col w-full"
+        style={{ marginRight: '-7px' }}
         dataLength={props.dataLength || 0}
         next={props.onLoadMore}
         hasMore={props.hasMore}
@@ -224,14 +225,16 @@ export const useTable = () => {
 
   const resetData = () => {
     const $table = document.getElementById(tableId);
-    $table.classList.add('opacity-0');
-    $table.scrollTop = 0;
-    setTimeout(() => {
-      setData([]);
-      setPage(1);
-      setHasMore(true);
-      $table.classList.remove('opacity-0');
-    }, 50);
+    if ($table) {
+      $table.classList.add('opacity-0');
+      $table.scrollTop = 0;
+      setTimeout(() => {
+        setData([]);
+        setPage(1);
+        setHasMore(true);
+        $table.classList.remove('opacity-0');
+      }, 50);
+    }
   };
 
   return {

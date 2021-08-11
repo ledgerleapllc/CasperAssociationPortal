@@ -748,6 +748,28 @@ export function* getHighPriorityNotification({ resolve, reject }) {
   }
 }
 
+export function* getAdminDashboard({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/dashboard`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getNodesFromAdmin({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/list-node?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* registerSubAdmin({ payload, resolve, reject }) {
   try {
     const res = yield post([`auth/register-sub-admin`], payload);
@@ -817,6 +839,8 @@ export function* watchAdmin() {
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
   yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);
   yield all([takeLatest('GET_LIST_NOTIFICATIONS', getListNotifications)]);
+  yield all([takeLatest('GET_ADMIN_DASHBOARD', getAdminDashboard)]);
+  yield all([takeEvery('GET_NODES_FROM_ADMIN', getNodesFromAdmin)]);
   yield all([
     takeLatest('GET_NOTIFICATION_VIEW_LOGS', getNotificationViewLogs),
   ]);

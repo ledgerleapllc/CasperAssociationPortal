@@ -10,6 +10,9 @@ import { useTable } from '../partials/table';
 
 const Styles = styled.div`
   .active-vote-table {
+    .infinite-scroll-component__outerdiv {
+      margin-right: 0;
+    }
     .col-1 {
       width: 55%;
     }

@@ -1,10 +1,16 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Line } from 'react-chartjs-2';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
-import { Card } from '../partials';
+import { Card, Dropdown, ProgressBar } from '../partials';
 import InfoRightNode from './info-right-node';
+import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
 
 const ContentNode = () => {
-  const { metrics } = useMetrics();
+  const { metrics, metricConfig } = useMetrics();
   const lineData = {
     datasets: [
       {
@@ -97,6 +103,31 @@ const ContentNode = () => {
     },
   };
 
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [nodesList, setNodesList] = useState([]);
+  const [currentNode, setCurrentNode] = useState();
+  const dispatch = useDispatch();
+
+  const fetchNodes = () => {
+    dispatch(
+      getNodesFromAdmin({ page: 1, limit: 9999 }, result => {
+        setNodesList(result);
+        setCurrentNode(result[0]);
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
+      setIsAdmin(isAdminTemp);
+      if (isAdminTemp) {
+        fetchNodes();
+      }
+    }
+  }, [userInfo]);
+
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
@@ -111,11 +142,44 @@ const ContentNode = () => {
                   alt="Info"
                 />
               </div>
-              <div className="flex">
-                <span className="text-base font-thin">
-                  0x961d61792ca1c5e08a3cec4261e08ef4eaea5b5d
-                </span>
-                <img className="pl-3" src="/images/ic_down.svg" alt="Info" />
+              <div className="flex w-full">
+                {isAdmin && (
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <span className="text-base font-thin truncate absolute inset-0">
+                            {currentNode?.public_address_node}
+                          </span>
+                        </p>
+                        <ArrowIcon />
+                      </div>
+                    }
+                  >
+                    <ul>
+                      {nodesList.map(node => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() => setCurrentNode(node)}
+                        >
+                          <p className="w-full relative h-6">
+                            <span className="text-base font-thin truncate absolute inset-0">
+                              {node.public_address_node}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
+                )}
+                {!isAdmin && (
+                  <>
+                    <span className="text-base font-thin">
+                      {userInfo.public_address_node}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </Card>
@@ -221,14 +285,11 @@ const ContentNode = () => {
                     alt="Info"
                   />
                 </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div
-                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary"
-                    style={{ width: `${metrics?.uptime}%` }}
-                  >
-                    {metrics?.uptime}%
-                  </div>
-                </div>
+                <ProgressBar
+                  value={metrics?.uptime}
+                  total={metricConfig?.max?.uptime}
+                  mask="x%"
+                />
               </div>
               <div className="flex flex-col">
                 <div className="flex flex-row py-1">
@@ -239,13 +300,11 @@ const ContentNode = () => {
                     alt="Info"
                   />
                 </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div
-                    style={{ width: `calc(${metrics?.peers} / 88 * 100%)` }}
-                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    {Math.round((metrics?.peers / 88) * 100)} %
-                  </div>
-                </div>
+                <ProgressBar
+                  value={metrics?.peers}
+                  total={metricConfig?.max?.peers}
+                  mask="x/y"
+                />
               </div>
               <div className="flex flex-col">
                 <div className="flex flex-row py-1">
@@ -256,15 +315,15 @@ const ContentNode = () => {
                     alt="Info"
                   />
                 </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div
-                    style={{
-                      width: `calc(${metrics?.update_responsiveness} / 5 * 100%)`,
-                    }}
-                    className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    {Math.round((metrics?.update_responsiveness / 5) * 100)} %
-                  </div>
-                </div>
+                <ProgressBar
+                  value={metrics?.update_responsiveness}
+                  total={metricConfig?.max?.update_responsiveness}
+                  mask=""
+                  options={{
+                    startText: 'Needs Improvement',
+                    endText: 'Great',
+                  }}
+                />
               </div>
             </Card>
             <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5 z-20">

@@ -11,6 +11,9 @@ import { Table } from '../partials';
 
 const Styles = styled.div`
   .trending-table {
+    .infinite-scroll-component__outerdiv {
+      margin-right: 0;
+    }
     .col-1 {
       width: 60%;
     }
