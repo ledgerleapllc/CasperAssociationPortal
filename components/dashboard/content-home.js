@@ -258,7 +258,7 @@ const ContentHome = () => {
             className={`${
               showOpenVotes
                 ? 'z-30 flex-grow w-full lg:w-1/3 lg:mt-0 lg:ml-3 h-full'
-                : 'w-0 h-0 opacity-0'
+                : 'hidden'
             }`}
           >
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
