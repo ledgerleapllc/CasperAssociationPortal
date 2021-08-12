@@ -192,3 +192,9 @@ export const updateClickCTANotification = (payload, resolve) => ({
   payload,
   resolve,
 });
+
+export const getLockPageConditions = (resolve, reject) => ({
+  type: 'GET_LOCK_PAGE_CONDITIONS',
+  resolve,
+  reject,
+});

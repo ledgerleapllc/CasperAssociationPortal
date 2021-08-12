@@ -32,6 +32,7 @@ import {
   getDiscussionComments,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../_app';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const Styles = styled.div`
   .discussion-table {
@@ -318,4 +319,7 @@ const DashboardDiscusionDetail = () => {
   );
 };
 
-export default LoadingScreen(DashboardDiscusionDetail, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardDiscusionDetail, 'discussions'),
+  'final-all'
+);

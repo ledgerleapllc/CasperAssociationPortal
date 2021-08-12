@@ -303,7 +303,6 @@ export function* resendInviteLink({ id, resolve, reject }) {
   }
 }
 
-
 export function* changeSubadminPermissions({ id, payload, callback }) {
   try {
     yield _put([`admin/teams/${id}/change-permissions`], payload);
@@ -780,6 +779,26 @@ export function* registerSubAdmin({ payload, resolve, reject }) {
   }
 }
 
+export function* getLockPageRules({ resolve, reject }) {
+  try {
+    const res = yield get(['admin/lock-rules']);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateLockPageRule({ payload, resolve, reject }) {
+  try {
+    const res = yield _put([`admin/lock-rules/${payload.id}`], payload.data);
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -806,7 +825,9 @@ export function* watchAdmin() {
   yield all([takeLatest('UNDO_REVOKE_SUBADMIN', undoRevokeSubadmin)]);
   yield all([takeLatest('RESET_SUBADMIN_PASSWORD', resetSubadminPassword)]);
   yield all([takeLatest('RESEND_INVITE_SUBADMIN', resendInviteLink)]);
-  yield all([takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions)]);
+  yield all([
+    takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions),
+  ]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
   yield all([takeLatest('BAN_USER', banUser)]);
   yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
@@ -847,4 +868,6 @@ export function* watchAdmin() {
   yield all([
     takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
   ]);
+  yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
+  yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
 }

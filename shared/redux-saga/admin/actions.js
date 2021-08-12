@@ -418,3 +418,16 @@ export const getNodesFromAdmin = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getLockPageRules = (resolve, reject) => ({
+  type: 'GET_LOCK_PAGE_RULES',
+  resolve,
+  reject,
+});
+
+export const updateLockPageRules = (payload, resolve, reject) => ({
+  type: 'UPDATE_LOCK_PAGE_RULES',
+  payload,
+  resolve,
+  reject,
+});

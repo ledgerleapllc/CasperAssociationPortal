@@ -46,7 +46,11 @@ const Dialog = ({ dialog, onClosed }) => {
       }`}
     >
       <div
-        onClick={() => onCloseDialog(false)}
+        onClick={() => {
+          if (!settings.noClose) {
+            onCloseDialog(false);
+          }
+        }}
         className="backdrop-filter backdrop-blur-sm fixed inset-0 z-40"
       />
       <div
@@ -56,17 +60,19 @@ const Dialog = ({ dialog, onClosed }) => {
         style={settings.style}
       >
         {dialog.type === 'Dialog' && (
-          <div>
+          <div className="p-16">
             <div>
-              <p className="text-4xl text-center pt-4">{dialog.data.title}</p>
-              <a onClick={() => onCloseDialog(false)}>
-                <img
-                  src="/images/ic_decline.svg"
-                  className="absolute right-4 top-4"
-                  alt="Cancel"
-                />
-              </a>
-              <div className="h-full w-full pt-16 pb-36 flex flex-col items-center justify-between border-gray">
+              <p className={`text-2xl text-center pt-4 ${settings.titleClass}`}>{dialog.data.title}</p>
+              {!settings.noClose && (
+                <a onClick={() => onCloseDialog(false)}>
+                  <img
+                    src="/images/ic_decline.svg"
+                    className="absolute right-4 top-4"
+                    alt="Cancel"
+                  />
+                </a>
+              )}
+              <div className="h-full w-full py-16 flex flex-col items-center justify-between border-gray">
                 <div className="h-full w-full flex flex-col items-center justify-between">
                   {dialog.data.content}
                 </div>
@@ -86,7 +92,7 @@ const Dialog = ({ dialog, onClosed }) => {
         {dialog.type === 'DialogConfirm' && (
           <div className="p-16">
             {dialog.data.title && (
-              <h3 className="text-4xl text-center mb-6">{dialog.data.title}</h3>
+              <h3 className="text-2xl text-center mb-6">{dialog.data.title}</h3>
             )}
             <div className="h-full w-full flex mb-6 flex-col items-center justify-between border-gray">
               <div className="h-full w-full flex flex-col items-center justify-between">
@@ -151,7 +157,7 @@ const Dialog = ({ dialog, onClosed }) => {
         {dialog.type === 'Notification' && (
           <div className="p-16">
             {dialog.data.title && (
-              <h3 className="text-4xl text-center mb-6">{dialog.data.title}</h3>
+              <h3 className="text-2xl text-center mb-6">{dialog.data.title}</h3>
             )}
             <a onClick={() => onCloseDialog(false)}>
               <img

@@ -6,6 +6,7 @@ import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, ProgressBar, BackButton } from '../../../../components/partials';
 import { getVoteDetail } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../_app';
+import { withPageRestricted } from '../../../../components/hoc/with-page-restricted';
 
 const CompleteVoteDetail = () => {
   const dispatch = useDispatch();
@@ -109,4 +110,4 @@ const CompleteVoteDetail = () => {
   );
 };
 
-export default CompleteVoteDetail;
+export default withPageRestricted(CompleteVoteDetail, 'votes');
