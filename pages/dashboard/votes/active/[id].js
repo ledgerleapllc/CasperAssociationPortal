@@ -9,6 +9,7 @@ import {
   recordVote,
 } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../_app';
+import { withPageRestricted } from '../../../../components/hoc/with-page-restricted';
 
 const ActiveVoteDetail = () => {
   const dispatch = useDispatch();
@@ -114,4 +115,4 @@ const ActiveVoteDetail = () => {
   );
 };
 
-export default ActiveVoteDetail;
+export default withPageRestricted(ActiveVoteDetail, 'votes');

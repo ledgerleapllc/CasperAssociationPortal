@@ -349,6 +349,16 @@ export function* updateClickCTANotification({ payload, resolve }) {
   }
 }
 
+export function* getLockPageConditions({ resolve, reject }) {
+  try {
+    const res = yield get(['users/lock-rules']);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -378,4 +388,5 @@ export function* watchDemoData() {
   yield all([takeLatest('DISMISS_NOTIFICATION', dismissNotification)]);
   yield all([takeLatest('UPDATE_VIEW_NOTIFICATION', updateViewNotification)]);
   yield all([takeLatest('UPDATE_CLICK_CTA', updateClickCTANotification)]);
+  yield all([takeLatest('GET_LOCK_PAGE_CONDITIONS', getLockPageConditions)]);
 }

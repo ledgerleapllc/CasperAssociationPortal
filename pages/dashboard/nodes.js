@@ -3,6 +3,7 @@ import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import InfoRightNode from '../../components/dashboard/info-right-node';
 import ContentNode from '../../components/dashboard/content-node';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
+import { withPageRestricted } from '../../components/hoc/with-page-restricted';
 
 const DashboardNode = () => (
   <LayoutDashboard>
@@ -19,4 +20,7 @@ const DashboardNode = () => (
   </LayoutDashboard>
 );
 
-export default LoadingScreen(DashboardNode, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardNode, 'nodes'),
+  'final-all'
+);

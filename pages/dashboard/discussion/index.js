@@ -18,6 +18,7 @@ import {
   getPinnedDiscussions,
   getMyDiscussions,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardDiscusionContext = createContext();
 
@@ -356,4 +357,7 @@ const DashboardDiscusion = () => {
   );
 };
 
-export default LoadingScreen(DashboardDiscusion, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardDiscusion, 'discussions'),
+  'final-all'
+);

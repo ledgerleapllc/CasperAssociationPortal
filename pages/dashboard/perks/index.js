@@ -2,6 +2,7 @@ import { PerksPreview } from '../../../components/admin/perks/tables/perks-previ
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card } from '../../../components/partials';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardMemberPerks = () => (
   <LayoutDashboard>
@@ -28,4 +29,7 @@ const DashboardMemberPerks = () => (
   </LayoutDashboard>
 );
 
-export default LoadingScreen(DashboardMemberPerks, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardMemberPerks, 'perks'),
+  'final-all'
+);

@@ -6,6 +6,7 @@ import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, BackButton, Button } from '../../../components/partials';
 import { PerkPage } from '../../../components/admin/perks/components/perk-page';
 import { getActivePerkDetail } from '../../../shared/redux-saga/admin/actions';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const PerkDetail = () => {
   const [currentPerk, setCurrentPerk] = useState();
@@ -53,4 +54,7 @@ const PerkDetail = () => {
   );
 };
 
-export default LoadingScreen(PerkDetail, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(PerkDetail, 'perks'),
+  'final-all'
+);

@@ -6,6 +6,7 @@ import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton, Button } from '../../../components/partials';
 import { createDiscussion } from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardAddDiscusion = () => {
   const dispatch = useDispatch();
@@ -107,4 +108,7 @@ const DashboardAddDiscusion = () => {
   );
 };
 
-export default LoadingScreen(DashboardAddDiscusion, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardAddDiscusion, 'discussions'),
+  'final-all'
+);

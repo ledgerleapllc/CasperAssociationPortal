@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
+import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 import {
   Card,
   Tab,
@@ -397,4 +398,7 @@ const DashboardVote = () => {
   );
 };
 
-export default LoadingScreen(DashboardVote, 'final-all');
+export default LoadingScreen(
+  withPageRestricted(DashboardVote, 'votes'),
+  'final-all'
+);
