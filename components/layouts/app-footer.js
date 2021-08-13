@@ -5,7 +5,7 @@ import Linkedin from '../../public/images/ic_linkedin.svg';
 import Medium from '../../public/images/ic_medium.svg';
 
 const AppFooter = ({ theme }) => (
-  <div className="flex items-center justify-between lg:visible invisible">
+  <div className="flex items-center justify-center lg:visible invisible">
     <p
       className={`${
         theme === 'light' ? 'text-white' : 'text-dark2'
@@ -14,58 +14,6 @@ const AppFooter = ({ theme }) => (
     >
       ©2021 CasperLabs.io
     </p>
-    <div className="flex space-x-6 animate__animated animate__fadeIn animate__delay-5s">
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Facebook
-          width="1.2rem"
-          height="1.2rem"
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Twitter
-          width="1.2rem"
-          height="1.2rem"
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Youtube
-          width="1.2rem"
-          height="1.2rem"
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Linkedin
-          width="1.2rem"
-          height="1.2rem"
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Medium
-          width="1.2rem"
-          height="1.2rem"
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-    </div>
   </div>
 );
 
