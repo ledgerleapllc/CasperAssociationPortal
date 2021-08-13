@@ -322,7 +322,7 @@ const Ballots = () => (
     <Card className="h-full lg:pl-card lg:py-10 lg:shadow-2xl" noShadow>
       <div className="w-full h-full">
         <div className="flex justify-between lg:mr-card">
-          <h3 className="text-xl lg:pr-32 font-medium">Ballots</h3>
+          <p className="text-xl lg:pr-32 font-medium" />
           <Link href="/admin/ballots/add">
             <button
               type="button"
