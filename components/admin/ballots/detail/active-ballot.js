@@ -62,13 +62,15 @@ const AdminActiveBallot = ({ ballot }) => {
   };
 
   return (
-    <>
-      <div className="card-header lg:mr-card lg:h-70px">
-        <BackButton href="/admin/ballots" text="Back" force />
-        <div className="flex justify-between items-center mb-3.5">
-          <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
-            Manage Active Ballot
-          </h3>
+    <div className="flex flex-col h-full">
+      <div className="card-header lg:mr-card border-primary border-b-2">
+        <div className="flex justify-between items-center mb-3">
+          <div className="h-11">
+            <BackButton href="/admin/ballots" text="Back" force />
+            <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+              Manage Active Ballot
+            </h3>
+          </div>
           <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row justify-end">
             <Link href={`/admin/ballots/detail/${ballot?.id}/current-votes`}>
               <button
@@ -87,9 +89,8 @@ const AdminActiveBallot = ({ ballot }) => {
             </button>
           </div>
         </div>
-        <div className="border-primary border-b-2" />
       </div>
-      <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
+      <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0">
         <Styles className="lg:pr-card">
           <table className="active-ballot-table border-0">
             <tr>
@@ -148,7 +149,7 @@ const AdminActiveBallot = ({ ballot }) => {
           </table>
         </Styles>
       </div>
-    </>
+    </div>
   );
 };
 

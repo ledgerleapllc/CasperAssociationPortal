@@ -23,7 +23,7 @@ const AdminBallotDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           {ballot && ballot.status === 'active' && (
             <AdminActiveBallot ballot={ballot} />

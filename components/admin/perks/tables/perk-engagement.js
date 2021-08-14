@@ -7,7 +7,7 @@ import { Table } from '../../../partials';
 import { formatDate } from '../../../../shared/core/utils';
 
 const Perks = styled.div`
-  .intake-table {
+  .perks-engagement-table {
     .col-1 {
       width: 34%;
     }
@@ -54,7 +54,7 @@ export const PerksEngagement = ({ id }) => {
     <Perks className="h-full">
       <Table
         {...register}
-        className="intake-table pt-5 h-full"
+        className="perks-engagement-table pt-5 h-full"
         onLoadMore={fetchPerkEngagements}
         hasMore={hasMore}
         dataLength={data.length}
@@ -70,7 +70,7 @@ export const PerksEngagement = ({ id }) => {
             <p>Times Followed</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>

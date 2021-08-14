@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { Card, BackButton } from '../../../../components/partials';
+import { Card, BackButton, Button } from '../../../../components/partials';
 import { NotificationsTable } from '../../../../components/admin/notifications/tables/notifications-table';
 import { ViewLogsTable } from '../../../../components/admin/notifications/tables/view-logs-table';
 
@@ -19,29 +19,26 @@ const NotificationSystem = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full px-card py-5">
-        <div className="bg-transparent h-3/5 2xl:pb-5">
-          <div className="w-full h-70px">
-            <div className="h-70px flex flex-col justify-center">
+        <div className="flex flex-col bg-transparent h-3/5 2xl:pb-5">
+          <div className="w-full">
+            <div className="flex flex-col justify-center">
               <div className="flex justify-between items-end pb-3">
-                <div>
+                <div className="h-11">
                   <BackButton href="/admin/settings" text="Back" force />
-                  <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+                  <h3 className="text-dark2 text-xl font-medium">
                     Notification Settings
                   </h3>
                 </div>
                 <Link href="/admin/settings/notifications/add">
-                  <button
-                    type="button"
-                    className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  >
-                    + New Notification
-                  </button>
+                  <a>
+                    <Button primary>+ New Notification</Button>
+                  </a>
                 </Link>
               </div>
               <div className="border-primary border-b-2" />
             </div>
           </div>
-          <div className="h-30px flex justify-between items-center">
+          <div className="pt-3 flex justify-between items-center">
             <div className="text-dark2 text-lg font-medium">Notifications</div>
             <div className="flex items-center gap-4">
               <span>Hide OFF</span>
@@ -57,7 +54,7 @@ const NotificationSystem = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col h-100%-100px">
+          <div className="flex-1 min-h-0">
             <NotificationsTable hideOff={hideOff} onChangeValue={getIds} />
           </div>
         </div>

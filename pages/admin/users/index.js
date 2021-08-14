@@ -7,6 +7,7 @@ import { Card, Table } from '../../../components/partials';
 import { getListMembers } from '../../../shared/redux-saga/admin/actions';
 import { formatDate, getShortNodeAddress } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
+import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
 const Styles = styled.div`
   .members-table {
@@ -91,17 +92,17 @@ const AdminUserList = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full px-card py-5">
-        <div className="bg-transparent h-full">
-          <div className="w-full h-70px">
-            <div className="lg:h-70px flex flex-col justify-center">
-              <h3 className="text-xl lg:pr-32 font-medium mb-2.5">User List</h3>
-              <p className="text-sm text-gray pb-3.5">
+        <div className="flex flex-col bg-transparent h-full">
+          <div className="w-full flex flex-col justify-center">
+            <div className="flex flex-col justify-between h-11 mb-3">
+              <h3 className="text-dark2 text-xl font-medium">User List</h3>
+              <p className="text-sm text-gray">
                 Click any user for more details
               </p>
-              <div className="border-primary border-b-2" />
             </div>
+            <div className="border-primary border-b-2" />
           </div>
-          <div className="flex flex-col h-100%-70px">
+          <div className="pt-8 flex flex-col flex-1 min-h-0">
             <Styles className="h-full">
               <Table
                 {...register}
@@ -153,7 +154,7 @@ const AdminUserList = () => {
                     <p>Further Details</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="lg:-mr-card lg:pr-card">
+                <Table.Body className="padding-tracker">
                   {data.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell>
@@ -208,4 +209,4 @@ const AdminUserList = () => {
   );
 };
 
-export default AdminUserList;
+export default LoadingScreen(AdminUserList, 'final-admin');

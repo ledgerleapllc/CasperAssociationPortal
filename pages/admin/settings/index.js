@@ -71,18 +71,16 @@ const Settings = () => {
   };
   return (
     <LayoutDashboard>
-      <Card className="h-full pl-card py-7">
-        <div className="bg-transparent h-full">
-          <div className="w-full h-70px pr-card">
-            <div className="lg:h-70px flex flex-col justify-center">
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-6">
-                Admin settings
-              </h3>
-              <div className="border-primary border-b-2" />
-            </div>
+      <Card className="h-full pl-card py-5">
+        <div className="flex flex-col bg-transparent h-full">
+          <div className="w-full pr-card">
+            <h3 className="text-dark2 text-xl font-medium h-11 flex items-end mb-3">
+              Admin settings
+            </h3>
+            <div className="border-primary border-b-2" />
           </div>
-          <div className="flex flex-col h-100%-70px overflow-y-auto">
-            <section className="mt-5">
+          <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
+            <section className="pt-8">
               <h4 className="mb-7 text-lg font-medium">Mailer Settings</h4>
               <Link href="/admin/settings/emailer">
                 <button

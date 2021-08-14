@@ -406,8 +406,9 @@ export const getHighPriorityNotification = (resolve, reject) => ({
   reject,
 });
 
-export const getAdminDashboard = (resolve, reject) => ({
+export const getAdminDashboard = (payload, resolve, reject) => ({
   type: 'GET_ADMIN_DASHBOARD',
+  payload,
   resolve,
   reject,
 });

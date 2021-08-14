@@ -747,9 +747,10 @@ export function* getHighPriorityNotification({ resolve, reject }) {
   }
 }
 
-export function* getAdminDashboard({ resolve, reject }) {
+export function* getAdminDashboard({ payload, resolve, reject }) {
   try {
-    const res = yield get([`admin/dashboard`]);
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/dashboard?${query}`]);
     resolve(res.data);
   } catch (error) {
     reject(error);

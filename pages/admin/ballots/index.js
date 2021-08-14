@@ -11,6 +11,7 @@ import {
   StatusText,
   ForAgainst,
   Table,
+  Button,
 } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
 import { formatDate } from '../../../shared/core/utils';
@@ -108,7 +109,7 @@ const Tab1 = () => {
     <Styles className="h-full">
       <Table
         {...register}
-        className="active-ballot-table pt-10 h-full"
+        className="active-ballot-table pt-8 h-full"
         onLoadMore={fetchActiveBallots}
         hasMore={hasMore}
         dataLength={data.length}
@@ -140,7 +141,7 @@ const Tab1 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell>
@@ -227,7 +228,7 @@ const Tab2 = () => {
     <Styles className="h-full">
       <Table
         {...register}
-        className="complete-ballot-table pt-10 h-full"
+        className="complete-ballot-table pt-8 h-full"
         onLoadMore={fetchCompleteBallots}
         hasMore={hasMore}
         dataLength={data.length}
@@ -262,7 +263,7 @@ const Tab2 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
               <Table.BodyCell>
@@ -319,20 +320,16 @@ const tabsData = [
 
 const Ballots = () => (
   <LayoutDashboard>
-    <Card className="h-full lg:pl-card lg:py-10 lg:shadow-2xl" noShadow>
+    <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
       <div className="w-full h-full">
-        <div className="flex justify-between lg:mr-card">
-          <p className="text-xl lg:pr-32 font-medium" />
+        <div className="flex justify-end lg:mr-card">
           <Link href="/admin/ballots/add">
-            <button
-              type="button"
-              className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-            >
-              + New Ballot
-            </button>
+            <a>
+              <Button primary>+ New Ballot</Button>
+            </a>
           </Link>
         </div>
-        <Tab className="w-full h-full pt-12 lg:pt-0" data={tabsData} />
+        <Tab className="w-full h-full pt-12 lg:pt-0 lg:-mt-7" data={tabsData} />
       </div>
     </Card>
   </LayoutDashboard>

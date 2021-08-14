@@ -108,9 +108,9 @@ const UserProfile = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          <div className="card-header lg:mr-card lg:h-70px">
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+        <div className="flex flex-col w-full h-full">
+          <div className="card-header lg:mr-card">
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
                 <h3 className="mr-card text-gray text-xl font-medium">
@@ -150,7 +150,7 @@ const UserProfile = () => {
             </div>
             <div className="border-primary border-b-2" />
           </div>
-          <div className="card-body pb-28 overflow-y-auto lg:h-100%-70px lg:pt-4 2xl:pt-8">
+          <div className="card-body overflow-y-auto flex-1 min-h-0 pt-8">
             <div className="lg:pr-card">
               <section className="basic-info">
                 <div className="flex">

@@ -6,6 +6,7 @@ import { Card, BackButton } from '../../../../components/partials';
 import { getVerificationDetail } from '../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
+import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 
 const KycAmlDetail = () => {
   const router = useRouter();
@@ -32,27 +33,24 @@ const KycAmlDetail = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-card py-14">
-        <div className="bg-transparent h-full">
+      <Card className="h-full px-card py-5">
+        <div className="flex flex-col bg-transparent h-full">
           <div className="w-full">
-            <div className="lg:h-70px flex flex-col justify-center">
-              <BackButton href={`/admin/users/${id}`} text="Back" force />
-              <div className="flex flex-row justify-between items-center">
-                <div className="flex flex-col">
-                  <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-                    Node Operator KYC/AML Details
-                  </h3>
-                  <p className="text-sm text-gray pb-3.5">
-                    Submitted by membership applicant review
-                  </p>
-                </div>
+            <div className="flex flex-col justify-center border-primary border-b-2">
+              <div className="flex flex-col">
+                <BackButton href={`/admin/users/${id}`} text="Back" force />
+                <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-1">
+                  Node Operator KYC/AML Details
+                </h3>
+                <p className="text-sm text-gray pb-3">
+                  Submitted by membership applicant review
+                </p>
               </div>
-              <div className="border-primary border-b-2" />
             </div>
           </div>
-          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll">
+          <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll padding-tracker">
             {/* User Info */}
-            <div className="flex flex-col py-7 border-b border-gray">
+            <div className="flex flex-col pb-7 border-b border-gray">
               <p className="text-base font-medium pb-5">
                 Information Submitted to API
               </p>
@@ -172,4 +170,4 @@ const KycAmlDetail = () => {
   );
 };
 
-export default KycAmlDetail;
+export default LoadingScreen(KycAmlDetail, 'final-admin');

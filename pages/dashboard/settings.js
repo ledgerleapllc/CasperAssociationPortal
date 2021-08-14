@@ -218,9 +218,9 @@ const DashboardSetting = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          <div className="card-header lg:mr-card lg:h-70px">
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+        <div className="flex flex-col w-full h-full">
+          <div className="card-header lg:mr-card">
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
                 <h3 className="mr-card text-dark2 text-xl font-medium">
@@ -248,7 +248,7 @@ const DashboardSetting = () => {
             </div>
             <div className="border-primary border-b-2" />
           </div>
-          <div className="card-body pt-8 pb-28 overflow-x-hidden overflow-y-auto lg:h-100%-70px -ml-1 pl-1">
+          <div className="card-body flex-1 min-h-0 pt-8 overflow-y-auto -ml-1 pl-1">
             <div className="lg:pr-card">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col lg:flex-row">

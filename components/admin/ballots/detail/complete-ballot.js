@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { BackButton, StatusText, ForAgainst } from '../../../partials';
+import { BackButton, StatusText, ForAgainst, Button } from '../../../partials';
 import { formatDate } from '../../../../shared/core/utils';
 
 const Styles = styled.div`
@@ -22,27 +22,23 @@ const Styles = styled.div`
 `;
 
 const AdminCompleteBallot = ({ ballot }) => (
-  <>
-    <div className="card-header lg:mr-card lg:h-70px">
-      <BackButton href="/admin/ballots" text="Back" force />
-      <div className="flex justify-between items-center mb-3.5">
-        <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
-          Completed Ballot
-        </h3>
+  <div className="h-full flex flex-col">
+    <div className="card-header lg:mr-card border-primary border-b-2">
+      <div className="flex justify-between items-center mb-3">
+        <div className="h-11">
+          <BackButton href="/admin/ballots" text="Back" force />
+          <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+            Completed Ballot
+          </h3>
+        </div>
         <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row justify-end">
           <Link href={`/admin/ballots/detail/${ballot?.id}/current-votes`}>
-            <button
-              type="button"
-              className="lg:mr-5 h-16 lg:h-11 text-lg w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-            >
-              View Voting Records
-            </button>
+            <Button primary>View Voting Records</Button>
           </Link>
         </div>
       </div>
-      <div className="border-primary border-b-2" />
     </div>
-    <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
+    <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0">
       <div className="lg:pr-card">
         <Styles>
           <table className="complete-ballot-table border-0">
@@ -138,7 +134,7 @@ const AdminCompleteBallot = ({ ballot }) => (
         </Styles>
       </div>
     </div>
-  </>
+  </div>
 );
 
 export default AdminCompleteBallot;

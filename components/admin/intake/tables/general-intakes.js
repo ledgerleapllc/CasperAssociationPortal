@@ -138,7 +138,7 @@ export const GeneralIntakes = () => {
     <StylesIntake className="h-full">
       <Table
         {...register}
-        className="intake-table pt-5 h-full"
+        className="intake-table pt-8 h-full"
         onLoadMore={fetchIntakes}
         hasMore={hasMore}
         dataLength={data.length}
@@ -164,7 +164,7 @@ export const GeneralIntakes = () => {
             <p>Letter of Motivation</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>

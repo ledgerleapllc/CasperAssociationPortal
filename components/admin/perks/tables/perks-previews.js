@@ -75,7 +75,7 @@ export const PerksPreview = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-ml-5 lg:-mr-card lg:pr-card">
+        <Table.Body className="lg:-ml-5 padding-tracker-member-perks">
           {data.map((row, index) => (
             <Table.BodyRow className="perk-preview-record" key={`b-${index}`}>
               <Table.BodyCell />

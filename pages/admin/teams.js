@@ -318,31 +318,25 @@ const AdminTeams = () => {
     <LayoutDashboard>
       <Card className="h-full px-card py-5">
         <div className="flex flex-col bg-transparent h-full">
-          <div>
-            <div className="w-full">
-              <div className="flex flex-col justify-center">
-                <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3">
-                  Team Management
-                </h3>
-                <div className="border-primary border-b-2" />
-              </div>
-            </div>
-            <div className="pt-5 flex items-center justify-between">
-              <h4 className="text-dark2 text-lg lg:pr-32 font-medium mb-4">
-                Admins
-              </h4>
-              <Button
-                className="px-6"
-                primary
-                type="button"
-                onClick={showNewAdminDlg}
-              >
-                + New Admin
-              </Button>
-            </div>
+          <div className="w-full">
+            <h3 className="h-11 text-dark2 text-xl lg:pr-32 font-medium mb-3 flex items-end">
+              Team Management
+            </h3>
+            <div className="border-primary border-b-2" />
+          </div>
+          <div className="pt-3 flex items-center justify-between">
+            <h4 className="text-dark2 text-lg lg:pr-32 font-medium">Admins</h4>
+            <Button
+              className="px-6"
+              primary
+              type="button"
+              onClick={showNewAdminDlg}
+            >
+              + New Admin
+            </Button>
           </div>
           <div className="flex flex-1 flex-col min-h-0">
-            <Styles className="h-full pt-8">
+            <Styles className="h-full pt-4">
               <Table
                 className="teams-table h-full"
                 {...register}
@@ -382,7 +376,7 @@ const AdminTeams = () => {
                     <p>Admin Action</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="lg:-mr-card lg:pr-card">
+                <Table.Body className="padding-tracker">
                   {data.map(admin => (
                     <Table.BodyRow key={`admin-team-${admin.id}`}>
                       <Table.BodyCell>

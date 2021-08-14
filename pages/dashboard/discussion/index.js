@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Tab, Card, Table } from '../../../components/partials';
+import { Tab, Card, Table, Button } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
 import IconPin from '../../../public/images/ic_pin.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
@@ -79,7 +79,7 @@ const ChatBox = ({ data, togglePinCallback }) => {
             <IconPin
               className={`cursor-pointer ${
                 discuss?.is_pin ? 'text-primary' : ''
-              } text-5xl`}
+              } text-4xl`}
               onClick={() => pin(discuss)}
             />
           </div>
@@ -107,7 +107,7 @@ const ChatBox = ({ data, togglePinCallback }) => {
                 <span className="pl-2.5">{discuss?.comments || 0}</span>
               </li>
               <li className="flex items-center">
-                <IconPin />
+                <IconPin className="text-3xl" />
                 <span className="pl-2.5">{discuss?.read || 0}</span>
               </li>
               <li className="flex items-center">
@@ -167,7 +167,7 @@ const Tab1 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -215,7 +215,7 @@ const Tab2 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -281,7 +281,7 @@ const Tab3 = () => {
           <Table.HeaderCell />
           <Table.HeaderCell />
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
@@ -337,12 +337,9 @@ const DashboardDiscusion = () => {
           <div className="w-full h-full">
             <div className="flex justify-end lg:mr-card">
               <Link href="/dashboard/discussion/add">
-                <button
-                  type="button"
-                  className="z-40 transition text-lg text-white w-full lg:w-56 h-12 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                >
-                  + New Discussion
-                </button>
+                <a>
+                  <Button primary>+ New Discussion</Button>
+                </a>
               </Link>
             </div>
             <Tab

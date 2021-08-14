@@ -8,7 +8,7 @@ import { Table } from '../../../partials';
 import { formatDate } from '../../../../shared/core/utils';
 
 const Styles = styled.div`
-  .intake-table {
+  .id-verfication-table {
     .col-1 {
       width: 20%;
     }
@@ -53,7 +53,7 @@ export const IDverifications = () => {
     <Styles className="h-full">
       <Table
         {...register}
-        className="intake-table pt-5 h-full"
+        className="id-verfication-table pt-8 h-full"
         onLoadMore={fetchVerifications}
         hasMore={hasMore}
         dataLength={data.length}
@@ -82,7 +82,7 @@ export const IDverifications = () => {
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>
