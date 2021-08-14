@@ -123,7 +123,7 @@ export const PerkForm = React.memo(
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mt-4 pb-8 relative">
+        <div className="pb-8 relative">
           <div className="max-w-xl pb-6 relative">
             <label htmlFor="title">Title of Perk (Limit 70 characters)*</label>
             <input

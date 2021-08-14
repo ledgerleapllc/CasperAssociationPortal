@@ -35,15 +35,16 @@ const DashboardAddDiscusion = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          <div className="card-header lg:mr-card lg:h-70px">
-            <BackButton href="/dashboard/discussion" text="Cancel" />
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-              Create a Discusion
-            </h3>
-            <div className="border-primary border-b-2" />
+        <div className="flex flex-col w-full h-full">
+          <div className="card-header lg:mr-card border-primary border-b-2">
+            <div className="h-11 mb-3">
+              <BackButton href="/dashboard/discussion" text="Cancel" force />
+              <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+                Create a Discusion
+              </h3>
+            </div>
           </div>
-          <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
+          <div className="card-body flex-1 min-h-0 pt-8 overflow-y-auto">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:pr-card">
                 <p className="text-sm">

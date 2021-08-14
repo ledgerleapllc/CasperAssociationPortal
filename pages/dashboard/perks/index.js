@@ -6,15 +6,15 @@ import { withPageRestricted } from '../../../components/hoc/with-page-restricted
 
 const DashboardMemberPerks = () => (
   <LayoutDashboard>
-    <Card className="h-full px-card py-7 lg:shadow-2xl" noShadow>
+    <Card className="h-full px-card py-5 lg:shadow-2xl" noShadow>
       <div className="flex flex-col h-full w-full">
-        <div className="lg:mr-card lg:h-40px flex flex-col justify-center">
-          <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2">
+        <div className="flex flex-col">
+          <h3 className="h-11 text-dark2 text-xl font-medium mb-3 flex items-end">
             Member Perks
           </h3>
           <div className="border-primary border-b-2" />
         </div>
-        <div className="flex flex-col lg:h-100%-40px">
+        <div className="flex flex-col flex-1 min-h-0">
           <p className="py-4">
             Welcome Casper Association member. The following perks are available
             to you. Click any to learn more. Thanks for being a member in good

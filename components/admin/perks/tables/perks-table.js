@@ -123,7 +123,7 @@ export const PerksTable = ({ hideOff }) => {
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="lg:-mr-card lg:pr-card">
+        <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell>

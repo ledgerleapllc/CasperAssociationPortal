@@ -6,36 +6,28 @@ import { IDverifications } from '../../../components/admin/intake/tables/id-veri
 
 const AdminIntake = () => (
   <LayoutDashboard>
-    <Card className="h-full px-card py-7">
-      <div className="bg-transparent h-1/2 xl:pb-2 2xl:pb-5">
-        <div className="w-full h-70px">
-          <div className="lg:h-70px flex flex-col justify-center">
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2.5">
-              General Intake
-            </h3>
-            <p className="text-sm text-gray pb-3.5">
-              New members needing approval
-            </p>
-            <div className="border-primary border-b-2" />
+    <Card className="h-full px-card py-5">
+      <div className="flex flex-col bg-transparent h-1/2 xl:pb-5">
+        <div className="w-full flex flex-col justify-center">
+          <div className="flex flex-col justify-between h-11 mb-3">
+            <h3 className="text-dark2 text-xl font-medium">General Intake</h3>
+            <p className="text-sm text-gray">New members needing approval</p>
           </div>
+          <div className="border-primary border-b-2" />
         </div>
-        <div className="flex flex-col h-100%-70px">
+        <div className="flex-1 min-h-0">
           <GeneralIntakes />
         </div>
       </div>
-      <div className="bg-transparent h-1/2 xl:pt-2 2xl:pt-5">
-        <div className="w-full h-70px">
-          <div className="lg:h-70px flex flex-col justify-center">
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2.5">
-              IDverification
-            </h3>
-            <p className="text-sm text-gray pb-3.5">
-              Members wanting to get verified
-            </p>
-            <div className="border-primary border-b-2" />
+      <div className="flex flex-col bg-transparent h-1/2">
+        <div className="w-full flex flex-col justify-center">
+          <div className="flex flex-col justify-between h-11 mb-3">
+            <h3 className="text-dark2 text-xl font-medium">IDverification</h3>
+            <p className="text-sm text-gray">Members wanting to get verified</p>
           </div>
+          <div className="border-primary border-b-2" />
         </div>
-        <div className="flex flex-col h-100%-70px">
+        <div className="flex-1 min-h-0">
           <IDverifications />
         </div>
       </div>

@@ -69,6 +69,7 @@ module.exports = {
         '70px': '70px',
         '8.2/10': '82%',
         '8.5/10': '85%',
+        '8.75/10': '87.5%',
         '9/10': '90%',
         '300px': '300px',
         '500px': '500px',
@@ -107,6 +108,7 @@ module.exports = {
       padding: {
         '6.25': '1.5625rem',
         card: '2rem',
+        'card-tracker': 'calc(2rem - 7px)',
       },
       zIndex: {
         '-1': '-1',

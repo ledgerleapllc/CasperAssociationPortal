@@ -130,10 +130,10 @@ const ContentNode = () => {
 
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
+      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1/10">
         <div className="hidden lg:block lg:w-4/6">
           <Card className="h-full lg:flex-grow">
-            <div className="flex flex-col px-9 py-4">
+            <div className="flex flex-col px-9 h-full justify-center">
               <div className="flex">
                 <span className="text-lg font-normal">Node Name</span>
                 <img
@@ -186,7 +186,7 @@ const ContentNode = () => {
         </div>
         <div className="w-2/4 lg:w-1/3">
           <Card className="h-full lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 py-4">
+            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Stake Amount
@@ -203,7 +203,7 @@ const ContentNode = () => {
         </div>
         <div className="w-2/4 lg:w-1/3">
           <Card className="h-full lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 py-4">
+            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Delegators
@@ -224,7 +224,7 @@ const ContentNode = () => {
           <InfoRightNode />
         </div>
       </Card>
-      <div className="flex gap-5 flex-col lg:h-8.5/10 lg:justify-between">
+      <div className="flex gap-5 flex-col lg:h-8.75/10 lg:justify-between">
         <div className="hidden lg:flex h-auto lg:h-2/5">
           <Card className="h-full w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
@@ -275,58 +275,60 @@ const ContentNode = () => {
             </div>
           </Card>
           <div className="flex gap-5 flex-col justify-between w-full lg:w-3/5 h-auto lg:h-full">
-            <Card className="flex flex-col justify-between p-5 h-auto lg:h-3/5 w-full overflow-y-scroll">
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Uptime</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
+            <Card className="flex items-center px-5 h-auto lg:h-3/5 w-full">
+              <div className="h-8/10 flex flex-col justify-between w-full">
+                <div className="flex flex-col">
+                  <div className="flex flex-row py-1">
+                    <span className="text-lg">Uptime</span>
+                    <img
+                      className="pl-3"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </div>
+                  <ProgressBar
+                    value={metrics?.uptime}
+                    total={metricConfig?.max?.uptime}
+                    mask="x%"
                   />
                 </div>
-                <ProgressBar
-                  value={metrics?.uptime}
-                  total={metricConfig?.max?.uptime}
-                  mask="x%"
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Peers</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
+                <div className="flex flex-col">
+                  <div className="flex flex-row py-1">
+                    <span className="text-lg">Peers</span>
+                    <img
+                      className="pl-3"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </div>
+                  <ProgressBar
+                    value={metrics?.peers}
+                    total={metricConfig?.max?.peers}
+                    mask="x/y"
                   />
                 </div>
-                <ProgressBar
-                  value={metrics?.peers}
-                  total={metricConfig?.max?.peers}
-                  mask="x/y"
-                />
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Performance</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
+                <div className="flex flex-col">
+                  <div className="flex flex-row py-1">
+                    <span className="text-lg">Performance</span>
+                    <img
+                      className="pl-3"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </div>
+                  <ProgressBar
+                    value={metrics?.update_responsiveness}
+                    total={metricConfig?.max?.update_responsiveness}
+                    mask=""
+                    options={{
+                      startText: 'Needs Improvement',
+                      endText: 'Great',
+                    }}
                   />
                 </div>
-                <ProgressBar
-                  value={metrics?.update_responsiveness}
-                  total={metricConfig?.max?.update_responsiveness}
-                  mask=""
-                  options={{
-                    startText: 'Needs Improvement',
-                    endText: 'Great',
-                  }}
-                />
               </div>
             </Card>
-            <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5 z-20">
+            <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5">
               <div className="flex flex-col w-1/2 px-5 lg:px-0 border-r border-gray lg:pl-20 justify-center">
                 <div className="flex flex-row">
                   <span className="text-lg">Daily Earnings</span>

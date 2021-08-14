@@ -7,6 +7,15 @@
   }
 }
 
+.padding-tracker { 
+  @apply lg:-mr-card lg:pr-card-tracker;
+}
+
+.padding-tracker-member-perks { 
+  @apply lg:-mr-16 lg:pr-card-tracker;
+}
+
+
 .membership {
   .metrics-card {
     .desc {
@@ -46,8 +55,10 @@
     @apply text-primary font-normal;
   }
 }
-.table-body {
-  .infinite-scroll-component__outerdiv {
-    margin-right: -7px;
+
+.admin-perks-page {
+  .padding-tracker-member-perks {
+    margin-right: -2rem;
+    padding-right: 0;
   }
 }

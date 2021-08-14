@@ -6,7 +6,7 @@ const BackButton = ({ href, text, force }) => (
   <>
     {!force && (
       <Link href={href}>
-        <a className="pb-2.5 flex items-center text-xs">
+        <a className="flex items-center text-xs">
           <span className="hidden lg:inline">
             <IconArrowLeft className="mr-2.5 text-gray" />
           </span>
@@ -21,7 +21,7 @@ const BackButton = ({ href, text, force }) => (
     )}
     {force && (
       <Link href={href}>
-        <a className="pb-2.5 flex items-center">
+        <a className="flex items-center">
           <span>
             <IconArrowLeftCircle className="mr-2.5 text-primary" />
           </span>

@@ -93,15 +93,13 @@ const VerifyEmail = () => {
     if (userInfo && !userInfo.email_verified_at) {
       return (
         <>
-          <p className="text-4xl text-center animate__animated animate__fadeInUp">
-            Verify Your Email
-          </p>
-          <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+          <p className="text-4xl text-center">Verify Your Email</p>
+          <p className="text-xs text-center mt-2 animate__delay-2s">
             A verification code was sent to your email {userInfo?.email}. You
             must enter this code in the field below to proceed. If you did not
             get the code, please check your spam folder.
           </p>
-          <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s ">
+          <div className="w-full flex flex-col">
             <input
               type="text"
               className="fw-full text-center h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -118,7 +116,7 @@ const VerifyEmail = () => {
             )}
             <input {...register('type')} value="verify-email" hidden />
           </div>
-          <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+          <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__delay-2s">
             <LoadingButton
               type="submit"
               isDisabled={isSubmitting}
@@ -129,14 +127,14 @@ const VerifyEmail = () => {
           </div>
           <div className="mt-5">
             <a
-              className="text-primary underline font-medium cursor-pointer text-xs text-center animate__animated animate__fadeInUp animate__delay-4s"
+              className="text-primary underline font-medium cursor-pointer text-xs text-center animate__delay-4s"
               onClick={onResendVerificationCode}
             >
               Resend Verifcation Code
             </a>
             <br />
             <Link href="/update-email">
-              <a className="text-primary underline font-medium cursor-pointer text-xs text-center animate__animated animate__fadeInUp animate__delay-4s">
+              <a className="text-primary underline font-medium cursor-pointer text-xs text-center animate__delay-4s">
                 Update Email Address
               </a>
             </Link>
@@ -147,13 +145,11 @@ const VerifyEmail = () => {
     if (userInfo && userInfo.twoFA_login) {
       return (
         <>
-          <p className="text-4xl text-center animate__animated animate__fadeInUp">
-            Two-Factor Authentication
-          </p>
-          <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+          <p className="text-4xl text-center">Two-Factor Authentication</p>
+          <p className="text-xs text-center mt-2 animate__delay-2s">
             Please enter the code sent to the email: {userInfo?.email}
           </p>
-          <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s ">
+          <div className="w-full flex flex-col">
             <input
               type="text"
               className="fw-full text-center h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -170,7 +166,7 @@ const VerifyEmail = () => {
             )}
             <input {...register('type')} value="2fa" hidden />
           </div>
-          <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+          <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__delay-2s">
             <LoadingButton
               type="submit"
               isDisabled={isSubmitting}
@@ -181,7 +177,7 @@ const VerifyEmail = () => {
           </div>
           <div className="mt-5">
             <a
-              className="text-primary underline font-medium cursor-pointer text-xs text-center pt-5 flex justify-center animate__animated animate__fadeInUp animate__delay-4s"
+              className="text-primary underline font-medium cursor-pointer text-xs text-center pt-5 flex justify-center animate__delay-4s"
               onClick={onResend2FaCode}
             >
               Resend 2fa Code

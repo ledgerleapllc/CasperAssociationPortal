@@ -160,16 +160,15 @@ const AdminIntakeVerificationKYC = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-11 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          <div className="card-header lg:mr-card lg:h-70px">
-            <BackButton href="/admin/intake" text="Back" force />
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-              KYC Review
-            </h3>
-            <div className="border-primary border-b-2" />
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+        <div className="flex flex-col w-full h-full">
+          <div className="card-header lg:mr-card border-primary border-b-2">
+            <div className="h-11 mb-3">
+              <BackButton href="/admin/intake" text="Back" force />
+              <h3 className="text-dark2 text-xl font-medium">KYC Review</h3>
+            </div>
           </div>
-          <div className="card-body pt-8 pb-28 overflow-y-auto lg:h-100%-70px">
+          <div className="card-body pt-8 flex-1 min-h-0 overflow-y-auto">
             <div className="lg:pr-card">
               <p>The following was returned from the API provider:</p>
               <Styles className="pt-12">

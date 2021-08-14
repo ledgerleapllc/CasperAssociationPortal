@@ -16,6 +16,7 @@ import {
 } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
+import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
@@ -161,22 +162,21 @@ const AdminUserDetail = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full py-5 pl-card">
-        <div className="bg-transparent h-full">
+        <div className="h-full flex flex-col bg-transparent h-full">
           <div className="w-full">
-            <div className="lg:h-70px flex flex-col justify-center">
+            <div className="flex flex-col justify-center border-primary border-b-2 mr-card">
               <BackButton href="/admin/users" text="Back" force />
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-1">
-                {`User details for user ${userDetail?.email}`}
+              <h3 className="text-dark2 text-xl font-medium mb-1">
+                User details for user {userDetail?.email}
               </h3>
-              <p className="text-sm text-gray pb-2.5">
+              <p className="text-sm text-gray pb-3">
                 User details are displayed below with admin functions for user
                 management.
               </p>
-              <div className="border-primary border-b-2 mr-card" />
             </div>
           </div>
-          <div className="flex flex-col mt-6 h-5/6 overflow-y-scroll pr-card">
-            <div className="flex flex-row pt-7">
+          <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll pr-card-tracker">
+            <div className="flex flex-row">
               <p className="text-lg font-medium">Membership Status:</p>
               <p className="text-lg font-medium pl-2">
                 {userDetail?.membership_status}
@@ -462,4 +462,4 @@ const AdminUserDetail = () => {
   );
 };
 
-export default AdminUserDetail;
+export default LoadingScreen(AdminUserDetail, 'final-admin');

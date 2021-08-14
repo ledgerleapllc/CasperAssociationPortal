@@ -48,18 +48,18 @@ const Verification = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full px-card py-7 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          <div className="card-header w-full h-70px">
-            <div className="lg:h-70px flex flex-col justify-center">
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-6">
+      <Card className="h-full px-card py-5 lg:shadow-2xl" noShadow>
+        <div className="flex flex-col w-full h-full">
+          <div className="card-header w-full">
+            <div className="flex flex-col justify-center">
+              <h3 className="h-11 text-dark2 text-xl lg:pr-32 font-medium mb-3 flex items-end">
                 Verification & Profile
               </h3>
               <div className="border-primary border-b-2" />
             </div>
           </div>
-          <div className="card-body -ml-1 pl-1 lg:mt-0 mt-8 pb-28 overflow-y-auto lg:h-100%-70px">
-            <div className="lg:pr-card">{getContent()}</div>
+          <div className="card-body -ml-1 pl-1 pt-8 overflow-y-auto min-h-0 flex-1 padding-tracker">
+            <div className="">{getContent()}</div>
           </div>
         </div>
       </Card>

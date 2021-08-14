@@ -1,24 +1,52 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
-
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
-import { Card } from '../partials';
+import { Card, Dropdown } from '../partials';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
-import { getAdminDashboard } from '../../shared/redux-saga/admin/actions';
 
-const ContentAdminHome = () => {
+const durations = [
+  {
+    label: 'Last 24 hours',
+    key: 'last_24hs',
+  },
+  {
+    label: 'Last 7 days',
+    key: 'last_7days',
+  },
+  {
+    label: 'Last 30 days',
+    key: 'last_30days',
+  },
+  {
+    label: 'Last year',
+    key: 'last_year',
+  },
+];
+
+const ContentAdminHome = ({ stats, changeFrame }) => {
   const [showOpenVotes, setShowOpenVotes] = useState(false);
-  const dispatch = useDispatch();
-  const [stats, setStats] = useState();
+  const [timeframe, setTimeframe] = useState({
+    timeframe_perk: 'last_24hs',
+    timeframe_comments: 'last_24hs',
+    timeframe_discussions: 'last_24hs',
+  });
+
+  const appendTimeframe = (key, value) => {
+    const temp = {
+      ...timeframe,
+      [key]: value,
+    };
+    setTimeframe(temp);
+    changeFrame(temp);
+  };
 
   useEffect(() => {
-    dispatch(
-      getAdminDashboard(res => {
-        setStats(res);
-      })
-    );
+    changeFrame(timeframe);
   }, []);
+
+  const getLabel = key => durations.find(x => x.key === timeframe[key])?.label;
 
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
@@ -37,7 +65,7 @@ const ContentAdminHome = () => {
                     {stats?.totalUserVerification}
                   </p>
                   <p className="text-base font-thin">
-                    user verifications to review
+                    IDverification to Review
                   </p>
                   <Link href="/admin/intake">
                     <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
@@ -52,41 +80,115 @@ const ContentAdminHome = () => {
                   <p className="text-5xl py-4 font-thin">
                     {stats?.totalFailNode}
                   </p>
-                  <Link href="/dashboard/nodes?node_failing=1">
-                    <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
-                      Review
-                    </a>
-                  </Link>
+                  {+stats?.totalFailNode !== 0 && (
+                    <Link href="/dashboard/nodes?node_failing=1">
+                      <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
+                        Review
+                      </a>
+                    </Link>
+                  )}
                 </div>
               </Card>
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
                   <p className="text-lg font-medium">Perks Activated</p>
-                  <p className="text-5xl py-4 font-thin">8</p>
-                  <p className="flex items-center justify-center h-11 text-base">
-                    ( Last 7 days )
+                  <p className="text-5xl py-4 font-thin">
+                    {stats?.totalPerksActive}
                   </p>
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <span className="text-base truncate absolute inset-0">
+                            ( {getLabel('timeframe_perk')} )
+                          </span>
+                        </p>
+                      </div>
+                    }
+                  >
+                    <ul>
+                      {durations.map(duration => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() =>
+                            appendTimeframe('timeframe_perk', duration.key)
+                          }
+                        >
+                          <p className="w-full relative h-6">
+                            {duration.label}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
                 </div>
               </Card>
             </div>
           </div>
-          <Card className="flex-grow flex flex-row w-full lg:w-1/3 h-full">
-            <div className="flex flex-col p-6">
+          <Card className="flex-grow p-6 gap-5 flex flex-row w-full lg:w-1/3 h-full">
+            <div className="flex w-1/2 flex-col">
               <div className="flex flex-col justify-between h-full text-center">
                 <p className="text-lg font-medium">Forum Activity</p>
-                <p className="text-5xl py-4 font-thin">610</p>
-                <p className="flex items-center justify-center h-11 text-base">
-                  New Comments (7 Days)
+                <p className="text-5xl py-4 font-thin">
+                  {stats?.totalNewComments}
                 </p>
+                <Dropdown
+                  className="mt-2 w-full"
+                  trigger={
+                    <div>
+                      <p className="w-full">New Comments</p>
+                      <p className="w-full">
+                        ( {getLabel('timeframe_comments')} )
+                      </p>
+                    </div>
+                  }
+                >
+                  <ul>
+                    {durations.map(duration => (
+                      <li
+                        className="p-2 hover:text-primary cursor-pointer"
+                        onClick={() =>
+                          appendTimeframe('timeframe_comments', duration.key)
+                        }
+                      >
+                        <p className="w-full relative h-6">{duration.label}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </Dropdown>
               </div>
             </div>
-            <div className="flex flex-col p-6">
+            <div className="flex w-1/2 flex-col">
               <div className="flex flex-col justify-between h-full text-center">
                 <p className="text-lg font-medium invisible">Forum Activity</p>
-                <p className="text-5xl py-4 font-thin">15</p>
-                <p className="flex items-center justify-center h-11 text-base">
-                  New Threads (7 Days)
+                <p className="text-5xl py-4 font-thin">
+                  {stats?.totalNewDiscussions}
                 </p>
+                <Dropdown
+                  className="mt-2 w-full"
+                  trigger={
+                    <div>
+                      <p className="w-full">New Threads</p>
+                      <p className="w-full">
+                        ( {getLabel('timeframe_discussions')} )
+                      </p>
+                    </div>
+                  }
+                >
+                  <ul>
+                    {durations.map(duration => (
+                      <li
+                        className="p-2 hover:text-primary cursor-pointer"
+                        onClick={() =>
+                          appendTimeframe('timeframe_discussions', duration.key)
+                        }
+                      >
+                        <p className="w-full relative h-6">{duration.label}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </Dropdown>
               </div>
             </div>
           </Card>

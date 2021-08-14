@@ -233,22 +233,27 @@ const DashboardDiscusionDetail = () => {
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         {discussion && (
           <div className="w-full h-full">
-            <div className="card-header lg:mr-card lg:h-70px">
-              <div className="flex justify-between items-center">
-                <BackButton href="/dashboard/discussion" text="Discussions" />
-                <div className="inline-block lg:hidden pb-2.5">
-                  <ReactionBar />
+            <div className="card-header lg:mr-card border-primary border-b-2">
+              <div className="h-11 mb-3">
+                <div className="flex justify-between items-center">
+                  <BackButton
+                    href="/dashboard/discussion"
+                    text="Discussions"
+                    force
+                  />
+                  <div className="inline-block lg:hidden pb-2.5">
+                    <ReactionBar />
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <h3 className="text-dark2 text-xl lg:pr-32 font-medium line-clamp-1">
+                    {discussion.title}
+                  </h3>
+                  <div className="hidden lg:inline-block">
+                    <ReactionBar />
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-between items-center mb-3.5">
-                <h3 className="text-dark2 text-xl lg:pr-32 font-medium line-clamp-1">
-                  {discussion.title}
-                </h3>
-                <div className="hidden lg:inline-block">
-                  <ReactionBar />
-                </div>
-              </div>
-              <div className="border-primary border-b-2" />
             </div>
             <div className="card-body overflow-y-auto lg:h-100%-70px">
               <div className="lg:pr-card">
@@ -297,7 +302,7 @@ const DashboardDiscusionDetail = () => {
                         <Table.HeaderCell />
                         <Table.HeaderCell />
                       </Table.Header>
-                      <Table.Body className="lg:-mr-card lg:pr-card">
+                      <Table.Body className="padding-tracker">
                         {data.map((row, index) => (
                           <Table.BodyRow key={`b-${index}`}>
                             <Table.BodyCell />

@@ -123,12 +123,6 @@ const Login = () => {
                 title="Sign in"
                 className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               />
-              <button
-                type="button"
-                className="mt-2 lg:mt-0 text-lg border-2 border-primary text-primary w-full lg:w-64 h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md"
-              >
-                Sign in as Guest
-              </button>
             </div>
             <p className="text-xs text-center mt-5 animate__animated animate__fadeInUp animate__delay-4s">
               {`Forgot your password? `}
