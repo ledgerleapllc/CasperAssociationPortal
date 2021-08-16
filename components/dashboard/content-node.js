@@ -25,7 +25,7 @@ import { getPriceTokenGraphInfo } from '../../shared/redux-saga/dashboard/dashbo
 import { AppContext } from '../../pages/_app';
 
 const PriceTokenGraph = ({ graphData }) => (
-  <ResponsiveContainer width="100%" height={250}>
+  <ResponsiveContainer width="100%" height="100%">
     <LineChart data={graphData}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="name" />
@@ -137,7 +137,6 @@ const ContentNode = () => {
   const [currentNode, setCurrentNode] = useState();
   const [priceTokenGraphInfo, setPriceTokenGraphInfo] = useState([]);
   const [nodeDetail, setNodeDetail] = useState(null);
-
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
 
@@ -338,7 +337,7 @@ const ContentNode = () => {
           <Card className="flex-grow w-full lg:w-2/5 h-full">
             <div className="w-full py-5 flex flex-col h-full justify-between">
               <p className="text-lg px-9">Price</p>
-              <div className="w-full relative pr-9">
+              <div className="w-full relative pr-9 h-8.5/10">
                 <PriceTokenGraph graphData={priceTokenGraphInfo} />
               </div>
             </div>
