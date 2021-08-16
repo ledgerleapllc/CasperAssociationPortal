@@ -359,6 +359,16 @@ export function* getLockPageConditions({ resolve, reject }) {
   }
 }
 
+export function* getPriceTokenGraphInfo({ resolve, reject }) {
+  try {
+    const res = yield get(['graph-info']);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -389,4 +399,5 @@ export function* watchDemoData() {
   yield all([takeLatest('UPDATE_VIEW_NOTIFICATION', updateViewNotification)]);
   yield all([takeLatest('UPDATE_CLICK_CTA', updateClickCTANotification)]);
   yield all([takeLatest('GET_LOCK_PAGE_CONDITIONS', getLockPageConditions)]);
+  yield all([takeLatest('GET_PRICE_TOKEN_GRAPH_INFO', getPriceTokenGraphInfo)]);
 }

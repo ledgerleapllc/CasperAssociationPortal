@@ -198,3 +198,9 @@ export const getLockPageConditions = (resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getPriceTokenGraphInfo = (resolve, reject) => ({
+  type: 'GET_PRICE_TOKEN_GRAPH_INFO',
+  resolve,
+  reject,
+});

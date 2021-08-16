@@ -17,6 +17,7 @@ import {
   updateUser,
   setNotifications,
   clearNotifications,
+  setMetricConfig,
 } from './actions';
 import { clearLetter, clearOwnerNodes } from '../onboard/actions';
 
@@ -273,6 +274,17 @@ export function* getMyMetrics() {
       monitoring_criteria: res.data?.monitoring_criteria || null,
     };
     yield put(setMetrics(temp));
+    yield put(
+      setMetricConfig({
+        max: {
+          block_height_average:
+            +temp.monitoring_criteria.block_height_average?.warning_level || 0,
+          update_responsiveness:
+            +temp.monitoring_criteria.update_responsiveness?.warning_level || 0,
+          uptime: +temp.monitoring_criteria.uptime?.warning_level || 0,
+        },
+      })
+    );
   } catch (error) {
     yield put(saveApiResponseError(error));
   }

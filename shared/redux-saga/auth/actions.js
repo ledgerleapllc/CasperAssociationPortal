@@ -155,3 +155,8 @@ export const getUserDashboard = (resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const setMetricConfig = payload => ({
+  type: 'SET_METRIC_CONFIG',
+  payload,
+});

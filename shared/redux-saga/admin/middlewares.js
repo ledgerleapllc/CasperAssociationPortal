@@ -800,6 +800,16 @@ export function* updateLockPageRule({ payload, resolve, reject }) {
   }
 }
 
+export function* getNodeDetail({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/node/${payload}`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
@@ -871,4 +881,5 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
+  yield all([takeLatest('GET_NODE_DETAIL', getNodeDetail)]);
 }
