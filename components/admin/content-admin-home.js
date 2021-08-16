@@ -77,35 +77,29 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
                   <p className="text-lg font-medium">Failing Nodes</p>
-                  <p className="text-5xl py-4 font-thin">
-                    {stats?.totalFailNode}
-                  </p>
-                  {+stats?.totalFailNode !== 0 && (
+                  <p className="text-5xl font-thin">{stats?.totalFailNode}</p>
+                  {!!stats?.totalFailNode && (
                     <Link href="/dashboard/nodes?node_failing=1">
                       <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
                         Review
                       </a>
                     </Link>
                   )}
-                  {+stats?.totalFailNode === 0 && <span />}
+                  {!stats?.totalFailNode && <p className="h-12" />}
                 </div>
               </Card>
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
                   <p className="text-lg font-medium">Perks Activated</p>
-                  <p className="text-5xl py-4 font-thin">
+                  <p className="text-5xl font-thin">
                     {stats?.totalPerksActive}
                   </p>
                   <Dropdown
-                    className="mt-2 w-full"
+                    className="w-full"
                     trigger={
-                      <div className="flex items-center gap-2">
-                        <p className="w-full relative h-6">
-                          <span className="text-base truncate absolute inset-0">
-                            ( {getLabel('timeframe_perk')} )
-                          </span>
-                        </p>
-                      </div>
+                      <p className="flex justify-center items-center w-full relative h-12">
+                        ( {getLabel('timeframe_perk')} )
+                      </p>
                     }
                   >
                     <ul>
@@ -131,13 +125,11 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             <div className="flex w-1/2 flex-col">
               <div className="flex flex-col justify-between h-full text-center">
                 <p className="text-lg font-medium">Forum Activity</p>
-                <p className="text-5xl py-4 font-thin">
-                  {stats?.totalNewComments}
-                </p>
+                <p className="text-5xl font-thin">{stats?.totalNewComments}</p>
                 <Dropdown
-                  className="mt-2 w-full"
+                  className="w-full"
                   trigger={
-                    <div>
+                    <div className="h-12">
                       <p className="w-full">New Comments</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_comments')} )
@@ -163,13 +155,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             <div className="flex w-1/2 flex-col">
               <div className="flex flex-col justify-between h-full text-center">
                 <p className="text-lg font-medium invisible">Forum Activity</p>
-                <p className="text-5xl py-4 font-thin">
+                <p className="text-5xl font-thin">
                   {stats?.totalNewDiscussions}
                 </p>
                 <Dropdown
-                  className="mt-2 w-full"
+                  className="w-full"
                   trigger={
-                    <div>
+                    <div className="h-12">
                       <p className="w-full">New Threads</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_discussions')} )
