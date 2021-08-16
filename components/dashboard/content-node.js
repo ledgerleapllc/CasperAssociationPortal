@@ -1,13 +1,41 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Line } from 'react-chartjs-2';
-import { useState, useEffect } from 'react';
+import {
+  LineChart,
+  Line as Line2,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar } from '../partials';
 import InfoRightNode from './info-right-node';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
-import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
+import {
+  getNodesFromAdmin,
+  getNodeDetail,
+} from '../../shared/redux-saga/admin/actions';
+import { getPriceTokenGraphInfo } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../pages/_app';
+
+const PriceTokenGraph = ({ graphData }) => (
+  <ResponsiveContainer width="100%" height={250}>
+    <LineChart data={graphData}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line2 type="monotone" dataKey="Price" stroke="#FF473E" />
+    </LineChart>
+  </ResponsiveContainer>
+);
 
 const ContentNode = () => {
   const { metrics, metricConfig } = useMetrics();
@@ -95,8 +123,8 @@ const ContentNode = () => {
           max: 100,
           min: 0,
           stepSize: 25,
-          callback: function (value) {
-            return value + '%';
+          callback(value) {
+            return `${value}%`;
           },
         },
       },
@@ -107,7 +135,11 @@ const ContentNode = () => {
   const [isAdmin, setIsAdmin] = useState(null);
   const [nodesList, setNodesList] = useState([]);
   const [currentNode, setCurrentNode] = useState();
+  const [priceTokenGraphInfo, setPriceTokenGraphInfo] = useState([]);
+  const [nodeDetail, setNodeDetail] = useState(null);
+
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   const fetchNodes = () => {
     dispatch(
@@ -118,6 +150,37 @@ const ContentNode = () => {
     );
   };
 
+  const fetchPriceToken = () => {
+    dispatch(
+      getPriceTokenGraphInfo(
+        res => {
+          setPriceTokenGraphInfo(res);
+        },
+        () => {}
+      )
+    );
+  };
+
+  const fetchNodeDetail = nodeName => {
+    setLoading(true);
+    dispatch(
+      getNodeDetail(
+        nodeName,
+        res => {
+          setLoading(false);
+          setNodeDetail(res);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    fetchPriceToken();
+  }, []);
+
   useEffect(() => {
     if (userInfo) {
       const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -127,6 +190,12 @@ const ContentNode = () => {
       }
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (currentNode) {
+      fetchNodeDetail(currentNode.public_address_node);
+    }
+  }, [currentNode]);
 
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
@@ -267,10 +336,10 @@ const ContentNode = () => {
         </div>
         <div className="flex gap-5 flex-col-reverse lg:mb-0 lg:flex-row auto lg:h-3/5">
           <Card className="flex-grow w-full lg:w-2/5 h-full">
-            <div className="w-full px-9 py-5 flex flex-col h-full justify-between">
-              <p className="text-lg">CPU Usage</p>
-              <div className="h-full py-4">
-                <Line data={cpuUsageData} options={cpuUsageOption} />
+            <div className="w-full py-5 flex flex-col h-full justify-between">
+              <p className="text-lg px-9">Price</p>
+              <div className="w-full relative pr-9">
+                <PriceTokenGraph graphData={priceTokenGraphInfo} />
               </div>
             </div>
           </Card>
@@ -287,14 +356,14 @@ const ContentNode = () => {
                     />
                   </div>
                   <ProgressBar
-                    value={metrics?.uptime}
+                    value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
                     total={metricConfig?.max?.uptime}
                     mask="x%"
                   />
                 </div>
                 <div className="flex flex-col">
                   <div className="flex flex-row py-1">
-                    <span className="text-lg">Peers</span>
+                    <span className="text-lg">Block Height</span>
                     <img
                       className="pl-3"
                       src="/images/ic_feather_info.svg"
@@ -302,14 +371,18 @@ const ContentNode = () => {
                     />
                   </div>
                   <ProgressBar
-                    value={metrics?.peers}
-                    total={metricConfig?.max?.peers}
+                    value={
+                      isAdmin
+                        ? +nodeDetail?.block_height_average
+                        : metrics?.block_height_average
+                    }
+                    total={metricConfig?.max?.block_height_average}
                     mask="x/y"
                   />
                 </div>
                 <div className="flex flex-col">
                   <div className="flex flex-row py-1">
-                    <span className="text-lg">Performance</span>
+                    <span className="text-lg">Update Responsiveness</span>
                     <img
                       className="pl-3"
                       src="/images/ic_feather_info.svg"
@@ -317,7 +390,11 @@ const ContentNode = () => {
                     />
                   </div>
                   <ProgressBar
-                    value={metrics?.update_responsiveness}
+                    value={
+                      isAdmin
+                        ? +nodeDetail?.update_responsiveness
+                        : metrics?.update_responsiveness
+                    }
                     total={metricConfig?.max?.update_responsiveness}
                     mask=""
                     options={{

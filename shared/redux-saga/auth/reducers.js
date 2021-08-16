@@ -107,15 +107,25 @@ const notifications = createReducer(notificationsStrategies, {
   popup: null,
 });
 
+const setMetricConfig = (state, payload) => ({
+  ...state,
+  max: {
+    ...state.max,
+    ...payload.max,
+  },
+});
+
 const metricConfigStrategies = {
+  SET_METRIC_CONFIG: setMetricConfig,
   __default__: state => state,
 };
 
 const metricConfig = createReducer(metricConfigStrategies, {
   max: {
-    block_height_average: 505,
+    block_height_average: 0,
     peers: 88,
-    update_responsiveness: 5,
+    update_responsiveness: 0,
+    uptime: 0,
   },
 });
 

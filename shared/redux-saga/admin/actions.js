@@ -432,3 +432,10 @@ export const updateLockPageRules = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const getNodeDetail = (payload, resolve, reject) => ({
+  type: 'GET_NODE_DETAIL',
+  payload,
+  resolve,
+  reject,
+});

@@ -89,7 +89,7 @@ const ProgressBar = props => {
 
   const [progress, setProgress] = useState(0);
 
-  const renderText = () => mask.replace('x', value).replace('y', total);
+  const renderText = () => mask.replace('x', value || 0).replace('y', total);
 
   useEffect(() => {
     let progressTemp;
