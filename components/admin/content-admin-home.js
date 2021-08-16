@@ -87,6 +87,7 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                       </a>
                     </Link>
                   )}
+                  {+stats?.totalFailNode === 0 && <span />}
                 </div>
               </Card>
               <Card className="h-full lg:w-full">

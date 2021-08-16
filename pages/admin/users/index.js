@@ -10,7 +10,7 @@ import { useTable } from '../../../components/partials/table';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
 const Styles = styled.div`
-  .members-table {
+  .users-table {
     .col-1 {
       width: 5%;
     }
@@ -106,7 +106,7 @@ const AdminUserList = () => {
             <Styles className="h-full">
               <Table
                 {...register}
-                className="members-table pt-3 h-full"
+                className="users-table h-full"
                 onLoadMore={getMembers}
                 hasMore={hasMore}
                 dataLength={data?.length}
