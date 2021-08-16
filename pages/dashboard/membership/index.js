@@ -136,7 +136,7 @@ const DashboardMembership = () => {
     }
 
     return {
-      label: 'OK',
+      label: 'Online',
       desc: <>Nice work!</>,
     };
   };
