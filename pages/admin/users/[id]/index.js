@@ -110,8 +110,17 @@ const AdminUserDetail = () => {
       userDetail?.shuftipro_temp &&
       userDetail?.shuftipro_temp?.status !== 'pending'
     )
-      return 'Submitted';
-    return 'Not Submitted';
+      return (
+        <>
+          Submitted
+          <Link href={`/admin/users/${id}/kyc`}>
+            <a className="pl-3 text-primary cursor-pointer underline">
+              View Details
+            </a>
+          </Link>
+        </>
+      );
+    return 'N/A';
   };
 
   const updateField = (field, value) => {
@@ -434,14 +443,7 @@ const AdminUserDetail = () => {
                 <p className="text-sm font-medium w-1/6">
                   User KYC/AML Status:
                 </p>
-                <p className="text-sm w-5/6">
-                  {renderShuftiproStatus()}
-                  <Link href={`/admin/users/${id}/kyc`}>
-                    <a className="pl-3 text-primary cursor-pointer underline">
-                      View Details
-                    </a>
-                  </Link>
-                </p>
+                <p className="text-sm w-5/6">{renderShuftiproStatus()}</p>
               </div>
               {/* <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">
