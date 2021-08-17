@@ -102,7 +102,17 @@ const AdminUserDetail = () => {
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
-      if (userDetail.shuftipro.status === 'approved') return 'Approved';
+      if (userDetail.shuftipro.status === 'approved')
+        return (
+          <>
+            Approved
+            <Link href={`/admin/users/${id}/kyc`}>
+              <a className="pl-3 text-primary cursor-pointer underline">
+                View Details
+              </a>
+            </Link>
+          </>
+        );
       return 'Denied';
     }
 

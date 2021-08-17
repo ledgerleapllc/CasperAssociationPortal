@@ -14,6 +14,7 @@ const KycAmlDetail = () => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
   const [userKYC, setUserKYC] = useState();
+  const [shuftiData, setShuftiData] = useState();
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +24,7 @@ const KycAmlDetail = () => {
         res => {
           setLoading(false);
           setUserKYC(res);
+          setShuftiData(JSON.parse(res.shuftipro?.data));
         },
         () => {
           setLoading(false);
@@ -51,9 +53,7 @@ const KycAmlDetail = () => {
           <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll padding-tracker">
             {/* User Info */}
             <div className="flex flex-col pb-7 border-b border-gray">
-              <p className="text-base font-medium pb-5">
-                Information Submitted to API
-              </p>
+              <p className="text-base font-medium pb-5">AML/Background</p>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">Fist Name:</p>
                 <p className="text-sm w-5/6">{userKYC?.profile?.first_name}</p>
@@ -104,62 +104,42 @@ const KycAmlDetail = () => {
                   }
                 </p>
               </div>
-            </div>
-            {/* AML API */}
-            <div className="flex flex-col py-7 border-b border-gray">
-              <p className="text-base font-medium pb-5">AML API</p>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">
-                  Timestamp of Last Run:
-                </p>
-                <p className="text-sm w-5/6">23/07/2021 - 8:51PM</p>
-              </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">API Response:</p>
-                <p className="text-sm w-5/6">{`{response}`}</p>
-              </div>
-              <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">Additional Notes:</p>
-                <p className="text-sm w-5/6">{`{notes}`}</p>
+                <p className="text-sm w-5/6">
+                  {shuftiData?.aml_declined_reason || 'N/A'}
+                </p>
               </div>
             </div>
             {/* ID Documment API */}
-            <div className="flex flex-col py-7 border-b border-gray">
-              <p className="text-base font-medium pb-5">ID Document API</p>
-              <div className="flex flex-col pb-5">
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">
-                    Timestamp of Last Run:
-                  </p>
-                  <p className="text-sm w-5/6">23/07/2021 - 8:55PM</p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">API Response:</p>
-                  <p className="text-sm w-5/6">{`{response}`}</p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Additional Notes:</p>
-                  <p className="text-sm w-5/6">{`{notes}`}</p>
-                </div>
-              </div>
-            </div>
-            {/* Address Documment API */}
             <div className="flex flex-col py-7">
-              <p className="text-base font-medium pb-5">Address Document API</p>
+              <p className="text-base font-medium pb-5">Document Submission</p>
               <div className="flex flex-col pb-5">
                 <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">
-                    Timestamp of Last Run:
+                  <p className="text-sm font-medium w-1/6">Reference Number:</p>
+                  <p className="text-sm w-5/6">
+                    {userKYC?.shuftipro?.reference_id || ''}
                   </p>
-                  <p className="text-sm w-5/6">23/07/2021 - 9:01PM</p>
                 </div>
                 <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">API Response:</p>
-                  <p className="text-sm w-5/6">{`{response}`}</p>
+                  <p className="text-sm font-medium w-1/6">ID Check Status:</p>
+                  <p className="text-sm w-5/6">
+                    {userKYC?.shuftipro?.document_result ? 'Passed' : 'Failed'}
+                  </p>
                 </div>
                 <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Additional Notes:</p>
-                  <p className="text-sm w-5/6">{`{notes}`}</p>
+                  <p className="text-sm font-medium w-1/6">
+                    Address Check Status:
+                  </p>
+                  <p className="text-sm w-5/6">
+                    {userKYC?.shuftipro?.address_result ? 'Passed' : 'Failed'}
+                  </p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">Address Doc:</p>
+                  <p className="text-sm w-5/6">
+                    {userKYC?.shuftipro?.address_proof || ''}
+                  </p>
                 </div>
               </div>
             </div>

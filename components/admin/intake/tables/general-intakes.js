@@ -152,7 +152,7 @@ export const GeneralIntakes = () => {
           </Table.HeaderCell>
           <Table.HeaderCell>
             <p>
-              Signature <br /> Complete
+              E-signature <br /> Complete
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell>
