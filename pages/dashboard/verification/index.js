@@ -5,7 +5,7 @@ import router from 'next/router';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card } from '../../../components/partials';
-import { FirstPart } from '../../../components/dashboard/verification/first-part';
+import { FirstPart } from '../../../components/dashboard/verification/first-part';
 import { SwitchUserType } from '../../../components/dashboard/verification/switch-user-type';
 import { IndividualVerification } from '../../../components/dashboard/verification/individual-verification';
 import { EntityVerification } from '../../../components/dashboard/verification/entity-verification';

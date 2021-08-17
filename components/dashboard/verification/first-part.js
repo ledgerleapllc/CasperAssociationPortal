@@ -20,4 +20,3 @@ export const FirstPart = ({ goNext }) => (
     </button>
   </div>
 );
-
