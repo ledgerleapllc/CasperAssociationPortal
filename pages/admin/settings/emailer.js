@@ -309,23 +309,17 @@ const Emailer = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="h-full py-7">
-        <div className="bg-transparent h-full">
-          <div className="xl:pb-2 2xl:pb-5 px-card">
-            <div className="w-full h-70px">
-              <div className="lg:h-70px flex flex-col justify-center">
-                <BackButton href="/admin/settings" text="Back" force />
-                <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
-                  Emailer
-                </h3>
-                <div className="border-primary border-b-2" />
-              </div>
+      <Card className="h-full py-5">
+        <div className="flex flex-col bg-transparent h-full">
+          <div className="px-card mt-4">
+            <div className="w-full pb-3 border-primary border-b-2 flex flex-col justify-center">
+              <BackButton href="/admin/settings" text="Back" force />
+              <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
+                Emailer
+              </h3>
             </div>
           </div>
-          <div
-            className="px-card"
-            style={{ height: 'calc(100% - 80px)', overflowY: 'auto' }}
-          >
+          <div className="flex-1 pt-8 min-h-0 px-card overflow-y-auto">
             <div>
               <h3 className="text-dark2 text-lg font-medium">Emailer Admins</h3>
               <Styles className="max-h-200px">

@@ -183,9 +183,9 @@ const AdminUserDetail = () => {
       <Card className="h-full py-5 pl-card">
         <div className="h-full flex flex-col bg-transparent h-full">
           <div className="w-full">
-            <div className="flex flex-col justify-center border-primary border-b-2 mr-card">
+            <div className="mt-4 flex flex-col justify-center border-primary border-b-2 mr-card">
               <BackButton href="/admin/users" text="Back" force />
-              <h3 className="text-dark2 text-xl font-medium mb-1">
+              <h3 className="text-dark2 text-lg font-medium mb-1">
                 User details for user {userDetail?.email}
               </h3>
               <p className="text-sm text-gray pb-3">

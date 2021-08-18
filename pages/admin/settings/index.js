@@ -74,7 +74,7 @@ const Settings = () => {
       <Card className="h-full pl-card py-5">
         <div className="flex flex-col bg-transparent h-full">
           <div className="w-full pr-card">
-            <h3 className="text-dark2 text-xl font-medium h-11 flex items-end mb-3">
+            <h3 className="text-dark2 text-lg font-medium h-11 flex items-end mb-3">
               Global settings
             </h3>
             <div className="border-primary border-b-2" />
