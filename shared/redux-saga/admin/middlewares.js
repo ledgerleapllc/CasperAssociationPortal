@@ -581,10 +581,10 @@ export function* getPerkDetail({ payload, resolve, reject }) {
     if (res.data.start_date)
       res.data.start_date = formatDate(
         new Date(res.data.start_date),
-        'MM/dd/yyyy'
+        'dd/MM/yyyy'
       );
     if (res.data.end_date)
-      res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+      res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
     res.data.image = {
       url: res.data.image_url,
       name: res.data.image,
@@ -616,9 +616,9 @@ export function* getActivePerkDetail({ payload, resolve, reject }) {
     res.data.setting = res.data.setting === 1;
     res.data.start_date = formatDate(
       new Date(res.data.start_date),
-      'MM/dd/yyyy'
+      'dd/MM/yyyy'
     );
-    res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+    res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
     res.data.image = {
       url: res.data.image_url,
       name: res.data.image,
@@ -681,10 +681,10 @@ export function* getNotificationDetail({ payload, resolve, reject }) {
     if (res.data.start_date)
       res.data.start_date = formatDate(
         new Date(res.data.start_date),
-        'MM/dd/yyyy'
+        'dd/MM/yyyy'
       );
     if (res.data.end_date)
-      res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+      res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
     resolve(res.data);
   } catch (error) {
     reject(error);

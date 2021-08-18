@@ -71,10 +71,10 @@ const OpenVotes = ({ toggleOpenVotes }) => {
           >
             <Table.Header>
               <Table.HeaderCell>
-                <p className="underline font-normal">Title</p>
+                <p className="font-medium">Title</p>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <p className="underline font-normal">Time Left</p>
+                <p className="font-medium">Time Left</p>
               </Table.HeaderCell>
             </Table.Header>
             <Table.Body>

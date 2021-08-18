@@ -152,7 +152,7 @@ const DashboardMembership = () => {
             <span className="pt-1.25 text-xs text-white">
               Your {warnMetric.label} has fallen outside the minimum acceptable
               range on{' '}
-              {formatDate(warnMetric.time_start, 'MM/dd/yyyy HH:mm aa')} and you
+              {formatDate(warnMetric.time_start, 'dd/MM/yyyy HH:mm aa')} and you
               have been placed on probation. Don’t panic, there is still time to
               correct this.
             </span>

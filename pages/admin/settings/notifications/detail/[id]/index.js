@@ -51,7 +51,7 @@ const EditNotification = () => {
               text="Back"
               force
             />
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-3.5">
+            <h3 className="text-dark2 text-lg lg:pr-32 font-medium mb-3.5">
               {editing
                 ? `Editing Alert ${currentNotification?.id}`
                 : `View Alert ${currentNotification?.id}`}

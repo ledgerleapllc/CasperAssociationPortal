@@ -62,13 +62,13 @@ const TrendingDiscussion = () => {
           >
             <Table.Header>
               <Table.HeaderCell>
-                <p className="underline font-normal">Title</p>
+                <p className="font-medium">Title</p>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <p className="underline font-normal">Comments</p>
+                <p className="font-medium">Comments</p>
               </Table.HeaderCell>
               <Table.HeaderCell>
-                <p className="underline font-normal">Date</p>
+                <p className="font-medium">Date</p>
               </Table.HeaderCell>
             </Table.Header>
             <Table.Body>

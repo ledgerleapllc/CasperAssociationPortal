@@ -65,9 +65,9 @@ const AdminActiveBallot = ({ ballot }) => {
     <div className="flex flex-col h-full">
       <div className="card-header lg:mr-card border-primary border-b-2">
         <div className="flex justify-between items-center mb-3">
-          <div className="h-11">
+          <div className="h-11 mt-4">
             <BackButton href="/admin/ballots" text="Back" force />
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+            <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
               Manage Active Ballot
             </h3>
           </div>

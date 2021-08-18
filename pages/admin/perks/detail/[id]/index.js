@@ -48,9 +48,9 @@ const AdminEditPerk = () => {
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         <div className="flex flex-col w-full h-full">
           <div className="card-header lg:mr-card border-primary border-b-2">
-            <div className="h-11 mb-3">
+            <div className="h-11 mt-4 mb-3">
               <BackButton href="/admin/perks" text="Cancel" force />
-              <h3 className="text-dark2 text-xl font-medium">
+              <h3 className="text-dark2 text-lg font-medium">
                 {editing ? 'Editing Perk' : 'Edit Perk'}
               </h3>
             </div>

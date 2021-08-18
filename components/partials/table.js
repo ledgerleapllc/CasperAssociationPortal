@@ -65,7 +65,7 @@ const Table = props => {
     <TableContext.Provider
       value={{ sortKey, setSortKey, sortDirection, setSortDirection, randomId }}
     >
-      <div className={`${props.className} flex flex-col min-w-250`}>
+      <div className={`${props.className} flex flex-col min-w-250 text-sm`}>
         {props.children[0]}
         {cloneElement(props.children[1], {
           onLoadMore: props.onLoadMore,

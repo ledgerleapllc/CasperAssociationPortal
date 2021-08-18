@@ -77,7 +77,7 @@ export const PerksEngagement = ({ id }) => {
                 <p>{row.email}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{formatDate(row.created_at, 'MM/dd/yyyy')}</p>
+                <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>{row.views}</p>

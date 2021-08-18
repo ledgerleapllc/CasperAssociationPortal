@@ -223,12 +223,12 @@ const DashboardSetting = () => {
           <div className="card-header lg:mr-card">
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
-                <h3 className="mr-card text-dark2 text-xl font-medium">
+                <h3 className="mr-card text-dark2 text-lg font-medium">
                   <Link href="/dashboard/settings">
                     <a>User Settings</a>
                   </Link>
                 </h3>
-                <h3 className="text-gray text-xl font-medium">
+                <h3 className="text-gray text-lg font-medium">
                   <Link href="/dashboard/profile">
                     <a>My profile</a>
                   </Link>

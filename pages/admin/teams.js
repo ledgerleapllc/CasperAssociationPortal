@@ -319,7 +319,7 @@ const AdminTeams = () => {
       <Card className="h-full px-card py-5">
         <div className="flex flex-col bg-transparent h-full">
           <div className="w-full">
-            <h3 className="h-11 text-dark2 text-xl lg:pr-32 font-medium mb-3 flex items-end">
+            <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
               Team Management
             </h3>
             <div className="border-primary border-b-2" />

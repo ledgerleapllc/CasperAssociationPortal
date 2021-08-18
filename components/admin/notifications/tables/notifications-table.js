@@ -151,7 +151,7 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
               <Table.BodyCell>
                 <p>
                   {row.created_at
-                    ? formatDate(row.created_at, 'MM/dd/yyyy')
+                    ? formatDate(row.created_at, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
@@ -171,13 +171,13 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
               <Table.BodyCell>
                 <p>
                   {row.start_date
-                    ? formatDate(row.start_date, 'MM/dd/yyyy')
+                    ? formatDate(row.start_date, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>
-                  {row.end_date ? formatDate(row.end_date, 'MM/dd/yyyy') : ''}
+                  {row.end_date ? formatDate(row.end_date, 'dd/MM/yyyy') : ''}
                 </p>
               </Table.BodyCell>
               <Table.BodyCell>

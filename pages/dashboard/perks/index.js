@@ -9,7 +9,7 @@ const DashboardMemberPerks = () => (
     <Card className="h-full px-card py-5 lg:shadow-2xl" noShadow>
       <div className="flex flex-col h-full w-full">
         <div className="flex flex-col">
-          <h3 className="h-11 text-dark2 text-xl font-medium mb-3 flex items-end">
+          <h3 className="h-11 text-dark2 text-lg font-medium mb-3 flex items-end">
             Member Perks
           </h3>
           <div className="border-primary border-b-2" />

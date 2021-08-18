@@ -17,7 +17,7 @@ const AdminPerks = () => {
           <div className="w-full">
             <div className="flex flex-col justify-center">
               <div className="flex justify-between items-end pb-3">
-                <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+                <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
                   Perks
                 </h3>
                 <Link href="/admin/perks/add">
@@ -51,7 +51,7 @@ const AdminPerks = () => {
         </div>
         <div className="bg-transparent h-2/5 xl:pt-2 2xl:pt-5">
           <div className="w-full h-40px flex flex-col justify-end">
-            <h3 className="text-dark2 text-xl lg:pr-32 font-medium mb-2.5">
+            <h3 className="text-dark2 text-lg lg:pr-32 font-medium mb-2.5">
               Preview
             </h3>
             <div className="border-primary border-b-2" />

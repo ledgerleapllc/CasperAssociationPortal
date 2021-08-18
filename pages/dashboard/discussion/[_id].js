@@ -64,7 +64,7 @@ const ChatBox = ({ data, noBorder }) => (
         <p className="text-xxs py-1">Validator ID: {data.user.validatorId}</p>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
-          {formatDate(data.user.created_at, 'd/m/yyyy - hh:mma')}
+          {formatDate(data.user.created_at, 'dd/MM/yyyy - HH:mm aa')}
         </p>
         <div className="border-gray1 border-b" />
       </div>
@@ -234,7 +234,7 @@ const DashboardDiscusionDetail = () => {
         {discussion && (
           <div className="w-full h-full">
             <div className="card-header lg:mr-card border-primary border-b-2">
-              <div className="h-11 mb-3">
+              <div className="h-11 mt-4 mb-3">
                 <div className="flex justify-between items-center">
                   <BackButton
                     href="/dashboard/discussion"
@@ -246,7 +246,7 @@ const DashboardDiscusionDetail = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <h3 className="text-dark2 text-xl lg:pr-32 font-medium line-clamp-1">
+                  <h3 className="text-dark2 text-lg lg:pr-32 font-medium line-clamp-1">
                     {discussion.title}
                   </h3>
                   <div className="hidden lg:inline-block">

@@ -130,7 +130,7 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.id}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <p>{formatDate(row.created_at, 'MM/dd/yyyy')}</p>
+                <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>{row.title}</p>
@@ -138,13 +138,13 @@ export const PerksTable = ({ hideOff }) => {
               <Table.BodyCell>
                 <p>
                   {row.start_date
-                    ? formatDate(row.start_date, 'MM/dd/yyyy')
+                    ? formatDate(row.start_date, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
               <Table.BodyCell>
                 <p>
-                  {row.end_date ? formatDate(row.end_date, 'MM/dd/yyyy') : ''}
+                  {row.end_date ? formatDate(row.end_date, 'dd/MM/yyyy') : ''}
                 </p>
               </Table.BodyCell>
               <Table.BodyCell>

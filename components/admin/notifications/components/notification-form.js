@@ -80,9 +80,9 @@ export const NotificationForm = React.memo(
       const temp = data;
       setIsSubmit(true);
       if (temp.start_date)
-        temp.start_date = formatDate(new Date(data.start_date), 'yyyy-MM-dd');
+        temp.start_date = formatDate(new Date(data.start_date), 'dd/MM/yyyy');
       if (temp.end_date)
-        temp.end_date = formatDate(new Date(data.end_date), 'yyyy-MM-dd');
+        temp.end_date = formatDate(new Date(data.end_date), 'dd/MM/yyyy');
       temp.setting = temp.setting ? 1 : 0;
       if (!editMode) {
         if (highPriorityNoti) temp.high_priority = 0;

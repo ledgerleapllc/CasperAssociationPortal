@@ -63,9 +63,8 @@ const ActiveVoteDetail = () => {
     <LayoutDashboard>
       <Card className="h-full px-card py-5">
         <div className="bg-transparent h-full">
-          <div className="w-full">
+          <div className="w-full mt-4 pb-3 border-primary border-b-2">
             <BackButton href="/dashboard/votes" text="Back" force />
-            <div className="border-primary border-b-2" />
           </div>
           <div className="py-14 h-5/6">
             {data && (

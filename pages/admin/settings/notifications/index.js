@@ -25,7 +25,7 @@ const NotificationSystem = () => {
               <div className="flex justify-between items-end pb-3">
                 <div className="h-11">
                   <BackButton href="/admin/settings" text="Back" force />
-                  <h3 className="text-dark2 text-xl font-medium">
+                  <h3 className="text-dark2 text-lg font-medium">
                     Notification Settings
                   </h3>
                 </div>
@@ -61,7 +61,7 @@ const NotificationSystem = () => {
         <div className="bg-transparent h-2/5 xl:pt-2 2xl:pt-5">
           <div className="w-full h-40px flex flex-col justify-end">
             <div className="flex justify-between items-center pb-3">
-              <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
+              <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
                 View Activity Logs
               </h3>
             </div>

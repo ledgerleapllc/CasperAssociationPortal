@@ -94,8 +94,8 @@ const AdminUserList = () => {
       <Card className="h-full px-card py-5">
         <div className="flex flex-col bg-transparent h-full">
           <div className="w-full flex flex-col justify-center">
-            <div className="flex flex-col justify-between h-11 mb-3">
-              <h3 className="text-dark2 text-xl font-medium">User List</h3>
+            <div className="flex flex-col justify-between mt-4 h-11 mb-3">
+              <h3 className="text-dark2 text-lg font-medium">User List</h3>
               <p className="text-sm text-gray">
                 Click any user for more details
               </p>
