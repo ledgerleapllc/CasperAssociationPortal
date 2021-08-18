@@ -24,7 +24,7 @@ const aspects = [
 ];
 
 const DashboardMembership = () => {
-  const { metrics, refreshMetrics } = useMetrics();
+  const { metrics, refreshMetrics, metricConfig } = useMetrics();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [kycStatus, setKYCStatus] = useState();
   const [nodeStatus, setNodeStatus] = useState();
@@ -214,7 +214,9 @@ const DashboardMembership = () => {
                 }`}
               >
                 <p className="text-sm title font-medium pb-1">Uptime</p>
-                <p className="text-xs desc">Average: {metrics.uptime}%</p>
+                <p className="text-xs desc">
+                  Average: {metrics.average_uptime}%
+                </p>
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
                     shape="circle"
@@ -232,8 +234,7 @@ const DashboardMembership = () => {
               >
                 <p className="text-sm font-medium pb-1">Block Height</p>
                 <p className="text-xs desc">
-                  Current: {metrics.block_height_average}/
-                  {metrics.block_height_average}
+                  Current: {metrics.current_block_height}
                 </p>
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
@@ -256,7 +257,8 @@ const DashboardMembership = () => {
                   <ProgressBar
                     shape="circle"
                     value={metrics.update_responsiveness}
-                    mask="x%"
+                    total={metricConfig?.max?.update_responsiveness}
+                    mask="x"
                   />
                 </div>
               </Card>

@@ -258,7 +258,7 @@ const UserProfile = () => {
                               <span>Average Peers:</span>
                             </td>
                             <td>
-                              <span>18</span>
+                              <span>{metrics?.average_peers}</span>
                             </td>
                           </tr>
                         </tbody>
@@ -320,7 +320,7 @@ const UserProfile = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.uptime}%`}</p>
+                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
                     <ProgressBar mask="x%" value={metrics?.uptime} />
                   </div>
                   <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -333,7 +333,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: {metrics?.block_height_average} block behind
+                      Current: {metrics?.current_block_height} block behind
                     </p>
                     <ProgressBar
                       value={metrics?.block_height_average}
@@ -351,7 +351,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: {metrics?.update_responsiveness}+ days early
+                      Average: {metrics?.average_responsiveness}+ eras early
                     </p>
                     <ProgressBar
                       value={metrics?.update_responsiveness}
@@ -373,7 +373,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: {metrics?.peers}
+                      Average: {metrics?.average_peers}
                     </p>
                     <ProgressBar
                       value={metrics?.peers}

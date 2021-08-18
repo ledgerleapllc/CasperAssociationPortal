@@ -123,9 +123,8 @@ const metricConfigStrategies = {
 const metricConfig = createReducer(metricConfigStrategies, {
   max: {
     block_height_average: 0,
-    peers: 88,
+    peers: 0,
     update_responsiveness: 0,
-    uptime: 0,
   },
 });
 

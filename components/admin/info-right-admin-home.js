@@ -1,6 +1,7 @@
 import 'react-circular-progressbar/dist/styles.css';
 import useMetrics from '../hooks/useMetrics';
 import { ProgressBar } from '../partials';
+import { numberWithCommas } from '../../shared/core/utils';
 
 const InfoRightAdminHome = ({ stats }) => {
   const { metricConfig } = useMetrics();
@@ -38,7 +39,7 @@ const InfoRightAdminHome = ({ stats }) => {
             />
           </div>
           <span className="text-base text-black1 font-thin">
-            {stats?.totalStake}
+            {numberWithCommas(stats?.totalStake)}
           </span>
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
@@ -76,8 +77,7 @@ const InfoRightAdminHome = ({ stats }) => {
           </div>
           <ProgressBar
             value={(+stats?.avgBlockHeightAverage).toFixed(2)}
-            total={metricConfig?.max?.block_height_average}
-            mask="x/y"
+            mask="x%"
           />
         </div>
         <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9">
@@ -91,8 +91,7 @@ const InfoRightAdminHome = ({ stats }) => {
           </div>
           <ProgressBar
             value={(+stats?.avgUpdateResponsiveness).toFixed(2)}
-            total={metricConfig?.max?.update_responsiveness}
-            mask="x/y"
+            mask="x%"
           />
         </div>
       </div>

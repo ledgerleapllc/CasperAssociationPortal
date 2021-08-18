@@ -23,6 +23,8 @@ import {
 } from '../../shared/redux-saga/admin/actions';
 import { getPriceTokenGraphInfo } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
+import { numberWithCommas } from '../../shared/core/utils';
+import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 
 const PriceTokenGraph = ({ graphData }) => (
   <ResponsiveContainer width="100%" height="100%">
@@ -167,6 +169,7 @@ const ContentNode = () => {
         nodeName,
         res => {
           setLoading(false);
+          console.log(res);
           setNodeDetail(res);
         },
         () => {
@@ -265,7 +268,11 @@ const ContentNode = () => {
                   alt="Info"
                 />
               </div>
-              <span className="text-base text-black1 font-thin">2,502,815</span>
+              <span className="text-base text-black1 font-thin">
+                {numberWithCommas(
+                  isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
+                )}
+              </span>
             </div>
           </Card>
         </div>
@@ -282,7 +289,9 @@ const ContentNode = () => {
                   alt="Info"
                 />
               </div>
-              <span className="text-base text-black1 font-thin">8</span>
+              <span className="text-base text-black1 font-thin">
+                {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
+              </span>
             </div>
           </Card>
         </div>
@@ -375,7 +384,11 @@ const ContentNode = () => {
                         ? +nodeDetail?.block_height_average
                         : metrics?.block_height_average
                     }
-                    total={metricConfig?.max?.block_height_average}
+                    total={
+                      isAdmin
+                        ? DEFAULT_BASE_BLOCKS
+                        : metricConfig?.max?.block_height_average
+                    }
                     mask="x/y"
                   />
                 </div>
@@ -394,7 +407,11 @@ const ContentNode = () => {
                         ? +nodeDetail?.update_responsiveness
                         : metrics?.update_responsiveness
                     }
-                    total={metricConfig?.max?.update_responsiveness}
+                    total={
+                      isAdmin
+                        ? nodeDetail?.max_update_responsiveness
+                        : metricConfig?.max?.update_responsiveness
+                    }
                     mask=""
                     options={{
                       startText: 'Needs Improvement',

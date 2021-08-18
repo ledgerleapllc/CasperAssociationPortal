@@ -12,3 +12,6 @@ export const getShortNodeAddress = address => {
   }
   return '-';
 };
+
+export const numberWithCommas = str =>
+  str ? str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '0';

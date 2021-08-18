@@ -247,6 +247,7 @@ export function* resend2FACode({ resolve, reject }) {
 }
 
 export function* getMyMetrics() {
+  const DEFAULT_BASE_BLOCKS = 10;
   try {
     const res = yield get(['users/metrics']);
     if (res.data?.monitoring_criteria) {
@@ -265,23 +266,37 @@ export function* getMyMetrics() {
         {}
       );
     }
+
+    let block_height_average =
+      DEFAULT_BASE_BLOCKS -
+      (res.data?.max_block_height_average - res.data?.block_height_average);
+
+    if (block_height_average < 0) {
+      block_height_average = 0;
+    }
+
     const temp = {
       ...res.data,
       uptime: res.data?.uptime || 0,
-      block_height_average: res.data?.block_height_average || 0,
+      block_height_average,
       peers: res.data?.peers || 0,
       update_responsiveness: res.data?.update_responsiveness || 0,
       monitoring_criteria: res.data?.monitoring_criteria || null,
+      average_uptime: res.data?.avg_uptime || 0,
+      current_block_height:
+        DEFAULT_BASE_BLOCKS - block_height_average > 0
+          ? DEFAULT_BASE_BLOCKS - block_height_average
+          : 0,
+      average_responsiveness: res.data?.avg_update_responsiveness || 0,
+      average_peers: res.data?.avg_peers || 0,
     };
     yield put(setMetrics(temp));
     yield put(
       setMetricConfig({
         max: {
-          block_height_average:
-            +temp.monitoring_criteria.block_height_average?.warning_level || 0,
-          update_responsiveness:
-            +temp.monitoring_criteria.update_responsiveness?.warning_level || 0,
-          uptime: +temp.monitoring_criteria.uptime?.warning_level || 0,
+          block_height_average: DEFAULT_BASE_BLOCKS,
+          update_responsiveness: +temp.max_update_responsiveness || 0,
+          peers: +temp.max_peers || 0,
         },
       })
     );
@@ -316,7 +331,6 @@ export function* getPopupNotifications() {
 
 export function* getNodesFromUser({ payload, resolve, reject }) {
   try {
-    console.log(123123123);
     const query = qs.stringify(payload);
     const res = yield get([`users/list-node?${query}`]);
     yield delay(500); // => this need for scroll loadmore.

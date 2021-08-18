@@ -13,6 +13,7 @@ import {
 } from './actions';
 import { ApiService } from '../../../helpers/api/api.service';
 import { formatDate } from '../../core/utils';
+import { DEFAULT_BASE_BLOCKS } from '../../core/constants';
 
 const http = new ApiService();
 
@@ -803,7 +804,24 @@ export function* updateLockPageRule({ payload, resolve, reject }) {
 export function* getNodeDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/node/${payload}`]);
-    resolve(res.data);
+    let block_height_average =
+      DEFAULT_BASE_BLOCKS -
+      (res.data?.max_block_height_average - res.data?.block_height_average);
+    if (block_height_average < 0) {
+      block_height_average = 0;
+    }
+    const temp = {
+      ...res.data,
+      uptime: res.data?.uptime || 0,
+      block_height_average,
+      peers: res.data?.peers || 0,
+      update_responsiveness: res.data?.update_responsiveness || 0,
+      current_block_height:
+        DEFAULT_BASE_BLOCKS - block_height_average > 0
+          ? DEFAULT_BASE_BLOCKS - block_height_average
+          : 0,
+    };
+    resolve(temp);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));

@@ -53,9 +53,9 @@ const CircleProgressBar = ({ text, progress, options }) => {
           <circle
             className="progress-tracking"
             strokeWidth="6"
-            strokeDasharray={40 * 2 * Math.PI}
+            strokeDasharray={45 * 2 * Math.PI}
             strokeDashoffset={
-              40 * 2 * Math.PI - (progress / 100) * 40 * 2 * Math.PI
+              45 * 2 * Math.PI - (progress / 100) * 45 * 2 * Math.PI
             }
             stroke="currentColor"
             style={{ transform: 'rotate(-90deg)', transformOrigin: 'center' }}
@@ -100,7 +100,7 @@ const ProgressBar = props => {
         value > 0 && !!total ? Math.round((value / total) * 100) : 0;
     }
     setProgress(progressTemp);
-  }, [value]);
+  }, [value, total]);
 
   if (shape === 'line') {
     return (

@@ -403,7 +403,9 @@ const Emailer = () => {
                         <textarea
                           className="focus:outline-none"
                           value={item.content}
-                          onChange={e => changeTriggerUserMessage(e, item, index)}
+                          onChange={e =>
+                            changeTriggerUserMessage(e, item, index)
+                          }
                         />
                         {!item?.content?.trim().length && (
                           <span className="mt-2 text-primary">
