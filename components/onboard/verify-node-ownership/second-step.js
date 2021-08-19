@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import IconCheckCircle from '../../../public/images/ic_check_circle.svg';
-import { handleViewGuide } from '../../../shared/redux-saga/onboard/actions';
+import { downloadMessageContent } from '../../../shared/redux-saga/onboard/actions';
 import { Button } from '../../partials';
 
 const VerifyNodeOwnershipSecondStep = ({
@@ -17,26 +17,37 @@ const VerifyNodeOwnershipSecondStep = ({
     uploaded: false,
   });
 
-  const [isViewGuideLoading, setIsViewGuideLoading] = useState(false);
+  const [isDownload, setIsDownload] = useState(false);
 
   const setDoneDownload = () => {
-    setSteps({
-      ...steps,
-      downloaded: true,
-    });
+    setIsDownload(true);
+    dispatch(
+      downloadMessageContent(
+        res => {
+          const url = URL.createObjectURL(new Blob([res]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'message.txt');
+          document.body.appendChild(link);
+          link.click();
+          setSteps({
+            ...steps,
+            downloaded: true,
+          });
+          setIsDownload(false);
+        },
+        () => {
+          setIsDownload(false);
+        }
+      )
+    );
   };
 
   const setSeenGuide = () => {
-    setIsViewGuideLoading(true);
-    dispatch(
-      handleViewGuide(undefined, () => {
-        setSteps({
-          ...steps,
-          seenguide: true,
-        });
-        setIsViewGuideLoading(false);
-      })
-    );
+    setSteps({
+      ...steps,
+      seenguide: true,
+    });
   };
 
   return (
@@ -54,15 +65,15 @@ const VerifyNodeOwnershipSecondStep = ({
             <p className="text-sm lg:flex-grow pb-1">
               Download this message file for signing.
             </p>
-            <button
-              type="button"
-              className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none"
+            <Button
+              isLoading={isDownload}
+              className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
               onClick={setDoneDownload}
+              sizeSpinner={15}
+              disabled={isDownload}
             >
-              <a href="/files/SAMPLE.pdf" download>
-                Download
-              </a>
-            </button>
+              Download
+            </Button>
           </div>
         </div>
         <div className="flex my-8 animate__animated animate__fadeInUp animate__delay-7s">
@@ -72,11 +83,10 @@ const VerifyNodeOwnershipSecondStep = ({
               Sign the message with your node. See guide for more details.
             </p>
             <Button
-              isLoading={isViewGuideLoading}
               className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"
               onClick={setSeenGuide}
               sizeSpinner={15}
-              disabled={!steps.downloaded || isViewGuideLoading}
+              disabled={!steps.downloaded}
             >
               View Guide
             </Button>

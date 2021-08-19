@@ -7,6 +7,9 @@
     "build": "next build && next export",
     "start": "next start"
   },
+  "engines": {
+    "node": ">=10.6.0"
+  },
   "dependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^27.1.0",
     "@ckeditor/ckeditor5-build-classic": "^27.1.0",

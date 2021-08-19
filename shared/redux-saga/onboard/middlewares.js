@@ -86,16 +86,12 @@ export function* verifyFileCasperSigner({ payload, resolve, reject }) {
   }
 }
 
-export function* handleViewGuide({ resolve }) {
+export function* downloadMessageContent({ resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    yield get(['users/message-content'], { headers });
-    resolve();
+    const res = yield get(['users/message-content'], { responseType: 'blob' });
+    resolve(res);
   } catch (error) {
+    reject(error);
     yield put(saveApiResponseError(error));
   }
 }
@@ -225,7 +221,7 @@ export function* watchOnboard() {
   yield all([takeLatest('BYPASS_ONBOARD_STEP', bypassOnboardStep)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
-  yield all([takeLatest('HANDLE_VIEW_GUIDE', handleViewGuide)]);
+  yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
   yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);

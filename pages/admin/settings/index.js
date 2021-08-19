@@ -111,7 +111,7 @@ const Settings = () => {
                 fetchWarningMetrics={fetchWarningMetrics}
               />
             </section>
-            <section className="mt-20">
+            <section className="my-20">
               <h4 className="mb-7 text-lg font-medium">
                 Status page lock rules
               </h4>

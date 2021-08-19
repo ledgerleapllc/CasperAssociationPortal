@@ -62,9 +62,10 @@ export const postOwnerNodes = (payload, resolve, reject) => ({
   reject,
 });
 
-export const handleViewGuide = (payload, resolve) => ({
-  type: 'HANDLE_VIEW_GUIDE',
+export const downloadMessageContent = (resolve, reject) => ({
+  type: 'DOWNLOAD_MESSAGE_CONTENT',
   resolve,
+  reject,
 });
 
 export const uploadLetter = (payload, resolve, reject) => ({
