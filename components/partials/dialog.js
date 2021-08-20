@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { createPortal } from 'react-dom';
 
 // Common dialog Context
@@ -193,6 +193,8 @@ const Dialog = ({ dialog, onClosed }) => {
   );
 };
 
+const ChildrenMemo = memo(({ children }) => children);
+
 const DialogProvider = props => {
   const [dialog, setDialog] = useState(null);
   const onClosed = useCallback(() => {
@@ -201,8 +203,8 @@ const DialogProvider = props => {
   }, [setDialog]);
 
   return (
-    <DialogContext.Provider value={{ dialog, onClosed, setDialog }} {...props}>
-      {props.children}
+    <DialogContext.Provider value={{ dialog, onClosed, setDialog }}>
+      <ChildrenMemo>{props.children}</ChildrenMemo>
       {dialog && <Dialog dialog={dialog} onClosed={onClosed} />}
     </DialogContext.Provider>
   );

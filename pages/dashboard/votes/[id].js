@@ -1,5 +1,5 @@
 import router from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -43,7 +43,7 @@ const UserActiveBallot = ({ ballot, userVote }) => {
     }
   };
 
-  const viewdFile = file => {
+  const viewdFile = useCallback(file => {
     dispatch(
       viewedAttachDocument(file, () => {
         const fileTemp = files.find(x => x.id === file.id);
@@ -51,7 +51,7 @@ const UserActiveBallot = ({ ballot, userVote }) => {
         setFiles([...files]);
       })
     );
-  };
+  }, []);
 
   return (
     <div className="flex flex-col h-full">

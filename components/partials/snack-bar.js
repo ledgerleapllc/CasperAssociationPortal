@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import classNames from 'classnames';
 
 const SNACK_CLASS = {
@@ -32,6 +32,8 @@ const DEFAULT_CONFIG = {
   delay: 3000,
 };
 
+const ChildrenMemo = memo(({ children }) => children);
+
 const SnackBarProvider = props => {
   const [snack, setSnack] = useState(null);
 
@@ -39,7 +41,7 @@ const SnackBarProvider = props => {
     type = 'primary',
     message,
     config = {
-      delay: 3000,
+      delay: 4000,
     }
   ) => {
     const configTemp = {
@@ -57,7 +59,7 @@ const SnackBarProvider = props => {
 
   return (
     <SnackBarContext.Provider value={{ openSnack }}>
-      {props.children}
+      <ChildrenMemo>{props.children}</ChildrenMemo>
       {snack && <SnackBar data={snack} />}
     </SnackBarContext.Provider>
   );

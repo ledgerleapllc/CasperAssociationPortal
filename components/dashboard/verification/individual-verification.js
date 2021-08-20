@@ -196,26 +196,28 @@ export const IndividualVerification = ({ goNext }) => {
             </div>
             <div className="w-full lg:w-5/12 mb-10">
               <label>Date of Birth</label>
-              <Controller
-                name="dob"
-                control={control}
-                rules={{
-                  required: 'Date of Birth is required',
-                }}
-                defaultValue=""
-                render={({ field: { onChange: onChangeDate } }) => (
-                  <DateTimePicker
-                    placeholder="DOB (mm/dd/yyyy) *"
-                    onChange={onChangeDate}
-                    className="w-10/12"
-                  />
+              <div className="mt-2 h-14">
+                <Controller
+                  name="dob"
+                  control={control}
+                  rules={{
+                    required: 'Date of Birth is required',
+                  }}
+                  defaultValue=""
+                  render={({ field: { onChange: onChangeDate } }) => (
+                    <DateTimePicker
+                      placeholder="DOB (mm/dd/yyyy) *"
+                      onChange={onChangeDate}
+                      className="w-10/12"
+                    />
+                  )}
+                />
+                {formState.errors?.dob && (
+                  <p className="pl-7 mt-2 text-primary">
+                    {formState.errors.dob?.message}
+                  </p>
                 )}
-              />
-              {formState.errors?.dob && (
-                <p className="pl-7 mt-2 text-primary">
-                  {formState.errors.dob?.message}
-                </p>
-              )}
+              </div>
             </div>
           </div>
           <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-7s">

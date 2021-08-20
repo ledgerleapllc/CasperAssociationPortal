@@ -2,13 +2,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { ClockBar } from '../../../partials';
-import { LogViewedDocsDialog } from '../dialogs/log-viewed-docs';
-import { viewedAttachDocument } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
-import { useDialog } from '../../../partials/dialog';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -28,10 +24,9 @@ const Styles = styled.div`
   }
 `;
 
-const ActiveBallot = ({ ballot, onViewedFile }) => {
+const ActiveBallot = React.memo(({ ballot, onViewedFile, onViewedLogsDoc }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState();
-  const { setDialog } = useDialog();
 
   useEffect(() => {
     const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -39,12 +34,7 @@ const ActiveBallot = ({ ballot, onViewedFile }) => {
   }, [userInfo]);
 
   const seeUserViewedDoc = file => {
-    setDialog({
-      type: 'DialogCustom',
-      data: {
-        content: <LogViewedDocsDialog id={file?.id} />,
-      },
-    });
+    onViewedLogsDoc(file?.id);
   };
 
   const viewdFile = file => {
@@ -129,6 +119,6 @@ const ActiveBallot = ({ ballot, onViewedFile }) => {
       </table>
     </Styles>
   );
-}
+});
 
 export default ActiveBallot;
