@@ -4,7 +4,7 @@ import { AppContext } from '../../../../pages/_app';
 import { recordVote } from '../../../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../../../partials/dialog';
 
-export const MakeVote = ({ id }) => {
+export const MakeVote = ({ id, onReload }) => {
   const { setLoading } = useContext(AppContext);
   const dispatch = useDispatch();
   const { onClosed } = useDialog();
@@ -16,6 +16,7 @@ export const MakeVote = ({ id }) => {
         { id, vote },
         () => {
           setLoading(false);
+          onReload();
           onClosed();
         },
         () => {

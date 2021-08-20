@@ -16,7 +16,7 @@ import {
 import { useDialog } from '../../../components/partials/dialog';
 import { useSnackBar } from '../../../components/partials/snack-bar';
 
-const UserActiveBallot = ({ ballot, userVote }) => {
+const UserActiveBallot = ({ ballot, userVote, onReload }) => {
   const { setDialog } = useDialog();
   const [files, setFiles] = useState();
   const { openSnack } = useSnackBar();
@@ -37,21 +37,24 @@ const UserActiveBallot = ({ ballot, userVote }) => {
       setDialog({
         type: 'DialogCustom',
         data: {
-          content: <MakeVote id={ballot.id} />,
+          content: <MakeVote id={ballot.id} onReload={onReload} />,
         },
       });
     }
   };
 
-  const viewdFile = useCallback(file => {
-    dispatch(
-      viewedAttachDocument(file, () => {
-        const fileTemp = files.find(x => x.id === file.id);
-        fileTemp.is_viewed = 1;
-        setFiles([...files]);
-      })
-    );
-  }, []);
+  const viewdFile = useCallback(
+    file => {
+      dispatch(
+        viewedAttachDocument(file, () => {
+          const fileTemp = files.find(x => x.id === file.id);
+          fileTemp.is_viewed = 1;
+          setFiles([...files]);
+        })
+      );
+    },
+    [files]
+  );
 
   return (
     <div className="flex flex-col h-full">
@@ -106,22 +109,26 @@ const UserVoteDetail = () => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
 
+  const fetchVoteDetail = () => {
+    setLoading(true);
+    dispatch(
+      getVoteDetail(
+        id,
+        res => {
+          setVoting(res);
+          setLoading(false);
+          setUserVote(res.user_vote);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   useEffect(() => {
     if (id) {
-      setLoading(true);
-      dispatch(
-        getVoteDetail(
-          id,
-          res => {
-            setVoting(res);
-            setLoading(false);
-            setUserVote(res.user_vote);
-          },
-          () => {
-            setLoading(false);
-          }
-        )
-      );
+      fetchVoteDetail();
     }
   }, [id]);
 
@@ -130,7 +137,11 @@ const UserVoteDetail = () => {
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
         <div className="w-full h-full">
           {voting && voting.status === 'active' && (
-            <UserActiveBallot ballot={voting} userVote={userVote} />
+            <UserActiveBallot
+              ballot={voting}
+              userVote={userVote}
+              onReload={fetchVoteDetail}
+            />
           )}
           {voting && voting.status !== 'active' && (
             <UserCompleteBallot ballot={voting} />
