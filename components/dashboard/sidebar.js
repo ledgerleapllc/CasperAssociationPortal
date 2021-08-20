@@ -140,7 +140,7 @@ const Sidebar = () => {
   }, [userInfo]);
 
   return (
-    <sidebar className="hidden lg:flex flex-col p-6.25 pr-3 z-10 block h-full w-200px bg-white shadow-light">
+    <div className="hidden lg:flex flex-col p-6.25 pr-3 z-10 block h-full w-200px bg-white shadow-light">
       <CasperLogoDark />
       <ul className="mt-14 flex flex-col">
         {navs.map((nav, index) => (
@@ -190,7 +190,7 @@ const Sidebar = () => {
         </ul>
       )}
       <p className="mt-auto text-xxs">© Casper Association Portal 2021</p>
-    </sidebar>
+    </div>
   );
 };
 

@@ -48,16 +48,6 @@ export const recordVote = (payload, resolve, reject) => ({
   reject,
 });
 
-export const recordVoteSuccess = data => ({
-  type: 'RECORD_VOTE_SUCCESS',
-  payload: data,
-});
-
-export const recordVoteError = error => ({
-  type: 'RECORD_VOTE_ERROR',
-  payload: error,
-});
-
 export const getDiscussions = (payload, successCb) => ({
   type: 'GET_DISCUSSIONS',
   payload,
@@ -203,4 +193,10 @@ export const getPriceTokenGraphInfo = (resolve, reject) => ({
   type: 'GET_PRICE_TOKEN_GRAPH_INFO',
   resolve,
   reject,
+});
+
+export const viewedAttachDocument = (payload, resolve) => ({
+  type: 'VIEWED_ATTACH_DOCUMENT',
+  payload,
+  resolve,
 });

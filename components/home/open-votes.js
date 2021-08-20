@@ -54,8 +54,8 @@ const OpenVotes = ({ toggleOpenVotes }) => {
     toggleOpenVotes(!!data.length);
   }, [JSON.stringify(data)]);
 
-  const goToActiveVoteDetail = id => {
-    router.push(`/dashboard/votes/active/${id}`);
+  const goToVoteDetail = id => {
+    router.push(`/dashboard/votes/${id}`);
   };
 
   return (
@@ -81,7 +81,7 @@ const OpenVotes = ({ toggleOpenVotes }) => {
               {data.map((row, ind) => (
                 <Table.BodyRow
                   key={ind}
-                  selectRowHandler={() => goToActiveVoteDetail(row.id)}
+                  selectRowHandler={() => goToVoteDetail(row.id)}
                   className="custom-row"
                 >
                   <Table.BodyCell>

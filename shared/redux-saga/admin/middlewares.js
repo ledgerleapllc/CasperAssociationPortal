@@ -254,6 +254,21 @@ export function* getIpHistories({ payload, callback }) {
   }
 }
 
+export function* getLogUsersViewdDoc({ payload, callback }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`admin/ballots/viewed-docs/${payload.id}?${query}`]);
+
+    yield delay(500); // => this need for scroll loadmore.
+    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* inviteSubadmin({ email, resolve, reject }) {
   try {
     const res = yield post(['admin/teams/invite'], { email });
@@ -849,6 +864,7 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_SUBADMINS', getSubadmins)]);
   yield all([takeLatest('REGISTER_SUB_ADMIN', registerSubAdmin)]);
   yield all([takeLatest('GET_IP_HISTORIES', getIpHistories)]);
+  yield all([takeLatest('GET_LOG_USERS_VIEWED_DOC', getLogUsersViewdDoc)]);
   yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
   yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
   yield all([takeLatest('UNDO_REVOKE_SUBADMIN', undoRevokeSubadmin)]);

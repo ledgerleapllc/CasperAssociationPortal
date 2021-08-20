@@ -165,6 +165,12 @@ export const getIPHistories = (payload, callback) => ({
   callback,
 });
 
+export const getLogUsersViewdDoc = (payload, callback) => ({
+  type: 'GET_LOG_USERS_VIEWED_DOC',
+  payload,
+  callback,
+});
+
 export const inviteSubadmin = (email, resolve, reject) => ({
   type: 'INVITE_SUBADMIN',
   email,

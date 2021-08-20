@@ -1,7 +1,7 @@
 import { intervalToDuration, differenceInSeconds, compareDesc } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
-const ClockBar = props => {
+const ClockBar = memo(props => {
   const [duration, setDuration] = useState('');
   const [progress, setProgress] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
@@ -63,6 +63,6 @@ const ClockBar = props => {
       )}
     </div>
   );
-};
+});
 
 export default ClockBar;

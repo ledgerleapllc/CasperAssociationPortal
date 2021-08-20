@@ -20,6 +20,7 @@ import { DialogProvider } from '../components/partials/dialog';
 import AppResolver from '../components/layouts/app-resolver';
 import { fetchUserInfo } from '../shared/redux-saga/auth/actions';
 import AppLoading from '../components/layouts/app-loading';
+import { SnackBarProvider } from '../components/partials/snack-bar';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
@@ -46,24 +47,26 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <DialogProvider>
-        <Head>
-          <title>Casper Association Portal</title>
-          <link rel="icon" href="/favicon.svg" />
-          <meta name="description" content="Casper Association Portal" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, user-scalable=no"
-          />
-        </Head>
-        <Container>
-          <AppContext.Provider value={{ loading, setLoading }}>
-            {loading && <AppLoading />}
-            <Component {...pageProps} />
-          </AppContext.Provider>
-        </Container>
-        <AppResolver />
-      </DialogProvider>
+      <Head>
+        <title>Casper Association Portal</title>
+        <link rel="icon" href="/favicon.svg" />
+        <meta name="description" content="Casper Association Portal" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, user-scalable=no"
+        />
+      </Head>
+      <AppContext.Provider value={{ loading, setLoading }}>
+        <DialogProvider>
+          <SnackBarProvider>
+            <Container>
+              {loading && <AppLoading />}
+              <Component {...pageProps} />
+            </Container>
+            <AppResolver />
+          </SnackBarProvider>
+        </DialogProvider>
+      </AppContext.Provider>
     </Provider>
   );
 }

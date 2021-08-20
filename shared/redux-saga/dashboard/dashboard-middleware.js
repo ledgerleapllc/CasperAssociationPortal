@@ -5,8 +5,6 @@ import {
   getListCategorySupportError,
   getVoteDetailSuccess,
   getVoteDetailError,
-  recordVoteSuccess,
-  recordVoteError,
 } from './dashboard-actions';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -67,22 +65,12 @@ export function* getVoteDetail({ payload, resolve, reject }) {
 
 export function* recordVote({ payload, resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield post(
-      [`users/votes/${payload.id}`],
-      { vote: payload.vote },
-      {
-        headers,
-      }
-    );
-    yield put(recordVoteSuccess(res));
-    resolve();
+    const res = yield post([`users/votes/${payload.id}`], {
+      vote: payload.vote,
+    });
+    resolve(res.data);
   } catch (error) {
-    reject();
-    yield put(recordVoteError(error));
+    reject(error);
   }
 }
 
@@ -369,6 +357,15 @@ export function* getPriceTokenGraphInfo({ resolve, reject }) {
   }
 }
 
+export function* viewedAttachDocument({ payload, resolve }) {
+  try {
+    const res = yield post([`users/viewed-docs/${payload.id}`]);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -400,4 +397,5 @@ export function* watchDemoData() {
   yield all([takeLatest('UPDATE_CLICK_CTA', updateClickCTANotification)]);
   yield all([takeLatest('GET_LOCK_PAGE_CONDITIONS', getLockPageConditions)]);
   yield all([takeLatest('GET_PRICE_TOKEN_GRAPH_INFO', getPriceTokenGraphInfo)]);
+  yield all([takeLatest('VIEWED_ATTACH_DOCUMENT', viewedAttachDocument)]);
 }

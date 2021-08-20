@@ -98,8 +98,8 @@ const Tab1 = () => {
     fetchActiveVotes(1, newParams);
   };
 
-  const goToActiveVoteDetail = id => {
-    router.push(`/dashboard/votes/active/${id}`);
+  const goToVoteDetail = id => {
+    router.push(`/dashboard/votes/${id}`);
   };
 
   return (
@@ -134,7 +134,7 @@ const Tab1 = () => {
             <Table.BodyRow
               className="py-6"
               key={ind}
-              selectRowHandler={() => goToActiveVoteDetail(row.id)}
+              selectRowHandler={() => goToVoteDetail(row.id)}
             >
               <Table.BodyCell>
                 <p className="truncate">{row.title}</p>
@@ -188,7 +188,7 @@ const Tab2 = () => {
   }, []);
 
   const goToFinishedVoteDetail = id => {
-    router.push(`/dashboard/votes/complete/${id}`);
+    router.push(`/dashboard/votes/${id}`);
   };
 
   return (
@@ -282,8 +282,8 @@ const Tab3 = () => {
     fetchMyVotes(1, newParams);
   };
 
-  const goToActiveVoteDetail = id => {
-    router.push(`/dashboard/votes/active/${id}`);
+  const goToVoteDetail = id => {
+    router.push(`/dashboard/votes/${id}`);
   };
 
   return (
@@ -318,7 +318,7 @@ const Tab3 = () => {
             <Table.BodyRow
               className="py-6"
               key={ind}
-              selectRowHandler={() => goToActiveVoteDetail(row.id)}
+              selectRowHandler={() => goToVoteDetail(row.id)}
             >
               <Table.BodyCell>
                 <p className="truncate">{row.title}</p>

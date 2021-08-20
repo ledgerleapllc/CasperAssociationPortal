@@ -10,7 +10,6 @@ import {
 import {
   demoDataReducer,
   voteDetailReducer,
-  recordVoteReducer,
 } from './dashboard/dashboard-reducers';
 import { apiControllerReducer } from './api-controller/reducers';
 import { onboardReducer } from './onboard/reducers';
@@ -25,7 +24,6 @@ const appReducer = combineReducers({
   onboardReducer,
   intakeReducer,
   voteDetailReducer,
-  recordVoteReducer,
   cancelBallotReducer,
 });
 
