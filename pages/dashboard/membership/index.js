@@ -146,7 +146,7 @@ const DashboardMembership = () => {
       <div className="membership h-full flex flex-col gap-5 w-328">
         {warningMetrics.map(warnMetric => (
           <Card className="flex flex-col px-9 py-5 bg-primary">
-            <span className="text-base font-medium text-white">
+            <span className="text-lg font-medium text-white">
               {warnMetric.label} Warning!
             </span>
             <span className="pt-1.25 text-xs text-white">
@@ -165,9 +165,9 @@ const DashboardMembership = () => {
           </Card>
         ))}
         <Card className="flex flex-col px-9 py-5">
-          <span className="text-base font-medium">Membership</span>
+          <span className="text-lg font-medium">Membership</span>
           <div className="mt-2.5 mb-8 border border-primary border-b" />
-          <span className="text-xs pb-5">
+          <p className="pb-5">
             {`All members of the Casper portal need to maintain minimum node
             metrics to have access to all parts of the portal including Node
             Uptime, Block Height, and Update Responsiveness. If your node falls
@@ -175,16 +175,16 @@ const DashboardMembership = () => {
             and given a grace period to fix your statistics. If you do not fix
             it in time, some areas of your portal access will be blocked until
             your average is restored.`}
-          </span>
+          </p>
         </Card>
         <div className="flex gap-5">
           <div className="flex flex-col gap-5 flex-grow">
             <Card className="flex px-9 py-6 gap-6">
               <div className="w-32">
-                <span className="text-base font-medium">Node Status:</span>
+                <span className="text-lg font-medium">Node Status:</span>
               </div>
               <div className="flex flex-1 flex-col gap-1.25">
-                <p className="text-base font-medium text-primary">
+                <p className="text-lg font-medium text-primary">
                   {getNodeData()?.label}
                 </p>
                 <span className="text-sm text-gray">{getNodeData()?.desc}</span>
@@ -192,10 +192,10 @@ const DashboardMembership = () => {
             </Card>
             <Card className="flex px-9 py-6 gap-6">
               <div className="w-32">
-                <span className="text-base font-medium">KYC Status:</span>
+                <span className="text-lg font-medium">KYC Status:</span>
               </div>
               <div className="flex flex-1 flex-col gap-1.25">
-                <p className="text-base font-medium text-primary">
+                <p className="text-lg font-medium text-primary">
                   {getKYCVerifiedData()?.label}
                 </p>
                 <span className="text-sm text-gray">
