@@ -104,6 +104,7 @@ module.exports = {
         '8.85/10': '88.5%',
         '90px': '90px',
         '200px': '200px',
+        container: '1140px',
       },
       padding: {
         '6.25': '1.5625rem',

@@ -17,6 +17,7 @@ import { Button } from './button';
 import { LoadingButton } from './loading-button';
 import Switch from './switch';
 import Dropdown from './dropdown';
+import Slider from './slider';
 
 export {
   Card,
@@ -36,6 +37,7 @@ export {
   ProgressBar,
   LoadingButton,
   Dropdown,
+  Slider,
   Switch,
   Avatar,
 };

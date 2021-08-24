@@ -183,7 +183,7 @@ Table.BodyRow = props => {
     <div
       className={`${
         props.className
-      } flex items-center flex-row w-full py-2 border-b border-gray ${
+      } flex items-center flex-row w-full py-2 border-b border-gray1 ${
         props.selectRowHandler ? 'cursor-pointer' : ''
       }`}
       onClick={doSelectRow}

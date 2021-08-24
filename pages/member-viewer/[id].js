@@ -109,7 +109,7 @@ const MembersViewerDetail = () => {
           </Link>
         </div>
       </header>
-      <div className="mt-10 mx-auto container bg-transparent">
+      <div className="mt-10 mx-auto w-container bg-transparent">
         <div className="w-full border-primary border-b-2 pb-3">
           <BackButton href="/member-viewer" text="Back" force />
         </div>
