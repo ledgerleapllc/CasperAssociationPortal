@@ -9,13 +9,14 @@ import { useRouter } from 'next/router';
 import { Button, Slider } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
-import { formatDate, getShortNodeAddress } from '../../shared/core/utils';
+import { formatDate, getShortNodeAddress, numberWithCommas } from '../../shared/core/utils';
 import { getPublicMembers } from '../../shared/redux-saga/member-viewer/actions';
+import IconRefresh from '../../public/images/ic_refresh.svg';
 
 const TableSlider = styled.table`
   tr {
     td {
-      padding-bottom: 1.5625rem;
+      padding-bottom: 1.2rem;
     }
     td:nth-child(1) {
       width: 30%;
@@ -153,7 +154,7 @@ const MembersViewer = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <header className="hidden lg:flex w-full bg-white shadow-light h-18">
         <div className="flex justify-between items-center container mx-auto">
           <CasperLogoDark />
@@ -164,13 +165,13 @@ const MembersViewer = () => {
           </Link>
         </div>
       </header>
-      <div className="flex flex-col mt-14 mx-auto w-container bg-transparent">
-        <div className="flex">
+      <div className="flex-1 min-h-0 flex flex-col pt-14 mx-auto w-container bg-transparent">
+        <div className="flex h-2/5">
           <div className="w-4/5 border-r-2 border-gray">
             <h2 className="text-lg font-medium">
               Drag the sliders to adjust the weighted score for each category.
             </h2>
-            <TableSlider className="text-gray text-xs my-10 w-10/12">
+            <TableSlider className="text-gray text-xs my-5 w-10/12">
               <tbody>
                 <tr>
                   <td>Uptime</td>
@@ -228,7 +229,7 @@ const MembersViewer = () => {
             </TableSlider>
             {getMax('all') === 100 && (
               <Button primary onClick={() => refresh()}>
-                Refresh
+                <IconRefresh className="mr-2" /> Refresh
               </Button>
             )}
             {getMax('all') !== 100 && (
@@ -247,89 +248,95 @@ const MembersViewer = () => {
             )}
           </div>
         </div>
-        <div className="flex justify-between pt-14 border-primary border-b-2 pb-3">
-          <div className="flex flex-col justify-center">
-            <h3 className="text-dark2 text-lg font-medium">Member Nodes</h3>
-            <p className="text-xs text-gray">
-              Click on a user to see more details
-            </p>
+        <div className="flex flex-col h-3/5">
+          <div className="flex justify-between pt-8 border-primary border-b-2 pb-3">
+            <div className="flex flex-col justify-center">
+              <h3 className="text-dark2 text-lg font-medium">Member Nodes</h3>
+              <p className="text-xs text-gray">
+                Click on a user to see more details
+              </p>
+            </div>
+            <input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={e => handleSearch(e.target.value)}
+              className="w-52 h-11 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Search"
-            value={search}
-            onChange={e => handleSearch(e.target.value)}
-            className="w-52 h-11 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
-          />
-        </div>
-        <div className="flex w-full h-96 mb-20">
-          <Styles className="h-full w-full">
-            <Table
-              {...register}
-              className="members-table pt-10 h-full w-full"
-              onLoadMore={fetchMembers}
-              hasMore={hasMore}
-              dataLength={data.length}
-            >
-              <Table.Header>
-                <Table.HeaderCell>
-                  <p>Users Name</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>Registration Date</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>Verified</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>Rate</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>Delegates</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>CSPR Delegated</p>
-                </Table.HeaderCell>
-                <Table.HeaderCell>
-                  <p>Uptime</p>
-                </Table.HeaderCell>
-              </Table.Header>
-              <Table.Body className="">
-                {data.map((row, ind) => (
-                  <Table.BodyRow
-                    key={`a-${ind}`}
-                    selectRowHandler={() =>
-                      router.push(`/member-viewer/${row.id}`)
-                    }
-                  >
-                    <Table.BodyCell>
-                      <p className="truncate">{row.full_name}</p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p className={row.kyc_verified_at ? 'text-primary' : ''}>
-                        {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
-                      </p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p className="capitalize">{row.type}</p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p>{getShortNodeAddress(row.public_address_node)}</p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p>2,000,200</p>
-                    </Table.BodyCell>
-                    <Table.BodyCell>
-                      <p>50 %</p>
-                    </Table.BodyCell>
-                  </Table.BodyRow>
-                ))}
-              </Table.Body>
-            </Table>
-          </Styles>
+          <div className="flex w-full flex-1 min-h-0 mb-5">
+            <Styles className="h-full w-full">
+              <Table
+                {...register}
+                className="members-table pt-5 h-full w-full"
+                onLoadMore={fetchMembers}
+                hasMore={hasMore}
+                dataLength={data.length}
+              >
+                <Table.Header>
+                  <Table.HeaderCell>
+                    <p>Users Name</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Registration Date</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Verified</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Rate</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Delegates</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>CSPR Delegated</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Uptime</p>
+                  </Table.HeaderCell>
+                </Table.Header>
+                <Table.Body className="">
+                  {data.map((row, ind) => (
+                    <Table.BodyRow
+                      key={`a-${ind}`}
+                      selectRowHandler={() =>
+                        router.push(`/member-viewer/${row.id}`)
+                      }
+                    >
+                      <Table.BodyCell>
+                        <p className="truncate">{row.full_name}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p
+                          className={row.kyc_verified_at ? 'text-primary' : ''}
+                        >
+                          {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
+                        </p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p className="capitalize">
+                          {row.delegation_rate || 0}%
+                        </p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{row.delegators_count || 0}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{numberWithCommas(row.cspr_delegated)}</p>
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <p>{row.uptime || 0}%</p>
+                      </Table.BodyCell>
+                    </Table.BodyRow>
+                  ))}
+                </Table.Body>
+              </Table>
+            </Styles>
+          </div>
         </div>
       </div>
     </div>

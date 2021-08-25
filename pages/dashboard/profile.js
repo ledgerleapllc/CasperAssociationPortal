@@ -13,7 +13,7 @@ import {
   uploadAvatar,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import IconCamera from '../../public/images/ic_camera.svg';
-import { formatDate } from '../../shared/core/utils';
+import { formatDate, generateTextForEras } from '../../shared/core/utils';
 import VerifiedIcon from '../../public/images/ic_check_mark.svg';
 import { logoutApp, updateUser } from '../../shared/redux-saga/auth/actions';
 import useMetrics from '../../components/hooks/useMetrics';
@@ -351,7 +351,8 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: {metrics?.average_responsiveness}+ eras early
+                      Average:
+                      {generateTextForEras(metrics?.average_responsiveness)}
                     </p>
                     <ProgressBar
                       value={metrics?.update_responsiveness}

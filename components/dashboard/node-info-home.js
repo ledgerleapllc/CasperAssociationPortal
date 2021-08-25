@@ -1,5 +1,5 @@
 import 'react-circular-progressbar/dist/styles.css';
-import { numberWithCommas } from '../../shared/core/utils';
+import { generateTextForEras, numberWithCommas } from '../../shared/core/utils';
 import useMetrics from '../hooks/useMetrics';
 import { ProgressBar } from '../partials';
 
@@ -66,7 +66,7 @@ const NodeInfoHome = () => {
           <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <p className="text-sm text-gray mb-2">
-          Average: {metrics?.average_responsiveness}+ eras early
+          Average: {generateTextForEras(metrics?.average_responsiveness)}
         </p>
         <ProgressBar
           value={metrics?.update_responsiveness}

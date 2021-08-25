@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import router from 'next/router';
 import { BackButton, Button, ProgressBar } from '../../components/partials';
-import { formatDate } from '../../shared/core/utils';
+import { formatDate, generateTextForEras } from '../../shared/core/utils';
 import { AppContext } from '../_app';
 import { getPublicMemberDetail } from '../../shared/redux-saga/member-viewer/actions';
 import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
@@ -275,7 +275,7 @@ const MembersViewerDetail = () => {
                     />
                   </div>
                   <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                    Average: {metrics?.avg_update_responsiveness}+ eras early
+                    Average: {generateTextForEras(metrics?.average_responsiveness)}
                   </p>
                   <ProgressBar
                     value={metrics?.update_responsiveness}

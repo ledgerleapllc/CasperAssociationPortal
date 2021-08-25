@@ -13,5 +13,14 @@ export const getShortNodeAddress = address => {
   return '-';
 };
 
+export const generateTextForEras = resposiveness_value => {
+  if (resposiveness_value !== null || resposiveness_value !== undefined) {
+    return `${resposiveness_value} era${resposiveness_value > 1 ? 's' : ''} ${
+      resposiveness_value < 0 ? 'late' : 'early'
+    }`;
+  }
+  return '';
+};
+
 export const numberWithCommas = str =>
   str ? str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '0';
