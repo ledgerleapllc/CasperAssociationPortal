@@ -14,7 +14,7 @@ export const getShortNodeAddress = address => {
 };
 
 export const generateTextForEras = resposiveness_value => {
-  if (resposiveness_value !== null || resposiveness_value !== undefined) {
+  if (resposiveness_value === 0 || resposiveness_value) {
     return `${resposiveness_value} era${resposiveness_value > 1 ? 's' : ''} ${
       resposiveness_value < 0 ? 'late' : 'early'
     }`;

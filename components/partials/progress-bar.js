@@ -15,13 +15,16 @@ const LineProgressBar = ({ text, progress, options }) => {
 
   return (
     <>
-      <div className="progress-bar progress-bar-line relative w-full h-5 overflow-hidden h-4 mt-1 text-xs border border-gray1 flex rounded-lg bg-gray1">
+      <div
+        className="progress-bar progress-bar-line relative w-full overflow-hidden mt-1 text-xs border border-gray1 flex rounded-lg bg-gray1"
+        style={{ height: '13px' }}
+      >
         <div
           className="w-0 transition-width duration-600 ease-in-out transhadow-none flex whitespace-nowrap rounded-lg bg-primary"
           style={{ width: `${progress}%` }}
         />
         <span
-          className="progress-label text-white absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="text-xxs progress-label text-white absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2"
           style={progressbarTextPosition()}
         >
           {text}

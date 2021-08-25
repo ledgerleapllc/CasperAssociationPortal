@@ -6,11 +6,19 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import router from 'next/router';
 import { BackButton, Button, ProgressBar } from '../../components/partials';
-import { formatDate, generateTextForEras } from '../../shared/core/utils';
+import {
+  formatDate,
+  generateTextForEras,
+  numberWithCommas,
+} from '../../shared/core/utils';
+import PlusIcon from '../../public/images/ic_plus.svg';
 import { AppContext } from '../_app';
 import { getPublicMemberDetail } from '../../shared/redux-saga/member-viewer/actions';
 import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
+import IconCopy from '../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../components/partials/snack-bar';
+import IconVerified from '../../public/images/ic_check_mark.svg';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -56,6 +64,7 @@ const MembersViewerDetail = () => {
   const dispatch = useDispatch();
   const [memberInfo, setMemberInfo] = useState(null);
   const [metrics, setMetrics] = useState(null);
+  const { openSnack } = useSnackBar();
 
   useEffect(() => {
     if (id) {
@@ -97,24 +106,35 @@ const MembersViewerDetail = () => {
     }
   }, [id]);
 
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <header className="hidden lg:flex w-full bg-white shadow-light h-18">
         <div className="flex justify-between items-center container mx-auto">
           <CasperLogoDark />
           <Link href="/register-type">
             <a>
-              <Button primary>Become a Member</Button>
+              <Button className="flex items-center justify-center" primary>
+                <PlusIcon className="text-xs" />
+                <span className="pl-2">Become a Member</span>
+              </Button>
             </a>
           </Link>
         </div>
       </header>
-      <div className="mt-10 mx-auto w-container bg-transparent">
+      <div className="flex-1 min-h-0 pt-10 mx-auto w-container bg-transparent">
         <div className="w-full border-primary border-b-2 pb-3">
           <BackButton href="/member-viewer" text="Back" force />
         </div>
         <div className="flex w-full mt-10">
-          <div className="lg:pr-24">
+          <div className="w-full">
             <section className="basic-info">
               <div className="flex">
                 <div className="upload-avatar-box mr-9">
@@ -142,7 +162,12 @@ const MembersViewerDetail = () => {
                             <span>Name:</span>
                           </td>
                           <td>
-                            <span>{memberInfo?.full_name}</span>
+                            <div className="flex items-center gap-2">
+                              <span>{memberInfo?.full_name} </span>
+                              {memberInfo?.kyc_verified_at && (
+                                <IconVerified className="text-primary" />
+                              )}
+                            </div>
                           </td>
                         </tr>
                         <tr>
@@ -191,7 +216,22 @@ const MembersViewerDetail = () => {
                         <span>Public Node Address:</span>
                       </td>
                       <td>
-                        <span>{memberInfo?.public_address_node}</span>
+                        <div className="flex items-center">
+                          <span>{memberInfo?.public_address_node}</span>
+                          <button
+                            className="ml-6"
+                            type="button"
+                            onClick={() => copyClipboard()}
+                          >
+                            <IconCopy />
+                          </button>
+                          <input
+                            id="public-address"
+                            value={memberInfo?.public_address_node}
+                            readOnly
+                            hidden
+                          />
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -199,7 +239,7 @@ const MembersViewerDetail = () => {
                         <span>Validator Fee:</span>
                       </td>
                       <td>
-                        <span>5%</span>
+                        <span>{memberInfo?.validator_fee}%</span>
                       </td>
                     </tr>
                     <tr>
@@ -215,7 +255,9 @@ const MembersViewerDetail = () => {
                         <span>CSPR Self-Staked:</span>
                       </td>
                       <td>
-                        <span>1,200,000</span>
+                        <span>
+                          {numberWithCommas(memberInfo?.cspr_self_staked)}
+                        </span>
                       </td>
                     </tr>
                     <tr>
@@ -223,17 +265,16 @@ const MembersViewerDetail = () => {
                         <span>CSPR Delegated:</span>
                       </td>
                       <td>
-                        <span>15,000,000</span>
+                        <span>
+                          {numberWithCommas(memberInfo?.cspr_delegated)}
+                        </span>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </StylesAdvanced>
-              <div
-                className="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-32 2xl:gap-y-1"
-                style={{ width: '40rem' }}
-              >
-                <div className="flex flex-col lg:py-1 2xl:py-2">
+              <div className="flex gap-24 w-4/5">
+                <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
                   <div className="flex flex-row">
                     <span className="text-lg">Uptime</span>
                     <img
@@ -247,7 +288,7 @@ const MembersViewerDetail = () => {
                   }%`}</p>
                   <ProgressBar value={metrics?.uptime} mask="x%" />
                 </div>
-                <div className="flex flex-col lg:py-1 2xl:py-2">
+                <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
                   <div className="flex flex-row">
                     <span className="text-lg">Block Height</span>
                     <img
@@ -265,7 +306,7 @@ const MembersViewerDetail = () => {
                     mask="x/y"
                   />
                 </div>
-                <div className="flex flex-col lg:py-1 2xl:py-2">
+                <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
                   <div className="flex flex-row">
                     <span className="text-lg">Update Responsiveness</span>
                     <img
@@ -275,7 +316,7 @@ const MembersViewerDetail = () => {
                     />
                   </div>
                   <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                    Average: {generateTextForEras(metrics?.average_responsiveness)}
+                    Average: {generateTextForEras(metrics?.avg_update_responsiveness)}
                   </p>
                   <ProgressBar
                     value={metrics?.update_responsiveness}
@@ -287,7 +328,7 @@ const MembersViewerDetail = () => {
                     }}
                   />
                 </div>
-                <div className="flex flex-col lg:py-1 2xl:py-2">
+                {/* <div className="flex flex-col lg:py-1 2xl:py-2">
                   <div className="flex flex-row">
                     <span className="text-lg">Peers</span>
                     <img
@@ -304,12 +345,15 @@ const MembersViewerDetail = () => {
                     total={metrics?.max_peers}
                     mask="x/y"
                   />
-                </div>
+                </div> */}
               </div>
             </section>
           </div>
         </div>
       </div>
+      <footer className="pb-2 flex justify-center text-xs">
+        ©2021 CasperLabs.io
+      </footer>
     </div>
   );
 };

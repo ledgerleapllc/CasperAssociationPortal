@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 18 18">
+  <defs><style>.a{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}</style></defs>
+  <g transform="translate(1 1)">
+    <path class="a" d="M15.1,13.5h7.2a1.6,1.6,0,0,1,1.6,1.6v7.2a1.6,1.6,0,0,1-1.6,1.6H15.1a1.6,1.6,0,0,1-1.6-1.6V15.1A1.6,1.6,0,0,1,15.1,13.5Z" transform="translate(-7.9 -7.9)"/>
+    <path class="a" d="M5.4,13.4H4.6A1.6,1.6,0,0,1,3,11.8V4.6A1.6,1.6,0,0,1,4.6,3h7.2a1.6,1.6,0,0,1,1.6,1.6v.8" transform="translate(-3 -3)"/>
+  </g>
+</svg>

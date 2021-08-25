@@ -9,9 +9,10 @@ import { useRouter } from 'next/router';
 import { Button, Slider } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
-import { formatDate, getShortNodeAddress, numberWithCommas } from '../../shared/core/utils';
+import { formatDate, numberWithCommas } from '../../shared/core/utils';
 import { getPublicMembers } from '../../shared/redux-saga/member-viewer/actions';
 import IconRefresh from '../../public/images/ic_refresh.svg';
+import PlusIcon from '../../public/images/ic_plus.svg';
 
 const TableSlider = styled.table`
   tr {
@@ -160,7 +161,10 @@ const MembersViewer = () => {
           <CasperLogoDark />
           <Link href="/register-type">
             <a>
-              <Button primary>+ Become a Member</Button>
+              <Button className="flex items-center justify-center" primary>
+                <PlusIcon className="text-xs" />
+                <span className="pl-2">Become a Member</span>
+              </Button>
             </a>
           </Link>
         </div>
@@ -339,6 +343,9 @@ const MembersViewer = () => {
           </div>
         </div>
       </div>
+      <footer className="pb-2 flex justify-center text-xs">
+        ©2021 CasperLabs.io
+      </footer>
     </div>
   );
 };
