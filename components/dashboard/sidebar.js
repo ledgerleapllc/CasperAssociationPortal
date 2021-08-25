@@ -12,6 +12,7 @@ import SettingIcon from '../../public/images/ic_settings.svg';
 import IntakeIcon from '../../public/images/ic_intake.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ListIcon from '../../public/images/ic_list.svg';
+import usePermissions from '../hooks/usePermissions';
 
 import { ActiveLink } from '../partials';
 
@@ -123,6 +124,7 @@ const adminNavs = [
     icon: SettingIcon,
     label: 'global settings',
     path: '/admin/settings',
+    public: true,
   },
 ];
 
@@ -131,6 +133,7 @@ const Sidebar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [navs, setNavs] = useState([]);
   const [isApprovedProfile, setIsApprovedProfile] = useState(false);
+  const { permissions, isSuperAdmin } = usePermissions();
 
   useEffect(() => {
     const checkAdmin = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -171,7 +174,11 @@ const Sidebar = () => {
         <ul className="flex flex-col">
           <div className="mb-5 border border-t-1 border-gray opacity-40" />
           {adminNavs.map((nav, index) => (
-            <li className="mb-6" key={index}>
+            <li
+              className="mb-6"
+              key={index}
+              hidden={!isSuperAdmin && !nav.public && !permissions[nav.key]}
+            >
               <ActiveLink
                 activeClassName="text-primary active-link"
                 href={nav.path}

@@ -256,7 +256,7 @@ const MembersViewerDetail = () => {
                       </td>
                       <td>
                         <span>
-                          {numberWithCommas(memberInfo?.cspr_self_staked)}
+                          {numberWithCommas(metrics?.self_staked_amount)}
                         </span>
                       </td>
                     </tr>
@@ -265,9 +265,7 @@ const MembersViewerDetail = () => {
                         <span>CSPR Delegated:</span>
                       </td>
                       <td>
-                        <span>
-                          {numberWithCommas(memberInfo?.cspr_delegated)}
-                        </span>
+                        <span>{numberWithCommas(metrics?.stake_amount)}</span>
                       </td>
                     </tr>
                   </tbody>

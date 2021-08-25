@@ -41,21 +41,25 @@ const Styles = styled.div`
       width: 8%;
     }
     .col-5 {
-      width: 12%;
+      width: 11%;
     }
     .col-6 {
-      width: 6%;
+      width: 5%;
     }
     .col-7 {
-      width: 6%;
+      width: 5%;
     }
     .col-8 {
-      width: 6%;
+      width: 5%;
     }
     .col-9 {
-      width: 6%;
+      width: 5%;
     }
     .col-10 {
+      width: 5%;
+      padding-right: 0;
+    }
+    .col-11 {
       width: 22%;
       padding-right: 0;
     }
@@ -278,6 +282,7 @@ const AdminTeams = () => {
       users: 0,
       ballots: 0,
       perks: 0,
+      teams: 0,
     };
     const ind = data.findIndex(admin => admin.id === id);
     if (!data[ind].permissions) {
@@ -371,6 +376,9 @@ const AdminTeams = () => {
                   </Table.HeaderCell>
                   <Table.HeaderCell>
                     <p>Perks</p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p>Teams</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
                     <p>Admin Action</p>
@@ -469,6 +477,20 @@ const AdminTeams = () => {
                             setPermission(admin.id, 'perks', _check)
                           }
                           checked={admin.permissions?.perks || false}
+                          checkedIcon={null}
+                          uncheckedIcon={null}
+                          offColor="#bbb"
+                          onColor="#ff474e"
+                          height={18}
+                          width={40}
+                        />
+                      </Table.BodyCell>
+                      <Table.BodyCell>
+                        <Switch
+                          onChange={_check =>
+                            setPermission(admin.id, 'teams', _check)
+                          }
+                          checked={admin.permissions?.teams || false}
                           checkedIcon={null}
                           uncheckedIcon={null}
                           offColor="#bbb"

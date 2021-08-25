@@ -128,10 +128,27 @@ const metricConfig = createReducer(metricConfigStrategies, {
   },
 });
 
+const setPermissions = (state, payload) => ({
+  ...state,
+  ...payload,
+});
+
+const clearPermissions = () => ({});
+
+
+const permissionsStrategies = {
+  SET_PERMISSIONS: setPermissions,
+  CLEAR_PERMISSIONS: clearPermissions,
+  __default__: state => state,
+};
+
+const permissions = createReducer(permissionsStrategies, {});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
   metrics,
+  permissions,
   notifications,
   metricConfig,
 });

@@ -330,7 +330,7 @@ const MembersViewer = () => {
                         <p>{row.delegators_count || 0}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
-                        <p>{numberWithCommas(row.cspr_delegated)}</p>
+                        <p>{numberWithCommas(row.total_staked_amount)}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
                         <p>{row.uptime || 0}%</p>

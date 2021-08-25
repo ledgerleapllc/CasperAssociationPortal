@@ -160,3 +160,13 @@ export const setMetricConfig = payload => ({
   type: 'SET_METRIC_CONFIG',
   payload,
 });
+
+export const setPermissions = payload => ({
+  type: 'SET_PERMISSIONS',
+  payload,
+});
+
+export const clearPermissions = payload => ({
+  type: 'CLEAR_PERMISSIONS',
+  payload,
+});
