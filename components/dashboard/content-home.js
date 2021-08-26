@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import router from 'next/router';
@@ -10,12 +10,19 @@ import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 import {
   dismissNotification,
+  getEarningChart,
   updateClickCTANotification,
   updateViewNotification,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import useNotifications from '../hooks/useNotifications';
 import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
+import { DEFAULT_LINE_OPTIONS } from '../../shared/core/constants';
+import useValidatorChart from '../hooks/useValidatorChart';
+
+const LineMemo = memo(({ data, options = DEFAULT_LINE_OPTIONS }) => (
+  <Line data={data} options={options} />
+));
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -26,6 +33,8 @@ const ContentHome = () => {
   const [currentNotification, setCurrentNotifications] = useState(null);
   const { bannerNotis, popupNotis } = useNotifications();
   const [stats, setStats] = useState();
+  const { mappingData, options, data } = useValidatorChart();
+  const [earningChart, setEarningChart] = useState();
 
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
@@ -35,6 +44,21 @@ const ContentHome = () => {
       getUserDashboard(res => {
         setStats(res);
       })
+    );
+    dispatch(
+      getEarningChart(
+        { node: userInfo.public_address_node },
+        res => {
+          res.day = res.day.map(x => x.weight);
+          res.month = res.month.map(x => x.weight);
+          res.week = res.week.map(x => x.weight);
+          res.year = res.year.map(x => x.weight);
+
+          setEarningChart(res);
+          mappingData(res);
+        },
+        () => {}
+      )
     );
   }, []);
 
@@ -83,6 +107,10 @@ const ContentHome = () => {
       setAlerts(_alerts);
     }
   }, [userInfo, bannerAlerts]);
+
+  const applyDataForChart = key => {
+    mappingData(earningChart, key);
+  };
 
   const doUpdateClickCTA = id => {
     dispatch(updateClickCTANotification({ id }, () => {}));
@@ -139,41 +167,6 @@ const ContentHome = () => {
     );
   };
 
-  const data = {
-    datasets: [
-      {
-        backgroundColor: 'rgba(255,71,62, 0.7)',
-        borderColor: '#FF473E',
-        data: [1400, 1600, 1500, 2000, 1800, 1600, 1850],
-        fill: true,
-        fillOpacity: 0.3,
-        pointRadius: 0,
-      },
-    ],
-    labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thrs', 'Fri', 'Sat'],
-  };
-  const lineOptions = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          borderDash: [5, 5],
-          drawBorder: false,
-        },
-      },
-    },
-  };
-
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
       <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
@@ -228,24 +221,58 @@ const ContentHome = () => {
                 <div>
                   <ul className="mt-4 lg:mt-0 flex items-center">
                     <li className="text-sm lg:mx-4">
-                      <a>Day</a>
+                      <button
+                        className={
+                          options === 'day' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('day')}
+                      >
+                        Day
+                      </button>
                     </li>
                     <li className="px-4">
-                      <a className="rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink">
+                      <button
+                        className={
+                          options === 'week' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('week')}
+                      >
                         Week
-                      </a>
+                      </button>
                     </li>
                     <li className="text-sm mx-4">
-                      <a>Month</a>
+                      <button
+                        className={
+                          options === 'month' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('month')}
+                      >
+                        Month
+                      </button>
                     </li>
                     <li className="text-sm mx-4">
-                      <a>Year</a>
+                      <button
+                        className={
+                          options === 'year' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('year')}
+                      >
+                        Year
+                      </button>
                     </li>
                   </ul>
                 </div>
               </div>
               <div className="h-full py-4">
-                <Line data={data} options={lineOptions} />
+                <LineMemo data={data} />
               </div>
             </div>
           </Card>

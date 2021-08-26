@@ -366,6 +366,26 @@ export function* viewedAttachDocument({ payload, resolve }) {
   }
 }
 
+export function* getEarningData({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`/nodes/${payload.node}/earning`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getEarningChart({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`/nodes/${payload.node}/chart`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
@@ -398,4 +418,6 @@ export function* watchDemoData() {
   yield all([takeLatest('GET_LOCK_PAGE_CONDITIONS', getLockPageConditions)]);
   yield all([takeLatest('GET_PRICE_TOKEN_GRAPH_INFO', getPriceTokenGraphInfo)]);
   yield all([takeLatest('VIEWED_ATTACH_DOCUMENT', viewedAttachDocument)]);
+  yield all([takeLatest('GET_EARNING_DATA', getEarningData)]);
+  yield all([takeLatest('GET_EARNING_CHART', getEarningChart)]);
 }

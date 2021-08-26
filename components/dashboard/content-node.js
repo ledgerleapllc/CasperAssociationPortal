@@ -11,7 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar } from '../partials';
@@ -21,10 +21,18 @@ import {
   getNodesFromAdmin,
   getNodeDetail,
 } from '../../shared/redux-saga/admin/actions';
-import { getPriceTokenGraphInfo } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import {
+  getPriceTokenGraphInfo,
+  getEarningChart,
+  getEarningData,
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
 import { numberWithCommas } from '../../shared/core/utils';
-import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
+import {
+  DEFAULT_BASE_BLOCKS,
+  DEFAULT_LINE_OPTIONS,
+} from '../../shared/core/constants';
+import useValidatorChart from '../hooks/useValidatorChart';
 
 const PriceTokenGraph = ({ graphData }) => (
   <ResponsiveContainer width="100%" height="100%">
@@ -39,100 +47,12 @@ const PriceTokenGraph = ({ graphData }) => (
   </ResponsiveContainer>
 );
 
+const LineMemo = memo(({ data, options = DEFAULT_LINE_OPTIONS }) => (
+  <Line data={data} options={options} />
+));
+
 const ContentNode = () => {
   const { metrics, metricConfig } = useMetrics();
-  const lineData = {
-    datasets: [
-      {
-        backgroundColor: 'rgba(255,71,62, 0.7)',
-        data: [1400, 1600, 1500, 2000, 1800, 1600, 1850],
-        fill: true,
-        fillOpacity: 0.6,
-        label: 'Current',
-        pointRadius: 0,
-        showLine: false,
-      },
-      {
-        borderColor: '#FF473E',
-        borderDash: [5, 5],
-        data: [1500, 1550, 1650, 1900, 1700, 1650, 1780],
-        fill: false,
-        label: 'Previous',
-        pointRadius: 0,
-        showLine: true,
-      },
-    ],
-    labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thrs', 'Fri', 'Sat'],
-  };
-  const lineOptions = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          borderDash: [5, 5],
-          drawBorder: false,
-        },
-      },
-    },
-  };
-
-  const cpuUsageData = {
-    datasets: [
-      {
-        borderColor: '#FF473E',
-        borderWidth: 1,
-        data: [11, 92, 53, 78, 54],
-        fill: false,
-        label: 'CPU',
-        pointRadius: 0,
-        showLine: true,
-      },
-    ],
-    labels: ['12:00', '13:00', '14:00', '15:00', '16:00'],
-  };
-
-  const cpuUsageOption = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          borderDash: [5, 5],
-          drawBorder: false,
-        },
-        position: 'left',
-        ticks: {
-          fontSize: 10,
-          max: 100,
-          min: 0,
-          stepSize: 25,
-          callback(value) {
-            return `${value}%`;
-          },
-        },
-      },
-    },
-  };
-
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [nodesList, setNodesList] = useState([]);
@@ -141,6 +61,9 @@ const ContentNode = () => {
   const [nodeDetail, setNodeDetail] = useState(null);
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
+  const [earning, setEarning] = useState();
+  const { mappingData, options, data } = useValidatorChart();
+  const [earningChart, setEarningChart] = useState();
 
   const fetchNodes = () => {
     dispatch(
@@ -169,7 +92,6 @@ const ContentNode = () => {
         nodeName,
         res => {
           setLoading(false);
-          console.log(res);
           setNodeDetail(res);
         },
         () => {
@@ -179,9 +101,42 @@ const ContentNode = () => {
     );
   };
 
+  const applyDataForChart = key => {
+    mappingData(earningChart, key);
+  };
+
   useEffect(() => {
     fetchPriceToken();
   }, []);
+
+  const fetchNodeEarning = address => {
+    dispatch(
+      getEarningData(
+        { node: address },
+        res => {
+          setEarning(res);
+        },
+        () => {}
+      )
+    );
+  };
+
+  const fetchNodeChart = address => {
+    dispatch(
+      getEarningChart(
+        { node: address },
+        res => {
+          res.day = res.day.map(x => x.weight);
+          res.month = res.month.map(x => x.weight);
+          res.week = res.week.map(x => x.weight);
+          res.year = res.year.map(x => x.weight);
+          setEarningChart(res);
+          mappingData(res);
+        },
+        () => {}
+      )
+    );
+  };
 
   useEffect(() => {
     if (userInfo) {
@@ -189,13 +144,19 @@ const ContentNode = () => {
       setIsAdmin(isAdminTemp);
       if (isAdminTemp) {
         fetchNodes();
+      } else {
+        fetchNodeChart(userInfo.public_address_node);
+        fetchNodeEarning(userInfo.public_address_node);
       }
     }
   }, [userInfo]);
 
+  // only for Admin
   useEffect(() => {
     if (currentNode) {
       fetchNodeDetail(currentNode.public_address_node);
+      fetchNodeEarning(currentNode.public_address_node);
+      fetchNodeChart(currentNode.public_address_node);
     }
   }, [currentNode]);
 
@@ -320,24 +281,58 @@ const ContentNode = () => {
                 <div>
                   <ul className="mt-4 lg:mt-0 flex items-center">
                     <li className="text-sm lg:mx-4">
-                      <a>Day</a>
+                      <button
+                        className={
+                          options === 'day' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('day')}
+                      >
+                        Day
+                      </button>
                     </li>
                     <li className="px-4">
-                      <a className="rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink">
+                      <button
+                        className={
+                          options === 'week' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('week')}
+                      >
                         Week
-                      </a>
+                      </button>
                     </li>
                     <li className="text-sm mx-4">
-                      <a>Month</a>
+                      <button
+                        className={
+                          options === 'month' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('month')}
+                      >
+                        Month
+                      </button>
                     </li>
                     <li className="text-sm mx-4">
-                      <a>Year</a>
+                      <button
+                        className={
+                          options === 'year' &&
+                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
+                        }
+                        type="button"
+                        onClick={() => applyDataForChart('year')}
+                      >
+                        Year
+                      </button>
                     </li>
                   </ul>
                 </div>
               </div>
               <div className="h-full py-4">
-                <Line data={lineData} options={lineOptions} />
+                <LineMemo data={data} />
               </div>
             </div>
           </Card>
@@ -438,7 +433,9 @@ const ContentNode = () => {
                     src="/images/ic_logo_home.svg"
                     alt="Info"
                   />
-                  <span className="text-base font-thin pl-3">0.0154</span>
+                  <span className="text-base font-thin pl-3">
+                    {numberWithCommas(earning?.daily_earning)}
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
@@ -457,7 +454,9 @@ const ContentNode = () => {
                     src="/images/ic_logo_home.svg"
                     alt="Info"
                   />
-                  <span className="text-base font-thin pl-3">6.101297</span>
+                  <span className="text-base font-thin pl-3">
+                    {numberWithCommas(earning?.total_earning)}
+                  </span>
                 </div>
               </div>
             </Card>
@@ -496,7 +495,7 @@ const ContentNode = () => {
                     </div>
                   </div>
                   <div className="h-full py-4">
-                    <Line data={lineData} options={lineOptions} />
+                    <LineMemo data={data} />
                   </div>
                 </div>
               </Card>

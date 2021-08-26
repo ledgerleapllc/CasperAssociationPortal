@@ -200,3 +200,17 @@ export const viewedAttachDocument = (payload, resolve) => ({
   payload,
   resolve,
 });
+
+export const getEarningData = (payload, resolve, reject) => ({
+  type: 'GET_EARNING_DATA',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getEarningChart = (payload, resolve, reject) => ({
+  type: 'GET_EARNING_CHART',
+  payload,
+  resolve,
+  reject,
+});
