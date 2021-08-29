@@ -434,7 +434,7 @@ const ContentNode = () => {
                     alt="Info"
                   />
                   <span className="text-base font-thin pl-3">
-                    {numberWithCommas(earning?.daily_earning)}
+                    {numberWithCommas(Math.round(earning?.daily_earning))}
                   </span>
                 </div>
               </div>
@@ -455,7 +455,7 @@ const ContentNode = () => {
                     alt="Info"
                   />
                   <span className="text-base font-thin pl-3">
-                    {numberWithCommas(earning?.total_earning)}
+                    {numberWithCommas(Math.round(earning?.total_earning))}
                   </span>
                 </div>
               </div>
