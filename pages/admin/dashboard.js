@@ -14,6 +14,13 @@ const AdminDashboard = () => {
   const fetchStats = timeframe => {
     dispatch(
       getAdminDashboard(timeframe, res => {
+        res.avgBlockHeightAverage =
+          res.avgBlockHeightAverage <= 100 ? res.avgBlockHeightAverage : 100;
+        res.avgUpdateResponsiveness =
+          res.avgUpdateResponsiveness <= 100
+            ? res.avgUpdateResponsiveness
+            : 100;
+        res.avgUptime = res.avgUptime <= 100 ? res.avgUptime : 100;
         setStats(res);
       })
     );
