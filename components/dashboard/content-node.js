@@ -17,6 +17,8 @@ import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar } from '../partials';
 import InfoRightNode from './info-right-node';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+import IconCopy from '../../public/images/ic_copy.svg';
+
 import {
   getNodesFromAdmin,
   getNodeDetail,
@@ -33,6 +35,7 @@ import {
   DEFAULT_LINE_OPTIONS,
 } from '../../shared/core/constants';
 import useValidatorChart from '../hooks/useValidatorChart';
+import { useSnackBar } from '../partials/snack-bar';
 
 const PriceTokenGraph = ({ graphData }) => (
   <ResponsiveContainer width="100%" height="100%">
@@ -64,6 +67,7 @@ const ContentNode = () => {
   const [earning, setEarning] = useState();
   const { mappingData, options, data } = useValidatorChart();
   const [earningChart, setEarningChart] = useState();
+  const { openSnack } = useSnackBar();
 
   const fetchNodes = () => {
     dispatch(
@@ -160,18 +164,45 @@ const ContentNode = () => {
     }
   }, [currentNode]);
 
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
   return (
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1/10">
         <div className="hidden lg:block lg:w-4/6">
           <Card className="h-full lg:flex-grow">
             <div className="flex flex-col px-9 h-full justify-center">
-              <div className="flex">
-                <span className="text-lg font-normal">Node Name</span>
-                <img
-                  className="pl-3"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
+              <div className="flex justify-between">
+                <div className="flex">
+                  <span className="text-lg font-normal">Node Name</span>
+                  <img
+                    className="pl-3"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
+                </div>
+                <button
+                  className="ml-6"
+                  type="button"
+                  onClick={() => copyClipboard()}
+                >
+                  <IconCopy />
+                </button>
+                <input
+                  id="public-address"
+                  value={
+                    isAdmin
+                      ? currentNode?.public_address_node
+                      : userInfo.public_address_node
+                  }
+                  readOnly
+                  hidden
                 />
               </div>
               <div className="flex w-full">
