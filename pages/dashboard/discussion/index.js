@@ -10,6 +10,7 @@ import { useTable } from '../../../components/partials/table';
 import IconPin from '../../../public/images/ic_pin.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
+import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import {
   getDiscussions,
@@ -17,12 +18,13 @@ import {
   setRemoveNewMark,
   getPinnedDiscussions,
   getMyDiscussions,
+  getDraftDiscussions,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardDiscusionContext = createContext();
 
-const ChatBox = ({ data, togglePinCallback }) => {
+const ChatBox = ({ data, togglePinCallback, hidePin }) => {
   const { togglePinnedList, removeNewFromList } = useContext(
     DashboardDiscusionContext
   );
@@ -81,6 +83,7 @@ const ChatBox = ({ data, togglePinCallback }) => {
                 discuss?.is_pin ? 'text-primary' : ''
               } text-4xl`}
               onClick={() => pin(discuss)}
+              hidden={hidePin}
             />
           </div>
         </div>
@@ -99,7 +102,14 @@ const ChatBox = ({ data, togglePinCallback }) => {
           <div className="w-full chat-content-footer flex text-sm justify-between flex-col lg:flex-row">
             <p>
               <span className="text-gray pr-2">Posted by:</span>
-              <a className="text-primary font-medium">{discuss?.user?.email}</a>
+              <Link href={`/dashboard/profile/${discuss?.user?.id}`}>
+                <a className="inline-flex gap-2 items-center text-primary font-medium">
+                  {discuss?.user?.email}
+                  {discuss?.user?.profile?.status === 'approved' && (
+                    <VerifiedIcon className="text-primary" />
+                  )}
+                </a>
+              </Link>
             </p>
             <ul className="ml-8 flex gap-12 -ml-6 mt-5 lg:ml-0 lg:mt-0">
               <li className="flex items-center">
@@ -296,6 +306,66 @@ const Tab3 = () => {
   );
 };
 
+const Tab4 = () => {
+  const dispatch = useDispatch();
+  const {
+    data,
+    setData,
+    register,
+    hasMore,
+    appendData,
+    setHasMore,
+    page,
+    setPage,
+  } = useTable();
+
+  const fetchDraftDiscussions = (pageValue = page) => {
+    dispatch(
+      getDraftDiscussions({ page: pageValue }, (results, isHasMore) => {
+        const temp = results.map(x => ({
+          ...x,
+          is_pin: true,
+        }));
+        appendData(temp);
+        setHasMore(isHasMore);
+        setPage(prev => prev + 1);
+      })
+    );
+  };
+
+  useEffect(() => {
+    fetchDraftDiscussions();
+  }, []);
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="discussion-table h-full"
+        onLoadMore={fetchDraftDiscussions}
+        hasMore={hasMore}
+        dataLength={data.length}
+        noMargin
+      >
+        <Table.Header>
+          <Table.HeaderCell />
+          <Table.HeaderCell />
+        </Table.Header>
+        <Table.Body className="padding-tracker">
+          {data.map((row, index) => (
+            <Table.BodyRow key={`b-${index}`}>
+              <Table.BodyCell />
+              <Table.BodyCell>
+                <ChatBox data={row} hidePin />
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
+
 const tabsData = [
   {
     content: Tab1,
@@ -311,6 +381,11 @@ const tabsData = [
     content: Tab3,
     id: 'pinned',
     title: 'Pinned',
+  },
+  {
+    content: Tab4,
+    id: 'draft',
+    title: 'Draft',
   },
 ];
 

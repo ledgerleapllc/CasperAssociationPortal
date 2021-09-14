@@ -80,6 +80,12 @@ export const getListVerifications = (payload, resolve) => ({
   resolve,
 });
 
+export const removeIntake = (payload, resolve) => ({
+  type: 'REMOVE_INTAKE',
+  payload,
+  resolve,
+});
+
 export const getListIntakeSuccess = data => ({
   type: 'GET_LIST_INTAKE_SUCCESS',
   payload: data,

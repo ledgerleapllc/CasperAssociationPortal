@@ -6,10 +6,12 @@ import {
   resetUser,
   banUser,
   approveUser,
+  removeIntake,
 } from '../../../../shared/redux-saga/admin/actions';
 import { useTable } from '../../../partials/table';
 import { Table } from '../../../partials';
 import { LetterReviewDialog } from '../dialogs/letter-review';
+import { RemoveIntakeDialog } from '../dialogs/remove-intake';
 import { useDialog } from '../../../partials/dialog';
 import { formatDate } from '../../../../shared/core/utils';
 import IconCheck from '../../../../public/images/ic-feather-check.svg';
@@ -134,6 +136,39 @@ export const GeneralIntakes = () => {
     });
   };
 
+  const doRemoveIntake = (row, index) => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <RemoveIntakeDialog
+            email={row?.email}
+            removeIntake={() => {
+              setLoading(true);
+              dispatch(
+                removeIntake(
+                  { id: row.id },
+                  () => {
+                    data.splice(index, 1);
+                    setData([...data]);
+                    onClosed();
+                    setLoading(false);
+                  },
+                  () => {
+                    setLoading(false);
+                  }
+                )
+              );
+            }}
+            cancel={() => {
+              onClosed();
+            }}
+          />
+        ),
+      },
+    });
+  };
+
   return (
     <StylesIntake className="h-full">
       <Table
@@ -187,14 +222,23 @@ export const GeneralIntakes = () => {
                 {row.letter_verified_at ? (
                   <IconCheck className="text-primary" />
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => reviewIntake(row, ind)}
-                    className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
-                    disabled={!row.letter_file}
-                  >
-                    Review
-                  </button>
+                  <div className="flex gap-5">
+                    <button
+                      type="button"
+                      onClick={() => reviewIntake(row, ind)}
+                      className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
+                      disabled={!row.letter_file}
+                    >
+                      Review
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => doRemoveIntake(row, ind)}
+                      className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 )}
               </Table.BodyCell>
             </Table.BodyRow>

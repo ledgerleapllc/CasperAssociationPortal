@@ -5,31 +5,32 @@ import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
-
+import Link from 'next/link';
 import styled from 'styled-components';
-
+import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import {
   Card,
   Editor,
   BackButton,
+  Button,
   LoadingButton,
   Table,
 } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
-
 import { useDialog } from '../../../components/partials/dialog';
 import IconLike from '../../../public/images/ic_like.svg';
 import IconLikeSolid from '../../../public/images/ic_like_solid.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import IconDislikeSolid from '../../../public/images/ic_dislike_solid.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { formatDate } from '../../../shared/core/utils';
+import { formatDate, getShortNodeAddress } from '../../../shared/core/utils';
 import {
   getDiscussionDetail,
   postDiscussionComment,
   voteDiscussion,
   getDiscussionComments,
+  publishDiscussion,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../_app';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
@@ -59,9 +60,18 @@ const ChatBox = ({ data, noBorder }) => (
         />
       </div>
       <div className="pt-2 pr-6 mt-auto lg:mt-0">
-        <p className="text-sm font-bold py-1">{data.user.pseudonym}</p>
+        <Link href={`/dashboard/profile/${data?.user?.id}`}>
+          <a className="text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
+            {data?.user?.pseudonym}
+            {data?.user?.profile?.status === 'approved' && (
+              <VerifiedIcon className="text-primary" />
+            )}
+          </a>
+        </Link>
         <div className="border-gray1 border-b" />
-        <p className="text-xxs py-1">Validator ID: {data.user.validatorId}</p>
+        <p className="text-xxs py-1">
+          Validator ID: {getShortNodeAddress(data.user.public_node_address, 3)}
+        </p>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
           {formatDate(data.user.created_at, 'dd/MM/yyyy - HH:mm aa')}
@@ -199,6 +209,23 @@ const DashboardDiscusionDetail = () => {
     );
   };
 
+  const publish = () => {
+    setLoading(true);
+    dispatch(
+      publishDiscussion(
+        { id: _id },
+        () => {
+          setLoading(false);
+          discussion.is_draft = 0;
+          setDiscussion({ ...discussion });
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   const ReactionBar = () => (
     <div className="flex">
       <button
@@ -249,8 +276,18 @@ const DashboardDiscusionDetail = () => {
                   <h3 className="text-dark2 text-lg lg:pr-32 font-medium line-clamp-1">
                     {discussion.title}
                   </h3>
-                  <div className="hidden lg:inline-block">
-                    <ReactionBar />
+                  <div className="hidden lg:flex">
+                    {discussion.is_draft && (
+                      <Button
+                        sizeSpinner={20}
+                        primary
+                        className="-mt-5 my-1 text-lg"
+                        onClick={publish}
+                      >
+                        Publish
+                      </Button>
+                    )}
+                    {!discussion.is_draft && <ReactionBar />}
                   </div>
                 </div>
               </div>

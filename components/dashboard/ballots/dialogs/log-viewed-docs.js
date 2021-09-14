@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { formatDate } from '../../../../shared/core/utils';
 import { getLogUsersViewdDoc } from '../../../../shared/redux-saga/admin/actions';
 import { Table } from '../../../partials';
+import VerifiedIcon from '../../../../public/images/ic_check_mark.svg';
 import { useTable } from '../../../partials/table';
 
 const Styles = styled.div`
@@ -87,7 +88,12 @@ export const LogViewedDocsDialog = ({ id }) => {
             {data.map(row => (
               <Table.BodyRow className="py-4" key={`ip-${row.id}`}>
                 <Table.BodyCell>
-                  <p>{row?.user?.email}</p>
+                  <p className="flex gap-1 items-center">
+                    {row?.user?.email}
+                    {row?.user?.profile?.status === 'approved' && (
+                      <VerifiedIcon className="text-primary" />
+                    )}
+                  </p>
                 </Table.BodyCell>
                 <Table.BodyCell>
                   <p>{formatDate(row.created_at)}</p>

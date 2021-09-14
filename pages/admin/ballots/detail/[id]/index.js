@@ -11,7 +11,6 @@ import CompleteBallot from '../../../../../components/dashboard/ballots/detail/c
 import { useDialog } from '../../../../../components/partials/dialog';
 import { AppContext } from '../../../../_app';
 import { cancelBallot } from '../../../../../shared/redux-saga/admin/middlewares';
-import { LogViewedDocsDialog } from '../../../../../components/dashboard/ballots/dialogs/log-viewed-docs';
 
 const AdminActiveBallot = ({ ballot }) => {
   const dispatch = useDispatch();
@@ -48,15 +47,6 @@ const AdminActiveBallot = ({ ballot }) => {
     });
   };
 
-  const viewLogs = useCallback(id => {
-    setDialog({
-      type: 'DialogCustom',
-      data: {
-        content: <LogViewedDocsDialog id={id} />,
-      },
-    });
-  }, []);
-
   return (
     <div className="flex flex-col h-full">
       <div className="card-header lg:mr-card border-primary border-b-2">
@@ -87,7 +77,7 @@ const AdminActiveBallot = ({ ballot }) => {
         </div>
       </div>
       <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0">
-        <ActiveBallot ballot={ballot} onViewedLogsDoc={viewLogs} />
+        <ActiveBallot ballot={ballot} />
       </div>
     </div>
   );

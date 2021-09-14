@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
 import { getNodesFromUser } from '../../shared/redux-saga/auth/actions';
 import Table, { useTable } from '../partials/table';
+import { getShortNodeAddress } from '../../shared/core/utils';
 
 const Styles = styled.div`
   .nodes-table {
@@ -126,7 +127,7 @@ const NodesList = ({ userInfo, isAdmin, filter }) => {
                     <a>
                       <p className="relative h-full">
                         <span className="truncate absolute inset-0">
-                          {row.public_address_node}
+                          {getShortNodeAddress(row.public_address_node, 20)}
                         </span>
                       </p>
                     </a>
@@ -135,7 +136,7 @@ const NodesList = ({ userInfo, isAdmin, filter }) => {
                 {!isAdmin && (
                   <p className="relative h-full">
                     <span className="truncate absolute inset-0">
-                      {row.public_address_node}
+                      {getShortNodeAddress(row.public_address_node, 20)}
                     </span>
                   </p>
                 )}

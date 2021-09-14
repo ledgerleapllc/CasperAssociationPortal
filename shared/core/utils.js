@@ -6,11 +6,11 @@ export const formatDate = (time, formatType = 'dd/MM/yyyy') => {
   return format(timeConvert, formatType);
 };
 
-export const getShortNodeAddress = address => {
-  if (address) {
-    return `${address.substr(0, 10)}...${address.substr(-4)}`;
+export const getShortNodeAddress = (address, length = 10) => {
+  if (address?.length > length + 6) {
+    return `${address.substr(0, length)}...${address.substr(-6)}`;
   }
-  return '-';
+  return address;
 };
 
 export const generateTextForEras = resposiveness_value => {

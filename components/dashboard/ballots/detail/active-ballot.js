@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { ClockBar } from '../../../partials';
+import { LogViewedDocsDialog } from '../dialogs/log-viewed-docs';
+import { useDialog } from '../../../partials/dialog';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -24,9 +26,10 @@ const Styles = styled.div`
   }
 `;
 
-const ActiveBallot = React.memo(({ ballot, onViewedFile, onViewedLogsDoc }) => {
+const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState();
+  const { setDialog } = useDialog();
 
   useEffect(() => {
     const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -34,7 +37,12 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile, onViewedLogsDoc }) => {
   }, [userInfo]);
 
   const seeUserViewedDoc = file => {
-    onViewedLogsDoc(file?.id);
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: <LogViewedDocsDialog id={file?.id} />,
+      },
+    });
   };
 
   const viewdFile = file => {

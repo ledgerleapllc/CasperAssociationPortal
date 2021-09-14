@@ -12,6 +12,7 @@ import {
   Table,
   StatusText,
 } from '../../../../../components/partials';
+import VerifiedIcon from '../../../../../public/images/ic_check_mark.svg';
 import {
   getBallotDetail,
   getBallotVotes,
@@ -200,7 +201,12 @@ const AdminActiveBallotCurrentVotes = () => {
                         <p>{row.user_id}</p>
                       </Table.BodyCell>
                       <Table.BodyCell>
-                        <p className="truncate">{row.user.email}</p>
+                        <p className="flex gap-1 items-center">
+                          {row?.user?.email}
+                          {row?.user?.profile?.status === 'approved' && (
+                            <VerifiedIcon className="text-primary" />
+                          )}
+                        </p>
                       </Table.BodyCell>
                       <Table.BodyCell>
                         <p>{formatDate(row.created_at, 'hh:mmaaa')}</p>

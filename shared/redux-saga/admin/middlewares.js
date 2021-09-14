@@ -843,8 +843,19 @@ export function* getNodeDetail({ payload, resolve, reject }) {
   }
 }
 
+export function* removeIntake({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/remove`], {});
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
+  yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
   yield all([takeLatest('GET_USER_METRICS', getUserMetrics)]);
   yield all([takeLatest('UPDATE_USER_METRICS', updateUserMetrics)]);

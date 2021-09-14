@@ -36,7 +36,7 @@ const DashboardMembership = () => {
 
   useEffect(() => {
     if (userInfo) {
-      setKYCStatus(userInfo?.kyc_verified_at ? 1 : 0);
+      setKYCStatus(userInfo?.status === 'aprroved' ? 1 : 0);
     }
   }, [userInfo]);
 
@@ -208,8 +208,9 @@ const DashboardMembership = () => {
             <div className="flex h-full gap-5">
               <Card
                 className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
-                  metrics.uptime <
-                    metrics?.monitoring_criteria?.uptime?.warning_level &&
+                  (!metrics.uptime ||
+                    metrics.uptime <
+                      metrics?.monitoring_criteria?.uptime?.warning_level) &&
                   'metrics-card-warning'
                 }`}
               >
@@ -227,9 +228,11 @@ const DashboardMembership = () => {
               </Card>
               <Card
                 className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
-                  metrics.block_height_average <
-                    metrics?.monitoring_criteria?.block_height_average
-                      ?.warning_level && 'metrics-card-warning'
+                  (!metrics.block_height_average ||
+                    metrics.block_height_average <
+                      metrics?.monitoring_criteria?.block_height_average
+                        ?.warning_level) &&
+                  'metrics-card-warning'
                 }`}
               >
                 <p className="text-sm font-medium pb-1">Block Height</p>
@@ -246,9 +249,11 @@ const DashboardMembership = () => {
               </Card>
               <Card
                 className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
-                  metrics.update_responsiveness <
-                    metrics?.monitoring_criteria?.update_responsiveness
-                      ?.warning_level && 'metrics-card-warning'
+                  (!metrics.update_responsiveness ||
+                    metrics.update_responsiveness <
+                      metrics?.monitoring_criteria?.update_responsiveness
+                        ?.warning_level) &&
+                  'metrics-card-warning'
                 }`}
               >
                 <p className="text-sm font-medium pb-1">Updates</p>

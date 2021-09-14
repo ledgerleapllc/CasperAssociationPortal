@@ -31,6 +31,13 @@ export const getVoteDetail = (payload, resolve, reject) => ({
   reject,
 });
 
+export const publishDiscussion = (payload, resolve, reject) => ({
+  type: 'PUBLISH_DISCUSSION',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getVoteDetailSuccess = data => ({
   type: 'GET_VOTE_DETAIL_SUCCESS',
   payload: data,
@@ -56,6 +63,13 @@ export const getDiscussions = (payload, successCb) => ({
 
 export const getPinnedDiscussions = (payload, resolve, reject) => ({
   type: 'GET_PINNED_DISCUSSIONS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getDraftDiscussions = (payload, resolve, reject) => ({
+  type: 'GET_DRAFT_DISCUSSIONS',
   payload,
   resolve,
   reject,

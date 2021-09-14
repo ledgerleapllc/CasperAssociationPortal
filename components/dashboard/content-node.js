@@ -29,7 +29,7 @@ import {
   getEarningData,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
-import { numberWithCommas } from '../../shared/core/utils';
+import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
 import {
   DEFAULT_BASE_BLOCKS,
   DEFAULT_LINE_OPTIONS,
@@ -213,7 +213,10 @@ const ContentNode = () => {
                       <div className="flex items-center gap-2">
                         <p className="w-full relative h-6">
                           <span className="text-base font-thin truncate absolute inset-0">
-                            {currentNode?.public_address_node}
+                            {getShortNodeAddress(
+                              currentNode?.public_address_node,
+                              30
+                            )}
                           </span>
                         </p>
                         <ArrowIcon />
@@ -227,8 +230,11 @@ const ContentNode = () => {
                           onClick={() => setCurrentNode(node)}
                         >
                           <p className="w-full relative h-6">
-                            <span className="text-base font-thin truncate absolute inset-0">
-                              {node.public_address_node}
+                            <span className="text-center text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                node?.public_address_node,
+                                30
+                              )}
                             </span>
                           </p>
                         </li>
@@ -239,7 +245,7 @@ const ContentNode = () => {
                 {!isAdmin && (
                   <>
                     <span className="text-base font-thin">
-                      {userInfo.public_address_node}
+                      {getShortNodeAddress(userInfo?.public_address_node, 30)}
                     </span>
                   </>
                 )}

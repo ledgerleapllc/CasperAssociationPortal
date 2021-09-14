@@ -21,6 +21,7 @@ const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [helloSignComplete, setHelloSignComplete] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState(null);
+  const user = useSelector(state => state.authReducer.userInfo);
   const [client, setClient] = useState(null);
   const dispatch = useDispatch();
   const { isLoading } = useSelector(
@@ -33,6 +34,12 @@ const EsignTerms = () => {
 
   const totalSteps = 2;
   const documents = ['Doc1', 'Doc2', 'Doc3', 'Doc4'];
+
+  useEffect(() => {
+    if (user?.signature_request_id) {
+      setCurrentStep(2);
+    }
+  }, [user]);
 
   const handlePrev = () => {
     if (currentStep === 1) {

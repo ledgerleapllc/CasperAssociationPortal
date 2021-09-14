@@ -10,6 +10,7 @@ import {
   formatDate,
   generateTextForEras,
   numberWithCommas,
+  getShortNodeAddress,
 } from '../../shared/core/utils';
 import PlusIcon from '../../public/images/ic_plus.svg';
 import { AppContext } from '../_app';
@@ -217,7 +218,11 @@ const MembersViewerDetail = () => {
                       </td>
                       <td>
                         <div className="flex items-center">
-                          <span>{memberInfo?.public_address_node}</span>
+                          <span>
+                            {getShortNodeAddress(
+                              memberInfo?.public_address_node
+                            )}
+                          </span>
                           <button
                             className="ml-6"
                             type="button"

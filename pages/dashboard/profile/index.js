@@ -5,18 +5,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
 import ReactLoading from 'react-loading';
-import { LoadingScreen } from '../../components/hoc/loading-screen';
-import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Card, Button, ProgressBar } from '../../components/partials';
+import { LoadingScreen } from '../../../components/hoc/loading-screen';
+import LayoutDashboard from '../../../components/layouts/layout-dashboard';
+import { Card, Button, ProgressBar } from '../../../components/partials';
 import {
   getMyInfo,
   uploadAvatar,
-} from '../../shared/redux-saga/dashboard/dashboard-actions';
-import IconCamera from '../../public/images/ic_camera.svg';
-import { formatDate, generateTextForEras } from '../../shared/core/utils';
-import VerifiedIcon from '../../public/images/ic_check_mark.svg';
-import { logoutApp, updateUser } from '../../shared/redux-saga/auth/actions';
-import useMetrics from '../../components/hooks/useMetrics';
+} from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import IconCamera from '../../../public/images/ic_camera.svg';
+import {
+  formatDate,
+  generateTextForEras,
+  getShortNodeAddress,
+} from '../../../shared/core/utils';
+import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
+import { logoutApp, updateUser } from '../../../shared/redux-saga/auth/actions';
+import useMetrics from '../../../components/hooks/useMetrics';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -277,7 +281,9 @@ const UserProfile = () => {
                           <span>Node Address:</span>
                         </td>
                         <td>
-                          <span>{myInfo?.public_address_node}</span>
+                          <span>
+                            {getShortNodeAddress(myInfo?.public_address_node)}
+                          </span>
                         </td>
                       </tr>
                       <tr>

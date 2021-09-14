@@ -12,7 +12,7 @@ const DashboardAddDiscusion = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { control, formState, register, handleSubmit } = useForm({
+  const { control, formState, register, handleSubmit, getValues } = useForm({
     mode: 'onBlur',
   });
 
@@ -23,6 +23,23 @@ const DashboardAddDiscusion = () => {
         data,
         () => {
           Router.push('/dashboard/discussion');
+          setIsSubmitting(false);
+        },
+        () => {
+          setIsSubmitting(false);
+        }
+      )
+    );
+  };
+
+  const saveDraft = () => {
+    const values = getValues();
+    setIsSubmitting(true);
+    dispatch(
+      createDiscussion(
+        { ...values, is_draft: 1 },
+        () => {
+          Router.push('/dashboard/discussion#draft');
           setIsSubmitting(false);
         },
         () => {
@@ -82,12 +99,16 @@ const DashboardAddDiscusion = () => {
                   </p>
                 )}
                 <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row pt-8 justify-end">
-                  <button
-                    type="button"
-                    className="lg:mr-5 my-1 h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  <Button
+                    onClick={saveDraft}
+                    disabled={isSubmitting}
+                    isLoading={isSubmitting}
+                    sizeSpinner={20}
+                    primaryOutline
+                    className="my-1 mr-5 text-lg"
                   >
                     Save Draft
-                  </button>
+                  </Button>
                   <Button
                     type="submit"
                     disabled={isSubmitting}

@@ -67,4 +67,4 @@ const Verification = () => {
   );
 };
 
-export default LoadingScreen(Verification, 'final-all');
+export default LoadingScreen(Verification, 'final-member');

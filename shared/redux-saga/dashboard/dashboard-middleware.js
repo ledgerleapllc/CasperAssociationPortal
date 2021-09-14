@@ -74,6 +74,15 @@ export function* recordVote({ payload, resolve, reject }) {
   }
 }
 
+export function* publishDiscussion({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`discussions/${payload.id}/publish`], {});
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+  }
+}
+
 export function* getDiscussions({ payload, successCb }) {
   try {
     const query = qs.stringify({
@@ -94,6 +103,21 @@ export function* getPinnedDiscussions({ payload, resolve, reject }) {
       page: payload.page,
     });
     const res = yield get([`discussions/pin?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* getDraftDiscussions({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 10,
+      page: payload.page,
+    });
+    const res = yield get([`discussions/draft?${query}`]);
     yield delay(500); // => this need for scroll loadmore.
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -386,16 +410,19 @@ export function* getEarningChart({ payload, resolve, reject }) {
   }
 }
 
+
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
+  yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
   yield all([takeEvery('GET_DISCUSSIONS', getDiscussions)]);
   yield all([takeEvery('GET_DISCUSSION_DETAIL', getDiscussionDetail)]);
   yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
+  yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
   yield all([takeEvery('SET_DISCUSSION_PIN', setDiscussionPin)]);

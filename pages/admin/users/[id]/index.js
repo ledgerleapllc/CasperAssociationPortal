@@ -17,6 +17,7 @@ import {
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
+import { getShortNodeAddress } from '../../../../shared/core/utils';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
@@ -281,7 +282,7 @@ const AdminUserDetail = () => {
               <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
                 <p className="pb-4 text-sm font-medium w-full">
-                  {userDetail?.public_address_node}
+                  {getShortNodeAddress(userDetail?.public_address_node)}
                 </p>
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
