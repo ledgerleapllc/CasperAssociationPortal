@@ -459,11 +459,13 @@ const ContentNode = ({ sendHightlightNode }) => {
                     value={
                       isAdmin
                         ? +nodeDetail?.update_responsiveness
+                          ? nodeDetail?.update_responsiveness
+                          : nodeDetail?.max_update_responsiveness || 1
                         : metrics?.update_responsiveness
                     }
                     total={
                       isAdmin
-                        ? nodeDetail?.max_update_responsiveness
+                        ? nodeDetail?.max_update_responsiveness || 1
                         : metricConfig?.max?.update_responsiveness
                     }
                     mask=""

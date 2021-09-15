@@ -261,9 +261,11 @@ const DashboardMembership = () => {
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
                     shape="circle"
-                    value={metrics.update_responsiveness}
-                    total={metricConfig?.max?.update_responsiveness}
-                    mask="x"
+                    value={
+                      (100 * metrics.update_responsiveness) /
+                      metricConfig?.max?.update_responsiveness
+                    }
+                    mask="x%"
                   />
                 </div>
               </Card>
