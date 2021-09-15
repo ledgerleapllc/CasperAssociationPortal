@@ -65,4 +65,4 @@ const AdminPerks = () => {
   );
 };
 
-export default LoadingScreen(AdminPerks, 'final-admin');
+export default LoadingScreen(AdminPerks, 'final-admin', 'perks');

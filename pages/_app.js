@@ -21,6 +21,7 @@ import AppResolver from '../components/layouts/app-resolver';
 import { fetchUserInfo } from '../shared/redux-saga/auth/actions';
 import AppLoading from '../components/layouts/app-loading';
 import { SnackBarProvider } from '../components/partials/snack-bar';
+import { getToken } from '../helpers/api/auth.service';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
@@ -32,12 +33,16 @@ const Container = props => {
   const fetchUserInfoResponse = useSelector(
     state => state.authReducer.fetchUserInfo
   );
+  const [token, setToken] = useState(1);
   useEffect(() => {
     console.log('app init', process.env.NODE_ENV);
-    dispatch(fetchUserInfo(() => {}));
+    setToken(getToken());
+    if (getToken()) {
+      dispatch(fetchUserInfo(() => {}));
+    }
   }, []);
 
-  return fetchUserInfoResponse.process > 1 && <>{props.children}</>;
+  return (fetchUserInfoResponse.process > 1 || !token) && <>{props.children}</>;
 };
 
 export const AppContext = createContext({});

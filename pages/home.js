@@ -28,7 +28,7 @@ const Home = () => {
           2xl:max-w-screen-2xl
         "
       >
-        <AppHeader theme="light" />
+        <AppHeader theme="light" showExplorer />
         <div className="flex-grow flex items-center">
           <div>
             <p className="text-5xl lg:text-7xl font-bold text-white whitespace-pre-line animate__animated animate__fadeInUp">

@@ -106,4 +106,4 @@ const AdminEditPerk = () => {
   );
 };
 
-export default LoadingScreen(AdminEditPerk, 'final-all');
+export default LoadingScreen(AdminEditPerk, 'final-all', 'perks');

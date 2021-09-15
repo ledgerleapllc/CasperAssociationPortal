@@ -1,6 +1,6 @@
 import 'react-circular-progressbar/dist/styles.css';
 import useMetrics from '../hooks/useMetrics';
-import { ProgressBar } from '../partials';
+import { ProgressBar, Tooltips } from '../partials';
 import { numberWithCommas } from '../../shared/core/utils';
 
 const InfoRightAdminHome = ({ stats }) => {
@@ -17,63 +17,69 @@ const InfoRightAdminHome = ({ stats }) => {
       >
         <span className="text-lg font-medium pb-5">Metrics</span>
         <div className="flex flex-col py-3 xl:py-1 2xl:py-3">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Total Users</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips
+              placement="top"
+              title="Total number of users on the platform"
+              arrow
+            >
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
             {stats?.totalUser}
           </span>
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Member’s Stake</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips
+              placement="top"
+              title="Total amount of members stake"
+              arrow
+            >
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
             {numberWithCommas(stats?.totalStake)}
           </span>
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Total Delegators</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips placement="top" title="Total number of delegators" arrow>
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
             {stats?.totalDelegators}
           </span>
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Average Uptime</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips
+              placement="top"
+              title="Average Uptime across all nodes"
+              arrow
+            >
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
         </div>
         <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Average Block Height</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips
+              placement="top"
+              title="Average block height across all nodes"
+              arrow
+            >
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <ProgressBar
             value={(+stats?.avgBlockHeightAverage).toFixed(2)}
@@ -81,13 +87,15 @@ const InfoRightAdminHome = ({ stats }) => {
           />
         </div>
         <div className="flex flex-col pt-2 pb-9 xl:pb-6 2xl:pb-9">
-          <div className="flex flex-row">
+          <div className="flex gap-2 flex-row">
             <span className="text-lg">Average Responsiveness</span>
-            <img
-              className="pl-3"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <Tooltips
+              placement="top"
+              title="Average responsiveness across all nodes"
+              arrow
+            >
+              <img src="/images/ic_feather_info.svg" alt="Info" />
+            </Tooltips>
           </div>
           <ProgressBar
             value={(+stats?.avgUpdateResponsiveness).toFixed(2)}

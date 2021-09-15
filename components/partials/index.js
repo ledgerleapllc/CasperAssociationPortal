@@ -17,9 +17,11 @@ import { Button } from './button';
 import { LoadingButton } from './loading-button';
 import Switch from './switch';
 import Dropdown from './dropdown';
+import Tooltips from './tool-tips';
 import Slider from './slider';
 
 export {
+  Tooltips,
   Card,
   ActiveLink,
   Tab,

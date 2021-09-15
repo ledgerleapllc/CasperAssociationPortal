@@ -13,6 +13,7 @@ import {
   ForAgainst,
   Table,
   ClockBar,
+  Tooltips,
   StatusText,
 } from '../../../components/partials';
 import {
@@ -123,7 +124,13 @@ const Tab1 = () => {
             <p>Votes</p>
           </Table.HeaderCell>
           <Table.HeaderCell>
-            <p>Current Split</p>
+            <Tooltips
+              placement="top"
+              title="Displays the current vote split. FOR / AGAINST"
+              arrow
+            >
+              <p>Current Split</p>
+            </Tooltips>
           </Table.HeaderCell>
           <Table.HeaderCell>
             <p>Date</p>

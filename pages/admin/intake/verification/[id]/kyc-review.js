@@ -224,4 +224,8 @@ const AdminIntakeVerificationKYC = () => {
   );
 };
 
-export default LoadingScreen(AdminIntakeVerificationKYC, 'final-admin');
+export default LoadingScreen(
+  AdminIntakeVerificationKYC,
+  'final-admin',
+  'intake'
+);

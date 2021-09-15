@@ -135,4 +135,4 @@ const AdminBallotDetail = () => {
   );
 };
 
-export default LoadingScreen(AdminBallotDetail, 'final-all');
+export default LoadingScreen(AdminBallotDetail, 'final-all', 'ballots');

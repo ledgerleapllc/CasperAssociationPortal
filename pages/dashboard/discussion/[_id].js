@@ -61,8 +61,8 @@ const ChatBox = ({ data, noBorder }) => (
       </div>
       <div className="pt-2 pr-6 mt-auto lg:mt-0">
         <Link href={`/dashboard/profile/${data?.user?.id}`}>
-          <a className="text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
-            {data?.user?.pseudonym}
+          <a className="w-full text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
+            <span className="w-4/5 truncate">{data?.user?.pseudonym}</span>
             {data?.user?.profile?.status === 'approved' && (
               <VerifiedIcon className="text-primary" />
             )}
@@ -277,7 +277,7 @@ const DashboardDiscusionDetail = () => {
                     {discussion.title}
                   </h3>
                   <div className="hidden lg:flex">
-                    {discussion.is_draft && (
+                    {!!discussion.is_draft && (
                       <Button
                         sizeSpinner={20}
                         primary

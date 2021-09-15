@@ -35,4 +35,4 @@ const AdminIntake = () => (
   </LayoutDashboard>
 );
 
-export default LoadingScreen(AdminIntake, 'final-admin');
+export default LoadingScreen(AdminIntake, 'final-admin', 'intake');

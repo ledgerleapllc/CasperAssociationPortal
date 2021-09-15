@@ -15,7 +15,7 @@ import {
 } from '../../shared/redux-saga/admin/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
-import { Button, Card, Table } from '../../components/partials';
+import { Button, Card, Table, Tooltips } from '../../components/partials';
 import { useTable } from '../../components/partials/table';
 import { useDialog } from '../../components/partials/dialog';
 import { formatDate } from '../../shared/core/utils';
@@ -366,19 +366,49 @@ const AdminTeams = () => {
                     <p>IP</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Intake</p>
+                    <Tooltips
+                      placement="top"
+                      title="Toggles admin access to the intake tab."
+                      arrow
+                    >
+                      <p>Intake</p>
+                    </Tooltips>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Users</p>
+                    <Tooltips
+                      placement="top"
+                      title="Toggles admin access to the users tab."
+                      arrow
+                    >
+                      <p>Users</p>
+                    </Tooltips>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Ballots</p>
+                    <Tooltips
+                      placement="top"
+                      title="Toggles admin access to the ballots tab."
+                      arrow
+                    >
+                      <p>Ballots</p>
+                    </Tooltips>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Perks</p>
+                    <Tooltips
+                      placement="top"
+                      title="Toggles admin access to the perks tab."
+                      arrow
+                    >
+                      <p>Perks</p>
+                    </Tooltips>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <p>Teams</p>
+                    <Tooltips
+                      placement="top"
+                      title="Toggles admin access to the teams tab."
+                      arrow
+                    >
+                      <p>Teams</p>
+                    </Tooltips>
                   </Table.HeaderCell>
                   <Table.HeaderCell>
                     <p>Admin Action</p>
@@ -548,4 +578,4 @@ const AdminTeams = () => {
   );
 };
 
-export default LoadingScreen(AdminTeams, 'final-admin');
+export default LoadingScreen(AdminTeams, 'final-admin', 'teams');

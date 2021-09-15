@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card } from '../../../components/partials';
+import { Card, Tooltips } from '../../../components/partials';
 import { AppContext } from '../../_app';
 import MonitoringCriteria from '../../../components/admin/settings/monitoring-criteria';
 import SettingLockPage from '../../../components/admin/settings/setting-lock-page';
@@ -81,7 +81,16 @@ const Settings = () => {
           </div>
           <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
             <section className="pt-8">
-              <h4 className="mb-7 text-lg font-medium">Mailer Settings</h4>
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                Mailer Settings
+                <Tooltips
+                  placement="top"
+                  title="Adjust settings for the automatic email system."
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
+              </h4>
               <Link href="/admin/settings/emailer">
                 <button
                   type="button"
@@ -92,8 +101,15 @@ const Settings = () => {
               </Link>
             </section>
             <section className="mt-20">
-              <h4 className="mb-7 text-lg font-medium">
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
                 Notification Settings
+                <Tooltips
+                  placement="top"
+                  title="Adjust settings for the notifications to node operators."
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
               </h4>
               <Link href="settings/notifications">
                 <button
@@ -105,15 +121,31 @@ const Settings = () => {
               </Link>
             </section>
             <section className="mt-20">
-              <h4 className="mb-7 text-lg font-medium">Monitoring Criteria</h4>
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                Monitoring Criteria
+                <Tooltips
+                  placement="top"
+                  title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
+              </h4>
               <MonitoringCriteria
                 metrics={metrics}
                 fetchWarningMetrics={fetchWarningMetrics}
               />
             </section>
             <section className="my-20">
-              <h4 className="mb-7 text-lg font-medium">
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
                 Status page lock rules
+                <Tooltips
+                  placement="top"
+                  title="Locks users out of specified areas of the dashboard."
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
               </h4>
               <SettingLockPage rules={rules} fetchRules={fetchLockPageRules} />
             </section>

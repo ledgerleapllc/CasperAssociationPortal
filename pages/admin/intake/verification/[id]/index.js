@@ -88,7 +88,7 @@ const AdminIntakeVerificationDetail = () => {
     dispatch(
       approveDocuments(
         { id },
-        res => {
+        () => {
           setConfirmationInfoAt(new Date());
           setLoadingConfirmDocs(false);
         },
@@ -108,7 +108,7 @@ const AdminIntakeVerificationDetail = () => {
             description="This will reset the KYC step and tell the user through email to submit again for the following reason:"
             onResetUser={message => {
               dispatch(
-                resetUserKYC({ id, message }, res => {
+                resetUserKYC({ id, message }, () => {
                   onClosed();
                 })
               );
@@ -352,4 +352,8 @@ const AdminIntakeVerificationDetail = () => {
   );
 };
 
-export default LoadingScreen(AdminIntakeVerificationDetail, 'final-admin');
+export default LoadingScreen(
+  AdminIntakeVerificationDetail,
+  'final-admin',
+  'intake'
+);

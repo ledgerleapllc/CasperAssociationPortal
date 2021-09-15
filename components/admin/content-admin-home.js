@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Card, Dropdown } from '../partials';
+import { Card, Dropdown, Tooltips } from '../partials';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 
@@ -56,7 +56,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             <div className="gap-5 flex lg:flex-row flex-col justify-between h-full">
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <p className="text-lg font-medium">KYC for Review</p>
+                  <Tooltips
+                    placement="top"
+                    title="Users that are new to the platform or existing users that wish to be verified. usually requires admin approval."
+                    arrow
+                  >
+                    <p className="text-lg font-medium">KYC for Review</p>
+                  </Tooltips>
                   <p className="text-3xl font-thin">
                     {stats?.totalNewUserReady}
                   </p>
@@ -76,7 +82,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
               </Card>
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <p className="text-lg font-medium">Failing Nodes</p>
+                  <Tooltips
+                    placement="top"
+                    title="Nodes that fall outside the minimum requirements set by the administrator appear here."
+                    arrow
+                  >
+                    <p className="text-lg font-medium">Failing Nodes</p>
+                  </Tooltips>
                   <p className="text-5xl font-thin">{stats?.totalFailNode}</p>
                   {!!stats?.totalFailNode && (
                     <Link href="/dashboard/nodes?node_failing=1">
@@ -90,7 +102,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
               </Card>
               <Card className="h-full lg:w-full">
                 <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <p className="text-lg font-medium">Perks Activated</p>
+                  <Tooltips
+                    placement="top"
+                    title="Tracks the number of perks that have been activated in the selected range."
+                    arrow
+                  >
+                    <p className="text-lg font-medium">Perks Activated</p>
+                  </Tooltips>
                   <p className="text-5xl font-thin">
                     {stats?.totalPerksActive}
                   </p>
@@ -124,7 +142,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
           <Card className="flex-grow p-6 gap-5 flex flex-row w-full lg:w-1/3 h-full">
             <div className="flex w-1/2 flex-col">
               <div className="flex flex-col justify-between h-full text-center">
-                <p className="text-lg font-medium">Forum Activity</p>
+                <Tooltips
+                  placement="top"
+                  title="Tracks the forum activity based on the selected range."
+                  arrow
+                >
+                  <p className="text-lg font-medium">Forum Activity</p>
+                </Tooltips>
                 <p className="text-5xl font-thin">{stats?.totalNewComments}</p>
                 <Dropdown
                   className="w-full"

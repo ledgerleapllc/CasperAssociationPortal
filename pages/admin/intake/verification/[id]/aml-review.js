@@ -220,4 +220,8 @@ const AdminIntakeVerificationAML = () => {
   );
 };
 
-export default LoadingScreen(AdminIntakeVerificationAML, 'final-admin');
+export default LoadingScreen(
+  AdminIntakeVerificationAML,
+  'final-admin',
+  'intake'
+);

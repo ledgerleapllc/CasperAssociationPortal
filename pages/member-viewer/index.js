@@ -188,7 +188,7 @@ const MembersViewer = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Delegation Rate</td>
+                  <td>Validator Fee</td>
                   <td>{sliderValues.delegation_rate || 0}</td>
                   <td>
                     <Slider

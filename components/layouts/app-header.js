@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
+import router from 'next/router';
 import Hamburger from '../../public/images/ic_hamburger.svg';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
+import { Button } from '../partials';
 
-const AppHeader = ({ className, theme }) => {
+const AppHeader = ({ className, theme, showExplorer }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.authReducer.userInfo);
 
@@ -31,6 +33,18 @@ const AppHeader = ({ className, theme }) => {
             className={`${theme === 'light' ? 'text-white' : 'text-dark2'}`}
           />
         </button>
+      )}
+      {showExplorer && (
+        <Button
+          primary
+          className="animate__animated animate__fadeIn animate__delay-2s"
+          type="button"
+          onClick={() => {
+            router.push('/member-viewer');
+          }}
+        >
+          Node Explorer
+        </Button>
       )}
     </div>
   );

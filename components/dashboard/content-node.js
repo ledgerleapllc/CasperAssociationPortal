@@ -14,7 +14,7 @@ import {
 import { useState, useEffect, useContext, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
-import { Card, Dropdown, ProgressBar } from '../partials';
+import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
 import InfoRightNode from './info-right-node';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
@@ -54,7 +54,7 @@ const LineMemo = memo(({ data, options = DEFAULT_LINE_OPTIONS }) => (
   <Line data={data} options={options} />
 ));
 
-const ContentNode = () => {
+const ContentNode = ({ sendHightlightNode }) => {
   const { metrics, metricConfig } = useMetrics();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
@@ -74,6 +74,7 @@ const ContentNode = () => {
       getNodesFromAdmin({ page: 1, limit: 9999 }, result => {
         setNodesList(result);
         setCurrentNode(result[0]);
+        sendHightlightNode(result[0]);
       })
     );
   };
@@ -179,13 +180,15 @@ const ContentNode = () => {
           <Card className="h-full lg:flex-grow">
             <div className="flex flex-col px-9 h-full justify-center">
               <div className="flex justify-between">
-                <div className="flex">
+                <div className="flex gap-2">
                   <span className="text-lg font-normal">Node Name</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
+                  <Tooltips
+                    placement="top"
+                    title="Displays the selected node address"
+                    arrow
+                  >
+                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                  </Tooltips>
                 </div>
                 <button
                   className="ml-6"
@@ -212,12 +215,18 @@ const ContentNode = () => {
                     trigger={
                       <div className="flex items-center gap-2">
                         <p className="w-full relative h-6">
-                          <span className="text-base font-thin truncate absolute inset-0">
-                            {getShortNodeAddress(
-                              currentNode?.public_address_node,
-                              30
-                            )}
-                          </span>
+                          <Tooltips
+                            placement="bottom"
+                            title={currentNode?.public_address_node}
+                            arrow
+                          >
+                            <span className="text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                currentNode?.public_address_node,
+                                30
+                              )}
+                            </span>
+                          </Tooltips>
                         </p>
                         <ArrowIcon />
                       </div>
@@ -227,7 +236,10 @@ const ContentNode = () => {
                       {nodesList.map(node => (
                         <li
                           className="p-2 hover:text-primary cursor-pointer"
-                          onClick={() => setCurrentNode(node)}
+                          onClick={() => {
+                            setCurrentNode(node);
+                            sendHightlightNode(node);
+                          }}
                         >
                           <p className="w-full relative h-6">
                             <span className="text-center text-base font-thin truncate absolute inset-0">
@@ -256,15 +268,17 @@ const ContentNode = () => {
         <div className="w-2/4 lg:w-1/3">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-              <div className="flex">
+              <div className="flex gap-2">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Stake Amount
                 </span>
-                <img
-                  className="hidden lg:block pl-3"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
-                />
+                <Tooltips
+                  placement="top"
+                  title="Amount staked to the selected node"
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
               </div>
               <span className="text-base text-black1 font-thin">
                 {numberWithCommas(
@@ -277,15 +291,17 @@ const ContentNode = () => {
         <div className="w-2/4 lg:w-1/3">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-              <div className="flex">
+              <div className="flex gap-2">
                 <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Delegators
                 </span>
-                <img
-                  className="hidden lg:block pl-3"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
-                />
+                <Tooltips
+                  placement="top"
+                  title="Number of delegators to the selected node."
+                  arrow
+                >
+                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                </Tooltips>
               </div>
               <span className="text-base text-black1 font-thin">
                 {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
@@ -387,13 +403,15 @@ const ContentNode = () => {
             <Card className="flex items-center px-5 h-auto lg:h-3/5 w-full">
               <div className="h-8/10 flex flex-col justify-between w-full">
                 <div className="flex flex-col">
-                  <div className="flex flex-row py-1">
+                  <div className="flex gap-3 flex-row py-1">
                     <span className="text-lg">Uptime</span>
-                    <img
-                      className="pl-3"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <Tooltips
+                      placement="right"
+                      title="Uptime for the selected node."
+                      arrow
+                    >
+                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                    </Tooltips>
                   </div>
                   <ProgressBar
                     value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
@@ -402,13 +420,15 @@ const ContentNode = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="flex flex-row py-1">
+                  <div className="flex gap-3 flex-row py-1">
                     <span className="text-lg">Block Height</span>
-                    <img
-                      className="pl-3"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <Tooltips
+                      placement="right"
+                      title="Block height for the selected node."
+                      arrow
+                    >
+                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                    </Tooltips>
                   </div>
                   <ProgressBar
                     value={
@@ -425,13 +445,15 @@ const ContentNode = () => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="flex flex-row py-1">
+                  <div className="flex gap-3 flex-row py-1">
                     <span className="text-lg">Update Responsiveness</span>
-                    <img
-                      className="pl-3"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <Tooltips
+                      placement="right"
+                      title="Update responsiveness for the selected node."
+                      arrow
+                    >
+                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                    </Tooltips>
                   </div>
                   <ProgressBar
                     value={
@@ -455,13 +477,15 @@ const ContentNode = () => {
             </Card>
             <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5">
               <div className="flex flex-col w-1/2 px-5 lg:px-0 border-r border-gray lg:pl-20 justify-center">
-                <div className="flex flex-row">
+                <div className="flex gap-3 flex-row">
                   <span className="text-lg">Daily Earnings</span>
-                  <img
-                    className="pl-3 lg:pl-5"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
+                  <Tooltips
+                    placement="top"
+                    title="Displays today's earnings."
+                    arrow
+                  >
+                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                  </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">
                   <img
@@ -476,13 +500,15 @@ const ContentNode = () => {
                 </div>
               </div>
               <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
-                <div className="flex flex-row">
+                <div className="flex gap-3 flex-row">
                   <span className="text-lg">Total Earnings</span>
-                  <img
-                    className="pl-3 lg:pl-5"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
+                  <Tooltips
+                    placement="top"
+                    title="Displays the total earnings for the selected node since onboarding."
+                    arrow
+                  >
+                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                  </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">
                   <img

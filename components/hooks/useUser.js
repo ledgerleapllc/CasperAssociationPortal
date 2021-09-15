@@ -3,8 +3,12 @@ import Router from 'next/router';
 import { useSelector } from 'react-redux';
 
 // auth, verifying, onboarding, final, public
-export default function useUser({ urlType = 'public' } = {}) {
+export default function useUser({
+  urlType = 'public',
+  permissionRoute = null,
+} = {}) {
   const user = useSelector(state => state.authReducer.userInfo);
+  const permissions = useSelector(state => state.authReducer?.permissions);
 
   useEffect(() => {
     if (urlType === 'public' || !urlType || !user) {
@@ -42,11 +46,19 @@ export default function useUser({ urlType = 'public' } = {}) {
         if (urlType !== 'final-all' && urlType !== 'final-admin') {
           Router.push('/admin/dashboard');
         }
+        if (
+          user.role === 'sub-admin' &&
+          permissions &&
+          permissionRoute &&
+          !permissions[permissionRoute]
+        ) {
+          Router.push('/admin/dashboard');
+        }
       }
     } else if (urlType !== 'auth') {
       Router.push('/login');
     }
-  }, [user, urlType]);
+  }, [user, urlType, permissions]);
 
   return { user };
 }

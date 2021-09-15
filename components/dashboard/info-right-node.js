@@ -8,6 +8,7 @@ import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
 import { getNodesFromUser } from '../../shared/redux-saga/auth/actions';
 import Table, { useTable } from '../partials/table';
 import { getShortNodeAddress } from '../../shared/core/utils';
+import { Tooltips } from '../partials';
 
 const Styles = styled.div`
   .nodes-table {
@@ -34,7 +35,7 @@ const Styles = styled.div`
   }
 `;
 
-const NodesList = ({ userInfo, isAdmin, filter }) => {
+const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   const dispatch = useDispatch();
   const {
     data,
@@ -96,6 +97,12 @@ const NodesList = ({ userInfo, isAdmin, filter }) => {
     if (isAdmin && row.is_fail_node) {
       return 'fail-node';
     }
+    if (
+      isAdmin &&
+      hightlightNode?.public_address_node === row.public_address_node
+    ) {
+      return 'highlight';
+    }
     return '';
   };
 
@@ -125,20 +132,32 @@ const NodesList = ({ userInfo, isAdmin, filter }) => {
                 {isAdmin && (
                   <Link href={`/admin/users/${row.user_id}`}>
                     <a>
-                      <p className="relative h-full">
-                        <span className="truncate absolute inset-0">
-                          {getShortNodeAddress(row.public_address_node, 20)}
-                        </span>
-                      </p>
+                      <Tooltips
+                        placement="left"
+                        title={row.public_address_node}
+                        arrow
+                      >
+                        <p className="relative h-full">
+                          <span className="truncate absolute inset-0">
+                            {getShortNodeAddress(row.public_address_node, 20)}
+                          </span>
+                        </p>
+                      </Tooltips>
                     </a>
                   </Link>
                 )}
                 {!isAdmin && (
-                  <p className="relative h-full">
-                    <span className="truncate absolute inset-0">
-                      {getShortNodeAddress(row.public_address_node, 20)}
-                    </span>
-                  </p>
+                  <Tooltips
+                    placement="left"
+                    title={row.public_address_node}
+                    arrow
+                  >
+                    <p className="relative h-full">
+                      <span className="truncate absolute inset-0">
+                        {getShortNodeAddress(row.public_address_node, 20)}
+                      </span>
+                    </p>
+                  </Tooltips>
                 )}
               </Table.BodyCell>
             </Table.BodyRow>
@@ -149,7 +168,7 @@ const NodesList = ({ userInfo, isAdmin, filter }) => {
   );
 };
 
-const InfoRightNode = memo(() => {
+const InfoRightNode = memo(({ currentNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [filterFailedNodes, setFilterFailedNodes] = useState(null);
@@ -182,9 +201,15 @@ const InfoRightNode = memo(() => {
         </div>
       </div>
       <div className="flex flex-col lg:pb-3 h-9/10 lg:h-full">
-        <div className="flex">
+        <div className="flex gap-1">
           <span className="text-lg font medium lg:font-normal">Node Rank</span>
-          <img className="pl-2" src="/images/ic_feather_info.svg" alt="Info" />
+          <Tooltips
+            placement="top"
+            title="Ranks all nodes in the platform weighted equally."
+            arrow
+          >
+            <img src="/images/ic_feather_info.svg" alt="Info" />
+          </Tooltips>
           {!!isAdmin && (
             <div className="ml-auto flex items-center px-4">
               <span className="pr-2">Only Failing</span>
@@ -204,6 +229,7 @@ const InfoRightNode = memo(() => {
         </div>
         {isAdmin !== null && filterFailedNodes !== null && (
           <NodesList
+            hightlightNode={currentNode}
             userInfo={userInfo}
             isAdmin={isAdmin}
             filter={{ node_failing: filterFailedNodes }}

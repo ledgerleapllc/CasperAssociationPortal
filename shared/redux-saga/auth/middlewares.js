@@ -191,11 +191,8 @@ export function* resendVerificationCode({ resolve, reject }) {
 }
 
 export function* fetchUserInfo({ resolve }) {
-  const headers = {
-    Authorization: `Bearer ${getToken()}`,
-  };
   try {
-    const res = yield get(['users/profile'], { headers });
+    const res = yield get(['users/profile']);
     yield put(setUser(res.data));
     const permissions = res.data?.permissions.reduce(
       (sum, x) => ({
@@ -291,7 +288,10 @@ export function* getMyMetrics() {
       uptime: res.data?.uptime || 0,
       block_height_average,
       peers: res.data?.peers || 0,
-      update_responsiveness: res.data?.update_responsiveness || 0,
+      update_responsiveness:
+        res.data?.update_responsiveness === null
+          ? res.data?.max_update_responsiveness
+          : res.data?.update_responsiveness,
       monitoring_criteria: res.data?.monitoring_criteria || null,
       average_uptime: res.data?.avg_uptime || 0,
       current_block_height:

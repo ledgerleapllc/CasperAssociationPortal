@@ -52,4 +52,4 @@ const AdminAddPerk = () => {
   );
 };
 
-export default LoadingScreen(AdminAddPerk, 'final-all');
+export default LoadingScreen(AdminAddPerk, 'final-all', 'perks');

@@ -150,4 +150,4 @@ const KycAmlDetail = () => {
   );
 };
 
-export default LoadingScreen(KycAmlDetail, 'final-admin');
+export default LoadingScreen(KycAmlDetail, 'final-admin', 'users');

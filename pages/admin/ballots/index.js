@@ -335,4 +335,4 @@ const Ballots = () => (
   </LayoutDashboard>
 );
 
-export default LoadingScreen(Ballots, 'final-admin');
+export default LoadingScreen(Ballots, 'final-admin', 'ballots');

@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { LoadingButton } from '../../partials';
+import { LoadingButton, Tooltips } from '../../partials';
 
 import {
   NUMBER_PATTERN,
@@ -15,7 +15,14 @@ import {
 } from '../../../helpers/form-validation';
 import { updateWarningMetrics } from '../../../shared/redux-saga/admin/actions';
 
-const SettingMetricForm = ({ metrics, title, type, doReloadData }) => {
+const SettingMetricForm = ({
+  metrics,
+  title,
+  type,
+  doReloadData,
+  warningTooltip,
+  probationTooltip,
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditWarningLevel, setIsEditWarningLevel] = useState(false);
   const [isEditProbationStart, setIsEditProbationStart] = useState(false);
@@ -126,7 +133,6 @@ const SettingMetricForm = ({ metrics, title, type, doReloadData }) => {
       <div className="flex mb-3">
         <div className="flex flex-row mr-2">
           <span>{title}</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
         </div>
         <p className="text-primary underline cursor-pointer" onClick={doCancel}>
           {isOverride ? 'Cancel' : 'Edit'}
@@ -140,8 +146,11 @@ const SettingMetricForm = ({ metrics, title, type, doReloadData }) => {
       >
         <div className="w-full lg:w-7/12 mb-10 flex flex-row justify-between">
           <div className="w-full lg:w-6/12">
-            <label className="text-gray font-thin mb-2">
+            <label className="flex gap-2 text-gray font-thin mb-2">
               Set Warning Level
+              <Tooltips placement="top" title={warningTooltip} arrow>
+                <img src="/images/ic_feather_info.svg" alt="Info" />
+              </Tooltips>
             </label>
             <div className="flex-1 flex-col">
               {isEditWarningLevel ? (
@@ -204,8 +213,11 @@ const SettingMetricForm = ({ metrics, title, type, doReloadData }) => {
             </div>
           </div>
           <div className="w-full lg:w-6/12 ml-10">
-            <label className="text-gray font-thin mb-2">
+            <label className="flex gap-2 text-gray font-thin mb-2">
               Set Probation Start
+              <Tooltips placement="top" title={probationTooltip} arrow>
+                <img src="/images/ic_feather_info.svg" alt="Info" />
+              </Tooltips>
             </label>
             <div className="flex-1 flex-col">
               {isEditProbationStart ? (

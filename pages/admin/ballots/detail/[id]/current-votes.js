@@ -227,4 +227,8 @@ const AdminActiveBallotCurrentVotes = () => {
   );
 };
 
-export default LoadingScreen(AdminActiveBallotCurrentVotes, 'final-all');
+export default LoadingScreen(
+  AdminActiveBallotCurrentVotes,
+  'final-all',
+  'ballots'
+);

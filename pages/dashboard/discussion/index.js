@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Tab, Card, Table, Button } from '../../../components/partials';
+import {
+  Tab,
+  Card,
+  Table,
+  Button,
+  Tooltips,
+} from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
 import IconPin from '../../../public/images/ic_pin.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
 import IconLike from '../../../public/images/ic_like.svg';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
+import { AppContext } from '../../_app';
 import {
   getDiscussions,
   setDiscussionPin,
@@ -19,12 +26,13 @@ import {
   getPinnedDiscussions,
   getMyDiscussions,
   getDraftDiscussions,
+  deleteDraftDiscussion,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardDiscusionContext = createContext();
 
-const ChatBox = ({ data, togglePinCallback, hidePin }) => {
+const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
   const { togglePinnedList, removeNewFromList } = useContext(
     DashboardDiscusionContext
   );
@@ -41,6 +49,9 @@ const ChatBox = ({ data, togglePinCallback, hidePin }) => {
       togglePinnedList(item);
       setDiscuss({
         ...discuss,
+        total_pinned: !discuss.is_pin
+          ? discuss.total_pinned + 1
+          : discuss.total_pinned - 1,
         is_pin: !discuss.is_pin,
       });
       setTimeout(() => {
@@ -59,10 +70,18 @@ const ChatBox = ({ data, togglePinCallback, hidePin }) => {
     });
   };
 
+  const deleteDraft = item => {
+    if (onDeleteDraft) {
+      onDeleteDraft(item);
+    }
+  };
+
   return (
     <div
       className={`py-3 ${
-        discuss?.is_new ? 'bg-primary-highlight rounded-lg' : ''
+        discuss?.is_new && !discuss?.is_draft
+          ? 'bg-primary-highlight rounded-lg'
+          : ''
       }`}
     >
       <div
@@ -78,22 +97,37 @@ const ChatBox = ({ data, togglePinCallback, hidePin }) => {
             />
           </div>
           <div className="px-3 pt-2 mt-auto lg:mt-0">
-            <IconPin
-              className={`cursor-pointer ${
-                discuss?.is_pin ? 'text-primary' : ''
-              } text-4xl`}
-              onClick={() => pin(discuss)}
-              hidden={hidePin}
-            />
+            <Tooltips title="Pin this discussion" arrow>
+              <p>
+                <IconPin
+                  className={`cursor-pointer ${
+                    discuss?.is_pin ? 'text-primary' : ''
+                  } text-4xl`}
+                  onClick={() => pin(discuss)}
+                  hidden={hidePin}
+                />
+              </p>
+            </Tooltips>
           </div>
         </div>
         <div className="flex-1 chat-content mt-5 lg:m-0">
           <div className="chat-content-body">
-            <Link href={`/dashboard/discussion/${discuss?.id}`}>
+            <div className="flex justify-between">
               <h2 className="cursor-pointer text-base mb-2.5 font-medium line-clamp-2">
-                {discuss?.title}
+                <Link href={`/dashboard/discussion/${discuss?.id}`}>
+                  <a>{discuss?.title}</a>
+                </Link>
               </h2>
-            </Link>
+              {!!discuss?.is_draft && (
+                <button
+                  className="text-primary"
+                  type="button"
+                  onClick={() => deleteDraft(discuss)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
             <p
               className="text-sm mb-5 line-clamp-5"
               dangerouslySetInnerHTML={{ __html: discuss?.description }}
@@ -113,15 +147,27 @@ const ChatBox = ({ data, togglePinCallback, hidePin }) => {
             </p>
             <ul className="ml-8 flex gap-12 -ml-6 mt-5 lg:ml-0 lg:mt-0">
               <li className="flex items-center">
-                <IconChatBox />
+                <Tooltips title="Comments" arrow>
+                  <p>
+                    <IconChatBox />
+                  </p>
+                </Tooltips>
                 <span className="pl-2.5">{discuss?.comments || 0}</span>
               </li>
               <li className="flex items-center">
-                <IconPin className="text-3xl" />
-                <span className="pl-2.5">{discuss?.read || 0}</span>
+                <Tooltips title="Pins" arrow>
+                  <p>
+                    <IconPin className="text-3xl" />
+                  </p>
+                </Tooltips>
+                <span className="pl-2.5">{discuss?.total_pinned || 0}</span>
               </li>
               <li className="flex items-center">
-                <IconLike />
+                <Tooltips title="Likes" arrow>
+                  <p>
+                    <IconLike />
+                  </p>
+                </Tooltips>
                 <span className="pl-2.5">{discuss?.likes || 0}</span>
               </li>
             </ul>
@@ -308,6 +354,7 @@ const Tab3 = () => {
 
 const Tab4 = () => {
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
   const {
     data,
     setData,
@@ -337,6 +384,23 @@ const Tab4 = () => {
     fetchDraftDiscussions();
   }, []);
 
+  const deleteDraft = item => {
+    setLoading(true);
+    dispatch(
+      deleteDraftDiscussion(
+        { id: item.id },
+        () => {
+          setLoading(false);
+          const temp = data.filter(x => x.id !== item.id);
+          setData(temp);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -356,7 +420,7 @@ const Tab4 = () => {
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell />
               <Table.BodyCell>
-                <ChatBox data={row} hidePin />
+                <ChatBox data={row} hidePin onDeleteDraft={deleteDraft} />
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

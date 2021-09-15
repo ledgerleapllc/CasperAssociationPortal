@@ -475,4 +475,4 @@ const AdminUserDetail = () => {
   );
 };
 
-export default LoadingScreen(AdminUserDetail, 'final-admin');
+export default LoadingScreen(AdminUserDetail, 'final-admin', 'users');

@@ -213,4 +213,4 @@ const AdminUserList = () => {
   );
 };
 
-export default LoadingScreen(AdminUserList, 'final-admin');
+export default LoadingScreen(AdminUserList, 'final-admin', 'users');

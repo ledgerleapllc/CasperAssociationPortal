@@ -1,7 +1,7 @@
 import 'react-circular-progressbar/dist/styles.css';
 import { generateTextForEras, numberWithCommas } from '../../shared/core/utils';
 import useMetrics from '../hooks/useMetrics';
-import { ProgressBar } from '../partials';
+import { ProgressBar, Tooltips } from '../partials';
 
 const NodeInfoHome = () => {
   const { metrics, metricConfig } = useMetrics();
@@ -10,9 +10,15 @@ const NodeInfoHome = () => {
     <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
-        <div className="flex flex-row">
+        <div className="flex gap-1 flex-row">
           <span className="text-lg">Node Rank</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <Tooltips
+            placement="top"
+            title="Ranks all nodes in the platform weighted equally."
+            arrow
+          >
+            <img src="/images/ic_feather_info.svg" alt="Info" />
+          </Tooltips>
         </div>
         <span className="text-base text-black1 font-thin">{metrics?.rank}</span>
       </div>

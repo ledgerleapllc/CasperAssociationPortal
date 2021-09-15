@@ -207,4 +207,4 @@ const AdminAddBallot = () => {
   );
 };
 
-export default LoadingScreen(AdminAddBallot, 'final-all');
+export default LoadingScreen(AdminAddBallot, 'final-all', 'ballots');
