@@ -477,7 +477,9 @@ const DashboardDiscusion = () => {
             <div className="flex justify-end lg:mr-card">
               <Link href="/dashboard/discussion/add">
                 <a>
-                  <Button primary>+ New Discussion</Button>
+                  <Button className="relative z-40" primary>
+                    + New Discussion
+                  </Button>
                 </a>
               </Link>
             </div>

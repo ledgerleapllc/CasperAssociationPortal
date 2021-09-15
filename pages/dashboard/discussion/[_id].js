@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -16,6 +16,7 @@ import {
   Button,
   LoadingButton,
   Table,
+  Tooltips,
 } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
 import { useDialog } from '../../../components/partials/dialog';
@@ -31,6 +32,7 @@ import {
   voteDiscussion,
   getDiscussionComments,
   publishDiscussion,
+  deleteDraftDiscussion,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../_app';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
@@ -70,7 +72,16 @@ const ChatBox = ({ data, noBorder }) => (
         </Link>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
-          Validator ID: {getShortNodeAddress(data.user.public_node_address, 3)}
+          Validator ID:
+          <Tooltips
+            placement="right"
+            title={data.user?.public_address_node}
+            arrow
+          >
+            <span>
+              {getShortNodeAddress(data.user?.public_address_node, 6)}
+            </span>
+          </Tooltips>
         </p>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
@@ -226,6 +237,22 @@ const DashboardDiscusionDetail = () => {
     );
   };
 
+  const remove = () => {
+    setLoading(true);
+    dispatch(
+      deleteDraftDiscussion(
+        { id: _id },
+        () => {
+          setLoading(false);
+          router.push('/dashboard/discussion#draft');
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   const ReactionBar = () => (
     <div className="flex">
       <button
@@ -264,7 +291,11 @@ const DashboardDiscusionDetail = () => {
               <div className="h-11 mt-4 mb-3">
                 <div className="flex justify-between items-center">
                   <BackButton
-                    href="/dashboard/discussion"
+                    href={
+                      !discussion.is_draft
+                        ? `/dashboard/discussion`
+                        : `/dashboard/discussion#draft`
+                    }
                     text="Discussions"
                     force
                   />
@@ -278,14 +309,24 @@ const DashboardDiscusionDetail = () => {
                   </h3>
                   <div className="hidden lg:flex">
                     {!!discussion.is_draft && (
-                      <Button
-                        sizeSpinner={20}
-                        primary
-                        className="-mt-5 my-1 text-lg"
-                        onClick={publish}
-                      >
-                        Publish
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          sizeSpinner={20}
+                          primaryOutline
+                          className="-mt-5 my-1 text-lg"
+                          onClick={remove}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          sizeSpinner={20}
+                          primary
+                          className="-mt-5 my-1 text-lg"
+                          onClick={publish}
+                        >
+                          Publish
+                        </Button>
+                      </div>
                     )}
                     {!discussion.is_draft && <ReactionBar />}
                   </div>

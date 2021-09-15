@@ -291,6 +291,8 @@ export function* getMyMetrics() {
       update_responsiveness:
         res.data?.update_responsiveness === null
           ? res.data?.max_update_responsiveness
+            ? res.data?.max_update_responsiveness
+            : 1
           : res.data?.update_responsiveness,
       monitoring_criteria: res.data?.monitoring_criteria || null,
       average_uptime: res.data?.avg_uptime || 0,
@@ -306,7 +308,7 @@ export function* getMyMetrics() {
       setMetricConfig({
         max: {
           block_height_average: DEFAULT_BASE_BLOCKS,
-          update_responsiveness: +temp.max_update_responsiveness || 0,
+          update_responsiveness: +temp.max_update_responsiveness || 1,
           peers: +temp.max_peers || 0,
         },
       })
