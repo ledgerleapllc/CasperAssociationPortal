@@ -15,7 +15,7 @@ const DashboardNode = () => {
           <ContentNode sendHightlightNode={node => setCurrentNode(node)} />
         </div>
         <Card className="hidden lg:block h-full w-1/5">
-          <div className="py-5 pl-5 h-full">
+          <div className="py-5 h-full">
             <InfoRightNode currentNode={currentNode} />
           </div>
         </Card>

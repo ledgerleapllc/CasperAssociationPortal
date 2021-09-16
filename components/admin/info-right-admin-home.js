@@ -24,7 +24,12 @@ const InfoRightAdminHome = ({ stats }) => {
               title="Total number of users on the platform"
               arrow
             >
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
@@ -39,7 +44,12 @@ const InfoRightAdminHome = ({ stats }) => {
               title="Total amount of members stake"
               arrow
             >
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
@@ -50,7 +60,12 @@ const InfoRightAdminHome = ({ stats }) => {
           <div className="flex gap-2 flex-row">
             <span className="text-lg">Total Delegators</span>
             <Tooltips placement="top" title="Total number of delegators" arrow>
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <span className="text-base text-black1 font-thin">
@@ -65,7 +80,12 @@ const InfoRightAdminHome = ({ stats }) => {
               title="Average Uptime across all nodes"
               arrow
             >
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
@@ -78,7 +98,12 @@ const InfoRightAdminHome = ({ stats }) => {
               title="Average block height across all nodes"
               arrow
             >
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <ProgressBar
@@ -94,7 +119,12 @@ const InfoRightAdminHome = ({ stats }) => {
               title="Average responsiveness across all nodes"
               arrow
             >
-              <img src="/images/ic_feather_info.svg" alt="Info" />
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
             </Tooltips>
           </div>
           <ProgressBar

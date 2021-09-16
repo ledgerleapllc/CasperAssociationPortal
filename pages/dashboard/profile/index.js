@@ -322,6 +322,8 @@ const UserProfile = () => {
                       <span className="text-lg">Uptime</span>
                       <img
                         className="pl-3"
+                        width="10px"
+                        height="10px"
                         src="/images/ic_feather_info.svg"
                         alt="Info"
                       />
@@ -334,6 +336,8 @@ const UserProfile = () => {
                       <span className="text-lg">Block Height</span>
                       <img
                         className="pl-3"
+                        width="10px"
+                        height="10px"
                         src="/images/ic_feather_info.svg"
                         alt="Info"
                       />
@@ -352,6 +356,8 @@ const UserProfile = () => {
                       <span className="text-lg">Update Responsiveness</span>
                       <img
                         className="pl-3"
+                        width="10px"
+                        height="10px"
                         src="/images/ic_feather_info.svg"
                         alt="Info"
                       />
@@ -375,6 +381,8 @@ const UserProfile = () => {
                       <span className="text-lg">Peers</span>
                       <img
                         className="pl-3"
+                        width="10px"
+                        height="10px"
                         src="/images/ic_feather_info.svg"
                         alt="Info"
                       />

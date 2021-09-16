@@ -149,7 +149,12 @@ const SettingMetricForm = ({
             <label className="flex gap-2 text-gray font-thin mb-2">
               Set Warning Level
               <Tooltips placement="top" title={warningTooltip} arrow>
-                <img src="/images/ic_feather_info.svg" alt="Info" />
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/images/ic_feather_info.svg"
+                  alt="Info"
+                />
               </Tooltips>
             </label>
             <div className="flex-1 flex-col">
@@ -216,7 +221,12 @@ const SettingMetricForm = ({
             <label className="flex gap-2 text-gray font-thin mb-2">
               Set Probation Start
               <Tooltips placement="top" title={probationTooltip} arrow>
-                <img src="/images/ic_feather_info.svg" alt="Info" />
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/images/ic_feather_info.svg"
+                  alt="Info"
+                />
               </Tooltips>
             </label>
             <div className="flex-1 flex-col">

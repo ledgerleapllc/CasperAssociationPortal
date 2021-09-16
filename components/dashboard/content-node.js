@@ -187,7 +187,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                     title="Displays the selected node address"
                     arrow
                   >
-                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                    <img
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
                   </Tooltips>
                 </div>
                 <button
@@ -277,7 +282,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                   title="Amount staked to the selected node"
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </div>
               <span className="text-base text-black1 font-thin">
@@ -300,7 +310,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                   title="Number of delegators to the selected node."
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </div>
               <span className="text-base text-black1 font-thin">
@@ -410,7 +425,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                       title="Uptime for the selected node."
                       arrow
                     >
-                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
                     </Tooltips>
                   </div>
                   <ProgressBar
@@ -427,7 +447,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                       title="Block height for the selected node."
                       arrow
                     >
-                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
                     </Tooltips>
                   </div>
                   <ProgressBar
@@ -452,7 +477,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                       title="Update responsiveness for the selected node."
                       arrow
                     >
-                      <img src="/images/ic_feather_info.svg" alt="Info" />
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
                     </Tooltips>
                   </div>
                   <ProgressBar
@@ -486,7 +516,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                     title="Displays today's earnings."
                     arrow
                   >
-                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                    <img
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
                   </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">
@@ -509,7 +544,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                     title="Displays the total earnings for the selected node since onboarding."
                     arrow
                   >
-                    <img src="/images/ic_feather_info.svg" alt="Info" />
+                    <img
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
                   </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">

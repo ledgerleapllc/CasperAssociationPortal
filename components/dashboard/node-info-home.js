@@ -17,7 +17,12 @@ const NodeInfoHome = () => {
             title="Ranks all nodes in the platform weighted equally."
             arrow
           >
-            <img src="/images/ic_feather_info.svg" alt="Info" />
+            <img
+              width="10px"
+              height="10px"
+              src="/images/ic_feather_info.svg"
+              alt="Info"
+            />
           </Tooltips>
         </div>
         <span className="text-base text-black1 font-thin">{metrics?.rank}</span>
@@ -25,7 +30,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Stake Amount</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <span className="text-base text-black1 font-thin">
           {numberWithCommas(metrics?.stake_amount)}
@@ -34,7 +45,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Delegators</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <span className="text-base text-black1 font-thin">
           {metrics?.delegators}
@@ -43,7 +60,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Uptime</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <p className="text-sm text-gray mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
         <ProgressBar
@@ -55,7 +78,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Block Height</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <p className="text-sm text-gray mb-2">
           Current: {metrics?.current_block_height} blocks behind
@@ -69,7 +98,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
           <span className="text-lg">Update Responsiveness</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <p className="text-sm text-gray mb-2">
           Average: {generateTextForEras(metrics?.average_responsiveness)}
@@ -87,7 +122,13 @@ const NodeInfoHome = () => {
       <div className="flex flex-col pt-2 pb-9">
         <div className="flex flex-row">
           <span className="text-lg">Peers</span>
-          <img className="pl-3" src="/images/ic_feather_info.svg" alt="Info" />
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
         </div>
         <p className="text-sm text-gray mb-2">
           Average: {metrics?.average_peers}

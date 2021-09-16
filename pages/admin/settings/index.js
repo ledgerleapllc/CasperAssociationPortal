@@ -88,7 +88,12 @@ const Settings = () => {
                   title="Adjust settings for the automatic email system."
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </h4>
               <Link href="/admin/settings/emailer">
@@ -108,7 +113,12 @@ const Settings = () => {
                   title="Adjust settings for the notifications to node operators."
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </h4>
               <Link href="settings/notifications">
@@ -128,7 +138,12 @@ const Settings = () => {
                   title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </h4>
               <MonitoringCriteria
@@ -144,7 +159,12 @@ const Settings = () => {
                   title="Locks users out of specified areas of the dashboard."
                   arrow
                 >
-                  <img src="/images/ic_feather_info.svg" alt="Info" />
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
                 </Tooltips>
               </h4>
               <SettingLockPage rules={rules} fetchRules={fetchLockPageRules} />

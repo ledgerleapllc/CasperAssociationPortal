@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
-import router from 'next/router';
 import Hamburger from '../../public/images/ic_hamburger.svg';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
 import { Button } from '../partials';
@@ -40,7 +39,7 @@ const AppHeader = ({ className, theme, showExplorer }) => {
           className="animate__animated animate__fadeIn animate__delay-2s"
           type="button"
           onClick={() => {
-            router.push('/member-viewer');
+            window.open('/member-viewer', '_blank').focus();
           }}
         >
           Node Explorer
