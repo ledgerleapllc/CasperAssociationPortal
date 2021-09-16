@@ -242,7 +242,9 @@ const DashboardMembership = () => {
   return (
     <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
       <div className="membership h-full flex flex-col gap-5 w-328">
-        <WarningCards warnings={warningMetrics} />
+        {warningMetrics?.length > 0 && (
+          <WarningCards warnings={warningMetrics} />
+        )}
         <Card className="flex flex-col px-9 py-5">
           <span className="text-lg font-medium">Membership</span>
           <div className="mt-2.5 mb-8 border border-primary border-b" />

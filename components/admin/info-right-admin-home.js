@@ -128,7 +128,11 @@ const InfoRightAdminHome = ({ stats }) => {
             </Tooltips>
           </div>
           <ProgressBar
-            value={(+stats?.avgUpdateResponsiveness).toFixed(2)}
+            value={
+              +stats?.avgUpdateResponsiveness
+                ? (+stats?.avgUpdateResponsiveness).toFixed(2)
+                : 100
+            }
             mask="x%"
           />
         </div>
