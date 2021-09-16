@@ -108,6 +108,7 @@ module.exports = {
       },
       padding: {
         '6.25': '1.5625rem',
+        '7px': '7px',
         card: '2rem',
         'card-tracker': 'calc(2rem - 7px)',
       },

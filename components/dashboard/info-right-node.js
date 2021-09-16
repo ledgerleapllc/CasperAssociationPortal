@@ -110,7 +110,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
     <Styles className="h-full w-full text-base font-thin">
       <Table
         {...register}
-        className="nodes-table w-full h-full min-w-full"
+        className="nodes-table w-full h-full min-w-full pl-7px"
         onLoadMore={getNodes}
         hasMore={hasMore}
         dataLength={data.length}

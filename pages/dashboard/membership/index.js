@@ -1,12 +1,111 @@
 import { compareDesc } from 'date-fns';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Slider from 'react-slick';
+import ReactLoading from 'react-loading';
+import classNames from 'classnames';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, ClockBar, ProgressBar } from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
+import ArrowIcon from '../../../public/images/ic_arrow.svg';
+
+const settings = {
+  arrows: false,
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
+const WarningCards = ({ warnings, isLoading }) => {
+  const sliderRef = useRef(null);
+  const next = () => {
+    sliderRef.current.slickNext();
+  };
+
+  const prev = () => {
+    sliderRef.current.slickPrev();
+  };
+
+  return (
+    <Card
+      className={classNames(
+        'w-full flex bg-primary items-center justify-between py-5 items-center',
+        warnings?.length > 1 ? 'px-1' : 'px-8'
+      )}
+    >
+      {isLoading ? (
+        <div className="w-full">
+          <ReactLoading
+            className="mx-auto"
+            type="spinningBubbles"
+            color="white"
+            width={25}
+            height={25}
+          />
+        </div>
+      ) : (
+        <>
+          <button
+            type="button"
+            className="text-3xl text-white focus:outline-none disabled:opacity-40"
+            onClick={prev}
+            hidden={warnings?.length === 1}
+          >
+            <ArrowIcon />
+          </button>
+          <div className="h-full" style={{ width: 'calc(100% - 3.75rem)' }}>
+            <div
+              className="overflow-hidden px-2 text-white h-full block min-w-full"
+              style={{ width: 0 }}
+            >
+              <Slider ref={sliderRef} {...settings}>
+                {warnings.map(warnMetric => (
+                  <div>
+                    <div className="flex flex-col bg-primary">
+                      <span className="text-lg font-medium text-white">
+                        {warnMetric?.label} Warning!
+                      </span>
+                      <span className="pt-1.25 text-xs text-white">
+                        Your {warnMetric?.label} has fallen outside the minimum
+                        acceptable range on
+                        {formatDate(
+                          warnMetric?.time_start,
+                          'dd/MM/yyyy HH:mm aa'
+                        )}
+                        and you have been placed on probation. Don’t panic,
+                        there is still time to correct this.
+                      </span>
+                      <span className="pt-1.25 text-xs text-white">
+                        You have {warnMetric?.given_to_correct_value}{' '}
+                        {warnMetric?.given_to_correct_unit} to correct this
+                        problem before your membership status is revoked. Bring
+                        your {warnMetric?.label} {warnMetric?.probation_start}
+                        to correct this issue.
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="text-3xl text-white focus:outline-none transform rotate-180 disabled:opacity-40"
+            onClick={next}
+            hidden={warnings?.length === 1}
+          >
+            <ArrowIcon />
+          </button>
+        </>
+      )}
+    </Card>
+  );
+};
 
 const aspects = [
   {
@@ -56,7 +155,6 @@ const DashboardMembership = () => {
           });
         }
       });
-      console.log(warnings);
       setWarningMetrics(warnings);
     }
   }, [metrics]);
@@ -144,26 +242,7 @@ const DashboardMembership = () => {
   return (
     <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
       <div className="membership h-full flex flex-col gap-5 w-328">
-        {warningMetrics.map(warnMetric => (
-          <Card className="flex flex-col px-9 py-5 bg-primary">
-            <span className="text-lg font-medium text-white">
-              {warnMetric.label} Warning!
-            </span>
-            <span className="pt-1.25 text-xs text-white">
-              Your {warnMetric.label} has fallen outside the minimum acceptable
-              range on{' '}
-              {formatDate(warnMetric.time_start, 'dd/MM/yyyy HH:mm aa')} and you
-              have been placed on probation. Don’t panic, there is still time to
-              correct this.
-            </span>
-            <span className="pt-1.25 text-xs text-white">
-              You have {warnMetric.given_to_correct_value}{' '}
-              {warnMetric.given_to_correct_unit} to correct this problem before
-              your membership status is revoked. Bring your {warnMetric.label}{' '}
-              {warnMetric.probation_start} to correct this issue.
-            </span>
-          </Card>
-        ))}
+        <WarningCards warnings={warningMetrics} />
         <Card className="flex flex-col px-9 py-5">
           <span className="text-lg font-medium">Membership</span>
           <div className="mt-2.5 mb-8 border border-primary border-b" />
