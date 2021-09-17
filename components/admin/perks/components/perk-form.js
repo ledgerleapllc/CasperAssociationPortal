@@ -60,10 +60,12 @@ export const PerkForm = React.memo(
     const onSubmit = data => {
       const temp = data;
       setIsSubmit(true);
-      if (temp.start_date)
-        temp.start_date = formatDate(new Date(data.start_date), 'dd/MM/yyyy');
-      if (temp.end_date)
-        temp.end_date = formatDate(new Date(data.end_date), 'dd/MM/yyyy');
+      temp.start_date = data.start_date
+        ? formatDate(new Date(data.start_date), 'yyyy-MM-dd')
+        : '';
+      temp.end_date = data.end_date
+        ? formatDate(new Date(data.end_date), 'yyyy-MM-dd')
+        : '';
       if (!editMode) {
         dispatch(
           submitPerk(

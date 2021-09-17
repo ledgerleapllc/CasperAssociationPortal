@@ -597,10 +597,10 @@ export function* getPerkDetail({ payload, resolve, reject }) {
     if (res.data.start_date)
       res.data.start_date = formatDate(
         new Date(res.data.start_date),
-        'dd/MM/yyyy'
+        'MM/dd/yyyy'
       );
     if (res.data.end_date)
-      res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
+      res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
     res.data.image = {
       url: res.data.image_url,
       name: res.data.image,
