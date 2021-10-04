@@ -451,3 +451,38 @@ export const getNodeDetail = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const addRecipient = (payload, resolve, reject) => ({
+  type: 'ADD_RECIPIENT',
+  payload,
+  resolve,
+  reject,
+});
+
+export const removeRecipient = (payload, resolve, reject) => ({
+  type: 'REMOVE_RECIPIENT',
+  payload,
+  resolve,
+  reject,
+});
+
+export const listRecipients = (payload, resolve, reject) => ({
+  type: 'LIST_RECIPIENTS',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getMembershipFile = (payload, resolve, reject) => ({
+  type: 'GET_MEMBERSHIP_FILE',
+  payload,
+  resolve,
+  reject,
+});
+
+export const changeMembershipFile = (payload, resolve, reject) => ({
+  type: 'CHANGE_MEMBERSHIP_FILE',
+  payload,
+  resolve,
+  reject,
+});

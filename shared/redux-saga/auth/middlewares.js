@@ -2,11 +2,7 @@ import { put, takeLatest, all, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import {
-  getToken,
-  removeToken,
-  setToken,
-} from '../../../helpers/api/auth.service';
+import { removeToken, setToken } from '../../../helpers/api/auth.service';
 import {
   clearUser,
   clearMetrics,

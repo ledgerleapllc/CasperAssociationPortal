@@ -235,3 +235,10 @@ export const getEarningChart = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const submitContactMessage = (payload, resolve, reject) => ({
+  type: 'SUBMIT_CONTACT_MESSAGE',
+  payload,
+  resolve,
+  reject,
+});

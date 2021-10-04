@@ -2,29 +2,185 @@
 import Link from 'next/link';
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-
+import styled from 'styled-components';
+import PlusIcon from '../../../public/images/ic_plus.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Tooltips } from '../../../components/partials';
+import { Card, Tooltips, Table, Button } from '../../../components/partials';
 import { AppContext } from '../../_app';
 import MonitoringCriteria from '../../../components/admin/settings/monitoring-criteria';
 import SettingLockPage from '../../../components/admin/settings/setting-lock-page';
 import {
   getWarningMetrics,
   getLockPageRules,
+  addRecipient,
+  removeRecipient,
+  listRecipients,
+  getMembershipFile,
+  changeMembershipFile,
 } from '../../../shared/redux-saga/admin/actions';
+import { useDialog } from '../../../components/partials/dialog';
+import { AddRecipientDialog } from '../../../components/dashboard/contact/dialogs/add-recipient';
+import { RemoveRecipientDialog } from '../../../components/dashboard/contact/dialogs/remove-recipient';
+import { useSnackBar } from '../../../components/partials/snack-bar';
+import { formatDate } from '../../../shared/core/utils';
+import { useTable } from '../../../components/partials/table';
+
+const Styles = styled.div`
+  .recipient-table {
+    min-width: auto;
+    .col-1 {
+      width: 30%;
+    }
+    .col-2 {
+      width: 50%;
+    }
+    .col-3 {
+      width: 20%;
+    }
+  }
+`;
 
 const Settings = () => {
   const [metrics, setMetrics] = useState(null);
   const [rules, setRules] = useState(null);
   const dispatch = useDispatch();
+  const { setDialog, onClosed } = useDialog();
   const { setLoading } = useContext(AppContext);
+  const { openSnack } = useSnackBar();
+  const [agreement, setAgreement] = useState();
+  const [replaceAgreement, setReplaceAgreement] = useState();
+  const {
+    data,
+    setData,
+    register,
+    resetData,
+    hasMore,
+    appendData,
+    setHasMore,
+    page,
+    setPage,
+  } = useTable();
 
   useEffect(() => {
     setLoading(true);
     fetchWarningMetrics();
     fetchLockPageRules();
+    fetchRecipients();
+    getMembership();
   }, []);
+
+  const getMembership = () => {
+    dispatch(
+      getMembershipFile(
+        {},
+        res => {
+          setAgreement(res);
+        },
+        () => {}
+      )
+    );
+  };
+
+  const saveFile = () => {
+    setLoading(true);
+    dispatch(
+      changeMembershipFile(
+        { file: replaceAgreement },
+        () => {
+          setLoading(false);
+          setAgreement(replaceAgreement);
+          setReplaceAgreement(null);
+          openSnack('primary', 'The membership agreement has been updated!');
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const changeFile = e => {
+    const fileArr = Array.from(e.target.files);
+    setReplaceAgreement(fileArr[0]);
+  };
+
+  const cancelAgreement = () => {
+    setReplaceAgreement(null);
+  };
+
+  const fetchRecipients = (pageValue = page) => {
+    dispatch(
+      listRecipients({ page: pageValue, limit: 999 }, (results, isHasMore) => {
+        setHasMore(isHasMore);
+        appendData(results);
+        setPage(prev => prev + 1);
+      })
+    );
+  };
+
+  const openAddRecipientDialog = () => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <AddRecipientDialog
+            onAdd={temp => {
+              setLoading(true);
+              dispatch(
+                addRecipient(
+                  temp,
+                  () => {
+                    setLoading(false);
+                    resetData();
+                    fetchRecipients(1);
+                    openSnack('primary', 'Added new contact!');
+                    onClosed();
+                  },
+                  () => {
+                    setLoading(false);
+                  }
+                )
+              );
+            }}
+            onBack={() => onClosed()}
+          />
+        ),
+      },
+    });
+  };
+
+  const doRemoveRecipient = res => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <RemoveRecipientDialog
+            info={res}
+            onRemove={() => {
+              setLoading(true);
+              dispatch(
+                removeRecipient(
+                  { id: res.id },
+                  () => {
+                    setLoading(false);
+                    const temp = data.filter(x => x.id !== res.id);
+                    setData([...temp]);
+                    openSnack('primary', 'Removed contact!');
+                    onClosed();
+                  },
+                  () => {
+                    setLoading(false);
+                  }
+                )
+              );
+            }}
+            onBack={() => onClosed()}
+          />
+        ),
+      },
+    });
+  };
 
   const fetchWarningMetrics = () => {
     dispatch(
@@ -35,7 +191,6 @@ const Settings = () => {
             result[item.type] = item;
             return result;
           }, {});
-          console.log(obj);
           setLoading(false);
           setMetrics(obj);
         },
@@ -61,7 +216,6 @@ const Settings = () => {
               result[item.screen] = item;
               return result;
             }, {});
-            console.log('CONVERT RES', res);
             setRules(res);
           }
         },
@@ -69,6 +223,7 @@ const Settings = () => {
       )
     );
   };
+
   return (
     <LayoutDashboard>
       <Card className="h-full pl-card py-5">
@@ -168,6 +323,117 @@ const Settings = () => {
                 </Tooltips>
               </h4>
               <SettingLockPage rules={rules} fetchRules={fetchLockPageRules} />
+            </section>
+            <section className="my-20">
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                Contact Form Recipients
+                <button
+                  type="button"
+                  className="h-8 w-8 bg-primary rounded flex justify-center items-center"
+                  onClick={openAddRecipientDialog}
+                >
+                  <PlusIcon className="text-white" />
+                </button>
+              </h4>
+              <Styles className="h-full pt-4 w-full lg:w-7/12">
+                <Table
+                  className="recipient-table h-full"
+                  {...register}
+                  onLoadMore={fetchRecipients}
+                  hasMore={hasMore}
+                  dataLength={data?.length}
+                >
+                  <Table.Header>
+                    <Table.HeaderCell>
+                      <p>Added Date</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <p>Email</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <p>Admin Action</p>
+                    </Table.HeaderCell>
+                  </Table.Header>
+                  <Table.Body className="padding-tracker">
+                    {data.map(recipient => (
+                      <Table.BodyRow key={`recipient-${recipient.id}`}>
+                        <Table.BodyCell>
+                          {formatDate(recipient.created_at)}
+                        </Table.BodyCell>
+                        <Table.BodyCell>
+                          <p className="break-words">{recipient.email}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell>
+                          <Button
+                            className="w-28"
+                            size="small"
+                            primary
+                            onClick={() => {
+                              doRemoveRecipient(recipient);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </Table.BodyCell>
+                      </Table.BodyRow>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </Styles>
+            </section>
+            <section className="my-20">
+              <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                Membership Agreement
+              </h4>
+              <div className="flex gap-4 items-center h-full pt-4 w-full lg:w-7/12">
+                <input
+                  type="text"
+                  className="border border-gray1 w-96 flex-1 h-14 px-7 shadow-md focus:outline-none"
+                  value={replaceAgreement?.name || agreement?.name || ''}
+                  readOnly
+                />
+                <div className="w-72 flex gap-2">
+                  {!replaceAgreement && (
+                    <label
+                      htmlFor="agreement"
+                      className="bg-primary text-white flex justify-center items-center cursor-pointer ml-5 h-16 lg:h-11 w-full text-lg lg:w-48 rounded-full bg-none  hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    >
+                      Replace File
+                    </label>
+                  )}
+                  {replaceAgreement && (
+                    <>
+                      <Button
+                        className="w-28"
+                        size="small"
+                        primary
+                        onClick={saveFile}
+                      >
+                        Save File
+                      </Button>
+                      <Button
+                        className="w-28"
+                        size="small"
+                        primary
+                        onClick={cancelAgreement}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                </div>
+                <input
+                  type="file"
+                  multiple
+                  id="agreement"
+                  onClick={e => {
+                    e.target.value = null;
+                  }}
+                  onChange={changeFile}
+                  hidden
+                  accept=".pdf"
+                />
+              </div>
             </section>
           </div>
         </div>

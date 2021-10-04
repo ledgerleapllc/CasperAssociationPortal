@@ -33,7 +33,6 @@ const EsignTerms = () => {
   const router = useRouter();
 
   const totalSteps = 2;
-  const documents = ['Doc1', 'Doc2', 'Doc3', 'Doc4'];
 
   useEffect(() => {
     if (user?.signature_request_id) {
@@ -124,10 +123,14 @@ const EsignTerms = () => {
       return (
         <>
           <EsignTermsFirstStep
-            documents={documents}
             selectedDocument={selectedDocument}
             onDocumentSelect={document => {
-              setSelectedDocument(pre => (pre === document ? null : document));
+              if (selectedDocument) {
+                setSelectedDocument(null);
+              } else {
+                setSelectedDocument(document);
+                window.open(`${process.env.BASE_URL}${document.url}`, '_blank');
+              }
             }}
           />
           {/* <div className="mt-8 text-primary">

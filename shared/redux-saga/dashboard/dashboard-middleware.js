@@ -419,6 +419,15 @@ export function* getEarningChart({ payload, resolve, reject }) {
   }
 }
 
+export function* submitContactMessage({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`/users/contact-us`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
 
 export function* watchDemoData() {
   yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
@@ -457,4 +466,5 @@ export function* watchDemoData() {
   yield all([takeLatest('VIEWED_ATTACH_DOCUMENT', viewedAttachDocument)]);
   yield all([takeLatest('GET_EARNING_DATA', getEarningData)]);
   yield all([takeLatest('GET_EARNING_CHART', getEarningChart)]);
+  yield all([takeLatest('SUBMIT_CONTACT_MESSAGE', submitContactMessage)]);
 }

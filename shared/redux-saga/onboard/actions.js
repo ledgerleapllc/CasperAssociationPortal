@@ -111,3 +111,17 @@ export const clearOwnerNodes = () => ({
 export const clearLetter = () => ({
   type: 'CLEAR_LETTER',
 });
+
+export const getMembershipFileForUser = (payload, resolve, reject) => ({
+  type: 'GET_MEMBERSHIP_FILE_FOR_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const membershipAgreementForUser = (payload, resolve, reject) => ({
+  type: 'MEMBERSHIP_AGREEMENT_FOR_USER',
+  payload,
+  resolve,
+  reject,
+});

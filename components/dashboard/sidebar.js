@@ -10,6 +10,7 @@ import AddUserIcon from '../../public/images/ic_feather_user_plus.svg';
 import PlusIcon from '../../public/images/ic_plus.svg';
 import SettingIcon from '../../public/images/ic_settings.svg';
 import IntakeIcon from '../../public/images/ic_intake.svg';
+import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ListIcon from '../../public/images/ic_list.svg';
 import usePermissions from '../hooks/usePermissions';
@@ -58,6 +59,12 @@ const mainUserNavs = [
     icon: PlusIcon,
     label: 'perks',
     path: '/dashboard/perks',
+  },
+  {
+    key: 'contact',
+    icon: ContactIcon,
+    label: 'contact us',
+    path: '/dashboard/contact-us',
   },
 ];
 

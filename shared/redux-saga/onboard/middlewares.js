@@ -215,6 +215,26 @@ export function* resendEmailOwnerNodes({ payload }) {
   }
 }
 
+export function* getMembershipFileForUser({ payload, resolve, reject }) {
+  try {
+    const res = yield get(['users/membership-file'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* membershipAgreementForUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post(['users/membership-agreement'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
@@ -230,4 +250,10 @@ export function* watchOnboard() {
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
   yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
   yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);
+  yield all([
+    takeLatest('GET_MEMBERSHIP_FILE_FOR_USER', getMembershipFileForUser),
+  ]);
+  yield all([
+    takeLatest('MEMBERSHIP_AGREEMENT_FOR_USER', membershipAgreementForUser),
+  ]);
 }

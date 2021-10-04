@@ -1,6 +1,6 @@
 import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
-import { get, post, put as _put } from '../../core/saga-api';
+import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 import {
   getListMembersSuccess,
@@ -853,6 +853,60 @@ export function* removeIntake({ payload, resolve, reject }) {
   }
 }
 
+export function* addRecipient({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/contact-recipients`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* removeRecipient({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy([`admin/contact-recipients/${payload.id}`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* listRecipients({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/contact-recipients?${query}`]);
+    yield delay(500); // => this need for scroll loadmore.
+    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getMembershipFile({ payload, resolve, reject }) {
+  try {
+    const res = yield get([`admin/membership-file`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* changeMembershipFile({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    formData.append(`file`, payload.file);
+    const res = yield post([`admin/membership-file`], formData);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
@@ -927,4 +981,9 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
   yield all([takeLatest('GET_NODE_DETAIL', getNodeDetail)]);
+  yield all([takeLatest('ADD_RECIPIENT', addRecipient)]);
+  yield all([takeLatest('REMOVE_RECIPIENT', removeRecipient)]);
+  yield all([takeLatest('LIST_RECIPIENTS', listRecipients)]);
+  yield all([takeLatest('GET_MEMBERSHIP_FILE', getMembershipFile)]);
+  yield all([takeLatest('CHANGE_MEMBERSHIP_FILE', changeMembershipFile)]);
 }
