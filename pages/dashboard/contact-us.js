@@ -17,7 +17,7 @@ const ContactUs = () => {
   const dispatch = useDispatch();
   const { openSnack } = useSnackBar();
 
-  const { formState, register, handleSubmit } = useForm({
+  const { formState, register, handleSubmit, reset } = useForm({
     mode: 'onBlur',
   });
 
@@ -31,6 +31,7 @@ const ContactUs = () => {
           setLoading(false);
           setIsSubmitting(false);
           openSnack('primary', 'Sent Message!');
+          reset();
         },
         () => {
           setLoading(false);
