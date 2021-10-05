@@ -90,21 +90,30 @@ const ContentHome = () => {
         !userInfo?.profile?.status &&
         !['admin', 'sub-admin'].includes(userInfo?.role)
       ) {
-        _alerts = [
-          ..._alerts,
-          ...[
-            {
-              id: 'verification',
-              title: 'Get IDverified with Casper’s red checkmark!',
-              body: 'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
-              handler: () => {
-                router.push('/dashboard/verification');
-              },
-            },
-          ],
-        ];
+        _alerts.push({
+          id: 'verification',
+          title: 'Get IDverified with Casper’s red checkmark!',
+          body: 'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
+          handler: () => {
+            router.push('/dashboard/verification');
+          },
+        });
       }
-      setAlerts(_alerts);
+
+      if (
+        userInfo?.reset_kyc &&
+        !['admin', 'sub-admin'].includes(userInfo?.role)
+      ) {
+        _alerts.push({
+          id: 'verification',
+          title: 'Verify your KYC!',
+          custom_text: 'Get Verified',
+          custom_action: () => router.push('/dashboard/verification'),
+          body: 'We were unable to verify your kyc. It’s ok, an admin has reset the verification process to the beginning, and you can try resubmitting your documents again to get verified.',
+          handler: () => {},
+        });
+      }
+      setAlerts([..._alerts]);
     }
   }, [userInfo, bannerAlerts]);
 

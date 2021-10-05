@@ -121,6 +121,15 @@ const Alert = ({
                           Learn More
                         </button>
                       )}
+                      {alert?.custom_text && alert?.custom_action && (
+                        <button
+                          type="button"
+                          className="ml-2 text-lg text-primary w-80 h-12 rounded-full bg-white cursor-pointer disabled:cursor-not-allowed focus:outline-none shadow-md flex items-center justify-center"
+                          onClick={alert?.custom_action}
+                        >
+                          Get Verified
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
