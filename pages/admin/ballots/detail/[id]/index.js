@@ -1,16 +1,18 @@
 import router from 'next/router';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Button, Card } from '../../../../../components/partials';
-import { getBallotDetail } from '../../../../../shared/redux-saga/admin/actions';
+import {
+  getBallotDetail,
+  cancelBallot,
+} from '../../../../../shared/redux-saga/admin/actions';
 import ActiveBallot from '../../../../../components/dashboard/ballots/detail/active-ballot';
 import CompleteBallot from '../../../../../components/dashboard/ballots/detail/complete-ballot';
 import { useDialog } from '../../../../../components/partials/dialog';
 import { AppContext } from '../../../../_app';
-import { cancelBallot } from '../../../../../shared/redux-saga/admin/middlewares';
 
 const AdminActiveBallot = ({ ballot }) => {
   const dispatch = useDispatch();

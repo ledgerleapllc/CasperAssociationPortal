@@ -11,6 +11,7 @@ const EsignTermsFirstStep = ({ selectedDocument, onDocumentSelect }) => {
       getMembershipFileForUser(
         {},
         res => {
+          console.log(res);
           setAgreements([res]);
         },
         () => {}
@@ -46,7 +47,7 @@ const EsignTermsFirstStep = ({ selectedDocument, onDocumentSelect }) => {
                   : { fontSize: '1px' }
               }
             />
-            <p className="text-dark3 mt-1 text-xs">Doc{index + 1}</p>
+            <p className="text-dark3 mt-1 text-xs">{document?.name}</p>
           </button>
         ))}
       </div>

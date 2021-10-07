@@ -55,10 +55,10 @@ const VerifyNodeOwnershipFirstStep = ({
       <p className="text-2.5xl whitespace-pre-line animate__animated animate__fadeInLeft animate__delay-2s">
         {`Please enter the public address of your validator node and\npress submit`}
       </p>
-      <p className="text-sm mt-2 text-dark1 animate__animated animate__fadeInLeft animate__delay-4s">
+      {/* <p className="text-sm mt-2 text-dark1 animate__animated animate__fadeInLeft animate__delay-4s">
         Clicking below will open up the hellosign document for capturing your
         electronic signature
-      </p>
+      </p> */}
       <div className="lg:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
         <input
           type="text"
