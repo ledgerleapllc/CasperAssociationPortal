@@ -17,6 +17,7 @@ import {
   formatDate,
   generateTextForEras,
   getShortNodeAddress,
+  numberWithCommas,
 } from '../../../shared/core/utils';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { logoutApp, updateUser } from '../../../shared/redux-saga/auth/actions';
@@ -291,7 +292,7 @@ const UserProfile = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>5%</span>
+                          <span>{myInfo?.validator_fee}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -299,7 +300,9 @@ const UserProfile = () => {
                           <span>CSPR Delegated:</span>
                         </td>
                         <td>
-                          <span>15,000,000</span>
+                          <span>
+                            {numberWithCommas(myInfo?.metric?.stake_amount)}
+                          </span>
                         </td>
                       </tr>
                       <tr>
@@ -307,7 +310,11 @@ const UserProfile = () => {
                           <span>CSPR Self-Staked:</span>
                         </td>
                         <td>
-                          <span>1,200,000</span>
+                          <span>
+                            {numberWithCommas(
+                              myInfo?.metric?.self_staked_amount
+                            )}
+                          </span>
                         </td>
                       </tr>
                     </tbody>

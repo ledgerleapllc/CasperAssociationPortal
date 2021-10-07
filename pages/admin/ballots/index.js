@@ -29,13 +29,13 @@ const Styles = styled.div`
       width: 15%;
     }
     .col-4 {
-      width: 15%;
+      width: 12%;
     }
     .col-5 {
-      width: 15%;
+      width: 10%;
     }
     .col-6 {
-      width: 10%;
+      width: 18%;
     }
   }
   .complete-ballot-table {
@@ -166,14 +166,24 @@ const Tab1 = () => {
                 <p>{formatDate(row.created_at)}</p>
               </Table.BodyCell>
               <Table.BodyCell>
-                <Link href={`/admin/ballots/detail/${row.id}`}>
-                  <button
-                    type="button"
-                    className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                  >
-                    Manage
-                  </button>
-                </Link>
+                <div className="flex gap-4">
+                  <Link href={`/admin/ballots/edit/${row.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      Edit
+                    </button>
+                  </Link>
+                  <Link href={`/admin/ballots/detail/${row.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      Manage
+                    </button>
+                  </Link>
+                </div>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

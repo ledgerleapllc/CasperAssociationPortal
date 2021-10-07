@@ -763,6 +763,16 @@ export function* getHighPriorityNotification({ resolve, reject }) {
   }
 }
 
+export function* updateBallot({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/ballots/${payload.id}/edit`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getAdminDashboard({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
@@ -986,4 +996,5 @@ export function* watchAdmin() {
   yield all([takeLatest('LIST_RECIPIENTS', listRecipients)]);
   yield all([takeLatest('GET_MEMBERSHIP_FILE', getMembershipFile)]);
   yield all([takeLatest('CHANGE_MEMBERSHIP_FILE', changeMembershipFile)]);
+  yield all([takeLatest('UPDATE_BALLOT', updateBallot)]);
 }

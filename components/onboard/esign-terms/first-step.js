@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import classNames from 'classnames';
 import Document from '../../../public/images/ic_document.svg';
 import { getMembershipFileForUser } from '../../../shared/redux-saga/onboard/actions';
 
@@ -38,9 +39,10 @@ const EsignTermsFirstStep = ({ selectedDocument, onDocumentSelect }) => {
             <Document
               width={38}
               height={50}
-              className={
-                document === selectedDocument ? 'text-primary' : 'text-dark-3'
-              }
+              className={classNames(
+                document === selectedDocument ? 'text-primary' : 'text-dark-3',
+                'mx-auto'
+              )}
               style={
                 document === selectedDocument
                   ? { fontSize: '2px' }

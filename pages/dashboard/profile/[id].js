@@ -14,6 +14,7 @@ import {
   formatDate,
   generateTextForEras,
   getShortNodeAddress,
+  numberWithCommas,
 } from '../../../shared/core/utils';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { DEFAULT_BASE_BLOCKS } from '../../../shared/core/constants';
@@ -263,7 +264,7 @@ const UserProfile = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>5%</span>
+                          <span>{memberInfo?.validator_fee}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -271,7 +272,9 @@ const UserProfile = () => {
                           <span>CSPR Delegated:</span>
                         </td>
                         <td>
-                          <span>15,000,000</span>
+                          <span>
+                            {numberWithCommas(memberInfo?.metric?.stake_amount)}
+                          </span>
                         </td>
                       </tr>
                       <tr>
@@ -279,7 +282,11 @@ const UserProfile = () => {
                           <span>CSPR Self-Staked:</span>
                         </td>
                         <td>
-                          <span>1,200,000</span>
+                          <span>
+                            {numberWithCommas(
+                              memberInfo?.metric?.self_staked_amount
+                            )}
+                          </span>
                         </td>
                       </tr>
                     </tbody>
@@ -334,7 +341,8 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average: {generateTextForEras(metrics?.avg_update_responsiveness)}
+                      Average:{' '}
+                      {generateTextForEras(metrics?.avg_update_responsiveness)}
                     </p>
                     <ProgressBar
                       value={metrics?.update_responsiveness}
