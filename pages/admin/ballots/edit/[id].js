@@ -6,6 +6,8 @@ import router from 'next/router';
 import { useState, useEffect } from 'react';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
+import IconFeatureUpLoad from '../../../../public/images/ic_feature_upload.svg';
+import IconX from '../../../../public/images/ic_x.svg';
 import {
   Card,
   Editor,
@@ -26,31 +28,38 @@ const ballotSchema = yup.object().shape({
 
 const AdminEditBallot = () => {
   const [ballot, setBallot] = useState();
+  const [files, setFiles] = useState();
   const { id } = router.query;
   const dispatch = useDispatch();
 
   const [isSubmit, setIsSubmit] = useState(false);
-  const { register, reset, watch, control, handleSubmit } = useForm({
+  const { register, reset, watch, control, handleSubmit, setValue } = useForm({
     resolver: yupResolver(ballotSchema),
   });
   const watchUnit = watch('time_unit');
+  const watchFiles = watch('files');
+  const watchRemovedFiles = watch('file_ids_remove');
 
   useEffect(() => {
     dispatch(
       getBallotDetail(id, res => {
         setBallot(res);
+        setFiles(res.files);
         reset({
           id: res.id,
           title: res.title,
           description: res.description,
           time: res.time,
           time_unit: res.time_unit,
+          files: [],
+          file_ids_remove: [],
         });
       })
     );
   }, [id]);
 
   const onSubmit = data => {
+    console.log(data);
     setIsSubmit(true);
     dispatch(
       updateBallot(
@@ -63,6 +72,28 @@ const AdminEditBallot = () => {
         }
       )
     );
+  };
+
+  const removeFile = (file, index) => {
+    if (file?.id) {
+      const temp = watchRemovedFiles || [];
+      temp.push(file?.id);
+      setValue('file_ids_remove', temp);
+    } else {
+      const temp = watchFiles || [];
+      temp.splice(index, 1);
+      setValue('files', temp);
+    }
+    files.splice(index, 1);
+    setFiles([...files]);
+  };
+
+  const appendFiles = e => {
+    const fileArr = Array.from(e.target.files);
+    const temp = watchFiles || [];
+    temp.push(...fileArr);
+    setValue('files', temp);
+    setFiles([...files, ...fileArr]);
   };
 
   return (
@@ -87,6 +118,47 @@ const AdminEditBallot = () => {
                     placeholder="Enter Ballot Title"
                     {...register('title')}
                   />
+                  <label
+                    htmlFor="ballotFile"
+                    className="flex justify-center items-center cursor-pointer ml-5 h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  >
+                    <IconFeatureUpLoad className="text-primary mr-2" />
+                    Upload Files
+                  </label>
+                  <input
+                    type="file"
+                    multiple
+                    id="ballotFile"
+                    onClick={e => {
+                      e.target.value = null;
+                    }}
+                    onChange={appendFiles}
+                    hidden
+                    accept=".pdf, .doc, .docx, .txt, .rtf"
+                  />
+                  <input {...register('files')} hidden />
+                  <input {...register('file_ids_remove')} hidden />
+                  <div className="absolute bottom-1 right-0 flex">
+                    {files &&
+                      Array.from(files).map((file, index) => (
+                        <div
+                          key={index}
+                          className="flex mt-5 items-center text-dark3 ml-5"
+                        >
+                          <IconX
+                            className="mr-2.5 cursor-pointer"
+                            style={{ fontSize: '10px' }}
+                            onClick={() => removeFile(file, index)}
+                          />
+                          <span
+                            className="truncate text-sm"
+                            style={{ maxWidth: '10rem' }}
+                          >
+                            {file.name}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
                 </div>
                 <div className="shadow-md">
                   <Controller

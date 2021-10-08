@@ -765,7 +765,18 @@ export function* getHighPriorityNotification({ resolve, reject }) {
 
 export function* updateBallot({ payload, resolve, reject }) {
   try {
-    const res = yield post([`admin/ballots/${payload.id}/edit`], payload);
+    const formData = new FormData();
+    Array.from(payload.files).forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    payload.file_ids_remove.forEach((id, index) => {
+      formData.append(`file_ids_remove[${index}]`, id);
+    });
+    formData.append(`title`, payload.title);
+    formData.append(`description`, payload.description);
+    formData.append(`time`, payload.time);
+    formData.append(`time_unit`, payload.time_unit);
+    const res = yield post([`admin/ballots/${payload.id}/edit`], formData);
     resolve(res.data);
   } catch (error) {
     reject(error);

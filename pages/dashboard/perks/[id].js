@@ -39,13 +39,12 @@ const PerkDetail = () => {
                 text="Back"
                 force
               />
-              <Button primary>Activate Perk</Button>
             </div>
             <div className="border-primary border-b-2" />
           </div>
           <div className="card-body pb-10 overflow-y-auto lg:h-100%-40px">
             <div className="lg:pr-card">
-              <PerkPage perk={currentPerk} />
+              <PerkPage perk={currentPerk} hideTime />
             </div>
           </div>
         </div>
