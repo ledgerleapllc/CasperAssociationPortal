@@ -170,3 +170,10 @@ export const clearPermissions = payload => ({
   type: 'CLEAR_PERMISSIONS',
   payload,
 });
+
+export const donate = (payload, resolve, reject) => ({
+  type: 'DONATE',
+  payload,
+  resolve,
+  reject,
+});

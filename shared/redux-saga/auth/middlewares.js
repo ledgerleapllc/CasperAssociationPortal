@@ -360,6 +360,16 @@ export function* getUserDashboard({ resolve, reject }) {
   }
 }
 
+export function* donate({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`donation`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -380,4 +390,5 @@ export function* watchAuth() {
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
   yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
   yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
+  yield all([takeLatest('DONATE', donate)]);
 }

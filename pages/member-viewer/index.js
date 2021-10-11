@@ -8,11 +8,10 @@ import { useRouter } from 'next/router';
 
 import { Button, Slider } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
-import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import { formatDate, numberWithCommas } from '../../shared/core/utils';
 import { getPublicMembers } from '../../shared/redux-saga/member-viewer/actions';
 import IconRefresh from '../../public/images/ic_refresh.svg';
-import PlusIcon from '../../public/images/ic_plus.svg';
+import PublicHeader from '../../components/layouts/public-header';
 
 const TableSlider = styled.table`
   tr {
@@ -156,19 +155,7 @@ const MembersViewer = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="hidden lg:flex w-full bg-white shadow-light h-18">
-        <div className="flex justify-between items-center container mx-auto">
-          <CasperLogoDark />
-          <Link href="/register-type">
-            <a>
-              <Button className="flex items-center justify-center" primary>
-                <PlusIcon className="text-xs" />
-                <span className="pl-2">Become a Member</span>
-              </Button>
-            </a>
-          </Link>
-        </div>
-      </header>
+      <PublicHeader />
       <div className="flex-1 min-h-0 flex flex-col pt-14 mx-auto w-container bg-transparent">
         <div className="flex h-2/5">
           <div className="w-4/5 border-r-2 border-gray">

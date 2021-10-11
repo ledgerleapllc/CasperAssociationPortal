@@ -135,7 +135,7 @@ const AdminTeams = () => {
       type: 'DialogPrompt',
       data: {
         title: `Enter the email address of the person you would like
-                 too invite to be come an admin`,
+                 to invite to become an admin`,
         ok: 'Invite',
         cancel: 'Cancel',
       },

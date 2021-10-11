@@ -1,22 +1,20 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable arrow-body-style */
-import Link from 'next/link';
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import router from 'next/router';
-import { BackButton, Button, ProgressBar } from '../../components/partials';
+import PublicHeader from '../../components/layouts/public-header';
+import { BackButton, ProgressBar } from '../../components/partials';
 import {
   formatDate,
   generateTextForEras,
   numberWithCommas,
   getShortNodeAddress,
 } from '../../shared/core/utils';
-import PlusIcon from '../../public/images/ic_plus.svg';
 import { AppContext } from '../_app';
 import { getPublicMemberDetail } from '../../shared/redux-saga/member-viewer/actions';
 import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
-import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../components/partials/snack-bar';
 import IconVerified from '../../public/images/ic_check_mark.svg';
@@ -117,19 +115,7 @@ const MembersViewerDetail = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="hidden lg:flex w-full bg-white shadow-light h-18">
-        <div className="flex justify-between items-center container mx-auto">
-          <CasperLogoDark />
-          <Link href="/register-type">
-            <a>
-              <Button className="flex items-center justify-center" primary>
-                <PlusIcon className="text-xs" />
-                <span className="pl-2">Become a Member</span>
-              </Button>
-            </a>
-          </Link>
-        </div>
-      </header>
+      <PublicHeader />
       <div className="flex-1 min-h-0 pt-10 mx-auto w-container bg-transparent">
         <div className="w-full border-primary border-b-2 pb-3">
           <BackButton href="/member-viewer" text="Back" force />
