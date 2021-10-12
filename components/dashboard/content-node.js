@@ -536,7 +536,7 @@ const ContentNode = ({ sendHightlightNode }) => {
               </div>
               <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
                 <div className="flex gap-3 flex-row">
-                  <span className="text-lg">Min Bid setIsAlertLoading</span>
+                  <span className="text-lg">Min Bid Slot</span>
                   <Tooltips
                     placement="top"
                     title="Displays the total earnings for the selected node since onboarding."
