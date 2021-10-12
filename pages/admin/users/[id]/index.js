@@ -312,7 +312,9 @@ const AdminUserDetail = () => {
                 </p>
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
-                  <p className="text-sm w-5/6">2,200,300</p>
+                  <p className="text-sm w-5/6">
+                    {userDetail?.metric?.stake_amount || 0}
+                  </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>

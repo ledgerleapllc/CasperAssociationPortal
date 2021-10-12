@@ -38,6 +38,15 @@ const Header = () => {
               </li>
             </>
           )}
+          {['admin', 'sub-admin'].includes(userInfo?.role) && (
+            <>
+              <li className="py-2 hover:text-primary cursor-pointer">
+                <Link href="/admin/settings">
+                  <a>Settings</a>
+                </Link>
+              </li>
+            </>
+          )}
           <li
             className="py-2 hover:text-primary cursor-pointer"
             onClick={async e => {

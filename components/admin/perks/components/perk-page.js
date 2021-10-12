@@ -14,12 +14,20 @@ export const PerkPage = ({ perk, hideTime }) => (
       )}
     </div>
     <div className="w-full lg:w-3/4">
-      {hideTime && (
-        <div className="flex text-primary text-xs mb-6">
-          <span className="pr-1">Time Remaining:</span>
+      <div className="flex text-primary text-xs mb-6">
+        <span className="pr-1">Time Remaining:</span>
+        {hideTime && (
+          <>
+            {new Date(perk?.end_date) > new Date() && (
+              <ClockBar endTime={new Date(perk?.end_date)} hideProgressBar />
+            )}
+            {new Date(perk?.end_date) <= new Date() && <span>Ended</span>}
+          </>
+        )}
+        {!hideTime && (
           <ClockBar endTime={new Date(perk?.end_date)} hideProgressBar />
-        </div>
-      )}
+        )}
+      </div>
       <h4 className="font-bold mb-4 line-clamp-2">{perk?.title}</h4>
       <p>{perk?.content}</p>
     </div>

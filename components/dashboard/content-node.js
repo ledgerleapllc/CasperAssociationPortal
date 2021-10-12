@@ -489,13 +489,11 @@ const ContentNode = ({ sendHightlightNode }) => {
                     value={
                       isAdmin
                         ? +nodeDetail?.update_responsiveness
-                          ? nodeDetail?.update_responsiveness
-                          : nodeDetail?.max_update_responsiveness || 1
                         : metrics?.update_responsiveness
                     }
                     total={
                       isAdmin
-                        ? nodeDetail?.max_update_responsiveness || 1
+                        ? nodeDetail?.max_update_responsiveness
                         : metricConfig?.max?.update_responsiveness
                     }
                     mask=""
@@ -538,7 +536,7 @@ const ContentNode = ({ sendHightlightNode }) => {
               </div>
               <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
                 <div className="flex gap-3 flex-row">
-                  <span className="text-lg">Total Earnings</span>
+                  <span className="text-lg">Min Bid setIsAlertLoading</span>
                   <Tooltips
                     placement="top"
                     title="Displays the total earnings for the selected node since onboarding."

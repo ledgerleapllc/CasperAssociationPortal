@@ -284,12 +284,7 @@ export function* getMyMetrics() {
       uptime: res.data?.uptime || 0,
       block_height_average,
       peers: res.data?.peers || 0,
-      update_responsiveness:
-        res.data?.update_responsiveness === null
-          ? res.data?.max_update_responsiveness
-            ? res.data?.max_update_responsiveness
-            : 1
-          : res.data?.update_responsiveness,
+      update_responsiveness: res.data?.update_responsiveness || 0,
       monitoring_criteria: res.data?.monitoring_criteria || null,
       average_uptime: res.data?.avg_uptime || 0,
       current_block_height:
@@ -304,7 +299,7 @@ export function* getMyMetrics() {
       setMetricConfig({
         max: {
           block_height_average: DEFAULT_BASE_BLOCKS,
-          update_responsiveness: +temp.max_update_responsiveness || 1,
+          update_responsiveness: +temp.max_update_responsiveness || 0,
           peers: +temp.max_peers || 0,
         },
       })

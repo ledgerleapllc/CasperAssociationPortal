@@ -113,6 +113,19 @@ const ContentHome = () => {
           handler: () => {},
         });
       }
+
+      if (
+        !userInfo?.metric?.is_open_port &&
+        !['admin', 'sub-admin'].includes(userInfo?.role)
+      ) {
+        _alerts.push({
+          id: 'open_port',
+          title:
+            'We’re having a problem getting your metrics. Make sure port 8888 is open on your node and try again.',
+          body: '',
+          handler: () => {},
+        });
+      }
       setAlerts([..._alerts]);
     }
   }, [userInfo, bannerAlerts]);
