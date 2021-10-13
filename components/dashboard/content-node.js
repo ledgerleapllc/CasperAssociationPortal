@@ -539,7 +539,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                   <span className="text-lg">Min Bid Slot</span>
                   <Tooltips
                     placement="top"
-                    title="Displays the total earnings for the selected node since onboarding."
+                    title="Displays the minimum bidding amount to win a slot in the validator pool"
                     arrow
                   >
                     <img
@@ -558,7 +558,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                     alt="Info"
                   />
                   <span className="text-base font-thin pl-3">
-                    {numberWithCommas(Math.round(earning?.total_earning))}
+                    {numberWithCommas(Math.round(earning?.mbs))}
                   </span>
                 </div>
               </div>
