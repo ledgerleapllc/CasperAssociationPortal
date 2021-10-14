@@ -365,6 +365,16 @@ export function* donate({ payload, resolve, reject }) {
   }
 }
 
+export function* contactUsFromGuest({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`contact-us`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -386,4 +396,5 @@ export function* watchAuth() {
   yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
   yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
   yield all([takeLatest('DONATE', donate)]);
+  yield all([takeLatest('CONTACT_US_FROM_GUEST', contactUsFromGuest)]);
 }

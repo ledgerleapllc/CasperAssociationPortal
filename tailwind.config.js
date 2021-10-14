@@ -29,7 +29,13 @@ module.exports = {
       screens: {
         xl: '1281px',
       },
+      gap: {
+        108: '27rem',
+      },
       colors: {
+        landing: '#480000',
+        landing1: '#FF473D',
+        landing2: '#771D1D',
         dark1: '#313131',
         dark2: '#1D1D1D',
         dark3: '#323339',

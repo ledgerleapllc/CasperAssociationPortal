@@ -13,6 +13,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 * {
@@ -220,4 +221,21 @@ input:checked + .slider:before {
   .backdrop-filter {
     background-color: rgba(0, 0, 0, .5);
   }
+}
+
+.linear {
+  border-radius: 50%;
+  background-color: #a60304;
+  z-index: 0;
+}
+    
+.container-landing {
+  max-width: 60%;
+  margin: 0 auto;
+}
+.landing-page {
+  background-image: linear-gradient(transparent, rgba(166, 3, 4, 0.6));
+  background-size: 100% 70rem;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }

@@ -177,3 +177,10 @@ export const donate = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const contactUsFromGuest = (payload, resolve, reject) => ({
+  type: 'CONTACT_US_FROM_GUEST',
+  payload,
+  resolve,
+  reject,
+});
