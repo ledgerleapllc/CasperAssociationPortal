@@ -1,15 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import {
-  LineChart,
-  Line as Line2,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
 import classNames from 'classnames';
 import ReactLoading from 'react-loading';
 import { useState, useEffect, useContext, memo } from 'react';
@@ -34,19 +24,6 @@ import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
 import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
-
-const PriceTokenGraph = ({ graphData }) => (
-  <ResponsiveContainer width="100%" height="100%">
-    <LineChart data={graphData}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line2 type="monotone" dataKey="Price" stroke="#FF473E" />
-    </LineChart>
-  </ResponsiveContainer>
-);
 
 const LineMemo = memo(({ data }) => <ValidatorChart data={data} />);
 
@@ -280,11 +257,19 @@ const ContentNode = ({ sendHightlightNode }) => {
                   />
                 </Tooltips>
               </div>
-              <span className="text-base text-black1 font-thin">
-                {numberWithCommas(
-                  isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
-                )}
-              </span>
+              <div className="flex flex-row gap-2">
+                <img
+                  width="18px"
+                  height="18px"
+                  src="/images/ic_logo_home.svg"
+                  alt="Info"
+                />
+                <span className="text-base text-black1 font-thin">
+                  {numberWithCommas(
+                    isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
+                  )}
+                </span>
+              </div>
             </div>
           </Card>
         </div>
@@ -327,14 +312,6 @@ const ContentNode = ({ sendHightlightNode }) => {
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <div className="flex">
                   <p className="text-lg">Validator Rewards</p>
-                  <div className="flex items-center">
-                    <img
-                      className="pl-10"
-                      src="/images/ic_line_node.svg"
-                      alt="Line"
-                    />
-                    <p className="text-xs pl-2">Previous</p>
-                  </div>
                 </div>
                 <div>
                   <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
@@ -417,7 +394,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             <div className="w-full py-5 flex flex-col h-full justify-between">
               <p className="text-lg px-9">Price</p>
               <div className="w-full relative pr-9 h-8.5/10">
-                <PriceTokenGraph graphData={priceTokenGraphInfo} />
+                <LineMemo data={priceTokenGraphInfo} />
               </div>
             </div>
           </Card>
@@ -576,14 +553,6 @@ const ContentNode = ({ sendHightlightNode }) => {
                   <div className="flex flex-col lg:flex-row lg:justify-between">
                     <div className="flex justify-between">
                       <p className="text-2xl">Validator Rewards</p>
-                      <div className="flex items-center">
-                        <img
-                          className="lg:pl-10"
-                          src="/images/ic_line_node.svg"
-                          alt="Line"
-                        />
-                        <p className="text-xs pl-2">Previous</p>
-                      </div>
                     </div>
                     <div>
                       <ul className="mt-4 lg:mt-0 flex items-center">
