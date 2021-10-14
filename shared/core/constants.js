@@ -13,24 +13,3 @@ export const SHUFTI_CONST = {
 
 export const SHUFTI_API_URL = 'https://api.shuftipro.com';
 export const DEFAULT_BASE_BLOCKS = 10;
-export const DEFAULT_LINE_OPTIONS = {
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-    },
-    y: {
-      grid: {
-        borderDash: [5, 5],
-        drawBorder: false,
-      },
-    },
-  },
-};

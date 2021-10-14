@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { Line } from 'react-chartjs-2';
 import {
   LineChart,
   Line as Line2,
@@ -11,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import ReactLoading from 'react-loading';
 import { useState, useEffect, useContext, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
@@ -30,12 +30,9 @@ import {
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
 import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
-import {
-  DEFAULT_BASE_BLOCKS,
-  DEFAULT_LINE_OPTIONS,
-} from '../../shared/core/constants';
-import useValidatorChart from '../hooks/useValidatorChart';
+import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
+import { ValidatorChart } from '../charts/validator-chart';
 
 const PriceTokenGraph = ({ graphData }) => (
   <ResponsiveContainer width="100%" height="100%">
@@ -50,9 +47,7 @@ const PriceTokenGraph = ({ graphData }) => (
   </ResponsiveContainer>
 );
 
-const LineMemo = memo(({ data, options = DEFAULT_LINE_OPTIONS }) => (
-  <Line data={data} options={options} />
-));
+const LineMemo = memo(({ data }) => <ValidatorChart data={data} />);
 
 const ContentNode = ({ sendHightlightNode }) => {
   const { metrics, metricConfig } = useMetrics();
@@ -65,9 +60,10 @@ const ContentNode = ({ sendHightlightNode }) => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
   const [earning, setEarning] = useState();
-  const { mappingData, options, data } = useValidatorChart();
   const [earningChart, setEarningChart] = useState();
+  const [optionChart, setOptionChart] = useState('day');
   const { openSnack } = useSnackBar();
+  const [loadingDataChart, setLoadingDataChart] = useState(false);
 
   const fetchNodes = () => {
     dispatch(
@@ -106,10 +102,6 @@ const ContentNode = ({ sendHightlightNode }) => {
     );
   };
 
-  const applyDataForChart = key => {
-    mappingData(earningChart, key);
-  };
-
   useEffect(() => {
     fetchPriceToken();
   }, []);
@@ -127,16 +119,13 @@ const ContentNode = ({ sendHightlightNode }) => {
   };
 
   const fetchNodeChart = address => {
+    setLoadingDataChart(true);
     dispatch(
       getEarningChart(
         { node: address },
         res => {
-          res.day = res.day.map(x => x.weight);
-          res.month = res.month.map(x => x.weight);
-          res.week = res.week.map(x => x.weight);
-          res.year = res.year.map(x => x.weight);
           setEarningChart(res);
-          mappingData(res);
+          setLoadingDataChart(false);
         },
         () => {}
       )
@@ -351,11 +340,11 @@ const ContentNode = ({ sendHightlightNode }) => {
                     <li className="text-sm lg:mx-4">
                       <button
                         className={
-                          options === 'day' &&
+                          optionChart === 'day' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('day')}
+                        onClick={() => setOptionChart('day')}
                       >
                         Day
                       </button>
@@ -363,11 +352,11 @@ const ContentNode = ({ sendHightlightNode }) => {
                     <li className="px-4">
                       <button
                         className={
-                          options === 'week' &&
+                          optionChart === 'week' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('week')}
+                        onClick={() => setOptionChart('week')}
                       >
                         Week
                       </button>
@@ -375,11 +364,11 @@ const ContentNode = ({ sendHightlightNode }) => {
                     <li className="text-sm mx-4">
                       <button
                         className={
-                          options === 'month' &&
+                          optionChart === 'month' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('month')}
+                        onClick={() => setOptionChart('month')}
                       >
                         Month
                       </button>
@@ -387,11 +376,11 @@ const ContentNode = ({ sendHightlightNode }) => {
                     <li className="text-sm mx-4">
                       <button
                         className={
-                          options === 'year' &&
+                          optionChart === 'year' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('year')}
+                        onClick={() => setOptionChart('year')}
                       >
                         Year
                       </button>
@@ -399,8 +388,19 @@ const ContentNode = ({ sendHightlightNode }) => {
                   </ul>
                 </div>
               </div>
-              <div className="h-full py-4">
-                <LineMemo data={data} />
+              <div className="h-full pt-2">
+                {loadingDataChart && (
+                  <div className="h-full flex items-center">
+                    <ReactLoading
+                      className="mx-auto"
+                      type="spinningBubbles"
+                      color="#FF473E"
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                )}
+                {earningChart && <LineMemo data={earningChart[optionChart]} />}
               </div>
             </div>
           </Card>
@@ -597,8 +597,10 @@ const ContentNode = ({ sendHightlightNode }) => {
                       </ul>
                     </div>
                   </div>
-                  <div className="h-full py-4">
-                    <LineMemo data={data} />
+                  <div className="h-full pt-2">
+                    {earningChart && (
+                      <LineMemo data={earningChart[optionChart]} />
+                    )}
                   </div>
                 </div>
               </Card>

@@ -1,8 +1,7 @@
 import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import router from 'next/router';
-import { Line } from 'react-chartjs-2';
+import ReactLoading from 'react-loading';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
@@ -17,12 +16,9 @@ import {
 import { useDialog } from '../partials/dialog';
 import useNotifications from '../hooks/useNotifications';
 import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
-import { DEFAULT_LINE_OPTIONS } from '../../shared/core/constants';
-import useValidatorChart from '../hooks/useValidatorChart';
+import { ValidatorChart } from '../charts/validator-chart';
 
-const LineMemo = memo(({ data, options = DEFAULT_LINE_OPTIONS }) => (
-  <Line data={data} options={options} />
-));
+const LineMemo = memo(({ data }) => <ValidatorChart data={data} />);
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -33,8 +29,9 @@ const ContentHome = () => {
   const [currentNotification, setCurrentNotifications] = useState(null);
   const { bannerNotis, popupNotis } = useNotifications();
   const [stats, setStats] = useState();
-  const { mappingData, options, data } = useValidatorChart();
   const [earningChart, setEarningChart] = useState();
+  const [optionChart, setOptionChart] = useState('day');
+  const [loadingDataChart, setLoadingDataChart] = useState(false);
 
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
@@ -45,17 +42,13 @@ const ContentHome = () => {
         setStats(res);
       })
     );
+    setLoadingDataChart(true);
     dispatch(
       getEarningChart(
         { node: userInfo.public_address_node },
         res => {
-          res.day = res.day.map(x => x.weight);
-          res.month = res.month.map(x => x.weight);
-          res.week = res.week.map(x => x.weight);
-          res.year = res.year.map(x => x.weight);
-
           setEarningChart(res);
-          mappingData(res);
+          setLoadingDataChart(false);
         },
         () => {}
       )
@@ -129,10 +122,6 @@ const ContentHome = () => {
       setAlerts([..._alerts]);
     }
   }, [userInfo, bannerAlerts]);
-
-  const applyDataForChart = key => {
-    mappingData(earningChart, key);
-  };
 
   const doUpdateClickCTA = id => {
     dispatch(updateClickCTANotification({ id }, () => {}));
@@ -245,11 +234,11 @@ const ContentHome = () => {
                     <li className="text-sm lg:mx-4">
                       <button
                         className={
-                          options === 'day' &&
+                          optionChart === 'day' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('day')}
+                        onClick={() => setOptionChart('day')}
                       >
                         Day
                       </button>
@@ -257,11 +246,11 @@ const ContentHome = () => {
                     <li className="px-4">
                       <button
                         className={
-                          options === 'week' &&
+                          optionChart === 'week' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('week')}
+                        onClick={() => setOptionChart('week')}
                       >
                         Week
                       </button>
@@ -269,11 +258,11 @@ const ContentHome = () => {
                     <li className="text-sm mx-4">
                       <button
                         className={
-                          options === 'month' &&
+                          optionChart === 'month' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('month')}
+                        onClick={() => setOptionChart('month')}
                       >
                         Month
                       </button>
@@ -281,11 +270,11 @@ const ContentHome = () => {
                     <li className="text-sm mx-4">
                       <button
                         className={
-                          options === 'year' &&
+                          optionChart === 'year' &&
                           'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
                         }
                         type="button"
-                        onClick={() => applyDataForChart('year')}
+                        onClick={() => setOptionChart('year')}
                       >
                         Year
                       </button>
@@ -293,8 +282,19 @@ const ContentHome = () => {
                   </ul>
                 </div>
               </div>
-              <div className="h-full py-4">
-                <LineMemo data={data} />
+              <div className="h-full pt-2">
+                {loadingDataChart && (
+                  <div className="h-full flex items-center">
+                    <ReactLoading
+                      className="mx-auto"
+                      type="spinningBubbles"
+                      color="#FF473E"
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                )}
+                {earningChart && <LineMemo data={earningChart[optionChart]} />}
               </div>
             </div>
           </Card>
