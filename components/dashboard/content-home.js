@@ -2,6 +2,7 @@ import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import router from 'next/router';
 import ReactLoading from 'react-loading';
+import classNames from 'classnames';
 import { Card } from '../partials';
 import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
@@ -230,49 +231,53 @@ const ContentHome = () => {
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <p className="text-lg lg:text-2xl">Validator Rewards</p>
                 <div>
-                  <ul className="mt-4 lg:mt-0 flex items-center">
-                    <li className="text-sm lg:mx-4">
+                  <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                    <li className="text-sm w-16">
                       <button
-                        className={
+                        className={classNames(
+                          'w-full',
                           optionChart === 'day' &&
-                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
-                        }
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
                         type="button"
                         onClick={() => setOptionChart('day')}
                       >
                         Day
                       </button>
                     </li>
-                    <li className="px-4">
+                    <li className="text-sm w-16">
                       <button
-                        className={
+                        className={classNames(
+                          'w-full',
                           optionChart === 'week' &&
-                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
-                        }
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
                         type="button"
                         onClick={() => setOptionChart('week')}
                       >
                         Week
                       </button>
                     </li>
-                    <li className="text-sm mx-4">
+                    <li className="text-sm w-16">
                       <button
-                        className={
+                        className={classNames(
+                          'w-full',
                           optionChart === 'month' &&
-                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
-                        }
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
                         type="button"
                         onClick={() => setOptionChart('month')}
                       >
                         Month
                       </button>
                     </li>
-                    <li className="text-sm mx-4">
+                    <li className="text-sm w-16">
                       <button
-                        className={
+                        className={classNames(
+                          'w-full',
                           optionChart === 'year' &&
-                          'rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink'
-                        }
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
                         type="button"
                         onClick={() => setOptionChart('year')}
                       >
@@ -294,7 +299,9 @@ const ContentHome = () => {
                     />
                   </div>
                 )}
-                {earningChart && <LineMemo data={earningChart[optionChart]} />}
+                {!loadingDataChart && earningChart && (
+                  <LineMemo data={earningChart[optionChart]} />
+                )}
               </div>
             </div>
           </Card>
