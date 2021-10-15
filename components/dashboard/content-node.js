@@ -25,8 +25,8 @@ import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
 
-const LineMemo = memo(({ name, data }) => (
-  <ValidatorChart name={name} data={data} />
+const LineMemo = memo(({ type, name, data }) => (
+  <ValidatorChart type={type} name={name} data={data} />
 ));
 
 const ContentNode = ({ sendHightlightNode }) => {
@@ -399,7 +399,11 @@ const ContentNode = ({ sendHightlightNode }) => {
             <div className="w-full py-5 flex flex-col h-full justify-between">
               <p className="text-lg px-9">Price</p>
               <div className="w-full relative pr-9 h-8.5/10">
-                <LineMemo name="Price" data={priceTokenGraphInfo} />
+                <LineMemo
+                  type="decimals"
+                  name="Price"
+                  data={priceTokenGraphInfo}
+                />
               </div>
             </div>
           </Card>

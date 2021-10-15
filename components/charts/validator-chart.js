@@ -5,7 +5,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
 
-const options = {
+const buildOptions = type => ({
   markers: {
     size: 3,
     colors: undefined,
@@ -37,6 +37,9 @@ const options = {
   yaxis: {
     labels: {
       formatter(val, index) {
+        if (type === 'decimals') {
+          return val.toFixed(4);
+        }
         return val.toLocaleString();
       },
     },
@@ -61,9 +64,9 @@ const options = {
     width: 4,
     curve: 'smooth',
   },
-};
+});
 
-export const ValidatorChart = ({ name, data }) => {
+export const ValidatorChart = ({ type, name, data }) => {
   const [series, setSeries] = useState([]);
 
   useEffect(() => {
@@ -78,7 +81,7 @@ export const ValidatorChart = ({ name, data }) => {
   return (
     <div className="validator-chart h-full">
       <ReactApexChart
-        options={options}
+        options={buildOptions(type)}
         series={[{ name, data: series }]}
         type="area"
         height="100%"
