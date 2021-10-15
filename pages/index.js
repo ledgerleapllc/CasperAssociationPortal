@@ -298,4 +298,4 @@ const LandingPage = () => {
   );
 };
 
-export default LoadingScreen(LandingPage, 'auth');
+export default LoadingScreen(LandingPage, 'public');

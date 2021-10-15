@@ -25,7 +25,9 @@ import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
 
-const LineMemo = memo(({ data }) => <ValidatorChart data={data} />);
+const LineMemo = memo(({ name, data }) => (
+  <ValidatorChart name={name} data={data} />
+));
 
 const ContentNode = ({ sendHightlightNode }) => {
   const { metrics, metricConfig } = useMetrics();
@@ -383,7 +385,10 @@ const ContentNode = ({ sendHightlightNode }) => {
                   </div>
                 )}
                 {!loadingDataChart && earningChart && (
-                  <LineMemo data={earningChart[optionChart]} />
+                  <LineMemo
+                    name="Self stake"
+                    data={earningChart[optionChart]}
+                  />
                 )}
               </div>
             </div>
@@ -394,7 +399,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             <div className="w-full py-5 flex flex-col h-full justify-between">
               <p className="text-lg px-9">Price</p>
               <div className="w-full relative pr-9 h-8.5/10">
-                <LineMemo data={priceTokenGraphInfo} />
+                <LineMemo name="Price" data={priceTokenGraphInfo} />
               </div>
             </div>
           </Card>
@@ -575,7 +580,10 @@ const ContentNode = ({ sendHightlightNode }) => {
                   </div>
                   <div className="h-full pt-2">
                     {earningChart && (
-                      <LineMemo data={earningChart[optionChart]} />
+                      <LineMemo
+                        name="Self stake"
+                        data={earningChart[optionChart]}
+                      />
                     )}
                   </div>
                 </div>

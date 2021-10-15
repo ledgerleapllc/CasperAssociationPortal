@@ -19,7 +19,9 @@ import useNotifications from '../hooks/useNotifications';
 import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
 import { ValidatorChart } from '../charts/validator-chart';
 
-const LineMemo = memo(({ data }) => <ValidatorChart data={data} />);
+const LineMemo = memo(({ name, data }) => (
+  <ValidatorChart name={name} data={data} />
+));
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -300,7 +302,10 @@ const ContentHome = () => {
                   </div>
                 )}
                 {!loadingDataChart && earningChart && (
-                  <LineMemo data={earningChart[optionChart]} />
+                  <LineMemo
+                    name="Self stake"
+                    data={earningChart[optionChart]}
+                  />
                 )}
               </div>
             </div>

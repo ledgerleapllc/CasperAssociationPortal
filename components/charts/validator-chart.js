@@ -60,11 +60,10 @@ const options = {
   stroke: {
     width: 4,
     curve: 'smooth',
-    ineCap: 'butt',
   },
 };
 
-export const ValidatorChart = ({ data }) => {
+export const ValidatorChart = ({ name, data }) => {
   const [series, setSeries] = useState([]);
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export const ValidatorChart = ({ data }) => {
     <div className="validator-chart h-full">
       <ReactApexChart
         options={options}
-        series={[{ data: series }]}
+        series={[{ name, data: series }]}
         type="area"
         height="100%"
       />
