@@ -7,7 +7,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), {
 
 const buildOptions = type => ({
   markers: {
-    size: 3,
+    size: 0,
     colors: undefined,
     strokeColors: '#ff473e',
     strokeWidth: 4,
