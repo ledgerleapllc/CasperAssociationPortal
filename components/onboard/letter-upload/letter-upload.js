@@ -68,14 +68,15 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
   const {
     getRootProps,
     getInputProps,
-    fileRejections,
+    // fileRejections,
     isDragAccept,
     isDragReject,
   } = useDropzone({
     multiple: false,
     onDrop,
     accept:
-      'application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, text/rtf',
+      'image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, text/rtf',
+    maxSize: 2097152,
   });
 
   const style = useMemo(
@@ -167,12 +168,14 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
                       Upload Letter of Motivation
                     </button>
                     <span className="hidden lg:block">Or Drop File Here</span>
-                    {(isDragReject || !!fileRejections.length) && (
+                    {/* (isDragReject || !!fileRejections.length) && (
                       <span className="hidden lg:block text-primary">
-                        Only *.pdf, *.doc, *.docx, *.txt, *.rtf file will be
-                        accepted
+                        Accept jpeg, png, pdf, txt - Max File Size: 2MB
                       </span>
-                    )}
+                    ) */}
+                    <span className="hidden lg:block text-primary">
+                      Accept jpeg, png, pdf, txt - Max File Size: 2MB
+                    </span>
                   </div>
                 </div>
               </div>

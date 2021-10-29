@@ -71,7 +71,8 @@ const Welcome = () => {
               node status alerts, and network statistics and features not found
               elsewhere support you in your mission. As Casper grows, so will
               the features of the association portal, so get in here and help
-              guide Casper alongside us through the 2020s.
+              guide Casper alongside us through the 2020s. To complete your
+              registration process, please complete the following 3 steps.
             </p>
             <div className="flex mt-12 w-full">
               <img

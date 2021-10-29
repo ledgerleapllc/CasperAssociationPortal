@@ -79,8 +79,7 @@ const AdminIntakeVerificationKYC = () => {
               dispatch(
                 banVerifiedUser(
                   { id },
-                  res => {
-                    console.log(res);
+                  () => {
                     router.push('../../');
                     onClosed();
                     setLoading(false);
@@ -110,8 +109,7 @@ const AdminIntakeVerificationKYC = () => {
               dispatch(
                 resetUserKYC(
                   { id, message },
-                  res => {
-                    console.log(res);
+                  () => {
                     router.push('../../');
                     onClosed();
                     setLoading(false);
@@ -134,8 +132,7 @@ const AdminIntakeVerificationKYC = () => {
     dispatch(
       approveUserKYC(
         { id },
-        res => {
-          console.log(res);
+        () => {
           setLoadingApproved(false);
           setDialog({
             type: 'DialogCustom',

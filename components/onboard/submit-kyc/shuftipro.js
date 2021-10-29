@@ -16,7 +16,6 @@ const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);
-  console.log(token);
   const [referenceId, setReferenceId] = useState();
   const [finalKYC, setFinalKYC] = useState(false);
   const [shuftiError, setShuftiError] = useState('');
@@ -35,7 +34,7 @@ export const Shuftipro = () => {
     sha256(dataTemp);
     const hash = sha256.create();
     hash.update(dataTemp);
-    return hash.hex() == signature;
+    return hash.hex() === signature;
   };
 
   useEffect(() => {

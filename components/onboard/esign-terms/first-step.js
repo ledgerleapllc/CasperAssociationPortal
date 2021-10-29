@@ -12,7 +12,6 @@ const EsignTermsFirstStep = ({ selectedDocument, onDocumentSelect }) => {
       getMembershipFileForUser(
         {},
         res => {
-          console.log(res);
           setAgreements([res]);
         },
         () => {}

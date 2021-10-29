@@ -59,7 +59,6 @@ const AdminEditBallot = () => {
   }, [id]);
 
   const onSubmit = data => {
-    console.log(data);
     setIsSubmit(true);
     dispatch(
       updateBallot(

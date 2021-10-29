@@ -1,3 +1,4 @@
+/* eslint-disable node/callback-return */
 import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
@@ -465,7 +466,7 @@ export function* addEmailerAdmin({ payload, resolve, reject }) {
 
 export function* deleteEmailerAdmin({ payload, resolve, reject }) {
   try {
-    const res = yield http.doDelete([`admin/emailer-admin/${payload.id}`], {});
+    yield http.doDelete([`admin/emailer-admin/${payload.id}`], {});
     resolve();
   } catch (error) {
     reject();
@@ -475,10 +476,7 @@ export function* deleteEmailerAdmin({ payload, resolve, reject }) {
 
 export function* updateEmailerTriggerUser({ payload, resolve, reject }) {
   try {
-    const res = yield _put(
-      [`admin/emailer-trigger-user/${payload.id}`],
-      payload.data
-    );
+    yield _put([`admin/emailer-trigger-user/${payload.id}`], payload.data);
     resolve();
   } catch (error) {
     reject();
@@ -488,10 +486,7 @@ export function* updateEmailerTriggerUser({ payload, resolve, reject }) {
 
 export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
   try {
-    const res = yield _put(
-      [`admin/emailer-trigger-admin/${payload.id}`],
-      payload.data
-    );
+    yield _put([`admin/emailer-trigger-admin/${payload.id}`], payload.data);
     resolve();
   } catch (error) {
     reject();
@@ -659,10 +654,7 @@ export function* getWarningMetrics({ resolve, reject }) {
 
 export function* updateWarningMetrics({ payload, resolve, reject }) {
   try {
-    const res = yield _put(
-      [`admin/monitoring-criteria/${payload.type}`],
-      payload.data
-    );
+    yield _put([`admin/monitoring-criteria/${payload.type}`], payload.data);
     resolve();
   } catch (error) {
     reject();
@@ -728,7 +720,6 @@ export function* getListNotifications({ payload, resolve, reject }) {
 
 export function* getNotificationViewLogs({ payload, resolve }) {
   try {
-    console.log('getNotificationViewLogs');
     const query = qs.stringify({
       limit: payload.limit || 5,
       page: payload.page,
@@ -829,7 +820,7 @@ export function* getLockPageRules({ resolve, reject }) {
 
 export function* updateLockPageRule({ payload, resolve, reject }) {
   try {
-    const res = yield _put([`admin/lock-rules/${payload.id}`], payload.data);
+    yield _put([`admin/lock-rules/${payload.id}`], payload.data);
     resolve();
   } catch (error) {
     reject();

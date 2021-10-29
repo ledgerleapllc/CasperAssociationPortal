@@ -35,7 +35,6 @@ const Container = props => {
   );
   const [token, setToken] = useState(1);
   useEffect(() => {
-    console.log('app init', process.env.NODE_ENV);
     setToken(getToken());
     if (getToken()) {
       dispatch(fetchUserInfo(() => {}));

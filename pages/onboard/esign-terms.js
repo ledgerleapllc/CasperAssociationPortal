@@ -104,7 +104,7 @@ const EsignTerms = () => {
   // eslint-disable-next-line no-unused-vars
   const handleByPass = () => {
     dispatch(
-      bypassHelloSignRequest(res => {
+      bypassHelloSignRequest(() => {
         setCurrentStep(currentStep + 1);
       })
     );

@@ -61,6 +61,7 @@ const OnboardItem = ({
       tabIndex="0"
       onMouseLeave={() => setOnHover(false)}
       onKeyDown={onClick}
+      onClick={onClick}
     >
       <div className="relative">
         <img src={imageUrl} alt="esign terms" className="object-cover z-4" />
@@ -103,7 +104,6 @@ const OnboardItem = ({
         className={`transition transform duration-600 ease-in-out absolute z-4 ml-4 -mt-6 focus:outline-none ${
           onHover ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         }`}
-        onClick={onClick}
       >
         <img src="/images/ic_next_circle_gradient_large.svg" alt="next" />
       </button>

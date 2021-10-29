@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
+import { LinearProgress } from '@material-ui/core';
 
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
@@ -12,6 +13,16 @@ const Onboard = () => {
   const router = useRouter();
   const user = useSelector(state => state.authReducer.userInfo);
   const [isBypassing, setIsBypassing] = useState(false);
+
+  const getValue = () => {
+    let flag = 0;
+    if (user.signature_request_id) flag += 1;
+    if (user.node_verified_at) flag += 1;
+    if (user.letter_verified_at) flag += 1;
+
+    if (flag === 3) return 100;
+    return 33.33 * flag;
+  };
 
   return (
     <div className="flex justify-center min-h-screen">
@@ -31,6 +42,13 @@ const Onboard = () => {
               <p className="flex-1 text-gray">Esign Terms</p>
               <p className="flex-1 text-gray">Verify Node Ownership</p>
               <p className="flex-1 text-gray">Upload Letter</p>
+            </div>
+            <div className="mb-3">
+              <LinearProgress
+                variant="determinate"
+                color="secondary"
+                value={getValue()}
+              />
             </div>
             <div className="lg:flex lg:space-x-5">
               <OnboardItem

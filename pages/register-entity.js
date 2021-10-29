@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
@@ -12,6 +14,8 @@ import {
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
   ENTITY_PATTERN,
+  DIGITIZED_PATTERN,
+  SPECIAL_CHARACTER_PATTERN,
 } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { registerEntity } from '../shared/redux-saga/auth/actions';
@@ -115,6 +119,11 @@ const RegisterEntity = () => {
     }
   };
 
+  const onClickTerms = e => {
+    e.preventDefault();
+    window.open('/sample.pdf', '_blank').focus();
+  };
+
   return (
     <div className="flex justify-center min-h-screen">
       <div
@@ -171,8 +180,9 @@ const RegisterEntity = () => {
                       {...register('entityType', {
                         required: 'Entity type is require',
                       })}
+                      defaultValue=""
                     >
-                      <option className="text-gray" value="" disabled selected>
+                      <option className="text-gray" value="" disabled>
                         Select Entity Type *
                       </option>
                       {entityTypeList.map((type, index) => (
@@ -223,8 +233,9 @@ const RegisterEntity = () => {
                       {...register('entityRegisterCountry', {
                         required: 'Entity Registration Country is require',
                       })}
+                      defaultValue=""
                     >
-                      <option className="text-gray" value="" disabled selected>
+                      <option className="text-gray" value="" disabled>
                         Entity Registration Country *
                       </option>
                       {Countries.map((country, index) => (
@@ -368,14 +379,28 @@ const RegisterEntity = () => {
                         message: 'Min 8 character',
                         value: 8,
                       },
+                      /*
                       pattern: {
                         message: 'Password is invalid',
                         value: PASSWORD_PATTERN,
                       },
-                      validate: value =>
+                      */
+                      validate: value => {
+                        /*
                         value === getValues().confirmPassword ||
                         !formState.touchedFields.confirmPassword ||
                         'Password not match',
+                        */
+                        if (value === value.toLowerCase())
+                          return 'Must contain at least one uppercase letter';
+                        if (!DIGITIZED_PATTERN.test(value))
+                          return 'Must contain at least one number';
+                        if (!SPECIAL_CHARACTER_PATTERN.test(value))
+                          return 'Must contain at lease one special character';
+                        if (value !== getValues().confirmPassword)
+                          return 'Password not match';
+                        return true;
+                      },
                     })}
                   />
                   {formState.errors?.password && (
@@ -489,8 +514,14 @@ const RegisterEntity = () => {
                 />
               </button>
               <p className="flex-1 text-dark1 text-sm ml-4">
-                I agree the Terms and Conditions, cookie policy, and privacy
-                policy.
+                I agree the{' '}
+                <span
+                  style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={e => onClickTerms(e)}
+                >
+                  Terms and Conditions
+                </span>
+                , cookie policy, and privacy policy.
               </p>
             </div>
             <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-7s">

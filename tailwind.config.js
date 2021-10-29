@@ -1,4 +1,3 @@
-/* eslint-disable node/no-extraneous-require */
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 module.exports = {
@@ -114,7 +113,7 @@ module.exports = {
         container: '1140px',
       },
       padding: {
-        '6.25': '1.5625rem',
+        6.25: '1.5625rem',
         '7px': '7px',
         card: '2rem',
         'card-tracker': 'calc(2rem - 7px)',
