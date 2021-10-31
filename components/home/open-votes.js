@@ -70,10 +70,10 @@ const OpenVotes = ({ toggleOpenVotes }) => {
             dataLength={data.length}
           >
             <Table.Header>
-              <Table.HeaderCell>
+              <Table.HeaderCell key="title">
                 <p className="font-medium">Title</p>
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell key="time-left">
                 <p className="font-medium">Time Left</p>
               </Table.HeaderCell>
             </Table.Header>

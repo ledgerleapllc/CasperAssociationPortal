@@ -477,7 +477,7 @@ const RegisterEntity = () => {
                         className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                         placeholder="Telegram"
                         name="telegram"
-                        value={value}
+                        value={value || ''}
                         onChange={e => {
                           onChangeTelegram(e);
                           onChange(e);

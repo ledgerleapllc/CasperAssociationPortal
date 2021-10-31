@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { ENTITY_PATTERN } from '../../../helpers/form-validation';
-import { LoadingButton } from '../../partials';
+import { LoadingButton, Tooltips } from '../../partials';
 import Countries from '../../../public/json/country.json';
 import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import { submitNode } from '../../../shared/redux-saga/dashboard/dashboard-actions';
@@ -127,8 +127,8 @@ export const SwitchUserType = ({ goNext }) => {
   return (
     <div className="animate__animated animate__fadeInLeft animate__delay-8s">
       <p className="text-lg mt-2 text-dark1">
-        Before we begin. Do you represent an entity such as a company, trust,
-        llc, non-profit, or another type of organization that controls your
+        Before we begin, do you represent an entity such as a company, trust,{' '}
+        LLC, non-profit, or another type of organization that controls your{' '}
         node?
       </p>
       <div className="form-group my-10">
@@ -158,9 +158,9 @@ export const SwitchUserType = ({ goNext }) => {
       {userType === UserType.entity ? (
         <div className="animate__animated animate__fadeInUp animate__delay-1s mb-10">
           <p className="text-lg text-dark1">
-            If your node is operated by this entity, you will need to complete
-            entity Verification instead. Please enter the following info to
-            upgrade your account.
+            If your node is operated by this entity, you will need to verify the{' '}
+            entity. Please enter the following info to begin the verification
+            process.
           </p>
           <form
             className="w-full mt-16 lg:mt-0"
@@ -198,8 +198,9 @@ export const SwitchUserType = ({ goNext }) => {
                     {...register('entity_type', {
                       required: 'Entity type is require',
                     })}
+                    defaultValue=""
                   >
-                    <option value="" disabled selected>
+                    <option value="" disabled>
                       Select...
                     </option>
                     {entityTypeList.map((type, index) => (
@@ -251,8 +252,9 @@ export const SwitchUserType = ({ goNext }) => {
                     {...register('entity_registration_country', {
                       required: 'Entity Registration Country is require',
                     })}
+                    defaultValue=""
                   >
-                    <option className="text-gray" value="" disabled selected>
+                    <option className="text-gray" value="" disabled>
                       Select...
                     </option>
                     {Countries.map((country, index) => (
@@ -270,7 +272,21 @@ export const SwitchUserType = ({ goNext }) => {
                 )}
               </div>
               <div className="w-full lg:w-2/12">
-                <label>Enter VAT Number</label>
+                <div className="flex align-center">
+                  <label className="mr-2">Enter VAT Number</label>
+                  <Tooltips
+                    placement="top"
+                    title="VAT Number: A Value Added Tax Identification Number or VAT Identification Number (VATIN) is an identifier used in many countries for value added tax purposes. You will be asked to upload proof of your VAT Number in the next step of the verification process."
+                    arrow
+                  >
+                    <img
+                      width="15px"
+                      height="15px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </Tooltips>
+                </div>
                 <input
                   type="text"
                   className="w-full mt-2 h-14 px-7 rounded-full shadow-md focus:outline-none"

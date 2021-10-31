@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-computed-key */
 import { createReducer } from '../../../helpers/reducer-factory';
 
 const initialState = {

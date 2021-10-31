@@ -6,6 +6,7 @@ const theme = createTheme({
     MuiTooltip: {
       tooltip: {
         backgroundColor: '#FF473E',
+        fontSize: '11px',
       },
       arrow: {
         color: '#FF473E',

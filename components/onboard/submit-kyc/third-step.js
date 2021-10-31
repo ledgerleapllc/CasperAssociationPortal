@@ -6,12 +6,12 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
     </p>
     <p className="text-sm text-dark1 mt-1 animate__animated animate__fadeInLeft animate__delay-4s">
       You will need a clear picture of a government issued identification
-      document (passport recommended) and a proof of address document such as
-      a utility or phone bill, or bank statement. Your identification document{' '}
-      <strong>must</strong> match the name and DOB you entered on theprior
+      document (passport recommended) and a proof of address document such as a{' '}
+      utility or phone bill, or bank statement. Your identification document{' '}
+      <strong>must</strong> match the name and DOB you entered on the prior
       step, and your address document <strong>must</strong> match the address
-      entered on the prior step. You may go back and update your information
-      if needed by clicking Back.
+      entered on the prior step. You may go back and update your information if{' '}
+      needed by clicking Back.
       <br />
       <br />
       If you have your documents ready to upload and all information matches,
@@ -21,8 +21,8 @@ const SubmitKYCThirdStep = ({ beginKYC, onNext, onBeginKYC }) => (
       {beginKYC ? (
         <>
           <p className="text-sm text-primary">
-            Thank you for submitting your KYC. It will be reviewed by admin
-            and a response given within 3 business days. Please continue.
+            Thank you for submitting your KYC. It will be reviewed by admin and{' '}
+            a response given within 3 business days. Please continue.
           </p>
           <button
             type="button"

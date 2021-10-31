@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useTable } from '../../../partials/table';
 import { Table } from '../../../partials';
-import { formatDate } from '../../../../shared/core/utils';
 import ArrowIcon from '../../../../public/images/ic_arrow_down.svg';
 import { getNotificationViewLogs } from '../../../../shared/redux-saga/admin/actions';
 
@@ -34,7 +33,6 @@ export const ViewLogsTable = ({ idList }) => {
 
   const {
     data,
-    setParams,
     params,
     register,
     resetData,
@@ -95,12 +93,15 @@ export const ViewLogsTable = ({ idList }) => {
             onChange={e => {
               setNotificationId(e.target.value);
             }}
+            defaultValue=""
           >
-            <option selected={!notificationId} value="" disabled>
+            <option value="" disabled>
               Select Notification ID
             </option>
-            {idList?.map(item => (
-              <option value={item}>{item}</option>
+            {idList?.map((item, index) => (
+              <option key={index} value={item}>
+                {item}
+              </option>
             ))}
           </select>
           <ArrowIcon className="absolute right-7" />
@@ -115,38 +116,38 @@ export const ViewLogsTable = ({ idList }) => {
           dataLength={data.length}
         >
           <Table.Header>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="email">
               <p>User Email</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="viewed_on">
               <p>First Viewed On</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="dismissed">
               <p>Dismissed</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="cta_click">
               <p>CTA Click</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="cta_click_count">
               <p>CTA Click Count</p>
             </Table.HeaderCell>
           </Table.Header>
           <Table.Body className="padding-tracker">
             {data.map((row, ind) => (
               <Table.BodyRow key={ind}>
-                <Table.BodyCell>
+                <Table.BodyCell key="email">
                   <p className="truncate">{row.user?.email}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="first_view_at">
                   <p>{row.first_view_at || ''}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="dismissed_at">
                   <p>{row.dismissed_at || ''}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="cta_click_at">
                   <p>{row.cta_click_at || ''}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="cta_click_count">
                   <p>{row.cta_click_count || 0}</p>
                 </Table.BodyCell>
               </Table.BodyRow>

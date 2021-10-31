@@ -9,6 +9,7 @@ export default function useNotifications() {
   const bannerNotis = useSelector(
     state => state.authReducer?.notifications?.banner
   );
+
   const popupNotis = useSelector(
     state => state.authReducer?.notifications?.popup
   );

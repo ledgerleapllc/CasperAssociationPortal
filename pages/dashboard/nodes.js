@@ -21,8 +21,8 @@ const DashboardNode = () => {
         </Card>
       </div>
     </LayoutDashboard>
-  )
-}
+  );
+};
 
 export default LoadingScreen(
   withPageRestricted(DashboardNode, 'nodes'),

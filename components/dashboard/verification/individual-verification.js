@@ -178,12 +178,15 @@ export const IndividualVerification = ({ goNext }) => {
                   {...register('country_citizenship', {
                     required: 'Citizenship is required',
                   })}
+                  defaultValue=""
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     Select...
                   </option>
                   {Countries.map(country => (
-                    <option value={country.code}>{country.name}</option>
+                    <option key={country.code} value={country.code}>
+                      {country.name}
+                    </option>
                   ))}
                 </select>
                 <ArrowIcon className="absolute right-7" />

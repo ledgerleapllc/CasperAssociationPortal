@@ -4,10 +4,10 @@ import { ProgressBar, Tooltips } from '../partials';
 import { numberWithCommas } from '../../shared/core/utils';
 
 const InfoRightAdminHome = ({ stats }) => {
-  const { metricConfig } = useMetrics();
-
+  useMetrics();
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
+      {/*
       <div
         className="
           flex flex-col 
@@ -15,6 +15,8 @@ const InfoRightAdminHome = ({ stats }) => {
           2xl:pt-5
         "
       >
+      */}
+      <div className="flex flex-col pt-5 lg:pb-3">
         <span className="text-lg font-medium pb-5">Metrics</span>
         <div className="flex flex-col py-3 xl:py-1 2xl:py-3">
           <div className="flex gap-2 flex-row">

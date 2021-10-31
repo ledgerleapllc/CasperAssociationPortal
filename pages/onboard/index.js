@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
-import { LinearProgress } from '@material-ui/core';
+// import { LinearProgress } from '@material-ui/core';
 
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
@@ -38,16 +38,21 @@ const Onboard = () => {
         <AppHeader theme="dark" />
         <div className="flex-grow flex items-center justify-center mt-16 lg:mt-0">
           <div className="w-full lg:w-9/12">
-            <div className="hidden lg:flex space-x-5 border-b border-gray pb-1 mb-3">
+            <div className="hidden lg:flex space-x-5 border-b border-gray pb-1">
               <p className="flex-1 text-gray">Esign Terms</p>
               <p className="flex-1 text-gray">Verify Node Ownership</p>
               <p className="flex-1 text-gray">Upload Letter</p>
             </div>
             <div className="mb-3">
+              {/*
               <LinearProgress
                 variant="determinate"
                 color="secondary"
                 value={getValue()}
+              /> */}
+              <div
+                className="hidden lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
+                style={{ width: `${getValue()}%` }}
               />
             </div>
             <div className="lg:flex lg:space-x-5">

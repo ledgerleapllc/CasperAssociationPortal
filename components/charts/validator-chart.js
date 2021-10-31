@@ -1,6 +1,6 @@
-/* eslint-disable global-require */
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+
 const ReactApexChart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 });
@@ -36,7 +36,7 @@ const buildOptions = type => ({
   },
   yaxis: {
     labels: {
-      formatter(val, index) {
+      formatter(val) {
         if (type === 'decimals') {
           return val.toFixed(4);
         }
@@ -71,7 +71,7 @@ export const ValidatorChart = ({ type, name, data }) => {
 
   useEffect(() => {
     const chart_data = [];
-    Object.entries(data).forEach(([key, value], index) => {
+    Object.entries(data).forEach(([key]) => {
       chart_data.push([+key * 1000, +data[key]]);
     });
 

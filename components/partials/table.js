@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-bitwise */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -92,7 +93,8 @@ Table.Header = props => (
 );
 
 Table.HeaderCell = props => {
-  const { sortKey, setSortKey, sortDirection, setSortDirection } = useContext(TableContext);
+  const { sortKey, setSortKey, sortDirection, setSortDirection } =
+    useContext(TableContext);
   const [pendingSort, setPendingSort] = useState(false);
   const triggerSort = () => {
     if (props.sortKey) {

@@ -3,7 +3,7 @@ import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, BackButton, Button } from '../../../components/partials';
+import { Card, BackButton } from '../../../components/partials';
 import { PerkPage } from '../../../components/admin/perks/components/perk-page';
 import { getActivePerkDetail } from '../../../shared/redux-saga/admin/actions';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';

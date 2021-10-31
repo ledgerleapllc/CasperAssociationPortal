@@ -45,6 +45,23 @@ export const EntityVerification = ({ goNext }) => {
   const watchRegisterCountry = watch('entity_register_country');
   const watchPageIsRepresentative = watch('page_is_representative');
 
+  const handleUpload = action => {
+    if (action === 'open') {
+      const content = document.getElementById('custom-content');
+      content.classList.add('remove-animation');
+      setShowUploadModal(true);
+    } else if (action === 'close') {
+      setShowUploadModal(false);
+    }
+  };
+
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
+  };
+
   useEffect(() => {
     // Close upload dialog when click outside
     document.addEventListener('click', doClickOutside, true);
@@ -65,16 +82,6 @@ export const EntityVerification = ({ goNext }) => {
       });
     }
   }, [user, uploadedDocuments]);
-
-  const handleUpload = action => {
-    if (action === 'open') {
-      const content = document.getElementById('custom-content');
-      content.classList.add('remove-animation');
-      setShowUploadModal(true);
-    } else if (action === 'close') {
-      setShowUploadModal(false);
-    }
-  };
 
   const onDrop = acceptedFiles => {
     const newFiles = [];
@@ -104,7 +111,7 @@ export const EntityVerification = ({ goNext }) => {
 
   const removeFile = (_uploadFiles, index) => {
     _uploadFiles.splice(index, 1);
-    setUploadedDocuments(pre => [..._uploadFiles]);
+    setUploadedDocuments(() => [..._uploadFiles]);
     if (!_uploadFiles.length) {
       reset({ page_is_representative: '' });
     }
@@ -123,7 +130,7 @@ export const EntityVerification = ({ goNext }) => {
         hideButton: true,
       },
       data: {
-        title: 'KYC',
+        title: 'ID Verification',
         content: <Shuftipro />,
       },
       afterClosed: value => {
@@ -142,11 +149,12 @@ export const EntityVerification = ({ goNext }) => {
   const onSubmit = data => {
     setIsSubmitting(true);
     data.type = 'entity';
+
     dispatch(
       uploadVerificationDocs(
         uploadedDocuments,
         res => {
-          setUploadedDocuments(res);
+          // setUploadedDocuments(res);
           const document = res.find(
             item => item.name === data.page_is_representative
           );
@@ -171,13 +179,6 @@ export const EntityVerification = ({ goNext }) => {
     );
   };
 
-  const doClickOutside = e => {
-    const { target } = e;
-    if (!uploadFileRef?.current?.contains(target)) {
-      handleUpload('close');
-    }
-  };
-
   return (
     <div
       id="custom-content"
@@ -185,10 +186,9 @@ export const EntityVerification = ({ goNext }) => {
     >
       <p className="text-lg mt-2 text-dark1">You registered as an entity</p>
       <p className="text-medium mt-2 text-dark1 font-light">
-        Please upload your operating documents. Keep in mind that you will need
-        to provide an ID (such as a passport) for one owner, executive, or
-        director of the company in the next step. This person’s name must appear
-        in the documents you upload.
+        Please upload the entity's operating documents. Example of operating{' '}
+        documents include: certification of incorporation, business license,{' '}
+        government issued business registration document etc.
       </p>
       <div className="mt-10">
         <button
@@ -216,10 +216,12 @@ export const EntityVerification = ({ goNext }) => {
             ))}
             <div className="animate__animated animate__fadeInUp animate__delay-1s">
               <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-                <div className="w-full lg:w-full lg:justify-between lg:flex mt-5 lg:space-x-5">
-                  <div className="w-full lg:w-6/12 mb-10">
-                    <label>On what page is the representative listed?</label>
-                    <div className="relative w-6/12 lg:flex-1 flex items-center justify-between px-7 mt-2 h-14 rounded-full shadow-md">
+                <div className="w-full lg:w-10/12 lg:justify-between lg:flex mt-5 lg:space-x-5">
+                  <div className="w-full lg:w-5/12 mb-10">
+                    <label>
+                      On what document is the representative listed?
+                    </label>
+                    <div className="relative w-10/12 lg:flex-1 flex items-center justify-between px-7 mt-2 h-14 rounded-full shadow-md">
                       <select
                         className={`max-w-60 cursor-pointer focus:outline-none ${
                           watchPageIsRepresentative ? 'text-black' : 'text-gray'
@@ -229,12 +231,15 @@ export const EntityVerification = ({ goNext }) => {
                           required:
                             'Please choose the page is the representative listed',
                         })}
+                        defaultValue=""
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Select
                         </option>
-                        {uploadedDocuments.map(file => (
-                          <option value={file.name}>{file.name}</option>
+                        {uploadedDocuments.map((file, index) => (
+                          <option value={file.name} key={index}>
+                            {file.name}
+                          </option>
                         ))}
                       </select>
                       <ArrowIcon className="absolute right-7" />
@@ -242,6 +247,32 @@ export const EntityVerification = ({ goNext }) => {
                     {formState.errors?.page_is_representative && (
                       <p className="pl-7 mt-2 text-primary">
                         {formState.errors.page_is_representative?.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="w-full lg:w-5/12 mb-10">
+                    <label>On what page is the representative listed?</label>
+                    <div className="relative w-full lg:flex-1 flex items-center justify-between mt-2">
+                      <input
+                        type="number"
+                        className="w-5/12 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                        {...register('page_number', {
+                          required: 'Page number is required',
+                          validate: value => {
+                            if (Number.isNaN(value))
+                              return 'Page number is invalid';
+                            if (parseFloat(value) !== parseInt(value, 10))
+                              return 'Page number is invalid';
+                            if (parseInt(value, 10) <= 0)
+                              return 'Page number is invalid';
+                            return true;
+                          },
+                        })}
+                      />
+                    </div>
+                    {formState.errors?.page_number && (
+                      <p className="pl-7 mt-2 text-primary">
+                        {formState.errors.page_number?.message}
                       </p>
                     )}
                   </div>
@@ -322,14 +353,17 @@ export const EntityVerification = ({ goNext }) => {
                         }`}
                         placeholder="Select..."
                         {...register('country_citizenship', {
-                          required: 'Entity Registration Country is require',
+                          required: 'Entity Registration Country is required',
                         })}
+                        defaultValue=""
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Selected
                         </option>
-                        {Countries.map(country => (
-                          <option value={country.code}>{country.name}</option>
+                        {Countries.map((country, index) => (
+                          <option value={country.code} key={index}>
+                            {country.name}
+                          </option>
                         ))}
                       </select>
                       <ArrowIcon className="absolute right-7" />

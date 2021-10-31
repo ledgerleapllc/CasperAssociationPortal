@@ -1,7 +1,4 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/no-this-in-sfc */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -446,7 +443,6 @@ const Emailer = () => {
                 ))}
             </div>
           </div>
-
         </div>
       </Card>
     </LayoutDashboard>

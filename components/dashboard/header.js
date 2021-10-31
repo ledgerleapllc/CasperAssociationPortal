@@ -14,7 +14,10 @@ const Header = () => {
     <header className="hidden lg:flex w-full items-center justify-end bg-white shadow-light h-18 pr-5">
       <Dropdown
         trigger={
-          <div className="flex items-center gap-2">
+          <div
+            className="flex items-center justify-end gap-2"
+            style={{ minWidth: '120px' }}
+          >
             <Avatar info={userInfo} />
             <span className="font-medium text-lg">
               {userInfo?.first_name} {userInfo?.last_name}

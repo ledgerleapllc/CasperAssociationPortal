@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import router from 'next/router';
 import Switch from 'react-switch';
 
-import { Button, DateTimePicker, LoadingButton } from '../../../partials';
+import { Button, DateTimePicker } from '../../../partials';
 import {
   addNotification,
   editNotification,
@@ -25,18 +25,25 @@ export const NotificationForm = React.memo(
     const { setLoading } = useContext(AppContext);
 
     const dispatch = useDispatch();
-    const {
-      register,
-      setValue,
-      watch,
-      control,
-      handleSubmit,
-      formState,
-      reset,
-    } = useForm({
-      mode: 'onChange',
-    });
+    const { register, watch, control, handleSubmit, formState, reset } =
+      useForm({
+        mode: 'onChange',
+      });
     const watchAllFields = watch();
+
+    const checkHighPriority = () => {
+      dispatch(
+        getHighPriorityNotification(
+          res => {
+            setLoading(false);
+            setHighPriorityNoti(res);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
+    };
 
     useEffect(() => {
       onChangeValue(watchAllFields);
@@ -62,27 +69,13 @@ export const NotificationForm = React.memo(
       }
     }, []);
 
-    const checkHighPriority = () => {
-      dispatch(
-        getHighPriorityNotification(
-          res => {
-            setLoading(false);
-            setHighPriorityNoti(res);
-          },
-          () => {
-            setLoading(false);
-          }
-        )
-      );
-    };
-
     const onSubmit = data => {
       const temp = data;
       setIsSubmit(true);
       if (temp.start_date)
-        temp.start_date = formatDate(new Date(data.start_date), 'dd/MM/yyyy');
+        temp.start_date = formatDate(new Date(data.start_date), 'yyyy-MM-dd');
       if (temp.end_date)
-        temp.end_date = formatDate(new Date(data.end_date), 'dd/MM/yyyy');
+        temp.end_date = formatDate(new Date(data.end_date), 'yyyy-MM-dd');
       temp.setting = temp.setting ? 1 : 0;
       if (!editMode) {
         if (highPriorityNoti) temp.high_priority = 0;
@@ -140,15 +133,16 @@ export const NotificationForm = React.memo(
                 name="type"
                 rules={{ required: true }}
                 control={control}
-                render={({ field: { value, onChange } }) => (
+                render={() => (
                   <select
                     className={`w-full h-full cursor-pointer ${
                       editMode ? 'pointer-events-none' : ''
                     }`}
                     required
                     {...register('type')}
+                    defaultValue=""
                   >
-                    <option selected value="" disabled>
+                    <option value="" disabled>
                       Select Type
                     </option>
                     <option value="Banner">Banner</option>
@@ -184,7 +178,7 @@ export const NotificationForm = React.memo(
                       <Controller
                         name="high_priority"
                         control={control}
-                        render={({ field: { value, onChange } }) => (
+                        render={({ field: { onChange } }) => (
                           <div className="flex items-center mt-2">
                             <label className="radio-square relative flex items-center">
                               <input
@@ -192,7 +186,7 @@ export const NotificationForm = React.memo(
                                 type="radio"
                                 className="text-primary"
                                 value="1"
-                                checked={watchAllFields.high_priority}
+                                checked={!!watchAllFields.high_priority}
                                 onChange={e => {
                                   onChange(e);
                                 }}
@@ -255,7 +249,7 @@ export const NotificationForm = React.memo(
                         name="allow_dismiss_btn"
                         rules={{ required: 'Please check this setting' }}
                         control={control}
-                        render={({ field: { value, onChange } }) => (
+                        render={({ field: { onChange } }) => (
                           <div className="flex items-center mt-2">
                             <label className="radio-square relative flex items-center">
                               <input
@@ -263,7 +257,7 @@ export const NotificationForm = React.memo(
                                 type="radio"
                                 className="text-primary"
                                 value="1"
-                                checked={+watchAllFields.allow_dismiss_btn}
+                                checked={+!!watchAllFields.allow_dismiss_btn}
                                 onChange={e => {
                                   onChange(e);
                                 }}
@@ -323,7 +317,7 @@ export const NotificationForm = React.memo(
                       name="show_login"
                       rules={{ required: 'Please check this setting' }}
                       control={control}
-                      render={({ field: { value, onChange } }) => (
+                      render={({ field: { onChange } }) => (
                         <div className="flex items-center mt-2">
                           <label className="radio-square relative flex items-center">
                             <input
@@ -430,7 +424,7 @@ export const NotificationForm = React.memo(
                     name="have_action"
                     rules={{ required: 'Please check this setting' }}
                     control={control}
-                    render={({ field: { value, onChange } }) => (
+                    render={({ field: { onChange } }) => (
                       <div className="flex items-center mt-2">
                         <label className="radio-square relative flex items-center">
                           <input
@@ -438,7 +432,7 @@ export const NotificationForm = React.memo(
                             type="radio"
                             className="text-primary"
                             value="1"
-                            checked={watchAllFields.have_action}
+                            checked={!!watchAllFields.have_action}
                             onChange={e => {
                               onChange(e);
                             }}

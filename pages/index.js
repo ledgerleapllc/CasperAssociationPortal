@@ -83,9 +83,9 @@ const LandingPage = () => {
         <div className="z-40 mb-32" style={{ maxWidth: '52%' }}>
           <h1 className="text-7xl text-center">Casper Association Portal</h1>
           <p className="mt-6 font-normal text-xl text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet
-            aliquet dolor, sit amet malesuada risus. Quisque vitae justo gravida,
-            lacinia neque vel, elementum leo.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit{' '}
+            amet aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
+            gravida, lacinia neque vel, elementum leo.
           </p>
           <div className="flex gap-10 mt-10 justify-center">
             <button
@@ -141,11 +141,11 @@ const LandingPage = () => {
               <h2 className="text-4xl">Node Explorer</h2>
               <p className="text-base pt-10 pb-20">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae justo
-                gravida, lacinia neque vel, elementum leo.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit. Nam sit amet aliquet dolor, sit
-                amet malesuada risus. Quisque vitae justo gravida, lacinia neque
-                vel, elementum leo.
+                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
+                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
+                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
+                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
+                gravida, lacinia neque vel, elementum leo.
               </p>
               <button
                 type="button"
@@ -166,11 +166,11 @@ const LandingPage = () => {
               <h2 className="text-4xl">Node Explorer</h2>
               <p className="text-base pt-10 pb-20">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae justo
-                gravida, lacinia neque vel, elementum leo.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit. Nam sit amet aliquet dolor, sit
-                amet malesuada risus. Quisque vitae justo gravida, lacinia neque
-                vel, elementum leo.
+                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
+                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
+                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
+                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
+                gravida, lacinia neque vel, elementum leo.
               </p>
               <button
                 type="button"
@@ -191,11 +191,11 @@ const LandingPage = () => {
               <h2 className="text-4xl">Node Explorer</h2>
               <p className="text-base pt-10 pb-20">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae justo
-                gravida, lacinia neque vel, elementum leo.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit. Nam sit amet aliquet dolor, sit
-                amet malesuada risus. Quisque vitae justo gravida, lacinia neque
-                vel, elementum leo.
+                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
+                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
+                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
+                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
+                gravida, lacinia neque vel, elementum leo.
               </p>
               <button
                 type="button"

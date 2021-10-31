@@ -24,8 +24,7 @@ const Editor = ({ placeholder, onChange, value }) => {
       data={value}
       onChange={(event, editor) => {
         const data = editor.getData();
-        if (onChange)
-          onChange(data);
+        if (onChange) onChange(data);
       }}
     />
   ) : (

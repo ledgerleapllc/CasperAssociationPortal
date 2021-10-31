@@ -72,7 +72,8 @@ const AdminAddBallot = () => {
             <div className="lg:pr-card">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">{user?.fullInfo?.email}</a>
+                  Posting as:{' '}
+                  <a className="text-primary">{user?.fullInfo?.email}</a>
                 </p>
                 <div className="mt-4 pb-8 relative flex items-center">
                   <input

@@ -1,5 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable arrow-body-style */
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -311,7 +309,8 @@ const MembersViewerDetail = () => {
                     />
                   </div>
                   <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                    Average: {generateTextForEras(metrics?.avg_update_responsiveness)}
+                    Average:{' '}
+                    {generateTextForEras(metrics?.avg_update_responsiveness)}
                   </p>
                   <ProgressBar
                     value={metrics?.update_responsiveness}

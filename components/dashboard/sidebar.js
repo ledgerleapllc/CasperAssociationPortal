@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import HomeIcon from '../../public/images/ic_home.svg';
@@ -154,7 +154,7 @@ const Sidebar = () => {
       <CasperLogoDark />
       <ul className="mt-14 flex flex-col">
         {navs.map((nav, index) => (
-          <>
+          <Fragment key={index}>
             {(isAdmin || isApprovedProfile) && nav.key === 'verification' ? (
               <></>
             ) : (
@@ -174,7 +174,7 @@ const Sidebar = () => {
                 </ActiveLink>
               </li>
             )}
-          </>
+          </Fragment>
         ))}
       </ul>
       {isAdmin && (

@@ -14,7 +14,6 @@ import { UserType } from '../../../shared/constants/user-type';
 
 const Verification = () => {
   const user = useSelector(state => state.authReducer.userInfo);
-
   const [currentStep, setCurrentStep] = useState(null);
 
   useEffect(() => {
@@ -53,7 +52,7 @@ const Verification = () => {
           <div className="card-header w-full">
             <div className="flex flex-col justify-center">
               <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
-                Verification & Profile
+                Verification &amp; Profile
               </h3>
               <div className="border-primary border-b-2" />
             </div>

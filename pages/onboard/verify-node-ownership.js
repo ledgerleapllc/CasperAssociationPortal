@@ -20,14 +20,6 @@ const VerifyNodeOwnership = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const uploadFileRef = useRef(null);
 
-  useEffect(() => {
-    // Close upload dialog when click outside
-    document.addEventListener('click', doClickOutside, true);
-    return () => {
-      document.removeEventListener('click', doClickOutside, true);
-    };
-  }, []);
-
   const handleUpload = action => {
     if (action === 'open') {
       const content = document.getElementById('custom-content');
@@ -37,6 +29,21 @@ const VerifyNodeOwnership = () => {
       setShowUploadModal(false);
     }
   };
+
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
+  };
+
+  useEffect(() => {
+    // Close upload dialog when click outside
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   const onDrop = useCallback(acceptedFiles => {
     const fileConvert = acceptedFiles[0];
@@ -176,13 +183,6 @@ const VerifyNodeOwnership = () => {
     }
 
     return true;
-  };
-
-  const doClickOutside = e => {
-    const { target } = e;
-    if (!uploadFileRef?.current?.contains(target)) {
-      handleUpload('close');
-    }
   };
 
   return (

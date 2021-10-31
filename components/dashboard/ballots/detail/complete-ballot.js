@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -182,7 +183,7 @@ const CompleteBallot = ({ ballot }) => {
               <div className="w-2/3">
                 <span
                   dangerouslySetInnerHTML={{
-                  __html: ballot?.description,
+                    __html: ballot?.description,
                   }}
                 />
               </div>
@@ -221,7 +222,7 @@ const CompleteBallot = ({ ballot }) => {
         </tbody>
       </table>
     </Styles>
-  )
-}
+  );
+};
 
 export default CompleteBallot;

@@ -301,7 +301,7 @@ const SettingMetricForm = ({
                   name="frame_calculate_unit"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="px-5 w-full h-full cursor-pointer"
                       {...register('frame_calculate_unit')}
@@ -332,7 +332,7 @@ const SettingMetricForm = ({
                   name="frame_calculate_value"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="w-full h-full px-5 cursor-pointer"
                       {...register('frame_calculate_value')}
@@ -386,7 +386,7 @@ const SettingMetricForm = ({
                   name="given_to_correct_unit"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="px-5 w-full h-full cursor-pointer"
                       // required
@@ -418,7 +418,7 @@ const SettingMetricForm = ({
                   name="given_to_correct_value"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="w-full h-full px-5 cursor-pointer"
                       {...register('given_to_correct_value')}
@@ -473,7 +473,7 @@ const SettingMetricForm = ({
                   name="system_check_unit"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="px-5 w-full h-full cursor-pointer"
                       {...register('system_check_unit')}
@@ -504,7 +504,7 @@ const SettingMetricForm = ({
                   name="system_check_value"
                   rules={{ required: 'Please select this field' }}
                   control={control}
-                  render={({ field: { value, onChange } }) => (
+                  render={({ field: { onChange } }) => (
                     <select
                       className="w-full h-full px-5 cursor-pointer"
                       {...register('system_check_value')}

@@ -232,7 +232,7 @@ const AdminEditBallot = () => {
                     isLoading={isSubmit}
                     sizeSpinner={20}
                   >
-                    Edit & Begin Voting
+                    Edit &amp; Begin Voting
                   </Button>
                 </div>
               </form>

@@ -106,7 +106,7 @@ const AdminTeams = () => {
       dispatch(
         inviteSubadmin(
           email,
-          res => {
+          () => {
             setLoading(false);
             setDialog({
               type: 'Dialog',

@@ -121,12 +121,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                     }
                   >
                     <ul>
-                      {durations.map(duration => (
+                      {durations.map((duration, index) => (
                         <li
                           className="p-2 hover:text-primary cursor-pointer"
                           onClick={() =>
                             appendTimeframe('timeframe_perk', duration.key)
                           }
+                          key={index}
                         >
                           <p className="w-full relative h-6">
                             {duration.label}
@@ -162,12 +163,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   }
                 >
                   <ul>
-                    {durations.map(duration => (
+                    {durations.map((duration, index) => (
                       <li
                         className="p-2 hover:text-primary cursor-pointer"
                         onClick={() =>
                           appendTimeframe('timeframe_comments', duration.key)
                         }
+                        key={index}
                       >
                         <p className="w-full relative h-6">{duration.label}</p>
                       </li>
@@ -194,12 +196,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   }
                 >
                   <ul>
-                    {durations.map(duration => (
+                    {durations.map((duration, index) => (
                       <li
                         className="p-2 hover:text-primary cursor-pointer"
                         onClick={() =>
                           appendTimeframe('timeframe_discussions', duration.key)
                         }
+                        key={index}
                       >
                         <p className="w-full relative h-6">{duration.label}</p>
                       </li>

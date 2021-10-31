@@ -37,7 +37,9 @@ const StatusText = props => (
         {props.content}
       </span>
     )}
-    {['active', 'waiting', 'ended', 'inactive', 'OFF'].includes(props.content) && (
+    {['active', 'waiting', 'ended', 'inactive', 'OFF'].includes(
+      props.content
+    ) && (
       <span
         className={`${perkStatus[props.content?.toLowerCase()]} ${
           props.className

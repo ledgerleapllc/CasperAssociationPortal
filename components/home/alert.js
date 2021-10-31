@@ -76,15 +76,20 @@ const Alert = ({
                 }}
               >
                 {alerts.map((alert, ind) => (
-                  <div className="h-full">
+                  <div className="h-full" key={ind}>
                     <div className="flex items-center h-full py-5">
                       <div
-                        className="h-full flex-grow"
+                        // className="h-full flex-grow"
+                        className="flex h-full"
                         role="button"
                         onClick={() => {
                           if (alert?.handler) {
                             alert.handler();
                           }
+                        }}
+                        style={{
+                          flexDirection: 'column',
+                          justifyContent: 'center',
                         }}
                       >
                         <p className="text-base font-bold pb-1 leading-tight">

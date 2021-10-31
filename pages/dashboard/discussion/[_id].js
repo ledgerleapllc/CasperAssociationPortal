@@ -1,6 +1,5 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable no-use-before-define */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import router, { useRouter } from 'next/router';
@@ -346,7 +345,7 @@ const DashboardDiscusionDetail = () => {
                           <Editor
                             value={value}
                             onChange={e => {
-                              setIsFormValid(pre => !!e.length);
+                              setIsFormValid(() => !!e.length);
                               onChange(e);
                             }}
                           />

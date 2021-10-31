@@ -22,7 +22,7 @@ const AppHeader = ({ className, theme, showExplorer }) => {
       {userInfo?.isLoggedIn && (
         <Dropdown
           trigger={
-            <div className="flex justify-end" style={{ width: '80px' }}>
+            <div className="flex justify-end" style={{ width: '110px' }}>
               <Hamburger
                 width="2rem"
                 height="1.25rem"

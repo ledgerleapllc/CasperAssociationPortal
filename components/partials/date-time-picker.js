@@ -36,7 +36,7 @@ const DateTimePicker = props => {
       placeholder={props.placeholder}
       onFocus={e => toogleDateInput(e)}
       onBlur={e => toogleDateInput(e)}
-      value={date}
+      value={date || ''}
       onChange={e => setDate(e.target.value)}
       disabled={disabled}
     />

@@ -33,7 +33,8 @@ const AdminDashboard = () => {
           <ContentAdminHome stats={stats} changeFrame={fetchStats} />
         </div>
         <Card className="hidden lg:block h-full w-1/5">
-          <div className="overflow-y-scroll h-full w-80">
+          {/* <div className="overflow-y-scroll h-full w-80"> */}
+          <div className="overflow-y-scroll h-full">
             <InfoRightAdminHome stats={stats} />
           </div>
         </Card>

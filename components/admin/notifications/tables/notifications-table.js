@@ -101,86 +101,86 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="id">
             <p>Alert ID</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="type">
             <p>Type</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="created">
             <p>Created</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="status">
             <p>Status</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="visibility">
             <p>Visibility</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="percentage">
             <p>View %</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="auto_start_date">
             <p>
               Auto Start <br /> Date
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="auto_end_date">
             <p>
               Auto End <br /> Date
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="action">
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
-              <Table.BodyCell>
+              <Table.BodyCell key="id">
                 <p>{row.id}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="type">
                 <p>{row.type}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="title">
                 <p>{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="created_at">
                 <p>
                   {row.created_at
                     ? formatDate(row.created_at, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="status">
                 <StatusText content={row.status} />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="visibility">
                 <p className="capitalize">{row.visibility}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="total_views">
                 <p>
                   {!totalMembers || !row?.total_views
                     ? 0
                     : Math.round((row?.total_views / totalMembers) * 100)}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="start_date">
                 <p>
                   {row.start_date
                     ? formatDate(row.start_date, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="end_date">
                 <p>
                   {row.end_date ? formatDate(row.end_date, 'dd/MM/yyyy') : ''}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="edit">
                 <Link href={`notifications/detail/${row.id}`}>
                   <a>
                     <Button className="w-full" primary size="small">

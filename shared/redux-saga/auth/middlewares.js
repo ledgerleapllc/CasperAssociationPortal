@@ -1,3 +1,4 @@
+/* eslint-disable node/callback-return */
 import { put, takeLatest, all, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';

@@ -61,25 +61,25 @@ const TrendingDiscussion = () => {
             dataLength={data.length}
           >
             <Table.Header>
-              <Table.HeaderCell>
+              <Table.HeaderCell key="title">
                 <p className="font-medium">Title</p>
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell key="comments">
                 <p className="font-medium">Comments</p>
               </Table.HeaderCell>
-              <Table.HeaderCell>
+              <Table.HeaderCell key="date">
                 <p className="font-medium">Date</p>
               </Table.HeaderCell>
             </Table.Header>
             <Table.Body>
               {data.map((row, ind) => (
                 <Table.BodyRow key={ind} className="custom-row">
-                  <Table.BodyCell>
+                  <Table.BodyCell key="bodycell-1">
                     <Link href={`/dashboard/discussion/${row.id}`}>
                       <p className="truncate cursor-pointer">{row.title}</p>
                     </Link>
                   </Table.BodyCell>
-                  <Table.BodyCell>
+                  <Table.BodyCell key="bodycell-2">
                     <Link href={`/dashboard/discussion/${row.id}`}>
                       <div className="cursor-pointer flex items-center lg:items-start">
                         <div className="pr-3">
@@ -92,7 +92,7 @@ const TrendingDiscussion = () => {
                       </div>
                     </Link>
                   </Table.BodyCell>
-                  <Table.BodyCell>
+                  <Table.BodyCell key="bodycell-3">
                     <Link href={`/dashboard/discussion/${row.id}`}>
                       <div className="cursor-pointer flex items-center lg:items-start">
                         <div className="pr-3">

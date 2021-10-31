@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
@@ -63,7 +64,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 This Page is Restricted
               </p>
               <div className="h-full w-full flex flex-col items-center justify-between border-gray">
-                { getRestrictedPageAlert(alertCondition) }
+                {getRestrictedPageAlert(alertCondition)}
               </div>
             </div>
           ),

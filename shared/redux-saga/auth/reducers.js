@@ -135,7 +135,6 @@ const setPermissions = (state, payload) => ({
 
 const clearPermissions = () => ({});
 
-
 const permissionsStrategies = {
   SET_PERMISSIONS: setPermissions,
   CLEAR_PERMISSIONS: clearPermissions,

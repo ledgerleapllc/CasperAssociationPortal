@@ -62,7 +62,9 @@ const Dialog = ({ dialog, onClosed }) => {
         {dialog.type === 'Dialog' && (
           <div className="p-16">
             <div>
-              <p className={`text-2xl text-center pt-4 ${settings.titleClass}`}>{dialog.data.title}</p>
+              <p className={`text-2xl text-center pt-4 ${settings.titleClass}`}>
+                {dialog.data.title}
+              </p>
               {!settings.noClose && (
                 <a onClick={() => onCloseDialog(false)}>
                   <img
@@ -136,7 +138,6 @@ const Dialog = ({ dialog, onClosed }) => {
               <button
                 type="button"
                 className="mx-2 bottom-6 text-lg text-white w-1/2 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-                className="mx-2 bottom-6 text-lg text-white w-1/4 h-11 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
                 onClick={() => onCloseDialog(true)}
               >
                 {dialog.data.ok}
