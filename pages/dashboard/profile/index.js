@@ -111,6 +111,14 @@ const UserProfile = () => {
     );
   };
 
+  const renderLabel = () => {
+    if (!myInfo || !myInfo.id) return 'Not Submitted';
+    if (!myInfo.shuftipro || !myInfo.shuftipro.id) return 'Not Submitted';
+    if (myInfo.status === 'pending') return 'Submitted / Pending';
+    if (myInfo.status === 'denied') return 'Rejected';
+    return 'VERIFIED';
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -125,7 +133,7 @@ const UserProfile = () => {
                 </h3>
                 <h3 className="text-dark2 text-lg font-medium">
                   <Link href="/dashboard/profile">
-                    <a>My profile</a>
+                    <a>My Profile</a>
                   </Link>
                 </h3>
               </div>
@@ -252,7 +260,7 @@ const UserProfile = () => {
                               ) : (
                                 <Link href="/dashboard/verification">
                                   <a className="text-primary underline">
-                                    Get Verified
+                                    {renderLabel()}
                                   </a>
                                 </Link>
                               )}

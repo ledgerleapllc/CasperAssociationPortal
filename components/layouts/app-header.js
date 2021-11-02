@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import Hamburger from '../../public/images/ic_hamburger.svg';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
 import { Button, Dropdown } from '../partials';
@@ -12,13 +13,17 @@ const AppHeader = ({ className, theme, showExplorer }) => {
 
   return (
     <div className={`flex items-center justify-between ${className || ''}`}>
-      <Image
-        className="animate__animated animate__fadeIn"
-        src={`/images/casper_logo_${theme}.svg`}
-        alt="casper logo"
-        width={125}
-        height={33}
-      />
+      <Link href="/">
+        <a>
+          <Image
+            className="animate__animated animate__fadeIn"
+            src={`/images/casper_logo_${theme}.svg`}
+            alt="casper logo"
+            width={125}
+            height={33}
+          />
+        </a>
+      </Link>
       {userInfo?.isLoggedIn && (
         <Dropdown
           trigger={

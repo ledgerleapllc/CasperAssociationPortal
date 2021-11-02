@@ -49,6 +49,13 @@ export const IDverifications = () => {
     fetchVerifications();
   }, []);
 
+  const renderKYCStatus = row => {
+    if (row?.kyc_status === 'approved') return 'VERIFIED';
+    if (row?.kyc_status === 'pending') return 'Submitted / Pending';
+    if (row?.kyc_status === 'denied') return 'Rejected';
+    return 'Not Submitted';
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -98,7 +105,7 @@ export const IDverifications = () => {
                 <p>{row?.background_checks_result ? 'OK' : 'Needs Review'}</p>
               </Table.BodyCell>
               <Table.BodyCell key="status">
-                <p>{row?.kyc_status === 'approved' ? 'OK' : 'Needs Review'}</p>
+                <p>{renderKYCStatus(row)}</p>
               </Table.BodyCell>
               <Table.BodyCell key="review">
                 <Link href={`/admin/intake/verification/${row.user_id}`}>

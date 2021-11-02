@@ -230,7 +230,7 @@ const DashboardSetting = () => {
                 </h3>
                 <h3 className="text-gray text-lg font-medium">
                   <Link href="/dashboard/profile">
-                    <a>My profile</a>
+                    <a>My Profile</a>
                   </Link>
                 </h3>
               </div>

@@ -71,26 +71,26 @@ export const IPHistoriesDialog = ({ id }) => {
           dataLength={data?.length}
         >
           <Table.Header>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="header1">
               <p>Date</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="header2">
               <p>Time</p>
             </Table.HeaderCell>
-            <Table.HeaderCell>
+            <Table.HeaderCell key="header3">
               <p>IP</p>
             </Table.HeaderCell>
           </Table.Header>
           <Table.Body className="lg:-mr-8 lg:pr-8">
             {data.map(row => (
               <Table.BodyRow className="py-4" key={`ip-${row.id}`}>
-                <Table.BodyCell>
+                <Table.BodyCell key="body1">
                   <p>{formatDate(row.created_at)}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="body2">
                   <p>{formatDate(row.created_at, 'HH:mm aa')}</p>
                 </Table.BodyCell>
-                <Table.BodyCell>
+                <Table.BodyCell key="body3">
                   <p>{row.ip_address}</p>
                 </Table.BodyCell>
               </Table.BodyRow>

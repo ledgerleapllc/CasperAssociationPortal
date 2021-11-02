@@ -377,14 +377,14 @@ const DashboardDiscusionDetail = () => {
                       noMargin
                     >
                       <Table.Header>
-                        <Table.HeaderCell />
-                        <Table.HeaderCell />
+                        <Table.HeaderCell key="emptyHeader1" />
+                        <Table.HeaderCell key="emptyHeader2" />
                       </Table.Header>
                       <Table.Body className="padding-tracker">
                         {data.map((row, index) => (
                           <Table.BodyRow key={`b-${index}`}>
-                            <Table.BodyCell />
-                            <Table.BodyCell>
+                            <Table.BodyCell key="emptyBody1" />
+                            <Table.BodyCell key="emptyBody2">
                               <ChatBox data={row} noBorder />
                             </Table.BodyCell>
                           </Table.BodyRow>

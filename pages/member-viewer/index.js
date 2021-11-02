@@ -262,25 +262,25 @@ const MembersViewer = () => {
                 dataLength={data.length}
               >
                 <Table.Header>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="name">
                     <p>Users Name</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="regDate">
                     <p>Registration Date</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="verified">
                     <p>Verified</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="rate">
                     <p>Rate</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="delegates">
                     <p>Delegates</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="cspr">
                     <p>CSPR Delegated</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="uptime">
                     <p>Uptime</p>
                   </Table.HeaderCell>
                 </Table.Header>
@@ -292,31 +292,31 @@ const MembersViewer = () => {
                         router.push(`/member-viewer/${row.id}`)
                       }
                     >
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body1">
                         <p className="truncate">{row.full_name}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body2">
                         <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body3">
                         <p
                           className={row.kyc_verified_at ? 'text-primary' : ''}
                         >
                           {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
                         </p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body4">
                         <p className="capitalize">
                           {row.delegation_rate || 0}%
                         </p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body5">
                         <p>{row.delegators_count || 0}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body6">
                         <p>{numberWithCommas(row.total_staked_amount)}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body7">
                         <p>{row.uptime || 0}%</p>
                       </Table.BodyCell>
                     </Table.BodyRow>

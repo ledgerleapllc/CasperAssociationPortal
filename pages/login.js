@@ -68,6 +68,7 @@ const Login = () => {
             style={{
               backgroundImage: `url('/images/login_overlay.png')`,
               backgroundSize: 'cover',
+              overflow: 'hidden',
             }}
           >
             <p className="text-4xl text-center animate__animated animate__fadeInUp">

@@ -17,9 +17,11 @@ const theme = createTheme({
 
 const Tooltips = props => {
   const { children, ...otherProps } = props;
+  const finalProps = otherProps;
+  if (!finalProps.title) finalProps.title = '';
   return (
     <MuiThemeProvider theme={theme}>
-      <Tooltip {...otherProps}>{children}</Tooltip>
+      <Tooltip {...finalProps}>{children}</Tooltip>
     </MuiThemeProvider>
   );
 };

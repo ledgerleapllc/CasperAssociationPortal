@@ -95,68 +95,68 @@ export const PerksTable = ({ hideOff }) => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header1">
             <p>Perk ID</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header2">
             <p>Created</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header3">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header4">
             <p>Start Perk</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header5">
             <p>Auto End Perk</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header6">
             <p>Status</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header7">
             <p>Visibility</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header8">
             <p>CT#</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header9">
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
-              <Table.BodyCell>
+              <Table.BodyCell key="body1">
                 <p>{row.id}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body2">
                 <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body3">
                 <p>{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body4">
                 <p>
                   {row.start_date
                     ? formatDate(row.start_date, 'dd/MM/yyyy')
                     : ''}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body5">
                 <p>
                   {row.end_date ? formatDate(row.end_date, 'dd/MM/yyyy') : ''}
                 </p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body6">
                 <StatusText content={row.status} />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body7">
                 <p className="capitalize">{row.visibility}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body8">
                 <p>{row.total_clicks}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body9">
                 <Link href={`perks/detail/${row.id}`}>
                   <a>
                     <Button className="w-full" primary size="small">

@@ -1,21 +1,17 @@
-/* eslint-disable no-unused-vars */
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useContext, useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Button, Card } from '../../components/partials';
 import { submitContactMessage } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../_app';
 import { EMAIL_PATTERN } from '../../helpers/form-validation';
-import { useSnackBar } from '../../components/partials/snack-bar';
 
 const ContactUs = () => {
   const { setLoading } = useContext(AppContext);
   const [isSubmitting, setIsSubmitting] = useState();
   const dispatch = useDispatch();
-  const { openSnack } = useSnackBar();
 
   const { formState, register, handleSubmit, reset } = useForm({
     mode: 'onBlur',
@@ -30,7 +26,7 @@ const ContactUs = () => {
         () => {
           setLoading(false);
           setIsSubmitting(false);
-          openSnack('primary', 'Sent Message!');
+          // openSnack('primary', 'Sent Message!');
           reset();
         },
         () => {

@@ -260,17 +260,17 @@ const ContentNode = ({ sendHightlightNode }) => {
                 </Tooltips>
               </div>
               <div className="flex flex-row gap-2">
+                <span className="text-base text-black1 font-thin">
+                  {numberWithCommas(
+                    isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
+                  )}
+                </span>
                 <img
                   width="18px"
                   height="18px"
                   src="/images/ic_logo_home.svg"
                   alt="Info"
                 />
-                <span className="text-base text-black1 font-thin">
-                  {numberWithCommas(
-                    isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
-                  )}
-                </span>
               </div>
             </div>
           </Card>
@@ -295,9 +295,17 @@ const ContentNode = ({ sendHightlightNode }) => {
                   />
                 </Tooltips>
               </div>
-              <span className="text-base text-black1 font-thin">
-                {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
-              </span>
+              <div className="flex flex-row gap-2">
+                <span className="text-base text-black1 font-thin">
+                  {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
+                </span>
+                <img
+                  width="18px"
+                  height="18px"
+                  src="/images/ic_logo_home.svg"
+                  alt="Info"
+                />
+              </div>
             </div>
           </Card>
         </div>
@@ -516,15 +524,15 @@ const ContentNode = ({ sendHightlightNode }) => {
                   </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">
+                  <span className="text-base font-thin pr-3">
+                    {numberWithCommas(Math.round(earning?.daily_earning))}
+                  </span>
                   <img
                     width="18px"
                     height="18px"
                     src="/images/ic_logo_home.svg"
                     alt="Info"
                   />
-                  <span className="text-base font-thin pl-3">
-                    {numberWithCommas(Math.round(earning?.daily_earning))}
-                  </span>
                 </div>
               </div>
               <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
@@ -544,15 +552,15 @@ const ContentNode = ({ sendHightlightNode }) => {
                   </Tooltips>
                 </div>
                 <div className="flex flex-row mt-3">
+                  <span className="text-base font-thin pr-3">
+                    {numberWithCommas(Math.round(earning?.mbs))}
+                  </span>
                   <img
                     width="18px"
                     height="18px"
                     src="/images/ic_logo_home.svg"
                     alt="Info"
                   />
-                  <span className="text-base font-thin pl-3">
-                    {numberWithCommas(Math.round(earning?.mbs))}
-                  </span>
                 </div>
               </div>
             </Card>

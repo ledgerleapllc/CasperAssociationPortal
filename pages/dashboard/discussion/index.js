@@ -148,12 +148,16 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
             </p>
             <ul className="ml-8 flex gap-12 -ml-6 mt-5 lg:ml-0 lg:mt-0">
               <li className="flex items-center">
-                <Tooltips title="Comments" arrow>
-                  <p>
-                    <IconChatBox />
-                  </p>
-                </Tooltips>
-                <span className="pl-2.5">{discuss?.comments || 0}</span>
+                <Link href={`/dashboard/discussion/${discuss?.id}`}>
+                  <a className="flex items-center">
+                    <Tooltips title="Comments" arrow>
+                      <p>
+                        <IconChatBox />
+                      </p>
+                    </Tooltips>
+                    <span className="pl-2.5">{discuss?.comments || 0}</span>
+                  </a>
+                </Link>
               </li>
               <li className="flex items-center">
                 <Tooltips title="Pins" arrow>
@@ -269,14 +273,14 @@ const Tab2 = () => {
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="emptyHeader1" />
+          <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
-              <Table.BodyCell />
-              <Table.BodyCell>
+              <Table.BodyCell key="emptyBody1" />
+              <Table.BodyCell key="emptyBody2">
                 <ChatBox data={row} />
               </Table.BodyCell>
             </Table.BodyRow>
@@ -335,14 +339,14 @@ const Tab3 = () => {
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="emptyHeader1" />
+          <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
-              <Table.BodyCell />
-              <Table.BodyCell>
+              <Table.BodyCell key="emptyBody1" />
+              <Table.BodyCell key="emptyBody2">
                 <ChatBox data={row} togglePinCallback={removePinDiscussion} />
               </Table.BodyCell>
             </Table.BodyRow>
@@ -413,14 +417,14 @@ const Tab4 = () => {
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="emptyHeader1" />
+          <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
-              <Table.BodyCell />
-              <Table.BodyCell>
+              <Table.BodyCell key="emptyBody1" />
+              <Table.BodyCell key="emptyBody2">
                 <ChatBox data={row} hidePin onDeleteDraft={deleteDraft} />
               </Table.BodyCell>
             </Table.BodyRow>

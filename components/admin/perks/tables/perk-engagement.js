@@ -60,26 +60,26 @@ export const PerksEngagement = ({ id }) => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header1">
             <p>User Email</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header2">
             <p>Date First Clicked</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="header3">
             <p>Times Followed</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
-              <Table.BodyCell>
+              <Table.BodyCell key="body1">
                 <p>{row.email}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body2">
                 <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body3">
                 <p>{row.views}</p>
               </Table.BodyCell>
             </Table.BodyRow>

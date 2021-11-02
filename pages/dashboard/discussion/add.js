@@ -58,7 +58,7 @@ const DashboardAddDiscusion = () => {
             <div className="h-11 mb-3">
               <BackButton href="/dashboard/discussion" text="Cancel" force />
               <h3 className="text-dark2 text-xl lg:pr-32 font-medium">
-                Create a Discusion
+                Create a Discussion
               </h3>
             </div>
           </div>

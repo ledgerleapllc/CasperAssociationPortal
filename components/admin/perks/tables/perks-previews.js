@@ -72,14 +72,14 @@ export const PerksPreview = () => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="header1" />
+          <Table.HeaderCell key="header2" />
         </Table.Header>
         <Table.Body className="lg:-ml-5 padding-tracker-member-perks">
           {data.map((row, index) => (
             <Table.BodyRow className="perk-preview-record" key={`b-${index}`}>
-              <Table.BodyCell />
-              <Table.BodyCell>
+              <Table.BodyCell key="body1" />
+              <Table.BodyCell key="body2">
                 <PerkCard perk={row} />
               </Table.BodyCell>
             </Table.BodyRow>
