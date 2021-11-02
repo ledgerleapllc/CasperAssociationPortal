@@ -84,10 +84,10 @@ const OpenVotes = ({ toggleOpenVotes }) => {
                   selectRowHandler={() => goToVoteDetail(row.id)}
                   className="custom-row"
                 >
-                  <Table.BodyCell>
+                  <Table.BodyCell key="title">
                     <p className="truncate">{row.title}</p>
                   </Table.BodyCell>
-                  <Table.BodyCell>
+                  <Table.BodyCell key="time">
                     <ClockBar
                       endTime={new Date(row.time_end)}
                       startTime={new Date(row.created_at)}

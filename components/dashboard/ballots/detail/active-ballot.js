@@ -96,8 +96,8 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
             </td>
             <td>
               <ul>
-                {ballot?.files?.map(file => (
-                  <li className="flex pb-8">
+                {ballot?.files?.map((file, index) => (
+                  <li key={index} className="flex pb-8">
                     <p className="w-80 pr-12">{file.name}</p>
                     <div className="flex flex-col">
                       <Link href={`${file.file_url}`}>

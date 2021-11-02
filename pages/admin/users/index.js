@@ -117,88 +117,94 @@ const AdminUserList = () => {
                 onSort={handleSort}
               >
                 <Table.Header>
-                  <Table.HeaderCell sortKey="id">
+                  <Table.HeaderCell key="id" sortKey="id">
                     <p>User ID</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="membership_status">
+                  <Table.HeaderCell
+                    key="membership_status"
+                    sortKey="membership_status"
+                  >
                     <p>
                       Membership <br /> Status
                     </p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="node_status">
+                  <Table.HeaderCell key="node_status" sortKey="node_status">
                     <p>
                       Node <br /> Status
                     </p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="email">
+                  <Table.HeaderCell key="email" sortKey="email">
                     <p>User Email</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="entity_name">
+                  <Table.HeaderCell key="entity_name" sortKey="entity_name">
                     <p>Entity Name</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="full_name">
+                  <Table.HeaderCell key="full_name" sortKey="full_name">
                     <p>First/Last Name</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="node_address">
                     <p>Node Address</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="self_staked_amount">
+                  <Table.HeaderCell
+                    key="self_staked_amount"
+                    sortKey="self_staked_amount"
+                  >
                     <p>
                       CSPR
                       <br /> Delegated
                     </p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell sortKey="created_at">
+                  <Table.HeaderCell key="created_at" sortKey="created_at">
                     <p>
                       Registration
                       <br /> Date
                     </p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="details">
                     <p>Further Details</p>
                   </Table.HeaderCell>
                 </Table.Header>
                 <Table.Body className="padding-tracker">
                   {data.map((row, ind) => (
                     <Table.BodyRow key={ind}>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="id">
                         <p>{row?.id}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="membership_status">
                         <p>{row?.membership_status}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="node_status">
                         <p>{row?.node_status}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="email">
                         <p className="truncate">{row?.email}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="entity_name">
                         <p className="truncate">
                           {row?.entity_name ? row?.entity_name : '-'}
                         </p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="last_name">
                         <p className="truncate">
                           {row?.first_name} {row?.last_name}
                         </p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="public_address">
                         <p>{getShortNodeAddress(row?.public_address_node)}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="self_staked_amount">
                         <p>{numberWithCommas(row.self_staked_amount)}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="created_at">
                         <p>{formatDate(row?.created_at)}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="action_button">
                         <button
                           type="button"
                           onClick={() => router.push(`/admin/users/${row?.id}`)}
                           className="px-4 py-1 text-sm text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
                         >
-                          View/Manage
+                          View / Manage
                         </button>
                       </Table.BodyCell>
                     </Table.BodyRow>

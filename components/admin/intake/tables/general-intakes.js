@@ -179,46 +179,46 @@ export const GeneralIntakes = () => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="registrationDate">
             <p>Registration Date</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="usersEmail">
             <p>Users Email</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="esignatureComplete">
             <p>
               E-signature <br /> Complete
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="nodeVerificationComplete">
             <p>
               Node Verification <br /> Complete
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="letterMotivation">
             <p>Letter of Motivation</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
-              <Table.BodyCell>
+              <Table.BodyCell key="createdData">
                 <p>{formatDate(new Date(row?.created_at))}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="signatureRequest">
                 {!!row.signature_request_id && (
                   <IconCheck className="text-primary" />
                 )}
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="verifiedAt">
                 {!!row.node_verified_at && (
                   <IconCheck className="text-primary" />
                 )}
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="letterAt">
                 {row.letter_verified_at ? (
                   <IconCheck className="text-primary" />
                 ) : (

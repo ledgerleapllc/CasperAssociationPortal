@@ -139,7 +139,7 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
               <span className="text-gray pr-2">Posted by:</span>
               <Link href={`/dashboard/profile/${discuss?.user?.id}`}>
                 <a className="inline-flex gap-2 items-center text-primary font-medium">
-                  {discuss?.user?.email}
+                  {discuss?.user?.pseudonym}
                   {discuss?.user?.profile?.status === 'approved' && (
                     <VerifiedIcon className="text-primary" />
                   )}
@@ -221,14 +221,14 @@ const Tab1 = () => {
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="emptyHeader1" />
+          <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
-              <Table.BodyCell />
-              <Table.BodyCell>
+              <Table.BodyCell key="emptyBody1" />
+              <Table.BodyCell key="emptyBody2">
                 <ChatBox data={row} />
               </Table.BodyCell>
             </Table.BodyRow>

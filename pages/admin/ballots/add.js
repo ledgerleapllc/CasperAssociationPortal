@@ -145,8 +145,9 @@ const AdminAddBallot = () => {
                         className="px-5 w-full h-full cursor-pointer"
                         required
                         {...register('time_unit')}
+                        defaultValue=""
                       >
-                        <option selected value="" disabled>
+                        <option value="" disabled>
                           Time Unit
                         </option>
                         <option value="days">Days</option>
@@ -163,8 +164,9 @@ const AdminAddBallot = () => {
                         className="w-full h-full px-5 cursor-pointer"
                         required
                         {...register('time')}
+                        defaultValue=""
                       >
-                        <option selected value="" disabled>
+                        <option value="" disabled>
                           Select
                         </option>
                         {watchUnit === 'days' &&
@@ -196,7 +198,7 @@ const AdminAddBallot = () => {
                     isLoading={isSubmit}
                     sizeSpinner={20}
                   >
-                    Submit & Begin Voting
+                    Submit &amp; Begin Voting
                   </Button>
                 </div>
               </form>

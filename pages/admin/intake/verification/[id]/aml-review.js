@@ -167,25 +167,27 @@ const AdminIntakeVerificationAML = () => {
               </p>
               <Styles className="pt-12">
                 <table className="verification-table border-0">
-                  <tr>
-                    <td>
-                      <span>Response:</span>
-                    </td>
-                    <td>
-                      <span>
-                        {shuftiData?.aml_declined_reason || 'Unknown Reason'}
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan="2">
-                      <span className="font-normal">
-                        Please verify with the user that the flagged account is
-                        not them before allowing this person to have a Verified
-                        account.
-                      </span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span>Response:</span>
+                      </td>
+                      <td>
+                        <span>
+                          {shuftiData?.aml_declined_reason || 'Unknown Reason'}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2">
+                        <span className="font-normal">
+                          Please verify with the user that the flagged account{' '}
+                          is not them before allowing this person to have a{' '}
+                          Verified account.
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </Styles>
               <div className="pt-12 actions">
@@ -200,7 +202,7 @@ const AdminIntakeVerificationAML = () => {
                 </Button>
                 <div className="pt-7 flex gap-5">
                   <Button primaryOutline onClick={doBanAMLUser}>
-                    Deny & Ban
+                    Deny &amp; Ban
                   </Button>
                   <Button primaryOutline onClick={doResetAMLUser}>
                     Reset With Reason

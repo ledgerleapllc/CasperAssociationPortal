@@ -114,16 +114,16 @@ const Tab1 = () => {
         onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell sortKey="time_end">
+          <Table.HeaderCell key="time_end" sortKey="time_end">
             <p>Time Remaining</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="votes">
             <p>Votes</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="tooltips">
             <Tooltips
               placement="top"
               title="Displays the current vote split. FOR / AGAINST"
@@ -132,7 +132,7 @@ const Tab1 = () => {
               <p>Current Split</p>
             </Tooltips>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="date">
             <p>Date</p>
           </Table.HeaderCell>
         </Table.Header>
@@ -143,25 +143,25 @@ const Tab1 = () => {
               key={ind}
               selectRowHandler={() => goToVoteDetail(row.id)}
             >
-              <Table.BodyCell>
+              <Table.BodyCell key="title">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="clock">
                 <ClockBar
                   endTime={new Date(row.time_end)}
                   startTime={new Date(row.created_at)}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="result_count">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="vote_value">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="created_at">
                 <p>{formatDate(row.created_at)}</p>
               </Table.BodyCell>
             </Table.BodyRow>
@@ -207,16 +207,16 @@ const Tab2 = () => {
         dataLength={completeVotes.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="total_votes">
             <p>Total Votes</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="result">
             <p>Results For/Against</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="date_ended">
             <p>Date Ended</p>
           </Table.HeaderCell>
         </Table.Header>
@@ -227,19 +227,19 @@ const Tab2 = () => {
               key={ind}
               selectRowHandler={() => goToFinishedVoteDetail(row.id)}
             >
-              <Table.BodyCell>
+              <Table.BodyCell key="truncate">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="result_count">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="for_value">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="time_end">
                 <p>{formatDate(new Date(row?.time_end))}</p>
               </Table.BodyCell>
             </Table.BodyRow>

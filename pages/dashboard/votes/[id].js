@@ -1,6 +1,6 @@
 import router from 'next/router';
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { BackButton, Button, Card } from '../../../components/partials';
@@ -21,6 +21,7 @@ const UserActiveBallot = ({ ballot, userVote, onReload }) => {
   const [files, setFiles] = useState();
   const { openSnack } = useSnackBar();
   const dispatch = useDispatch();
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
 
   useEffect(() => {
     setFiles(ballot.files);
@@ -64,7 +65,7 @@ const UserActiveBallot = ({ ballot, userVote, onReload }) => {
             <BackButton href="/dashboard/votes" text="Back" force />
           </div>
           <div>
-            {!userVote && (
+            {!userVote && !['admin', 'sub-admin'].includes(userInfo?.role) && (
               <Button primary onClick={doVote}>
                 Submit a Vote
               </Button>

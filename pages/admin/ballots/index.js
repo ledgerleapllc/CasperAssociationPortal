@@ -116,56 +116,56 @@ const Tab1 = () => {
         onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell sortKey="title">
+          <Table.HeaderCell key="title" sortKey="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="time">
             <p>Time Remaining</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="totalVotes">
             <p>
               Total <br />
               Votes
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="split">
             <p>
               Split <br />
               For/Against
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="startDate">
             <p>Start Date</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="adminAction">
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
-              <Table.BodyCell>
+              <Table.BodyCell key="title">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="createdAt1">
                 <ClockBar
                   endTime={new Date(row.time_end)}
                   startTime={new Date(row.created_at)}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="resultCount">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="forValue">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="createdAt2">
                 <p>{formatDate(row.created_at)}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="buttonActions">
                 <div className="flex gap-4">
                   <Link href={`/admin/ballots/edit/${row.id}`}>
                     <button
@@ -245,59 +245,59 @@ const Tab2 = () => {
         onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell sortKey="title">
+          <Table.HeaderCell key="title" sortKey="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="finalResult">
             <p>Final Result</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="totalVotes">
             <p>
               Total <br />
               Votes
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="split">
             <p>
               Split <br />
               For/Against
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="startDate">
             <p>Start Date</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="endDate">
             <p>End Date</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="adminAction">
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
-              <Table.BodyCell>
+              <Table.BodyCell key="title">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="status">
                 <StatusText className="capitalize" content={row.status} />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="resultCount">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="split">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="createdAt3">
                 <p>{formatDate(row.created_at, 'hh:mm aaa dd/MM/yyyy')}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="timeEnd">
                 <p>{formatDate(row.time_end, 'hh:mm aaa dd/MM/yyyy')}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="actionButtons">
                 <Link href={`/admin/ballots/detail/${row.id}`}>
                   <button
                     type="button"

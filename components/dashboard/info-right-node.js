@@ -116,8 +116,8 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell />
-          <Table.HeaderCell />
+          <Table.HeaderCell key="emptyHeader1" />
+          <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
         <Table.Body>
           {data.map((row, ind) => (
@@ -125,10 +125,10 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
               key={ind}
               className={`pl-5 custom-row ${renderClass(row)}`}
             >
-              <Table.BodyCell>
+              <Table.BodyCell key="index">
                 <p>{ind + 1}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="tooltips">
                 {isAdmin && (
                   <Link href={`/admin/users/${row.user_id}`}>
                     <a>
@@ -151,6 +151,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                     placement="left"
                     title={row.public_address_node}
                     arrow
+                    key="public_address"
                   >
                     <p className="relative h-full">
                       <span className="truncate absolute inset-0">

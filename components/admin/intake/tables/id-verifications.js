@@ -59,48 +59,48 @@ export const IDverifications = () => {
         dataLength={data.length}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="registrationDate">
             <p>Registration Date</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="userEmail">
             <p>Users Email</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="type">
             <p>Type</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="amlAPI">
             <p>
               AML API <br /> Response
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="kycAPI">
             <p>
               KYC API <br /> Response
             </p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="action">
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
-              <Table.BodyCell>
+              <Table.BodyCell key="createdAt">
                 <p>{formatDate(new Date(row?.created_at))}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="type">
                 <p className="capitalize">{row?.type}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="checkResult">
                 <p>{row?.background_checks_result ? 'OK' : 'Needs Review'}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="status">
                 <p>{row?.kyc_status === 'approved' ? 'OK' : 'Needs Review'}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="review">
                 <Link href={`/admin/intake/verification/${row.user_id}`}>
                   <a className="text-primary cursor-pointer underline">
                     Review
