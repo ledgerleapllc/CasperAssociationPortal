@@ -307,26 +307,27 @@ const DashboardDiscusionDetail = () => {
                     {discussion.title}
                   </h3>
                   <div className="hidden lg:flex">
-                    {!!discussion.is_draft && (
-                      <div className="flex gap-2">
-                        <Button
-                          sizeSpinner={20}
-                          primaryOutline
-                          className="-mt-5 my-1 text-lg"
-                          onClick={remove}
-                        >
-                          Delete
-                        </Button>
-                        <Button
-                          sizeSpinner={20}
-                          primary
-                          className="-mt-5 my-1 text-lg"
-                          onClick={publish}
-                        >
-                          Publish
-                        </Button>
-                      </div>
-                    )}
+                    {!!discussion.is_draft &&
+                      userInfo.id === discussion.user_id && (
+                        <div className="flex gap-2">
+                          <Button
+                            sizeSpinner={20}
+                            primaryOutline
+                            className="-mt-5 my-1 text-lg"
+                            onClick={remove}
+                          >
+                            Delete
+                          </Button>
+                          <Button
+                            sizeSpinner={20}
+                            primary
+                            className="-mt-5 my-1 text-lg"
+                            onClick={publish}
+                          >
+                            Publish
+                          </Button>
+                        </div>
+                      )}
                     {!discussion.is_draft && <ReactionBar />}
                   </div>
                 </div>
