@@ -14,6 +14,7 @@ import {
   TELEGRAM_PATTERN,
   DIGITIZED_PATTERN,
   SPECIAL_CHARACTER_PATTERN,
+  FIRSTNAME_PATTERN,
 } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { registerIndividual } from '../shared/redux-saga/auth/actions';
@@ -120,8 +121,9 @@ const RegisterIndividual = () => {
                     {...register('firstName', {
                       required: 'First name is required',
                       pattern: {
-                        message: 'First name is invalid',
-                        value: NAME_PATTERN,
+                        message:
+                          'First name cannot contain numbers or special characters',
+                        value: FIRSTNAME_PATTERN,
                       },
                     })}
                   />
@@ -140,7 +142,8 @@ const RegisterIndividual = () => {
                     {...register('lastName', {
                       required: 'Last name is required',
                       pattern: {
-                        message: 'Last name is invalid',
+                        message:
+                          'Last name cannot contain numbers or special characters',
                         value: NAME_PATTERN,
                       },
                     })}

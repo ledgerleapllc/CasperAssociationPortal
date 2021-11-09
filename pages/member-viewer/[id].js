@@ -161,10 +161,10 @@ const MembersViewerDetail = () => {
                           </td>
                           <td>
                             <span>
-                              {formatDate(
+                              {`${formatDate(
                                 memberInfo?.email_verified_at,
                                 'dd/MM/yyyy'
-                              )}
+                              )} EST`}
                             </span>
                           </td>
                         </tr>
@@ -175,10 +175,10 @@ const MembersViewerDetail = () => {
                           <td>
                             {memberInfo?.kyc_verified_at ? (
                               <span>
-                                {formatDate(
+                                {`${formatDate(
                                   memberInfo?.kyc_verified_at,
                                   'dd/MM/yyyy'
-                                )}
+                                )} EST`}
                               </span>
                             ) : (
                               <span>-</span>

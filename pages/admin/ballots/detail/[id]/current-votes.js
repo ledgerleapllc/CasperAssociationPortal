@@ -104,73 +104,77 @@ const AdminActiveBallotCurrentVotes = () => {
           <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0">
             <Styles className="lg:pr-card">
               <table className="active-ballot-table border-0">
-                <tr>
-                  <td>
-                    <span>Ballot Title:</span>
-                  </td>
-                  <td>
-                    <span>{ballot?.title}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Start Time:</span>
-                  </td>
-                  <td>
-                    <span>
-                      {formatDate(ballot?.created_at, 'dd/MM/yyyy - hh:mm aaa')}
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Time Remaining:</span>
-                  </td>
-                  <td>
-                    {ballot && (
-                      <ClockBar
-                        className="w-40"
-                        endTime={new Date(ballot?.time_end)}
-                        startTime={new Date(ballot?.created_at)}
-                      />
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Total Votes:</span>
-                  </td>
-                  <td>
-                    <span>{ballot?.vote?.result_count}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Split:</span>
-                  </td>
-                  <td>
-                    <p>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span>Ballot Title:</span>
+                    </td>
+                    <td>
+                      <span>{ballot?.title}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Start Time:</span>
+                    </td>
+                    <td>
+                      <span>
+                        {formatDate(
+                          ballot?.created_at,
+                          'dd/MM/yyyy - hh:mm aaa'
+                        )}
+                        {' EST'}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Time Remaining:</span>
+                    </td>
+                    <td>
+                      {ballot && (
+                        <ClockBar
+                          className="w-40"
+                          endTime={new Date(ballot?.time_end)}
+                          startTime={new Date(ballot?.created_at)}
+                        />
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Total Votes:</span>
+                    </td>
+                    <td>
+                      <span>{ballot?.vote?.result_count}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Split:</span>
+                    </td>
+                    <td>
                       <ForAgainst
                         splitFor={ballot?.vote?.for_value}
                         splitAgainst={ballot?.vote?.against_value}
                       />
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Final Result:</span>
-                  </td>
-                  <td>
-                    {ballot?.status !== 'active' && (
-                      <StatusText
-                        content={ballot?.status}
-                        className="uppercase"
-                      />
-                    )}
-                    {ballot?.status === 'active' && '-'}
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span>Final Result:</span>
+                    </td>
+                    <td>
+                      {ballot?.status !== 'active' && (
+                        <StatusText
+                          content={ballot?.status}
+                          className="uppercase"
+                        />
+                      )}
+                      {ballot?.status === 'active' && '-'}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </Styles>
             <StylesVotes className="lg:pr-card max-h-96">
@@ -181,26 +185,26 @@ const AdminActiveBallotCurrentVotes = () => {
                 dataLength={votes?.length}
               >
                 <Table.Header>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="header1">
                     <p className="py-2">User ID</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="header2">
                     <p className="py-2">Email</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="header3">
                     <p className="py-2">Time of Vote</p>
                   </Table.HeaderCell>
-                  <Table.HeaderCell>
+                  <Table.HeaderCell key="header4">
                     <p className="py-2">Direction</p>
                   </Table.HeaderCell>
                 </Table.Header>
                 <Table.Body className="padding-tracker">
                   {votes.map((row, ind) => (
                     <Table.BodyRow key={ind}>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body1">
                         <p>{row.user_id}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body2">
                         <p className="flex gap-1 items-center">
                           {row?.user?.email}
                           {row?.user?.profile?.status === 'approved' && (
@@ -208,11 +212,14 @@ const AdminActiveBallotCurrentVotes = () => {
                           )}
                         </p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
-                        <p>{formatDate(row.created_at, 'hh:mmaaa')}</p>
-                        <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
+                      <Table.BodyCell key="body3">
+                        <p>{`${formatDate(row.created_at, 'hh:mmaaa')} EST`}</p>
+                        <p>{`${formatDate(
+                          row.created_at,
+                          'dd/MM/yyyy'
+                        )} EST`}</p>
                       </Table.BodyCell>
-                      <Table.BodyCell>
+                      <Table.BodyCell key="body4">
                         <StatusText className="capitalize" content={row.type} />
                       </Table.BodyCell>
                     </Table.BodyRow>

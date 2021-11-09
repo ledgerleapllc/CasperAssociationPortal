@@ -89,6 +89,18 @@ const AdminAddBallot = () => {
                     <IconFeatureUpLoad className="text-primary mr-2" />
                     Upload Files
                   </label>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      marginTop: '60px',
+                    }}
+                  >
+                    <small>
+                      ( Accept pdf, doc, docx, txt, rtf - Max File Size: 2MB )
+                    </small>
+                  </div>
                   <input
                     type="file"
                     multiple
@@ -101,7 +113,10 @@ const AdminAddBallot = () => {
                     accept=".pdf, .doc, .docx, .txt, .rtf"
                   />
                   <input {...register('files')} hidden />
-                  <div className="absolute bottom-1 right-0 flex">
+                  <div
+                    style={{ marginTop: '67px' }}
+                    className="absolute top-0 right-0 flex"
+                  >
                     {watchFiles &&
                       Array.from(watchFiles).map((file, index) => (
                         <div
@@ -123,7 +138,7 @@ const AdminAddBallot = () => {
                       ))}
                   </div>
                 </div>
-                <div className="shadow-md">
+                <div className="shadow-md mt-7">
                   <Controller
                     name="description"
                     control={control}

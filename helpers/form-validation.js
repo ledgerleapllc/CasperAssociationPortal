@@ -1,5 +1,6 @@
 /* eslint-disable no-useless-escape */
-export const NAME_PATTERN = /^[\.a-zA-Z\s ]*$/;
+export const FIRSTNAME_PATTERN = /^[\.a-zA-Z\s ]*$/;
+export const NAME_PATTERN = /^[\.a-zA-Z-\s ]*$/;
 export const EMAIL_PATTERN =
   /^[_A-Za-z0-9-+]+(\.[_A-Za-z0-9-+]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z‌​]{2,})$/;
 export const SPECIAL_CHARACTER_PATTERN =

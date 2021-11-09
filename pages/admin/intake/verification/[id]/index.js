@@ -194,7 +194,7 @@ const AdminIntakeVerificationDetail = () => {
           <div className="pt-4 text-primary">
             <b>Confirmed in Document:</b>
             <span className="pl-7">
-              {formatDate(confirmationInfoAt, 'dd/MM/yyyy hh:mm aa')}
+              {`${formatDate(confirmationInfoAt, 'dd/MM/yyyy hh:mm aa')} EST`}
             </span>
           </div>
           <CommonDetail />
@@ -283,7 +283,7 @@ const AdminIntakeVerificationDetail = () => {
             <div className="h-11 mb-3">
               <BackButton href="/admin/intake" text="Back" force />
               <h3 className="text-dark2 text-xl font-medium">
-                IDverification for{' '}
+                ID verification for{' '}
                 <span className="pl-1 capitalize">
                   {intakeDetail?.profile?.type}
                 </span>

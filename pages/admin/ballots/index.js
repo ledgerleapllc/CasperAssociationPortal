@@ -163,7 +163,7 @@ const Tab1 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="createdAt2">
-                <p>{formatDate(row.created_at)}</p>
+                <p>{`${formatDate(row.created_at)} EST`}</p>
               </Table.BodyCell>
               <Table.BodyCell key="buttonActions">
                 <div className="flex gap-4">
@@ -292,10 +292,16 @@ const Tab2 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="createdAt3">
-                <p>{formatDate(row.created_at, 'hh:mm aaa dd/MM/yyyy')}</p>
+                <p>{`${formatDate(
+                  row.created_at,
+                  'hh:mm aaa dd/MM/yyyy'
+                )} EST`}</p>
               </Table.BodyCell>
               <Table.BodyCell key="timeEnd">
-                <p>{formatDate(row.time_end, 'hh:mm aaa dd/MM/yyyy')}</p>
+                <p>{`${formatDate(
+                  row.time_end,
+                  'hh:mm aaa dd/MM/yyyy'
+                )} EST`}</p>
               </Table.BodyCell>
               <Table.BodyCell key="actionButtons">
                 <Link href={`/admin/ballots/detail/${row.id}`}>

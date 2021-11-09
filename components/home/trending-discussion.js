@@ -102,7 +102,7 @@ const TrendingDiscussion = () => {
                           />
                         </div>
                         <span className="text-sm">
-                          {formatDate(row.created_at, 'd/M/yy')}
+                          {`${formatDate(row.created_at, 'd/M/yy')} EST`}
                         </span>
                       </div>
                     </Link>

@@ -358,7 +358,7 @@ const Settings = () => {
                     {data.map(recipient => (
                       <Table.BodyRow key={`recipient-${recipient.id}`}>
                         <Table.BodyCell>
-                          {formatDate(recipient.created_at)}
+                          {`${formatDate(recipient.created_at)} EST`}
                         </Table.BodyCell>
                         <Table.BodyCell>
                           <p className="break-words">{recipient.email}</p>

@@ -7,7 +7,12 @@ import Link from 'next/link';
 import ReactLoading from 'react-loading';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Button, ProgressBar } from '../../../components/partials';
+import {
+  Card,
+  Button,
+  ProgressBar,
+  Tooltips,
+} from '../../../components/partials';
 import {
   getMyInfo,
   uploadAvatar,
@@ -22,6 +27,8 @@ import {
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { logoutApp, updateUser } from '../../../shared/redux-saga/auth/actions';
 import useMetrics from '../../../components/hooks/useMetrics';
+import IconCopy from '../../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../../components/partials/snack-bar';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -67,6 +74,7 @@ const UserProfile = () => {
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const { metrics, metricConfig } = useMetrics();
   const user = useSelector(state => state.authReducer.userInfo);
+  const { openSnack } = useSnackBar();
 
   useEffect(() => {
     dispatch(
@@ -117,6 +125,14 @@ const UserProfile = () => {
     if (myInfo.status === 'pending') return 'Submitted / Pending';
     if (myInfo.status === 'denied') return 'Rejected';
     return 'VERIFIED';
+  };
+
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
   };
 
   return (
@@ -231,10 +247,10 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span>
-                                {formatDate(
+                                {`${formatDate(
                                   myInfo?.email_verified_at,
                                   'dd/MM/yyyy'
-                                )}
+                                )} EST`}
                               </span>
                             </td>
                           </tr>
@@ -255,7 +271,10 @@ const UserProfile = () => {
                             <td>
                               {myInfo?.approve_at ? (
                                 <span>
-                                  {formatDate(myInfo?.approve_at, 'dd/MM/yyyy')}
+                                  {`${formatDate(
+                                    myInfo?.approve_at,
+                                    'dd/MM/yyyy'
+                                  )} EST`}
                                 </span>
                               ) : (
                                 <Link href="/dashboard/verification">
@@ -268,7 +287,24 @@ const UserProfile = () => {
                           </tr>
                           <tr>
                             <td>
-                              <span>Average Peers:</span>
+                              <Tooltips
+                                placement="top"
+                                title="Peer count is calculated based on the number of peers over a 7 day period"
+                                arrow
+                              >
+                                <div
+                                  className="flex"
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <span className="mr-1">Average Peers:</span>
+                                  <img
+                                    width="10px"
+                                    height="10px"
+                                    src="/images/ic_feather_info.svg"
+                                    alt=""
+                                  />
+                                </div>
+                              </Tooltips>
                             </td>
                             <td>
                               <span>{metrics?.average_peers}</span>
@@ -293,6 +329,19 @@ const UserProfile = () => {
                           <span>
                             {getShortNodeAddress(myInfo?.public_address_node)}
                           </span>
+                          <button
+                            className="ml-6"
+                            type="button"
+                            onClick={() => copyClipboard()}
+                          >
+                            <IconCopy />
+                          </button>
+                          <input
+                            id="public-address"
+                            value={myInfo?.public_address_node || ''}
+                            readOnly
+                            hidden
+                          />
                         </td>
                       </tr>
                       <tr>

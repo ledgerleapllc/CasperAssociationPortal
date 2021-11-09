@@ -5,10 +5,16 @@ import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';
 import classNames from 'classnames';
+import InfoIcon from '@material-ui/icons/Info';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, ClockBar, ProgressBar } from '../../../components/partials';
+import {
+  Card,
+  ClockBar,
+  ProgressBar,
+  Tooltips,
+} from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
 
@@ -73,10 +79,10 @@ const WarningCards = ({ warnings, isLoading }) => {
                       <span className="pt-1.25 text-xs text-white">
                         Your {warnMetric?.label} has fallen outside the minimum
                         acceptable range on
-                        {formatDate(
+                        {`${formatDate(
                           warnMetric?.time_start,
                           'dd/MM/yyyy HH:mm aa'
-                        )}
+                        )} EST`}
                         and you have been placed on probation. Don’t panic,
                         there is still time to correct this.
                       </span>
@@ -261,7 +267,7 @@ const DashboardMembership = () => {
         <div className="flex gap-5">
           <div className="flex flex-col gap-5 flex-grow">
             <Card className="flex px-9 py-6 gap-6">
-              <div className="w-32">
+              <div className="w-60">
                 <span className="text-lg font-medium">Node Status:</span>
               </div>
               <div className="flex flex-1 flex-col gap-1.25">
@@ -272,8 +278,10 @@ const DashboardMembership = () => {
               </div>
             </Card>
             <Card className="flex px-9 py-6 gap-6">
-              <div className="w-32">
-                <span className="text-lg font-medium">KYC Status:</span>
+              <div className="w-60">
+                <span className="text-lg font-medium">
+                  Identity Verification Status:
+                </span>
               </div>
               <div className="flex flex-1 flex-col gap-1.25">
                 <p className="text-lg font-medium text-primary">
@@ -295,7 +303,20 @@ const DashboardMembership = () => {
                   'metrics-card-warning'
                 }`}
               >
-                <p className="text-sm title font-medium pb-1">Uptime</p>
+                <Tooltips
+                  disableTheme
+                  placement="top"
+                  title="Uptime message"
+                  arrow
+                >
+                  <div
+                    className="flex pb-1"
+                    style={{ alignItems: 'center', cursor: 'pointer' }}
+                  >
+                    <p className="text-sm font-medium pr-1">Uptime</p>
+                    <InfoIcon style={{ fontSize: '20px' }} />
+                  </div>
+                </Tooltips>
                 <p className="text-xs desc">
                   Average: {metrics.average_uptime}%
                 </p>
@@ -316,7 +337,20 @@ const DashboardMembership = () => {
                   'metrics-card-warning'
                 }`}
               >
-                <p className="text-sm font-medium pb-1">Block Height</p>
+                <Tooltips
+                  disableTheme
+                  placement="top"
+                  title="Block height message"
+                  arrow
+                >
+                  <div
+                    className="flex pb-1"
+                    style={{ alignItems: 'center', cursor: 'pointer' }}
+                  >
+                    <p className="text-sm font-medium pr-1">Block Height</p>
+                    <InfoIcon style={{ fontSize: '20px' }} />
+                  </div>
+                </Tooltips>
                 <p className="text-xs desc">
                   Current: {metrics.current_block_height}
                 </p>

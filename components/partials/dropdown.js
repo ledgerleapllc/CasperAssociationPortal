@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react';
 
-const Dropdown = ({ className, trigger, children }) => {
+const Dropdown = ({ className, trigger, children, customInnerStyle }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,6 +16,7 @@ const Dropdown = ({ className, trigger, children }) => {
             <div
               className="max-h-96 overflow-y-scroll absolute w-full -bottom-2 bg-white transform translate-y-full left-0 shadow-light p-4"
               onClick={() => setOpen(false)}
+              style={customInnerStyle || {}}
             >
               {children}
             </div>

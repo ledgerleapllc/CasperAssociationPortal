@@ -181,6 +181,16 @@ export function* createDiscussion({ payload, resolve, reject }) {
   }
 }
 
+export function* updateDiscussion({ payload, resolve, reject }) {
+  try {
+    const res = yield _put([`discussions/${payload.id}`], payload);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* setRemoveNewMark({ id }) {
   try {
     yield destroy([`discussions/${id}/new`]);
@@ -446,6 +456,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
   yield all([takeEvery('SET_DISCUSSION_PIN', setDiscussionPin)]);
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);
+  yield all([takeEvery('UPDATE_DISCUSSION', updateDiscussion)]);
   yield all([takeEvery('SET_REMOVE_NEW', setRemoveNewMark)]);
   yield all([takeEvery('POST_DISCUSSION_COMMENT', postDiscussionComment)]);
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);

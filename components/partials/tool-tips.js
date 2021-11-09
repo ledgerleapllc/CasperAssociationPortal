@@ -16,14 +16,19 @@ const theme = createTheme({
 });
 
 const Tooltips = props => {
-  const { children, ...otherProps } = props;
+  const { children, disableTheme, ...otherProps } = props;
   const finalProps = otherProps;
   if (!finalProps.title) finalProps.title = '';
-  return (
-    <MuiThemeProvider theme={theme}>
-      <Tooltip {...finalProps}>{children}</Tooltip>
-    </MuiThemeProvider>
-  );
+
+  if (!disableTheme) {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <Tooltip {...finalProps}>{children}</Tooltip>
+      </MuiThemeProvider>
+    );
+  }
+
+  return <Tooltip {...finalProps}>{children}</Tooltip>;
 };
 
 export default Tooltips;

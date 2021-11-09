@@ -84,7 +84,7 @@ const ChatBox = ({ data, noBorder }) => (
         </p>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
-          {formatDate(data.user.created_at, 'dd/MM/yyyy - HH:mm aa')}
+          {`${formatDate(data.user.created_at, 'dd/MM/yyyy - HH:mm aa')} EST`}
         </p>
         <div className="border-gray1 border-b" />
       </div>
@@ -236,6 +236,10 @@ const DashboardDiscusionDetail = () => {
     );
   };
 
+  const clickEdit = () => {
+    router.push(`/dashboard/discussion/edit/${discussion?.id}`);
+  };
+
   const remove = () => {
     setLoading(true);
     dispatch(
@@ -317,6 +321,14 @@ const DashboardDiscusionDetail = () => {
                             onClick={remove}
                           >
                             Delete
+                          </Button>
+                          <Button
+                            sizeSpinner={20}
+                            primary
+                            className="-mt-5 my-1 text-lg"
+                            onClick={clickEdit}
+                          >
+                            Edit
                           </Button>
                           <Button
                             sizeSpinner={20}

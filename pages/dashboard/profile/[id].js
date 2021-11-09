@@ -180,10 +180,10 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span>
-                                {formatDate(
+                                {`${formatDate(
                                   memberInfo?.email_verified_at,
                                   'dd/MM/yyyy'
-                                )}
+                                )} EST`}
                               </span>
                             </td>
                           </tr>
@@ -204,10 +204,10 @@ const UserProfile = () => {
                             <td>
                               {memberInfo?.approve_at && (
                                 <span>
-                                  {formatDate(
+                                  {`${formatDate(
                                     memberInfo?.approve_at,
                                     'dd/MM/yyyy'
-                                  )}
+                                  )} EST`}
                                 </span>
                               )}
                             </td>

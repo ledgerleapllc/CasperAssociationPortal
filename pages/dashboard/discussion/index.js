@@ -160,20 +160,30 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
                 </Link>
               </li>
               <li className="flex items-center">
-                <Tooltips title="Pins" arrow>
-                  <p>
-                    <IconPin className="text-3xl" />
-                  </p>
-                </Tooltips>
-                <span className="pl-2.5">{discuss?.total_pinned || 0}</span>
+                <a className="flex items-center" onClick={() => pin(discuss)}>
+                  <Tooltips title="Pins" arrow>
+                    <p>
+                      <IconPin
+                        className={`cursor-pointer ${
+                          discuss?.is_pin ? 'text-primary' : ''
+                        } text-3xl`}
+                      />
+                    </p>
+                  </Tooltips>
+                  <span className="pl-0.5">{discuss?.total_pinned || 0}</span>
+                </a>
               </li>
               <li className="flex items-center">
-                <Tooltips title="Likes" arrow>
-                  <p>
-                    <IconLike />
-                  </p>
-                </Tooltips>
-                <span className="pl-2.5">{discuss?.likes || 0}</span>
+                <Link href={`/dashboard/discussion/${discuss?.id}`}>
+                  <a className="flex items-center">
+                    <Tooltips title="Likes" arrow>
+                      <p>
+                        <IconLike />
+                      </p>
+                    </Tooltips>
+                    <span className="pl-2.5">{discuss?.likes || 0}</span>
+                  </a>
+                </Link>
               </li>
             </ul>
           </div>

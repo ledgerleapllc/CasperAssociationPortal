@@ -120,6 +120,13 @@ export const createDiscussion = (payload, resolve, reject) => ({
   reject,
 });
 
+export const updateDiscussion = (payload, resolve, reject) => ({
+  type: 'UPDATE_DISCUSSION',
+  payload,
+  resolve,
+  reject,
+});
+
 export const setRemoveNewMark = id => ({
   type: 'SET_REMOVE_NEW',
   id,

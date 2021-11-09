@@ -89,7 +89,7 @@ const ContentHome = () => {
         _alerts.push({
           id: 'verification',
           title: 'Get ID verified with Casper’s red checkmark!',
-          body: 'Verify ownership of your node to earn a trusted status in the network and host a verified public page. IDverified nodes have more trust leading to more delegations.',
+          body: 'Verify ownership of your node to earn a trusted status in the network and host a verified public page. ID verified nodes have more trust leading to more delegations.',
           handler: () => {
             router.push('/dashboard/verification');
           },

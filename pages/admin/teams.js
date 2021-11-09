@@ -418,7 +418,7 @@ const AdminTeams = () => {
                   {data.map(admin => (
                     <Table.BodyRow key={`admin-team-${admin.id}`}>
                       <Table.BodyCell>
-                        {formatDate(admin.created_at)}
+                        {`${formatDate(admin.created_at)} EST`}
                       </Table.BodyCell>
                       <Table.BodyCell>
                         {renderStatus(admin.member_status)}
@@ -439,10 +439,16 @@ const AdminTeams = () => {
                         {admin.last_login_at && (
                           <>
                             <p>
-                              {formatDate(admin.last_login_at, 'dd/MM/yyyy')}
+                              {`${formatDate(
+                                admin.last_login_at,
+                                'dd/MM/yyyy'
+                              )} EST`}
                             </p>
                             <p className="text-xs">
-                              {formatDate(admin.last_login_at, 'HH:mm aa')}
+                              {`${formatDate(
+                                admin.last_login_at,
+                                'HH:mm aa'
+                              )} EST`}
                             </p>
                           </>
                         )}

@@ -125,7 +125,7 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
         <div className="lg:flex-column lg:space-x-5 lg:justify-start animate__animated animate__fadeInUp animate__delay-2s">
           <LoadingButton
             type="submit"
-            title="Upload letter"
+            title="Upload letter of motivation"
             className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-lg"
             onClick={() => handleUpload('open')}
           />

@@ -71,7 +71,7 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                     {stats?.totalUserVerification}
                   </p>
                   <p className="text-base font-thin">
-                    IDverification to Review
+                    ID Verification to Review
                   </p>
                   <Link href="/admin/intake">
                     <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
@@ -113,9 +113,11 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                     {stats?.totalPerksActive}
                   </p>
                   <Dropdown
-                    className="w-full"
                     trigger={
-                      <p className="flex justify-center items-center w-full relative h-12">
+                      <p
+                        style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                        className="flex justify-center items-center w-full relative h-14"
+                      >
                         ( {getLabel('timeframe_perk')} )
                       </p>
                     }
@@ -152,9 +154,12 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                 </Tooltips>
                 <p className="text-5xl font-thin">{stats?.totalNewComments}</p>
                 <Dropdown
-                  className="w-full"
+                  customInnerStyle={{ width: '180px' }}
                   trigger={
-                    <div className="h-12">
+                    <div
+                      className="h-14"
+                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                    >
                       <p className="w-full">New Comments</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_comments')} )
@@ -185,9 +190,12 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   {stats?.totalNewDiscussions}
                 </p>
                 <Dropdown
-                  className="w-full"
+                  customInnerStyle={{ width: '180px' }}
                   trigger={
-                    <div className="h-12">
+                    <div
+                      className="h-14"
+                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                    >
                       <p className="w-full">New Threads</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_discussions')} )

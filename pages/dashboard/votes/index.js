@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-
 import styled from 'styled-components';
-
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
@@ -135,6 +133,7 @@ const Tab1 = () => {
           <Table.HeaderCell key="date">
             <p>Date</p>
           </Table.HeaderCell>
+          <Table.HeaderCell key="button" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
@@ -143,26 +142,29 @@ const Tab1 = () => {
               key={ind}
               selectRowHandler={() => goToVoteDetail(row.id)}
             >
-              <Table.BodyCell key="title">
+              <Table.BodyCell key="body1">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell key="clock">
+              <Table.BodyCell key="body2">
                 <ClockBar
                   endTime={new Date(row.time_end)}
                   startTime={new Date(row.created_at)}
                 />
               </Table.BodyCell>
-              <Table.BodyCell key="result_count">
+              <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell key="vote_value">
+              <Table.BodyCell key="body4">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
               </Table.BodyCell>
-              <Table.BodyCell key="created_at">
-                <p>{formatDate(row.created_at)}</p>
+              <Table.BodyCell key="body5">
+                <p>{`${formatDate(row.created_at)} EST`}</p>
+              </Table.BodyCell>
+              <Table.BodyCell key="body6">
+                <a className="text-primary cursor-pointer underline">View</a>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}
@@ -240,7 +242,7 @@ const Tab2 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="time_end">
-                <p>{formatDate(new Date(row?.time_end))}</p>
+                <p>{`${formatDate(new Date(row?.time_end))} EST`}</p>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}
@@ -304,19 +306,19 @@ const Tab3 = () => {
         onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="title">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell sortKey="time_end">
+          <Table.HeaderCell key="myVote" sortKey="time_end">
             <p>My Vote</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="datePlaced">
             <p>Date Placed</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="totalVotes">
             <p>Total Votes</p>
           </Table.HeaderCell>
-          <Table.HeaderCell>
+          <Table.HeaderCell key="forAgainst">
             <p>For/Against</p>
           </Table.HeaderCell>
         </Table.Header>
@@ -327,19 +329,19 @@ const Tab3 = () => {
               key={ind}
               selectRowHandler={() => goToVoteDetail(row.id)}
             >
-              <Table.BodyCell>
+              <Table.BodyCell key="body1">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body2">
                 <StatusText content={row.voteType} className="uppercase" />
               </Table.BodyCell>
-              <Table.BodyCell>
-                <p>{formatDate(row.date_placed)}</p>
+              <Table.BodyCell key="body3">
+                <p>{`${formatDate(row.date_placed)} EST`}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body4">
                 <p>{row.result_count}</p>
               </Table.BodyCell>
-              <Table.BodyCell>
+              <Table.BodyCell key="body5">
                 <ForAgainst
                   splitFor={row.for_value}
                   splitAgainst={row.against_value}

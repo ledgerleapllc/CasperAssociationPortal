@@ -147,7 +147,10 @@ const CompleteBallot = ({ ballot }) => {
                 </td>
                 <td>
                   <span>
-                    {formatDate(ballot?.created_at, 'dd/MM/yyyy - hh:mm aaa')}
+                    {`${formatDate(
+                      ballot?.created_at,
+                      'dd/MM/yyyy - hh:mm aaa'
+                    )} EST`}
                   </span>
                 </td>
               </tr>
@@ -157,7 +160,10 @@ const CompleteBallot = ({ ballot }) => {
                 </td>
                 <td>
                   <span>
-                    {formatDate(ballot?.time_end, 'dd/MM/yyyy - hh:mm aaa')}
+                    {`${formatDate(
+                      ballot?.time_end,
+                      'dd/MM/yyyy - hh:mm aaa'
+                    )} EST`}
                   </span>
                 </td>
               </tr>
