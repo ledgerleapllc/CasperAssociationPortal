@@ -12,7 +12,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
-import { logger } from 'redux-logger';
+// import { logger } from 'redux-logger';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import appReducer from '../shared/redux-saga/app-reducers';
 import appMiddleware from '../shared/redux-saga/app-middleware';
@@ -24,7 +24,7 @@ import { SnackBarProvider } from '../components/partials/snack-bar';
 import { getToken } from '../helpers/api/auth.service';
 
 const middleware = createSagaMiddleware();
-const store = createStore(appReducer, applyMiddleware(middleware, logger));
+const store = createStore(appReducer, applyMiddleware(middleware));
 
 middleware.run(appMiddleware);
 
