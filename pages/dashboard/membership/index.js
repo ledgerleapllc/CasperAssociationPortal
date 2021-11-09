@@ -340,7 +340,7 @@ const DashboardMembership = () => {
                 <Tooltips
                   disableTheme
                   placement="top"
-                  title="Block height message"
+                  title="Blockheight measures what block you are on from the last 10 blocks"
                   arrow
                 >
                   <div
