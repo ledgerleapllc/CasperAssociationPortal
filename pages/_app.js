@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import Head from 'next/head';
 import '../styles/globals.scss';
-import 'animate.css';
+// import 'animate.css';
 import '../styles/custom-animation.scss';
 import '../styles/responsive.scss';
 import '../styles/custom-circular.scss';
