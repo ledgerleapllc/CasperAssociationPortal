@@ -25,7 +25,6 @@ import { getToken } from '../helpers/api/auth.service';
 
 const middleware = createSagaMiddleware();
 const store = createStore(appReducer, applyMiddleware(middleware, logger));
-// const store = createStore(appReducer, applyMiddleware(middleware));
 
 middleware.run(appMiddleware);
 
