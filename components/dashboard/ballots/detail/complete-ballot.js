@@ -45,6 +45,42 @@ const CompleteBallot = ({ ballot }) => {
     });
   };
 
+  const renderStartTime = () => {
+    if (ballot?.start_date && ballot?.start_time) {
+      return (
+        <span>
+          {`${formatDate(
+            `${ballot?.start_date} ${ballot?.start_time}`,
+            'dd/MM/yyyy - hh:mm aaa'
+          )} EST`}
+        </span>
+      );
+    }
+    return (
+      <span>
+        {`${formatDate(ballot?.created_at, 'dd/MM/yyyy - hh:mm aaa')} EST`}
+      </span>
+    );
+  };
+
+  const renderEndTime = () => {
+    if (ballot?.end_date && ballot?.end_time) {
+      return (
+        <span>
+          {`${formatDate(
+            `${ballot?.end_date} ${ballot?.end_time}`,
+            'dd/MM/yyyy - hh:mm aaa'
+          )} EST`}
+        </span>
+      );
+    }
+    return (
+      <span>
+        {`${formatDate(ballot?.time_end, 'dd/MM/yyyy - hh:mm aaa')} EST`}
+      </span>
+    );
+  };
+
   return (
     <Styles className="lg:pr-card">
       <table className="complete-ballot-table border-0">
@@ -145,27 +181,13 @@ const CompleteBallot = ({ ballot }) => {
                 <td>
                   <span>Start Time:</span>
                 </td>
-                <td>
-                  <span>
-                    {`${formatDate(
-                      ballot?.created_at,
-                      'dd/MM/yyyy - hh:mm aaa'
-                    )} EST`}
-                  </span>
-                </td>
+                <td>{renderStartTime()}</td>
               </tr>
               <tr>
                 <td>
                   <span>End Time:</span>
                 </td>
-                <td>
-                  <span>
-                    {`${formatDate(
-                      ballot?.time_end,
-                      'dd/MM/yyyy - hh:mm aaa'
-                    )} EST`}
-                  </span>
-                </td>
+                <td>{renderEndTime()}</td>
               </tr>
             </>
           )}

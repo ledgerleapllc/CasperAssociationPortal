@@ -50,7 +50,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.kyc_not_verify?.nodes?.is_lock}
+              checked={!!rules?.kyc_not_verify?.nodes?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.kyc_not_verify?.nodes?.id,
@@ -68,7 +68,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.kyc_not_verify?.discussions?.is_lock}
+              checked={!!rules?.kyc_not_verify?.discussions?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.kyc_not_verify?.discussions?.id,
@@ -86,7 +86,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.kyc_not_verify?.votes?.is_lock}
+              checked={!!rules?.kyc_not_verify?.votes?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.kyc_not_verify?.votes?.id,
@@ -104,7 +104,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.kyc_not_verify?.perks?.is_lock}
+              checked={!!rules?.kyc_not_verify?.perks?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.kyc_not_verify?.perks?.id,
@@ -135,7 +135,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.status_is_poor?.nodes?.is_lock}
+              checked={!!rules?.status_is_poor?.nodes?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.status_is_poor?.nodes?.id,
@@ -153,7 +153,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.status_is_poor?.discussions?.is_lock}
+              checked={!!rules?.status_is_poor?.discussions?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.status_is_poor?.discussions?.id,
@@ -171,7 +171,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.status_is_poor?.votes?.is_lock}
+              checked={!!rules?.status_is_poor?.votes?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.status_is_poor?.votes?.id,
@@ -189,7 +189,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
           <div className="w-2/12 lg:w-3/12">
             <Switch
               id="status"
-              checked={rules?.status_is_poor?.perks?.is_lock}
+              checked={!!rules?.status_is_poor?.perks?.is_lock}
               onChange={() =>
                 doUpdateRules(
                   rules?.status_is_poor?.perks?.id,

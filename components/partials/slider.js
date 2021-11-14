@@ -2,7 +2,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useState } from 'react';
 
-export default props => {
+const SliderCom = props => {
   const [value, setValue] = useState(0);
   const checkMaxValue = val => {
     const temp = val < props.maxValue ? val : props.maxValue;
@@ -26,3 +26,4 @@ export default props => {
     />
   );
 };
+export default SliderCom;

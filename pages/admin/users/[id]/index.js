@@ -106,7 +106,7 @@ const AdminUserDetail = () => {
       if (userDetail.shuftipro.status === 'approved')
         return (
           <>
-            Approved
+            VERIFIED
             <Link href={`/admin/users/${id}/kyc`}>
               <a className="pl-3 text-primary cursor-pointer underline">
                 View Details
@@ -114,7 +114,7 @@ const AdminUserDetail = () => {
             </Link>
           </>
         );
-      return 'Denied';
+      return 'Rejected';
     }
 
     if (
@@ -123,7 +123,7 @@ const AdminUserDetail = () => {
     )
       return (
         <>
-          Submitted
+          Submitted / Pending
           <Link href={`/admin/users/${id}/kyc`}>
             <a className="pl-3 text-primary cursor-pointer underline">
               View Details
@@ -131,7 +131,7 @@ const AdminUserDetail = () => {
           </Link>
         </>
       );
-    return 'N/A';
+    return 'Not Submitted';
   };
 
   const updateField = (field, value) => {
@@ -231,7 +231,9 @@ const AdminUserDetail = () => {
             <div className="flex flex-row pb-7 border-b border-gray">
               <p className="text-lg font-medium">Node Status:</p>
               <p className="text-lg font-medium pl-2">
-                {userDetail?.node_status}
+                {userDetail?.node_status
+                  ? userDetail?.node_status
+                  : 'Not Available'}
               </p>
             </div>
             {/* User Info */}

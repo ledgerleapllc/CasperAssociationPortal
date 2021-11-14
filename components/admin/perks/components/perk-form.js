@@ -5,13 +5,21 @@ import { useDispatch } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import router from 'next/router';
 import Switch from 'react-switch';
-import { Button, DateTimePicker } from '../../../partials';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+  KeyboardTimePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+// import { Button, DateTimePicker } from '../../../partials';
+import { format } from 'date-fns';
+import { Button } from '../../../partials';
 import IconX from '../../../../public/images/ic_x.svg';
 import {
   submitPerk,
   editPerk,
 } from '../../../../shared/redux-saga/admin/actions';
-import { formatDate } from '../../../../shared/core/utils';
+// import { formatDate } from '../../../../shared/core/utils';
 
 const perkSchema = yup.object().shape({
   title: yup
@@ -27,7 +35,28 @@ export const PerkForm = React.memo(
   ({ editMode, value, onChange, onEditing }) => {
     const [isSubmit, setIsSubmit] = useState(false);
     const [isDisableAllFields, setIsDisableAllFields] = useState(false);
+    const [startDate, setStartDate] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [endTime, setEndTime] = useState(null);
     const dispatch = useDispatch();
+
+    const handleStartDateChange = date => {
+      setStartDate(date);
+    };
+
+    const handleStartTimeChange = date => {
+      setStartTime(date);
+    };
+
+    const handleEndDateChange = date => {
+      setEndDate(date);
+    };
+
+    const handleEndTimeChange = date => {
+      setEndTime(date);
+    };
+
     const {
       register,
       setValue,
@@ -49,6 +78,21 @@ export const PerkForm = React.memo(
       if (editMode && value) {
         reset(value);
       }
+
+      if (value && value.start_date) {
+        setStartDate(new Date(`${value.start_date} 00:00:00`));
+        if (value.start_time) {
+          setStartTime(new Date(`${value.start_date} ${value.start_time}`));
+        }
+      }
+
+      if (value && value.end_date) {
+        setEndDate(new Date(`${value.end_date} 00:00:00`));
+
+        if (value.end_time) {
+          setEndTime(new Date(`${value.end_date} ${value.end_time}`));
+        }
+      }
     }, [value]);
 
     useEffect(() => {
@@ -60,16 +104,43 @@ export const PerkForm = React.memo(
     const onSubmit = data => {
       const temp = data;
       setIsSubmit(true);
+
+      /*
       temp.start_date = data.start_date
         ? formatDate(new Date(data.start_date), 'yyyy-MM-dd')
         : '';
       temp.end_date = data.end_date
         ? formatDate(new Date(data.end_date), 'yyyy-MM-dd')
         : '';
+      */
+
+      let startDateStr = '';
+      let startTimeStr = '';
+      let endDateStr = '';
+      let endTimeStr = '';
+
+      if (startDate) startDateStr = format(startDate, 'yyyy-MM-dd');
+      if (startTime) startTimeStr = format(startTime, 'HH:mm:ss');
+      if (endDate) endDateStr = format(endDate, 'yyyy-MM-dd');
+      if (endTime) endTimeStr = format(endTime, 'HH:mm:ss');
+
+      const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
+      const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
+
+      if (start >= end) return;
+
+      const params = {
+        ...temp,
+        start_date: startDateStr,
+        start_time: startTimeStr,
+        end_date: endDateStr,
+        end_time: endTimeStr,
+      };
+
       if (!editMode) {
         dispatch(
           submitPerk(
-            temp,
+            params,
             () => {
               router.push('/admin/perks');
             },
@@ -81,7 +152,7 @@ export const PerkForm = React.memo(
       } else {
         dispatch(
           editPerk(
-            { id: value.id, ...temp },
+            { id: value.id, ...params },
             () => {
               router.push('/admin/perks');
             },
@@ -215,9 +286,65 @@ export const PerkForm = React.memo(
               accept="image/*"
               disabled={isDisableAllFields}
             />
-            <input value={null} {...register('image')} hidden />
+            <input value="" {...register('image')} hidden />
           </div>
-          <div className="max-w-xl pb-4 flex gap-4">
+
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ marginRight: '20px' }}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="Start Date"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  required
+                />
+              </div>
+              <div>
+                <KeyboardTimePicker
+                  margin="normal"
+                  label="Start Time"
+                  value={startTime}
+                  onChange={handleStartTimeChange}
+                  required
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '20px',
+              }}
+            >
+              <div style={{ marginRight: '20px' }}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="normal"
+                  label="End Date"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  required
+                />
+              </div>
+              <div>
+                <KeyboardTimePicker
+                  margin="normal"
+                  label="End Time"
+                  value={endTime}
+                  onChange={handleEndTimeChange}
+                  required
+                />
+              </div>
+            </div>
+          </MuiPickersUtilsProvider>
+
+          {/* <div className="max-w-xl pb-4 flex gap-4">
             <div className="w-1/2">
               <label htmlFor="title">Start Date</label>
               <Controller
@@ -256,12 +383,12 @@ export const PerkForm = React.memo(
                 )}
               />
             </div>
-          </div>
+          </div> */}
+
           <p className="py-4 max-w-200">
-            Should this notification be ON now. Please note if the start time
-            and end time fields are complete, then notifications in ON status
-            will only show visibly if they have passed the start time and not
-            yet passed the end time above.
+            Choose notification status. (Note: If the start time and the end{' '}
+            time fields are complete and notifications is set to "ON", members{' '}
+            will see the notification during the selected time period above)
           </p>
           <div className="pb-4 flex items-center gap-4">
             <label
@@ -277,7 +404,7 @@ export const PerkForm = React.memo(
               render={({ field: { value: valueS, onChange: onChangeS } }) => (
                 <Switch
                   id="status"
-                  checked={valueS}
+                  checked={!!valueS}
                   onChange={onChangeS}
                   checkedIcon={null}
                   uncheckedIcon={null}

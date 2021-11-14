@@ -58,6 +58,25 @@ const OpenVotes = ({ toggleOpenVotes }) => {
     router.push(`/dashboard/votes/${id}`);
   };
 
+  const renderTimer = row => {
+    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+      return (
+        <ClockBar
+          endTime={new Date(`${row.end_date} ${row.end_time}`)}
+          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+          hideProgressBar
+        />
+      );
+    }
+    return (
+      <ClockBar
+        endTime={new Date(row.time_end)}
+        startTime={new Date(row.created_at)}
+        hideProgressBar
+      />
+    );
+  };
+
   return (
     <div className="flex flex-col pl-8 py-7 h-full">
       <p className="text-lg font-medium">Open Votes</p>
@@ -87,13 +106,7 @@ const OpenVotes = ({ toggleOpenVotes }) => {
                   <Table.BodyCell key="title">
                     <p className="truncate">{row.title}</p>
                   </Table.BodyCell>
-                  <Table.BodyCell key="time">
-                    <ClockBar
-                      endTime={new Date(row.time_end)}
-                      startTime={new Date(row.created_at)}
-                      hideProgressBar
-                    />
-                  </Table.BodyCell>
+                  <Table.BodyCell key="time">{renderTimer(row)}</Table.BodyCell>
                 </Table.BodyRow>
               ))}
             </Table.Body>

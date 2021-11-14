@@ -44,7 +44,7 @@ const NotificationSystem = () => {
               <span>Hide OFF</span>
               <Switch
                 onChange={check => setHideOff(check ? 1 : 0)}
-                checked={hideOff}
+                checked={!!hideOff}
                 checkedIcon={null}
                 uncheckedIcon={null}
                 offColor="#bbb"

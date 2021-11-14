@@ -4,6 +4,13 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import router from 'next/router';
 import { useState, useEffect } from 'react';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+  KeyboardTimePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { format } from 'date-fns';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import IconFeatureUpLoad from '../../../../public/images/ic_feature_upload.svg';
@@ -22,13 +29,18 @@ import {
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  time: yup.number().typeError('Time is required').required('Time is required'),
-  time_unit: yup.string().required('Time unit is required'),
+  // time: yup.number().typeError('Time is required').required('Time is required'),
+  // time_unit: yup.string().required('Time unit is required'),
 });
 
 const AdminEditBallot = () => {
   const [ballot, setBallot] = useState();
   const [files, setFiles] = useState();
+  const [startDate, setStartDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
   const { id } = router.query;
   const dispatch = useDispatch();
 
@@ -36,21 +48,53 @@ const AdminEditBallot = () => {
   const { register, reset, watch, control, handleSubmit, setValue } = useForm({
     resolver: yupResolver(ballotSchema),
   });
-  const watchUnit = watch('time_unit');
+
+  // const watchUnit = watch('time_unit');
   const watchFiles = watch('files');
   const watchRemovedFiles = watch('file_ids_remove');
+
+  const handleStartDateChange = date => {
+    setStartDate(date);
+  };
+
+  const handleStartTimeChange = date => {
+    setStartTime(date);
+  };
+
+  const handleEndDateChange = date => {
+    setEndDate(date);
+  };
+
+  const handleEndTimeChange = date => {
+    setEndTime(date);
+  };
 
   useEffect(() => {
     dispatch(
       getBallotDetail(id, res => {
+        if (res.start_date && res.start_time && res.end_date && res.end_time) {
+          const start = new Date(`${res.start_date} ${res.start_time}`);
+          const end = new Date(`${res.end_date} ${res.end_time}`);
+          setStartDate(start);
+          setStartTime(start);
+          setEndDate(end);
+          setEndTime(end);
+        } else if (res.time_end) {
+          const start = new Date(res.created_at);
+          const end = new Date(res.time_end);
+          setStartDate(start);
+          setStartTime(start);
+          setEndDate(end);
+          setEndTime(end);
+        }
         setBallot(res);
         setFiles(res.files);
         reset({
           id: res.id,
           title: res.title,
           description: res.description,
-          time: res.time,
-          time_unit: res.time_unit,
+          // time: res.time,
+          // time_unit: res.time_unit,
           files: [],
           file_ids_remove: [],
         });
@@ -59,10 +103,33 @@ const AdminEditBallot = () => {
   }, [id]);
 
   const onSubmit = data => {
+    let startDateStr = '';
+    let startTimeStr = '';
+    let endDateStr = '';
+    let endTimeStr = '';
+
+    if (startDate) startDateStr = format(startDate, 'yyyy-MM-dd');
+    if (startTime) startTimeStr = format(startTime, 'HH:mm:ss');
+    if (endDate) endDateStr = format(endDate, 'yyyy-MM-dd');
+    if (endTime) endTimeStr = format(endTime, 'HH:mm:ss');
+
+    const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
+    const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
+
+    if (start >= end) return;
+
+    const params = {
+      ...data,
+      startDate: startDateStr,
+      startTime: startTimeStr,
+      endDate: endDateStr,
+      endTime: endTimeStr,
+    };
+
     setIsSubmit(true);
     dispatch(
       updateBallot(
-        data,
+        params,
         () => {
           router.push('/admin/ballots');
         },
@@ -168,11 +235,65 @@ const AdminEditBallot = () => {
                     )}
                   />
                 </div>
-                <p className="py-4 text-sm text-gray">
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginRight: '20px' }}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        label="Start Date"
+                        value={startDate}
+                        onChange={handleStartDateChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <KeyboardTimePicker
+                        margin="normal"
+                        label="Start Time"
+                        value={startTime}
+                        onChange={handleStartTimeChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginRight: '20px' }}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        label="End Date"
+                        value={endDate}
+                        onChange={handleEndDateChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <KeyboardTimePicker
+                        margin="normal"
+                        label="End Time"
+                        value={endTime}
+                        onChange={handleEndTimeChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                </MuiPickersUtilsProvider>
+
+                {/* <p className="py-4 text-sm text-gray">
                   Choose a duration for your ballot:
-                </p>
-                <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between">
-                  <div className="flex">
+                </p> */}
+
+                <div
+                  style={{ marginTop: '20px' }}
+                  className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between"
+                >
+                  {/* <div className="flex">
                     <div
                       className="mr-4 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
                       style={{ width: '214px', height: '60px' }}
@@ -224,7 +345,7 @@ const AdminEditBallot = () => {
                       </select>
                       <div className="arrow ml-2" />
                     </div>
-                  </div>
+                  </div> */}
                   <Button
                     primary
                     type="submit"

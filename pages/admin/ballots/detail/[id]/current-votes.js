@@ -87,6 +87,30 @@ const AdminActiveBallotCurrentVotes = () => {
     fetchBallotVotes();
   }, [id]);
 
+  const renderTimer = () => {
+    if (
+      ballot?.start_date &&
+      ballot?.start_time &&
+      ballot?.end_date &&
+      ballot?.end_time
+    ) {
+      return (
+        <ClockBar
+          className="w-40"
+          endTime={new Date(`${ballot?.end_date} ${ballot?.end_time}`)}
+          startTime={new Date(`${ballot?.start_date} ${ballot?.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        className="w-40"
+        endTime={new Date(ballot?.time_end)}
+        startTime={new Date(ballot?.created_at)}
+      />
+    );
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -131,15 +155,7 @@ const AdminActiveBallotCurrentVotes = () => {
                     <td>
                       <span>Time Remaining:</span>
                     </td>
-                    <td>
-                      {ballot && (
-                        <ClockBar
-                          className="w-40"
-                          endTime={new Date(ballot?.time_end)}
-                          startTime={new Date(ballot?.created_at)}
-                        />
-                      )}
-                    </td>
+                    <td>{ballot && renderTimer()}</td>
                   </tr>
                   <tr>
                     <td>
@@ -213,7 +229,7 @@ const AdminActiveBallotCurrentVotes = () => {
                         </p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body3">
-                        <p>{`${formatDate(row.created_at, 'hh:mmaaa')} EST`}</p>
+                        <p>{`${formatDate(row.created_at, 'hh:mmaaa')}`}</p>
                         <p>{`${formatDate(
                           row.created_at,
                           'dd/MM/yyyy'

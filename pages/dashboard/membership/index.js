@@ -245,6 +245,18 @@ const DashboardMembership = () => {
     };
   };
 
+  // Format Value
+  const formatValue = () => {
+    let value = '';
+    if (metricConfig?.max?.update_responsiveness) {
+      value =
+        (100 * metrics.update_responsiveness || 0) /
+        metricConfig?.max?.update_responsiveness;
+      value = value.toFixed(2);
+    }
+    return parseFloat(value);
+  };
+
   return (
     <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
       <div className="membership h-full flex flex-col gap-5 w-328">
@@ -323,7 +335,9 @@ const DashboardMembership = () => {
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
                     shape="circle"
-                    value={metrics.uptime}
+                    value={
+                      metrics.uptime ? parseFloat(metrics.uptime.toFixed(2)) : 0
+                    }
                     mask="x%"
                   />
                 </div>
@@ -374,14 +388,7 @@ const DashboardMembership = () => {
                 <p className="text-sm font-medium pb-1">Updates</p>
                 <p className="text-xs desc">On Time</p>
                 <div className="flex-1 min-h-0 mt-4">
-                  <ProgressBar
-                    shape="circle"
-                    value={
-                      (100 * metrics.update_responsiveness) /
-                      metricConfig?.max?.update_responsiveness
-                    }
-                    mask="x%"
-                  />
+                  <ProgressBar shape="circle" value={formatValue()} mask="x%" />
                 </div>
               </Card>
             </div>

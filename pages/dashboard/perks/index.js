@@ -20,7 +20,7 @@ const DashboardMemberPerks = () => (
             to you. Click any to learn more. Thanks for being a member in good
             standing with the association.
           </p>
-          <div className="flex-1 min-h-0 lg:pr-card flex">
+          <div className="flex-1 min-h-0 flex">
             <PerksPreview />
           </div>
         </div>

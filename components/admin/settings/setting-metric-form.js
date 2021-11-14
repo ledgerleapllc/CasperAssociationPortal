@@ -210,8 +210,9 @@ const SettingMetricForm = ({
                   </div>
                   <input
                     name="warning_level"
-                    value={+metrics?.warning_level}
+                    value={+metrics?.warning_level || ''}
                     hidden
+                    onChange={() => {}}
                   />
                 </>
               )}
@@ -282,8 +283,9 @@ const SettingMetricForm = ({
                   </div>
                   <input
                     name="probation_start"
-                    value={+metrics?.probation_start}
+                    value={+metrics?.probation_start || ''}
                     hidden
+                    onChange={() => {}}
                   />
                 </>
               )}
@@ -309,8 +311,9 @@ const SettingMetricForm = ({
                         setWatchCalculate(e.target.value);
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select Scale
                       </option>
                       <option value="Weeks">Weeks</option>
@@ -339,8 +342,9 @@ const SettingMetricForm = ({
                       onChange={e => {
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select...
                       </option>
                       {watchCalculate === 'Days' &&
@@ -395,8 +399,9 @@ const SettingMetricForm = ({
                         setWatchCorrect(e.target.value);
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select Scale
                       </option>
                       <option value="Weeks">Weeks</option>
@@ -425,8 +430,9 @@ const SettingMetricForm = ({
                       onChange={e => {
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select...
                       </option>
                       {watchCorrect === 'Days' &&
@@ -481,8 +487,9 @@ const SettingMetricForm = ({
                         setWatchSystemCheck(e.target.value);
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select Scale
                       </option>
                       <option value="Weeks">Weeks</option>
@@ -511,8 +518,9 @@ const SettingMetricForm = ({
                       onChange={e => {
                         onChange(e);
                       }}
+                      defaultValue=""
                     >
-                      <option selected value="" disabled>
+                      <option value="" disabled>
                         Select...
                       </option>
                       {watchSystemCheck === 'Days' &&

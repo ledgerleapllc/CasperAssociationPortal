@@ -4,6 +4,13 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import router from 'next/router';
 import { useState } from 'react';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+  KeyboardTimePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { format } from 'date-fns';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Editor, BackButton, Button } from '../../../components/partials';
@@ -14,25 +21,69 @@ import IconX from '../../../public/images/ic_x.svg';
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  time: yup.number().typeError('Time is required').required('Time is required'),
-  time_unit: yup.string().required('Time unit is required'),
+  // time: yup.number().typeError('Time is required').required('Time is required'),
+  // time_unit: yup.string().required('Time unit is required'),
 });
 
 const AdminAddBallot = () => {
   const [isSubmit, setIsSubmit] = useState(false);
+  const [startDate, setStartDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const handleStartDateChange = date => {
+    setStartDate(date);
+  };
+
+  const handleStartTimeChange = date => {
+    setStartTime(date);
+  };
+
+  const handleEndDateChange = date => {
+    setEndDate(date);
+  };
+
+  const handleEndTimeChange = date => {
+    setEndTime(date);
+  };
+
   const dispatch = useDispatch();
   const { register, setValue, watch, control, handleSubmit } = useForm({
     resolver: yupResolver(ballotSchema),
   });
   const user = useSelector(state => state.authReducer.userInfo);
   const watchFiles = watch('files');
-  const watchUnit = watch('time_unit');
+  // const watchUnit = watch('time_unit');
 
   const onSubmit = data => {
+    let startDateStr = '';
+    let startTimeStr = '';
+    let endDateStr = '';
+    let endTimeStr = '';
+
+    if (startDate) startDateStr = format(startDate, 'yyyy-MM-dd');
+    if (startTime) startTimeStr = format(startTime, 'HH:mm:ss');
+    if (endDate) endDateStr = format(endDate, 'yyyy-MM-dd');
+    if (endTime) endTimeStr = format(endTime, 'HH:mm:ss');
+
+    const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
+    const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
+
+    if (start >= end) return;
+
+    const params = {
+      ...data,
+      startDate: startDateStr,
+      startTime: startTimeStr,
+      endDate: endDateStr,
+      endTime: endTimeStr,
+    };
+
     setIsSubmit(true);
     dispatch(
       submitBallot(
-        data,
+        params,
         () => {
           router.push('/admin/ballots');
         },
@@ -147,11 +198,62 @@ const AdminAddBallot = () => {
                     )}
                   />
                 </div>
-                <p className="py-4 text-sm text-gray">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginRight: '20px' }}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        label="Start Date"
+                        value={startDate}
+                        onChange={handleStartDateChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <KeyboardTimePicker
+                        margin="normal"
+                        label="Start Time"
+                        value={startTime}
+                        onChange={handleStartTimeChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginRight: '20px' }}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        label="End Date"
+                        value={endDate}
+                        onChange={handleEndDateChange}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <KeyboardTimePicker
+                        margin="normal"
+                        label="End Time"
+                        value={endTime}
+                        onChange={handleEndTimeChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                </MuiPickersUtilsProvider>
+                {/* <p className="py-4 text-sm text-gray">
                   Choose a duration for your ballot:
-                </p>
-                <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between">
-                  <div className="flex">
+                </p> */}
+                <div
+                  style={{ marginTop: '20px' }}
+                  className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between"
+                >
+                  {/* <div className="flex">
                     <div
                       className="mr-4 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
                       style={{ width: '214px', height: '60px' }}
@@ -205,7 +307,7 @@ const AdminAddBallot = () => {
                       </select>
                       <div className="arrow ml-2" />
                     </div>
-                  </div>
+                  </div> */}
                   <Button
                     primary
                     type="submit"

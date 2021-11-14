@@ -159,7 +159,7 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.total_clicks}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body9">
-                <Link href={`perks/detail/${row.id}`}>
+                <Link href={`/admin/perks/detail/${row.id}`}>
                   <a>
                     <Button className="w-full" primary size="small">
                       Edit

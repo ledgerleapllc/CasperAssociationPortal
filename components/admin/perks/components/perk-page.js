@@ -1,4 +1,4 @@
-import { ClockBar } from '../../../partials';
+import { Button, ClockBar } from '../../../partials';
 
 export const PerkPage = ({ perk, hideTime }) => (
   <div className="flex py-6 gap-8">
@@ -18,18 +18,37 @@ export const PerkPage = ({ perk, hideTime }) => (
         <span className="pr-1">Time Remaining:</span>
         {hideTime && (
           <>
-            {new Date(perk?.end_date) > new Date() && (
-              <ClockBar endTime={new Date(perk?.end_date)} hideProgressBar />
+            {perk?.start_date &&
+              perk?.end_date &&
+              new Date(perk?.end_date) > new Date() && (
+                <ClockBar
+                  startTime={new Date(perk?.start_date)}
+                  endTime={new Date(perk?.end_date)}
+                  hideProgressBar
+                />
+              )}
+            {perk?.end_date && new Date(perk?.end_date) <= new Date() && (
+              <span>Ended</span>
             )}
-            {new Date(perk?.end_date) <= new Date() && <span>Ended</span>}
           </>
         )}
-        {!hideTime && (
-          <ClockBar endTime={new Date(perk?.end_date)} hideProgressBar />
+        {!hideTime && perk?.start_date && perk?.end_date && (
+          <ClockBar
+            startTime={new Date(perk?.start_date)}
+            endTime={new Date(perk?.end_date)}
+            hideProgressBar
+          />
         )}
       </div>
       <h4 className="font-bold mb-4 line-clamp-2">{perk?.title}</h4>
       <p>{perk?.content}</p>
+      {perk?.action_link ? (
+        <div style={{ marginTop: '20px' }}>
+          <a href={perk?.action_link} target="_blank" rel="noreferrer">
+            <Button primary>Click To View</Button>
+          </a>
+        </div>
+      ) : null}
     </div>
   </div>
 );

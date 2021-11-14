@@ -149,8 +149,12 @@ export function* submitBallot({ payload, resolve, reject }) {
     });
     formData.append(`title`, payload.title);
     formData.append(`description`, payload.description);
-    formData.append(`time`, payload.time);
-    formData.append(`time_unit`, payload.time_unit);
+    // formData.append(`time`, payload.time);
+    // formData.append(`time_unit`, payload.time_unit);
+    formData.append(`start_date`, payload.startDate);
+    formData.append(`start_time`, payload.startTime);
+    formData.append(`end_date`, payload.endDate);
+    formData.append(`end_time`, payload.endTime);
     const res = yield post([`admin/ballots`], formData);
     resolve(res);
   } catch (error) {
@@ -558,6 +562,8 @@ export function* submitPerk({ payload, resolve, reject }) {
     formData.append(`image`, payload.image.file);
     formData.append(`start_date`, payload.start_date);
     formData.append(`end_date`, payload.end_date);
+    formData.append(`start_time`, payload.start_time);
+    formData.append(`end_time`, payload.end_time);
     formData.append(`setting`, payload.setting ? 1 : 0);
     const res = yield post([`admin/perks`], formData);
     resolve(res);
@@ -576,6 +582,8 @@ export function* editPerk({ payload, resolve, reject }) {
     if (payload.image.file) formData.append(`image`, payload.image.file);
     formData.append(`start_date`, payload.start_date);
     formData.append(`end_date`, payload.end_date);
+    formData.append(`start_time`, payload.start_time);
+    formData.append(`end_time`, payload.end_time);
     formData.append(`setting`, payload.setting ? 1 : 0);
     const res = yield post([`admin/perks/update/${payload.id}`], formData);
     resolve(res);
@@ -589,6 +597,7 @@ export function* getPerkDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/perks`, payload.id]);
     res.data.setting = res.data.setting === 1;
+    /*
     if (res.data.start_date)
       res.data.start_date = formatDate(
         new Date(res.data.start_date),
@@ -596,6 +605,7 @@ export function* getPerkDetail({ payload, resolve, reject }) {
       );
     if (res.data.end_date)
       res.data.end_date = formatDate(new Date(res.data.end_date), 'MM/dd/yyyy');
+    */
     res.data.image = {
       url: res.data.image_url,
       name: res.data.image,
@@ -625,11 +635,13 @@ export function* getActivePerkDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`perks`, payload.id]);
     res.data.setting = res.data.setting === 1;
+    /*
     res.data.start_date = formatDate(
       new Date(res.data.start_date),
       'dd/MM/yyyy'
     );
     res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
+    */
     res.data.image = {
       url: res.data.image_url,
       name: res.data.image,
@@ -765,8 +777,12 @@ export function* updateBallot({ payload, resolve, reject }) {
     });
     formData.append(`title`, payload.title);
     formData.append(`description`, payload.description);
-    formData.append(`time`, payload.time);
-    formData.append(`time_unit`, payload.time_unit);
+    // formData.append(`time`, payload.time);
+    // formData.append(`time_unit`, payload.time_unit);
+    formData.append(`start_date`, payload.startDate);
+    formData.append(`start_time`, payload.startTime);
+    formData.append(`end_date`, payload.endDate);
+    formData.append(`end_time`, payload.endTime);
     const res = yield post([`admin/ballots/${payload.id}/edit`], formData);
     resolve(res.data);
   } catch (error) {

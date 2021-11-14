@@ -52,6 +52,30 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
     }
   };
 
+  const renderTimer = () => {
+    if (
+      ballot?.start_date &&
+      ballot?.start_time &&
+      ballot?.end_date &&
+      ballot?.end_time
+    ) {
+      return (
+        <ClockBar
+          className="w-40"
+          endTime={new Date(`${ballot?.end_date} ${ballot?.end_time}`)}
+          startTime={new Date(`${ballot?.start_date} ${ballot?.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        className="w-40"
+        endTime={new Date(ballot?.time_end)}
+        startTime={new Date(ballot?.created_at)}
+      />
+    );
+  };
+
   return (
     <Styles className="lg:pr-card">
       <table className="active-ballot-table border-0">
@@ -68,15 +92,7 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
             <td>
               <span>Time Remaining:</span>
             </td>
-            <td>
-              {ballot && (
-                <ClockBar
-                  className="w-40"
-                  endTime={new Date(ballot.time_end)}
-                  startTime={new Date(ballot.created_at)}
-                />
-              )}
-            </td>
+            <td>{ballot && renderTimer()}</td>
           </tr>
           <tr>
             <td>

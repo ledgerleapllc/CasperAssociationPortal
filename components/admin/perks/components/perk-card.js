@@ -17,10 +17,14 @@ export const PerkCard = ({ perk }) => (
     <div className="w-1/2">
       <div className="h-2/3 flex flex-col justify-between">
         <h4 className="text-base font-bold pt-4 line-clamp-2">{perk?.title}</h4>
-        {perk?.end_date && (
+        {perk?.start_date && perk?.end_date && (
           <div className="flex text-primary text-xs pb-6">
             <span className="pr-1">Time Remaining:</span>
-            <ClockBar endTime={new Date(perk?.end_date)} hideProgressBar />
+            <ClockBar
+              startTime={new Date(perk?.start_date)}
+              endTime={new Date(perk?.end_date)}
+              hideProgressBar
+            />
           </div>
         )}
       </div>

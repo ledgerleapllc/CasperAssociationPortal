@@ -344,26 +344,26 @@ const Settings = () => {
                   dataLength={data?.length}
                 >
                   <Table.Header>
-                    <Table.HeaderCell>
+                    <Table.HeaderCell key="header1">
                       <p>Added Date</p>
                     </Table.HeaderCell>
-                    <Table.HeaderCell>
+                    <Table.HeaderCell key="header2">
                       <p>Email</p>
                     </Table.HeaderCell>
-                    <Table.HeaderCell>
+                    <Table.HeaderCell key="header3">
                       <p>Admin Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
                   <Table.Body className="padding-tracker">
                     {data.map(recipient => (
                       <Table.BodyRow key={`recipient-${recipient.id}`}>
-                        <Table.BodyCell>
+                        <Table.BodyCell key="body1">
                           {`${formatDate(recipient.created_at)} EST`}
                         </Table.BodyCell>
-                        <Table.BodyCell>
+                        <Table.BodyCell key="body2">
                           <p className="break-words">{recipient.email}</p>
                         </Table.BodyCell>
-                        <Table.BodyCell>
+                        <Table.BodyCell key="body3">
                           <Button
                             className="w-28"
                             size="small"

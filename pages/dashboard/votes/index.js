@@ -101,6 +101,23 @@ const Tab1 = () => {
     router.push(`/dashboard/votes/${id}`);
   };
 
+  const renderTimer = row => {
+    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+      return (
+        <ClockBar
+          endTime={new Date(`${row.end_date} ${row.end_time}`)}
+          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        endTime={new Date(row.time_end)}
+        startTime={new Date(row.created_at)}
+      />
+    );
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -145,12 +162,7 @@ const Tab1 = () => {
               <Table.BodyCell key="body1">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell key="body2">
-                <ClockBar
-                  endTime={new Date(row.time_end)}
-                  startTime={new Date(row.created_at)}
-                />
-              </Table.BodyCell>
+              <Table.BodyCell key="body2">{renderTimer(row)}</Table.BodyCell>
               <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
@@ -200,6 +212,17 @@ const Tab2 = () => {
     router.push(`/dashboard/votes/${id}`);
   };
 
+  const renderEndTime = row => {
+    if (row.end_date && row.end_time) {
+      return (
+        <p>{`${formatDate(
+          new Date(`${row.end_date} ${row.end_time}`)
+        )} EST`}</p>
+      );
+    }
+    return <p>{`${formatDate(new Date(row?.time_end))} EST`}</p>;
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -242,7 +265,7 @@ const Tab2 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="time_end">
-                <p>{`${formatDate(new Date(row?.time_end))} EST`}</p>
+                {renderEndTime(row)}
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

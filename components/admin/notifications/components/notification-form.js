@@ -586,7 +586,7 @@ export const NotificationForm = React.memo(
                     }) => (
                       <Switch
                         id="status"
-                        checked={valueS}
+                        checked={!!valueS}
                         onChange={onChangeS}
                         checkedIcon={null}
                         uncheckedIcon={null}

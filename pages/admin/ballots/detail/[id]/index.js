@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
-import { BackButton, Button, Card } from '../../../../../components/partials';
+import { BackButton, Card } from '../../../../../components/partials';
 import {
   getBallotDetail,
   cancelBallot,
@@ -97,7 +97,12 @@ const AdminCompleteBallot = ({ ballot }) => (
         </div>
         <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row justify-end">
           <Link href={`/admin/ballots/detail/${ballot?.id}/current-votes`}>
-            <Button primary>View Voting Records</Button>
+            <button
+              type="button"
+              className="h-16 lg:h-11 w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+            >
+              View Voting Records
+            </button>
           </Link>
         </div>
       </div>

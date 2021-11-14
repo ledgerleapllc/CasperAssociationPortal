@@ -64,7 +64,8 @@ const KycAmlDetail = () => {
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">DOB:</p>
-                <p className="text-sm w-5/6">{userKYC?.profile?.dob}</p>
+                {/* <p className="text-sm w-5/6">{userKYC?.profile?.dob}</p> */}
+                <p className="text-sm w-5/6">*</p>
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">
@@ -138,7 +139,16 @@ const KycAmlDetail = () => {
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">Address Doc:</p>
                   <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.address_proof || ''}
+                    {userKYC?.shuftipro?.address_proof_link ? (
+                      <a
+                        href={userKYC?.shuftipro?.address_proof_link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-primary cursor-pointer underline"
+                      >
+                        View File
+                      </a>
+                    ) : null}
                   </p>
                 </div>
               </div>

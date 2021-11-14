@@ -227,7 +227,7 @@ const InfoRightNode = memo(({ currentNode }) => {
               <span className="pr-2">Only Failing</span>
               <Switch
                 id="status"
-                checked={filterFailedNodes}
+                checked={!!filterFailedNodes}
                 onChange={_check => setFilterFailedNodes(_check ? 1 : 0)}
                 checkedIcon={null}
                 uncheckedIcon={null}

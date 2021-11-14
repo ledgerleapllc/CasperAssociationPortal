@@ -125,7 +125,7 @@ const ContentNode = ({ sendHightlightNode }) => {
     }
   }, [userInfo]);
 
-  // only for Admin
+  // Only for Admin
   useEffect(() => {
     if (currentNode) {
       fetchNodeDetail(currentNode.public_address_node);
@@ -175,8 +175,8 @@ const ContentNode = ({ sendHightlightNode }) => {
                   id="public-address"
                   value={
                     isAdmin
-                      ? currentNode?.public_address_node
-                      : userInfo.public_address_node
+                      ? currentNode?.public_address_node ?? ''
+                      : userInfo.public_address_node ?? ''
                   }
                   readOnly
                   hidden
@@ -207,13 +207,14 @@ const ContentNode = ({ sendHightlightNode }) => {
                     }
                   >
                     <ul>
-                      {nodesList.map(node => (
+                      {nodesList.map((node, index) => (
                         <li
                           className="p-2 hover:text-primary cursor-pointer"
                           onClick={() => {
                             setCurrentNode(node);
                             sendHightlightNode(node);
                           }}
+                          key={`node_${index}`}
                         >
                           <p className="w-full relative h-6">
                             <span className="text-center text-base font-thin truncate absolute inset-0">

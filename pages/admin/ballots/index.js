@@ -105,6 +105,23 @@ const Tab1 = () => {
     fetchActiveBallots(1, newParams);
   };
 
+  const renderTimer = row => {
+    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+      return (
+        <ClockBar
+          endTime={new Date(`${row.end_date} ${row.end_time}`)}
+          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        endTime={new Date(row.time_end)}
+        startTime={new Date(row.created_at)}
+      />
+    );
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -148,10 +165,7 @@ const Tab1 = () => {
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell key="createdAt1">
-                <ClockBar
-                  endTime={new Date(row.time_end)}
-                  startTime={new Date(row.created_at)}
-                />
+                {renderTimer(row)}
               </Table.BodyCell>
               <Table.BodyCell key="resultCount">
                 <p>{row.vote?.result_count}</p>
