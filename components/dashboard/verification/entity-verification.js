@@ -189,6 +189,13 @@ export const EntityVerification = ({ goNext }) => {
         Please upload the entity's operating documents. Example of operating{' '}
         documents include: certification of incorporation, business license,{' '}
         government issued business registration document etc.
+        <br />
+        <br />
+        <b>NOTE:</b> The document you upload must contain the name of one of the{' '}
+        owners, executives or directors of the company. In the next step, you'll{' '}
+        be required to upload this person's government issued photo ID (such as{' '}
+        a passport) to complete the verification process. You can upload{' '}
+        multiple documents if necessary.
       </p>
       <div className="mt-10">
         <button
@@ -452,6 +459,9 @@ export const EntityVerification = ({ goNext }) => {
                       Upload Docs
                     </button>
                     <span className="hidden lg:block">Or Drop File Here</span>
+                    <span className="hidden lg:block text-primary">
+                      Accept jpeg, png, pdf, txt - Max File Size: 2MB
+                    </span>
                   </div>
                 </div>
               </div>

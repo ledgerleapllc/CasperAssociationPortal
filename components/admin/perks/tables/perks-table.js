@@ -85,6 +85,34 @@ export const PerksTable = ({ hideOff }) => {
     }
   }, [hideOff]);
 
+  // Render Start Date
+  const renderStartDate = row => {
+    if (row.start_date && row.start_time) {
+      return `${formatDate(
+        `${row.start_date} ${row.start_time}`,
+        'dd/MM/yyyy HH:mm aa'
+      )} EST`;
+    }
+    if (row.start_date) {
+      return `${formatDate(row.start_date, 'dd/MM/yyyy')} EST`;
+    }
+    return '';
+  };
+
+  // Render End Date
+  const renderEndDate = row => {
+    if (row.end_date && row.end_time) {
+      return `${formatDate(
+        `${row.end_date} ${row.end_time}`,
+        'dd/MM/yyyy HH:mm aa'
+      )} EST`;
+    }
+    if (row.end_date) {
+      return `${formatDate(row.end_date, 'dd/MM/yyyy')} EST`;
+    }
+    return '';
+  };
+
   return (
     <Perks className="h-full">
       <Table
@@ -136,18 +164,10 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body4">
-                <p>
-                  {row.start_date
-                    ? `${formatDate(row.start_date, 'dd/MM/yyyy')} EST`
-                    : ''}
-                </p>
+                <p>{renderStartDate(row)}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body5">
-                <p>
-                  {row.end_date
-                    ? `${formatDate(row.end_date, 'dd/MM/yyyy')} EST`
-                    : ''}
-                </p>
+                <p>{renderEndDate(row)}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body6">
                 <StatusText content={row.status} />

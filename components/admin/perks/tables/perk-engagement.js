@@ -67,7 +67,7 @@ export const PerksEngagement = ({ id }) => {
             <p>Date First Clicked</p>
           </Table.HeaderCell>
           <Table.HeaderCell key="header3">
-            <p>Times Followed</p>
+            <p>Times Viewed</p>
           </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="padding-tracker">

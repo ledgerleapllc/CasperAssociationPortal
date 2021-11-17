@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import { Card, Dropdown, Tooltips } from '../partials';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
@@ -114,12 +115,23 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   </p>
                   <Dropdown
                     trigger={
-                      <p
-                        style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                      <div
+                        style={{
+                          borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
+                          // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
+                          position: 'relative',
+                        }}
                         className="flex justify-center items-center w-full relative h-14"
                       >
+                        <ArrowDropDown
+                          style={{
+                            position: 'absolute',
+                            top: '15px',
+                            right: 0,
+                          }}
+                        />
                         ( {getLabel('timeframe_perk')} )
-                      </p>
+                      </div>
                     }
                   >
                     <ul>
@@ -158,8 +170,19 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   trigger={
                     <div
                       className="h-14"
-                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                      style={{
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
+                        // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
+                        position: 'relative',
+                      }}
                     >
+                      <ArrowDropDown
+                        style={{
+                          position: 'absolute',
+                          top: '15px',
+                          right: 0,
+                        }}
+                      />
                       <p className="w-full">New Comments</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_comments')} )
@@ -194,8 +217,19 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                   trigger={
                     <div
                       className="h-14"
-                      style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.4)' }}
+                      style={{
+                        borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
+                        // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
+                        position: 'relative',
+                      }}
                     >
+                      <ArrowDropDown
+                        style={{
+                          position: 'absolute',
+                          top: '15px',
+                          right: 0,
+                        }}
+                      />
                       <p className="w-full">New Threads</p>
                       <p className="w-full">
                         ( {getLabel('timeframe_discussions')} )

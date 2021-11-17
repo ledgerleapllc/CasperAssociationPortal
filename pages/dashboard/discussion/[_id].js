@@ -71,7 +71,7 @@ const ChatBox = ({ data, noBorder }) => (
         </Link>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
-          Validator ID:
+          Node Name:{' '}
           <Tooltips
             placement="right"
             title={data.user?.public_address_node}

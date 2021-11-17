@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { createContext, useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
+import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -28,12 +29,19 @@ import {
   getMyDiscussions,
   getDraftDiscussions,
   deleteDraftDiscussion,
+  publishDiscussion,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
 const DashboardDiscusionContext = createContext();
 
-const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
+const ChatBox = ({
+  data,
+  togglePinCallback,
+  hidePin,
+  onPublishDraft,
+  onDeleteDraft,
+}) => {
   const { togglePinnedList, removeNewFromList } = useContext(
     DashboardDiscusionContext
   );
@@ -69,6 +77,16 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
       ...discuss,
       is_new: false,
     });
+  };
+
+  const editDraft = item => {
+    router.push(`/dashboard/discussion/edit/${item?.id}`);
+  };
+
+  const publishDraft = item => {
+    if (onPublishDraft) {
+      onPublishDraft(item);
+    }
   };
 
   const deleteDraft = item => {
@@ -114,7 +132,10 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
         <div className="flex-1 chat-content mt-5 lg:m-0">
           <div className="chat-content-body">
             <div className="flex justify-between">
-              <h2 className="cursor-pointer text-base mb-2.5 font-medium line-clamp-2">
+              <h2
+                style={{ display: 'block', flex: 1 }}
+                className="cursor-pointer text-base mb-2.5 font-medium line-clamp-2"
+              >
                 <Link href={`/dashboard/discussion/${discuss?.id}`}>
                   <a>{discuss?.title}</a>
                 </Link>
@@ -123,23 +144,48 @@ const ChatBox = ({ data, togglePinCallback, hidePin, onDeleteDraft }) => {
                 <button
                   className="text-primary"
                   type="button"
+                  style={{ marginRight: '10px', textDecoration: 'underline' }}
+                  onClick={() => editDraft(discuss)}
+                >
+                  Edit
+                </button>
+              )}
+              {!!discuss?.is_draft && (
+                <button
+                  className="text-primary"
+                  type="button"
+                  style={{ marginRight: '10px', textDecoration: 'underline' }}
+                  onClick={() => publishDraft(discuss)}
+                >
+                  Publish
+                </button>
+              )}
+              {!!discuss?.is_draft && (
+                <button
+                  className="text-primary"
+                  type="button"
+                  style={{ textDecoration: 'underline' }}
                   onClick={() => deleteDraft(discuss)}
                 >
                   Delete
                 </button>
               )}
             </div>
-            <p
-              className="text-sm mb-5 line-clamp-5"
-              dangerouslySetInnerHTML={{ __html: discuss?.description }}
-            />
+            <Link href={`/dashboard/discussion/${discuss?.id}`}>
+              <div
+                style={{ cursor: 'pointer' }}
+                className="text-sm mb-5 line-clamp-5"
+                dangerouslySetInnerHTML={{ __html: discuss?.description }}
+              />
+            </Link>
           </div>
           <div className="w-full chat-content-footer flex text-sm justify-between flex-col lg:flex-row">
             <p>
               <span className="text-gray pr-2">Posted by:</span>
               <Link href={`/dashboard/profile/${discuss?.user?.id}`}>
                 <a className="inline-flex gap-2 items-center text-primary font-medium">
-                  {discuss?.user?.pseudonym}
+                  {discuss?.user?.pseudonym ||
+                    `${discuss?.user?.first_name} ${discuss?.user?.last_name}`}
                   {discuss?.user?.profile?.status === 'approved' && (
                     <VerifiedIcon className="text-primary" />
                   )}
@@ -399,6 +445,23 @@ const Tab4 = () => {
     fetchDraftDiscussions();
   }, []);
 
+  const publishDraft = item => {
+    setLoading(true);
+    dispatch(
+      publishDiscussion(
+        { id: item.id },
+        () => {
+          setLoading(false);
+          const temp = data.filter(x => x.id !== item.id);
+          setData(temp);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   const deleteDraft = item => {
     setLoading(true);
     dispatch(
@@ -435,7 +498,12 @@ const Tab4 = () => {
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="emptyBody1" />
               <Table.BodyCell key="emptyBody2">
-                <ChatBox data={row} hidePin onDeleteDraft={deleteDraft} />
+                <ChatBox
+                  data={row}
+                  hidePin
+                  onPublishDraft={publishDraft}
+                  onDeleteDraft={deleteDraft}
+                />
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

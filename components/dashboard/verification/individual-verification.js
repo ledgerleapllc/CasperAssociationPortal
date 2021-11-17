@@ -58,7 +58,7 @@ export const IndividualVerification = ({ goNext }) => {
         hideButton: true,
       },
       data: {
-        title: 'KYC',
+        title: 'ID Verification',
         content: <Shuftipro />,
       },
       afterClosed: value => {

@@ -30,13 +30,16 @@ const Styles = styled.div`
       width: 15%;
     }
     .col-3 {
-      width: 15%;
+      width: 13%;
     }
     .col-4 {
-      width: 15%;
+      width: 14%;
     }
     .col-5 {
-      width: 15%;
+      width: 13%;
+    }
+    .col-6 {
+      width: 5%;
     }
   }
   .complete-vote-table {
@@ -118,6 +121,27 @@ const Tab1 = () => {
     );
   };
 
+  const renderStartDate = row => {
+    if (row.start_date && row.start_time) {
+      const date = `${row.start_date} ${row.start_time}`;
+      return (
+        <p>
+          {`${formatDate(date, 'dd/MM/yyyy')}`}
+          <br />
+          {`${formatDate(date, 'HH:mm aaa')} EST`}
+        </p>
+      );
+    }
+
+    return (
+      <p>
+        {`${formatDate(row.created_at, 'dd/MM/yyyy')}`}
+        <br />
+        {`${formatDate(row.created_at, 'HH:mm aaa')} EST`}
+      </p>
+    );
+  };
+
   return (
     <Styles className="h-full">
       <Table
@@ -129,16 +153,16 @@ const Tab1 = () => {
         onSort={handleSort}
       >
         <Table.Header>
-          <Table.HeaderCell key="title">
+          <Table.HeaderCell key="header1">
             <p>Title</p>
           </Table.HeaderCell>
-          <Table.HeaderCell key="time_end" sortKey="time_end">
+          <Table.HeaderCell key="header2" sortKey="time_end">
             <p>Time Remaining</p>
           </Table.HeaderCell>
-          <Table.HeaderCell key="votes">
+          <Table.HeaderCell key="header3">
             <p>Votes</p>
           </Table.HeaderCell>
-          <Table.HeaderCell key="tooltips">
+          <Table.HeaderCell key="header4">
             <Tooltips
               placement="top"
               title="Displays the current vote split. FOR / AGAINST"
@@ -147,10 +171,10 @@ const Tab1 = () => {
               <p>Current Split</p>
             </Tooltips>
           </Table.HeaderCell>
-          <Table.HeaderCell key="date">
-            <p>Date</p>
+          <Table.HeaderCell key="header5">
+            <p>Start Date &amp; Time</p>
           </Table.HeaderCell>
-          <Table.HeaderCell key="button" />
+          <Table.HeaderCell key="header6" />
         </Table.Header>
         <Table.Body className="padding-tracker">
           {data.map((row, ind) => (
@@ -173,7 +197,7 @@ const Tab1 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="body5">
-                <p>{`${formatDate(row.created_at)} EST`}</p>
+                {renderStartDate(row)}
               </Table.BodyCell>
               <Table.BodyCell key="body6">
                 <a className="text-primary cursor-pointer underline">View</a>

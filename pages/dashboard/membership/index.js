@@ -90,7 +90,7 @@ const WarningCards = ({ warnings, isLoading }) => {
                         You have {warnMetric?.given_to_correct_value}{' '}
                         {warnMetric?.given_to_correct_unit} to correct this
                         problem before your membership status is revoked. Bring
-                        your {warnMetric?.label} {warnMetric?.probation_start}
+                        your {warnMetric?.label} {warnMetric?.probation_start}%{' '}
                         to correct this issue.
                       </span>
                     </div>

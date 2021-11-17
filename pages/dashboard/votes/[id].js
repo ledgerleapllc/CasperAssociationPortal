@@ -28,6 +28,14 @@ const UserActiveBallot = ({ ballot, userVote, onReload }) => {
   }, [ballot]);
 
   const doVote = () => {
+    if (ballot.start_date && ballot.start_time) {
+      const date = new Date(`${ballot.start_date} ${ballot.start_time} EST`);
+      if (new Date().getTime() < date.getTime()) {
+        openSnack('primary', 'You cannot vote before the vote start datetime');
+        return;
+      }
+    }
+
     const checkViewed = files.every(x => x.is_viewed);
     if (!checkViewed) {
       openSnack(

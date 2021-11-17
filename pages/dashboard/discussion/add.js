@@ -66,7 +66,8 @@ const DashboardAddDiscusion = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:pr-card">
                 <p className="text-sm">
-                  Posting as: <a className="text-primary">{userInfo?.email}</a>
+                  Posting as:{' '}
+                  <a className="text-primary">{userInfo?.pseudonym}</a>
                 </p>
                 <input
                   type="text"

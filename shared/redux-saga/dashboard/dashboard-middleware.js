@@ -314,7 +314,20 @@ export function* uploadAvatar({ payload, resolve, reject }) {
     const res = yield post([`users/upload-avatar`], formData);
     resolve(res);
   } catch (error) {
-    yield put(saveApiResponseError(error));
+    const message = `You uploaded an invalid file type. The avatar must be one of the following file types: .jpeg, jog, png, gif.`;
+    const newError = {
+      ...error,
+    };
+    if (
+      newError &&
+      newError.data &&
+      newError.data.data &&
+      newError.data.data.errors &&
+      newError.data.data.errors.avatar &&
+      newError.data.data.errors.avatar.length
+    )
+      newError.data.data.errors.avatar[0] = message;
+    yield put(saveApiResponseError(newError));
     reject(error);
   }
 }
