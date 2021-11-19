@@ -20,22 +20,22 @@ import { getBallots } from '../../../shared/redux-saga/admin/actions';
 const Styles = styled.div`
   .active-ballot-table {
     .col-1 {
-      width: 30%;
+      width: 25%;
     }
     .col-2 {
       width: 15%;
     }
     .col-3 {
-      width: 15%;
+      width: 13%;
     }
     .col-4 {
-      width: 12%;
-    }
-    .col-5 {
       width: 10%;
     }
+    .col-5 {
+      width: 17%;
+    }
     .col-6 {
-      width: 18%;
+      width: 20%;
     }
   }
   .complete-ballot-table {
@@ -105,6 +105,16 @@ const Tab1 = () => {
     fetchActiveBallots(1, newParams);
   };
 
+  const renderStartDate = row => {
+    if (row.start_date && row.start_time) {
+      return `${formatDate(
+        `${row.start_date} ${row.start_time}`,
+        'dd/MM/yyyy HH:mm aa'
+      )} EST`;
+    }
+    return <p>{`${formatDate(row.created_at, 'dd/MM/yyyy HH:mm aa')} EST`}</p>;
+  };
+
   const renderTimer = row => {
     if (row.start_date && row.start_time && row.end_date && row.end_time) {
       return (
@@ -116,8 +126,8 @@ const Tab1 = () => {
     }
     return (
       <ClockBar
-        endTime={new Date(row.time_end)}
         startTime={new Date(row.created_at)}
+        endTime={new Date(row.time_end)}
       />
     );
   };
@@ -177,7 +187,7 @@ const Tab1 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="createdAt2">
-                <p>{`${formatDate(row.created_at)} EST`}</p>
+                {renderStartDate(row)}
               </Table.BodyCell>
               <Table.BodyCell key="buttonActions">
                 <div className="flex gap-4">

@@ -221,6 +221,7 @@ const AdminAddBallot = () => {
                         required
                       />
                     </div>
+                    <p style={{ marginLeft: '15px', marginTop: '22px' }}>EST</p>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <div style={{ marginRight: '20px' }}>
@@ -244,6 +245,7 @@ const AdminAddBallot = () => {
                         required
                       />
                     </div>
+                    <p style={{ marginLeft: '15px', marginTop: '22px' }}>EST</p>
                   </div>
                 </MuiPickersUtilsProvider>
                 {/* <p className="py-4 text-sm text-gray">

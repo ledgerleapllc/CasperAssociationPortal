@@ -130,18 +130,22 @@ const AdminActiveBallotCurrentVotes = () => {
               <table className="active-ballot-table border-0">
                 <tbody>
                   <tr>
-                    <td>
+                    <td valign="top">
                       <span>Ballot Title:</span>
                     </td>
-                    <td>
+                    <td valign="top">
                       <span>{ballot?.title}</span>
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td valign="top">
                       <span>Start Time:</span>
                     </td>
-                    <td>
+                    <td valign="top">
                       <span>
                         {formatDate(
                           ballot?.created_at,
@@ -152,24 +156,36 @@ const AdminActiveBallotCurrentVotes = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                      <span>Time Remaining:</span>
-                    </td>
-                    <td>{ballot && renderTimer()}</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td>
+                    <td valign="top">
+                      <span>Time Remaining:</span>
+                    </td>
+                    <td valign="top">{ballot && renderTimer()}</td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td valign="top">
                       <span>Total Votes:</span>
                     </td>
-                    <td>
+                    <td valign="top">
                       <span>{ballot?.vote?.result_count}</span>
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td valign="top">
                       <span>Split:</span>
                     </td>
-                    <td>
+                    <td valign="top">
                       <ForAgainst
                         splitFor={ballot?.vote?.for_value}
                         splitAgainst={ballot?.vote?.against_value}
@@ -177,10 +193,14 @@ const AdminActiveBallotCurrentVotes = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td valign="top">
                       <span>Final Result:</span>
                     </td>
-                    <td>
+                    <td valign="top">
                       {ballot?.status !== 'active' && (
                         <StatusText
                           content={ballot?.status}
@@ -189,6 +209,10 @@ const AdminActiveBallotCurrentVotes = () => {
                       )}
                       {ballot?.status === 'active' && '-'}
                     </td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                   </tr>
                 </tbody>
               </table>

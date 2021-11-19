@@ -143,10 +143,10 @@ const RegisterEntity = () => {
             <p className="text-2xl animate__animated animate__fadeInLeft">
               New Entity User
             </p>
-            <p className="text-sm text-dark mt-2 animate__animated animate__fadeInLeft animate__delay-2s">
+            <p className="text-sm text-dark mt-2 animate__animated animate__fadeInLeft animate__delay-1s">
               LLC/Corp/Trust/Etc. Please fill out the form to register.
             </p>
-            <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-4s">
+            <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-2s">
               <div className="lg:flex mt-5 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
@@ -475,8 +475,9 @@ const RegisterEntity = () => {
                       <input
                         type="text"
                         className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
-                        placeholder="Telegram"
+                        placeholder="Telegram User Name"
                         name="telegram"
+                        required
                         value={value || ''}
                         onChange={e => {
                           onChangeTelegram(e);
@@ -498,7 +499,7 @@ const RegisterEntity = () => {
                 </div>
               </div>
             </div>
-            <div className="flex mt-10 animate__animated animate__fadeInUp animate__delay-6s">
+            <div className="flex mt-10 animate__animated animate__fadeInUp animate__delay-3s">
               <button
                 type="button"
                 className="flex items-baseline focus:outline-none"
@@ -524,7 +525,7 @@ const RegisterEntity = () => {
                 , cookie policy, and privacy policy.
               </p>
             </div>
-            <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-7s">
+            <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-4s">
               <button
                 type="button"
                 className="flex items-baseline focus:outline-none"
@@ -546,7 +547,7 @@ const RegisterEntity = () => {
               </p>
             </div>
             <div className="lg:flex lg:flex-row-reverse mt-10">
-              <div className="animate__animated animate__fadeInLeft animate__delay-8s">
+              <div className="animate__animated animate__fadeInLeft animate__delay-5s">
                 <LoadingButton
                   type="submit"
                   isDisabled={!validateFields() || isSubmitting}

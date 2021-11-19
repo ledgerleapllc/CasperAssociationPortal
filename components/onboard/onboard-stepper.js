@@ -24,7 +24,7 @@ const OnboardStepper = ({
 
   useEffect(() => {
     if (
-      (title === 'Upload Letter' &&
+      (title === 'Upload Letter of Motivation' &&
         user?.letter_verified_at &&
         user.signature_request_id &&
         user.node_verified_at) ||

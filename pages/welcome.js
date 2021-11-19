@@ -21,6 +21,7 @@ const Welcome = () => {
           detectMobile.isMobile() ? '_mobile' : ''
         }.png')`,
         backgroundSize: 'cover',
+        overflow: 'hidden',
       }}
     >
       <div
@@ -34,7 +35,7 @@ const Welcome = () => {
         <AppHeader theme="light" />
         <div className="flex-grow flex items-center justify-center mt-24 lg:mt-0">
           <div
-            className="bg-white w-full lg:w-2/3 px-4 py-12 lg:px-28 animate__animated animate__fadeInUp animate__delay-4s"
+            className="bg-white w-full lg:w-2/3 px-4 py-12 lg:px-28 animate__animated animate__fadeInUp animate__delay-1s"
             style={{
               backgroundImage: `url('/images/login_overlay.png')`,
               backgroundSize: 'cover',
@@ -104,7 +105,7 @@ const Welcome = () => {
                 height={14}
               />
               <p className="text-xs lg:text-sm text-dark1 ml-5">
-                Submit KYC details for your node.
+                Verify your identity.
               </p>
             </div>
             <div className="flex justify-center">

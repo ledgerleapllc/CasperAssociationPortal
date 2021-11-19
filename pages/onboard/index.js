@@ -41,7 +41,7 @@ const Onboard = () => {
             <div className="hidden lg:flex space-x-5 border-b border-gray pb-1">
               <p className="flex-1 text-gray">Esign Terms</p>
               <p className="flex-1 text-gray">Verify Node Ownership</p>
-              <p className="flex-1 text-gray">Upload Letter</p>
+              <p className="flex-1 text-gray">Upload Letter of Motivation</p>
             </div>
             <div className="mb-3">
               {/*
@@ -57,7 +57,7 @@ const Onboard = () => {
             </div>
             <div className="lg:flex lg:space-x-5">
               <OnboardItem
-                className="lg:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
+                className="lg:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-1s"
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Terms Agreement"
@@ -69,7 +69,7 @@ const Onboard = () => {
                 handleBypass={setIsBypassing}
               />
               <OnboardItem
-                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-4s"
+                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
@@ -81,12 +81,12 @@ const Onboard = () => {
                 handleBypass={setIsBypassing}
               />
               <OnboardItem
-                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-6s"
+                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-1.5s"
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
-                title="Upload Letter"
+                title="Upload Letter of Motivation"
                 doneStep={!!user?.letter_verified_at}
-                description="Write and upload a short letter outlining why you would like to sign up."
+                description="Write and upload a short letter of motivation outlining why you would like to sign up."
                 onClick={() => router.push('/onboard/upload-letter')}
                 stepType="letter-upload"
                 userInfoKey="letter_verified_at"

@@ -82,7 +82,7 @@ const Table = props => {
 Table.Header = props => (
   <div
     className="table-header flex w-full pb-2"
-    style={{ paddingRight: '7px' }}
+    // style={{ paddingRight: '7px' }}
   >
     {props.children.map((child, i) =>
       cloneElement(child, {

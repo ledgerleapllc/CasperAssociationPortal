@@ -31,10 +31,10 @@ const InfoRightAdminHome = ({ stats }) => {
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
           <div className="flex gap-2 flex-row">
-            <span className="text-lg">Member’s Stake</span>
+            <span className="text-lg">Members' Stake</span>
             <Tooltips
               placement="top"
-              title="Total amount of members stake"
+              title="Total amount staked by all members"
               arrow
             >
               <img
@@ -84,12 +84,20 @@ const InfoRightAdminHome = ({ stats }) => {
           <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
-          <div className="flex gap-2 flex-row">
-            <span className="text-lg">Average Block Height</span>
+          <div
+            className="flex gap-2 flex-row"
+            style={{ alignItems: 'flex-end' }}
+          >
+            <span className="text-lg">
+              Average
+              <br />
+              Block Height
+            </span>
             <Tooltips
               placement="top"
               title="Average block height across all nodes"
               arrow
+              style={{ marginBottom: '8px' }}
             >
               <img
                 width="10px"
@@ -105,12 +113,20 @@ const InfoRightAdminHome = ({ stats }) => {
           />
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
-          <div className="flex gap-2 flex-row">
-            <span className="text-lg">Average Responsiveness</span>
+          <div
+            className="flex gap-2 flex-row"
+            style={{ alignItems: 'flex-end' }}
+          >
+            <span className="text-lg">
+              Average
+              <br />
+              Responsiveness
+            </span>
             <Tooltips
               placement="top"
               title="Average responsiveness across all nodes"
               arrow
+              style={{ marginBottom: '8px' }}
             >
               <img
                 width="10px"

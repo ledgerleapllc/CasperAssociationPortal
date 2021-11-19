@@ -109,8 +109,8 @@ const UploadLetter = () => {
         <AppHeader theme="dark" />
         <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
           <OnboardStepper
-            title="Upload Letter"
-            description="Write and upload a short letter outlining why you would like to sign up."
+            title="Upload Letter of Motivation"
+            description="Write and upload a short letter of motivation outlining why you would like to sign up."
             imageUrl="/images/img_signature_blur.png"
             currentStep={currentStep}
             totalSteps={totalSteps}
