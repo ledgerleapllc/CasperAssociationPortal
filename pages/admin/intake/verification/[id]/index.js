@@ -203,6 +203,25 @@ const AdminIntakeVerificationDetail = () => {
     </div>
   );
 
+  const renderAMLStatus = () => {
+    if (intakeDetail?.shuftipro?.manual_approved_at) {
+      return intakeDetail?.shuftipro?.background_checks_result
+        ? 'VERIFIED'
+        : 'Rejected';
+    }
+    return intakeDetail?.shuftipro?.background_checks_result
+      ? 'VERIFIED'
+      : 'Submitted / Pending';
+  };
+
+  const renderKYCStatus = () => {
+    if (intakeDetail?.shuftipro?.status === 'approved') return 'VERIFIED';
+    if (intakeDetail?.shuftipro?.status === 'pending')
+      return 'Submitted / Pending';
+    if (intakeDetail?.shuftipro?.status === 'denied') return 'Rejected';
+    return 'Not Submitted';
+  };
+
   const CommonDetail = () => (
     <div className="pt-8">
       <div className="mb-12 w-14 border-b border-primary" />
@@ -215,11 +234,7 @@ const AdminIntakeVerificationDetail = () => {
                 <span>AML Status:</span>
               </td>
               <td>
-                <span>
-                  {intakeDetail?.shuftipro?.background_checks_result
-                    ? 'VERIFIED'
-                    : 'Needs Review'}
-                </span>
+                <span>{renderAMLStatus()}</span>
               </td>
             </tr>
             <tr>
@@ -227,11 +242,7 @@ const AdminIntakeVerificationDetail = () => {
                 <span>KYC Status:</span>
               </td>
               <td>
-                <span>
-                  {intakeDetail?.shuftipro?.status === 'approved'
-                    ? 'VERIFIED'
-                    : 'Needs Review'}
-                </span>
+                <span>{renderKYCStatus()}</span>
               </td>
             </tr>
           </tbody>

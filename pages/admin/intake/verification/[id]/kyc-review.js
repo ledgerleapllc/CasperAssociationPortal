@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import router from 'next/router';
-import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
@@ -17,6 +18,7 @@ import {
   banVerifiedUser,
   resetUserKYC,
   getVerificationDetail,
+  refreshLinks,
 } from '../../../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../../../_app';
 
@@ -50,22 +52,28 @@ const AdminIntakeVerificationKYC = () => {
   const dispatch = useDispatch();
   const [loadingApproved, setLoadingApproved] = useState(false);
   const { setLoading } = useContext(AppContext);
-  const [shuftiData, setShuftiData] = useState();
+  // const [shuftiData, setShuftiData] = useState();
+  const [shuftipro, setShuftipro] = useState();
 
-  useEffect(() => {
+  const refreshUser = () => {
     setLoading(true);
     dispatch(
       getVerificationDetail(
         { id },
         res => {
           setLoading(false);
-          setShuftiData(JSON.parse(res.shuftipro?.data));
+          // setShuftiData(JSON.parse(res.shuftipro?.data));
+          setShuftipro(res.shuftipro);
         },
         () => {
           setLoading(false);
         }
       )
     );
+  };
+
+  useEffect(() => {
+    refreshUser();
   }, []);
 
   const doBanKYCUser = () => {
@@ -140,7 +148,7 @@ const AdminIntakeVerificationKYC = () => {
               content: (
                 <AdminVerifiedCompletion
                   onNext={() => {
-                    router.push(`../${id}`);
+                    router.push(`/admin/intake/verification/${id}`);
                     onClosed();
                   }}
                 />
@@ -150,6 +158,33 @@ const AdminIntakeVerificationKYC = () => {
         },
         () => {
           setLoadingApproved(false);
+        }
+      )
+    );
+  };
+
+  const renderResponse = () => {
+    // shuftiData?.declined_reason
+    if (shuftipro && shuftipro.id) {
+      if (shuftipro?.status === 'approved') return 'VERIFIED';
+      if (shuftipro?.status === 'pending') return 'Submitted / Pending';
+      if (shuftipro?.status === 'denied') return 'Rejected';
+    }
+    return 'Not Submitted';
+  };
+
+  const refreshLink = e => {
+    e.preventDefault();
+    setLoading(true);
+    dispatch(
+      refreshLinks(
+        { userId: id },
+        () => {
+          setLoading(false);
+          refreshUser();
+        },
+        () => {
+          setLoading(false);
         }
       )
     );
@@ -170,26 +205,99 @@ const AdminIntakeVerificationKYC = () => {
               <p>The following was returned from the API provider:</p>
               <Styles className="pt-12">
                 <table className="verification-table border-0">
-                  <tr>
-                    <td>
-                      <span>Response:</span>
-                    </td>
-                    <td>
-                      <span>{shuftiData?.declined_reason}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan="2">
-                      <span className="font-normal">
-                        Please check with the KYC provider regarding why the
-                        document was not auto-approved and select an option
-                        below
-                      </span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p className="flex">
+                          <span style={{ width: '170px' }}>
+                            Reference Number:
+                          </span>
+                          <span>{shuftipro?.reference_id}</span>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex">
+                          <span style={{ width: '170px' }}>
+                            ID Check Status:
+                          </span>
+                          <span>{renderResponse()}</span>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex">
+                          <span style={{ width: '170px' }}>
+                            Identification Doc:
+                          </span>
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={shuftipro?.document_proof}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            View
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex">
+                          <span style={{ width: '170px' }}>Address Doc:</span>
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={shuftipro?.address_proof}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            View
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex">
+                          <span style={{ width: '170px' }}>
+                            Expired proof links?
+                          </span>
+                          <a
+                            onClick={refreshLink}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            Refresh
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="font-normal">
+                          Please check with the KYC provider regarding why the
+                          document was not auto-approved and select an option
+                          below
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </Styles>
-              <div className="pt-12 actions">
+              <div className="pt-12 flex gap-5 actions">
                 <Button
                   primary
                   isLoading={loadingApproved}
@@ -199,19 +307,12 @@ const AdminIntakeVerificationKYC = () => {
                 >
                   Approve Manually
                 </Button>
-                <div className="pt-7 flex gap-5">
-                  <Button primaryOutline onClick={doBanKYCUser}>
-                    Deny & Ban
-                  </Button>
-                  <Button primaryOutline onClick={doResetKYCUser}>
-                    Reset With Reason
-                  </Button>
-                  <Link href={`../${id}`}>
-                    <a>
-                      <Button primaryOutline>Pause for Now</Button>
-                    </a>
-                  </Link>
-                </div>
+                <Button primaryOutline onClick={doResetKYCUser}>
+                  Reset With Reason
+                </Button>
+                <Button primaryOutline onClick={doBanKYCUser}>
+                  Deny &amp; Ban
+                </Button>
               </div>
             </div>
           </div>

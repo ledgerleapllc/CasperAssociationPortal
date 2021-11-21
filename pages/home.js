@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import useMobileDetect from 'use-mobile-detect-hook';
 import AppHeader from '../components/layouts/app-header';
 import AppFooter from '../components/layouts/app-footer';
@@ -32,15 +31,11 @@ const Home = () => {
         <div className="flex-grow flex items-center">
           <div>
             <p className="text-5xl lg:text-7xl font-bold text-white whitespace-pre-line animate__animated animate__fadeInUp">
-              {`Welcome to the Casper\nvoting engine`}
+              {`Welcome to the Casper\nAssociation Membership Portal.`}
             </p>
             <p className="text-xl text-white whitespace-pre-line mt-5 animate__animated animate__fadeInUp animate__delay-3s">
-              {`Please choose Sign In if you have an existing account or Register if this is your first time\nhere. If you’re just here to explore, sign in as a `}
-              <span>
-                <Link href="/register-type">
-                  <a className="underline">guest.</a>
-                </Link>
-              </span>
+              Choose sign in below if you already have an account, or choose{' '}
+              register if you need to set one up.
             </p>
             <div className="mt-10 space-x-4">
               <button

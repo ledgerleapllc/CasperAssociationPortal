@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
+import AppFooter from '../components/layouts/app-footer';
 import Countries from '../public/json/country.json';
 import {
   NAME_PATTERN,

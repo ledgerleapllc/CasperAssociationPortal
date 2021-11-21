@@ -44,7 +44,11 @@ const VerifyNodeOwnershipSecondStep = ({
   };
 
   const setSeenGuide = () => {
-    window.open(`${process.env.BASE_URL}/user-guide.pdf`, '_blank');
+    // window.open(`${process.env.BASE_URL}/user-guide.pdf`, '_blank');
+    window.open(
+      'https://github.com/ledgerleapllc/caspersignerverifier',
+      '_blank'
+    );
     setSteps({
       ...steps,
       seenguide: true,
@@ -89,7 +93,7 @@ const VerifyNodeOwnershipSecondStep = ({
               sizeSpinner={15}
               disabled={!steps.downloaded}
             >
-              View Guide
+              Go to GitHub
             </Button>
           </div>
         </div>

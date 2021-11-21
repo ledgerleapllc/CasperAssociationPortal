@@ -49,6 +49,13 @@ export const IDverifications = () => {
     fetchVerifications();
   }, []);
 
+  const renderAMLStatus = row => {
+    if (row.manual_approved_at) {
+      return row?.background_checks_result ? 'VERIFIED' : 'Rejected';
+    }
+    return row?.background_checks_result ? 'VERIFIED' : 'Submitted / Pending';
+  };
+
   const renderKYCStatus = row => {
     if (row?.kyc_status === 'approved') return 'VERIFIED';
     if (row?.kyc_status === 'pending') return 'Submitted / Pending';
@@ -102,7 +109,7 @@ export const IDverifications = () => {
                 <p className="capitalize">{row?.type}</p>
               </Table.BodyCell>
               <Table.BodyCell key="checkResult">
-                <p>{row?.background_checks_result ? 'OK' : 'Needs Review'}</p>
+                <p>{renderAMLStatus(row)}</p>
               </Table.BodyCell>
               <Table.BodyCell key="status">
                 <p>{renderKYCStatus(row)}</p>

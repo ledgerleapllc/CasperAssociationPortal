@@ -261,6 +261,13 @@ export const approveDocuments = (payload, resolve, reject) => ({
   reject,
 });
 
+export const refreshLinks = (payload, resolve, reject) => ({
+  type: 'REFRESH_LINKS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getVerificationDetail = (payload, resolve, reject) => ({
   type: 'GET_LIST_VERIFICATION_DETAIL',
   payload,

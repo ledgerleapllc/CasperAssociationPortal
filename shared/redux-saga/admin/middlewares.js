@@ -374,6 +374,16 @@ export function* banVerifiedUser({ payload, resolve, reject }) {
   }
 }
 
+export function* refreshLinks({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.userId}/refresh-links`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* getVerificationDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
@@ -974,6 +984,7 @@ export function* watchAdmin() {
   yield all([
     takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
   ]);
+  yield all([takeLatest('REFRESH_LINKS', refreshLinks)]);
   yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
   yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
   yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);

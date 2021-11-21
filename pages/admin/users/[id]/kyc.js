@@ -1,9 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, BackButton } from '../../../../components/partials';
-import { getVerificationDetail } from '../../../../shared/redux-saga/admin/actions';
+import {
+  getVerificationDetail,
+  refreshLinks,
+} from '../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
@@ -14,9 +19,9 @@ const KycAmlDetail = () => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
   const [userKYC, setUserKYC] = useState();
-  const [shuftiData, setShuftiData] = useState();
+  // const [shuftiData, setShuftiData] = useState();
 
-  useEffect(() => {
+  const refreshData = () => {
     setLoading(true);
     dispatch(
       getVerificationDetail(
@@ -24,14 +29,93 @@ const KycAmlDetail = () => {
         res => {
           setLoading(false);
           setUserKYC(res);
-          setShuftiData(JSON.parse(res.shuftipro?.data));
+          // setShuftiData(JSON.parse(res.shuftipro?.data));
         },
         () => {
           setLoading(false);
         }
       )
     );
+  };
+
+  useEffect(() => {
+    refreshData();
   }, []);
+
+  const renderAddressCheckStatus = () => {
+    // {userKYC?.shuftipro?.address_result ? 'Passed' : 'Failed'}
+    if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
+      const { address_result, status } = userKYC?.shuftipro;
+
+      if (status === 'approved' && !address_result) {
+        return 'Manually approved';
+      }
+
+      if (status === 'denied' && !address_result) {
+        return 'Manually denied';
+      }
+
+      if (address_result == null) {
+        return 'Submitted / Pending';
+      }
+
+      if (address_result) {
+        return 'VERIFIED';
+      }
+    }
+    return 'Rejected';
+  };
+
+  const renderIDCheckStatus = () => {
+    // {userKYC?.shuftipro?.document_result ? 'Passed' : 'Failed'}
+    if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
+      const { document_result, status } = userKYC?.shuftipro;
+
+      if (status === 'approved' && !document_result) {
+        return 'Manually approved';
+      }
+
+      if (status === 'denied' && !document_result) {
+        return 'Manually denied';
+      }
+
+      if (document_result == null) {
+        return 'Submitted / Pending';
+      }
+
+      if (document_result) {
+        return 'VERIFIED';
+      }
+    }
+    return 'Rejected';
+  };
+
+  const renderAPIResponse = () => {
+    if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
+      if (userKYC?.shuftipro?.status === 'approved') return 'VERIFIED';
+      if (userKYC?.shuftipro?.status === 'pending')
+        return 'Submitted / Pending';
+      if (userKYC?.shuftipro?.status === 'denied') return 'Rejected';
+    }
+    return 'Not Submitted';
+  };
+
+  const refreshLink = e => {
+    e.preventDefault();
+    setLoading(true);
+    dispatch(
+      refreshLinks(
+        { userId: id },
+        () => {
+          setLoading(false);
+          refreshData();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
 
   return (
     <LayoutDashboard>
@@ -107,9 +191,7 @@ const KycAmlDetail = () => {
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">API Response:</p>
-                <p className="text-sm w-5/6">
-                  {shuftiData?.aml_declined_reason || 'N/A'}
-                </p>
+                <p className="text-sm w-5/6">{renderAPIResponse()}</p>
               </div>
             </div>
             {/* ID Documment API */}
@@ -124,31 +206,66 @@ const KycAmlDetail = () => {
                 </div>
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">ID Check Status:</p>
-                  <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.document_result ? 'Passed' : 'Failed'}
-                  </p>
+                  <p className="text-sm w-5/6">{renderIDCheckStatus()}</p>
                 </div>
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">
                     Address Check Status:
                   </p>
+                  <p className="text-sm w-5/6">{renderAddressCheckStatus()}</p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">
+                    Identification Doc:
+                  </p>
                   <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.address_result ? 'Passed' : 'Failed'}
+                    {userKYC?.shuftipro?.document_proof ? (
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={userKYC?.shuftipro?.document_proof}
+                        style={{
+                          textDecoration: 'underline',
+                          color: 'red',
+                        }}
+                      >
+                        View
+                      </a>
+                    ) : null}
                   </p>
                 </div>
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">Address Doc:</p>
                   <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.address_proof_link ? (
+                    {userKYC?.shuftipro?.address_proof ? (
                       <a
-                        href={userKYC?.shuftipro?.address_proof_link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-primary cursor-pointer underline"
+                        href={userKYC?.shuftipro?.address_proof}
+                        style={{
+                          textDecoration: 'underline',
+                          color: 'red',
+                        }}
                       >
-                        View File
+                        View
                       </a>
                     ) : null}
+                  </p>
+                </div>
+                <div className="flex flex-row py-1">
+                  <p className="text-sm font-medium w-1/6">
+                    Expired proof links?
+                  </p>
+                  <p className="text-sm w-5/6">
+                    <a
+                      onClick={refreshLink}
+                      style={{
+                        textDecoration: 'underline',
+                        color: 'red',
+                      }}
+                    >
+                      Refresh
+                    </a>
                   </p>
                 </div>
               </div>

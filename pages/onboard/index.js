@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
 // import { LinearProgress } from '@material-ui/core';
 
-import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
+import AppFooter from '../../components/layouts/app-footer';
 import OnboardItem from '../../components/onboard/onboard-item';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 
