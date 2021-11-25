@@ -116,6 +116,11 @@ const UserProfile = () => {
     openSnack('primary', 'Copied Public Address!');
   };
 
+  const capitalize = s => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -167,7 +172,7 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span className="flex gap-2 items-center">
-                                {memberInfo?.full_name}{' '}
+                                {capitalize(memberInfo?.full_name)}{' '}
                                 {memberInfo?.profile?.status === 'approved' && (
                                   <VerifiedIcon className="text-primary" />
                                 )}

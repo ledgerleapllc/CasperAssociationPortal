@@ -125,12 +125,16 @@ const AdminUserList = () => {
                     sortKey="membership_status"
                   >
                     <p>
-                      Membership <br /> Status
+                      Membership
+                      <br />
+                      Status
                     </p>
                   </Table.HeaderCell>
                   <Table.HeaderCell key="node_status" sortKey="node_status">
                     <p>
-                      Node <br /> Status
+                      Node
+                      <br />
+                      Status
                     </p>
                   </Table.HeaderCell>
                   <Table.HeaderCell key="email" sortKey="email">

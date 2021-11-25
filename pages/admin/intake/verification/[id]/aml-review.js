@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 import router from 'next/router';
 import Link from 'next/link';
@@ -17,6 +19,7 @@ import {
   banVerifiedUser,
   approveUserAML,
   getVerificationDetail,
+  refreshLinks,
 } from '../../../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../../../_app';
 
@@ -51,18 +54,19 @@ const AdminIntakeVerificationAML = () => {
   const [loadingApproved, setLoadingApproved] = useState(false);
   const { setLoading } = useContext(AppContext);
   const [shuftiData, setShuftiData] = useState();
+  const [shuftipro, setShuftipro] = useState();
 
-  useEffect(() => {
-    setLoading(true);
+  const refreshUser = () => {
     dispatch(
       getVerificationDetail(
         { id },
         res => {
           setLoading(false);
           if (res.shuftipro.background_checks_result === 1) {
-            router.push(`${id}/kyc-review`);
+            router.push(`/admin/intake/verification/${id}/kyc-review`);
           } else {
             setShuftiData(JSON.parse(res.shuftipro?.data));
+            setShuftipro(res.shuftipro);
           }
         },
         () => {
@@ -70,6 +74,11 @@ const AdminIntakeVerificationAML = () => {
         }
       )
     );
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    refreshUser();
   }, []);
 
   const doBanAMLUser = () => {
@@ -106,8 +115,8 @@ const AdminIntakeVerificationAML = () => {
     dispatch(
       approveUserAML(
         { id },
-        res => {
-          router.push(`../${id}/kyc-review`);
+        () => {
+          router.push(`/admin/intake/verification/${id}/kyc-review`);
           setLoadingApproved(false);
         },
         () => {
@@ -147,6 +156,23 @@ const AdminIntakeVerificationAML = () => {
     });
   };
 
+  const refreshLink = e => {
+    e.preventDefault();
+    setLoading(true);
+    dispatch(
+      refreshLinks(
+        { userId: id },
+        () => {
+          setLoading(false);
+          refreshUser();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -170,16 +196,76 @@ const AdminIntakeVerificationAML = () => {
                   <tbody>
                     <tr>
                       <td>
-                        <span>Response:</span>
-                      </td>
-                      <td>
-                        <span>
-                          {shuftiData?.aml_declined_reason || 'Unknown Reason'}
-                        </span>
+                        <div className="flex" style={{ padding: '5px 0' }}>
+                          <span style={{ width: '170px' }}>Response:</span>
+                          <span>
+                            {shuftiData?.aml_declined_reason ||
+                              'Unknown Reason'}
+                          </span>
+                        </div>
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan="2">
+                      <td>
+                        <p className="flex" style={{ padding: '5px 0' }}>
+                          <span style={{ width: '170px' }}>
+                            Identification Doc:
+                          </span>
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={shuftipro?.document_proof}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            View
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex" style={{ padding: '5px 0' }}>
+                          <span style={{ width: '170px' }}>Address Doc:</span>
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={shuftipro?.address_proof}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            View
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="flex" style={{ padding: '5px 0' }}>
+                          <span style={{ width: '170px' }}>
+                            Expired proof links?
+                          </span>
+                          <a
+                            onClick={refreshLink}
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'red',
+                            }}
+                          >
+                            Refresh
+                          </a>
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>
                         <span className="font-normal">
                           Please verify with the user that the flagged account{' '}
                           is not them before allowing this person to have a{' '}
@@ -190,7 +276,7 @@ const AdminIntakeVerificationAML = () => {
                   </tbody>
                 </table>
               </Styles>
-              <div className="pt-12 actions">
+              <div className="pt-12 flex gap-5 actions">
                 <Button
                   primary
                   isLoading={loadingApproved}
@@ -200,19 +286,12 @@ const AdminIntakeVerificationAML = () => {
                 >
                   Approve Manually
                 </Button>
-                <div className="pt-7 flex gap-5">
-                  <Button primaryOutline onClick={doBanAMLUser}>
-                    Deny &amp; Ban
-                  </Button>
-                  <Button primaryOutline onClick={doResetAMLUser}>
-                    Reset With Reason
-                  </Button>
-                  <Link href={`../${id}`}>
-                    <a>
-                      <Button primaryOutline>Pause for Now</Button>
-                    </a>
-                  </Link>
-                </div>
+                <Button primaryOutline onClick={doResetAMLUser}>
+                  Reset With Reason
+                </Button>
+                <Button primaryOutline onClick={doBanAMLUser}>
+                  Deny &amp; Ban
+                </Button>
               </div>
             </div>
           </div>

@@ -193,10 +193,13 @@ const DashboardSetting = () => {
   };
 
   useEffect(() => {
+    let username = user.fullInfo?.username;
+    if (!username) username = user.fullInfo?.pseudonym;
+
     reset({
       email: user.fullInfo?.new_email || user.fullInfo?.email,
       twoFA_login: `${user.fullInfo?.twoFA_login}`,
-      username: user.fullInfo?.username,
+      username,
     });
   }, [user]);
 

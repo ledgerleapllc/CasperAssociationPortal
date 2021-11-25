@@ -1,22 +1,27 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { getListPerks } from '../../../../shared/redux-saga/admin/actions';
+import {
+  getListPerks,
+  deletePerk,
+} from '../../../../shared/redux-saga/admin/actions';
 import { useTable } from '../../../partials/table';
 import { Button, StatusText, Table } from '../../../partials';
 import { formatDate } from '../../../../shared/core/utils';
+import { useDialog } from '../../../partials/dialog';
+import { AppContext } from '../../../../pages/_app';
 
 const Perks = styled.div`
   .perks-table {
     .col-1 {
-      width: 10%;
+      width: 8%;
     }
     .col-2 {
       width: 10%;
     }
     .col-3 {
-      width: 25%;
+      width: 22%;
     }
     .col-4 {
       width: 10%;
@@ -34,13 +39,15 @@ const Perks = styled.div`
       width: 5%;
     }
     .col-9 {
-      width: 10%;
+      width: 15%;
     }
   }
 `;
 
 export const PerksTable = ({ hideOff }) => {
+  const { setLoading } = useContext(AppContext);
   const dispatch = useDispatch();
+  const { setDialog, onClosed } = useDialog();
   const {
     data,
     setParams,
@@ -113,6 +120,67 @@ export const PerksTable = ({ hideOff }) => {
     return '';
   };
 
+  //
+  const doConfirm = id => {
+    setLoading(true);
+    dispatch(
+      deletePerk(
+        { id },
+        () => {
+          setLoading(false);
+          const newParams =
+            hideOff === 1
+              ? {
+                  setting: 1,
+                }
+              : {};
+          setParams(newParams);
+          resetData();
+          fetchPerks(1, newParams);
+          onClosed();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  // Delete Perk
+  const clickDeletePerk = id => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <div
+            className="text-center mx-auto py-20"
+            style={{ maxWidth: '26rem' }}
+          >
+            <h3 className="text-xl text-center mb-2.5">
+              Are you sure you are going to delete perk?
+            </h3>
+            <div className="mt-8 flex justify-center gap-5 items-center">
+              <button
+                type="button"
+                className="outline-none rounded-full h-24 w-24 font-normal border-transparent hover:opacity-40 text-white bg-primary"
+                onClick={() => doConfirm(id)}
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                className="px-5 outline-none rounded-full h-24 w-24 font-normal bg-transparent hover:opacity-40 text-primary border border-primary"
+                onClick={() => onClosed()}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ),
+      },
+    });
+  };
+
   return (
     <Perks className="h-full">
       <Table
@@ -179,13 +247,23 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.total_clicks}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body9">
-                <Link href={`/admin/perks/detail/${row.id}`}>
-                  <a>
-                    <Button className="w-full" primary size="small">
-                      Edit
-                    </Button>
-                  </a>
-                </Link>
+                <div className="flex">
+                  <Link href={`/admin/perks/detail/${row.id}`}>
+                    <a>
+                      <Button className="w-full" primary size="small">
+                        Edit
+                      </Button>
+                    </a>
+                  </Link>
+                  <Button
+                    style={{ marginLeft: '5px' }}
+                    primary
+                    size="small"
+                    onClick={() => clickDeletePerk(row.id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

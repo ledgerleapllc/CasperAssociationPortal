@@ -128,6 +128,13 @@ export const submitBallot = (payload, resolve, reject) => ({
   reject,
 });
 
+export const deletePerk = (payload, resolve, reject) => ({
+  type: 'DELETE_PERK',
+  payload,
+  resolve,
+  reject,
+});
+
 export const submitPerk = (payload, resolve, reject) => ({
   type: 'SUBMIT_PERK',
   payload,

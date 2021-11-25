@@ -208,7 +208,7 @@ const AdminIntakeVerificationKYC = () => {
                   <tbody>
                     <tr>
                       <td>
-                        <p className="flex">
+                        <p className="flex" style={{ padding: '5px 0' }}>
                           <span style={{ width: '170px' }}>
                             Reference Number:
                           </span>
@@ -218,7 +218,7 @@ const AdminIntakeVerificationKYC = () => {
                     </tr>
                     <tr>
                       <td>
-                        <p className="flex">
+                        <p className="flex" style={{ padding: '5px 0' }}>
                           <span style={{ width: '170px' }}>
                             ID Check Status:
                           </span>
@@ -228,7 +228,7 @@ const AdminIntakeVerificationKYC = () => {
                     </tr>
                     <tr>
                       <td>
-                        <p className="flex">
+                        <p className="flex" style={{ padding: '5px 0' }}>
                           <span style={{ width: '170px' }}>
                             Identification Doc:
                           </span>
@@ -248,7 +248,7 @@ const AdminIntakeVerificationKYC = () => {
                     </tr>
                     <tr>
                       <td>
-                        <p className="flex">
+                        <p className="flex" style={{ padding: '5px 0' }}>
                           <span style={{ width: '170px' }}>Address Doc:</span>
                           <a
                             target="_blank"
@@ -266,7 +266,7 @@ const AdminIntakeVerificationKYC = () => {
                     </tr>
                     <tr>
                       <td>
-                        <p className="flex">
+                        <p className="flex" style={{ padding: '5px 0' }}>
                           <span style={{ width: '170px' }}>
                             Expired proof links?
                           </span>

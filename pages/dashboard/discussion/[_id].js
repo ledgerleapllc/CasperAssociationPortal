@@ -348,7 +348,7 @@ const DashboardDiscusionDetail = () => {
             <div className="card-body overflow-y-auto lg:h-100%-70px">
               <div className="lg:pr-card">
                 <ChatBox data={discussion} noBorder />
-                {userInfo && discussion.user.id !== userInfo.id && (
+                {userInfo && (
                   <div className="relative pt-4 mb-8 lg:mb-12 ck-editor-reverse">
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <Controller

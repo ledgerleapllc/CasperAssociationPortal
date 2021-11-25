@@ -563,6 +563,16 @@ export function* getActivePerks({ payload, resolve, reject }) {
   }
 }
 
+export function* deletePerk({ payload, resolve, reject }) {
+  try {
+    yield http.doDelete([`admin/perks/${payload.id}`], {});
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* submitPerk({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
@@ -959,6 +969,7 @@ export function* watchAdmin() {
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('SUBMIT_PERK', submitPerk)]);
   yield all([takeLatest('EDIT_PERK', editPerk)]);
+  yield all([takeLatest('DELETE_PERK', deletePerk)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);
   yield all([takeLatest('GET_PERK_DETAIL', getPerkDetail)]);
   yield all([takeLatest('GET_ACTIVE_PERK_DETAIL', getActivePerkDetail)]);
