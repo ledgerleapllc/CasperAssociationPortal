@@ -74,13 +74,13 @@ const Login = () => {
             <p className="text-4xl text-center animate__animated animate__fadeInUp">
               Sign In
             </p>
-            <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-1s">
+            <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp">
               {`Don’t have an account yet? `}
               <Link href="/register-type">
                 <a className="text-primary underline font-medium">Register</a>
               </Link>
             </p>
-            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-0-5s">
               <input
                 type="text"
                 className="w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -100,7 +100,7 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-0-5s">
               <input
                 type="password"
                 className="w-full h-16 text-xl mt-5 px-7 rounded-full shadow-md focus:outline-none"
@@ -116,7 +116,7 @@ const Login = () => {
                 </p>
               )}
             </div>
-            <div className="lg:flex lg:space-x-5 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+            <div className="lg:flex lg:space-x-5 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-1s">
               <LoadingButton
                 type="submit"
                 isDisabled={isSubmitting}
@@ -125,7 +125,7 @@ const Login = () => {
                 className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
               />
             </div>
-            <p className="text-xs text-center mt-5 animate__animated animate__fadeInUp animate__delay-3s">
+            <p className="text-xs text-center mt-5 animate__animated animate__fadeInUp animate__delay-1s">
               {`Forgot your password? `}
               <Link href="/reset-password">
                 <a className="text-primary underline font-medium">Reset</a>

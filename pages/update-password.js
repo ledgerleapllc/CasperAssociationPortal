@@ -80,7 +80,7 @@ const UpdatePassword = () => {
               <p className="text-4xl text-center animate__animated animate__fadeInUp">
                 Your Password has been updated
               </p>
-              <div className="lg:flex lg:space-x-5 lg:mt-12 mt-8 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+              <div className="lg:flex lg:space-x-5 lg:mt-12 mt-8 lg:justify-center animate__animated animate__fadeInUp animate__delay-0-5s">
                 <button
                   type="button"
                   onClick={() => router.push('/login')}
@@ -101,10 +101,10 @@ const UpdatePassword = () => {
               <p className="text-4xl text-center animate__animated animate__fadeInUp">
                 Update Your Password
               </p>
-              <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+              <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-0-5s">
                 Please create a new password and click Submit
               </p>
-              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
                 <input
                   type="password"
                   className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -131,7 +131,7 @@ const UpdatePassword = () => {
                   </p>
                 )}
               </div>
-              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+              <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
                 <input
                   type="password"
                   className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -161,7 +161,7 @@ const UpdatePassword = () => {
                   </p>
                 )}
               </div>
-              <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+              <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-1-5s">
                 <LoadingButton
                   type="submit"
                   isDisabled={isSubmitting}
@@ -171,7 +171,7 @@ const UpdatePassword = () => {
                 />
               </div>
               <Link href="/home">
-                <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+                <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-1-5s">
                   <img
                     src="/images/ic_decline.svg"
                     className="mr-2"

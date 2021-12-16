@@ -75,11 +75,11 @@ const UpdateEmail = () => {
             <p className="text-4xl text-center animate__animated animate__fadeInUp">
               Update Your Email Address
             </p>
-            <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+            <p className="text-xs text-center mt-2 animate__animated animate__fadeInUp animate__delay-0-5s">
               Please enter the email you want to change to. This will resend the
               code to that email and update the email on your account as well.
             </p>
-            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
               <input
                 type="text"
                 className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -101,7 +101,7 @@ const UpdateEmail = () => {
                 </p>
               )}
             </div>
-            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-4s">
+            <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-1s">
               <input
                 type="text"
                 className="text-center w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
@@ -127,7 +127,7 @@ const UpdateEmail = () => {
                 </p>
               )}
             </div>
-            <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+            <div className="lg:flex lg:space-x-5 lg:mt-4 mt-14 lg:justify-center animate__animated animate__fadeInUp animate__delay-1-5s">
               <LoadingButton
                 type="submit"
                 isDisabled={isSubmitting}
@@ -137,7 +137,7 @@ const UpdateEmail = () => {
               />
             </div>
             <Link href="/verify-email">
-              <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-4s">
+              <p className="cursor-pointer text-xs text-center mt-5 inline-flex justify-center animate__animated animate__fadeInUp animate__delay-1-5s">
                 <img
                   src="/images/ic_decline.svg"
                   className="mr-2"

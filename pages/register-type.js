@@ -39,23 +39,23 @@ const TypeRegister = () => {
             <p className="text-4xl text-center whitespace-pre-line animate__animated animate__fadeInUp">
               What type of account are you registering?
             </p>
-            <div className="lg:flex lg:flex-col mt-10 lg:justify-center animate__animated animate__fadeInUp animate__delay-2s">
+            <div className="lg:flex lg:flex-col mt-10 lg:justify-center animate__animated animate__fadeInUp">
               <button
                 type="button"
-                className=" my-4 text-lg text-white w-full lg:w-full h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-4s"
+                className=" my-4 text-lg text-white w-full lg:w-full h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-0-5s"
                 onClick={() => router.push('/register-individual')}
               >
                 Individual
               </button>
               <button
                 type="button"
-                className="my-4 text-lg border-2 border-primary text-primary w-full lg:w-full h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-4s"
+                className="my-4 text-lg border-2 border-primary text-primary w-full lg:w-full h-16 rounded-full bg-white hover:bg-primary hover:bg-opacity-40 hover:text-white focus:outline-none shadow-md animate__animated animate__fadeInLeft animate__delay-0-5s"
                 onClick={() => router.push('/register-entity')}
               >
                 Entity
               </button>
             </div>
-            <p className="text-xs text-center mt-5 whitespace-pre-line animate__animated animate__fadeInUp animate__delay-4s">
+            <p className="text-xs text-center mt-5 whitespace-pre-line animate__animated animate__fadeInUp animate__delay-1s">
               {`Already have an account? `}
               <Link href="/login">
                 <a className="text-primary underline font-medium">Sign in</a>

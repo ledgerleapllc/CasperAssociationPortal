@@ -107,10 +107,10 @@ const RegisterIndividual = () => {
             <p className="text-2xl animate__animated animate__fadeInLeft">
               New Individual User
             </p>
-            <p className="text-sm text-dark mt-2 animate__animated animate__fadeInLeft animate__delay-1s">
+            <p className="text-sm text-dark mt-2 animate__animated animate__fadeInLeft">
               Fill out the form to register.
             </p>
-            <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+            <div className="text-sm text-dark mt-2 animate__animated animate__fadeInUp animate__delay-0-5">
               <div className="lg:flex mt-10 lg:space-x-5">
                 <div className="flex-1 flex-col">
                   <input
@@ -340,7 +340,7 @@ const RegisterIndividual = () => {
                 </div>
               </div>
             </div>
-            <div className="flex mt-10 animate__animated animate__fadeInUp animate__delay-3s">
+            <div className="flex mt-10 animate__animated animate__fadeInUp animate__delay-1s">
               <button
                 type="button"
                 className="flex items-baseline focus:outline-none"
@@ -366,7 +366,7 @@ const RegisterIndividual = () => {
                 policy, and privacy policy.
               </p>
             </div>
-            <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-4s">
+            <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-1-5s">
               <button
                 type="button"
                 className="flex items-baseline focus:outline-none"
@@ -388,7 +388,7 @@ const RegisterIndividual = () => {
               </p>
             </div>
             <div className="lg:flex lg:flex-row-reverse mt-10">
-              <div className="animate__animated animate__fadeInLeft animate__delay-5s">
+              <div className="animate__animated animate__fadeInLeft animate__delay-1-5s">
                 <LoadingButton
                   type="submit"
                   isDisabled={!validateFields() || isSubmitting}
