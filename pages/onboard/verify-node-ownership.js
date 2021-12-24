@@ -3,8 +3,8 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
-import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
+import AppFooter from '../../components/layouts/app-footer';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
 import VerifyNodeOwnershipFirstStep from '../../components/onboard/verify-node-ownership/first-step';
 import VerifyNodeOwnershipSecondStep from '../../components/onboard/verify-node-ownership/second-step';
@@ -35,6 +35,10 @@ const VerifyNodeOwnership = () => {
     if (!uploadFileRef?.current?.contains(target)) {
       handleUpload('close');
     }
+  };
+
+  const onRefresh = () => {
+    setCurrentStep(1);
   };
 
   useEffect(() => {
@@ -164,6 +168,7 @@ const VerifyNodeOwnership = () => {
           newFile={signedFileUploaded}
           onContinue={handleNext}
           setMessageFileStatus={setMessageFileStatus}
+          onRefresh={onRefresh}
         />
       );
     }

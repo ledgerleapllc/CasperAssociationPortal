@@ -418,7 +418,7 @@ const AdminTeams = () => {
                   {data.map(admin => (
                     <Table.BodyRow key={`admin-team-${admin.id}`}>
                       <Table.BodyCell key="body1">
-                        {`${formatDate(admin.created_at)} EST`}
+                        {`${formatDate(admin.created_at)}`}
                       </Table.BodyCell>
                       <Table.BodyCell key="body2">
                         {renderStatus(admin.member_status)}

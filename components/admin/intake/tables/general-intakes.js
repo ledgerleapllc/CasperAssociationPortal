@@ -203,7 +203,7 @@ export const GeneralIntakes = () => {
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="createdData">
-                <p>{formatDate(new Date(row?.created_at))} EST</p>
+                <p>{formatDate(new Date(row?.created_at))}</p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>

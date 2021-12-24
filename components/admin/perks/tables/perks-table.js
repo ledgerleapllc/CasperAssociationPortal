@@ -101,7 +101,7 @@ export const PerksTable = ({ hideOff }) => {
       )} EST`;
     }
     if (row.start_date) {
-      return `${formatDate(row.start_date, 'dd/MM/yyyy')} EST`;
+      return `${formatDate(row.start_date, 'dd/MM/yyyy')}`;
     }
     return '';
   };
@@ -115,7 +115,7 @@ export const PerksTable = ({ hideOff }) => {
       )} EST`;
     }
     if (row.end_date) {
-      return `${formatDate(row.end_date, 'dd/MM/yyyy')} EST`;
+      return `${formatDate(row.end_date, 'dd/MM/yyyy')}`;
     }
     return '';
   };
@@ -226,7 +226,7 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.id}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body2">
-                <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')} EST`}</p>
+                <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body3">
                 <p>{row.title}</p>

@@ -254,10 +254,7 @@ const AdminActiveBallotCurrentVotes = () => {
                       </Table.BodyCell>
                       <Table.BodyCell key="body3">
                         <p>{`${formatDate(row.created_at, 'hh:mmaaa')}`}</p>
-                        <p>{`${formatDate(
-                          row.created_at,
-                          'dd/MM/yyyy'
-                        )} EST`}</p>
+                        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body4">
                         <StatusText className="capitalize" content={row.type} />

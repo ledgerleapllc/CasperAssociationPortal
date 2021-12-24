@@ -85,10 +85,6 @@ const VerifyNodeOwnershipFirstStep = ({
         </HtmlTooltip>{' '}
         of your validator node and press submit
       </p>
-      {/* <p className="text-sm mt-2 text-dark1 animate__animated animate__fadeInLeft animate__delay-4s">
-        Clicking below will open up the hellosign document for capturing your
-        electronic signature
-      </p> */}
       <div className="lg:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
         <input
           type="text"

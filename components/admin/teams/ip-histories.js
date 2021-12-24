@@ -85,7 +85,7 @@ export const IPHistoriesDialog = ({ id }) => {
             {data.map(row => (
               <Table.BodyRow className="py-4" key={`ip-${row.id}`}>
                 <Table.BodyCell key="body1">
-                  <p>{`${formatDate(row.created_at)} EST`}</p>
+                  <p>{`${formatDate(row.created_at)}`}</p>
                 </Table.BodyCell>
                 <Table.BodyCell key="body2">
                   <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>

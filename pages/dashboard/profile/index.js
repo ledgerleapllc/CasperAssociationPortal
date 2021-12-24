@@ -250,7 +250,7 @@ const UserProfile = () => {
                                 {`${formatDate(
                                   myInfo?.email_verified_at,
                                   'dd/MM/yyyy'
-                                )} EST`}
+                                )}`}
                               </span>
                             </td>
                           </tr>
@@ -274,7 +274,7 @@ const UserProfile = () => {
                                   {`${formatDate(
                                     myInfo?.approve_at,
                                     'dd/MM/yyyy'
-                                  )} EST`}
+                                  )}`}
                                 </span>
                               ) : (
                                 <Link href="/dashboard/verification">

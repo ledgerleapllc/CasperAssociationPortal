@@ -160,12 +160,16 @@ const MembersViewerDetail = () => {
                             <span>Member Since:</span>
                           </td>
                           <td>
-                            <span>
-                              {`${formatDate(
-                                memberInfo?.email_verified_at,
-                                'dd/MM/yyyy'
-                              )} EST`}
-                            </span>
+                            {memberInfo?.email_verified_at ? (
+                              <span>
+                                {`${formatDate(
+                                  memberInfo?.email_verified_at,
+                                  'dd/MM/yyyy'
+                                )}`}
+                              </span>
+                            ) : (
+                              <span>-</span>
+                            )}
                           </td>
                         </tr>
                         <tr>
@@ -178,7 +182,7 @@ const MembersViewerDetail = () => {
                                 {`${formatDate(
                                   memberInfo?.kyc_verified_at,
                                   'dd/MM/yyyy'
-                                )} EST`}
+                                )}`}
                               </span>
                             ) : (
                               <span>-</span>
@@ -216,7 +220,7 @@ const MembersViewerDetail = () => {
                           </button>
                           <input
                             id="public-address"
-                            value={memberInfo?.public_address_node}
+                            value={memberInfo?.public_address_node || ''}
                             readOnly
                             hidden
                           />

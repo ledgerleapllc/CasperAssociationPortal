@@ -200,7 +200,7 @@ const AdminUserList = () => {
                         <p>{numberWithCommas(row.self_staked_amount)}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="created_at">
-                        <p>{`${formatDate(row?.created_at)} EST`}</p>
+                        <p>{`${formatDate(row?.created_at)}`}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="action_button">
                         <button

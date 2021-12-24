@@ -239,12 +239,10 @@ const Tab2 = () => {
   const renderEndTime = row => {
     if (row.end_date && row.end_time) {
       return (
-        <p>{`${formatDate(
-          new Date(`${row.end_date} ${row.end_time}`)
-        )} EST`}</p>
+        <p>{`${formatDate(new Date(`${row.end_date} ${row.end_time}`))}`}</p>
       );
     }
-    return <p>{`${formatDate(new Date(row?.time_end))} EST`}</p>;
+    return <p>{`${formatDate(new Date(row?.time_end))}`}</p>;
   };
 
   return (
@@ -383,7 +381,7 @@ const Tab3 = () => {
                 <StatusText content={row.voteType} className="uppercase" />
               </Table.BodyCell>
               <Table.BodyCell key="body3">
-                <p>{`${formatDate(row.date_placed)} EST`}</p>
+                <p>{`${formatDate(row.date_placed)}`}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body4">
                 <p>{row.result_count}</p>

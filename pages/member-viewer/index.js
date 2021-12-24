@@ -296,10 +296,7 @@ const MembersViewer = () => {
                         <p className="truncate">{row.full_name}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body2">
-                        <p>{`${formatDate(
-                          row.created_at,
-                          'dd/MM/yyyy'
-                        )} EST`}</p>
+                        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body3">
                         <p

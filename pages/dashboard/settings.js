@@ -294,9 +294,11 @@ const DashboardSetting = () => {
                       <div className="flex justify-between">
                         <label htmlFor="email">
                           Email Address
-                          {user.fullInfo?.new_email && (
-                            <span className="text-primary"> (verifying)</span>
-                          )}
+                          {user.fullInfo?.new_email &&
+                            user.fullInfo?.new_email !==
+                              user.fullInfo?.email && (
+                              <span className="text-primary"> (verifying)</span>
+                            )}
                         </label>
                         <EditButton mobile field="email" />
                       </div>

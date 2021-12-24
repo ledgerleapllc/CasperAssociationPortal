@@ -1,14 +1,11 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from 'react';
 import router from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Link from 'next/link';
-import ReactLoading from 'react-loading';
 import IconCopy from '../../../public/images/ic_copy.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Button, ProgressBar } from '../../../components/partials';
+import { Card, ProgressBar } from '../../../components/partials';
 import IconCamera from '../../../public/images/ic_camera.svg';
 import {
   formatDate,
@@ -188,7 +185,7 @@ const UserProfile = () => {
                                 {`${formatDate(
                                   memberInfo?.email_verified_at,
                                   'dd/MM/yyyy'
-                                )} EST`}
+                                )}`}
                               </span>
                             </td>
                           </tr>
@@ -212,7 +209,7 @@ const UserProfile = () => {
                                   {`${formatDate(
                                     memberInfo?.approve_at,
                                     'dd/MM/yyyy'
-                                  )} EST`}
+                                  )}`}
                                 </span>
                               )}
                             </td>

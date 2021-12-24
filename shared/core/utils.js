@@ -1,9 +1,15 @@
+/* eslint-disable arrow-body-style */
 import { format } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 export const formatDate = (time, formatType = 'dd/MM/yyyy') => {
   const timeConvert = new Date(time);
   if (timeConvert.toString() === 'Invalid Date') return timeConvert.toString();
   return format(timeConvert, formatType);
+};
+
+export const formatDateEST = (time, formatType = 'dd/MM/yyyy') => {
+  return format(zonedTimeToUtc(time, 'UTC'), formatType);
 };
 
 export const getShortNodeAddress = (address, length = 10) => {

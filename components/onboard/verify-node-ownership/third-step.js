@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ReactLoading from 'react-loading';
@@ -9,6 +10,7 @@ const VerifyNodeOwnershipThirdStep = ({
   newFile,
   onContinue,
   setMessageFileStatus,
+  onRefresh,
 }) => {
   const dispatch = useDispatch();
   const [status, setStatus] = useState('checking');
@@ -31,6 +33,11 @@ const VerifyNodeOwnershipThirdStep = ({
       );
     }
   }, [status]);
+
+  const clickTryAgain = e => {
+    e.preventDefault();
+    if (onRefresh) onRefresh();
+  };
 
   return (
     <div className="pt-8">
@@ -76,6 +83,17 @@ const VerifyNodeOwnershipThirdStep = ({
             Please go back and start the previous step again. If this has
             happened more than once, contact support.
           </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+            <a
+              role="button"
+              tabIndex={0}
+              style={{ padding: '4px 3rem', marginTop: '15px' }}
+              className="text-white flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+              onClick={clickTryAgain}
+            >
+              Try Again
+            </a>
+          </div>
         </>
       )}
       <button

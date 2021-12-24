@@ -24,6 +24,16 @@ const Onboard = () => {
     return 33.33 * flag;
   };
 
+  // Click Onboard
+  const clickOnboard = () => {
+    if (!user.signature_request_id) router.push('/onboard/esign-terms');
+  };
+
+  // Click Verify Node
+  const clickVerifyNode = () => {
+    if (!user.node_verified_at) router.push('/onboard/verify-node-ownership');
+  };
+
   return (
     <div className="flex justify-center min-h-screen">
       <div
@@ -63,7 +73,7 @@ const Onboard = () => {
                 title="Terms Agreement"
                 doneStep={!!user.signature_request_id}
                 description="You must agree to the terms of service before you can access the portal."
-                onClick={() => router.push('/onboard/esign-terms')}
+                onClick={clickOnboard}
                 stepType="hellosign"
                 userInfoKey="signature_request_id"
                 handleBypass={setIsBypassing}
@@ -75,10 +85,11 @@ const Onboard = () => {
                 title="Verify Node Ownership"
                 doneStep={!!user.node_verified_at}
                 description="If you are a node operator, you must verify the ownership of your node."
-                onClick={() => router.push('/onboard/verify-node-ownership')}
+                onClick={clickVerifyNode}
                 stepType="verify-node"
                 userInfoKey="node_verified_at"
                 handleBypass={setIsBypassing}
+                disabled={!user.signature_request_id}
               />
               <OnboardItem
                 className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-1.5s"
@@ -92,6 +103,7 @@ const Onboard = () => {
                 userInfoKey="letter_verified_at"
                 handleBypass={setIsBypassing}
                 waitingStep={user?.letter_file && !user?.letter_verified_at}
+                disabled={!user.signature_request_id || !user?.node_verified_at}
               />
             </div>
           </div>

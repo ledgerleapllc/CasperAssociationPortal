@@ -70,8 +70,8 @@ const WarningCards = ({ warnings, isLoading }) => {
               style={{ width: 0 }}
             >
               <Slider ref={sliderRef} {...settings}>
-                {warnings.map(warnMetric => (
-                  <div>
+                {warnings.map((warnMetric, index) => (
+                  <div key={`warning_${index}`}>
                     <div className="flex flex-col bg-primary">
                       <span className="text-lg font-medium text-white">
                         {warnMetric?.label} Warning!

@@ -12,7 +12,7 @@ const AppFooter = ({ theme }) => (
       } text-xs animate__animated animate__fadeIn animate__delay-5s
     `}
     >
-      ©2021 CasperLabs.io
+      ©{new Date().getFullYear()} Casper Members Portal
     </p>
   </div>
 );
