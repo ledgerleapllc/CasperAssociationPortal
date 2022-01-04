@@ -351,6 +351,7 @@ export function* updateUserSettings({ payload, resolve, reject }) {
     const body = {
       twoFA_login: payload.twoFA_login,
     };
+
     if (payload.username) body.username = payload.username;
     if (payload.email) body.email = payload.email;
     if (payload.password) body.new_password = payload.password;

@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import Link from 'next/link';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import MenuIcon from '@material-ui/icons/Menu';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 import { useSnackBar } from '../components/partials/snack-bar';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
@@ -19,6 +21,7 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
   const { openSnack } = useSnackBar();
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     document.body.classList.add('bg-landing');
@@ -48,39 +51,62 @@ const LandingPage = () => {
     );
   };
 
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
-    <div className="text-white min-h-screen overflow-x-hidden landing-page">
-      <nav className="relative pt-9 w-full flex justify-center text-white text-center">
-        <ul className="text-lg flex gap-24">
-          <li onClick={() => scrollToAnchor(aboutRef)}>
-            <a>About</a>
-          </li>
-          <li onClick={() => scrollToAnchor(toolsRef)}>
-            <a>Tools</a>
-          </li>
-          <li>
-            <Link href="/member-viewer">
-              <a>Explore</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/donate">
-              <a>Donate</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/home">
-              <a>Login</a>
-            </Link>
-          </li>
-        </ul>
-        <div
-          className="absolute linear right-0 top-0 transform translate-x-1/2 -translate-y-1/2"
-          style={{ width: '40rem', height: '40rem', filter: 'blur(10rem)' }}
-        />
-      </nav>
+    <div
+      id="landing-page__home"
+      className="text-white min-h-screen overflow-x-hidden landing-page"
+    >
+      <div id="custom-nav-wrap">
+        <div id="custom-nav-burger">
+          <div onClick={toggleMenu}>
+            <MenuIcon />
+          </div>
+        </div>
+        <nav
+          className={
+            showMenu
+              ? 'relative pt-9 w-full flex justify-center text-white text-center active'
+              : 'relative pt-9 w-full flex justify-center text-white text-center'
+          }
+        >
+          <ul
+            className="text-lg flex gap-24"
+            style={{ position: 'relative', zIndex: 1 }}
+          >
+            <li onClick={() => scrollToAnchor(aboutRef)}>
+              <a>About</a>
+            </li>
+            <li onClick={() => scrollToAnchor(toolsRef)}>
+              <a>Tools</a>
+            </li>
+            <li>
+              <Link href="/member-viewer">
+                <a>Explore</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/donate">
+                <a>Donate</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/home">
+                <a>Login / Register</a>
+              </Link>
+            </li>
+          </ul>
+          <div
+            className="absolute linear right-0 top-0 transform translate-x-1/2 -translate-y-1/2"
+            style={{ width: '40rem', height: '40rem', filter: 'blur(10rem)' }}
+          />
+        </nav>
+      </div>
       <section className="pt-52 flex flex-col justify-center items-center">
-        <div className="z-40 mb-32" style={{ maxWidth: '52%' }}>
+        <div id="landing-page__hero" className="z-40 mb-32">
           <h1 className="text-7xl text-center">Casper Association Portal</h1>
           <p className="mt-6 font-normal text-xl text-center">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit{' '}
@@ -127,10 +153,10 @@ const LandingPage = () => {
       <section
         ref={toolsRef}
         className="container-landing flex flex-col justify-center items-center"
-        style={{ padding: '18rem 0' }}
+        id="landing-page__section"
       >
-        <div className="flex flex-col gap-108">
-          <div className="flex items-center gap-16">
+        <div className="flex flex-col gap-108" style={{ width: '100%' }}>
+          <div className="flex items-center gap-16 custom-text-box">
             <div>
               <div
                 className="bg-white"
@@ -155,7 +181,7 @@ const LandingPage = () => {
               </button>
             </div>
           </div>
-          <div className="flex items-center flex-row-reverse gap-16">
+          <div className="flex items-center flex-row-reverse gap-16 custom-text-box">
             <div>
               <div
                 className="bg-white"
@@ -180,7 +206,7 @@ const LandingPage = () => {
               </button>
             </div>
           </div>
-          <div className="flex items-center gap-16">
+          <div className="flex items-center gap-16 custom-text-box">
             <div>
               <div
                 className="bg-white"
@@ -212,7 +238,11 @@ const LandingPage = () => {
         style={{ paddingBottom: '27rem' }}
       >
         <h2 className="font-light text-5xl">Need to get in contact?</h2>
-        <form className="pt-24 w-full" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          id="landing-page__contact"
+          className="pt-24 w-full"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="flex gap-6">
             <div className="flex-1">
               <input
@@ -224,7 +254,7 @@ const LandingPage = () => {
                 })}
               />
               {formState.errors?.name && (
-                <p className="pl-7 mt-2 text-primary">
+                <p className="mt-2 text-primary">
                   {formState.errors.name?.message}
                 </p>
               )}
@@ -243,7 +273,7 @@ const LandingPage = () => {
                 })}
               />
               {formState.errors?.email && (
-                <p className="pl-7 mt-2 text-primary">
+                <p className="mt-2 text-primary">
                   {formState.errors.email?.message}
                 </p>
               )}
@@ -259,7 +289,7 @@ const LandingPage = () => {
               })}
             />
             {formState.errors?.message && (
-              <p className="pl-7 mt-2 text-primary">
+              <p className="mt-2 text-primary">
                 {formState.errors.message?.message}
               </p>
             )}

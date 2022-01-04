@@ -49,25 +49,10 @@ const AppHeader = ({ className, theme, showExplorer }) => {
           </ul>
         </Dropdown>
       )}
-      {/* userInfo?.isLoggedIn && (
-        <button
-          className="animate__animated animate__fadeIn animate__delay-2s"
-          type="button"
-          onClick={async e => {
-            e.preventDefault();
-            dispatch(logoutApp());
-          }}
-        >
-          <Hamburger
-            width="2rem"
-            height="1.25rem"
-            className={`${theme === 'light' ? 'text-white' : 'text-dark2'}`}
-          />
-        </button>
-      ) */}
       {showExplorer && (
         <Button
           primary
+          id="app-header-button"
           className="animate__animated animate__fadeIn animate__delay-2s"
           type="button"
           onClick={() => {

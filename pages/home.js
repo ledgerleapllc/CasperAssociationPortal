@@ -43,7 +43,7 @@ const Home = () => {
                 className="rounded-full border-2 border-white text-white w-24 h-24 hover:border-opacity-0 hover:bg-white hover:bg-opacity-40 focus:outline-none animate__animated animate__fadeInLeft animate__delay-1s"
                 onClick={() => router.push('/login')}
               >
-                Sign In
+                Log In
               </button>
               <button
                 type="button"

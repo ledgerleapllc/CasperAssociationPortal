@@ -1,0 +1,125 @@
+@media all and (max-width: 1023px) {
+  #app-header-button {
+    width: 10rem !important;
+  }
+}
+
+#landing-page__home {
+  #landing-page__section {
+    padding: 18rem 0;
+  }
+  
+  #landing-page__hero {
+    max-width: 52%;
+  }
+
+  #custom-nav-wrap {
+    position: relative;
+    z-index: 100;
+  
+    #custom-nav-burger {
+      display: none;
+    }
+  
+    @media all and (max-width: 767px) {
+      #custom-nav-burger {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        z-index: 2;
+        > div {
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+      }
+      > nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: none;
+        margin-top: 50px !important;
+        padding-top: 0 !important;
+        &.active {
+          display: block;
+        }
+  
+        > ul {
+          display: block !important;
+          background: #eee !important;
+          color: rgba(166, 3, 4, 1) !important;
+          li {
+            border-bottom: 1px solid rgba(166, 3, 4, 0.3);
+            padding: 6px 1rem;
+            > a {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 1023px) {
+    .custom-text-box {
+      display: block !important;
+      h2 {
+        margin-top: 1.5rem;
+      }
+      > div:first-child {
+        max-width: 100% !important;
+        > div {
+          max-width: 100% !important;
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 767px) {
+    .custom-text-box {
+      button {
+        width: 100% !important;
+      }
+    }
+    #landing-page__hero {
+      max-width: 100%;
+      padding: 0 15px;
+    }
+    > section {
+      > div {
+        > h1 {
+          font-size: 2rem !important;
+          text-align: center !important;
+          line-height: 1.2 !important;
+        }
+      }
+    }
+    #landing-page__contact {
+      > .flex {
+        display: block;
+        .flex-1 {
+          margin-top: 1.25rem;
+        }
+      }
+      input, textarea {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+      }
+    }
+    footer {
+      height: auto;
+      padding: 0.5rem;
+      > ul {
+        flex-direction: column;
+        gap: 0;
+        > li {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import '../styles/globals.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../styles/custom-animation.scss';
+import '../styles/custom.scss';
 import createSagaMiddleware from 'redux-saga';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, useDispatch, useSelector } from 'react-redux';
