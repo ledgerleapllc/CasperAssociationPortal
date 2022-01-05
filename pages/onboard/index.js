@@ -35,7 +35,10 @@ const Onboard = () => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
+    <div
+      className="flex justify-center min-h-screen"
+      id="landing-page__onboard"
+    >
       <div
         className="
           flex flex-col w-full
@@ -53,7 +56,7 @@ const Onboard = () => {
               <p className="flex-1 text-gray">Verify Node Ownership</p>
               <p className="flex-1 text-gray">Upload Letter of Motivation</p>
             </div>
-            <div className="mb-3">
+            <div className="mb-3 custom-progress-bar">
               {/*
               <LinearProgress
                 variant="determinate"
@@ -61,13 +64,13 @@ const Onboard = () => {
                 value={getValue()}
               /> */}
               <div
-                className="hidden lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
+                className="lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
                 style={{ width: `${getValue()}%` }}
               />
             </div>
             <div className="lg:flex lg:space-x-5">
               <OnboardItem
-                className="lg:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-1s"
+                className="custom-onboard-item lg:flex-1 cursor-pointer animate__animated animate__fadeInUp animate__delay-0-5s"
                 imageUrl="/images/img_signature.png"
                 blurImageUrl="/images/img_signature_blur.png"
                 title="Terms Agreement"
@@ -79,7 +82,7 @@ const Onboard = () => {
                 handleBypass={setIsBypassing}
               />
               <OnboardItem
-                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-2s"
+                className="custom-onboard-item lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-1s"
                 imageUrl="/images/img_ownership.png"
                 blurImageUrl="/images/img_ownership_blur.png"
                 title="Verify Node Ownership"
@@ -92,7 +95,7 @@ const Onboard = () => {
                 disabled={!user.signature_request_id}
               />
               <OnboardItem
-                className="lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-1.5s"
+                className="custom-onboard-item lg:flex-1 mt-10 lg:mt-0 cursor-pointer animate__animated animate__fadeInUp animate__delay-8s"
                 imageUrl="/images/img_kyc.png"
                 blurImageUrl="/images/img_kyc_blur.png"
                 title="Upload Letter of Motivation"

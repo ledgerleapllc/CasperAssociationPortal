@@ -72,12 +72,17 @@ const RegisterEntity = () => {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = data => {
+    const params = {
+      ...data,
+    };
+    if (params.telegram === '@') {
+      delete params.telegram;
+    }
+
     setIsSubmitting(true);
     dispatch(
       registerEntity(
-        {
-          ...data,
-        },
+        params,
         () => {
           router.push('/verify-email');
         },
@@ -467,7 +472,7 @@ const RegisterEntity = () => {
                     control={control}
                     rules={{
                       pattern: {
-                        message: 'Telegram is invalid',
+                        message: 'The Telegram user name format is invalid',
                         value: TELEGRAM_PATTERN,
                       },
                     }}
@@ -477,7 +482,6 @@ const RegisterEntity = () => {
                         className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
                         placeholder="Telegram User Name"
                         name="telegram"
-                        required
                         value={value || ''}
                         onChange={e => {
                           onChangeTelegram(e);

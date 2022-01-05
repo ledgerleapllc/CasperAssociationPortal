@@ -4,6 +4,24 @@
   }
 }
 
+#landing-page__onboard {
+  @media all and (max-width: 1023px) {
+    .custom-progress-bar {
+      border-top: 1px solid black !important;
+      margin-bottom: 2.5rem;
+    }
+    .custom-onboard-item {
+      width: 364px;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      p.text-2xl {
+        padding-top: 10px;
+      }
+    }
+  }
+}
+
 #landing-page__home {
   #landing-page__section {
     padding: 18rem 0;

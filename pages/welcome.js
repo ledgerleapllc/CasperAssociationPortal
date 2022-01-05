@@ -21,7 +21,8 @@ const Welcome = () => {
           detectMobile.isMobile() ? '_mobile' : ''
         }.png')`,
         backgroundSize: 'cover',
-        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'auto',
       }}
     >
       <div
@@ -33,7 +34,7 @@ const Welcome = () => {
           2xl:max-w-screen-2xl"
       >
         <AppHeader theme="light" />
-        <div className="flex-grow flex items-center justify-center mt-24 lg:mt-0">
+        <div className="flex-grow flex items-center justify-center mt-24 mb-24 lg:mt-0">
           <div
             className="bg-white w-full lg:w-2/3 px-4 py-12 lg:px-28 animate__animated animate__fadeInUp animate__delay-1s"
             style={{
@@ -105,7 +106,7 @@ const Welcome = () => {
                 height={14}
               />
               <p className="text-xs lg:text-sm text-dark1 ml-5">
-                Verify your identity.
+                Submit a letter of motivation.
               </p>
             </div>
             <div className="flex justify-center">
