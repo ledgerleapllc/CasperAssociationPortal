@@ -21,18 +21,23 @@ const StylesIntake = styled.div`
   .intake-table {
     .col-1 {
       width: 25%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 35%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 10%;
+      padding-right: 0 !important;
     }
   }
 `;

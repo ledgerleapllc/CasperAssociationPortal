@@ -41,15 +41,19 @@ const StylesVotes = styled.div`
   .active-votes-table {
     .col-1 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 10%;
+      padding-right: 0 !important;
     }
   }
 `;

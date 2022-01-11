@@ -16,12 +16,15 @@ const Styles = styled.div`
     }
     .col-1 {
       width: 50%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 25%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 25%;
+      padding-right: 0 !important;
     }
   }
 `;

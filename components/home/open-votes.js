@@ -15,9 +15,11 @@ const Styles = styled.div`
     }
     .col-1 {
       width: 55%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 45%;
+      padding-right: 0 !important;
     }
     .custom-row {
       border: 0;

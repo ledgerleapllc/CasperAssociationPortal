@@ -4,6 +4,23 @@
   }
 }
 
+.onboard-stepper-block {
+  @media all and (max-width: 1023px) {
+    .onboard-stepper-blockButtons {
+      display: flex;
+      margin-top: 50px;
+      button {
+        text-align: center;
+        img {
+          width: 52px;
+          margin: 0 auto;
+          margin-bottom: 0.3rem;
+        }
+      }
+    }
+  }
+}
+
 #landing-page__onboard {
   @media all and (max-width: 1023px) {
     .custom-progress-bar {
@@ -138,6 +155,14 @@
           padding: 0.5rem;
         }
       }
+    }
+  }
+}
+
+#landing-page__dashboard {
+  @media all and (max-width: 1023px) {
+    > .flex {
+      justify-content: center;
     }
   }
 }

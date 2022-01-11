@@ -30,9 +30,11 @@ const Styles = styled.div`
   .emailer-admin-table {
     .col-1 {
       width: 60%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 40%;
+      padding-right: 0 !important;
     }
   }
 `;

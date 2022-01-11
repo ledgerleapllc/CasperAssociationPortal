@@ -167,13 +167,8 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
                     >
                       Upload Letter of Motivation
                     </button>
-                    <span className="hidden lg:block">Or Drop File Here</span>
-                    {/* (isDragReject || !!fileRejections.length) && (
-                      <span className="hidden lg:block text-primary">
-                        Accept jpeg, png, pdf, txt - Max File Size: 2MB
-                      </span>
-                    ) */}
-                    <span className="hidden lg:block text-primary">
+                    <span className="lg:block">Or Drop File Here</span>
+                    <span className="lg:block text-primary text-center">
                       Accept jpeg, png, pdf, txt - Max File Size: 2MB
                     </span>
                   </div>

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import ReactLoading from 'react-loading';
-// import { LinearProgress } from '@material-ui/core';
-
 import AppHeader from '../../components/layouts/app-header';
 import AppFooter from '../../components/layouts/app-footer';
 import OnboardItem from '../../components/onboard/onboard-item';
@@ -18,7 +16,7 @@ const Onboard = () => {
     let flag = 0;
     if (user.signature_request_id) flag += 1;
     if (user.node_verified_at) flag += 1;
-    if (user.letter_verified_at) flag += 1;
+    if (user.letter_file) flag += 1;
 
     if (flag === 3) return 100;
     return 33.33 * flag;
@@ -57,12 +55,6 @@ const Onboard = () => {
               <p className="flex-1 text-gray">Upload Letter of Motivation</p>
             </div>
             <div className="mb-3 custom-progress-bar">
-              {/*
-              <LinearProgress
-                variant="determinate"
-                color="secondary"
-                value={getValue()}
-              /> */}
               <div
                 className="lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
                 style={{ width: `${getValue()}%` }}

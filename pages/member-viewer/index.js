@@ -31,24 +31,31 @@ const Styles = styled.div`
   .members-table {
     .col-1 {
       width: 20%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 20%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 12%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 12%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 13%;
+      padding-right: 0 !important;
     }
     .col-6 {
       width: 13%;
+      padding-right: 0 !important;
     }
     .col-7 {
       width: 10%;
+      padding-right: 0 !important;
     }
   }
 `;

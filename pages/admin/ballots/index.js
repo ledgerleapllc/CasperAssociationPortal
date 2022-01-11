@@ -21,44 +21,57 @@ const Styles = styled.div`
   .active-ballot-table {
     .col-1 {
       width: 25%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 13%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 17%;
+      padding-right: 0 !important;
     }
     .col-6 {
       width: 20%;
+      padding-right: 0 !important;
     }
   }
   .complete-ballot-table {
     .col-1 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 12%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 12%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-6 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-7 {
       width: 10%;
+      padding-right: 0 !important;
     }
   }
 `;

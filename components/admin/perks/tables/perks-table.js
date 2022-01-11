@@ -16,30 +16,39 @@ const Perks = styled.div`
   .perks-table {
     .col-1 {
       width: 8%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 22%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-6 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-7 {
       width: 10%;
+      padding-right: 0 !important;
     }
     .col-8 {
       width: 5%;
+      padding-right: 0 !important;
     }
     .col-9 {
       width: 15%;
+      padding-right: 0 !important;
     }
   }
 `;

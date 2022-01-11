@@ -15,17 +15,31 @@ const Styles = styled.div`
       margin-right: 0;
     }
     .col-1 {
-      width: 60%;
+      width: 30%;
+      padding-right: 0 !important;
     }
     .col-2 {
-      width: 30%;
+      width: 40%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .custom-row {
       border: 0;
       padding: 10px 0;
+    }
+    .col-2 {
+      display: flex;
+      justify-content: center;
+    }
+    .table-body {
+      .col-1,
+      .col-2,
+      .col-3 {
+        padding-left: 5px;
+      }
     }
   }
 `;
@@ -102,7 +116,7 @@ const TrendingDiscussion = () => {
                           />
                         </div>
                         <span className="text-sm">
-                          {`${formatDate(row.created_at, 'd/M/yy')}`}
+                          {`${formatDate(row.created_at, 'd/M/yy HH:mm')} EST`}
                         </span>
                       </div>
                     </Link>

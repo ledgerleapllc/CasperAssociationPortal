@@ -62,8 +62,9 @@ const OnboardStepper = ({
   };
 
   return (
-    <>
+    <div className="onboard-stepper-block">
       <div className="block lg:hidden w-full flex justify-between animate__animated animate__fadeInUp">
+        {/*
         <button
           type="button"
           className="flex items-center focus:outline-none"
@@ -78,7 +79,15 @@ const OnboardStepper = ({
           />
           <span className="text-primary text-sm">Back</span>
         </button>
+        */}
         {title === 'Submit KYC' ? (
+          <ul className="list-disc lg:list-none">
+            <li className="text-primary font-bold text-sm">
+              {handleTopNextButton()}
+            </li>
+          </ul>
+        ) : null}
+        {/* title === 'Submit KYC' ? (
           <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">
               {handleTopNextButton()}
@@ -101,7 +110,7 @@ const OnboardStepper = ({
               className="ml-2"
             />
           </button>
-        )}
+        ) */}
         {!showNextButton && title === 'Submit KYC' && (
           <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">Operator KYC</li>
@@ -151,7 +160,7 @@ const OnboardStepper = ({
           </div>
           <div className="flex-grow">{stepContent}</div>
         </div>
-        <div className="hidden lg:flex justify-between border-b border-gray pb-2">
+        <div className="onboard-stepper-blockButtons lg:flex justify-between border-b border-gray pb-2">
           <button
             type="button"
             className={`${
@@ -185,7 +194,7 @@ const OnboardStepper = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -40,9 +40,11 @@ const Styles = styled.div`
   .discussion-table {
     .col-1 {
       width: 0%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 100%;
+      padding-right: 0 !important;
     }
 `;
 
@@ -71,7 +73,7 @@ const ChatBox = ({ data, noBorder }) => (
         </Link>
         <div className="border-gray1 border-b" />
         <p className="text-xxs py-1">
-          Node Name:{' '}
+          Public Key:{' '}
           <Tooltips
             placement="right"
             title={data.user?.public_address_node}

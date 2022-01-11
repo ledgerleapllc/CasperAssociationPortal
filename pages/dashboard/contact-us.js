@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Button, Card } from '../../components/partials';
@@ -11,6 +11,8 @@ import { EMAIL_PATTERN } from '../../helpers/form-validation';
 const ContactUs = () => {
   const { setLoading } = useContext(AppContext);
   const [isSubmitting, setIsSubmitting] = useState();
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+
   const dispatch = useDispatch();
 
   const { formState, register, handleSubmit, reset } = useForm({
@@ -26,7 +28,6 @@ const ContactUs = () => {
         () => {
           setLoading(false);
           setIsSubmitting(false);
-          // openSnack('primary', 'Sent Message!');
           reset();
         },
         () => {
@@ -50,6 +51,9 @@ const ContactUs = () => {
               forward to hearing from you!
             </p>
           </div>
+          <p className="text-sm">
+            Contacting as: <a className="text-primary">{userInfo?.pseudonym}</a>
+          </p>
           <div className="flex flex-col flex-1 min-h-0 w-full lg:w-1/2">
             <div className="flex-1 min-h-0 flex">
               <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
@@ -73,6 +77,7 @@ const ContactUs = () => {
                     className="border border-gray1 w-full mt-4 flex-1 h-14 px-7 shadow-md focus:outline-none"
                     placeholder="Email"
                     name="email"
+                    defaultValue={userInfo?.email}
                     {...register('email', {
                       required: 'Email is required',
                       pattern: {

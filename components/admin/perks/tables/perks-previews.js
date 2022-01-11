@@ -10,9 +10,11 @@ const Perks = styled.div`
   .perks-preview-table {
     .col-1 {
       width: 0%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 100%;
+      padding-right: 0 !important;
     }
     .perk-preview-record {
       width: 50%;

@@ -25,7 +25,11 @@ const NodeInfoHome = () => {
             />
           </Tooltips>
         </div>
-        <span className="text-base text-black1 font-thin">{metrics?.rank}</span>
+        <span className="text-base text-black1 font-thin">
+          {metrics?.rank
+            ? `${metrics?.rank} out of ${metrics?.totalCount}`
+            : ''}
+        </span>
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">

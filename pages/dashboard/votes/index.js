@@ -25,35 +25,45 @@ const Styles = styled.div`
   .active-vote-table {
     .col-1 {
       width: 40%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 13%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 14%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 13%;
+      padding-right: 0 !important;
     }
     .col-6 {
       width: 5%;
+      padding-right: 0 !important;
     }
   }
   .complete-vote-table {
     .col-1 {
       width: 55%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 15%;
+      padding-right: 0 !important;
     }
   }
 `;
@@ -261,7 +271,7 @@ const Tab2 = () => {
             <p>Total Votes</p>
           </Table.HeaderCell>
           <Table.HeaderCell key="result">
-            <p>Results For/Against</p>
+            <p>For/Against</p>
           </Table.HeaderCell>
           <Table.HeaderCell key="date_ended">
             <p>Date Ended</p>

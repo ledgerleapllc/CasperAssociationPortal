@@ -72,7 +72,7 @@ const VerifyNodeOwnershipFirstStep = ({
           title={
             <div>
               <Typography color="inherit">
-                The public address is your Node Name
+                The public address is your Public Key
               </Typography>
             </div>
           }

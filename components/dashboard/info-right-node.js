@@ -9,6 +9,7 @@ import { getNodesFromUser } from '../../shared/redux-saga/auth/actions';
 import Table, { useTable } from '../partials/table';
 import { getShortNodeAddress } from '../../shared/core/utils';
 import { Tooltips } from '../partials';
+import useMetrics from '../hooks/useMetrics';
 
 const Styles = styled.div`
   .nodes-table {
@@ -25,9 +26,11 @@ const Styles = styled.div`
     .col-1 {
       padding-left: 0.5rem;
       width: 15%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 85%;
+      padding-right: 0 !important;
     }
     .custom-row {
       border: 0;
@@ -174,6 +177,7 @@ const InfoRightNode = memo(({ currentNode }) => {
   const [isAdmin, setIsAdmin] = useState(null);
   const [filterFailedNodes, setFilterFailedNodes] = useState(null);
   const router = useRouter();
+  const { metrics } = useMetrics();
 
   useEffect(() => {
     if (userInfo) {
@@ -191,7 +195,7 @@ const InfoRightNode = memo(({ currentNode }) => {
     <div className="flex gap-5 flex-col bg-white h-full">
       <div className="flex lg:hidden flex-col mt-2 mx-5 pb-8 border-b-2 border-gray h-1/10">
         <div className="flex">
-          <span className="text-lg font-normal">Node Name</span>
+          <span className="text-lg font-normal">Public Key</span>
           <img
             className="pl-3"
             width="10px"
@@ -212,7 +216,17 @@ const InfoRightNode = memo(({ currentNode }) => {
           <span className="text-lg font medium lg:font-normal">Node Rank</span>
           <Tooltips
             placement="top"
-            title="Ranks all nodes in the platform weighted equally."
+            title={
+              <>
+                <p>Ranks all nodes in the platform weighted equally.</p>
+                <p>
+                  Your Node Rank:
+                  {metrics?.rank
+                    ? `${metrics?.rank} out of ${metrics?.totalCount}`
+                    : ''}
+                </p>
+              </>
+            }
             arrow
           >
             <img

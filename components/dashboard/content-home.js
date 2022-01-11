@@ -185,7 +185,7 @@ const ContentHome = () => {
     <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
       <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
         {(isAlertLoading || !!alerts.length) && (
-          <div className="w-full h-full lg:w-3/5">
+          <div className="w-full lg:w-3/5">
             <Alert
               isLoading={isAlertLoading}
               alerts={alerts}
@@ -195,7 +195,7 @@ const ContentHome = () => {
             />
           </div>
         )}
-        <div className="w-2/4 flex-grow lg:w-1/5 h-full">
+        <div className="w-2/4 flex-grow lg:w-1/5">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">
@@ -208,7 +208,7 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 flex-grow lg:w-1/5 h-full">
+        <div className="w-2/4 flex-grow lg:w-1/5">
           <Card className="lg:flex-none h-full py-3">
             <div className="flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">

@@ -244,10 +244,11 @@ const Styles = styled.div`
     .col-1 {
       width: 0%;
       display: none;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 100%;
-      padding-right: 0;
+      padding-right: 0 !important;
     }
 `;
 

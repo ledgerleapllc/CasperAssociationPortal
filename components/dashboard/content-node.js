@@ -9,7 +9,6 @@ import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
 import InfoRightNode from './info-right-node';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
-
 import {
   getNodesFromAdmin,
   getNodeDetail,
@@ -150,7 +149,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             <div className="flex flex-col px-9 h-full justify-center">
               <div className="flex justify-between">
                 <div className="flex gap-2">
-                  <span className="text-lg font-normal">Node Name</span>
+                  <span className="text-lg font-normal">Public Key</span>
                   <Tooltips
                     placement="top"
                     title="Displays the selected node address"

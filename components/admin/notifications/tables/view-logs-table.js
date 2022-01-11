@@ -10,18 +10,23 @@ const ViewLogs = styled.div`
   .view-logs-table {
     .col-1 {
       width: 30%;
+      padding-right: 0 !important;
     }
     .col-2 {
       width: 17.5%;
+      padding-right: 0 !important;
     }
     .col-3 {
       width: 17.5%;
+      padding-right: 0 !important;
     }
     .col-4 {
       width: 17.5%;
+      padding-right: 0 !important;
     }
     .col-5 {
       width: 17.5%;
+      padding-right: 0 !important;
     }
   }
 `;
