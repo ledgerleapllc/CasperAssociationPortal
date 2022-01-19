@@ -192,53 +192,40 @@ const InfoRightNode = memo(({ currentNode }) => {
   }, [userInfo]);
 
   return (
-    <div className="flex gap-5 flex-col bg-white h-full">
-      <div className="flex lg:hidden flex-col mt-2 mx-5 pb-8 border-b-2 border-gray h-1/10">
-        <div className="flex">
-          <span className="text-lg font-normal">Public Key</span>
-          <img
-            className="pl-3"
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-          />
-        </div>
-        <div className="flex">
-          <span className="text-base font-thin overflow-hidden overflow-ellipsis">
-            0x961d61792ca1c5e08a3cec4261e08ef4eaea5b5d
-          </span>
-          <img className="pl-3" src="/images/ic_down.svg" alt="Info" />
-        </div>
-      </div>
-      <div className="flex flex-col lg:pb-3 h-9/10 lg:h-full">
-        <div className="pl-5 flex gap-1">
-          <span className="text-lg font medium lg:font-normal">Node Rank</span>
-          <Tooltips
-            placement="top"
-            title={
-              <>
-                <p>Ranks all nodes in the platform weighted equally.</p>
-                <p>
-                  Your Node Rank:
-                  {metrics?.rank
-                    ? `${metrics?.rank} out of ${metrics?.totalCount}`
-                    : ''}
-                </p>
-              </>
-            }
-            arrow
-          >
-            <img
-              width="10px"
-              height="10px"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
-          </Tooltips>
+    <div id="dashboard-content-node1" className="bg-white">
+      <div className="flex flex-col w-full h-full">
+        <div id="dashboard-content-node1__header" className="pl-3">
+          <div id="dashboard-content-node1__title">
+            <span className="text-lg font-normal pr-1">Node Rank</span>
+            <Tooltips
+              placement="top"
+              title={
+                <>
+                  <p>Ranks all nodes in the platform weighted equally.</p>
+                  <p>
+                    Your Node Rank:
+                    {metrics?.rank
+                      ? `${metrics?.rank} out of ${metrics?.totalCount}`
+                      : ''}
+                  </p>
+                </>
+              }
+              arrow
+            >
+              <img
+                width="10px"
+                height="10px"
+                src="/images/ic_feather_info.svg"
+                alt="Info"
+              />
+            </Tooltips>
+          </div>
           {!!isAdmin && (
-            <div className="ml-auto flex items-center px-4">
-              <span className="pr-2">Only Failing</span>
+            <div
+              id="dashboard-content-node1__switch"
+              className="flex items-center px-4"
+            >
+              <span className="pr-2 text-sm">Only Failing</span>
               <Switch
                 id="status"
                 checked={!!filterFailedNodes}

@@ -11,7 +11,10 @@ const Header = () => {
   const dispatch = useDispatch();
 
   return (
-    <header className="hidden lg:flex w-full items-center justify-end bg-white shadow-light h-18 pr-5">
+    <header
+      id="dashboard-layoutContent__header"
+      className="bg-white shadow-light pr-5"
+    >
       <Dropdown
         trigger={
           <div

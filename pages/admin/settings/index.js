@@ -279,7 +279,7 @@ const Settings = () => {
                   />
                 </Tooltips>
               </h4>
-              <Link href="settings/notifications">
+              <Link href="/admin/settings/notifications">
                 <button
                   type="button"
                   className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"

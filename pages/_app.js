@@ -13,7 +13,7 @@ import appReducer from '../shared/redux-saga/app-reducers';
 import appMiddleware from '../shared/redux-saga/app-middleware';
 import { DialogProvider } from '../components/partials/dialog';
 import AppResolver from '../components/layouts/app-resolver';
-import { fetchUserInfo } from '../shared/redux-saga/auth/actions';
+import { fetchUserInfo, setCollapsed } from '../shared/redux-saga/auth/actions';
 import AppLoading from '../components/layouts/app-loading';
 import { SnackBarProvider } from '../components/partials/snack-bar';
 import { getToken } from '../helpers/api/auth.service';
@@ -30,6 +30,12 @@ const Container = props => {
   );
   const [token, setToken] = useState(1);
   useEffect(() => {
+    const width = window.innerWidth;
+    if (width >= 992) {
+      dispatch(setCollapsed({ isCollapsed: false }));
+    } else {
+      dispatch(setCollapsed({ isCollapsed: true }));
+    }
     setToken(getToken());
     if (getToken()) {
       dispatch(fetchUserInfo(() => {}));

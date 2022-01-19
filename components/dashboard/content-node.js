@@ -6,7 +6,6 @@ import { useState, useEffect, useContext, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
-import InfoRightNode from './info-right-node';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
 import {
@@ -142,9 +141,9 @@ const ContentNode = ({ sendHightlightNode }) => {
   };
 
   return (
-    <div className="flex gap-5 flex-col lg:justify-between w-full h-full lg:pr-6">
+    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
       <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1/10">
-        <div className="hidden lg:block lg:w-4/6">
+        <div className="lg:w-4/6 h-full">
           <Card className="h-full lg:flex-grow">
             <div className="flex flex-col px-9 h-full justify-center">
               <div className="flex justify-between">
@@ -239,7 +238,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3">
+        <div className="w-2/4 lg:w-1/3 h-full">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex gap-2">
@@ -275,7 +274,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3">
+        <div className="w-2/4 lg:w-1/3 h-full">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex gap-2">
@@ -310,11 +309,6 @@ const ContentNode = ({ sendHightlightNode }) => {
           </Card>
         </div>
       </div>
-      <Card className="block lg:hidden h-auto">
-        <div className="h-auto w-full">
-          <InfoRightNode />
-        </div>
-      </Card>
       <div className="flex gap-5 flex-col lg:h-8.75/10 lg:justify-between">
         <div className="hidden lg:flex h-auto lg:h-2/5">
           <Card className="h-full w-full px-9 py-5">

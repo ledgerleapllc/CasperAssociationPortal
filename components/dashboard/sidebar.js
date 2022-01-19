@@ -1,5 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Fragment, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import FormatIcon from '@material-ui/icons/FormatIndentDecrease';
+
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import HomeIcon from '../../public/images/ic_home.svg';
 import InfoIcon from '../../public/images/ic_infor.svg';
@@ -14,6 +19,7 @@ import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ListIcon from '../../public/images/ic_list.svg';
 import usePermissions from '../hooks/usePermissions';
+import { setCollapsed } from '../../shared/redux-saga/auth/actions';
 
 import { ActiveLink } from '../partials';
 
@@ -137,10 +143,15 @@ const adminNavs = [
 
 const Sidebar = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const isCollapsed = useSelector(
+    state => state.authReducer.appInfo.isCollapsed
+  );
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [navs, setNavs] = useState([]);
   const [isApprovedProfile, setIsApprovedProfile] = useState(false);
   const { permissions, isSuperAdmin } = usePermissions();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkAdmin = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -149,16 +160,64 @@ const Sidebar = () => {
     setIsApprovedProfile(userInfo?.profile?.status === 'approved');
   }, [userInfo]);
 
+  const clickIcon = () => {
+    dispatch(
+      setCollapsed({
+        isCollapsed: !isCollapsed,
+      })
+    );
+  };
+
+  const getClassName = () => {
+    if (isCollapsed) {
+      return 'collapsed bg-white shadow-light';
+    }
+    return 'bg-white shadow-light';
+  };
+
   return (
-    <div className="hidden lg:flex flex-col p-6.25 pr-3 z-10 block h-full w-200px bg-white shadow-light">
-      <CasperLogoDark />
-      <ul className="mt-14 flex flex-col">
-        {navs.map((nav, index) => (
-          <Fragment key={index}>
-            {(isAdmin || isApprovedProfile) && nav.key === 'verification' ? (
-              <></>
-            ) : (
-              <li className="mb-6" key={index}>
+    <div id="dashboard-layoutSidebar" className={getClassName()}>
+      <div id="dashboard-layoutSidebar__inner" className="p-6.25 pr-3">
+        <div id="dashboard-layoutSidebar__logo">
+          <CasperLogoDark />
+          <div onClick={clickIcon}>
+            <FormatIcon />
+          </div>
+        </div>
+        <ul className="mt-14 flex flex-col">
+          {navs.map((nav, index) => (
+            <Fragment key={index}>
+              {(isAdmin || isApprovedProfile) && nav.key === 'verification' ? (
+                <></>
+              ) : (
+                <li className="mb-6" key={index}>
+                  <ActiveLink
+                    activeClassName="text-primary active-link"
+                    href={nav.path}
+                  >
+                    <a className="relative flex text-base">
+                      <div
+                        className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                        style={{ left: '-1.5625rem' }}
+                      />
+                      <nav.icon width="1.5rem" height="1.5rem" />
+                      <span className="capitalize pl-5">{nav.label}</span>
+                    </a>
+                  </ActiveLink>
+                </li>
+              )}
+            </Fragment>
+          ))}
+        </ul>
+        {isAdmin && (
+          <ul className="flex flex-col">
+            <div className="mb-5 border border-t-1 border-gray opacity-40" />
+            {adminNavs.map((nav, index) => (
+              <li
+                className="mb-6"
+                key={index}
+                hidden={!isSuperAdmin && !nav.public && !permissions[nav.key]}
+              >
                 <ActiveLink
                   activeClassName="text-primary active-link"
                   href={nav.path}
@@ -173,37 +232,11 @@ const Sidebar = () => {
                   </a>
                 </ActiveLink>
               </li>
-            )}
-          </Fragment>
-        ))}
-      </ul>
-      {isAdmin && (
-        <ul className="flex flex-col">
-          <div className="mb-5 border border-t-1 border-gray opacity-40" />
-          {adminNavs.map((nav, index) => (
-            <li
-              className="mb-6"
-              key={index}
-              hidden={!isSuperAdmin && !nav.public && !permissions[nav.key]}
-            >
-              <ActiveLink
-                activeClassName="text-primary active-link"
-                href={nav.path}
-              >
-                <a className="relative flex text-base">
-                  <div
-                    className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
-                    style={{ left: '-1.5625rem' }}
-                  />
-                  <nav.icon width="1.5rem" height="1.5rem" />
-                  <span className="capitalize pl-5">{nav.label}</span>
-                </a>
-              </ActiveLink>
-            </li>
-          ))}
-        </ul>
-      )}
-      <p className="mt-auto text-xxs">© Casper Association Portal 2021</p>
+            ))}
+          </ul>
+        )}
+        <p className="text-xxs">© Casper Association Portal 2022</p>
+      </div>
     </div>
   );
 };

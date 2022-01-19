@@ -10,15 +10,17 @@ const DashboardNode = () => {
   const [currentNode, setCurrentNode] = useState();
   return (
     <LayoutDashboard>
-      <div className="flex h:auto lg:h-full">
-        <div className="w-4/5">
+      <div id="landing-page__dashboardInner2">
+        <div id="landing-page__dashboardInner2_left">
           <ContentNode sendHightlightNode={node => setCurrentNode(node)} />
         </div>
-        <Card className="hidden lg:block h-full w-1/5">
-          <div className="py-5 h-full">
-            <InfoRightNode currentNode={currentNode} />
-          </div>
-        </Card>
+        <div id="landing-page__dashboardInner2_right">
+          <Card className="py-5 w-full h-full">
+            <div className="overflow-y-scroll w-full h-full">
+              <InfoRightNode currentNode={currentNode} />
+            </div>
+          </Card>
+        </div>
       </div>
     </LayoutDashboard>
   );

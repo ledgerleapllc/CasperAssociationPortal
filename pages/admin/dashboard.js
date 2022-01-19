@@ -28,16 +28,17 @@ const AdminDashboard = () => {
 
   return (
     <LayoutDashboard>
-      <div className="flex gap-5 h-auto lg:h-full">
-        <div className="w-4/5">
+      <div id="landing-page__dashboardInner">
+        <div id="landing-page__dashboardInner_left">
           <ContentAdminHome stats={stats} changeFrame={fetchStats} />
         </div>
-        <Card className="hidden lg:block h-full w-1/5">
-          {/* <div className="overflow-y-scroll h-full w-80"> */}
-          <div className="overflow-y-scroll h-full">
-            <InfoRightAdminHome stats={stats} />
-          </div>
-        </Card>
+        <div id="landing-page__dashboardInner_right">
+          <Card>
+            <div className="overflow-y-scroll h-full">
+              <InfoRightAdminHome stats={stats} />
+            </div>
+          </Card>
+        </div>
       </div>
     </LayoutDashboard>
   );

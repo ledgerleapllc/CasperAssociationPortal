@@ -19,25 +19,26 @@ const Styles = styled.div`
       padding-right: 0 !important;
     }
     .col-2 {
-      width: 40%;
+      width: 17%;
       padding-right: 0 !important;
     }
     .col-3 {
-      width: 30%;
+      width: 17%;
+      padding-right: 0 !important;
+    }
+    .col-4 {
+      width: 36%;
       padding-right: 0 !important;
     }
     .custom-row {
       border: 0;
       padding: 10px 0;
     }
-    .col-2 {
-      display: flex;
-      justify-content: center;
-    }
     .table-body {
       .col-1,
       .col-2,
-      .col-3 {
+      .col-3,
+      .col-4 {
         padding-left: 5px;
       }
     }
@@ -81,6 +82,9 @@ const TrendingDiscussion = () => {
               <Table.HeaderCell key="comments">
                 <p className="font-medium">Comments</p>
               </Table.HeaderCell>
+              <Table.HeaderCell key="views">
+                <p className="font-medium">Pinned</p>
+              </Table.HeaderCell>
               <Table.HeaderCell key="date">
                 <p className="font-medium">Date</p>
               </Table.HeaderCell>
@@ -95,8 +99,8 @@ const TrendingDiscussion = () => {
                   </Table.BodyCell>
                   <Table.BodyCell key="bodycell-2">
                     <Link href={`/dashboard/discussion/${row.id}`}>
-                      <div className="cursor-pointer flex items-center lg:items-start">
-                        <div className="pr-3">
+                      <div className="cursor-pointer flex items-center">
+                        <div className="pr-2">
                           <img
                             src="/images/ic_material_mode_comment.svg"
                             alt="Comment"
@@ -107,6 +111,9 @@ const TrendingDiscussion = () => {
                     </Link>
                   </Table.BodyCell>
                   <Table.BodyCell key="bodycell-3">
+                    <span className="text-sm">{row.total_pinned}</span>
+                  </Table.BodyCell>
+                  <Table.BodyCell key="bodycell-4">
                     <Link href={`/dashboard/discussion/${row.id}`}>
                       <div className="cursor-pointer flex items-center lg:items-start">
                         <div className="pr-3">

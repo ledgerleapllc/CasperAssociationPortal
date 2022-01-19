@@ -50,220 +50,187 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
   const getLabel = key => durations.find(x => x.key === timeframe[key])?.label;
 
   return (
-    <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
-      <div className="flex flex-1 gap-5 flex-col-reverse lg:flex-col lg:justify-between min-h-0">
-        <div className="flex gap-5 flex-col lg:flex-row h-auto lg:h-1/3">
-          <div className="gap-5 flex-grow w-full mt-0 lg:w-2/3 h-full">
-            <div className="gap-5 flex lg:flex-row flex-col justify-between h-full">
-              <Card className="h-full lg:w-full">
-                <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <Tooltips
-                    placement="top"
-                    title="Users that are new to the platform or existing users that wish to be verified. usually requires admin approval."
-                    arrow
-                  >
-                    <p className="text-lg font-medium">KYC for Review</p>
-                  </Tooltips>
-                  <p className="text-3xl font-thin">
-                    {stats?.totalNewUserReady}
-                  </p>
-                  <p className="text-base font-thin">new user ready</p>
-                  <p className="text-3xl font-thin">
-                    {stats?.totalUserVerification}
-                  </p>
-                  <p className="text-base font-thin">
-                    ID Verification to Review
-                  </p>
-                  <Link href="/admin/intake">
-                    <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
-                      Review
-                    </a>
-                  </Link>
-                </div>
-              </Card>
-              <Card className="h-full lg:w-full">
-                <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <Tooltips
-                    placement="top"
-                    title="Nodes that fall outside the minimum requirements set by the administrator appear here."
-                    arrow
-                  >
-                    <p className="text-lg font-medium">Failing Nodes</p>
-                  </Tooltips>
-                  <p className="text-5xl font-thin">{stats?.totalFailNode}</p>
-                  {!!stats?.totalFailNode && (
-                    <Link href="/dashboard/nodes?node_failing=1">
-                      <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
-                        Review
-                      </a>
-                    </Link>
-                  )}
-                  {!stats?.totalFailNode && <p className="h-12" />}
-                </div>
-              </Card>
-              <Card className="h-full lg:w-full">
-                <div className="flex flex-col justify-between p-6 h-full text-center">
-                  <Tooltips
-                    placement="top"
-                    title="Tracks the number of perks that have been activated in the selected range."
-                    arrow
-                  >
-                    <p className="text-lg font-medium">Perks Activated</p>
-                  </Tooltips>
-                  <p className="text-5xl font-thin">
-                    {stats?.totalPerksActive}
-                  </p>
-                  <Dropdown
-                    trigger={
-                      <div
-                        style={{
-                          borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
-                          // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
-                          position: 'relative',
-                        }}
-                        className="flex justify-center items-center w-full relative h-14"
-                      >
-                        <ArrowDropDown
-                          style={{
-                            position: 'absolute',
-                            top: '15px',
-                            right: 0,
-                          }}
-                        />
-                        ( {getLabel('timeframe_perk')} )
-                      </div>
-                    }
-                  >
-                    <ul>
-                      {durations.map((duration, index) => (
-                        <li
-                          className="p-2 hover:text-primary cursor-pointer"
-                          onClick={() =>
-                            appendTimeframe('timeframe_perk', duration.key)
-                          }
-                          key={index}
-                        >
-                          <p className="w-full relative h-6">
-                            {duration.label}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </Dropdown>
-                </div>
-              </Card>
+    <div id="dashboard-content-admin-home">
+      <div id="dashboard-content-admin-homeInner">
+        <div id="custom-card-wrapper">
+          <Card className="custom-card-box">
+            <div className="flex flex-col justify-between p-6 h-full text-center">
+              <Tooltips
+                placement="top"
+                title="Users that are new to the platform or existing users that wish to be verified. usually requires admin approval."
+                arrow
+              >
+                <p className="text-lg font-medium">KYC for Review</p>
+              </Tooltips>
+              <p className="text-3xl font-thin">{stats?.totalNewUserReady}</p>
+              <p className="text-base font-thin">new user ready</p>
+              <p className="text-3xl font-thin">
+                {stats?.totalUserVerification}
+              </p>
+              <p className="text-base font-thin">ID Verification to Review</p>
+              <Link href="/admin/intake">
+                <a
+                  style={{
+                    marginTop: '10px',
+                  }}
+                  className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                >
+                  Review
+                </a>
+              </Link>
             </div>
-          </div>
-          <Card className="flex-grow p-6 gap-5 flex flex-row w-full lg:w-1/3 h-full">
-            <div className="flex w-1/2 flex-col">
-              <div className="flex flex-col justify-between h-full text-center">
-                <Tooltips
-                  placement="top"
-                  title="Tracks the forum activity based on the selected range."
-                  arrow
-                >
-                  <p className="text-lg font-medium">Forum Activity</p>
-                </Tooltips>
-                <p className="text-5xl font-thin">{stats?.totalNewComments}</p>
-                <Dropdown
-                  customInnerStyle={{ width: '180px' }}
-                  trigger={
-                    <div
-                      className="h-14"
-                      style={{
-                        borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
-                        // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
-                        position: 'relative',
-                      }}
-                    >
-                      <ArrowDropDown
-                        style={{
-                          position: 'absolute',
-                          top: '15px',
-                          right: 0,
-                        }}
-                      />
-                      <p className="w-full">New Comments</p>
-                      <p className="w-full">
-                        ( {getLabel('timeframe_comments')} )
-                      </p>
-                    </div>
-                  }
-                >
-                  <ul>
-                    {durations.map((duration, index) => (
-                      <li
-                        className="p-2 hover:text-primary cursor-pointer"
-                        onClick={() =>
-                          appendTimeframe('timeframe_comments', duration.key)
-                        }
-                        key={index}
-                      >
-                        <p className="w-full relative h-6">{duration.label}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </Dropdown>
-              </div>
+          </Card>
+          <Card className="custom-card-box">
+            <div className="flex flex-col justify-between p-6 h-full text-center">
+              <Tooltips
+                placement="top"
+                title="Nodes that fall outside the minimum requirements set by the administrator appear here."
+                arrow
+              >
+                <p className="text-lg font-medium">Failing Nodes</p>
+              </Tooltips>
+              <p className="text-5xl font-thin">{stats?.totalFailNode}</p>
+              {!!stats?.totalFailNode && (
+                <Link href="/dashboard/nodes?node_failing=1">
+                  <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
+                    Review
+                  </a>
+                </Link>
+              )}
+              {!stats?.totalFailNode && <p className="h-12" />}
             </div>
-            <div className="flex w-1/2 flex-col">
-              <div className="flex flex-col justify-between h-full text-center">
-                <p className="text-lg font-medium invisible">Forum Activity</p>
-                <p className="text-5xl font-thin">
-                  {stats?.totalNewDiscussions}
-                </p>
-                <Dropdown
-                  customInnerStyle={{ width: '180px' }}
-                  trigger={
-                    <div
-                      className="h-14"
+          </Card>
+          <Card className="custom-card-box">
+            <div className="flex flex-col justify-between p-6 h-full text-center">
+              <Tooltips
+                placement="top"
+                title="Tracks the number of perks that have been activated in the selected range."
+                arrow
+              >
+                <p className="text-lg font-medium">Perks Activated</p>
+              </Tooltips>
+              <p className="text-5xl font-thin">{stats?.totalPerksActive}</p>
+              <Dropdown
+                trigger={
+                  <div
+                    style={{
+                      position: 'relative',
+                    }}
+                    className="flex justify-center items-center w-full relative h-14"
+                  >
+                    <ArrowDropDown
                       style={{
-                        borderBottom: '1px solid rgba(0, 0, 0, 0.4)',
-                        // boxShadow: '0 1px 5px rgb(0 0 0 / 20%)',
-                        position: 'relative',
+                        position: 'absolute',
+                        top: '15px',
+                        right: 0,
                       }}
+                    />
+                    ( {getLabel('timeframe_perk')} )
+                  </div>
+                }
+              >
+                <ul>
+                  {durations.map((duration, index) => (
+                    <li
+                      className="p-2 hover:text-primary cursor-pointer"
+                      onClick={() =>
+                        appendTimeframe('timeframe_perk', duration.key)
+                      }
+                      key={index}
                     >
-                      <ArrowDropDown
-                        style={{
-                          position: 'absolute',
-                          top: '15px',
-                          right: 0,
-                        }}
-                      />
-                      <p className="w-full">New Threads</p>
-                      <p className="w-full">
-                        ( {getLabel('timeframe_discussions')} )
-                      </p>
-                    </div>
-                  }
-                >
-                  <ul>
-                    {durations.map((duration, index) => (
-                      <li
-                        className="p-2 hover:text-primary cursor-pointer"
-                        onClick={() =>
-                          appendTimeframe('timeframe_discussions', duration.key)
-                        }
-                        key={index}
-                      >
-                        <p className="w-full relative h-6">{duration.label}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </Dropdown>
-              </div>
+                      <p className="w-full relative h-6">{duration.label}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Dropdown>
+            </div>
+          </Card>
+          <Card className="custom-card-box">
+            <div className="flex flex-col justify-between p-6 h-full text-center">
+              <p className="text-lg font-medium">New Comments</p>
+              <p className="text-5xl font-thin">{stats?.totalNewComments}</p>
+              <Dropdown
+                customInnerStyle={{ width: '180px' }}
+                trigger={
+                  <div
+                    className="flex justify-center items-center w-full relative h-14"
+                    style={{
+                      position: 'relative',
+                    }}
+                  >
+                    <ArrowDropDown
+                      style={{
+                        position: 'absolute',
+                        top: '15px',
+                        right: 0,
+                      }}
+                    />
+                    ( {getLabel('timeframe_comments')} )
+                  </div>
+                }
+              >
+                <ul>
+                  {durations.map((duration, index) => (
+                    <li
+                      className="p-2 hover:text-primary cursor-pointer"
+                      onClick={() =>
+                        appendTimeframe('timeframe_comments', duration.key)
+                      }
+                      key={index}
+                    >
+                      <p className="w-full relative h-6">{duration.label}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Dropdown>
+            </div>
+          </Card>
+          <Card className="custom-card-box">
+            <div className="flex flex-col justify-between p-6 h-full text-center">
+              <p className="text-lg font-medium">New Threads</p>
+              <p className="text-5xl font-thin">{stats?.totalNewDiscussions}</p>
+              <Dropdown
+                customInnerStyle={{ width: '180px' }}
+                trigger={
+                  <div
+                    className="flex justify-center items-center w-full relative h-14"
+                    style={{
+                      position: 'relative',
+                    }}
+                  >
+                    <ArrowDropDown
+                      style={{
+                        position: 'absolute',
+                        top: '15px',
+                        right: 0,
+                      }}
+                    />
+                    ( {getLabel('timeframe_discussions')} )
+                  </div>
+                }
+              >
+                <ul>
+                  {durations.map((duration, index) => (
+                    <li
+                      className="p-2 hover:text-primary cursor-pointer"
+                      onClick={() =>
+                        appendTimeframe('timeframe_discussions', duration.key)
+                      }
+                      key={index}
+                    >
+                      <p className="w-full relative h-6">{duration.label}</p>
+                    </li>
+                  ))}
+                </ul>
+              </Dropdown>
             </div>
           </Card>
         </div>
-        <div className="flex flex-1 min-h-0 gap-5 flex-col-reverse lg:flex-row lg:h-2/3">
-          <Card className="flex-grow w-full lg:w-2/3 h-full">
+        <div id="custom-card-wrapper2">
+          <Card className="card-trending-discussion">
             <TrendingDiscussion />
           </Card>
-          <Card
-            className={`${
-              showOpenVotes ? 'flex-grow w-full lg:w-1/3 h-full' : 'hidden'
-            }`}
-          >
+          <Card className={`${showOpenVotes ? 'card-open-votes' : 'hidden'}`}>
             <OpenVotes toggleOpenVotes={setShowOpenVotes} />
           </Card>
         </div>

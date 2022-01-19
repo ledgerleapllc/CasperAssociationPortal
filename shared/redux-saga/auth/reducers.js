@@ -143,6 +143,20 @@ const permissionsStrategies = {
 
 const permissions = createReducer(permissionsStrategies, {});
 
+const setCollapsed = (state, payload) => ({
+  ...state,
+  isCollapsed: payload.isCollapsed,
+});
+
+const appInfoStrategies = {
+  SET_COLLAPSED: setCollapsed,
+  __default__: state => state,
+};
+
+const appInfo = createReducer(appInfoStrategies, {
+  isCollapsed: false,
+});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
@@ -150,4 +164,5 @@ export const authReducer = combineReducers({
   permissions,
   notifications,
   metricConfig,
+  appInfo,
 });

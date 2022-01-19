@@ -166,6 +166,11 @@ export const setPermissions = payload => ({
   payload,
 });
 
+export const setCollapsed = payload => ({
+  type: 'SET_COLLAPSED',
+  payload,
+});
+
 export const clearPermissions = payload => ({
   type: 'CLEAR_PERMISSIONS',
   payload,
