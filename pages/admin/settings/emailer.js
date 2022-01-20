@@ -3,7 +3,6 @@ import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import {
@@ -321,7 +320,7 @@ const Emailer = () => {
           <div className="flex-1 pt-8 min-h-0 px-card overflow-y-auto">
             <div>
               <h3 className="text-dark2 text-lg font-medium">Emailer Admins</h3>
-              <Styles className="max-h-200px">
+              <Styles className="max-h-200px overflow-y-auto">
                 <Table
                   className="emailer-admin-table my-10 h-full max-h-200px"
                   onLoadMore={() => {}}
@@ -329,20 +328,20 @@ const Emailer = () => {
                   dataLength={data.length}
                 >
                   <Table.Header>
-                    <Table.HeaderCell>
+                    <Table.HeaderCell key="header1">
                       <p>Email</p>
                     </Table.HeaderCell>
-                    <Table.HeaderCell>
+                    <Table.HeaderCell key="header2">
                       <p>Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
-                  <Table.Body className="padding-tracker">
+                  <Table.Body className="custom-padding-tracker">
                     {data.map((row, ind) => (
                       <Table.BodyRow key={`b-${ind}`}>
-                        <Table.BodyCell>
+                        <Table.BodyCell key="body1">
                           <p className="truncate">{row.email}</p>
                         </Table.BodyCell>
-                        <Table.BodyCell>
+                        <Table.BodyCell key="body2">
                           <button
                             type="button"
                             className="text-lg text-white w-auto px-5 h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
@@ -359,7 +358,7 @@ const Emailer = () => {
 
               <button
                 type="button"
-                className="text-lg text-white w-52 px-5 h-12 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                className="text-lg mt-3 text-white w-52 px-5 h-12 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
                 onClick={clickAddAdmin}
               >
                 Add
@@ -436,7 +435,7 @@ const Emailer = () => {
                       <Button
                         primary
                         onClick={() => enableTriggerUserEdit(item, index)}
-                        className="mt-4"
+                        className="mt-4 px-4"
                       >
                         Edit Message
                       </Button>

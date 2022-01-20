@@ -102,7 +102,7 @@ export const IDverifications = () => {
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="createdAt">

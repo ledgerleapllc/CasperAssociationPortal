@@ -95,7 +95,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
 
   const renderClass = row => {
     if (!isAdmin && userInfo.public_address_node === row.public_address_node) {
-      return 'highlight';
+      return 'custom-highlight';
     }
     if (isAdmin && row.is_fail_node) {
       return 'fail-node';
@@ -104,7 +104,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
       isAdmin &&
       hightlightNode?.public_address_node === row.public_address_node
     ) {
-      return 'highlight';
+      return 'custom-highlight';
     }
     return '';
   };

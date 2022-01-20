@@ -12,7 +12,7 @@ const AdminPerks = () => {
 
   return (
     <LayoutDashboard>
-      <Card className="admin-perks-page h-full px-card py-5">
+      <Card className="admin-perks-page px-card py-5">
         <div className="flex flex-col bg-transparent h-3/5 2xl:pb-5">
           <div className="w-full">
             <div className="flex flex-col justify-center">

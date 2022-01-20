@@ -54,7 +54,7 @@ const Tab = ({ data, className, scrollable, lazy }) => {
           <div className="border-primary border-b-2 lg:mr-card" />
           <div
             id="tab-contents"
-            className={`${scrollable ? 'overflow-y-scroll' : ''}`}
+            className={`${scrollable ? 'overflow-y-auto-1' : ''}`}
             style={{ height: '90%' }}
           >
             {!lazy ? (
@@ -63,12 +63,13 @@ const Tab = ({ data, className, scrollable, lazy }) => {
                   key={`tab-content-${index}`}
                   className="lg:pr-card h-full"
                   hidden={currentTab !== index}
+                  style={{ overflowY: 'auto' }}
                 >
                   {{ ...data[index].content() }}
                 </div>
               ))
             ) : (
-              <div className="lg:pr-card h-full">
+              <div className="lg:pr-card h-full" style={{ overflowY: 'auto' }}>
                 <TabView data={data} currentTab={currentTab} />
               </div>
             )}

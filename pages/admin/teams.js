@@ -349,7 +349,10 @@ const AdminTeams = () => {
               + New Admin
             </Button>
           </div>
-          <div className="flex flex-1 flex-col min-h-0">
+          <div
+            className="flex flex-1 flex-col min-h-0"
+            style={{ overflowY: 'auto' }}
+          >
             <Styles className="h-full pt-4">
               <Table
                 className="teams-table h-full"
@@ -423,7 +426,7 @@ const AdminTeams = () => {
                     <p>Admin Action</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="padding-tracker">
+                <Table.Body className="custom-padding-tracker">
                   {data.map(admin => (
                     <Table.BodyRow key={`admin-team-${admin.id}`}>
                       <Table.BodyCell key="body1">
@@ -545,14 +548,15 @@ const AdminTeams = () => {
                         />
                       </Table.BodyCell>
                       <Table.BodyCell key="body11">
-                        <div className="flex gap-4">
+                        <div className="flex gap-3 items-center">
                           <Button
-                            className="px-6"
+                            className="px-6 py-1"
                             size="small"
                             primaryOutline
                             onClick={() => {
                               resetPassword(admin);
                             }}
+                            style={{ height: 'auto' }}
                           >
                             Reset Password
                           </Button>

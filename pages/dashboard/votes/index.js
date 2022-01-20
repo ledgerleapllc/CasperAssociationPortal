@@ -186,7 +186,7 @@ const Tab1 = () => {
           </Table.HeaderCell>
           <Table.HeaderCell key="header6" />
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"
@@ -277,7 +277,7 @@ const Tab2 = () => {
             <p>Date Ended</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {completeVotes.map((row, ind) => (
             <Table.BodyRow
               className="py-6"

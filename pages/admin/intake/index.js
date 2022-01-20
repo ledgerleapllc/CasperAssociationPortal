@@ -15,7 +15,7 @@ const AdminIntake = () => (
           </div>
           <div className="border-primary border-b-2" />
         </div>
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <GeneralIntakes />
         </div>
       </div>
@@ -27,7 +27,7 @@ const AdminIntake = () => (
           </div>
           <div className="border-primary border-b-2" />
         </div>
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <IDverifications />
         </div>
       </div>

@@ -228,7 +228,10 @@ export const PerkForm = React.memo(
               </p>
             )}
           </div>
-          <div className="max-w-200 flex justify-between items-end">
+          <div
+            id="custom-perk-upload"
+            className="max-w-200 flex justify-between items-end"
+          >
             <div className="max-w-xl flex-grow relative pb-6">
               <label htmlFor="title">Call to action link*</label>
               <input
@@ -249,7 +252,7 @@ export const PerkForm = React.memo(
                 htmlFor="perkImage"
                 className={`${
                   isDisableAllFields && 'opacity-40 cursor-not-allowed'
-                } flex justify-center items-center cursor-pointer h-16 lg:h-11 text-lg text-white lg:w-48 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md`}
+                } flex ml-3 px-4 py-2 justify-center items-center cursor-pointer text-lg text-white rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md`}
               >
                 Upload Image
               </label>
@@ -433,12 +436,14 @@ export const PerkForm = React.memo(
                 disabled={isSubmit}
                 isLoading={isSubmit}
                 sizeSpinner={20}
+                className="px-5 py-2"
               >
                 Save
               </Button>
               <Button
                 primaryOutline
                 onClick={() => router.push('/admin/perks')}
+                className="px-5 py-2"
               >
                 Cancel
               </Button>

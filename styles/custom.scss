@@ -3,7 +3,18 @@
     width: 10rem !important;
   }
 }
-
+.custom-padding-tracker {
+  overflow: none !important;
+}
+.custom-highlight {
+  background-color: rgba(255, 71, 62, 1) !important;
+  color: white;
+  border-radius: 1rem;
+}
+.admin-perks-page {
+  width: 100%;
+  min-height: calc(100vh - 7.625rem);
+}
 .onboard-stepper-block {
   @media all and (max-width: 1023px) {
     .onboard-stepper-blockButtons {
@@ -43,19 +54,15 @@
   #landing-page__section {
     padding: 18rem 0;
   }
-  
   #landing-page__hero {
     max-width: 52%;
   }
-
   #custom-nav-wrap {
     position: relative;
     z-index: 100;
-  
     #custom-nav-burger {
       display: none;
     }
-  
     @media all and (max-width: 767px) {
       #custom-nav-burger {
         display: flex;
@@ -98,7 +105,6 @@
       }
     }
   }
-
   @media all and (max-width: 1023px) {
     .custom-text-box {
       display: block !important;
@@ -113,7 +119,6 @@
       }
     }
   }
-
   @media all and (max-width: 767px) {
     .custom-text-box {
       button {
@@ -260,18 +265,130 @@
       overflow-x: hidden;
       overflow-y: auto;
 
+      #custom-ballot-listHeader {
+        @media all and (max-width: 1023px) {
+          flex-direction: column;
+          align-items: flex-start;
+          .flex-row {
+            margin-top: 1rem;
+          }
+        }
+        @media all and (max-width: 767px) {
+          .flex-row {
+            flex-direction: column;
+            width: 100%;
+            > button {
+              margin-right: 0 !important;
+              margin-bottom: 0.5rem !important;
+              width: 100% !important;
+            }
+          }
+        }
+      }
+
+      #dashboard-page__ballots {
+        @media all and (max-width: 767px) {
+          #custom-ballot-upload {
+            #custom-ballot-uploadInput {
+              width: 100%;
+              display: block;
+              flex: auto !important;
+            }
+            #custom-ballot-uploadButton {
+              margin-left: 0 !important;
+              margin-top: 1rem;
+            }
+          }
+        }
+      }
+
+      #dashboard-page__perks {
+        @media all and (max-width: 767px) {
+          #custom-perk-upload {
+            flex-direction: column;
+            .max-w-xl {
+              width: 100%;
+            }
+          }
+        }
+      }
+
       #landing-page__dashboardInner2 {
         display: flex;
         width: 100%;
-        height: 100%;
 
         #landing-page__dashboardInner2_left {
           flex: 0 0 80%;
-          height: 100%;
         }
         #landing-page__dashboardInner2_right {
           flex: 0 0 20%;
-          height: 100%;
+          height: calc(100vh - 7.625rem);
+        }
+
+        #dashboard-content-node2__widgets {
+          width: 100%;
+          display: flex;
+          padding-right: 1.25rem;
+
+          .custom-public-key-box {
+            width: 50%;
+            height: 100px;
+          }
+          .custom-stake-amount-box,
+          .custom-deletagors-box {
+            width: 25%;
+            height: 100px;
+          }
+        }
+
+        #dashboard-content-node2__Detail {
+          width: 100%;
+          min-height: calc(100vh - 7.625rem - 100px - 1.25rem);
+          display: flex;
+          flex-direction: column;
+          margin-top: 1.25rem;
+          padding-right: 1.25rem;
+          
+          #custom-validator-rewards-box {
+            width: 100%;
+            height: 400px;
+          }
+
+          #dashboard-content-node2__SubDetail {
+            display: flex;
+            margin-top: 1.25rem;
+            min-height: calc(100vh - 7.625rem - 500px - 2.5rem);
+
+            #dashboard-content-node2__SubDetailLeft {
+              width: 60%;
+              > div {
+                min-height: 300px;
+              }
+            }
+            #dashboard-content-node2__SubDetailRight {
+              width: 40%;
+              min-height: 300px;
+              display: flex;
+              flex-direction: column;
+
+              #custom-uptime-box {
+                width: 100%;
+                height: calc(100vh - 7.625rem - 600px - 3.75rem);
+                min-height: 180px;
+              }
+              #custom-earnings-box {
+                width: 100%;
+                height: 100px;
+                margin-top: 1.25rem;
+                .custom-earnings-boxCard {
+                  display: flex;
+                  .custom-earnings-singleBox {
+                    height: 100px;
+                  }
+                }
+              }
+            }
+          }
         }
 
         #dashboard-content-node1 {
@@ -304,6 +421,7 @@
               width: 100%;
               display: flex;
               flex-direction: column;
+
               #custom-card-wrapper {
                 display: flex;
                 flex-wrap: wrap;
@@ -364,6 +482,26 @@
               height: auto !important;
             }
           }
+
+          #dashboard-content-node2__widgets {
+            padding-right: 0;
+          }
+          #dashboard-content-node2__Detail {
+            padding-right: 0;
+            #dashboard-content-node2__SubDetail {
+              display: block;
+              #dashboard-content-node2__SubDetailLeft {
+                width: 100%;
+                margin-bottom: 1.25rem;
+                > div {
+                  height: 400px;
+                }
+              }
+              #dashboard-content-node2__SubDetailRight {
+                width: 100%;
+              }
+            }
+          }
         }
 
         #landing-page__dashboardInner {
@@ -415,6 +553,20 @@
     #dashboard-layoutContent {
       padding-left: 60px;
       #landing-page__dashboard {
+
+        #landing-page__dashboardInner2 {
+          display: block;
+
+          #dashboard-content-node2__widgets {
+            flex-wrap: wrap;
+            .custom-public-key-box,
+            .custom-stake-amount-box, 
+            .custom-deletagors-box {
+              width: 100%;
+            }
+          }
+        }
+
         #landing-page__dashboardInner {
           #landing-page__dashboardInner_left {
             #dashboard-content-admin-home {

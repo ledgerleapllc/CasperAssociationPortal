@@ -10,11 +10,11 @@ const Perks = styled.div`
   .perks-preview-table {
     .col-1 {
       width: 0%;
-      padding-right: 0 !important;
+      padding-right: 0.5rem !important;
     }
     .col-2 {
       width: 100%;
-      padding-right: 0 !important;
+      padding-right: 0.5rem !important;
     }
     .perk-preview-record {
       width: 50%;
@@ -77,7 +77,7 @@ export const PerksPreview = () => {
           <Table.HeaderCell key="header1" />
           <Table.HeaderCell key="header2" />
         </Table.Header>
-        <Table.Body className="lg:-ml-5 padding-tracker-member-perks">
+        <Table.Body className="lg:-ml-5 custom-padding-tracker-member-perks">
           {data.map((row, index) => (
             <Table.BodyRow className="perk-preview-record" key={`b-${index}`}>
               <Table.BodyCell key="body1" />

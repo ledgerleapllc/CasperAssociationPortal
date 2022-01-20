@@ -52,25 +52,28 @@ const AdminActiveBallot = ({ ballot }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="card-header lg:mr-card border-primary border-b-2">
-        <div className="flex justify-between items-center mb-3">
+        <div
+          id="custom-ballot-listHeader"
+          className="flex justify-between items-center mb-3"
+        >
           <div className="h-11 mt-4">
             <BackButton href="/admin/ballots" text="Back" force />
             <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
               Manage Active Ballot
             </h3>
           </div>
-          <div className="flex flex-col-reverse lg:flex-wrap lg:flex-row justify-end">
+          <div className="flex flex-row justify-end">
             <Link href={`/admin/ballots/detail/${ballot?.id}/current-votes`}>
               <button
                 type="button"
-                className="lg:mr-5 h-16 lg:h-11 text-lg w-full text-white lg:w-48 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                className="px-5 py-2 mr-5 text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               >
                 View Current Votes
               </button>
             </Link>
             <button
               type="button"
-              className="h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+              className="px-5 py-2 text-lg text-primary rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               onClick={doCancelBallot}
             >
               Cancel Ballot

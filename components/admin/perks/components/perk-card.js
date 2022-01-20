@@ -47,7 +47,9 @@ export const PerkCard = ({ perk }) => {
         <div className="h-1/3">
           <Link href={`${perk?.id ? `/dashboard/perks/${perk.id}` : ''}`}>
             <a>
-              <Button primary>More Information</Button>
+              <Button primary className="px-5 py-2">
+                More Information
+              </Button>
             </a>
           </Link>
         </div>

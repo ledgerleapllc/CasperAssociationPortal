@@ -16,14 +16,14 @@ const AdminAddPerk = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="flex flex-col w-full h-full">
+        <div id="dashboard-page__perks" className="flex flex-col w-full h-full">
           <div className="card-header lg:mr-card border-primary border-b-2">
             <div className="h-11 mt-4 mb-3">
               <BackButton href="/admin/perks" text="Cancel" force />
               <h3 className="text-dark2 text-lg font-medium">Add New Perk</h3>
             </div>
           </div>
-          <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0 -ml-5 pl-5">
+          <div className="card-body pt-8 overflow-y-auto flex-1 min-h-0 -ml-5 pl-5 pr-5">
             <div className="lg:pr-card">
               <PerkForm onChange={getValue} />
               <div className="pt-10">

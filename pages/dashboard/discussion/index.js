@@ -285,7 +285,7 @@ const Tab1 = () => {
           <Table.HeaderCell key="emptyHeader1" />
           <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="emptyBody1" />
@@ -333,7 +333,7 @@ const Tab2 = () => {
           <Table.HeaderCell key="emptyHeader1" />
           <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="emptyBody1" />
@@ -399,7 +399,7 @@ const Tab3 = () => {
           <Table.HeaderCell key="emptyHeader1" />
           <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="emptyBody1" />
@@ -494,7 +494,7 @@ const Tab4 = () => {
           <Table.HeaderCell key="emptyHeader1" />
           <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="emptyBody1" />
@@ -556,12 +556,15 @@ const DashboardDiscusion = () => {
           removeNewFromList,
         }}
       >
-        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+        <Card
+          className="h-full lg:pl-card lg:py-5 lg:shadow-2xl overflow-y-auto-1"
+          noShadow
+        >
           <div className="w-full h-full">
             <div className="flex justify-end lg:mr-card">
               <Link href="/dashboard/discussion/add">
                 <a>
-                  <Button className="relative z-40" primary>
+                  <Button className="relative z-40 px-5 py-2" primary>
                     + New Discussion
                   </Button>
                 </a>

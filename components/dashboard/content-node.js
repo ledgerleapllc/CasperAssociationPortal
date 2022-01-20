@@ -141,9 +141,9 @@ const ContentNode = ({ sendHightlightNode }) => {
   };
 
   return (
-    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1/10">
-        <div className="lg:w-4/6 h-full">
+    <div className="flex flex-col w-full h-full">
+      <div id="dashboard-content-node2__widgets" className="gap-5">
+        <div className="custom-public-key-box h-full">
           <Card className="h-full lg:flex-grow">
             <div className="flex flex-col px-9 h-full justify-center">
               <div className="flex justify-between">
@@ -238,7 +238,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 h-full">
+        <div className="custom-stake-amount-box h-full">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex gap-2">
@@ -274,7 +274,7 @@ const ContentNode = ({ sendHightlightNode }) => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 h-full">
+        <div className="custom-deletagors-box h-full">
           <Card className="h-full lg:flex-none">
             <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
               <div className="flex gap-2">
@@ -309,8 +309,8 @@ const ContentNode = ({ sendHightlightNode }) => {
           </Card>
         </div>
       </div>
-      <div className="flex gap-5 flex-col lg:h-8.75/10 lg:justify-between">
-        <div className="hidden lg:flex h-auto lg:h-2/5">
+      <div id="dashboard-content-node2__Detail">
+        <div id="custom-validator-rewards-box">
           <Card className="h-full w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -396,28 +396,122 @@ const ContentNode = ({ sendHightlightNode }) => {
             </div>
           </Card>
         </div>
-        <div className="flex gap-5 flex-col-reverse lg:mb-0 lg:flex-row auto lg:h-3/5">
-          <Card className="flex-grow w-full lg:w-2/5 h-full">
-            <div className="w-full py-5 flex flex-col h-full justify-between">
-              <p className="text-lg px-9">Price</p>
-              <div className="w-full relative pr-9 h-8.5/10">
-                <LineMemo
-                  type="decimals"
-                  name="Price"
-                  data={priceTokenGraphInfo}
-                />
+        <div id="dashboard-content-node2__SubDetail" className="gap-5">
+          <div id="dashboard-content-node2__SubDetailLeft">
+            <Card className="w-full h-full">
+              <div className="w-full py-5 flex flex-col h-full justify-between">
+                <p className="text-lg px-9">Price</p>
+                <div className="w-full relative pr-9 h-8.5/10">
+                  <LineMemo
+                    type="decimals"
+                    name="Price"
+                    data={priceTokenGraphInfo}
+                  />
+                </div>
               </div>
+            </Card>
+          </div>
+          <div id="dashboard-content-node2__SubDetailRight">
+            <div id="custom-uptime-box">
+              <Card className="flex items-center px-5 w-full h-full">
+                <div className="h-8/10 flex flex-col justify-between w-full">
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Uptime</span>
+                      <Tooltips
+                        placement="right"
+                        title="Uptime for the selected node."
+                        arrow
+                      >
+                        <img
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
+                        />
+                      </Tooltips>
+                    </div>
+                    <ProgressBar
+                      value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
+                      total={metricConfig?.max?.uptime}
+                      mask="x%"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Block Height</span>
+                      <Tooltips
+                        placement="right"
+                        title="Block height for the selected node."
+                        arrow
+                      >
+                        <img
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
+                        />
+                      </Tooltips>
+                    </div>
+                    <ProgressBar
+                      value={
+                        isAdmin
+                          ? +nodeDetail?.block_height_average
+                          : metrics?.block_height_average
+                      }
+                      total={
+                        isAdmin
+                          ? DEFAULT_BASE_BLOCKS
+                          : metricConfig?.max?.block_height_average
+                      }
+                      mask="x/y"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Update Responsiveness</span>
+                      <Tooltips
+                        placement="right"
+                        title="Update responsiveness for the selected node."
+                        arrow
+                      >
+                        <img
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
+                        />
+                      </Tooltips>
+                    </div>
+                    <ProgressBar
+                      value={
+                        isAdmin
+                          ? +nodeDetail?.update_responsiveness
+                          : metrics?.update_responsiveness
+                      }
+                      total={
+                        isAdmin
+                          ? nodeDetail?.max_update_responsiveness
+                          : metricConfig?.max?.update_responsiveness
+                      }
+                      mask=""
+                      options={{
+                        startText: 'Needs Improvement',
+                        endText: 'Great',
+                      }}
+                    />
+                  </div>
+                </div>
+              </Card>
             </div>
-          </Card>
-          <div className="flex gap-5 flex-col justify-between w-full lg:w-3/5 h-auto lg:h-full">
-            <Card className="flex items-center px-5 h-auto lg:h-3/5 w-full">
-              <div className="h-8/10 flex flex-col justify-between w-full">
-                <div className="flex flex-col">
-                  <div className="flex gap-3 flex-row py-1">
-                    <span className="text-lg">Uptime</span>
+            <div id="custom-earnings-box">
+              <Card className="custom-earnings-boxCard">
+                <div className="custom-earnings-singleBox flex flex-col w-1/2 px-5 lg:px-9 border-r border-gray justify-center">
+                  <div className="flex gap-3 flex-row">
+                    <span className="text-lg">Daily Earnings</span>
                     <Tooltips
-                      placement="right"
-                      title="Uptime for the selected node."
+                      placement="top"
+                      title="Displays today's earnings."
                       arrow
                     >
                       <img
@@ -428,169 +522,44 @@ const ContentNode = ({ sendHightlightNode }) => {
                       />
                     </Tooltips>
                   </div>
-                  <ProgressBar
-                    value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
-                    total={metricConfig?.max?.uptime}
-                    mask="x%"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex gap-3 flex-row py-1">
-                    <span className="text-lg">Block Height</span>
-                    <Tooltips
-                      placement="right"
-                      title="Block height for the selected node."
-                      arrow
-                    >
-                      <img
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </Tooltips>
-                  </div>
-                  <ProgressBar
-                    value={
-                      isAdmin
-                        ? +nodeDetail?.block_height_average
-                        : metrics?.block_height_average
-                    }
-                    total={
-                      isAdmin
-                        ? DEFAULT_BASE_BLOCKS
-                        : metricConfig?.max?.block_height_average
-                    }
-                    mask="x/y"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex gap-3 flex-row py-1">
-                    <span className="text-lg">Update Responsiveness</span>
-                    <Tooltips
-                      placement="right"
-                      title="Update responsiveness for the selected node."
-                      arrow
-                    >
-                      <img
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </Tooltips>
-                  </div>
-                  <ProgressBar
-                    value={
-                      isAdmin
-                        ? +nodeDetail?.update_responsiveness
-                        : metrics?.update_responsiveness
-                    }
-                    total={
-                      isAdmin
-                        ? nodeDetail?.max_update_responsiveness
-                        : metricConfig?.max?.update_responsiveness
-                    }
-                    mask=""
-                    options={{
-                      startText: 'Needs Improvement',
-                      endText: 'Great',
-                    }}
-                  />
-                </div>
-              </div>
-            </Card>
-            <Card className="flex flex-row py-4 lg:py-6 lg:h-2/5">
-              <div className="flex flex-col w-1/2 px-5 lg:px-0 border-r border-gray lg:pl-20 justify-center">
-                <div className="flex gap-3 flex-row">
-                  <span className="text-lg">Daily Earnings</span>
-                  <Tooltips
-                    placement="top"
-                    title="Displays today's earnings."
-                    arrow
-                  >
+                  <div className="flex flex-row mt-3">
+                    <span className="text-base font-thin pr-3">
+                      {numberWithCommas(Math.round(earning?.daily_earning))}
+                    </span>
                     <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
+                      width="18px"
+                      height="18px"
+                      src="/images/ic_logo_home.svg"
                       alt="Info"
                     />
-                  </Tooltips>
+                  </div>
                 </div>
-                <div className="flex flex-row mt-3">
-                  <span className="text-base font-thin pr-3">
-                    {numberWithCommas(Math.round(earning?.daily_earning))}
-                  </span>
-                  <img
-                    width="18px"
-                    height="18px"
-                    src="/images/ic_logo_home.svg"
-                    alt="Info"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
-                <div className="flex gap-3 flex-row">
-                  <span className="text-lg">Min Bid Slot</span>
-                  <Tooltips
-                    placement="top"
-                    title="Displays the minimum bidding amount to win a slot in the validator pool"
-                    arrow
-                  >
+                <div className="custom-earnings-singleBox flex flex-col px-5 lg:px-9 w-1/2 justify-center">
+                  <div className="flex gap-3 flex-row">
+                    <span className="text-lg">Min Bid Slot</span>
+                    <Tooltips
+                      placement="top"
+                      title="Displays the minimum bidding amount to win a slot in the validator pool"
+                      arrow
+                    >
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
+                    </Tooltips>
+                  </div>
+                  <div className="flex flex-row mt-3">
+                    <span className="text-base font-thin pr-3">
+                      {numberWithCommas(Math.round(earning?.mbs))}
+                    </span>
                     <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
+                      width="18px"
+                      height="18px"
+                      src="/images/ic_logo_home.svg"
                       alt="Info"
                     />
-                  </Tooltips>
-                </div>
-                <div className="flex flex-row mt-3">
-                  <span className="text-base font-thin pr-3">
-                    {numberWithCommas(Math.round(earning?.mbs))}
-                  </span>
-                  <img
-                    width="18px"
-                    height="18px"
-                    src="/images/ic_logo_home.svg"
-                    alt="Info"
-                  />
-                </div>
-              </div>
-            </Card>
-            <div className="flex lg:hidden mt-5 h-auto">
-              <Card className="w-full px-9 py-5">
-                <div className="flex flex-col h-full justify-between">
-                  <div className="flex flex-col lg:flex-row lg:justify-between">
-                    <div className="flex justify-between">
-                      <p className="text-2xl">Validator Rewards</p>
-                    </div>
-                    <div>
-                      <ul className="mt-4 lg:mt-0 flex items-center">
-                        <li className="text-sm lg:mx-4">
-                          <a>Day</a>
-                        </li>
-                        <li className="px-4">
-                          <a className="rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink">
-                            Week
-                          </a>
-                        </li>
-                        <li className="text-sm mx-4">
-                          <a>Month</a>
-                        </li>
-                        <li className="text-sm mx-4">
-                          <a>Year</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="h-full pt-2">
-                    {earningChart && (
-                      <LineMemo
-                        name="Self stake"
-                        data={earningChart[optionChart]}
-                      />
-                    )}
                   </div>
                 </div>
               </Card>

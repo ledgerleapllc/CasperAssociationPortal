@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -104,10 +104,18 @@ export const PerksTable = ({ hideOff }) => {
   // Render Start Date
   const renderStartDate = row => {
     if (row.start_date && row.start_time) {
-      return `${formatDate(
-        `${row.start_date} ${row.start_time}`,
-        'dd/MM/yyyy HH:mm aa'
-      )} EST`;
+      return (
+        <>
+          <p>{`${formatDate(
+            `${row.start_date} ${row.start_time}`,
+            'dd/MM/yyyy'
+          )}`}</p>
+          <p>{`${formatDate(
+            `${row.start_date} ${row.start_time}`,
+            'HH:mm aa'
+          )} EST`}</p>
+        </>
+      );
     }
     if (row.start_date) {
       return `${formatDate(row.start_date, 'dd/MM/yyyy')}`;
@@ -118,10 +126,18 @@ export const PerksTable = ({ hideOff }) => {
   // Render End Date
   const renderEndDate = row => {
     if (row.end_date && row.end_time) {
-      return `${formatDate(
-        `${row.end_date} ${row.end_time}`,
-        'dd/MM/yyyy HH:mm aa'
-      )} EST`;
+      return (
+        <>
+          <p>{`${formatDate(
+            `${row.end_date} ${row.end_time}`,
+            'dd/MM/yyyy'
+          )}`}</p>
+          <p>{`${formatDate(
+            `${row.end_date} ${row.end_time}`,
+            'HH:mm aa'
+          )} EST`}</p>
+        </>
+      );
     }
     if (row.end_date) {
       return `${formatDate(row.end_date, 'dd/MM/yyyy')}`;
@@ -191,7 +207,7 @@ export const PerksTable = ({ hideOff }) => {
   };
 
   return (
-    <Perks className="h-full">
+    <Perks className="h-full" style={{ overflowY: 'hidden' }}>
       <Table
         {...register}
         className="perks-table pt-5 h-full"
@@ -228,7 +244,7 @@ export const PerksTable = ({ hideOff }) => {
             <p>Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="body1">

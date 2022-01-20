@@ -21,8 +21,6 @@ import IconX from '../../../public/images/ic_x.svg';
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  // time: yup.number().typeError('Time is required').required('Time is required'),
-  // time_unit: yup.string().required('Time unit is required'),
 });
 
 const AdminAddBallot = () => {
@@ -54,7 +52,6 @@ const AdminAddBallot = () => {
   });
   const user = useSelector(state => state.authReducer.userInfo);
   const watchFiles = watch('files');
-  // const watchUnit = watch('time_unit');
 
   const onSubmit = data => {
     let startDateStr = '';
@@ -110,7 +107,10 @@ const AdminAddBallot = () => {
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="flex flex-col w-full h-full">
+        <div
+          id="dashboard-page__ballots"
+          className="flex flex-col w-full h-full"
+        >
           <div className="card-header lg:mr-card border-primary border-b-2">
             <div className="h-11 mb-3">
               <BackButton href="/admin/ballots" text="Cancel" force />
@@ -126,26 +126,29 @@ const AdminAddBallot = () => {
                   Posting as:{' '}
                   <a className="text-primary">{user?.fullInfo?.email}</a>
                 </p>
-                <div className="mt-4 pb-8 relative flex items-center">
+                <div
+                  id="custom-ballot-upload"
+                  className="mt-4 pb-8 relative flex flex-wrap items-center"
+                >
                   <input
                     type="text"
-                    className="border border-gray1 w-full flex-1 h-14 px-7 shadow-md focus:outline-none"
+                    id="custom-ballot-uploadInput"
+                    className="border border-gray1 flex-1 h-14 px-7 shadow-md focus:outline-none"
                     placeholder="Enter Ballot Title"
                     {...register('title')}
                   />
                   <label
+                    id="custom-ballot-uploadButton"
                     htmlFor="ballotFile"
-                    className="flex justify-center items-center cursor-pointer ml-5 h-16 lg:h-11 w-full text-lg text-primary lg:w-48 rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    className="px-5 py-3 flex justify-center items-center cursor-pointer ml-5 text-lg text-primary rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
                     <IconFeatureUpLoad className="text-primary mr-2" />
                     Upload Files
                   </label>
                   <div
                     style={{
-                      position: 'absolute',
-                      top: 0,
-                      right: 0,
-                      marginTop: '60px',
+                      width: '100%',
+                      marginTop: '10px',
                     }}
                   >
                     <small>
@@ -189,7 +192,7 @@ const AdminAddBallot = () => {
                       ))}
                   </div>
                 </div>
-                <div className="shadow-md mt-7">
+                <div className="shadow-md">
                   <Controller
                     name="description"
                     control={control}
@@ -248,74 +251,17 @@ const AdminAddBallot = () => {
                     <p style={{ marginLeft: '15px', marginTop: '22px' }}>EST</p>
                   </div>
                 </MuiPickersUtilsProvider>
-                {/* <p className="py-4 text-sm text-gray">
-                  Choose a duration for your ballot:
-                </p> */}
                 <div
                   style={{ marginTop: '20px' }}
                   className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between"
                 >
-                  {/* <div className="flex">
-                    <div
-                      className="mr-4 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
-                      style={{ width: '214px', height: '60px' }}
-                    >
-                      <select
-                        className="px-5 w-full h-full cursor-pointer"
-                        required
-                        {...register('time_unit')}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Time Unit
-                        </option>
-                        <option value="days">Days</option>
-                        <option value="hours">Hours</option>
-                        <option value="minutes">Minutes</option>
-                      </select>
-                      <div className="arrow ml-2" />
-                    </div>
-                    <div
-                      className="border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
-                      style={{ width: '214px', height: '60px' }}
-                    >
-                      <select
-                        className="w-full h-full px-5 cursor-pointer"
-                        required
-                        {...register('time')}
-                        defaultValue=""
-                      >
-                        <option value="" disabled>
-                          Select
-                        </option>
-                        {watchUnit === 'days' &&
-                          new Array(30).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                        {watchUnit === 'hours' &&
-                          new Array(24).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                        {watchUnit === 'minutes' &&
-                          new Array(60).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                      </select>
-                      <div className="arrow ml-2" />
-                    </div>
-                  </div> */}
                   <Button
                     primary
                     type="submit"
                     disabled={isSubmit}
                     isLoading={isSubmit}
                     sizeSpinner={20}
+                    className="px-5 py-2"
                   >
                     Submit &amp; Begin Voting
                   </Button>

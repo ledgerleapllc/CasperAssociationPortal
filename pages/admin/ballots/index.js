@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
@@ -120,12 +120,30 @@ const Tab1 = () => {
 
   const renderStartDate = row => {
     if (row.start_date && row.start_time) {
-      return `${formatDate(
-        `${row.start_date} ${row.start_time}`,
-        'dd/MM/yyyy HH:mm aa'
-      )} EST`;
+      return (
+        <>
+          <p>
+            {`${formatDate(
+              `${row.start_date} ${row.start_time}`,
+              'dd/MM/yyyy'
+            )}`}
+          </p>
+          <p>
+            {`${formatDate(
+              `${row.start_date} ${row.start_time}`,
+              'HH:mm aa'
+            )} EST`}
+          </p>
+        </>
+      );
     }
-    return <p>{`${formatDate(row.created_at, 'dd/MM/yyyy HH:mm aa')} EST`}</p>;
+
+    return (
+      <>
+        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+        <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>
+      </>
+    );
   };
 
   const renderTimer = row => {
@@ -181,7 +199,7 @@ const Tab1 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`b-${ind}`}>
               <Table.BodyCell key="title">
@@ -310,7 +328,7 @@ const Tab2 = () => {
             <p>Admin Action</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow key={`a-${ind}`}>
               <Table.BodyCell key="title">
@@ -329,16 +347,16 @@ const Tab2 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="createdAt3">
-                <p>{`${formatDate(
-                  row.created_at,
-                  'hh:mm aaa dd/MM/yyyy'
-                )} EST`}</p>
+                <>
+                  <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+                  <p>{`${formatDate(row.created_at, 'hh:mm aa')} EST`}</p>
+                </>
               </Table.BodyCell>
               <Table.BodyCell key="timeEnd">
-                <p>{`${formatDate(
-                  row.time_end,
-                  'hh:mm aaa dd/MM/yyyy'
-                )} EST`}</p>
+                <>
+                  <p>{`${formatDate(row.time_end, 'dd/MM/yyyy')}`}</p>
+                  <p>{`${formatDate(row.time_end, 'hh:mm aa')} EST`}</p>
+                </>
               </Table.BodyCell>
               <Table.BodyCell key="actionButtons">
                 <Link href={`/admin/ballots/detail/${row.id}`}>
@@ -375,10 +393,12 @@ const Ballots = () => (
   <LayoutDashboard>
     <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
       <div className="w-full h-full">
-        <div className="flex justify-end lg:mr-card">
+        <div className="flex justify-end lg:mr-card relative">
           <Link href="/admin/ballots/add">
             <a>
-              <Button primary>+ New Ballot</Button>
+              <Button primary className="px-5 py-2">
+                + New Ballot
+              </Button>
             </a>
           </Link>
         </div>

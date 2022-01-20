@@ -116,7 +116,10 @@ const AdminUserList = () => {
             </div>
             <div className="border-primary border-b-2" />
           </div>
-          <div className="pt-8 flex flex-col flex-1 min-h-0">
+          <div
+            className="pt-8 flex flex-col flex-1 min-h-0"
+            style={{ overflowY: 'auto' }}
+          >
             <Styles className="h-full">
               <Table
                 {...register}
@@ -178,7 +181,7 @@ const AdminUserList = () => {
                     <p>Further Details</p>
                   </Table.HeaderCell>
                 </Table.Header>
-                <Table.Body className="padding-tracker">
+                <Table.Body className="custom-padding-tracker">
                   {data.map((row, ind) => (
                     <Table.BodyRow key={ind}>
                       <Table.BodyCell key="id">

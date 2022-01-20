@@ -233,11 +233,11 @@ const Settings = () => {
         <div className="flex flex-col bg-transparent h-full">
           <div className="w-full pr-card">
             <h3 className="text-dark2 text-lg font-medium h-11 flex items-end mb-3">
-              Global settings
+              Global Settings
             </h3>
             <div className="border-primary border-b-2" />
           </div>
-          <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
+          <div className="flex flex-col flex-1 min-h-0 overflow-y-auto pr-card">
             <section className="pt-8">
               <h4 className="flex gap-2 mb-7 text-lg font-medium">
                 Mailer Settings
@@ -257,7 +257,7 @@ const Settings = () => {
               <Link href="/admin/settings/emailer">
                 <button
                   type="button"
-                  className="mr-5 transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="mr-5 px-4 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   Access Mailer
                 </button>
@@ -282,7 +282,7 @@ const Settings = () => {
               <Link href="/admin/settings/notifications">
                 <button
                   type="button"
-                  className="transition text-lg text-white w-36 lg:w-48 h-9 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  className="px-4 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                 >
                   Access Notifications
                 </button>
@@ -338,7 +338,7 @@ const Settings = () => {
                   <PlusIcon className="text-white" />
                 </button>
               </h4>
-              <Styles className="h-full pt-4 w-full lg:w-7/12">
+              <Styles className="h-full pt-4 w-full">
                 <Table
                   className="recipient-table h-full"
                   {...register}
@@ -357,7 +357,7 @@ const Settings = () => {
                       <p>Admin Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
-                  <Table.Body className="padding-tracker">
+                  <Table.Body className="custom-padding-tracker">
                     {data.map(recipient => (
                       <Table.BodyRow key={`recipient-${recipient.id}`}>
                         <Table.BodyCell key="body1">
