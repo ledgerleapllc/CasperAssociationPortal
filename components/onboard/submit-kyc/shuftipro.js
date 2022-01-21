@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
 import { sha256 } from 'js-sha256';
 import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
-import { Button, Checkbox } from '../../partials';
+import { Button } from '../../partials';
 import {
   saveShuftiproTemp,
   updateShuftiproTemp,
@@ -17,7 +16,6 @@ const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);
   const [referenceId, setReferenceId] = useState();
-  const [finalKYC, setFinalKYC] = useState(false);
   const [shuftiError, setShuftiError] = useState('');
   const [url, setUrl] = useState();
   const [loading, setLoading] = useState(true);
@@ -207,18 +205,10 @@ export const Shuftipro = () => {
               frameBorder="0"
             />
           </div>
-          <div className="pt-10">
-            <div className="text-center c-checkbox-itemSymbol">
-              <Checkbox
-                onChange={val => setFinalKYC(val)}
-                labelText="I have reached the final step of the above KYC process"
-              />
-            </div>
-          </div>
           <div className="text-center mt-4">
             <Button
               primary
-              disabled={!finalKYC || isSubmitting}
+              disabled={isSubmitting}
               isLoading={isSubmitting}
               className="w-1/2 lg:w-1/2 h-16 text-lg"
               onClick={() => clickContinue()}

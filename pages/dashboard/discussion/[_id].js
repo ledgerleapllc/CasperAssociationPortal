@@ -394,7 +394,7 @@ const DashboardDiscusionDetail = () => {
                         <Table.HeaderCell key="emptyHeader1" />
                         <Table.HeaderCell key="emptyHeader2" />
                       </Table.Header>
-                      <Table.Body className="padding-tracker">
+                      <Table.Body className="custom-padding-tracker">
                         {data.map((row, index) => (
                           <Table.BodyRow key={`b-${index}`}>
                             <Table.BodyCell key="emptyBody1" />

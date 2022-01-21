@@ -65,7 +65,7 @@ export const PerksPreview = () => {
   }, []);
 
   return (
-    <Perks className="h-full">
+    <Perks className="h-full overflow-auto">
       <Table
         {...register}
         className="perks-preview-table h-full"

@@ -153,11 +153,11 @@ const UserProfile = () => {
                   </Link>
                 </h3>
               </div>
-              <div className="flex">
+              <div className="flex items-center">
                 {!myInfo?.approve_at && (
                   <Button
                     primaryOutline
-                    className="mr-5"
+                    className="mr-5 px-4 py-2"
                     onClick={async e => {
                       e.preventDefault();
                       router.push('/dashboard/verification');
@@ -168,6 +168,7 @@ const UserProfile = () => {
                 )}
                 <Button
                   primary
+                  className="px-4 py-2"
                   onClick={async e => {
                     e.preventDefault();
                     dispatch(logoutApp());
@@ -316,7 +317,7 @@ const UserProfile = () => {
                   </div>
                 </div>
               </section>
-              <div className="border-gray border-b lg:my-8 2xl:my-12" />
+              <div className="border-gray border-b my-8" />
               <section className="advanced-info">
                 <StylesAdvanced>
                   <table className="advanced-info-table border-0">
@@ -381,7 +382,7 @@ const UserProfile = () => {
                   className="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-32 2xl:gap-y-1"
                   style={{ width: '40rem' }}
                 >
-                  <div className="flex flex-col lg:py-1 2xl:py-2">
+                  <div className="flex flex-col py-2">
                     <div className="flex flex-row">
                       <span className="text-lg">Uptime</span>
                       <img
@@ -395,7 +396,7 @@ const UserProfile = () => {
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
                     <ProgressBar mask="x%" value={metrics?.uptime} />
                   </div>
-                  <div className="flex flex-col lg:py-1 2xl:py-2">
+                  <div className="flex flex-col py-1">
                     <div className="flex flex-row">
                       <span className="text-lg">Block Height</span>
                       <img

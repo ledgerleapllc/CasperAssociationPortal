@@ -377,7 +377,7 @@ const Tab3 = () => {
             <p>For/Against</p>
           </Table.HeaderCell>
         </Table.Header>
-        <Table.Body className="padding-tracker">
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow
               className="py-6"

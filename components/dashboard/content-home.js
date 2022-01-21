@@ -4,7 +4,6 @@ import router from 'next/router';
 import ReactLoading from 'react-loading';
 import classNames from 'classnames';
 import { Card } from '../partials';
-import InfoRightHome from './info-right-home';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
@@ -182,10 +181,10 @@ const ContentHome = () => {
   };
 
   return (
-    <div className="flex gap-5 flex-col lg:justify-between w-full h-full">
-      <div className="flex gap-5 flex-wrap lg:flex-nowrap lg:h-1.5/10">
+    <div className="flex flex-col w-full h-full">
+      <div id="dashboard-content-node3__widgets" className="gap-5">
         {(isAlertLoading || !!alerts.length) && (
-          <div className="w-full lg:w-3/5">
+          <div className="custom-alert-box">
             <Alert
               isLoading={isAlertLoading}
               alerts={alerts}
@@ -195,9 +194,9 @@ const ContentHome = () => {
             />
           </div>
         )}
-        <div className="w-2/4 flex-grow lg:w-1/5">
-          <Card className="lg:flex-none h-full py-3">
-            <div className="flex flex-col px-9 justify-center">
+        <div className="custom-pinned-d-box">
+          <Card className="w-full h-full py-3">
+            <div className="w-full h-full flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">
                 Pinned {(isAlertLoading || !!alerts.length) && <br />}{' '}
                 Discussions
@@ -208,9 +207,9 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="w-2/4 flex-grow lg:w-1/5">
-          <Card className="lg:flex-none h-full py-3">
-            <div className="flex flex-col px-9 justify-center">
+        <div className="custom-new-d-box">
+          <Card className="w-full h-full py-3">
+            <div className="w-full h-full flex flex-col px-9 justify-center">
               <span className="text-lg font-medium text-black1">
                 New {(isAlertLoading || !!alerts.length) && <br />} Discussions
               </span>
@@ -221,14 +220,9 @@ const ContentHome = () => {
           </Card>
         </div>
       </div>
-      <Card className="block lg:hidden h-auto w-full">
-        <div className="h-auto">
-          <InfoRightHome />
-        </div>
-      </Card>
-      <div className="flex flex-1 gap-5 flex-col-reverse lg:flex-col lg:h-8.5/10 lg:justify-between min-h-0">
-        <div className="z-50 lg:z-20 flex h-auto lg:h-1/3">
-          <Card className="w-full px-9 py-5">
+      <div id="dashboard-content-node3__Detail">
+        <div id="custom-validator-rewards-box3" className="z-50 lg:z-20">
+          <Card className="w-full h-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <p className="text-lg lg:text-2xl">Validator Rewards</p>
@@ -311,19 +305,21 @@ const ContentHome = () => {
             </div>
           </Card>
         </div>
-        <div className="flex flex-1 min-h-0 flex-col-reverse lg:flex-row h-2/3">
-          <Card className="z-40 flex-grow w-full mt-5 lg:mt-0 lg:w-2/3 lg:mr-3 h-full">
-            <TrendingDiscussion />
-          </Card>
-          <Card
-            className={`${
-              showOpenVotes
-                ? 'z-30 flex-grow w-full lg:w-1/3 lg:mt-0 lg:ml-3 h-full'
-                : 'hidden'
-            }`}
-          >
-            <OpenVotes toggleOpenVotes={setShowOpenVotes} />
-          </Card>
+        <div id="dashboard-content-node3__SubDetail" className="gap-5">
+          <div id="dashboard-content-node3__SubDetailLeft">
+            <Card className="z-40 w-full h-full overflow-y-auto">
+              <TrendingDiscussion />
+            </Card>
+          </div>
+          <div id="dashboard-content-node3__SubDetailRight">
+            <Card
+              className={`${
+                showOpenVotes ? 'z-30 w-full h-full overflow-y-auto' : 'hidden'
+              }`}
+            >
+              <OpenVotes toggleOpenVotes={setShowOpenVotes} />
+            </Card>
+          </div>
         </div>
       </div>
     </div>

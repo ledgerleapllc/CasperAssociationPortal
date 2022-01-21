@@ -244,6 +244,7 @@ const DashboardSetting = () => {
                   sizeSpinner={20}
                   disabled={!canSubmit()}
                   onClick={() => $submitRef.current.click()}
+                  className="px-5 py-2"
                 >
                   Save Changes
                 </Button>
@@ -251,7 +252,10 @@ const DashboardSetting = () => {
             </div>
             <div className="border-primary border-b-2" />
           </div>
-          <div className="card-body flex-1 min-h-0 pt-8 overflow-y-auto -ml-1 pl-1">
+          <div
+            className="card-body flex-1 min-h-0 pt-8 overflow-y-auto -ml-1 pl-1"
+            style={{ overflowX: 'hidden' }}
+          >
             <div className="lg:pr-card">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col lg:flex-row">

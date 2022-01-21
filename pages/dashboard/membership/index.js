@@ -259,10 +259,7 @@ const DashboardMembership = () => {
 
   return (
     <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
-      <div
-        className="membership h-full flex flex-col gap-5 w-full"
-        style={{ maxWidth: '82rem' }}
-      >
+      <div id="landing-page__membership" className="membership gap-5">
         {warningMetrics?.length > 0 && (
           <WarningCards warnings={warningMetrics} />
         )}
@@ -279,9 +276,9 @@ const DashboardMembership = () => {
             your average is restored.`}
           </p>
         </Card>
-        <div className="flex gap-5">
-          <div className="flex flex-col gap-5 flex-grow">
-            <Card className="flex px-9 py-6 gap-6">
+        <div id="landing-page__membership_Widgets">
+          <div id="landing-page__membership_WidgetsLeft" className="gap-5">
+            <Card className="custom-membership-widget flex px-9 py-6 gap-6">
               <div className="w-60">
                 <span className="text-lg font-medium">Node Status:</span>
               </div>
@@ -292,7 +289,7 @@ const DashboardMembership = () => {
                 <span className="text-sm text-gray">{getNodeData()?.desc}</span>
               </div>
             </Card>
-            <Card className="flex px-9 py-6 gap-6">
+            <Card className="custom-membership-widget flex px-9 py-6 gap-6">
               <div className="w-60">
                 <span className="text-lg font-medium">
                   Identity Verification Status:
@@ -308,10 +305,10 @@ const DashboardMembership = () => {
               </div>
             </Card>
           </div>
-          <div className="flex-1 min-h-0">
+          <div id="landing-page__membership_WidgetsRight">
             <div className="flex h-full gap-5">
               <Card
-                className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
+                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
                   (!metrics.uptime ||
                     metrics.uptime <
                       metrics?.monitoring_criteria?.uptime?.warning_level) &&
@@ -346,7 +343,7 @@ const DashboardMembership = () => {
                 </div>
               </Card>
               <Card
-                className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
+                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
                   (!metrics.block_height_average ||
                     metrics.block_height_average <
                       metrics?.monitoring_criteria?.block_height_average
@@ -380,7 +377,7 @@ const DashboardMembership = () => {
                 </div>
               </Card>
               <Card
-                className={`flex flex-col px-6 pt-6 h-full w-40 metrics-card ${
+                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
                   (!metrics.update_responsiveness ||
                     metrics.update_responsiveness <
                       metrics?.monitoring_criteria?.update_responsiveness

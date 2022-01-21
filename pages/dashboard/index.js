@@ -6,15 +6,17 @@ import { LoadingScreen } from '../../components/hoc/loading-screen';
 
 const Dashboard = () => (
   <LayoutDashboard>
-    <div className="flex gap-5 h:auto lg:h-full">
-      <div className="w-4/5">
+    <div id="landing-page__dashboardInner3">
+      <div id="landing-page__dashboardInner3_left">
         <ContentHome />
       </div>
-      <Card className="hidden lg:block h-full w-1/5">
-        <div className="overflow-y-scroll h-full">
-          <InfoRightHome />
-        </div>
-      </Card>
+      <div id="landing-page__dashboardInner3_right">
+        <Card className="w-full h-full">
+          <div className="overflow-y-scroll w-full h-full">
+            <InfoRightHome />
+          </div>
+        </Card>
+      </div>
     </div>
   </LayoutDashboard>
 );
