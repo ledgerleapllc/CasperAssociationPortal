@@ -172,7 +172,7 @@ export const IndividualVerification = ({ goNext }) => {
               <label>Country of Citizenship</label>
               <div className="relative w-10/12 lg:flex-1 flex items-center justify-between px-7 mt-2 h-14 rounded-full shadow-md">
                 <select
-                  className={`max-w-60 cursor-pointer focus:outline-none ${
+                  className={`w-full h-full cursor-pointer focus:outline-none ${
                     watchCitizenship ? 'text-black' : 'text-gray'
                   }`}
                   {...register('country_citizenship', {
@@ -189,7 +189,10 @@ export const IndividualVerification = ({ goNext }) => {
                     </option>
                   ))}
                 </select>
-                <ArrowIcon className="absolute right-7" />
+                <ArrowIcon
+                  className="absolute right-7"
+                  style={{ pointerEvents: 'none' }}
+                />
               </div>
               {formState.errors?.country_citizenship && (
                 <p className="pl-7 mt-2 text-primary">

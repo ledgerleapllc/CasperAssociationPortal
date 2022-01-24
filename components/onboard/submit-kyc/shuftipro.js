@@ -44,6 +44,7 @@ export const Shuftipro = () => {
 
     const payload = {
       reference: referenceIdTemp,
+      callback_url: 'https://caspermember.com/api/shuftipro-status',
       email: authUser.fullInfo.email,
       country: '',
       verification_mode: 'image_only',
@@ -68,13 +69,25 @@ export const Shuftipro = () => {
       supported_types: ['id_card', 'passport', 'driving_license'],
     };
 
+    let address = '';
+    if (authUser.fullInfo.address) {
+      address = authUser.fullInfo.address;
+    }
+    if (authUser.fullInfo.city) {
+      if (address) {
+        address += `, ${authUser.fullInfo.city}`;
+      } else {
+        address = authUser.fullInfo.city;
+      }
+    }
+
     payload.address = {
       name: {
         first_name: authUser.fullInfo.first_name || '',
         last_name: authUser.fullInfo.last_name || '',
         fuzzy_match: 1,
       },
-      full_address: `${authUser.fullInfo.address}, ${authUser.fullInfo.city}`,
+      full_address: address,
       address_fuzzy_match: '1',
       supported_types: ['utility_bill', 'bank_statement'],
       verification_instructions: {
@@ -199,7 +212,7 @@ export const Shuftipro = () => {
           <div className="shuftipro-iframe-wrap h-full">
             <iframe
               className="w-full"
-              style={{ height: '500px' }}
+              style={{ height: '600px' }}
               src={url}
               id="shuftipro-iframe"
               frameBorder="0"
