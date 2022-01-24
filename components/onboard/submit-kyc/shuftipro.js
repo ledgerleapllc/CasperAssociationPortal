@@ -44,7 +44,7 @@ export const Shuftipro = () => {
 
     const payload = {
       reference: referenceIdTemp,
-      callback_url: 'https://caspermember.com/api/shuftipro-status',
+      callback_url: 'https://backend.caspermember.com/api/shuftipro-status',
       email: authUser.fullInfo.email,
       country: '',
       verification_mode: 'image_only',
