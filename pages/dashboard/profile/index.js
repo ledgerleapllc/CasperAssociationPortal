@@ -119,6 +119,11 @@ const UserProfile = () => {
     );
   };
 
+  const capitalize = s => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
   const renderLabel = () => {
     if (!myInfo || !myInfo.id) return 'Not Submitted';
     if (!myInfo.shuftipro || !myInfo.shuftipro.id) return 'Not Submitted';
@@ -239,12 +244,17 @@ const UserProfile = () => {
                               <span>Name:</span>
                             </td>
                             <td>
-                              <span>{myInfo?.full_name}</span>
+                              <span className="flex gap-2 items-center">
+                                {capitalize(myInfo?.full_name)}{' '}
+                                {myInfo?.profile?.status === 'approved' && (
+                                  <VerifiedIcon className="text-primary" />
+                                )}
+                              </span>
                             </td>
                           </tr>
                           <tr>
                             <td>
-                              <span>Member Since:</span>
+                              <span>Registered:</span>
                             </td>
                             <td>
                               <span>

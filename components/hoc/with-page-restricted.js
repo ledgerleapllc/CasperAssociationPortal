@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
-
 import { getLockPageConditions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import IconCheck from '../../public/images/ic-feather-check.svg';
@@ -38,7 +37,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
         _condition.kyc_not_verify_lock = true;
       }
 
-      if (!userInfo.kyc_verified_at) {
+      if (
+        userInfo &&
+        userInfo.fullInfo &&
+        userInfo.fullInfo.profile &&
+        userInfo.fullInfo.profile.status === 'approved'
+      ) {
+        _condition.kyc_not_verify = false;
+      } else {
         _condition.kyc_not_verify = true;
       }
 
@@ -59,7 +65,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
         type: 'DialogCustom',
         data: {
           content: (
-            <div className="p-16">
+            <div className="p-16" style={{ backgroundColor: 'white' }}>
               <p className="text-2xl text-center text-primary mb-5">
                 This Page is Restricted
               </p>
@@ -71,6 +77,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
         },
         settings: {
           noClose: true,
+          zIndex: 100,
         },
       });
     }
@@ -142,7 +149,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
                     type="button"
                     className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
-                    Go to KYC page
+                    Get Verified
                   </button>
                 </Link>
               </>
@@ -159,7 +166,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
                     type="button"
                     className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
-                    Go to KYC page
+                    Get Verified
                   </button>
                 </Link>
               </>
@@ -210,7 +217,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 type="button"
                 className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               >
-                Go to KYC page
+                Get Verified
               </button>
             </Link>
           </>

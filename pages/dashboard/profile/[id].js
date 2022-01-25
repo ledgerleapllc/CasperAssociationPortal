@@ -178,7 +178,7 @@ const UserProfile = () => {
                           </tr>
                           <tr>
                             <td>
-                              <span>Member Since:</span>
+                              <span>Registered:</span>
                             </td>
                             <td>
                               <span>

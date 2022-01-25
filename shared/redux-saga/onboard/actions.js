@@ -34,6 +34,13 @@ export const updateShuftiproTemp = (payload, resolve, reject) => ({
   reject,
 });
 
+export const deleteShuftiproTemp = (payload, resolve, reject) => ({
+  type: 'DELETE_SHUFTI',
+  payload,
+  resolve,
+  reject,
+});
+
 export const submitPublicAddress = (payload, callback, isVerifying) => ({
   type: 'SUBMIT_PUBLIC_ADDRESS',
   callback,

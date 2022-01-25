@@ -4,26 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { sha256 } from 'js-sha256';
 import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
-// import { Button } from '../../partials';
-import {
-  saveShuftiproTemp,
-  // updateShuftiproTemp,
-} from '../../../shared/redux-saga/onboard/actions';
-// import { useDialog } from '../../partials/dialog';
+import { saveShuftiproTemp } from '../../../shared/redux-saga/onboard/actions';
 
 const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);
-  // const [referenceId, setReferenceId] = useState();
   const [, setReferenceId] = useState();
   const [shuftiError, setShuftiError] = useState('');
   const [url, setUrl] = useState();
   const [loading, setLoading] = useState(true);
   const authUser = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
-  // const { dialog, onClosed } = useDialog();
-  // const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validatesignature = (data, signature, SK) => {
     let dataTemp = JSON.stringify(data);
@@ -140,66 +132,6 @@ export const Shuftipro = () => {
       });
   }, [authUser]);
 
-  /*
-  const clickContinue = () => {
-    if (!referenceId) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    axios({
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${token}`,
-      },
-      data: JSON.stringify({
-        reference: referenceId,
-      }),
-      url: `${SHUFTI_API_URL}/status`,
-    })
-      .then(response => {
-        let isValid = false;
-        if (response && response) {
-          const { data } = response;
-
-          const { event, proofs } = data;
-
-          if (event && proofs && proofs.address && proofs.document)
-            isValid = true;
-        }
-
-        if (isValid) {
-          dispatch(
-            updateShuftiproTemp(
-              {
-                reference_id: referenceId,
-                user_id: authUser.id,
-              },
-              () => {
-                setIsSubmitting(false);
-                onClosed();
-                dialog.afterClosed('verified');
-              },
-              () => {
-                setIsSubmitting(false);
-              }
-            )
-          );
-        } else {
-          setIsSubmitting(false);
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        setIsSubmitting(false);
-        onClosed();
-        dialog.afterClosed('');
-      });
-  };
-  */
-
   if (loading) {
     return (
       <div className="shuftipro-loading text-center">
@@ -221,18 +153,6 @@ export const Shuftipro = () => {
               frameBorder="0"
             />
           </div>
-          {/*
-          <div className="text-center mt-4">
-            <Button
-              primary
-              disabled={isSubmitting}
-              isLoading={isSubmitting}
-              className="w-1/2 lg:w-1/2 h-16 text-lg"
-              onClick={() => clickContinue()}
-            >
-              Continue
-            </Button>
-          </div> */}
         </>
       )}
       {shuftiError && <p>{shuftiError}</p>}

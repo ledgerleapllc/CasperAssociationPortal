@@ -149,7 +149,7 @@ const MembersViewerDetail = () => {
                           <td>
                             <div className="flex items-center gap-2">
                               <span>{memberInfo?.full_name} </span>
-                              {memberInfo?.kyc_verified_at && (
+                              {memberInfo?.profile?.status === 'approved' && (
                                 <IconVerified className="text-primary" />
                               )}
                             </div>
@@ -157,7 +157,7 @@ const MembersViewerDetail = () => {
                         </tr>
                         <tr>
                           <td>
-                            <span>Member Since:</span>
+                            <span>Registered:</span>
                           </td>
                           <td>
                             {memberInfo?.email_verified_at ? (

@@ -564,7 +564,7 @@ const DashboardDiscusion = () => {
             <div className="flex justify-end lg:mr-card">
               <Link href="/dashboard/discussion/add">
                 <a>
-                  <Button className="relative z-40 px-5 py-2" primary>
+                  <Button className="relative z-1 px-5 py-2" primary>
                     + New Discussion
                   </Button>
                 </a>

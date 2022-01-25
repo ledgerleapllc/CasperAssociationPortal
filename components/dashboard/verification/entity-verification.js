@@ -15,7 +15,6 @@ import {
   submitDetail,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { Shuftipro } from '../../onboard/submit-kyc/shuftipro';
-// import { updateUser } from '../../../shared/redux-saga/auth/actions';
 import { useDialog } from '../../partials/dialog';
 
 export const EntityVerification = () => {
@@ -128,6 +127,7 @@ export const EntityVerification = () => {
           overflow: 'scroll',
         },
         hideButton: true,
+        noBackDropClose: true,
       },
       data: {
         title: 'ID Verification',
@@ -135,16 +135,6 @@ export const EntityVerification = () => {
       },
       afterClosed: () => {
         window.location.reload();
-        /*
-        if (value) {
-          dispatch(
-            updateUser({
-              status: 'pending',
-            })
-          );
-          goNext();
-        }
-        */
       },
     });
   };
@@ -157,7 +147,6 @@ export const EntityVerification = () => {
       uploadVerificationDocs(
         uploadedDocuments,
         res => {
-          // setUploadedDocuments(res);
           const document = res.find(
             item => item.name === data.page_is_representative
           );

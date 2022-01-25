@@ -141,7 +141,9 @@ const DashboardMembership = () => {
 
   useEffect(() => {
     if (userInfo) {
-      setKYCStatus(userInfo?.status === 'aprroved' ? 1 : 0);
+      setKYCStatus(
+        userInfo?.profile && userInfo?.profile?.status === 'approved' ? 1 : 0
+      );
     }
   }, [userInfo]);
 

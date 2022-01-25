@@ -47,7 +47,7 @@ const Dialog = ({ dialog, onClosed }) => {
     >
       <div
         onClick={() => {
-          if (!settings.noClose) {
+          if (!settings.noClose && !settings.noBackDropClose) {
             onCloseDialog(false);
           }
         }}

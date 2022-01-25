@@ -10,7 +10,6 @@ import { DateTimePicker, LoadingButton } from '../../partials';
 import { submitDetail } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../../partials/dialog';
 import { Shuftipro } from '../../onboard/submit-kyc/shuftipro';
-// import { updateUser } from '../../../shared/redux-saga/auth/actions';
 
 export const IndividualVerification = () => {
   const {
@@ -56,6 +55,7 @@ export const IndividualVerification = () => {
           overflow: 'scroll',
         },
         hideButton: true,
+        noBackDropClose: true,
       },
       data: {
         title: 'ID Verification',
@@ -63,16 +63,6 @@ export const IndividualVerification = () => {
       },
       afterClosed: () => {
         window.location.reload();
-        /*
-        if (value) {
-          dispatch(
-            updateUser({
-              status: 'pending',
-            })
-          );
-          goNext();
-        }
-        */
       },
     });
   };

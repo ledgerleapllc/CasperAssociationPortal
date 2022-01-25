@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import router from 'next/router';
-
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card } from '../../../components/partials';
@@ -10,6 +9,7 @@ import { SwitchUserType } from '../../../components/dashboard/verification/switc
 import { IndividualVerification } from '../../../components/dashboard/verification/individual-verification';
 import { EntityVerification } from '../../../components/dashboard/verification/entity-verification';
 import { VerificationResult } from '../../../components/dashboard/verification/verification-result';
+import { VerificationPending } from '../../../components/dashboard/verification/verification-pending';
 import { UserType } from '../../../shared/constants/user-type';
 
 const Verification = () => {
@@ -21,6 +21,11 @@ const Verification = () => {
       router.push('/dashboard');
     } else if (user?.status === 'pending') {
       setCurrentStep(4);
+    } else if (
+      user?.fullInfo?.shuftipro_temp &&
+      user?.fullInfo?.shuftipro_temp.id
+    ) {
+      setCurrentStep(5);
     } else {
       setCurrentStep(1);
     }
@@ -40,6 +45,13 @@ const Verification = () => {
         );
       case 4:
         return <VerificationResult />;
+      case 5:
+        return (
+          <VerificationPending
+            goNext={() => setCurrentStep(4)}
+            goBack={() => setCurrentStep(1)}
+          />
+        );
       default:
         return <></>;
     }
