@@ -36,7 +36,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
       if (conditions.kyc_not_verify.includes(page)) {
         _condition.kyc_not_verify_lock = true;
       }
-
+      console.log(userInfo);
       if (
         userInfo &&
         userInfo.fullInfo &&
