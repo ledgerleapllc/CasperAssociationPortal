@@ -121,10 +121,13 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const checkReview = () => {
+    /*
     const link = intakeDetail?.shuftipro?.background_checks_result
       ? `/admin/intake/verification/${id}/kyc-review`
       : `/admin/intake/verification/${id}/aml-review`;
     router.push(link);
+    */
+    console.log(intakeDetail);
   };
 
   const activate = () => {

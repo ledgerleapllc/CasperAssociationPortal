@@ -15,10 +15,10 @@ import {
   submitDetail,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { Shuftipro } from '../../onboard/submit-kyc/shuftipro';
-import { updateUser } from '../../../shared/redux-saga/auth/actions';
+// import { updateUser } from '../../../shared/redux-saga/auth/actions';
 import { useDialog } from '../../partials/dialog';
 
-export const EntityVerification = ({ goNext }) => {
+export const EntityVerification = () => {
   const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
@@ -133,7 +133,9 @@ export const EntityVerification = ({ goNext }) => {
         title: 'ID Verification',
         content: <Shuftipro />,
       },
-      afterClosed: value => {
+      afterClosed: () => {
+        window.location.reload();
+        /*
         if (value) {
           dispatch(
             updateUser({
@@ -142,6 +144,7 @@ export const EntityVerification = ({ goNext }) => {
           );
           goNext();
         }
+        */
       },
     });
   };
