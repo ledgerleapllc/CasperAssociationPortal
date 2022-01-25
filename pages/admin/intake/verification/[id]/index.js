@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import {
   approveDocuments,
   getVerificationDetail,
   resetUserKYC,
-  activateVerifiedStatus,
+  // activateVerifiedStatus,
 } from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
@@ -51,7 +51,7 @@ const AdminIntakeVerificationDetail = () => {
   const { setDialog, onClosed } = useDialog();
   const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
   const { setLoading } = useContext(AppContext);
-  const [isVerifying, setIsVerifying] = useState(false);
+  // const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -130,6 +130,7 @@ const AdminIntakeVerificationDetail = () => {
     window.open('https://backoffice.shuftipro.com/reports', '_blank');
   };
 
+  /*
   const activate = () => {
     setIsVerifying(true);
     dispatch(
@@ -138,7 +139,7 @@ const AdminIntakeVerificationDetail = () => {
         () => {
           setIsVerifying(false);
           onClosed();
-          router.push('../');
+          window.location.reload();
         },
         () => {
           setIsVerifying(false);
@@ -146,6 +147,7 @@ const AdminIntakeVerificationDetail = () => {
       )
     );
   };
+  */
 
   const EntityDetail = () => (
     <div className="pr-44">
@@ -282,16 +284,20 @@ const AdminIntakeVerificationDetail = () => {
             )}
           </>
         ) : (
-          <Button
-            isLoading={isVerifying}
-            disabled={isVerifying}
-            primary
-            className="mr-5"
-            sizeSpinner={20}
-            onClick={() => activate()}
-          >
-            Activate Verified Status
-          </Button>
+          <>
+            {/*
+            <Button
+              isLoading={isVerifying}
+              disabled={isVerifying}
+              primary
+              className="mr-5"
+              sizeSpinner={20}
+              onClick={() => activate()}
+            >
+              Activate Verified Status
+            </Button>
+            */}
+          </>
         )}
       </div>
     </div>
