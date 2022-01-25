@@ -4,25 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { sha256 } from 'js-sha256';
 import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
-import { Button } from '../../partials';
+// import { Button } from '../../partials';
 import {
   saveShuftiproTemp,
-  updateShuftiproTemp,
+  // updateShuftiproTemp,
 } from '../../../shared/redux-saga/onboard/actions';
-import { useDialog } from '../../partials/dialog';
+// import { useDialog } from '../../partials/dialog';
 
 const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);
-  const [referenceId, setReferenceId] = useState();
+  // const [referenceId, setReferenceId] = useState();
+  const [, setReferenceId] = useState();
   const [shuftiError, setShuftiError] = useState('');
   const [url, setUrl] = useState();
   const [loading, setLoading] = useState(true);
   const authUser = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
-  const { dialog, onClosed } = useDialog();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // const { dialog, onClosed } = useDialog();
+  // const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validatesignature = (data, signature, SK) => {
     let dataTemp = JSON.stringify(data);
@@ -139,6 +140,7 @@ export const Shuftipro = () => {
       });
   }, [authUser]);
 
+  /*
   const clickContinue = () => {
     if (!referenceId) {
       return;
@@ -196,6 +198,7 @@ export const Shuftipro = () => {
         dialog.afterClosed('');
       });
   };
+  */
 
   if (loading) {
     return (
@@ -218,6 +221,7 @@ export const Shuftipro = () => {
               frameBorder="0"
             />
           </div>
+          {/*
           <div className="text-center mt-4">
             <Button
               primary
@@ -228,7 +232,7 @@ export const Shuftipro = () => {
             >
               Continue
             </Button>
-          </div>
+          </div> */}
         </>
       )}
       {shuftiError && <p>{shuftiError}</p>}

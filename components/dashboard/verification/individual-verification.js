@@ -10,9 +10,9 @@ import { DateTimePicker, LoadingButton } from '../../partials';
 import { submitDetail } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../../partials/dialog';
 import { Shuftipro } from '../../onboard/submit-kyc/shuftipro';
-import { updateUser } from '../../../shared/redux-saga/auth/actions';
+// import { updateUser } from '../../../shared/redux-saga/auth/actions';
 
-export const IndividualVerification = ({ goNext }) => {
+export const IndividualVerification = () => {
   const {
     control,
     formState,
@@ -61,7 +61,9 @@ export const IndividualVerification = ({ goNext }) => {
         title: 'ID Verification',
         content: <Shuftipro />,
       },
-      afterClosed: value => {
+      afterClosed: () => {
+        window.location.reload();
+        /*
         if (value) {
           dispatch(
             updateUser({
@@ -70,6 +72,7 @@ export const IndividualVerification = ({ goNext }) => {
           );
           goNext();
         }
+        */
       },
     });
   };
