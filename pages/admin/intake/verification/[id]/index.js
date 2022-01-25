@@ -5,7 +5,6 @@ import router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
-import axios from 'axios';
 import { LoadingScreen } from '../../../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Button } from '../../../../../components/partials';
@@ -21,10 +20,6 @@ import IconCheck from '../../../../../public/images/ic-feather-check.svg';
 import { formatDate } from '../../../../../shared/core/utils';
 import { useDialog } from '../../../../../components/partials/dialog';
 import { ResetUserView } from '../../../../../components/admin/intake/dialogs/letter-review';
-import {
-  SHUFTI_API_URL,
-  SHUFTI_CONST,
-} from '../../../../../shared/core/constants';
 
 const Styles = styled.div`
   .verification-table {
@@ -44,8 +39,6 @@ const Styles = styled.div`
     }
   }
 `;
-
-const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 const AdminIntakeVerificationDetail = () => {
   const [intakeDetail, setIntakeDetail] = useState();
@@ -134,29 +127,7 @@ const AdminIntakeVerificationDetail = () => {
       : `/admin/intake/verification/${id}/aml-review`;
     router.push(link);
     */
-    if (
-      !intakeDetail ||
-      !intakeDetail.shuftipro ||
-      !intakeDetail.shuftipro.reference_id
-    )
-      return;
-    const referenceId = intakeDetail.shuftipro.reference_id;
-    const token = btoa(`${clientId}:${clientSecret}`);
-    axios({
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${token}`,
-      },
-      data: JSON.stringify({
-        reference: referenceId,
-      }),
-      url: `${SHUFTI_API_URL}/status`,
-    })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(() => {});
+    window.open('https://backoffice.shuftipro.com/reports', '_blank');
   };
 
   const activate = () => {
@@ -275,6 +246,14 @@ const AdminIntakeVerificationDetail = () => {
               </td>
               <td>
                 <span>{renderKYCStatus()}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span>Reference Number:</span>
+              </td>
+              <td>
+                <span>{intakeDetail?.shuftipro?.reference_id}</span>
               </td>
             </tr>
           </tbody>
