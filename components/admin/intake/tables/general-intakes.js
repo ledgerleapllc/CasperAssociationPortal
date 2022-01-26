@@ -20,23 +20,27 @@ import { AppContext } from '../../../../pages/_app';
 const StylesIntake = styled.div`
   .intake-table {
     .col-1 {
-      width: 25%;
+      width: 26%;
       padding-right: 0 !important;
     }
     .col-2 {
-      width: 35%;
+      width: 25%;
       padding-right: 0 !important;
     }
     .col-3 {
-      width: 15%;
+      width: 10%;
       padding-right: 0 !important;
     }
     .col-4 {
-      width: 15%;
+      width: 13%;
       padding-right: 0 !important;
     }
     .col-5 {
-      width: 10%;
+      width: 14%;
+      padding-right: 0 !important;
+    }
+    .col-6 {
+      width: 12%;
       padding-right: 0 !important;
     }
   }
@@ -203,6 +207,9 @@ export const GeneralIntakes = () => {
           <Table.HeaderCell key="letterMotivation">
             <p>Letter of Motivation</p>
           </Table.HeaderCell>
+          <Table.HeaderCell key="action">
+            <p>Action</p>
+          </Table.HeaderCell>
         </Table.Header>
         <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
@@ -224,27 +231,28 @@ export const GeneralIntakes = () => {
                 )}
               </Table.BodyCell>
               <Table.BodyCell key="letterAt">
-                {row.letter_verified_at ? (
+                {row.letter_verified_at && (
                   <IconCheck className="text-primary" />
-                ) : (
-                  <div className="flex gap-5">
-                    <button
-                      type="button"
-                      onClick={() => reviewIntake(row, ind)}
-                      className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
-                      disabled={!row.letter_file}
-                    >
-                      Review
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => doRemoveIntake(row, ind)}
-                      className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      Remove
-                    </button>
-                  </div>
                 )}
+              </Table.BodyCell>
+              <Table.BodyCell key="action">
+                <div className="flex gap-5">
+                  <button
+                    type="button"
+                    onClick={() => reviewIntake(row, ind)}
+                    className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled={!row.letter_file}
+                  >
+                    Review
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => doRemoveIntake(row, ind)}
+                    className="text-primary cursor-pointer underline disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Remove
+                  </button>
+                </div>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}

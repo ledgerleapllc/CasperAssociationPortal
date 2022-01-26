@@ -311,12 +311,11 @@ const ContentHome = () => {
               <TrendingDiscussion />
             </Card>
           </div>
-          <div id="dashboard-content-node3__SubDetailRight">
-            <Card
-              className={`${
-                showOpenVotes ? 'z-30 w-full h-full overflow-y-auto' : 'hidden'
-              }`}
-            >
+          <div
+            className={`${showOpenVotes ? '' : 'hidden'}`}
+            id="dashboard-content-node3__SubDetailRight"
+          >
+            <Card className="z-30 w-full h-full overflow-y-auto">
               <OpenVotes toggleOpenVotes={setShowOpenVotes} />
             </Card>
           </div>
