@@ -193,7 +193,7 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
                 </p>
               </Table.BodyCell>
               <Table.BodyCell key="edit">
-                <Link href={`notifications/detail/${row.id}`}>
+                <Link href={`/admin/settings/notifications/detail/${row.id}`}>
                   <a>
                     <Button className="w-full" primary size="small">
                       Edit

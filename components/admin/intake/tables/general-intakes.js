@@ -231,9 +231,11 @@ export const GeneralIntakes = () => {
                 )}
               </Table.BodyCell>
               <Table.BodyCell key="letterAt">
-                {row.letter_verified_at && (
+                {row.letter_verified_at ? (
                   <IconCheck className="text-primary" />
-                )}
+                ) : row.letter_file ? (
+                  <small>Pending for Review</small>
+                ) : null}
               </Table.BodyCell>
               <Table.BodyCell key="action">
                 <div className="flex gap-5">
