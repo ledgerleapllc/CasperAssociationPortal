@@ -4,7 +4,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import FormatIcon from '@material-ui/icons/FormatIndentDecrease';
-
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import HomeIcon from '../../public/images/ic_home.svg';
 import InfoIcon from '../../public/images/ic_infor.svg';
@@ -17,6 +16,7 @@ import SettingIcon from '../../public/images/ic_settings.svg';
 import IntakeIcon from '../../public/images/ic_intake.svg';
 import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
+import ShuftiIcon from '../../public/images/shufti.svg';
 import ListIcon from '../../public/images/ic_list.svg';
 import usePermissions from '../hooks/usePermissions';
 import { setCollapsed } from '../../shared/redux-saga/auth/actions';
@@ -141,6 +141,16 @@ const adminNavs = [
   },
 ];
 
+const extraAdminNavs = [
+  {
+    key: 'backoffice',
+    icon: ShuftiIcon,
+    label: 'Backoffice',
+    path: 'https://backoffice.shuftipro.com/reports',
+    public: true,
+  },
+];
+
 const Sidebar = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const isCollapsed = useSelector(
@@ -173,6 +183,10 @@ const Sidebar = () => {
       return 'collapsed bg-white shadow-light';
     }
     return 'bg-white shadow-light';
+  };
+
+  const clickPath = path => {
+    window.open(path, '_blank');
   };
 
   return (
@@ -231,6 +245,30 @@ const Sidebar = () => {
                     <span className="capitalize pl-5">{nav.label}</span>
                   </a>
                 </ActiveLink>
+              </li>
+            ))}
+          </ul>
+        )}
+        {isAdmin && (
+          <ul className="flex flex-col">
+            <div className="mb-5 border border-t-1 border-gray opacity-40" />
+            {extraAdminNavs.map((nav, index) => (
+              <li
+                className="mb-6"
+                key={index}
+                hidden={!isSuperAdmin && !nav.public}
+              >
+                <a
+                  className="relative flex text-base"
+                  onClick={() => clickPath(nav.path)}
+                >
+                  <div
+                    className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                    style={{ left: '-1.5625rem' }}
+                  />
+                  <nav.icon width="1.5rem" height="1.5rem" />
+                  <span className="capitalize pl-5">{nav.label}</span>
+                </a>
               </li>
             ))}
           </ul>

@@ -1,8 +1,6 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-unused-vars */
 import router from 'next/router';
-import Link from 'next/link';
+// import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
@@ -156,6 +154,7 @@ const AdminIntakeVerificationAML = () => {
     });
   };
 
+  /*
   const refreshLink = e => {
     e.preventDefault();
     setLoading(true);
@@ -172,6 +171,7 @@ const AdminIntakeVerificationAML = () => {
       )
     );
   };
+  */
 
   return (
     <LayoutDashboard>
@@ -205,6 +205,7 @@ const AdminIntakeVerificationAML = () => {
                         </div>
                       </td>
                     </tr>
+                    {/*
                     <tr>
                       <td>
                         <p className="flex" style={{ padding: '5px 0' }}>
@@ -261,6 +262,7 @@ const AdminIntakeVerificationAML = () => {
                         </p>
                       </td>
                     </tr>
+                    */}
                     <tr>
                       <td>&nbsp;</td>
                     </tr>

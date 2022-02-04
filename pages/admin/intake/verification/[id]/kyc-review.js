@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import router from 'next/router';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
@@ -18,9 +16,11 @@ import {
   banVerifiedUser,
   resetUserKYC,
   getVerificationDetail,
-  refreshLinks,
+  // refreshLinks,
 } from '../../../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../../../_app';
+import IconCopy from '../../../../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../../../../components/partials/snack-bar';
 
 const Styles = styled.div`
   .verification-table {
@@ -54,6 +54,7 @@ const AdminIntakeVerificationKYC = () => {
   const { setLoading } = useContext(AppContext);
   // const [shuftiData, setShuftiData] = useState();
   const [shuftipro, setShuftipro] = useState();
+  const { openSnack } = useSnackBar();
 
   const refreshUser = () => {
     setLoading(true);
@@ -173,6 +174,15 @@ const AdminIntakeVerificationKYC = () => {
     return 'Not Submitted';
   };
 
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
+  /*
   const refreshLink = e => {
     e.preventDefault();
     setLoading(true);
@@ -189,6 +199,7 @@ const AdminIntakeVerificationKYC = () => {
       )
     );
   };
+  */
 
   return (
     <LayoutDashboard>
@@ -212,7 +223,22 @@ const AdminIntakeVerificationKYC = () => {
                           <span style={{ width: '170px' }}>
                             Reference Number:
                           </span>
-                          <span>{shuftipro?.reference_id}</span>
+                          <div className="flex">
+                            <span>{shuftipro?.reference_id}</span>
+                            <button
+                              className="ml-6"
+                              type="button"
+                              onClick={() => copyClipboard()}
+                            >
+                              <IconCopy />
+                            </button>
+                          </div>
+                          <input
+                            id="public-address"
+                            value={shuftipro?.reference_id || ''}
+                            readOnly
+                            hidden
+                          />
                         </p>
                       </td>
                     </tr>
@@ -226,6 +252,7 @@ const AdminIntakeVerificationKYC = () => {
                         </p>
                       </td>
                     </tr>
+                    {/*
                     <tr>
                       <td>
                         <p className="flex" style={{ padding: '5px 0' }}>
@@ -282,6 +309,7 @@ const AdminIntakeVerificationKYC = () => {
                         </p>
                       </td>
                     </tr>
+                    */}
                     <tr>
                       <td>&nbsp;</td>
                     </tr>

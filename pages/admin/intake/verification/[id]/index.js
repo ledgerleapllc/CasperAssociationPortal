@@ -20,6 +20,8 @@ import IconCheck from '../../../../../public/images/ic-feather-check.svg';
 import { formatDate } from '../../../../../shared/core/utils';
 import { useDialog } from '../../../../../components/partials/dialog';
 import { ResetUserView } from '../../../../../components/admin/intake/dialogs/letter-review';
+import IconCopy from '../../../../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../../../../components/partials/snack-bar';
 
 const Styles = styled.div`
   .verification-table {
@@ -52,6 +54,7 @@ const AdminIntakeVerificationDetail = () => {
   const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
   const { setLoading } = useContext(AppContext);
   // const [isVerifying, setIsVerifying] = useState(false);
+  const { openSnack } = useSnackBar();
 
   useEffect(() => {
     setLoading(true);
@@ -227,6 +230,14 @@ const AdminIntakeVerificationDetail = () => {
     return 'Not Submitted';
   };
 
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
   const CommonDetail = () => (
     <div className="pt-8">
       <div className="mb-12 w-14 border-b border-primary" />
@@ -255,7 +266,22 @@ const AdminIntakeVerificationDetail = () => {
                 <span>Reference Number:</span>
               </td>
               <td>
-                <span>{intakeDetail?.shuftipro?.reference_id}</span>
+                <div className="flex">
+                  <span>{intakeDetail?.shuftipro?.reference_id}</span>
+                  <button
+                    className="ml-6"
+                    type="button"
+                    onClick={() => copyClipboard()}
+                  >
+                    <IconCopy />
+                  </button>
+                </div>
+                <input
+                  id="public-address"
+                  value={intakeDetail?.shuftipro?.reference_id}
+                  readOnly
+                  hidden
+                />
               </td>
             </tr>
           </tbody>

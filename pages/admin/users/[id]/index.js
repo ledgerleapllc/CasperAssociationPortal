@@ -1,21 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   getUserDetail,
-  updateUserMetrics,
+  // updateUserMetrics,
   getUserMetrics,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import {
   BackButton,
-  Button,
+  // Button,
   Card,
-  Checkbox,
+  // Checkbox,
 } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
-import { AppContext } from '../../../_app';
+// import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import { getShortNodeAddress } from '../../../../shared/core/utils';
 
@@ -23,16 +23,19 @@ const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const { setLoading } = useContext(AppContext);
+  // const { setLoading } = useContext(AppContext);
   const userDetail = useSelector(state => state.userDetailReducer.data);
+  /*
   const [unlockField, setUnlockField] = useState({
     uptime: false,
     block_height_average: false,
     update_responsiveness: false,
     peers: false,
   });
+  */
 
-  const [overrideValue, setOverrideValue] = useState({
+  // const [overrideValue, setOverrideValue] = useState({
+  const [, setOverrideValue] = useState({
     uptime: '',
     block_height_average: '',
     update_responsiveness: '',
@@ -78,6 +81,7 @@ const AdminUserDetail = () => {
     }
   }, [id]);
 
+  /*
   const finishEditting = () => {
     setUnlockField({
       uptime: false,
@@ -86,7 +90,9 @@ const AdminUserDetail = () => {
       peers: false,
     });
   };
+  */
 
+  /*
   const cancelEditting = () => {
     finishEditting();
     setOverrideValue({
@@ -100,6 +106,7 @@ const AdminUserDetail = () => {
       peers: +metrics.peers ? +metrics.peers : '',
     });
   };
+  */
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
@@ -134,13 +141,16 @@ const AdminUserDetail = () => {
     return 'Not Submitted';
   };
 
+  /*
   const updateField = (field, value) => {
     setOverrideValue({
       ...overrideValue,
       [field]: value,
     });
   };
+  */
 
+  /*
   const save = field => {
     if (!unlockField[field]) {
       setUnlockField({
@@ -199,11 +209,14 @@ const AdminUserDetail = () => {
       );
     }
   };
+  */
 
+  /*
   const checkUnlockField = currentField =>
     Object.keys(unlockField).some(
       field => field !== currentField && unlockField[field]
     );
+  */
 
   return (
     <LayoutDashboard>
@@ -321,6 +334,7 @@ const AdminUserDetail = () => {
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>
                   <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
+                  {/*
                   <div className="text-sm w-1/6">
                     <Checkbox
                       value={!!overrideValue.uptime}
@@ -356,6 +370,7 @@ const AdminUserDetail = () => {
                       </button>
                     )}
                   </div>
+                  */}
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
@@ -364,6 +379,7 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">
                     {metrics?.block_height_average || 0} behind
                   </p>
+                  {/*
                   <div className="text-sm w-1/6">
                     <Checkbox
                       value={!!overrideValue.block_height_average}
@@ -400,6 +416,7 @@ const AdminUserDetail = () => {
                       </button>
                     )}
                   </div>
+                  */}
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
@@ -408,6 +425,7 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">
                     {metrics?.update_responsiveness || 0} days early
                   </p>
+                  {/*
                   <div className="text-sm w-1/6">
                     <Checkbox
                       value={!!overrideValue.update_responsiveness}
@@ -444,10 +462,12 @@ const AdminUserDetail = () => {
                       </button>
                     )}
                   </div>
+                  */}
                 </div>
                 <div className="flex items-center flex-row mt-1 h-11">
                   <p className="text-sm font-medium w-1/6">Peers:</p>
                   <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
+                  {/*
                   <div className="text-sm w-1/6">
                     <Checkbox
                       value={!!overrideValue.peers}
@@ -482,6 +502,7 @@ const AdminUserDetail = () => {
                       </button>
                     )}
                   </div>
+                  */}
                 </div>
               </div>
             </div>

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
@@ -7,11 +5,13 @@ import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, BackButton } from '../../../../components/partials';
 import {
   getVerificationDetail,
-  refreshLinks,
+  // refreshLinks,
 } from '../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
+import IconCopy from '../../../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../../../components/partials/snack-bar';
 
 const KycAmlDetail = () => {
   const router = useRouter();
@@ -20,6 +20,7 @@ const KycAmlDetail = () => {
   const { setLoading } = useContext(AppContext);
   const [userKYC, setUserKYC] = useState();
   // const [shuftiData, setShuftiData] = useState();
+  const { openSnack } = useSnackBar();
 
   const refreshData = () => {
     setLoading(true);
@@ -100,6 +101,15 @@ const KycAmlDetail = () => {
     return 'Not Submitted';
   };
 
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
+  /*
   const refreshLink = e => {
     e.preventDefault();
     setLoading(true);
@@ -116,6 +126,7 @@ const KycAmlDetail = () => {
       )
     );
   };
+  */
 
   return (
     <LayoutDashboard>
@@ -200,9 +211,24 @@ const KycAmlDetail = () => {
               <div className="flex flex-col pb-5">
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">Reference Number:</p>
-                  <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.reference_id || ''}
-                  </p>
+                  <div className="text-sm w-5/6">
+                    <div className="flex">
+                      <span>{userKYC?.shuftipro?.reference_id || ''}</span>
+                      <button
+                        className="ml-6"
+                        type="button"
+                        onClick={() => copyClipboard()}
+                      >
+                        <IconCopy />
+                      </button>
+                    </div>
+                    <input
+                      id="public-address"
+                      value={userKYC?.shuftipro?.reference_id || ''}
+                      readOnly
+                      hidden
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">ID Check Status:</p>
@@ -214,6 +240,7 @@ const KycAmlDetail = () => {
                   </p>
                   <p className="text-sm w-5/6">{renderAddressCheckStatus()}</p>
                 </div>
+                {/*
                 <div className="flex flex-row py-1">
                   <p className="text-sm font-medium w-1/6">
                     Identification Doc:
@@ -268,6 +295,7 @@ const KycAmlDetail = () => {
                     </a>
                   </p>
                 </div>
+                */}
               </div>
             </div>
           </div>
