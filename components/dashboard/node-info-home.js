@@ -11,7 +11,7 @@ const NodeInfoHome = () => {
       <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
-          <span className="text-lg">Node Rank</span>
+          <span className="text-lg">Node Rank&nbsp;</span>
           <Tooltips
             placement="top"
             title="Ranks all nodes in the platform weighted equally."

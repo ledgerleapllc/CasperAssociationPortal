@@ -172,6 +172,11 @@ const AdminIntakeVerificationDetail = () => {
         >
           {representativeDoc?.name}
         </a>
+        {intakeDetail &&
+        intakeDetail.profile &&
+        intakeDetail.profile.page_number
+          ? ` and is on page ${intakeDetail.profile.page_number}`
+          : null}
         . If you can confirm this, click confirm. If you cannot see the above
         name in the document, click reset. You can log your reason after
         clicking reset.

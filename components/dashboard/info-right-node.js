@@ -196,7 +196,7 @@ const InfoRightNode = memo(({ currentNode }) => {
       <div className="flex flex-col w-full h-full">
         <div id="dashboard-content-node1__header" className="pl-3">
           <div id="dashboard-content-node1__title">
-            <span className="text-lg font-normal pr-1">Node Rank</span>
+            <span className="text-lg font-normal pr-1">Node Rank&nbsp;</span>
             <Tooltips
               placement="top"
               title={
