@@ -15,6 +15,8 @@ import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
 const Styles = styled.div`
   .users-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 5%;
       padding-right: 0 !important;

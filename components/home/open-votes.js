@@ -10,6 +10,8 @@ import { useTable } from '../partials/table';
 
 const Styles = styled.div`
   .active-vote-table {
+    display: flex;
+    flex-direction: column;
     .infinite-scroll-component__outerdiv {
       margin-right: 0;
     }

@@ -138,7 +138,7 @@ Table.Body = props => {
     <div
       id={randomId}
       className={`table-body ${props.className || ''}`}
-      style={{ overflowY: 'scroll' }}
+      style={{ overflowY: 'scroll', flex: 1 }}
     >
       <InfiniteScroll
         className="flex flex-col w-full"

@@ -9,6 +9,8 @@ import { formatDate } from '../../../../shared/core/utils';
 
 const Notifications = styled.div`
   .notifications-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 5%;
       padding-right: 0 !important;

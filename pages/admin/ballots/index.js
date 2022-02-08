@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
@@ -19,6 +19,8 @@ import { getBallots } from '../../../shared/redux-saga/admin/actions';
 
 const Styles = styled.div`
   .active-ballot-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 25%;
       padding-right: 0 !important;
@@ -45,6 +47,8 @@ const Styles = styled.div`
     }
   }
   .complete-ballot-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 30%;
       padding-right: 0 !important;

@@ -39,6 +39,8 @@ const Styles = styled.div`
 
 const StylesVotes = styled.div`
   .active-votes-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 30%;
       padding-right: 0 !important;

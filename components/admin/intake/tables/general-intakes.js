@@ -19,6 +19,8 @@ import { AppContext } from '../../../../pages/_app';
 
 const StylesIntake = styled.div`
   .intake-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 26%;
       padding-right: 0 !important;

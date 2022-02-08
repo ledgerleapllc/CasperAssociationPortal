@@ -8,6 +8,8 @@ import { getNotificationViewLogs } from '../../../../shared/redux-saga/admin/act
 
 const ViewLogs = styled.div`
   .view-logs-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 30%;
       padding-right: 0 !important;

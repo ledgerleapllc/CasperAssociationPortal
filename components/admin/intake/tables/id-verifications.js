@@ -9,6 +9,8 @@ import { formatDate } from '../../../../shared/core/utils';
 
 const Styles = styled.div`
   .id-verfication-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 20%;
       padding-right: 0 !important;

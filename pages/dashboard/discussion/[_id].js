@@ -38,6 +38,8 @@ import { withPageRestricted } from '../../../components/hoc/with-page-restricted
 
 const Styles = styled.div`
   .discussion-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 0%;
       padding-right: 0 !important;

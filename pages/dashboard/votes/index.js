@@ -23,6 +23,8 @@ import { useTable } from '../../../components/partials/table';
 
 const Styles = styled.div`
   .active-vote-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 40%;
       padding-right: 0 !important;
@@ -49,6 +51,8 @@ const Styles = styled.div`
     }
   }
   .complete-vote-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 55%;
       padding-right: 0 !important;

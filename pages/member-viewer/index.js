@@ -29,6 +29,8 @@ const TableSlider = styled.table`
 
 const Styles = styled.div`
   .members-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 20%;
       padding-right: 0 !important;

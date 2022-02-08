@@ -241,6 +241,8 @@ const ChatBox = ({
 
 const Styles = styled.div`
   .discussion-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 0%;
       display: none;

@@ -10,6 +10,8 @@ import { useTable } from '../../../partials/table';
 const Styles = styled.div`
   padding: 50px 5.3rem 20px 5.3rem;
   .ip-table {
+    display: flex;
+    flex-direction: column;
     min-width: auto;
     .col {
       text-align: left;

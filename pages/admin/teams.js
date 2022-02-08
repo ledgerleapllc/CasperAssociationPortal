@@ -24,6 +24,8 @@ import { IPHistoriesDialog } from '../../components/admin/teams/ip-histories';
 
 const Styles = styled.div`
   .teams-table {
+    display: flex;
+    flex-direction: column;
     .col {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;

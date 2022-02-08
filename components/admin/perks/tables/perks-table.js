@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -14,6 +14,8 @@ import { AppContext } from '../../../../pages/_app';
 
 const Perks = styled.div`
   .perks-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 8%;
       padding-right: 0 !important;

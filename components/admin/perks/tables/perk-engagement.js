@@ -8,6 +8,8 @@ import { formatDate } from '../../../../shared/core/utils';
 
 const Perks = styled.div`
   .perks-engagement-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 34%;
       padding-right: 0 !important;

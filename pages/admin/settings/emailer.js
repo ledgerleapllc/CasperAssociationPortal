@@ -27,6 +27,8 @@ import { EMAIL_PATTERN } from '../../../helpers/form-validation';
 
 const Styles = styled.div`
   .emailer-admin-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 60%;
       padding-right: 0 !important;

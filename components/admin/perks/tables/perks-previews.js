@@ -8,6 +8,8 @@ import { PerkCard } from '../components/perk-card';
 
 const Perks = styled.div`
   .perks-preview-table {
+    display: flex;
+    flex-direction: column;
     .col-1 {
       width: 0%;
       padding-right: 0.5rem !important;

@@ -13,6 +13,8 @@ import useMetrics from '../hooks/useMetrics';
 
 const Styles = styled.div`
   .nodes-table {
+    display: flex;
+    flex-direction: column;
     .infinite-scroll-component__outerdiv {
       margin-right: 0;
     }

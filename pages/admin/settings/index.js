@@ -28,6 +28,8 @@ import { useTable } from '../../../components/partials/table';
 
 const Styles = styled.div`
   .recipient-table {
+    display: flex;
+    flex-direction: column;
     min-width: auto;
     .col-1 {
       width: 30%;
