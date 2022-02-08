@@ -118,7 +118,7 @@ const AdminUserList = () => {
           </div>
           <div
             className="pt-8 flex flex-col flex-1 min-h-0"
-            style={{ overflowY: 'auto' }}
+            // style={{ overflowY: 'auto' }}
           >
             <Styles className="h-full">
               <Table
