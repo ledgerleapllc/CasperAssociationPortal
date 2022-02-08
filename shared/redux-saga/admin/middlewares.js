@@ -207,7 +207,7 @@ export function* getBallotVotes({ payload, callback }) {
       Authorization: `Bearer ${token}`,
     };
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`admin/ballots/${payload.id}/votes?${query}`], {
@@ -223,7 +223,7 @@ export function* getBallotVotes({ payload, callback }) {
 export function* getSubadmins({ payload, callback }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`admin/teams?${query}`]);
@@ -247,7 +247,7 @@ export function* getSubadmins({ payload, callback }) {
 export function* getIpHistories({ payload, callback }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`admin/teams/${payload.id}/ip-histories?${query}`]);
@@ -262,7 +262,7 @@ export function* getIpHistories({ payload, callback }) {
 export function* getLogUsersViewdDoc({ payload, callback }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`admin/ballots/viewed-docs/${payload.id}?${query}`]);
@@ -753,7 +753,7 @@ export function* getListNotifications({ payload, resolve, reject }) {
 export function* getNotificationViewLogs({ payload, resolve }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 5,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([

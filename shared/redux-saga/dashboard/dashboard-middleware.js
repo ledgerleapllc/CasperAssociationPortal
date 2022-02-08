@@ -86,7 +86,7 @@ export function* publishDiscussion({ payload, resolve, reject }) {
 export function* getDiscussions({ payload, successCb }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`discussions/all?${query}`]);
@@ -99,7 +99,7 @@ export function* getDiscussions({ payload, successCb }) {
 export function* getPinnedDiscussions({ payload, resolve, reject }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`discussions/pin?${query}`]);
@@ -114,7 +114,7 @@ export function* getPinnedDiscussions({ payload, resolve, reject }) {
 export function* getDraftDiscussions({ payload, resolve, reject }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`discussions/draft?${query}`]);
@@ -138,7 +138,7 @@ export function* deleteDraftDiscussion({ payload, resolve, reject }) {
 export function* getMyDiscussions({ payload, resolve, reject }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`discussions/my?${query}`]);
@@ -153,7 +153,7 @@ export function* getMyDiscussions({ payload, resolve, reject }) {
 export function* getTrendingDiscussions({ payload, resolve }) {
   try {
     const query = qs.stringify({
-      limit: payload.limit || 10,
+      limit: payload.limit || 50,
       page: payload.page,
     });
     const res = yield get([`discussions/trending?${query}`]);
@@ -211,7 +211,7 @@ export function* getDiscussionDetail({ id, resolve, reject }) {
 
 export function* getDiscussionComments({ payload, resolve }) {
   const query = qs.stringify({
-    limit: payload.limit || 10,
+    limit: payload.limit || 50,
     page: payload.page,
   });
   try {
