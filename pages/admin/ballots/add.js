@@ -149,6 +149,7 @@ const AdminAddBallot = () => {
                     style={{
                       width: '100%',
                       marginTop: '10px',
+                      textAlign: 'right',
                     }}
                   >
                     <small>
