@@ -85,7 +85,7 @@ const VerifyNodeOwnershipSecondStep = ({
           <p className="text-2xl -mt-2 lg:mt-0">2.</p>
           <div className="flex-grow lg:flex ml-8 lg:items-end">
             <p className="text-sm lg:flex-grow pb-1">
-              Sign the message with your node. See guide for more details.
+              Sign the message with your node.
             </p>
             <Button
               className="bg-primary rounded-full text-white w-32 h-8 shadow-md focus:outline-none disabled:opacity-25 disabled:cursor-not-allowed"

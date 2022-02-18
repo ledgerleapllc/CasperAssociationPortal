@@ -16,7 +16,6 @@ import {
   banVerifiedUser,
   resetUserKYC,
   getVerificationDetail,
-  // refreshLinks,
 } from '../../../../../shared/redux-saga/admin/actions';
 import { AppContext } from '../../../../_app';
 import IconCopy from '../../../../../public/images/ic_copy.svg';
@@ -63,7 +62,6 @@ const AdminIntakeVerificationKYC = () => {
         { id },
         res => {
           setLoading(false);
-          // setShuftiData(JSON.parse(res.shuftipro?.data));
           setShuftipro(res.shuftipro);
         },
         () => {
@@ -165,7 +163,6 @@ const AdminIntakeVerificationKYC = () => {
   };
 
   const renderResponse = () => {
-    // shuftiData?.declined_reason
     if (shuftipro && shuftipro.id) {
       if (shuftipro?.status === 'approved') return 'VERIFIED';
       if (shuftipro?.status === 'pending') return 'Submitted / Pending';
@@ -181,25 +178,6 @@ const AdminIntakeVerificationKYC = () => {
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
-
-  /*
-  const refreshLink = e => {
-    e.preventDefault();
-    setLoading(true);
-    dispatch(
-      refreshLinks(
-        { userId: id },
-        () => {
-          setLoading(false);
-          refreshUser();
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-  */
 
   return (
     <LayoutDashboard>
@@ -252,64 +230,6 @@ const AdminIntakeVerificationKYC = () => {
                         </p>
                       </td>
                     </tr>
-                    {/*
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>
-                            Identification Doc:
-                          </span>
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={shuftipro?.document_proof}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            View
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>Address Doc:</span>
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={shuftipro?.address_proof}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            View
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>
-                            Expired proof links?
-                          </span>
-                          <a
-                            onClick={refreshLink}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            Refresh
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    */}
                     <tr>
                       <td>&nbsp;</td>
                     </tr>

@@ -326,24 +326,6 @@ const MembersViewerDetail = () => {
                     }}
                   />
                 </div>
-                {/* <div className="flex flex-col lg:py-1 2xl:py-2">
-                  <div className="flex flex-row">
-                    <span className="text-lg">Peers</span>
-                    <img
-                      className="pl-3"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
-                  </div>
-                  <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                    Average: {metrics?.avg_peers}
-                  </p>
-                  <ProgressBar
-                    value={metrics?.peers}
-                    total={metrics?.max_peers}
-                    mask="x/y"
-                  />
-                </div> */}
               </div>
             </section>
           </div>

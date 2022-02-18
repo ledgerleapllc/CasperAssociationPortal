@@ -4,18 +4,11 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
   getUserDetail,
-  // updateUserMetrics,
   getUserMetrics,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import {
-  BackButton,
-  // Button,
-  Card,
-  // Checkbox,
-} from '../../../../components/partials';
+import { BackButton, Card } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
-// import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import { getShortNodeAddress } from '../../../../shared/core/utils';
 
@@ -23,18 +16,8 @@ const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  // const { setLoading } = useContext(AppContext);
   const userDetail = useSelector(state => state.userDetailReducer.data);
-  /*
-  const [unlockField, setUnlockField] = useState({
-    uptime: false,
-    block_height_average: false,
-    update_responsiveness: false,
-    peers: false,
-  });
-  */
 
-  // const [overrideValue, setOverrideValue] = useState({
   const [, setOverrideValue] = useState({
     uptime: '',
     block_height_average: '',
@@ -81,33 +64,6 @@ const AdminUserDetail = () => {
     }
   }, [id]);
 
-  /*
-  const finishEditting = () => {
-    setUnlockField({
-      uptime: false,
-      block_height_average: false,
-      update_responsiveness: false,
-      peers: false,
-    });
-  };
-  */
-
-  /*
-  const cancelEditting = () => {
-    finishEditting();
-    setOverrideValue({
-      uptime: +metrics.uptime ? +metrics.uptime : '',
-      block_height_average: +metrics.block_height_average
-        ? +metrics.block_height_average
-        : '',
-      update_responsiveness: +metrics.update_responsiveness
-        ? +metrics.update_responsiveness
-        : '',
-      peers: +metrics.peers ? +metrics.peers : '',
-    });
-  };
-  */
-
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
       if (userDetail.shuftipro.status === 'approved')
@@ -140,83 +96,6 @@ const AdminUserDetail = () => {
       );
     return 'Not Submitted';
   };
-
-  /*
-  const updateField = (field, value) => {
-    setOverrideValue({
-      ...overrideValue,
-      [field]: value,
-    });
-  };
-  */
-
-  /*
-  const save = field => {
-    if (!unlockField[field]) {
-      setUnlockField({
-        uptime: false,
-        block_height_average: false,
-        update_responsiveness: false,
-        peers: false,
-        [field]: true,
-      });
-    } else {
-      setLoading(true);
-      finishEditting();
-      dispatch(
-        updateUserMetrics(
-          {
-            id,
-            [field]: overrideValue[field],
-          },
-          () => {
-            setMetrics({
-              ...metrics,
-              [field]: overrideValue[field],
-            });
-            setLoading(false);
-          },
-          () => {
-            setLoading(false);
-          }
-        )
-      );
-    }
-  };
-
-  const toggle = (val, field) => {
-    if (!val) {
-      setLoading(true);
-      finishEditting();
-      dispatch(
-        updateUserMetrics(
-          {
-            id,
-            [field]: '0',
-          },
-          () => {
-            setMetrics({
-              ...metrics,
-              [field]: '0',
-            });
-            updateField(field, '');
-            setLoading(false);
-          },
-          () => {
-            setLoading(false);
-          }
-        )
-      );
-    }
-  };
-  */
-
-  /*
-  const checkUnlockField = currentField =>
-    Object.keys(unlockField).some(
-      field => field !== currentField && unlockField[field]
-    );
-  */
 
   return (
     <LayoutDashboard>
@@ -334,43 +213,6 @@ const AdminUserDetail = () => {
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>
                   <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
-                  {/*
-                  <div className="text-sm w-1/6">
-                    <Checkbox
-                      value={!!overrideValue.uptime}
-                      labelText="override"
-                      onChange={val => toggle(val, 'uptime')}
-                      readOnly={!overrideValue.uptime}
-                    />
-                  </div>
-                  <div className="flex text-sm w-3/6">
-                    <input
-                      type="number"
-                      max="100"
-                      value={overrideValue.uptime}
-                      onChange={e => updateField('uptime', e.target.value)}
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
-                      disabled={!unlockField.uptime}
-                    />
-                    <Button
-                      primary
-                      style={{ width: '7rem' }}
-                      onClick={() => save('uptime')}
-                      disabled={checkUnlockField('uptime')}
-                    >
-                      {!unlockField.uptime ? 'Edit' : 'Save'}
-                    </Button>
-                    {unlockField.uptime && (
-                      <button
-                        type="button"
-                        className="ml-4 underline text-base text-primary disabled:opacity-40"
-                        onClick={() => cancelEditting()}
-                      >
-                        cancel
-                      </button>
-                    )}
-                  </div>
-                  */}
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
@@ -379,44 +221,6 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">
                     {metrics?.block_height_average || 0} behind
                   </p>
-                  {/*
-                  <div className="text-sm w-1/6">
-                    <Checkbox
-                      value={!!overrideValue.block_height_average}
-                      labelText="override"
-                      onChange={val => toggle(val, 'block_height_average')}
-                      readOnly={!overrideValue.block_height_average}
-                    />
-                  </div>
-                  <div className="flex text-sm w-3/6">
-                    <input
-                      type="number"
-                      value={overrideValue.block_height_average}
-                      onChange={e =>
-                        updateField('block_height_average', e.target.value)
-                      }
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
-                      disabled={!unlockField.block_height_average}
-                    />
-                    <Button
-                      primary
-                      style={{ width: '7rem' }}
-                      onClick={() => save('block_height_average')}
-                      disabled={checkUnlockField('block_height_average')}
-                    >
-                      {!unlockField.block_height_average ? 'Edit' : 'Save'}
-                    </Button>
-                    {unlockField.block_height_average && (
-                      <button
-                        type="button"
-                        className="ml-4 underline text-base text-primary disabled:opacity-40"
-                        onClick={() => cancelEditting()}
-                      >
-                        cancel
-                      </button>
-                    )}
-                  </div>
-                  */}
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
@@ -425,84 +229,10 @@ const AdminUserDetail = () => {
                   <p className="text-sm w-1/6">
                     {metrics?.update_responsiveness || 0} days early
                   </p>
-                  {/*
-                  <div className="text-sm w-1/6">
-                    <Checkbox
-                      value={!!overrideValue.update_responsiveness}
-                      labelText="override"
-                      onChange={val => toggle(val, 'update_responsiveness')}
-                      readOnly={!overrideValue.update_responsiveness}
-                    />
-                  </div>
-                  <div className="flex text-sm w-3/6">
-                    <input
-                      type="number"
-                      value={overrideValue.update_responsiveness}
-                      onChange={e =>
-                        updateField('update_responsiveness', e.target.value)
-                      }
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
-                      disabled={!unlockField.update_responsiveness}
-                    />
-                    <Button
-                      primary
-                      style={{ width: '7rem' }}
-                      onClick={() => save('update_responsiveness')}
-                      disabled={checkUnlockField('update_responsiveness')}
-                    >
-                      {!unlockField.update_responsiveness ? 'Edit' : 'Save'}
-                    </Button>
-                    {unlockField.update_responsiveness && (
-                      <button
-                        type="button"
-                        className="ml-4 underline text-base text-primary disabled:opacity-40"
-                        onClick={() => cancelEditting()}
-                      >
-                        cancel
-                      </button>
-                    )}
-                  </div>
-                  */}
                 </div>
                 <div className="flex items-center flex-row mt-1 h-11">
                   <p className="text-sm font-medium w-1/6">Peers:</p>
                   <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
-                  {/*
-                  <div className="text-sm w-1/6">
-                    <Checkbox
-                      value={!!overrideValue.peers}
-                      labelText="override"
-                      onChange={val => toggle(val, 'peers')}
-                      readOnly={!overrideValue.peers}
-                    />
-                  </div>
-                  <div className="flex text-sm w-3/6">
-                    <input
-                      type="number"
-                      value={overrideValue.peers}
-                      onChange={e => updateField('peers', e.target.value)}
-                      className="mr-2 border border-gray1 w-32 px-2 shadow-md focus:outline-none disabled:opacity-40"
-                      disabled={!unlockField.peers}
-                    />
-                    <Button
-                      primary
-                      style={{ width: '7rem' }}
-                      onClick={() => save('peers')}
-                      disabled={checkUnlockField('peers')}
-                    >
-                      {!unlockField.peers ? 'Edit' : 'Save'}
-                    </Button>
-                    {unlockField.peers && (
-                      <button
-                        type="button"
-                        className="ml-4 underline text-base text-primary disabled:opacity-40"
-                        onClick={() => cancelEditting()}
-                      >
-                        cancel
-                      </button>
-                    )}
-                  </div>
-                  */}
                 </div>
               </div>
             </div>
@@ -515,17 +245,6 @@ const AdminUserDetail = () => {
                 </p>
                 <p className="text-sm w-5/6">{renderShuftiproStatus()}</p>
               </div>
-              {/* <div className="flex flex-row py-1">
-                <p className="text-sm font-medium w-1/6">
-                  Beneficial Owner Tree Status:
-                </p>
-                <p className="text-sm w-5/6">
-                  Approved
-                  <span className="pl-3 text-primary underline">
-                    View Details
-                  </span>
-                </p>
-              </div> */}
             </div>
           </div>
         </div>

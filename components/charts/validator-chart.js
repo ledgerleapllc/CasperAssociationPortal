@@ -54,10 +54,8 @@ const buildOptions = type => ({
     type: 'gradient',
     colors: ['#ff473e', '#ff473e'],
     gradient: {
-      // shade: 'dark',
       opacityFrom: 0.6,
       opacityTo: 0.1,
-      // shadeIntensity: 1,
     },
   },
   stroke: {

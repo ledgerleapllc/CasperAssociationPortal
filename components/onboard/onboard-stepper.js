@@ -62,24 +62,11 @@ const OnboardStepper = ({
   };
 
   return (
-    <div className="onboard-stepper-block">
+    <div
+      className="onboard-stepper-block"
+      style={{ width: '1200px', maxWidth: '100%' }}
+    >
       <div className="block lg:hidden w-full flex justify-between animate__animated animate__fadeInUp">
-        {/*
-        <button
-          type="button"
-          className="flex items-center focus:outline-none"
-          onClick={onPrev}
-        >
-          <img
-            src="/images/ic_prev_circle.svg"
-            alt="prev"
-            width="18"
-            height="18"
-            className="mr-2"
-          />
-          <span className="text-primary text-sm">Back</span>
-        </button>
-        */}
         {title === 'Submit KYC' ? (
           <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">
@@ -87,37 +74,13 @@ const OnboardStepper = ({
             </li>
           </ul>
         ) : null}
-        {/* title === 'Submit KYC' ? (
-          <ul className="list-disc lg:list-none">
-            <li className="text-primary font-bold text-sm">
-              {handleTopNextButton()}
-            </li>
-          </ul>
-        ) : (
-          <button
-            type="button"
-            className={`flex items-center focus:outline-none ${
-              showNextButton ? 'visible' : 'invisible'
-            }`}
-            onClick={onNext}
-          >
-            <span className="text-primary text-sm">Next</span>
-            <img
-              src="/images/ic_next_circle.svg"
-              alt="next"
-              width="18"
-              height="18"
-              className="ml-2"
-            />
-          </button>
-        ) */}
         {!showNextButton && title === 'Submit KYC' && (
           <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">Operator KYC</li>
           </ul>
         )}
       </div>
-      <div className="w-full lg:w-8.85/10">
+      <div className="w-full">
         <div className="hidden lg:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
           <span className="font-bold text-dark2">{title}</span>
           {title === 'Submit KYC' && (

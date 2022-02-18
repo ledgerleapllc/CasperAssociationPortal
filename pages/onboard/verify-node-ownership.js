@@ -196,9 +196,8 @@ const VerifyNodeOwnership = () => {
         className="
           flex flex-col w-full
           p-4
-          lg:max-w-380 lg:p-9
-          xl:max-w-screen-xl xl:p-9
-          2xl:max-w-screen-2xl
+          lg:p-9
+          xl:p-9
         "
       >
         <AppHeader theme="dark" />

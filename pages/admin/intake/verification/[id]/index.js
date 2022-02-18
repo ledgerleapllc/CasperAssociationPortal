@@ -13,7 +13,6 @@ import {
   approveDocuments,
   getVerificationDetail,
   resetUserKYC,
-  // activateVerifiedStatus,
 } from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
@@ -53,7 +52,6 @@ const AdminIntakeVerificationDetail = () => {
   const { setDialog, onClosed } = useDialog();
   const [loadingConfirmDocs, setLoadingConfirmDocs] = useState();
   const { setLoading } = useContext(AppContext);
-  // const [isVerifying, setIsVerifying] = useState(false);
   const { openSnack } = useSnackBar();
 
   useEffect(() => {
@@ -124,33 +122,8 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const checkReview = () => {
-    /*
-    const link = intakeDetail?.shuftipro?.background_checks_result
-      ? `/admin/intake/verification/${id}/kyc-review`
-      : `/admin/intake/verification/${id}/aml-review`;
-    router.push(link);
-    */
     window.open('https://backoffice.shuftipro.com/reports', '_blank');
   };
-
-  /*
-  const activate = () => {
-    setIsVerifying(true);
-    dispatch(
-      activateVerifiedStatus(
-        { id },
-        () => {
-          setIsVerifying(false);
-          onClosed();
-          window.location.reload();
-        },
-        () => {
-          setIsVerifying(false);
-        }
-      )
-    );
-  };
-  */
 
   const EntityDetail = () => (
     <div className="pr-44">
@@ -307,7 +280,7 @@ const AdminIntakeVerificationDetail = () => {
                 Go Back
               </Button>
             ) : (
-              <Link href="../">
+              <Link href="/admin/intake">
                 <a>
                   <Button primaryOutline>Go Back</Button>
                 </a>
@@ -315,20 +288,7 @@ const AdminIntakeVerificationDetail = () => {
             )}
           </>
         ) : (
-          <>
-            {/*
-            <Button
-              isLoading={isVerifying}
-              disabled={isVerifying}
-              primary
-              className="mr-5"
-              sizeSpinner={20}
-              onClick={() => activate()}
-            >
-              Activate Verified Status
-            </Button>
-            */}
-          </>
+          <></>
         )}
       </div>
     </div>

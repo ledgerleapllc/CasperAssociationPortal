@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import router from 'next/router';
-// import Link from 'next/link';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
@@ -154,25 +153,6 @@ const AdminIntakeVerificationAML = () => {
     });
   };
 
-  /*
-  const refreshLink = e => {
-    e.preventDefault();
-    setLoading(true);
-    dispatch(
-      refreshLinks(
-        { userId: id },
-        () => {
-          setLoading(false);
-          refreshUser();
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-  */
-
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -205,64 +185,6 @@ const AdminIntakeVerificationAML = () => {
                         </div>
                       </td>
                     </tr>
-                    {/*
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>
-                            Identification Doc:
-                          </span>
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={shuftipro?.document_proof}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            View
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>Address Doc:</span>
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={shuftipro?.address_proof}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            View
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p className="flex" style={{ padding: '5px 0' }}>
-                          <span style={{ width: '170px' }}>
-                            Expired proof links?
-                          </span>
-                          <a
-                            onClick={refreshLink}
-                            style={{
-                              textDecoration: 'underline',
-                              color: 'red',
-                            }}
-                          >
-                            Refresh
-                          </a>
-                        </p>
-                      </td>
-                    </tr>
-                    */}
                     <tr>
                       <td>&nbsp;</td>
                     </tr>

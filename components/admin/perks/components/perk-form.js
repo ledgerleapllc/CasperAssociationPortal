@@ -11,7 +11,6 @@ import {
   KeyboardTimePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-// import { Button, DateTimePicker } from '../../../partials';
 import { format } from 'date-fns';
 import { Button } from '../../../partials';
 import IconX from '../../../../public/images/ic_x.svg';
@@ -19,7 +18,6 @@ import {
   submitPerk,
   editPerk,
 } from '../../../../shared/redux-saga/admin/actions';
-// import { formatDate } from '../../../../shared/core/utils';
 
 const perkSchema = yup.object().shape({
   title: yup
@@ -104,15 +102,6 @@ export const PerkForm = React.memo(
     const onSubmit = data => {
       const temp = data;
       setIsSubmit(true);
-
-      /*
-      temp.start_date = data.start_date
-        ? formatDate(new Date(data.start_date), 'yyyy-MM-dd')
-        : '';
-      temp.end_date = data.end_date
-        ? formatDate(new Date(data.end_date), 'yyyy-MM-dd')
-        : '';
-      */
 
       let startDateStr = '';
       let startTimeStr = '';
@@ -346,47 +335,6 @@ export const PerkForm = React.memo(
               </div>
             </div>
           </MuiPickersUtilsProvider>
-
-          {/* <div className="max-w-xl pb-4 flex gap-4">
-            <div className="w-1/2">
-              <label htmlFor="title">Start Date</label>
-              <Controller
-                name="start_date"
-                control={control}
-                defaultValue=""
-                render={({
-                  field: { value: valueD, onChange: onChangeDate },
-                }) => (
-                  <DateTimePicker
-                    value={valueD}
-                    className="date-time-perks"
-                    onChange={onChangeDate}
-                    placeholder="Select..."
-                    disabled={isDisableAllFields}
-                  />
-                )}
-              />
-            </div>
-            <div className="w-1/2">
-              <label htmlFor="title">End Date</label>
-              <Controller
-                name="end_date"
-                control={control}
-                defaultValue=""
-                render={({
-                  field: { value: valueD, onChange: onChangeDate },
-                }) => (
-                  <DateTimePicker
-                    value={valueD}
-                    className="date-time-perks"
-                    onChange={onChangeDate}
-                    placeholder="Select..."
-                    disabled={isDisableAllFields}
-                  />
-                )}
-              />
-            </div>
-          </div> */}
 
           <p className="py-4 max-w-200">
             Choose notification status. (Note: If the start time and the end{' '}

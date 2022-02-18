@@ -90,9 +90,6 @@ const AdminEditPerk = () => {
                   <p>
                     Total Views: <b>{currentPerk?.total_views}</b>
                   </p>
-                  {/* <p>
-                    Clicks: <b>{currentPerk?.total_clicks}</b>
-                  </p> */}
                 </div>
                 <div className="mt-4 h-72">
                   <PerksEngagement id={id} />

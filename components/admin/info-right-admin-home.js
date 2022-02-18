@@ -67,7 +67,9 @@ const InfoRightAdminHome = ({ stats }) => {
         </div>
         <div className="flex flex-col py-2 2xl:py-3">
           <div className="flex gap-2 flex-row">
-            <span className="text-lg">Average Uptime</span>
+            <span className="text-lg" style={{ lineHeight: 1.4 }}>
+              Average Uptime
+            </span>
             <Tooltips
               placement="top"
               title="Average Uptime across all nodes"
@@ -88,7 +90,7 @@ const InfoRightAdminHome = ({ stats }) => {
             className="flex gap-2 flex-row"
             style={{ alignItems: 'flex-end' }}
           >
-            <span className="text-lg">
+            <span className="text-lg" style={{ lineHeight: 1.4 }}>
               Average
               <br />
               Block Height
@@ -117,7 +119,7 @@ const InfoRightAdminHome = ({ stats }) => {
             className="flex gap-2 flex-row"
             style={{ alignItems: 'flex-end' }}
           >
-            <span className="text-lg">
+            <span className="text-lg" style={{ lineHeight: 1.4 }}>
               Average
               <br />
               Responsiveness

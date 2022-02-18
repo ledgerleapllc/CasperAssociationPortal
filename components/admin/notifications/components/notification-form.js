@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import React, { useState, useEffect, useContext } from 'react';
 import router from 'next/router';
 import Switch from 'react-switch';
-
 import { Button, DateTimePicker } from '../../../partials';
 import {
   addNotification,

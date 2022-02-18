@@ -10,5 +10,4 @@ const Avatar = ({ info }) =>
       {info?.last_name[0]}
     </div>
   );
-
 export default Avatar;

@@ -3,10 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { Card, BackButton } from '../../../../components/partials';
-import {
-  getVerificationDetail,
-  // refreshLinks,
-} from '../../../../shared/redux-saga/admin/actions';
+import { getVerificationDetail } from '../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../public/json/country.json';
 import { AppContext } from '../../../_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
@@ -19,7 +16,6 @@ const KycAmlDetail = () => {
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
   const [userKYC, setUserKYC] = useState();
-  // const [shuftiData, setShuftiData] = useState();
   const { openSnack } = useSnackBar();
 
   const refreshData = () => {
@@ -30,7 +26,6 @@ const KycAmlDetail = () => {
         res => {
           setLoading(false);
           setUserKYC(res);
-          // setShuftiData(JSON.parse(res.shuftipro?.data));
         },
         () => {
           setLoading(false);
@@ -44,7 +39,6 @@ const KycAmlDetail = () => {
   }, []);
 
   const renderAddressCheckStatus = () => {
-    // {userKYC?.shuftipro?.address_result ? 'Passed' : 'Failed'}
     if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
       const { address_result, status } = userKYC?.shuftipro;
 
@@ -68,7 +62,6 @@ const KycAmlDetail = () => {
   };
 
   const renderIDCheckStatus = () => {
-    // {userKYC?.shuftipro?.document_result ? 'Passed' : 'Failed'}
     if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
       const { document_result, status } = userKYC?.shuftipro;
 
@@ -109,25 +102,6 @@ const KycAmlDetail = () => {
     openSnack('primary', 'Copied Public Address!');
   };
 
-  /*
-  const refreshLink = e => {
-    e.preventDefault();
-    setLoading(true);
-    dispatch(
-      refreshLinks(
-        { userId: id },
-        () => {
-          setLoading(false);
-          refreshData();
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-  */
-
   return (
     <LayoutDashboard>
       <Card className="h-full px-card py-5">
@@ -159,7 +133,6 @@ const KycAmlDetail = () => {
               </div>
               <div className="flex flex-row py-1">
                 <p className="text-sm font-medium w-1/6">DOB:</p>
-                {/* <p className="text-sm w-5/6">{userKYC?.profile?.dob}</p> */}
                 <p className="text-sm w-5/6">*</p>
               </div>
               <div className="flex flex-row py-1">
@@ -240,62 +213,6 @@ const KycAmlDetail = () => {
                   </p>
                   <p className="text-sm w-5/6">{renderAddressCheckStatus()}</p>
                 </div>
-                {/*
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">
-                    Identification Doc:
-                  </p>
-                  <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.document_proof ? (
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={userKYC?.shuftipro?.document_proof}
-                        style={{
-                          textDecoration: 'underline',
-                          color: 'red',
-                        }}
-                      >
-                        View
-                      </a>
-                    ) : null}
-                  </p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">Address Doc:</p>
-                  <p className="text-sm w-5/6">
-                    {userKYC?.shuftipro?.address_proof ? (
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={userKYC?.shuftipro?.address_proof}
-                        style={{
-                          textDecoration: 'underline',
-                          color: 'red',
-                        }}
-                      >
-                        View
-                      </a>
-                    ) : null}
-                  </p>
-                </div>
-                <div className="flex flex-row py-1">
-                  <p className="text-sm font-medium w-1/6">
-                    Expired proof links?
-                  </p>
-                  <p className="text-sm w-5/6">
-                    <a
-                      onClick={refreshLink}
-                      style={{
-                        textDecoration: 'underline',
-                        color: 'red',
-                      }}
-                    >
-                      Refresh
-                    </a>
-                  </p>
-                </div>
-                */}
               </div>
             </div>
           </div>

@@ -225,18 +225,7 @@ const RegisterIndividual = () => {
                         message: 'Min 8 character',
                         value: 8,
                       },
-                      /*
-                      pattern: {
-                        message: 'Password is invalid',
-                        value: PASSWORD_PATTERN,
-                      },
-                      */
                       validate: value => {
-                        /*
-                        value === getValues().confirmPassword ||
-                        !formState.touchedFields.confirmPassword ||
-                        'Password not match',
-                        */
                         if (value === value.toLowerCase())
                           return 'Must contain at least one uppercase letter';
                         if (!DIGITIZED_PATTERN.test(value))

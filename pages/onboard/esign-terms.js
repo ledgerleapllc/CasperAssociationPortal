@@ -133,15 +133,6 @@ const EsignTerms = () => {
               }
             }}
           />
-          {/* <div className="mt-8 text-primary">
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={handleByPass}
-            >
-              By Pass
-            </button>
-          </div> */}
         </>
       );
     }

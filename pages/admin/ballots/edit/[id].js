@@ -29,8 +29,6 @@ import {
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
   description: yup.string().required('Description is required'),
-  // time: yup.number().typeError('Time is required').required('Time is required'),
-  // time_unit: yup.string().required('Time unit is required'),
 });
 
 const AdminEditBallot = () => {
@@ -93,8 +91,6 @@ const AdminEditBallot = () => {
           id: res.id,
           title: res.title,
           description: res.description,
-          // time: res.time,
-          // time_unit: res.time_unit,
           files: [],
           file_ids_remove: [],
         });
@@ -284,68 +280,10 @@ const AdminEditBallot = () => {
                     </div>
                   </div>
                 </MuiPickersUtilsProvider>
-
-                {/* <p className="py-4 text-sm text-gray">
-                  Choose a duration for your ballot:
-                </p> */}
-
                 <div
                   style={{ marginTop: '20px' }}
                   className="flex flex-col-reverse lg:flex-wrap lg:flex-row items-center justify-between"
                 >
-                  {/* <div className="flex">
-                    <div
-                      className="mr-4 border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
-                      style={{ width: '214px', height: '60px' }}
-                    >
-                      <select
-                        className="px-5 w-full h-full cursor-pointer"
-                        required
-                        {...register('time_unit')}
-                      >
-                        <option selected value="" disabled>
-                          Time Unit
-                        </option>
-                        <option value="days">Days</option>
-                        <option value="hours">Hours</option>
-                        <option value="minutes">Minutes</option>
-                      </select>
-                      <div className="arrow ml-2" />
-                    </div>
-                    <div
-                      className="border border-gray1 c-select flex items-center relative focus:outline-none shadow-md"
-                      style={{ width: '214px', height: '60px' }}
-                    >
-                      <select
-                        className="w-full h-full px-5 cursor-pointer"
-                        required
-                        {...register('time')}
-                      >
-                        <option selected value="" disabled>
-                          Select
-                        </option>
-                        {watchUnit === 'days' &&
-                          new Array(30).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                        {watchUnit === 'hours' &&
-                          new Array(24).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                        {watchUnit === 'minutes' &&
-                          new Array(60).fill(1).map((x, ind) => (
-                            <option key={ind} value={ind + 1}>
-                              {ind + 1}
-                            </option>
-                          ))}
-                      </select>
-                      <div className="arrow ml-2" />
-                    </div>
-                  </div> */}
                   <Button
                     primary
                     type="submit"

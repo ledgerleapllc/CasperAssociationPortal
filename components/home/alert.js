@@ -79,7 +79,6 @@ const Alert = ({
                   <div className="h-full" key={ind}>
                     <div className="flex items-center h-full py-5">
                       <div
-                        // className="h-full flex-grow"
                         className="flex h-full"
                         role="button"
                         onClick={() => {
