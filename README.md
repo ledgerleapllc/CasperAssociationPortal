@@ -1,3 +1,65 @@
+<p align="center">
+	<img src="https://caspermember.com/images/logo.png" width="400">
+</p>
+
+# Casper Association Member Portal
+
+The Casper Association's member portal.
+
+This is the frontend repo of the portal. To see the frontend repo, visit https://github.com/ledgerleapllc/CasperAssociationPortalBackend
+
+## Prerequisites
+
+ - NextJS/Vercel, and NodeJS version 14+ v16.6.2+
+ - NPM 7.20.3+
+
+You can find documentation on NextJS here https://github.com/vercel/next.js/
+
+You can find documentation on NodeJS here https://github.com/nodejs/help
+
+## Setup
+
+First we need a server to use. Apache/Nginx
+
+```bash
+sudo apt -y install apache2
+sudo a2enmod rewrite
+sudo a2enmod headers
+sudo a2enmod ssl
+sudo apt-get update
+```
+
+Setup the repo according to our VHOST path. Note, the actual VHOST path in this case should be set to **/var/www/CasperAssociationPortalfrontend/out**
+
+```bash
+cd /var/www/
+git clone https://github.com/ledgerleapllc/CasperAssociationPortalfrontend
+cd CasperAssociationPortalfrontend
+```
+
+You will need to add the following code to your server configuration under the VHOST path.
+
+```
+RewriteEngine On
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule . /index.html [L]
+```
+
+Install packages and setup environment. You will need to modify **.env.production** variables to fit the server on which you're deploying.
+
+```bash
+curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+sudo apt install nodejs -y
+npm install
+npm run build-export
+```
+
+The above commands will build **out/** on site using the variables from your .env.production file.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
