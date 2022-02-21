@@ -12,6 +12,7 @@ This is the frontend repo of the portal. To see the frontend repo, visit https:/
 
  - NextJS/Vercel, and NodeJS version 14+ v16.6.2+
  - NPM 7.20.3+
+ - Yarn 1.22.15+
 
 You can find documentation on NextJS here https://github.com/vercel/next.js/
 
@@ -53,8 +54,9 @@ Install packages and setup environment. You will need to modify **.env.productio
 ```bash
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt install nodejs -y
-npm install
-npm run build-export
+curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+yarn build
+yarn install
 ```
 
 The above commands will build **out/** on site using the variables from your .env.production file.
