@@ -4,7 +4,7 @@ import { ProgressBar, Tooltips } from '../partials';
 import { numberWithCommas } from '../../shared/core/utils';
 
 const InfoRightAdminHome = ({ stats }) => {
-  useMetrics();
+  const { metrics, metricConfig } = useMetrics();
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
       <div className="flex flex-col pt-5 lg:pb-3">
@@ -145,6 +145,21 @@ const InfoRightAdminHome = ({ stats }) => {
                 : 100
             }
             mask="x%"
+          />
+        </div>
+        <div className="flex flex-col py-2 2xl:py-3">
+          <div
+            className="flex gap-2 flex-row"
+            style={{ alignItems: 'flex-end' }}
+          >
+            <span className="text-lg" style={{ lineHeight: 1.4 }}>
+              Peers
+            </span>
+          </div>
+          <ProgressBar
+            value={metrics?.peers}
+            total={metricConfig?.max?.peers}
+            mask="x/y"
           />
         </div>
       </div>

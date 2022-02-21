@@ -139,7 +139,6 @@ const ContentNode = ({ sendHightlightNode }) => {
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
-
   return (
     <div className="flex flex-col w-full h-full">
       <div id="dashboard-content-node2__widgets" className="gap-5">
@@ -499,6 +498,16 @@ const ContentNode = ({ sendHightlightNode }) => {
                         startText: 'Needs Improvement',
                         endText: 'Great',
                       }}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Peers</span>
+                    </div>
+                    <ProgressBar
+                      value={metrics?.peers}
+                      total={metricConfig?.max?.peers}
+                      mask="x/y"
                     />
                   </div>
                 </div>

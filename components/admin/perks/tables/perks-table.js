@@ -259,10 +259,10 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body4">
-                <p>{renderStartDate(row)}</p>
+                <div>{renderStartDate(row)}</div>
               </Table.BodyCell>
               <Table.BodyCell key="body5">
-                <p>{renderEndDate(row)}</p>
+                <div>{renderEndDate(row)}</div>
               </Table.BodyCell>
               <Table.BodyCell key="body6">
                 <StatusText content={row.status} />

@@ -393,6 +393,20 @@ const DashboardMembership = () => {
                   <ProgressBar shape="circle" value={formatValue()} mask="x%" />
                 </div>
               </Card>
+              <Card className="flex flex-col px-6 pt-6 h-full metrics-card">
+                <p className="text-sm font-medium pb-1">Peers</p>
+                <p className="text-xs desc">
+                  Average: {metrics?.average_peers}
+                </p>
+                <div className="flex-1 min-h-0 mt-4">
+                  <ProgressBar
+                    shape="circle"
+                    value={metrics?.peers}
+                    total={metricConfig?.max?.peers}
+                    mask="x/y"
+                  />
+                </div>
+              </Card>
             </div>
           </div>
         </div>

@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-
 import styled from 'styled-components';
-
 import Link from 'next/link';
 import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../shared/core/utils';

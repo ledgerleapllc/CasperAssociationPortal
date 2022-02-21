@@ -58,7 +58,7 @@ const CircleProgressBar = ({ text, progress }) => {
           />
           <circle
             className="progress-tracking"
-            strokeWidth="6"
+            strokeWidth={progressValue ? '6' : '0'}
             strokeDasharray={45 * 2 * Math.PI}
             strokeDashoffset={
               45 * 2 * Math.PI - (progressValue / 100) * 45 * 2 * Math.PI

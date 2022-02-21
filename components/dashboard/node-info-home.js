@@ -5,7 +5,6 @@ import { ProgressBar, Tooltips } from '../partials';
 
 const NodeInfoHome = () => {
   const { metrics, metricConfig } = useMetrics();
-
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-lg font-medium">Node Info</span>
@@ -126,13 +125,6 @@ const NodeInfoHome = () => {
       <div className="flex flex-col pt-2 pb-9">
         <div className="flex flex-row">
           <span className="text-lg">Peers</span>
-          <img
-            className="pl-3"
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-          />
         </div>
         <p className="text-sm text-gray mb-2">
           Average: {metrics?.average_peers}

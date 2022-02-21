@@ -511,7 +511,43 @@ export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
 export function* getUserMetrics({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/metrics/${payload.id}`]);
-    resolve(res.data);
+    if (res.data?.monitoring_criteria) {
+      const key = {
+        uptime: 'uptime',
+        'block-height': 'block_height_average',
+        'update-responsiveness': 'update_responsiveness',
+      };
+      res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
+        (result, item) => {
+          // eslint-disable-next-line no-param-reassign
+          result[key[item.type]] = item;
+          return result;
+        },
+        {}
+      );
+    }
+    let block_height_average =
+      DEFAULT_BASE_BLOCKS -
+      (res.data?.max_block_height_average - res.data?.block_height_average);
+    if (block_height_average < 0) {
+      block_height_average = 0;
+    }
+    const temp = {
+      ...res.data,
+      uptime: res.data?.uptime || 0,
+      block_height_average,
+      peers: res.data?.peers || 0,
+      update_responsiveness: res.data?.update_responsiveness || 0,
+      monitoring_criteria: res.data?.monitoring_criteria || null,
+      average_uptime: res.data?.avg_uptime || 0,
+      current_block_height:
+        DEFAULT_BASE_BLOCKS - block_height_average > 0
+          ? DEFAULT_BASE_BLOCKS - block_height_average
+          : 0,
+      average_responsiveness: res.data?.avg_update_responsiveness || 0,
+      average_peers: res.data?.avg_peers || 0,
+    };
+    resolve(temp);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));

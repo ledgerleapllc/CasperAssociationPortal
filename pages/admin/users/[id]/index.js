@@ -218,8 +218,13 @@ const AdminUserDetail = () => {
                   <p className="text-sm font-medium w-1/6">
                     Block height average:
                   </p>
+                  {/*
                   <p className="text-sm w-1/6">
                     {metrics?.block_height_average || 0} behind
+                  </p>
+                  */}
+                  <p className="text-sm w-1/6">
+                    {metrics?.current_block_height || 0} behind
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">

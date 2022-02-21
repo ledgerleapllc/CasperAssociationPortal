@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-
 import styled from 'styled-components';
-
 import { getVotes } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { ClockBar, Table } from '../partials';
 import { useTable } from '../partials/table';
