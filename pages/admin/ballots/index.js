@@ -252,6 +252,178 @@ const Tab1 = () => {
   );
 };
 
+const Tab3 = () => {
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
+
+  const dispatch = useDispatch();
+  const fetchScheduledBallots = (pageValue = page, paramsValue = params) => {
+    dispatch(
+      getBallots(
+        { status: 'scheduled', page: pageValue, ...paramsValue },
+        (result, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(result);
+          setPage(prev => prev + 1);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    fetchScheduledBallots();
+  }, []);
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchScheduledBallots(1, newParams);
+  };
+
+  const renderStartDate = row => {
+    if (row.start_date && row.start_time) {
+      return (
+        <>
+          <p>
+            {`${formatDate(
+              `${row.start_date} ${row.start_time}`,
+              'dd/MM/yyyy'
+            )}`}
+          </p>
+          <p>
+            {`${formatDate(
+              `${row.start_date} ${row.start_time}`,
+              'HH:mm aa'
+            )} EST`}
+          </p>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+        <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>
+      </>
+    );
+  };
+
+  const renderTimer = row => {
+    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+      return (
+        <ClockBar
+          endTime={new Date(`${row.end_date} ${row.end_time}`)}
+          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        startTime={new Date(row.created_at)}
+        endTime={new Date(row.time_end)}
+      />
+    );
+  };
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="active-ballot-table pt-8 h-full"
+        onLoadMore={fetchScheduledBallots}
+        hasMore={hasMore}
+        dataLength={data.length}
+        onSort={handleSort}
+      >
+        <Table.Header>
+          <Table.HeaderCell key="title" sortKey="title">
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="time">
+            <p>Time Remaining</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="totalVotes">
+            <p>
+              Total <br />
+              Votes
+            </p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="split">
+            <p>
+              Split <br />
+              For/Against
+            </p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="startDate">
+            <p>Start Date</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="adminAction">
+            <p>Admin Action</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body className="custom-padding-tracker">
+          {data.map((row, ind) => (
+            <Table.BodyRow key={`b-${ind}`}>
+              <Table.BodyCell key="title">
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell key="createdAt1">
+                {renderTimer(row)}
+              </Table.BodyCell>
+              <Table.BodyCell key="resultCount">
+                <p>{row.vote?.result_count}</p>
+              </Table.BodyCell>
+              <Table.BodyCell key="forValue">
+                <ForAgainst
+                  splitFor={row.vote?.for_value}
+                  splitAgainst={row.vote?.against_value}
+                />
+              </Table.BodyCell>
+              <Table.BodyCell key="createdAt2">
+                {renderStartDate(row)}
+              </Table.BodyCell>
+              <Table.BodyCell key="buttonActions">
+                <div className="flex gap-4">
+                  <Link href={`/admin/ballots/edit/${row.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      Edit
+                    </button>
+                  </Link>
+                  <Link href={`/admin/ballots/detail/${row.id}`}>
+                    <button
+                      type="button"
+                      className="text-lg text-white w-full h-7 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                    >
+                      Manage
+                    </button>
+                  </Link>
+                </div>
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
+
 const Tab2 = () => {
   const {
     data,
@@ -385,6 +557,11 @@ const tabsData = [
     content: Tab1,
     id: 'active',
     title: 'Active',
+  },
+  {
+    content: Tab3,
+    id: 'scheduled',
+    title: 'Scheduled',
   },
   {
     content: Tab2,

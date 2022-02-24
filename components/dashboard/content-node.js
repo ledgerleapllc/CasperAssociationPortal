@@ -300,7 +300,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                 <img
                   width="18px"
                   height="18px"
-                  src="/images/ic_logo_home.svg"
+                  src="/images/delegators.svg"
                   alt="Info"
                 />
               </div>
