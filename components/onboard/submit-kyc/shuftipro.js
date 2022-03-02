@@ -80,7 +80,8 @@ export const Shuftipro = () => {
         last_name: authUser.fullInfo.last_name || '',
         fuzzy_match: 1,
       },
-      full_address: address,
+      // full_address: address,
+      full_address: '',
       address_fuzzy_match: '1',
       supported_types: ['utility_bill', 'bank_statement'],
       verification_instructions: {
