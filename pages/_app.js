@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <Head>
         <title>Casper Association Portal</title>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/faviconNew.svg" />
         <meta name="description" content="Casper Association Portal" />
         <meta
           name="viewport"

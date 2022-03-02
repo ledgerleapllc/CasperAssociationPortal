@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -93,7 +92,7 @@ const UserProfile = () => {
     dispatch(
       uploadAvatar(
         { file },
-        res => {
+        () => {
           setIsUploadingAvatar(false);
           const reader = new FileReader();
           reader.onloadend = () => {
@@ -125,10 +124,12 @@ const UserProfile = () => {
   };
 
   const renderLabel = () => {
-    if (!myInfo || !myInfo.id) return 'Not Submitted';
+    if (!myInfo || !myInfo.id || !myInfo.profile || !myInfo.profile.id)
+      return 'Not Submitted';
     if (!myInfo.shuftipro || !myInfo.shuftipro.id) return 'Not Submitted';
-    if (myInfo.status === 'pending') return 'Submitted / Pending';
-    if (myInfo.status === 'denied') return 'Rejected';
+    if (!myInfo.profile.status || myInfo.profile.status === 'pending')
+      return 'Submitted / Pending';
+    if (myInfo.profile.status === 'denied') return 'Rejected';
     return 'VERIFIED';
   };
 

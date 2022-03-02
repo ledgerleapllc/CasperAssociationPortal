@@ -70,9 +70,9 @@ const ContentHome = () => {
   }, [bannerNotis]);
 
   useEffect(() => {
-    if (userInfo && bannerAlerts) {
+    if (userInfo) {
       let _alerts = [];
-      if (bannerAlerts.length) {
+      if (bannerAlerts && bannerAlerts.length) {
         const highPriorityAlert = bannerAlerts.find(item => item.high_priority);
         const otherAlerts = bannerAlerts.filter(item => !item.high_priority);
         if (highPriorityAlert) {
@@ -81,6 +81,7 @@ const ContentHome = () => {
           _alerts = [..._alerts, ...bannerAlerts];
         }
       }
+
       if (
         !userInfo?.profile?.status &&
         !['admin', 'sub-admin'].includes(userInfo?.role)
@@ -109,18 +110,30 @@ const ContentHome = () => {
         });
       }
 
-      if (
-        !userInfo?.metric?.is_open_port &&
-        !['admin', 'sub-admin'].includes(userInfo?.role)
-      ) {
-        _alerts.push({
-          id: 'open_port',
-          title:
-            'We’re having a problem getting your metrics. Make sure port 8888 is open on your node and try again.',
-          body: '',
-          handler: () => {},
-        });
+      if (!['admin', 'sub-admin'].includes(userInfo?.role)) {
+        if (
+          userInfo?.pending_node &&
+          userInfo?.public_address_node &&
+          userInfo?.node_verified_at
+        ) {
+          _alerts.push({
+            id: 'pending_node',
+            title:
+              'We are retrieving your node metrics. Please allow up to 1 hour for this info to populate.',
+            body: '',
+            handler: () => {},
+          });
+        } else if (userInfo?.metric && !userInfo?.metric?.is_open_port) {
+          _alerts.push({
+            id: 'open_port',
+            title:
+              'We’re having a problem getting your metrics. Make sure port 8888 is open on your node and try again.',
+            body: '',
+            handler: () => {},
+          });
+        }
       }
+
       setAlerts([..._alerts]);
     }
   }, [userInfo, bannerAlerts]);

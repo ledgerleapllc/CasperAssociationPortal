@@ -213,7 +213,7 @@ const DonatePage = () => {
         </div>
       </div>
       <footer className="pb-2 flex justify-center text-xs">
-        ©2021 CasperLabs.io
+        ©2022 CasperLabs.io
       </footer>
     </div>
   );

@@ -104,12 +104,13 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             <div className="flex flex-col justify-between p-6 h-full text-center">
               <Tooltips
                 placement="top"
-                title="Tracks the number of perks that have been activated in the selected range."
+                title="Tracks the number of user clicks on the perks."
                 arrow
               >
-                <p className="text-lg font-medium">Perks Activated</p>
+                <p className="text-lg font-medium">Perks Viewed</p>
               </Tooltips>
-              <p className="text-5xl font-thin">{stats?.totalPerksActive}</p>
+              {/* <p className="text-5xl font-thin">{stats?.totalPerksActive}</p> */}
+              <p className="text-5xl font-thin">{stats?.totalPerksViews}</p>
               <Dropdown
                 trigger={
                   <div
