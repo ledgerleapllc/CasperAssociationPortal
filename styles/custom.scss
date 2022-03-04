@@ -193,12 +193,12 @@
         margin-top: auto;
       }
       #dashboard-layoutSidebar__logo {
-        display: none;
         align-items: center;
         > svg {
           margin-left: 0;
         }
         > div {
+          display: none;
           cursor: pointer;
           margin-left: auto;
           margin-right: 0;
