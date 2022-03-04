@@ -40,6 +40,7 @@ const ContentNode = ({ sendHightlightNode }) => {
   const [earning, setEarning] = useState();
   const [earningChart, setEarningChart] = useState();
   const [optionChart, setOptionChart] = useState('day');
+  const [optionPriceChart, setOptionPriceChart] = useState('day');
   const { openSnack } = useSnackBar();
   const [loadingDataChart, setLoadingDataChart] = useState(false);
 
@@ -399,12 +400,72 @@ const ContentNode = ({ sendHightlightNode }) => {
           <div id="dashboard-content-node2__SubDetailLeft">
             <Card className="w-full h-full">
               <div className="w-full py-5 flex flex-col h-full justify-between">
-                <p className="text-lg px-9">Price</p>
+                <div className="flex flex-col lg:flex-row lg:justify-between px-9">
+                  <div className="flex">
+                    <p className="text-lg">Price</p>
+                  </div>
+                  <div>
+                    <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'day' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('day')}
+                        >
+                          Day
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'week' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('week')}
+                        >
+                          Week
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'month' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('month')}
+                        >
+                          Month
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'year' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('year')}
+                        >
+                          Year
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div className="w-full relative pr-9 h-8.5/10">
                   <LineMemo
                     type="decimals"
                     name="Price"
-                    data={priceTokenGraphInfo}
+                    data={priceTokenGraphInfo[optionPriceChart]}
                   />
                 </div>
               </div>
