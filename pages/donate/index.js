@@ -1,23 +1,33 @@
-import { useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import PublicHeader from '../../components/layouts/public-header';
-import { Button, Checkbox } from '../../components/partials';
-import { useSnackBar } from '../../components/partials/snack-bar';
-import { EMAIL_PATTERN } from '../../helpers/form-validation';
-import { donate } from '../../shared/redux-saga/auth/actions';
-import { AppContext } from '../_app';
+// import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
+// import { useForm } from 'react-hook-form';
+// import { useDispatch } from 'react-redux';
+import router from 'next/router';
+// import PublicHeader from '../../components/layouts/public-header';
+// import { Button, Checkbox } from '../../components/partials';
+// import { useSnackBar } from '../../components/partials/snack-bar';
+// import { EMAIL_PATTERN } from '../../helpers/form-validation';
+// import { donate } from '../../shared/redux-saga/auth/actions';
+// import { AppContext } from '../_app';
 
 const DonatePage = () => {
+  /*
   const { formState, register, watch, handleSubmit, reset, setValue } = useForm(
     {
       mode: 'onChange',
     }
   );
-  const { openSnack } = useSnackBar();
-  const dispatch = useDispatch();
-  const { setLoading } = useContext(AppContext);
-  const watchDonate = watch('donate');
+  */
+  // const { openSnack } = useSnackBar();
+  // const dispatch = useDispatch();
+  // const { setLoading } = useContext(AppContext);
+  // const watchDonate = watch('donate');
+
+  useEffect(() => {
+    router.push('/home');
+  }, []);
+
+  /*
   const onSubmit = data => {
     setLoading(true);
     const temp = data;
@@ -47,7 +57,11 @@ const DonatePage = () => {
       setValue('donate', null);
     }
   };
+  */
 
+  return <div className="flex flex-col" />;
+
+  /*
   return (
     <div className="flex flex-col">
       <PublicHeader />
@@ -217,6 +231,7 @@ const DonatePage = () => {
       </footer>
     </div>
   );
+  */
 };
 
 export default DonatePage;

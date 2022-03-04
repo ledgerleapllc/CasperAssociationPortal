@@ -1,39 +1,48 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import Link from 'next/link';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import MenuIcon from '@material-ui/icons/Menu';
+// import Link from 'next/link';
+// import { useContext, useEffect, useRef, useState } from 'react';
+// import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+// import { useForm } from 'react-hook-form';
+// import { useDispatch } from 'react-redux';
+import router from 'next/router';
+// import MenuIcon from '@material-ui/icons/Menu';
 import { LoadingScreen } from '../components/hoc/loading-screen';
-import { useSnackBar } from '../components/partials/snack-bar';
-import { EMAIL_PATTERN } from '../helpers/form-validation';
-import { contactUsFromGuest } from '../shared/redux-saga/auth/actions';
-import { AppContext } from './_app';
+// import { useSnackBar } from '../components/partials/snack-bar';
+// import { EMAIL_PATTERN } from '../helpers/form-validation';
+// import { contactUsFromGuest } from '../shared/redux-saga/auth/actions';
+// import { AppContext } from './_app';
 
 const LandingPage = () => {
-  const aboutRef = useRef();
-  const toolsRef = useRef();
+  // const aboutRef = useRef();
+  // const toolsRef = useRef();
+  /*
   const { formState, register, handleSubmit, reset } = useForm({
     mode: 'onBlur',
   });
-  const dispatch = useDispatch();
-  const { setLoading } = useContext(AppContext);
-  const { openSnack } = useSnackBar();
-  const [showMenu, setShowMenu] = useState(false);
+  */
+  // const dispatch = useDispatch();
+  // const { setLoading } = useContext(AppContext);
+  // const { openSnack } = useSnackBar();
+  // const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
+    router.push('/home');
     document.body.classList.add('bg-landing');
     return () => {
       document.body.classList.remove('bg-landing');
     };
   }, []);
 
+  /*
   const scrollToAnchor = ref => {
     ref.current.scrollIntoView({ behavior: 'smooth' });
   };
+  */
 
+  /*
   const onSubmit = data => {
     setLoading(true);
     dispatch(
@@ -54,7 +63,15 @@ const LandingPage = () => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
+  */
 
+  return (
+    <div
+      id="landing-page__home"
+      className="text-white min-h-screen overflow-x-hidden landing-page"
+    />
+  );
+  /*
   return (
     <div
       id="landing-page__home"
@@ -84,7 +101,7 @@ const LandingPage = () => {
               <a>Tools</a>
             </li>
             <li>
-              <Link href="/member-viewer">
+              <Link href="/node-explorer">
                 <a>Explore</a>
               </Link>
             </li>
@@ -121,7 +138,7 @@ const LandingPage = () => {
             >
               Learn More
             </button>
-            <Link href="/member-viewer">
+            <Link href="/node-explorer">
               <button
                 type="button"
                 className="w-52 h-16 border-2 border-landing1"
@@ -308,7 +325,7 @@ const LandingPage = () => {
             <a>Tools</a>
           </li>
           <li>
-            <Link href="/member-viewer">
+            <Link href="/node-explorer">
               <a>Explore</a>
             </Link>
           </li>
@@ -326,6 +343,7 @@ const LandingPage = () => {
       </footer>
     </div>
   );
+  */
 };
 
 export default LoadingScreen(LandingPage, 'public');

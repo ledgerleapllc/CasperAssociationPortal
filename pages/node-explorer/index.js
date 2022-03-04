@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-
 import { Button, Slider } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import { formatDate, numberWithCommas } from '../../shared/core/utils';
@@ -62,7 +61,7 @@ const Styles = styled.div`
   }
 `;
 
-const MembersViewer = () => {
+const NodeExplorer = () => {
   const {
     data,
     setParams,
@@ -298,7 +297,7 @@ const MembersViewer = () => {
                     <Table.BodyRow
                       key={`a-${ind}`}
                       selectRowHandler={() =>
-                        router.push(`/member-viewer/${row.id}`)
+                        router.push(`/node-explorer/${row.id}`)
                       }
                     >
                       <Table.BodyCell key="body1">
@@ -343,4 +342,4 @@ const MembersViewer = () => {
   );
 };
 
-export default MembersViewer;
+export default NodeExplorer;

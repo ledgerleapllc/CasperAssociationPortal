@@ -55,7 +55,7 @@ const StylesAdvanced = styled.div`
   }
 `;
 
-const MembersViewerDetail = () => {
+const NodeExplorerDetail = () => {
   const { setLoading } = useContext(AppContext);
   const { id } = router.query;
   const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const MembersViewerDetail = () => {
       <PublicHeader />
       <div className="flex-1 min-h-0 pt-10 mx-auto w-container bg-transparent">
         <div className="w-full border-primary border-b-2 pb-3">
-          <BackButton href="/member-viewer" text="Back" force />
+          <BackButton href="/node-explorer" text="Back" force />
         </div>
         <div className="flex w-full mt-10">
           <div className="w-full">
@@ -338,4 +338,4 @@ const MembersViewerDetail = () => {
   );
 };
 
-export default MembersViewerDetail;
+export default NodeExplorerDetail;

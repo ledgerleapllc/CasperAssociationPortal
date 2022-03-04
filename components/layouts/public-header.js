@@ -7,7 +7,7 @@ import PlusIcon from '../../public/images/ic_plus.svg';
 
 const PublicHeader = React.memo(() => {
   const { pathname } = useRouter();
-
+  console.log(pathname);
   return (
     <header className="hidden lg:flex w-full bg-white shadow-light h-18">
       <div className="flex justify-between items-center container mx-auto">
@@ -17,10 +17,11 @@ const PublicHeader = React.memo(() => {
           </a>
         </Link>
         <div className="flex gap-8 items-center">
-          <Link href="/member-viewer">
+          {/*
+          <Link href="/node-explorer">
             <a
               className={
-                pathname === '/member-viewer' ? 'text-primary underline' : ''
+                pathname === '/node-explorer' ? 'text-primary underline' : ''
               }
             >
               Explore
@@ -33,6 +34,7 @@ const PublicHeader = React.memo(() => {
               Donate
             </a>
           </Link>
+          */}
           <Link href="/register-type">
             <a>
               <Button className="flex items-center justify-center" primary>

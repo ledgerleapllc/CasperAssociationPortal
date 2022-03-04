@@ -56,7 +56,7 @@ const AppHeader = ({ className, theme, showExplorer }) => {
           className="animate__animated animate__fadeIn animate__delay-2s"
           type="button"
           onClick={() => {
-            window.open('/member-viewer', '_blank').focus();
+            window.open('/node-explorer', '_blank').focus();
           }}
         >
           Node Explorer
