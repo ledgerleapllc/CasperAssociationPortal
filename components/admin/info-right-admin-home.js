@@ -1,10 +1,13 @@
 import 'react-circular-progressbar/dist/styles.css';
+import { useSelector } from 'react-redux';
 import useMetrics from '../hooks/useMetrics';
 import { ProgressBar, Tooltips } from '../partials';
 import { numberWithCommas } from '../../shared/core/utils';
 
 const InfoRightAdminHome = ({ stats }) => {
   const { metrics, metricConfig } = useMetrics();
+  const authUser = useSelector(state => state.authReducer.userInfo);
+
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
       <div className="flex flex-col pt-5 lg:pb-3">
@@ -157,7 +160,11 @@ const InfoRightAdminHome = ({ stats }) => {
             </span>
           </div>
           <ProgressBar
-            value={metrics?.peers}
+            value={
+              authUser?.role === 'admin'
+                ? metrics?.peers_setting
+                : metrics?.peers
+            }
             total={metricConfig?.max?.peers}
             mask="x/y"
           />
