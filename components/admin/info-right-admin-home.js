@@ -8,6 +8,18 @@ const InfoRightAdminHome = ({ stats }) => {
   const { metrics, metricConfig } = useMetrics();
   const authUser = useSelector(state => state.authReducer.userInfo);
 
+  const renderMaxPeers = () => {
+    const maxPeers = metricConfig?.max?.peers;
+    const peers =
+      authUser?.role === 'admin' ? metrics?.peers_setting : metrics?.peers;
+    if (maxPeers && peers) {
+      if (maxPeers > peers) return maxPeers;
+      return peers;
+    }
+    if (maxPeers) return maxPeers;
+    return peers;
+  };
+
   return (
     <div className="flex flex-col mx-9 my-3 bg-white">
       <div className="flex flex-col pt-5 lg:pb-3">
@@ -165,7 +177,7 @@ const InfoRightAdminHome = ({ stats }) => {
                 ? metrics?.peers_setting
                 : metrics?.peers
             }
-            total={metricConfig?.max?.peers}
+            total={renderMaxPeers()}
             mask="x/y"
           />
         </div>

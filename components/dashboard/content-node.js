@@ -29,6 +29,7 @@ const LineMemo = memo(({ type, name, data }) => (
 
 const ContentNode = ({ sendHightlightNode }) => {
   const { metrics, metricConfig } = useMetrics();
+  const authUser = useSelector(state => state.authReducer.userInfo);
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [nodesList, setNodesList] = useState([]);
@@ -140,6 +141,19 @@ const ContentNode = ({ sendHightlightNode }) => {
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
+
+  const renderMaxPeers = () => {
+    const maxPeers = metricConfig?.max?.peers;
+    const peers =
+      authUser?.role === 'admin' ? metrics?.peers_setting : metrics?.peers;
+    if (maxPeers && peers) {
+      if (maxPeers > peers) return maxPeers;
+      return peers;
+    }
+    if (maxPeers) return maxPeers;
+    return peers;
+  };
+
   return (
     <div className="flex flex-col w-full h-full">
       <div id="dashboard-content-node2__widgets" className="gap-5">
@@ -566,8 +580,12 @@ const ContentNode = ({ sendHightlightNode }) => {
                       <span className="text-lg">Peers</span>
                     </div>
                     <ProgressBar
-                      value={metrics?.peers}
-                      total={metricConfig?.max?.peers}
+                      value={
+                        authUser?.role === 'admin'
+                          ? metrics?.peers_setting
+                          : metrics?.peers
+                      }
+                      total={renderMaxPeers()}
                       mask="x/y"
                     />
                   </div>
