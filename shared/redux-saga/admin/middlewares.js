@@ -425,6 +425,19 @@ export function* approveUserKYC({ payload, resolve, reject }) {
   }
 }
 
+export function* resetIntakeKYC({ payload, resolve, reject }) {
+  try {
+    const { message, id } = payload;
+    const res = yield post([`/admin/users/${id}/reset-intake-kyc`], {
+      message,
+    });
+    resolve(res?.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* resetUserKYC({ payload, resolve, reject }) {
   try {
     const { message, id } = payload;
@@ -1019,6 +1032,7 @@ export function* watchAdmin() {
   yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
   yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
   yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
+  yield all([takeLatest('RESET_INTAKE_KYC', resetIntakeKYC)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
   yield all([takeLatest('ACTIVATE_VERIFIED_STATUS', activateVerifiedStatus)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);

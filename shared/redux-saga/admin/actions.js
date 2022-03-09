@@ -303,6 +303,13 @@ export const approveUserKYC = (payload, resolve, reject) => ({
   reject,
 });
 
+export const resetIntakeKYC = (payload, resolve, reject) => ({
+  type: 'RESET_INTAKE_KYC',
+  payload,
+  resolve,
+  reject,
+});
+
 export const resetUserKYC = (payload, resolve, reject) => ({
   type: 'RESET_USER_KYC',
   payload,
