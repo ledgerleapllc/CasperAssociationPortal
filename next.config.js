@@ -17,7 +17,6 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   trailingSlash: true,
-  exportTrailingSlash: true,
   webpack: config => {
     config.module.rules.push({
       test: /\.(png|jp(e*)g|gif)$/,
