@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+// /* eslint-disable jsx-a11y/no-static-element-interactions */
+// /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+// /* eslint-disable jsx-a11y/click-events-have-key-events */
 // import Link from 'next/link';
 // import { useContext, useEffect, useRef, useState } from 'react';
 // import { useContext, useEffect, useState } from 'react';

@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint no-irregular-whitespace: ["error", { "skipRegExps": true }] */
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
