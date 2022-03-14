@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // /* eslint-disable jsx-a11y/no-static-element-interactions */
 // /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -7,7 +8,7 @@
 import { useEffect } from 'react';
 // import { useForm } from 'react-hook-form';
 // import { useDispatch } from 'react-redux';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 // import MenuIcon from '@material-ui/icons/Menu';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 // import { useSnackBar } from '../components/partials/snack-bar';
@@ -29,6 +30,8 @@ const LandingPage = () => {
   // const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
+    const { pathname } = useRouter();
+    console.log('Path:', pathname);
     router.push('/home');
     document.body.classList.add('bg-landing');
     return () => {
