@@ -368,13 +368,13 @@ const DashboardMembership = () => {
                   </div>
                 </Tooltips>
                 <p className="text-xs desc">
-                  Current: {metrics.current_block_height}
+                  {metrics.blocks_behind} blocks behind
                 </p>
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
                     shape="circle"
-                    value={metrics.block_height_average}
-                    mask="x"
+                    value={metrics.current_block_height}
+                    mask="x%"
                   />
                 </div>
               </Card>
