@@ -2,6 +2,15 @@ require('dotenv').config();
 const path = require('path');
 
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ];
+  },
   env: {
     BASE_URL: process.env.BASE_URL,
     HELLOSIGN_CLIENT_ID: process.env.HELLOSIGN_CLIENT_ID,
