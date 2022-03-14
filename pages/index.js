@@ -5,6 +5,7 @@
 // import Link from 'next/link';
 // import { useContext, useEffect, useRef, useState } from 'react';
 // import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 // import { useForm } from 'react-hook-form';
 // import { useDispatch } from 'react-redux';
@@ -29,6 +30,8 @@ const LandingPage = () => {
   // const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
+    const router = useRouter();
+    router.push('/home');
     document.body.classList.add('bg-landing');
     return () => {
       document.body.classList.remove('bg-landing');
