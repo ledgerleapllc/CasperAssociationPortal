@@ -16,6 +16,12 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  async exportPathMap() {
+    return {
+      '/': { page: '/' },
+      '/node-explorer': { page: '/node-explorer' },
+    };
+  },
   trailingSlash: true,
   webpack: config => {
     config.module.rules.push({
