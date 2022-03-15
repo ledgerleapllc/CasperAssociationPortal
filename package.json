@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "ENVIRONMENT=./env/.env.development next dev",
+    "build-normal": "next build && next export",
     "build-dev": "ENVIRONMENT=./env/.env.dev next build && next export",
     "build-staging": "ENVIRONMENT=./env/.env.staging next build && next export",
     "build-prod": "ENVIRONMENT=./env/.env.production next build && next export",
