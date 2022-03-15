@@ -2,7 +2,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import React, { useState, useEffect, useContext } from 'react';
-import router from 'next/router';
+import { useHistory } from 'react-router-dom';
 import Switch from 'react-switch';
 import { Button, DateTimePicker } from '../../../partials';
 import {
@@ -18,6 +18,7 @@ import { AppContext } from '../../../../pages/_app';
 
 export const NotificationForm = React.memo(
   ({ editMode, value, onChangeValue, onEditing }) => {
+    const router = useHistory();
     const [isSubmit, setIsSubmit] = useState(false);
     const [isDisableAllFields, setIsDisableAllFields] = useState(false);
     const [highPriorityNoti, setHighPriorityNoti] = useState(null);

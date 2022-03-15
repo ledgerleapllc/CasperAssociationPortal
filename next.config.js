@@ -2,12 +2,12 @@ require('dotenv').config();
 const path = require('path');
 
 module.exports = {
-  async redirects() {
+  async rewrites() {
     return [
+      // Rewrite everything else to use `pages/index`
       {
-        source: '/',
-        destination: '/home',
-        permanent: true,
+        source: '/:path*',
+        destination: '/',
       },
     ];
   },
@@ -25,7 +25,7 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  trailingSlash: true,
+  // trailingSlash: true,
   webpack: config => {
     config.module.rules.push({
       test: /\.(png|jp(e*)g|gif)$/,

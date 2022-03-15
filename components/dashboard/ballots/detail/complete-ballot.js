@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { StatusText, ForAgainst, ProgressBar } from '../../../partials';
@@ -225,7 +225,7 @@ const CompleteBallot = ({ ballot }) => {
                   <li key={index} className="flex pb-8">
                     <p className="w-80 pr-12">{file.name}</p>
                     <div className="flex flex-col">
-                      <Link href={`${file.file_url}`}>
+                      <Link to={`${file.file_url}`}>
                         <a target="_blank" className="underline text-primary">
                           {isAdmin ? 'View Document' : 'View'}
                         </a>

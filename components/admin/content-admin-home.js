@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import { Card, Dropdown, Tooltips } from '../partials';
 import OpenVotes from '../home/open-votes';
@@ -68,15 +68,16 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                 {stats?.totalUserVerification}
               </p>
               <p className="text-base font-thin">ID Verification to Review</p>
-              <Link href="/admin/intake">
-                <a
+              <Link to="/admin/intake">
+                <span
                   style={{
                     marginTop: '10px',
+                    display: 'block',
                   }}
                   className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
                 >
                   Review
-                </a>
+                </span>
               </Link>
             </div>
           </Card>
@@ -91,10 +92,10 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
               </Tooltips>
               <p className="text-5xl font-thin">{stats?.totalFailNode}</p>
               {!!stats?.totalFailNode && (
-                <Link href="/dashboard/nodes?node_failing=1">
-                  <a className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
+                <Link to="/dashboard/nodes?node_failing=1">
+                  <span className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40">
                     Review
-                  </a>
+                  </span>
                 </Link>
               )}
               {!stats?.totalFailNode && <p className="h-12" />}

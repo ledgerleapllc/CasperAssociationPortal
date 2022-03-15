@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
 import React, { useState, useEffect } from 'react';
-import router from 'next/router';
+import { useHistory } from 'react-router-dom';
 import Switch from 'react-switch';
 import {
   MuiPickersUtilsProvider,
@@ -38,6 +38,7 @@ export const PerkForm = React.memo(
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const dispatch = useDispatch();
+    const router = useHistory();
 
     const handleStartDateChange = date => {
       setStartDate(date);

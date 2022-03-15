@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import {
   getListPerks,
   deletePerk,
@@ -275,12 +275,12 @@ export const PerksTable = ({ hideOff }) => {
               </Table.BodyCell>
               <Table.BodyCell key="body9">
                 <div className="flex">
-                  <Link href={`/admin/perks/detail/${row.id}`}>
-                    <a>
+                  <Link to={`/admin/perks/detail/${row.id}`}>
+                    <span>
                       <Button className="w-full" primary size="small">
                         Edit
                       </Button>
-                    </a>
+                    </span>
                   </Link>
                   <Button
                     style={{ marginLeft: '5px' }}

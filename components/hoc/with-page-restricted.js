@@ -1,7 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
 import { getLockPageConditions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import IconCheck from '../../public/images/ic-feather-check.svg';
@@ -139,14 +138,13 @@ export const withPageRestricted = (Wrapper, page) => props => {
                   "Membership" tab for more information on getting your node in
                   tip-tip shape.
                 </div>
-                <Link href="/dashboard/verification">
-                  <button
-                    type="button"
-                    className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  >
-                    Get Verified
-                  </button>
-                </Link>
+                <a
+                  href="/dashboard/verification"
+                  className="lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  style={{ textAlign: 'center' }}
+                >
+                  Get Verified
+                </a>
               </>
             )}
             {condition.kyc_not_verify && !condition.node_poor && (
@@ -156,14 +154,13 @@ export const withPageRestricted = (Wrapper, page) => props => {
                   process to unlock all of the features in your portal. Click
                   the button below to start.
                 </p>
-                <Link href="/dashboard/verification">
-                  <button
-                    type="button"
-                    className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  >
-                    Get Verified
-                  </button>
-                </Link>
+                <a
+                  href="/dashboard/verification"
+                  className="lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  style={{ textAlign: 'center' }}
+                >
+                  Get Verified
+                </a>
               </>
             )}
             {!condition.kyc_not_verify && condition.node_poor && (
@@ -173,14 +170,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                   tab for more information on getting your node in tip-tip
                   shape.
                 </p>
-                <Link href="/dashboard/membership">
+                <a href="/dashboard/membership">
                   <button
                     type="button"
                     className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
                     Go to Membership page
                   </button>
-                </Link>
+                </a>
               </>
             )}
           </>
@@ -207,14 +204,13 @@ export const withPageRestricted = (Wrapper, page) => props => {
               process to unlock all of the features in your portal. Click the
               button below to start.
             </p>
-            <Link href="/dashboard/verification">
-              <button
-                type="button"
-                className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-              >
-                Get Verified
-              </button>
-            </Link>
+            <a
+              href="/dashboard/verification"
+              className="lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+              style={{ textAlign: 'center' }}
+            >
+              Get Verified
+            </a>
           </>
         );
       }
@@ -238,14 +234,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
               Uh oh! Your node needs some help. Please see your "Membership" tab
               for more information on getting your node in tip-tip shape.
             </p>
-            <Link href="/dashboard/membership">
+            <a href="/dashboard/membership">
               <button
                 type="button"
                 className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               >
                 Go to Membership page
               </button>
-            </Link>
+            </a>
           </>
         );
       }

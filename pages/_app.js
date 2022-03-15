@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
       </Head>
+
       <AppContext.Provider value={{ loading, setLoading }}>
         <DialogProvider>
           <SnackBarProvider>

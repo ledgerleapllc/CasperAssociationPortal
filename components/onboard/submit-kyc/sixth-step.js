@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { resendEmailOwnerNodes } from '../../../shared/redux-saga/onboard/actions';
 
 const SubmitKYCSixthStep = () => {
-  const router = useRouter();
+  const router = useHistory();
   const ownerNodes = useSelector(state => state.onboardReducer.ownerNodes);
   const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
@@ -17,7 +17,7 @@ const OnboardStepper = ({
   onPrev,
   onNext,
 }) => {
-  const router = useRouter();
+  const router = useHistory();
   const [allStepsDone, setAllStepsDone] = useState(false);
   const user = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();

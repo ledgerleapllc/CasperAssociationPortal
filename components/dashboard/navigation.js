@@ -92,9 +92,9 @@ const Navigation = () => {
                 >
                   <ActiveLink
                     activeClassName="shadow-activeLink"
-                    href={`${buildUrl(nav)}`}
+                    to={`${buildUrl(nav)}`}
                   >
-                    <a
+                    <span
                       className="
                         rounded-lg inline-block 
                         lg:p-2 2xl:p-3
@@ -104,7 +104,7 @@ const Navigation = () => {
                         width={isAdmin ? '1.25rem' : '1.5rem'}
                         height={isAdmin ? '1.25rem' : '1.5rem'}
                       />
-                    </a>
+                    </span>
                   </ActiveLink>
                 </li>
               )}
@@ -114,40 +114,37 @@ const Navigation = () => {
         {isAdmin && (
           <ul className="flex flex-col py-4 border-t-2 border-primary">
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink
-                activeClassName="text-primary"
-                href="/admin/dashboard"
-              >
+              <ActiveLink activeClassName="text-primary" to="/admin/dashboard">
                 <p>Admin</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/intake">
+              <ActiveLink activeClassName="text-primary" to="/admin/intake">
                 <p>Intake</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/users">
+              <ActiveLink activeClassName="text-primary" to="/admin/users">
                 <p>Users</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/ballots">
+              <ActiveLink activeClassName="text-primary" to="/admin/ballots">
                 <p>Ballots</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/perks">
+              <ActiveLink activeClassName="text-primary" to="/admin/perks">
                 <p>Perks</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/teams">
+              <ActiveLink activeClassName="text-primary" to="/admin/teams">
                 <p>Teams</p>
               </ActiveLink>
             </li>
             <li className="lg:py-1 2xl:py-1.5 cursor-pointer">
-              <ActiveLink activeClassName="text-primary" href="/admin/settings">
+              <ActiveLink activeClassName="text-primary" to="/admin/settings">
                 <p>Settings</p>
               </ActiveLink>
             </li>

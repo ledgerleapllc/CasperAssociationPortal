@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Button, ClockBar } from '../../../partials';
 
 export const PerkCard = ({ perk }) => {
@@ -45,12 +45,12 @@ export const PerkCard = ({ perk }) => {
           {perk?.start_date && perk?.end_date && renderTimeRemaining()}
         </div>
         <div className="h-1/3">
-          <Link href={`${perk?.id ? `/dashboard/perks/${perk.id}` : ''}`}>
-            <a>
+          <Link to={`${perk?.id ? `/dashboard/perks/${perk.id}` : ''}`}>
+            <span>
               <Button primary className="px-5 py-2">
                 More Information
               </Button>
-            </a>
+            </span>
           </Link>
         </div>
       </div>

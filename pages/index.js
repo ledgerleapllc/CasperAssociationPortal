@@ -1,350 +1,345 @@
-// /* eslint-disable no-console */
-// /* eslint-disable jsx-a11y/no-static-element-interactions */
-// /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-// /* eslint-disable jsx-a11y/click-events-have-key-events */
-// import Link from 'next/link';
-// import { useContext, useEffect, useRef, useState } from 'react';
-// import { useContext, useEffect, useState } from 'react';
-import React, { useEffect } from 'react';
-import router from 'next/router';
-// import { useForm } from 'react-hook-form';
-// import { useDispatch } from 'react-redux';
-// import MenuIcon from '@material-ui/icons/Menu';
+import React, { Suspense, lazy } from 'react';
+import {
+  Switch,
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { LoadingScreen } from '../components/hoc/loading-screen';
-// import { useSnackBar } from '../components/partials/snack-bar';
-// import { EMAIL_PATTERN } from '../helpers/form-validation';
-// import { contactUsFromGuest } from '../shared/redux-saga/auth/actions';
-// import { AppContext } from './_app';
 
-const LandingPage = () => {
-  // const aboutRef = useRef();
-  // const toolsRef = useRef();
-  /*
-  const { formState, register, handleSubmit, reset } = useForm({
-    mode: 'onBlur',
-  });
-  */
-  // const dispatch = useDispatch();
-  // const { setLoading } = useContext(AppContext);
-  // const { openSnack } = useSnackBar();
-  // const [showMenu, setShowMenu] = useState(false);
+const LandingView = lazy(() => import('../views/landing'));
+const HomeView = lazy(() => import('../views/home'));
+const LoginView = lazy(() => import('../views/login'));
+const RegisterTypeView = lazy(() => import('../views/register-type'));
+const ResetPasswordView = lazy(() => import('../views/reset-password'));
+const WelcomeView = lazy(() => import('../views/welcome'));
+const RegisterIndividualView = lazy(() =>
+  import('../views/register-individual')
+);
+const RegisterEntityView = lazy(() => import('../views/register-entity'));
+const VerifyEmailView = lazy(() => import('../views/verify-email'));
+const UpdateEmailView = lazy(() => import('../views/update-email'));
+const UpdatePasswordView = lazy(() => import('../views/update-password'));
+const RegisterSubAdminView = lazy(() => import('../views/register-sub-admin'));
 
-  useEffect(() => {
-    router.push('/home');
-    document.body.classList.add('bg-landing');
-    return () => {
-      document.body.classList.remove('bg-landing');
-    };
-  }, []);
+const OnboardView = lazy(() => import('../views/onboard/index'));
+const OnboardEsignTermsView = lazy(() =>
+  import('../views/onboard/esign-terms')
+);
+const OnboardVerifyNodeView = lazy(() =>
+  import('../views/onboard/verify-node-ownership')
+);
+const OnboardUploadLetterView = lazy(() =>
+  import('../views/onboard/upload-letter')
+);
 
-  /*
-  const scrollToAnchor = ref => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
-  };
-  */
+const NodeExplorerView = lazy(() => import('../views/node-explorer/index'));
+const NodeExplorerDetailView = lazy(() =>
+  import('../views/node-explorer/[id]')
+);
 
-  /*
-  const onSubmit = data => {
-    setLoading(true);
-    dispatch(
-      contactUsFromGuest(
-        data,
-        () => {
-          setLoading(false);
-          reset();
-          openSnack('primary', 'Submit successfully!');
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
+const DonateView = lazy(() => import('../views/donate/index'));
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-  */
+const AdminDashboardView = lazy(() => import('../views/admin/dashboard'));
+const AdminTeamsView = lazy(() => import('../views/admin/teams'));
+const AdminIntakeView = lazy(() => import('../views/admin/intake/index'));
+const AdminIntakeVerificationDetailView = lazy(() =>
+  import('../views/admin/intake/verification/[id]/index')
+);
+const AdminIntakeVerificationAMLReviewView = lazy(() =>
+  import('../views/admin/intake/verification/[id]/aml-review')
+);
+const AdminIntakeVerificationKYCReviewView = lazy(() =>
+  import('../views/admin/intake/verification/[id]/kyc-review')
+);
+const AdminUsersView = lazy(() => import('../views/admin/users/index'));
+const AdminUsersDetailView = lazy(() =>
+  import('../views/admin/users/[id]/index')
+);
+const AdminUsersDetailKYCView = lazy(() =>
+  import('../views/admin/users/[id]/kyc')
+);
+const AdminBallotsView = lazy(() => import('../views/admin/ballots/index'));
+const AdminBallotsAddView = lazy(() => import('../views/admin/ballots/add'));
+const AdminBallotsEditView = lazy(() =>
+  import('../views/admin/ballots/edit/[id]')
+);
+const AdminBallotsDetailView = lazy(() =>
+  import('../views/admin/ballots/detail/[id]/index')
+);
+const AdminBallotsDetailCurrentVotesView = lazy(() =>
+  import('../views/admin/ballots/detail/[id]/current-votes')
+);
+const AdminPerksView = lazy(() => import('../views/admin/perks/index'));
+const AdminAddPerksView = lazy(() => import('../views/admin/perks/add'));
+const AdminPerksDetailView = lazy(() =>
+  import('../views/admin/perks/detail/[id]/index')
+);
+const AdminSettingsView = lazy(() => import('../views/admin/settings/index'));
+const AdminSettingsEmailerView = lazy(() =>
+  import('../views/admin/settings/emailer')
+);
+const AdminSettingsNotificationsView = lazy(() =>
+  import('../views/admin/settings/notifications/index')
+);
+const AdminSettingsNotificationsAddView = lazy(() =>
+  import('../views/admin/settings/notifications/add')
+);
+const AdminSettingsNotificationsDetailView = lazy(() =>
+  import('../views/admin/settings/notifications/detail/[id]/index')
+);
 
-  return (
-    <div
-      id="landing-page__home"
-      className="text-white min-h-screen overflow-x-hidden landing-page"
-    />
-  );
-  /*
-  return (
-    <div
-      id="landing-page__home"
-      className="text-white min-h-screen overflow-x-hidden landing-page"
-    >
-      <div id="custom-nav-wrap">
-        <div id="custom-nav-burger">
-          <div onClick={toggleMenu}>
-            <MenuIcon />
-          </div>
-        </div>
-        <nav
-          className={
-            showMenu
-              ? 'relative pt-9 w-full flex justify-center text-white text-center active'
-              : 'relative pt-9 w-full flex justify-center text-white text-center'
-          }
-        >
-          <ul
-            className="text-lg flex gap-24"
-            style={{ position: 'relative', zIndex: 1 }}
-          >
-            <li onClick={() => scrollToAnchor(aboutRef)}>
-              <a>About</a>
-            </li>
-            <li onClick={() => scrollToAnchor(toolsRef)}>
-              <a>Tools</a>
-            </li>
-            <li>
-              <Link href="/node-explorer">
-                <a>Explore</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/donate">
-                <a>Donate</a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/home">
-                <a>Login / Register</a>
-              </Link>
-            </li>
-          </ul>
-          <div
-            className="absolute linear right-0 top-0 transform translate-x-1/2 -translate-y-1/2"
-            style={{ width: '40rem', height: '40rem', filter: 'blur(10rem)' }}
-          />
-        </nav>
-      </div>
-      <section className="pt-52 flex flex-col justify-center items-center">
-        <div id="landing-page__hero" className="z-40 mb-32">
-          <h1 className="text-7xl text-center">Casper Association Portal</h1>
-          <p className="mt-6 font-normal text-xl text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit{' '}
-            amet aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
-            gravida, lacinia neque vel, elementum leo.
-          </p>
-          <div className="flex gap-10 mt-10 justify-center">
-            <button
-              type="button"
-              className="w-52 h-16 border-2 border-landing1"
-              onClick={() => scrollToAnchor(aboutRef)}
-            >
-              Learn More
-            </button>
-            <Link href="/node-explorer">
-              <button
-                type="button"
-                className="w-52 h-16 border-2 border-landing1"
-              >
-                Node Explore
-              </button>
-            </Link>
-          </div>
-        </div>
-        <div ref={aboutRef} className="relative pb-20 container-landing">
-          <div
-            className="absolute linear left-0 top-0 transform -translate-x-1/3 -translate-y-1/2"
-            style={{ width: '40rem', height: '40rem', filter: 'blur(10rem)' }}
-          />
-          <img className="relative z-40" src="images/comp-13.png" alt="" />
-          <div
-            className="absolute linear right-0 bottom-0 transform translate-x-1/3"
-            style={{ width: '20rem', height: '20rem', filter: 'blur(5rem)' }}
-          />
-        </div>
-      </section>
-      <section className="container-landing flex flex-col justify-center items-center">
-        <p className="text-4xl font-light text-center leading-normal">
-          Class aptent taciti sociosqu ad litora torquent per conubia nostra,
-          per inceptos himenaeos. Aenean sed lectus imperdiet.
-        </p>
-        <span>- Jason Stone</span>
-      </section>
-      <section
-        ref={toolsRef}
-        className="container-landing flex flex-col justify-center items-center"
-        id="landing-page__section"
-      >
-        <div className="flex flex-col gap-108" style={{ width: '100%' }}>
-          <div className="flex items-center gap-16 custom-text-box">
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
-            </div>
-            <div>
-              <h2 className="text-4xl">Node Explorer</h2>
-              <p className="text-base pt-10 pb-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
-                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
-                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
-                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
-                gravida, lacinia neque vel, elementum leo.
-              </p>
-              <button
-                type="button"
-                className="w-52 h-16 border-2 border-landing1"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center flex-row-reverse gap-16 custom-text-box">
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
-            </div>
-            <div>
-              <h2 className="text-4xl">Node Explorer</h2>
-              <p className="text-base pt-10 pb-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
-                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
-                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
-                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
-                gravida, lacinia neque vel, elementum leo.
-              </p>
-              <button
-                type="button"
-                className="w-52 h-16 border-2 border-landing1"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center gap-16 custom-text-box">
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
-            </div>
-            <div>
-              <h2 className="text-4xl">Node Explorer</h2>
-              <p className="text-base pt-10 pb-20">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit
-                amet aliquet dolor, sit amet malesuada risus. Quisque vitae{' '}
-                justo gravida, lacinia neque vel, elementum leo.Lorem ipsum{' '}
-                dolor sit amet, consectetur adipiscing elit. Nam sit amet{' '}
-                aliquet dolor, sit amet malesuada risus. Quisque vitae justo{' '}
-                gravida, lacinia neque vel, elementum leo.
-              </p>
-              <button
-                type="button"
-                className="w-52 h-16 border-2 border-landing1"
-              >
-                Learn More
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="container-landing text-center"
-        style={{ paddingBottom: '27rem' }}
-      >
-        <h2 className="font-light text-5xl">Need to get in contact?</h2>
-        <form
-          id="landing-page__contact"
-          className="pt-24 w-full"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <div className="flex gap-6">
-            <div className="flex-1">
-              <input
-                className="w-full px-14 h-14 placeholder-white text-white bg-landing2 border-2 border-landing1"
-                placeholder="Name"
-                name="name"
-                {...register('name', {
-                  required: 'Name is required',
-                })}
-              />
-              {formState.errors?.name && (
-                <p className="mt-2 text-primary">
-                  {formState.errors.name?.message}
-                </p>
-              )}
-            </div>
-            <div className="flex-1">
-              <input
-                className="w-full px-14 h-14 placeholder-white text-white bg-landing2 border-2 border-landing1"
-                placeholder="Email Address"
-                name="email"
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    message: 'Email is invalid',
-                    value: EMAIL_PATTERN,
-                  },
-                })}
-              />
-              {formState.errors?.email && (
-                <p className="mt-2 text-primary">
-                  {formState.errors.email?.message}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="mt-5">
-            <textarea
-              rows="7"
-              className="px-14 py-5 w-full placeholder-white text-white bg-landing2 border-2 border-landing1"
-              placeholder="Message"
-              {...register('message', {
-                required: 'Message is required',
-              })}
-            />
-            {formState.errors?.message && (
-              <p className="mt-2 text-primary">
-                {formState.errors.message?.message}
-              </p>
-            )}
-          </div>
-          <button type="submit" className="mt-12 w-52 h-16 bg-landing1">
-            Contact Us
-          </button>
-        </form>
-      </section>
-      <footer className="bg-landing2 relative w-full flex justify-center text-white text-center h-24">
-        <ul className="text-lg flex items-center gap-24">
-          <li onClick={() => scrollToAnchor(aboutRef)}>
-            <a>About</a>
-          </li>
-          <li onClick={() => scrollToAnchor(toolsRef)}>
-            <a>Tools</a>
-          </li>
-          <li>
-            <Link href="/node-explorer">
-              <a>Explore</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/donate">
-              <a>Donate</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/home">
-              <a>Login</a>
-            </Link>
-          </li>
-        </ul>
-      </footer>
-    </div>
-  );
-  */
-};
+const DashboardView = lazy(() => import('../views/dashboard/index'));
+const DashboardPerksView = lazy(() => import('../views/dashboard/perks/index'));
+const DashboardPerksDetailView = lazy(() =>
+  import('../views/dashboard/perks/[id]')
+);
+const DashboardVerificationView = lazy(() =>
+  import('../views/dashboard/verification/index')
+);
+const DashboardMembershipView = lazy(() =>
+  import('../views/dashboard/membership/index')
+);
+const DashboardNodesView = lazy(() => import('../views/dashboard/nodes'));
+const DashboardDiscussionView = lazy(() =>
+  import('../views/dashboard/discussion/index')
+);
+const DashboardAddDiscussionView = lazy(() =>
+  import('../views/dashboard/discussion/add')
+);
+const DashboardDiscussionDetailView = lazy(() =>
+  import('../views/dashboard/discussion/[_id]')
+);
+const DashboardDiscussionEditView = lazy(() =>
+  import('../views/dashboard/discussion/edit/[id]')
+);
+const DashboardContactUsView = lazy(() =>
+  import('../views/dashboard/contact-us')
+);
+const DashboardVotesView = lazy(() => import('../views/dashboard/votes/index'));
+const DashboardVotesDetailView = lazy(() =>
+  import('../views/dashboard/votes/[id]')
+);
+const DashboardProfileView = lazy(() =>
+  import('../views/dashboard/profile/index')
+);
+const DashboardProfileDetailView = lazy(() =>
+  import('../views/dashboard/profile/[id]')
+);
+
+const ChangeEmailCancelView = lazy(() =>
+  import('../views/change-email/cancel-changes')
+);
+const ChangeEmailConfirmView = lazy(() =>
+  import('../views/change-email/confirm')
+);
+
+const LandingPage = () => (
+  <Router>
+    <Suspense fallback={null}>
+      <Switch>
+        <Route path="/" exact component={LandingView} />
+        <Route
+          path="/change-email/cancel-changes"
+          exact
+          component={ChangeEmailCancelView}
+        />
+        <Route
+          path="/change-email/confirm"
+          exact
+          component={ChangeEmailConfirmView}
+        />
+        <Route path="/donate" exact component={DonateView} />
+        <Route path="/node-explorer" exact component={NodeExplorerView} />
+        <Route
+          path="/node-explorer/:id"
+          exact
+          component={NodeExplorerDetailView}
+        />
+        <Route path="/home" exact component={HomeView} />
+        <Route path="/login" exact component={LoginView} />
+        <Route path="/register-type" exact component={RegisterTypeView} />
+        <Route
+          path="/register-individual"
+          exact
+          component={RegisterIndividualView}
+        />
+        <Route path="/register-entity" exact component={RegisterEntityView} />
+        <Route path="/reset-password" exact component={ResetPasswordView} />
+        <Route path="/verify-email" exact component={VerifyEmailView} />
+        <Route path="/update-email" exact component={UpdateEmailView} />
+        <Route path="/update-password" exact component={UpdatePasswordView} />
+        <Route
+          path="/register-sub-admin"
+          exact
+          component={RegisterSubAdminView}
+        />
+        <Route path="/welcome" exact component={WelcomeView} />
+
+        <Route path="/onboard" exact component={OnboardView} />
+        <Route
+          path="/onboard/esign-terms"
+          exact
+          component={OnboardEsignTermsView}
+        />
+        <Route
+          path="/onboard/verify-node-ownership"
+          exact
+          component={OnboardVerifyNodeView}
+        />
+        <Route
+          path="/onboard/upload-letter"
+          exact
+          component={OnboardUploadLetterView}
+        />
+
+        <Route path="/admin" exact>
+          <Redirect to="/admin/dashboard" />
+        </Route>
+        <Route path="/admin/dashboard" exact component={AdminDashboardView} />
+        <Route path="/admin/teams" exact component={AdminTeamsView} />
+
+        <Route path="/admin/intake" exact component={AdminIntakeView} />
+        <Route
+          path="/admin/intake/verification/:id"
+          exact
+          component={AdminIntakeVerificationDetailView}
+        />
+        <Route
+          path="/admin/intake/verification/:id/aml-review"
+          exact
+          component={AdminIntakeVerificationAMLReviewView}
+        />
+        <Route
+          path="/admin/intake/verification/:id/kyc-review"
+          exact
+          component={AdminIntakeVerificationKYCReviewView}
+        />
+
+        <Route path="/admin/users" exact component={AdminUsersView} />
+        <Route path="/admin/users/:id" exact component={AdminUsersDetailView} />
+        <Route
+          path="/admin/users/:id/kyc"
+          exact
+          component={AdminUsersDetailKYCView}
+        />
+
+        <Route path="/admin/ballots" exact component={AdminBallotsView} />
+        <Route
+          path="/admin/ballots/add"
+          exact
+          component={AdminBallotsAddView}
+        />
+        <Route
+          path="/admin/ballots/edit/:id"
+          exact
+          component={AdminBallotsEditView}
+        />
+        <Route
+          path="/admin/ballots/detail/:id"
+          exact
+          component={AdminBallotsDetailView}
+        />
+        <Route
+          path="/admin/ballots/detail/:id/current-votes"
+          exact
+          component={AdminBallotsDetailCurrentVotesView}
+        />
+
+        <Route path="/admin/perks" exact component={AdminPerksView} />
+        <Route path="/admin/perks/add" exact component={AdminAddPerksView} />
+        <Route
+          path="/admin/perks/detail/:id"
+          exact
+          component={AdminPerksDetailView}
+        />
+
+        <Route path="/admin/settings" exact component={AdminSettingsView} />
+        <Route
+          path="/admin/settings/emailer"
+          exact
+          component={AdminSettingsEmailerView}
+        />
+        <Route
+          path="/admin/settings/notifications"
+          exact
+          component={AdminSettingsNotificationsView}
+        />
+        <Route
+          path="/admin/settings/notifications/add"
+          exact
+          component={AdminSettingsNotificationsAddView}
+        />
+        <Route
+          path="/admin/settings/notifications/detail/:id"
+          exact
+          component={AdminSettingsNotificationsDetailView}
+        />
+
+        <Route path="/dashboard" exact component={DashboardView} />
+        <Route path="/dashboard/perks" exact component={DashboardPerksView} />
+        <Route
+          path="/dashboard/perks/:id"
+          exact
+          component={DashboardPerksDetailView}
+        />
+
+        <Route
+          path="/dashboard/verification"
+          exact
+          component={DashboardVerificationView}
+        />
+        <Route
+          path="/dashboard/membership"
+          exact
+          component={DashboardMembershipView}
+        />
+        <Route path="/dashboard/nodes" exact component={DashboardNodesView} />
+        <Route
+          path="/dashboard/discussion"
+          exact
+          component={DashboardDiscussionView}
+        />
+        <Route
+          path="/dashboard/discussion/add"
+          exact
+          component={DashboardAddDiscussionView}
+        />
+        <Route
+          path="/dashboard/discussion/:id"
+          exact
+          component={DashboardDiscussionDetailView}
+        />
+        <Route
+          path="/dashboard/discussion/edit/:id"
+          exact
+          component={DashboardDiscussionEditView}
+        />
+        <Route
+          path="/dashboard/contact-us"
+          exact
+          component={DashboardContactUsView}
+        />
+        <Route path="/dashboard/votes" exact component={DashboardVotesView} />
+        <Route
+          path="/dashboard/votes/:id"
+          exact
+          component={DashboardVotesDetailView}
+        />
+
+        <Route
+          path="/dashboard/profile"
+          exact
+          component={DashboardProfileView}
+        />
+        <Route
+          path="/dashboard/profile/:id"
+          exact
+          component={DashboardProfileDetailView}
+        />
+      </Switch>
+    </Suspense>
+  </Router>
+);
 
 export default LoadingScreen(LandingPage, 'public');

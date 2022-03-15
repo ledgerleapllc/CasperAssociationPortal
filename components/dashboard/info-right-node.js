@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Switch from 'react-switch';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { Link, useLocation } from 'react-router-dom';
 import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
 import { getNodesFromUser } from '../../shared/redux-saga/auth/actions';
 import Table, { useTable } from '../partials/table';
@@ -93,7 +92,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
       resetData();
       getNodes(1, newParams);
     }
-  }, [filter]);
+  }, [filter.node_failing]);
 
   const renderClass = row => {
     if (!isAdmin && userInfo.public_address_node === row.public_address_node) {
@@ -135,8 +134,8 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
               </Table.BodyCell>
               <Table.BodyCell key="tooltips">
                 {isAdmin && (
-                  <Link href={`/admin/users/${row.user_id}`}>
-                    <a>
+                  <Link to={`/admin/users/${row.user_id}`}>
+                    <span>
                       <Tooltips
                         placement="left"
                         title={row.public_address_node}
@@ -148,7 +147,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                           </span>
                         </p>
                       </Tooltips>
-                    </a>
+                    </span>
                   </Link>
                 )}
                 {!isAdmin && (
@@ -174,18 +173,23 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   );
 };
 
+const useQuery = () => {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+};
+
 const InfoRightNode = memo(({ currentNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [filterFailedNodes, setFilterFailedNodes] = useState(null);
-  const router = useRouter();
   const { metrics } = useMetrics();
+  const query = useQuery();
 
   useEffect(() => {
     if (userInfo) {
       const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
       setIsAdmin(isAdminTemp);
-      if (isAdminTemp && +router.query.node_failing === 1) {
+      if (isAdminTemp && +query.get('node_failing') === 1) {
         setFilterFailedNodes(1);
       } else {
         setFilterFailedNodes(0);
@@ -236,8 +240,8 @@ const InfoRightNode = memo(({ currentNode }) => {
                 uncheckedIcon={null}
                 offColor="#bbb"
                 onColor="#ff474e"
-                height={18}
                 width={30}
+                height={18}
               />
             </div>
           )}

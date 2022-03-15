@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import router from 'next/router';
+import { useHistory } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import classNames from 'classnames';
 import { Card } from '../partials';
@@ -34,6 +34,7 @@ const ContentHome = () => {
   const [earningChart, setEarningChart] = useState();
   const [optionChart, setOptionChart] = useState('day');
   const [loadingDataChart, setLoadingDataChart] = useState(false);
+  const router = useHistory();
 
   const dispatch = useDispatch();
   const { setDialog } = useDialog();

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Avatar, Dropdown } from '../partials';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import { logoutApp } from '../../shared/redux-saga/auth/actions';
@@ -33,13 +33,13 @@ const Header = () => {
           {!['admin', 'sub-admin'].includes(userInfo?.role) && (
             <>
               <li className="py-2 hover:text-primary cursor-pointer">
-                <Link href="/dashboard/profile">
-                  <a>My Profile</a>
+                <Link to="/dashboard/profile">
+                  <span>My Profile</span>
                 </Link>
               </li>
               <li className="py-2 hover:text-primary cursor-pointer">
-                <Link href="/dashboard/settings">
-                  <a>Settings</a>
+                <Link to="/dashboard/settings">
+                  <span>Settings</span>
                 </Link>
               </li>
             </>
@@ -47,8 +47,8 @@ const Header = () => {
           {['admin', 'sub-admin'].includes(userInfo?.role) && (
             <>
               <li className="py-2 hover:text-primary cursor-pointer">
-                <Link href="/dashboard/settings">
-                  <a>Settings</a>
+                <Link to="/dashboard/settings">
+                  <span>Settings</span>
                 </Link>
               </li>
             </>

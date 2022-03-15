@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useHistory } from 'react-router-dom';
 
 import IconCheckCircle from '../../public/images/ic_check_circle.svg';
 import IconWaitingCircle from '../../public/images/ic-time.svg';
@@ -24,7 +24,7 @@ const OnboardItem = ({
   const [onHover, setOnHover] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.userInfo);
-  const router = useRouter();
+  const router = useHistory();
 
   useEffect(() => {
     if (

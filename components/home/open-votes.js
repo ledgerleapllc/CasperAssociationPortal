@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { getVotes } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { ClockBar, Table } from '../partials';
@@ -30,7 +30,7 @@ const Styles = styled.div`
 
 const OpenVotes = ({ toggleOpenVotes }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const router = useHistory();
 
   const { data, hasMore, appendData, setHasMore, page, setPage, params } =
     useTable();

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { getTrendingDiscussions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../shared/core/utils';
 import { useTable } from '../partials/table';
@@ -93,12 +93,12 @@ const TrendingDiscussion = () => {
               {data.map((row, ind) => (
                 <Table.BodyRow key={ind} className="custom-row">
                   <Table.BodyCell key="bodycell-1">
-                    <Link href={`/dashboard/discussion/${row.id}`}>
+                    <Link to={`/dashboard/discussion/${row.id}`}>
                       <p className="truncate cursor-pointer">{row.title}</p>
                     </Link>
                   </Table.BodyCell>
                   <Table.BodyCell key="bodycell-2">
-                    <Link href={`/dashboard/discussion/${row.id}`}>
+                    <Link to={`/dashboard/discussion/${row.id}`}>
                       <div className="cursor-pointer flex items-center">
                         <div className="pr-2">
                           <img
@@ -114,7 +114,7 @@ const TrendingDiscussion = () => {
                     <span className="text-sm">{row.total_pinned}</span>
                   </Table.BodyCell>
                   <Table.BodyCell key="bodycell-4">
-                    <Link href={`/dashboard/discussion/${row.id}`}>
+                    <Link to={`/dashboard/discussion/${row.id}`}>
                       <div className="cursor-pointer flex items-center lg:items-start">
                         <div className="pr-3">
                           <img

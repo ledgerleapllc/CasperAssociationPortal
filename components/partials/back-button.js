@@ -1,12 +1,12 @@
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import IconArrowLeft from '../../public/images/ic_arrow_left.svg';
 import IconArrowLeftCircle from '../../public/images/ic_arrow_left_circle.svg';
 
 const BackButton = ({ href, text, force }) => (
   <>
     {!force && (
-      <Link href={href}>
-        <a className="flex items-center text-xs">
+      <Link to={href}>
+        <span className="flex items-center text-xs">
           <span className="hidden lg:inline">
             <IconArrowLeft className="mr-2.5 text-gray" />
           </span>
@@ -16,17 +16,17 @@ const BackButton = ({ href, text, force }) => (
           <span className="text-sm text-primary lg:text-gray lg:text-xs">
             {text}
           </span>
-        </a>
+        </span>
       </Link>
     )}
     {force && (
-      <Link href={href}>
-        <a className="flex items-center">
+      <Link to={href}>
+        <span className="flex items-center">
           <span>
             <IconArrowLeftCircle className="mr-2.5 text-primary" />
           </span>
           <span className="text-sm text-primary">{text}</span>
-        </a>
+        </span>
       </Link>
     )}
   </>

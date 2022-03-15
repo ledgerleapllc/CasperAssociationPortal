@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { getListVerifications } from '../../../../shared/redux-saga/admin/actions';
 import { useTable } from '../../../partials/table';
 import { Table } from '../../../partials';
@@ -123,10 +123,10 @@ export const IDverifications = () => {
                 <p>{renderKYCStatus(row)}</p>
               </Table.BodyCell>
               <Table.BodyCell key="review">
-                <Link href={`/admin/intake/verification/${row.user_id}`}>
-                  <a className="text-primary cursor-pointer underline">
+                <Link to={`/admin/intake/verification/${row.user_id}`}>
+                  <span className="text-primary cursor-pointer underline">
                     Review
-                  </a>
+                  </span>
                 </Link>
               </Table.BodyCell>
             </Table.BodyRow>

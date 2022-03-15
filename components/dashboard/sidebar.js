@@ -207,16 +207,16 @@ const Sidebar = () => {
                 <li className="mb-6" key={index}>
                   <ActiveLink
                     activeClassName="text-primary active-link"
-                    href={nav.path}
+                    to={nav.path}
                   >
-                    <a className="relative flex text-base">
+                    <div className="relative flex text-base">
                       <div
                         className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
                         style={{ left: '-1.5625rem' }}
                       />
                       <nav.icon width="1.5rem" height="1.5rem" />
                       <span className="capitalize pl-5">{nav.label}</span>
-                    </a>
+                    </div>
                   </ActiveLink>
                 </li>
               )}
@@ -234,16 +234,16 @@ const Sidebar = () => {
               >
                 <ActiveLink
                   activeClassName="text-primary active-link"
-                  href={nav.path}
+                  to={nav.path}
                 >
-                  <a className="relative flex text-base">
+                  <div className="relative flex text-base">
                     <div
                       className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
                       style={{ left: '-1.5625rem' }}
                     />
                     <nav.icon width="1.5rem" height="1.5rem" />
                     <span className="capitalize pl-5">{nav.label}</span>
-                  </a>
+                  </div>
                 </ActiveLink>
               </li>
             ))}

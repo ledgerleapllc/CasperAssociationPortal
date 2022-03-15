@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { getListNotifications } from '../../../../shared/redux-saga/admin/actions';
 import { useTable } from '../../../partials/table';
 import { Button, StatusText, Table } from '../../../partials';
@@ -195,12 +195,12 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
                 </p>
               </Table.BodyCell>
               <Table.BodyCell key="edit">
-                <Link href={`/admin/settings/notifications/detail/${row.id}`}>
-                  <a>
+                <Link to={`/admin/settings/notifications/detail/${row.id}`}>
+                  <span>
                     <Button className="w-full" primary size="small">
                       Edit
                     </Button>
-                  </a>
+                  </span>
                 </Link>
               </Table.BodyCell>
             </Table.BodyRow>

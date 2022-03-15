@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styled from 'styled-components';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { ClockBar } from '../../../partials';
@@ -116,7 +116,7 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
                   <li key={index} className="flex pb-8">
                     <p className="w-80 pr-12">{file.name}</p>
                     <div className="flex flex-col">
-                      <Link href={`${file.file_url}`}>
+                      <Link to={`${file.file_url}`}>
                         <a
                           target="_blank"
                           className="underline text-primary"
