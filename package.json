@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "ENVIRONMENT=./env/.env.development next dev",
     "build-dev": "ENVIRONMENT=./env/.env.dev next build && next export",
-    "build-staging": "env-cmd -f .env.staging next build && next export",
-    "build-prod": "env-cmd -f .env.production next build && next export",
+    "build-staging": "ENVIRONMENT=./env/.env.staging next build && next export",
+    "build-prod": "ENVIRONMENT=./env/.env.production next build && next export",
     "start": "next start"
   },
   "engines": {
