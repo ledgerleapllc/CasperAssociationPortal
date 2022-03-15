@@ -16,6 +16,7 @@ import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import IconCopy from '../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../components/partials/snack-bar';
 import IconVerified from '../../public/images/ic_check_mark.svg';
+import AppFooter from '../../components/layouts/app-footer';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -332,9 +333,7 @@ const NodeExplorerDetail = () => {
           </div>
         </div>
       </div>
-      <footer className="pb-2 flex justify-center text-xs">
-        ©2022 CasperLabs.io
-      </footer>
+      <AppFooter theme="light" />
     </div>
   );
 };
