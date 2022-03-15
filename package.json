@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build-dev": "env-cmd -f .env.dev next build && next export",
-    "build-staging": "env-cmd -f .env.staging next build && env-cmd -f .env.staging next export",
-    "build-prod": "env-cmd -f .env.production next build && env-cmd -f .env.production next export",
+    "build-command": "next build && next export",
+    "build-dev": "env-cmd -f .env.dev yarn build-command",
+    "build-staging": "env-cmd -f .env.staging next build && next export",
+    "build-prod": "env-cmd -f .env.production next build && next export",
     "start": "next start"
   },
   "engines": {
