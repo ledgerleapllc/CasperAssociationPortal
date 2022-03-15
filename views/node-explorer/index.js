@@ -335,8 +335,8 @@ const NodeExplorer = () => {
             </Styles>
           </div>
         </div>
-        <AppFooter theme="dark" />
       </div>
+      <AppFooter theme="dark" />
     </div>
   );
 };
