@@ -333,7 +333,7 @@ const NodeExplorerDetail = () => {
           </div>
         </div>
       </div>
-      <AppFooter theme="light" />
+      <AppFooter theme="dark" />
     </div>
   );
 };
