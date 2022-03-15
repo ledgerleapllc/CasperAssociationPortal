@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build-command": "next build && next export",
-    "build-dev": "env-cmd .env.dev yarn build-command",
+    "build-dev": "env-cmd ./.env.dev yarn build-command",
     "build-staging": "env-cmd -f .env.staging next build && next export",
     "build-prod": "env-cmd -f .env.production next build && next export",
     "start": "next start"
