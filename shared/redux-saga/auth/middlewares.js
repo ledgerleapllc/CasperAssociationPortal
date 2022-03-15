@@ -272,13 +272,17 @@ export function* getMyMetrics() {
       );
     }
 
-    let block_height_average =
-      DEFAULT_BASE_BLOCKS -
-      (res.data?.max_block_height_average - res.data?.block_height_average);
+    let blocks_behind = (res.data?.max_block_height_average - res.data?.block_height_average);
 
-    if (block_height_average < 0) {
-      block_height_average = 0;
+    if (blocks_behind < 0) {
+      blocks_behind = 0;
     }
+
+    if (blocks_behind > DEFAULT_BASE_BLOCKS) {
+      blocks_behind = DEFAULT_BASE_BLOCKS;
+    }
+
+    let block_height_average = DEFAULT_BASE_BLOCKS - blocks_behind;
 
     const temp = {
       ...res.data,
@@ -288,10 +292,12 @@ export function* getMyMetrics() {
       update_responsiveness: res.data?.update_responsiveness || 0,
       monitoring_criteria: res.data?.monitoring_criteria || null,
       average_uptime: res.data?.avg_uptime || 0,
-      current_block_height:
-        DEFAULT_BASE_BLOCKS - block_height_average > 0
-          ? DEFAULT_BASE_BLOCKS - block_height_average
-          : 0,
+      // current_block_height:
+      //   DEFAULT_BASE_BLOCKS - block_height_average > 0
+      //     ? DEFAULT_BASE_BLOCKS - block_height_average
+      //     : 0,
+      current_block_height: 100 - (blocks_behind * 10),
+      blocks_behind,
       average_responsiveness: res.data?.avg_update_responsiveness || 0,
       average_peers: res.data?.avg_peers || 0,
     };
