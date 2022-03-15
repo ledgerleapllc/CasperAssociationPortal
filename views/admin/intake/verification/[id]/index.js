@@ -81,7 +81,7 @@ const AdminIntakeVerificationDetail = () => {
   const readDoc = () => {
     setReadUploadDocs(true);
     intakeDetail.document_files.forEach(file => {
-      window.open(`${process.env.BASE_URL}${file.url}`, '_blank');
+      window.open(`${process.env.NEXT_PUBLIC_BASE_URL}${file.url}`, '_blank');
     });
   };
 
@@ -170,7 +170,7 @@ const AdminIntakeVerificationDetail = () => {
         this name is on{' '}
         <a
           className="text-primary cursor-pointer underline"
-          href={`${process.env.BASE_URL}${representativeDoc?.url}`}
+          href={`${process.env.NEXT_PUBLIC_BASE_URL}${representativeDoc?.url}`}
           target="_blank"
           rel="noreferrer"
         >

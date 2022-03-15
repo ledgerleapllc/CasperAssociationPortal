@@ -1,5 +1,8 @@
-require('dotenv').config();
+require('dotenv').config({ path: `${process.env.ENVIRONMENT}` });
 const path = require('path');
+
+console.log('Debug URL:', process.env.NEXT_PUBLIC_BASE_URL);
+console.log('Debug ID:', process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID);
 
 module.exports = {
   async rewrites() {
@@ -10,10 +13,6 @@ module.exports = {
         destination: '/',
       },
     ];
-  },
-  env: {
-    BASE_URL: process.env.BASE_URL,
-    HELLOSIGN_CLIENT_ID: process.env.HELLOSIGN_CLIENT_ID,
   },
   future: {
     webpack5: true,

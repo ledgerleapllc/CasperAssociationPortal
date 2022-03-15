@@ -63,7 +63,7 @@ const EsignTerms = () => {
           res => {
             setLoading(false);
             client.open(res.data.url, {
-              clientId: process.env.HELLOSIGN_CLIENT_ID,
+              clientId: process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID,
               skipDomainVerification: true,
             });
           },
@@ -80,7 +80,7 @@ const EsignTerms = () => {
     const HelloSign = require('hellosign-embedded');
     setClient(
       new HelloSign({
-        clientId: process.env.HELLOSIGN_CLIENT_ID,
+        clientId: process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID,
       })
     );
   }, []);
@@ -129,7 +129,10 @@ const EsignTerms = () => {
                 setSelectedDocument(null);
               } else {
                 setSelectedDocument(document);
-                window.open(`${process.env.BASE_URL}${document.url}`, '_blank');
+                window.open(
+                  `${process.env.NEXT_PUBLIC_BASE_URL}${document.url}`,
+                  '_blank'
+                );
               }
             }}
           />

@@ -14,7 +14,7 @@ function createURL(uri) {
   return uri.join('/');
 }
 
-const API_DOMAIN = process.env.BASE_URL;
+const API_DOMAIN = process.env.NEXT_PUBLIC_BASE_URL;
 export class ApiService {
   axiosInstance;
 

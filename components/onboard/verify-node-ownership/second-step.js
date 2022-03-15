@@ -44,7 +44,6 @@ const VerifyNodeOwnershipSecondStep = ({
   };
 
   const setSeenGuide = () => {
-    // window.open(`${process.env.BASE_URL}/user-guide.pdf`, '_blank');
     window.open(
       'https://github.com/ledgerleapllc/caspersignerverifier',
       '_blank'

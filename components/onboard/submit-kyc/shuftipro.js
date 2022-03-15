@@ -37,7 +37,7 @@ export const Shuftipro = () => {
 
     const payload = {
       reference: referenceIdTemp,
-      callback_url: `${process.env.BASE_URL}/api/shuftipro-status`,
+      callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/shuftipro-status`,
       email: authUser.fullInfo.email,
       country: '',
       verification_mode: 'image_only',
