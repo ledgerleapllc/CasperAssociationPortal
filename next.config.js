@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 require('dotenv').config({ path: `${process.env.ENVIRONMENT}` });
 const path = require('path');
 
+console.log('Debug Environment:', process.env.ENVIRONMENT);
 console.log('Debug URL:', process.env.NEXT_PUBLIC_BASE_URL);
 console.log('Debug ID:', process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID);
 
