@@ -273,7 +273,9 @@ const Sidebar = () => {
             ))}
           </ul>
         )}
-        <p className="text-xxs">© Casper Association Portal 2022</p>
+        <p className="text-xxs">
+          ©{new Date().getFullYear()} Casper Association
+        </p>
       </div>
     </div>
   );

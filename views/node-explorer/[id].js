@@ -333,7 +333,7 @@ const NodeExplorerDetail = () => {
         </div>
       </div>
       <footer className="pb-2 flex justify-center text-xs">
-        ©2022 CasperLabs.io
+        ©{new Date().getFullYear()} Casper Association
       </footer>
     </div>
   );

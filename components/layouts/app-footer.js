@@ -12,7 +12,7 @@ const AppFooter = ({ theme }) => (
       } text-xs animate__animated animate__fadeIn animate__delay-5s
     `}
     >
-      ©{new Date().getFullYear()} Casper Members Portal
+      ©{new Date().getFullYear()} Casper Association
     </p>
   </div>
 );
