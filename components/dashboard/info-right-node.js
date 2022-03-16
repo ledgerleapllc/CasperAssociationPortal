@@ -207,7 +207,11 @@ const InfoRightNode = memo(({ currentNode }) => {
               placement="top"
               title={
                 <>
-                  <p>Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance.</p>
+                  <p>
+                    Ranks all nodes in the platform - based on uptime, fee,
+                    responsiveness, delegator count, and stake amount, all
+                    sharing equally weighted importance.
+                  </p>
                   <p>
                     Your Node Rank:
                     {metrics?.rank
