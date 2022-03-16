@@ -32,7 +32,7 @@ const NodeInfoHome = () => {
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
-          <span className="text-lg">Stake Amount</span>
+          <span className="text-lg">Total Stake</span>
           <img
             className="pl-3"
             width="10px"
@@ -43,6 +43,21 @@ const NodeInfoHome = () => {
         </div>
         <span className="text-base text-black1 font-thin">
           {numberWithCommas(metrics?.stake_amount)}
+        </span>
+      </div>
+      <div className="flex flex-col py-2">
+        <div className="flex flex-row">
+          <span className="text-lg">Self Stake</span>
+          <img
+            className="pl-3"
+            width="10px"
+            height="10px"
+            src="/images/ic_feather_info.svg"
+            alt="Info"
+          />
+        </div>
+        <span className="text-base text-black1 font-thin">
+          {numberWithCommas(metrics?.self_stake_amount)}
         </span>
       </div>
       <div className="flex flex-col py-2">
