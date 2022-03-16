@@ -25,32 +25,6 @@ export function* helloSignRequest({ resolve, reject }) {
   }
 }
 
-export function* bypassHelloSignRequest({ callback }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield post(['users/verify-bypass'], null, { headers });
-    callback(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* bypassOnboardStep({ payload, callback }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield post(['users/verify-bypass'], payload, { headers });
-    callback(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* submitPublicAddress({ payload, callback, isVerifying }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -159,34 +133,6 @@ export function* updateShuftiproTemp({ payload, resolve, reject }) {
   }
 }
 
-export function* updateTypeOwnerNode({ payload, resolve, reject }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield putApi(['users/type-owner-node'], payload, { headers });
-    resolve();
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject();
-  }
-}
-
-export function* postOwnerNodes({ payload, resolve, reject }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/owner-node'], payload, { headers });
-    resolve();
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject();
-  }
-}
-
 export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -256,8 +202,6 @@ export function* membershipAgreementForUser({ payload, resolve, reject }) {
 
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
-  yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
-  yield all([takeLatest('BYPASS_ONBOARD_STEP', bypassOnboardStep)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
   yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
@@ -265,8 +209,6 @@ export function* watchOnboard() {
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
   yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
   yield all([takeLatest('DELETE_SHUFTI', deleteShuftiproTemp)]);
-  yield all([takeLatest('UPDATE_TYPE_OWNER_NODE', updateTypeOwnerNode)]);
-  yield all([takeLatest('POST_OWNER_NODES', postOwnerNodes)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
   yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
   yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);

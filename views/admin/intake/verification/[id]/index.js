@@ -12,7 +12,6 @@ import {
   approveDocuments,
   getVerificationDetail,
   resetUserKYC,
-  resetIntakeKYC,
 } from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
@@ -110,9 +109,17 @@ const AdminIntakeVerificationDetail = () => {
             description="This will reset the KYC step and tell the user through email to submit again for the following reason:"
             onResetUser={message => {
               dispatch(
-                resetUserKYC({ id, message }, () => {
-                  onClosed();
-                })
+                resetUserKYC(
+                  { id, message },
+                  () => {
+                    onClosed();
+                    window.location.reload();
+                  },
+                  () => {
+                    onClosed();
+                    window.location.reload();
+                  }
+                )
               );
             }}
             onBack={() => onClosed()}
@@ -136,7 +143,7 @@ const AdminIntakeVerificationDetail = () => {
             onResetUser={message => {
               setLoading(true);
               dispatch(
-                resetIntakeKYC(
+                resetUserKYC(
                   { id, message },
                   () => {
                     onClosed();

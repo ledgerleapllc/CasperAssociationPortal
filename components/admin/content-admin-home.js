@@ -68,16 +68,12 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
                 {stats?.totalUserVerification}
               </p>
               <p className="text-base font-thin">ID Verification to Review</p>
-              <Link to="/admin/intake">
-                <span
-                  style={{
-                    marginTop: '10px',
-                    display: 'block',
-                  }}
-                  className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
-                >
-                  Review
-                </span>
+              <Link
+                to="/admin/intake"
+                className="text-lg text-white w-full h-12 flex items-center justify-center rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                style={{ marginTop: '10px' }}
+              >
+                Review
               </Link>
             </div>
           </Card>

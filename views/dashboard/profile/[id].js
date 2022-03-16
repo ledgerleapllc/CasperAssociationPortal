@@ -119,6 +119,20 @@ const UserProfile = () => {
     return s.charAt(0).toUpperCase() + s.slice(1);
   };
 
+  const renderLabel = () => {
+    if (
+      memberInfo &&
+      memberInfo.profile &&
+      memberInfo.profile.status === 'approved'
+    ) {
+      if (memberInfo.profile.extra_status) {
+        return memberInfo.profile.extra_status;
+      }
+      return 'VERIFIED';
+    }
+    return 'Not Verified';
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -202,19 +216,32 @@ const UserProfile = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span>Membership Status:</span>
+                            </td>
+                            <td>
+                              <span className="text-primary underline">
+                                {renderLabel()}
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span>Verified Since:</span>
                             </td>
                             <td>
-                              {memberInfo?.approve_at && (
+                              {memberInfo?.approve_at ? (
                                 <span>
                                   {`${formatDate(
                                     memberInfo?.approve_at,
                                     'dd/MM/yyyy'
                                   )}`}
                                 </span>
+                              ) : (
+                                <span>-</span>
                               )}
                             </td>
                           </tr>
+                          {/*
                           <tr>
                             <td>
                               <span>Average Peers:</span>
@@ -223,6 +250,7 @@ const UserProfile = () => {
                               <span>{metrics?.average_peers}</span>
                             </td>
                           </tr>
+                          */}
                         </tbody>
                       </table>
                     </StylesBasic>
@@ -256,7 +284,7 @@ const UserProfile = () => {
                           </button>
                           <input
                             id="public-address"
-                            value={memberInfo?.public_address_node}
+                            value={memberInfo?.public_address_node || ''}
                             readOnly
                             hidden
                           />
@@ -324,7 +352,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: {metrics?.current_block_height} block behind
+                      Current: {metrics?.blocks_behind} block behind
                     </p>
                     <ProgressBar
                       value={metrics?.block_height}

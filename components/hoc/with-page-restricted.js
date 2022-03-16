@@ -31,7 +31,6 @@ export const withPageRestricted = (Wrapper, page) => props => {
   useEffect(() => {
     if (conditions) {
       const _condition = {};
-
       if (conditions.kyc_not_verify.includes(page)) {
         _condition.kyc_not_verify_lock = true;
       }
@@ -46,9 +45,18 @@ export const withPageRestricted = (Wrapper, page) => props => {
         _condition.node_poor_lock = true;
       }
 
-      if (conditions.block_height?.node_status !== 'Ok') {
+      if (
+        userInfo &&
+        userInfo.status === 'approved' &&
+        userInfo.fullInfo &&
+        userInfo.fullInfo.profile &&
+        userInfo.fullInfo.profile.extra_status !== 'Suspended'
+      ) {
+        _condition.node_poor = false;
+      } else {
         _condition.node_poor = true;
       }
+
       setAlertCondition(pre => ({ ...pre, ..._condition }));
     }
   }, [userInfo, conditions]);
@@ -170,13 +178,11 @@ export const withPageRestricted = (Wrapper, page) => props => {
                   tab for more information on getting your node in tip-tip
                   shape.
                 </p>
-                <a href="/dashboard/membership">
-                  <button
-                    type="button"
-                    className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-                  >
-                    Go to Membership page
-                  </button>
+                <a
+                  href="/dashboard/membership"
+                  className="text-center lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                >
+                  Go to Membership page
                 </a>
               </>
             )}
@@ -234,13 +240,11 @@ export const withPageRestricted = (Wrapper, page) => props => {
               Uh oh! Your node needs some help. Please see your "Membership" tab
               for more information on getting your node in tip-tip shape.
             </p>
-            <a href="/dashboard/membership">
-              <button
-                type="button"
-                className="lg:mr-5 h-16 lg:h-11 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
-              >
-                Go to Membership page
-              </button>
+            <a
+              href="/dashboard/membership"
+              className="text-center lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+            >
+              Go to Membership page
             </a>
           </>
         );

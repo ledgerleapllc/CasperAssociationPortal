@@ -4,17 +4,6 @@ export const helloSignRequest = (resolve, reject) => ({
   reject,
 });
 
-export const bypassHelloSignRequest = callback => ({
-  type: 'BYPASS_HELLO_SIGN_REQUEST',
-  callback,
-});
-
-export const bypassOnboardStep = (payload, callback) => ({
-  type: 'BYPASS_ONBOARD_STEP',
-  payload,
-  callback,
-});
-
 export const submitKYC = (payload, resolve, reject) => ({
   type: 'SUBMIT_KYC',
   payload,
@@ -50,20 +39,6 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
 
 export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
-  payload,
-  resolve,
-  reject,
-});
-
-export const updateTypeOwnerNode = (payload, resolve, reject) => ({
-  type: 'UPDATE_TYPE_OWNER_NODE',
-  payload,
-  resolve,
-  reject,
-});
-
-export const postOwnerNodes = (payload, resolve, reject) => ({
-  type: 'POST_OWNER_NODES',
   payload,
   resolve,
   reject,

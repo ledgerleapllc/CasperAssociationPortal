@@ -90,7 +90,7 @@ const NodeInfoHome = () => {
           />
         </div>
         <p className="text-sm text-gray mb-2">
-          Current: {metrics?.current_block_height} blocks behind
+          Current: {metrics?.blocks_behind} blocks behind
         </p>
         <ProgressBar
           value={metrics?.block_height_average}

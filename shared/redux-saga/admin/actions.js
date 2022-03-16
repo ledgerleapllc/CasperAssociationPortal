@@ -58,11 +58,6 @@ export const getUserKYCInfoError = error => ({
   payload: error,
 });
 
-export const approveKYC = data => ({
-  type: 'APPROVE_KYC',
-  payload: data,
-});
-
 export const denyKYC = data => ({
   type: 'DENY_KYC',
   payload: data,
@@ -277,34 +272,6 @@ export const refreshLinks = (payload, resolve, reject) => ({
 
 export const getVerificationDetail = (payload, resolve, reject) => ({
   type: 'GET_LIST_VERIFICATION_DETAIL',
-  payload,
-  resolve,
-  reject,
-});
-
-export const approveUserAML = (payload, resolve, reject) => ({
-  type: 'APPROVE_USER_AML',
-  payload,
-  resolve,
-  reject,
-});
-
-export const resetUserAML = (payload, resolve, reject) => ({
-  type: 'RESET_USER_AML',
-  payload,
-  resolve,
-  reject,
-});
-
-export const approveUserKYC = (payload, resolve, reject) => ({
-  type: 'APPROVE_USER_KYC',
-  payload,
-  resolve,
-  reject,
-});
-
-export const resetIntakeKYC = (payload, resolve, reject) => ({
-  type: 'RESET_INTAKE_KYC',
   payload,
   resolve,
   reject,

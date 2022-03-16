@@ -9,7 +9,7 @@ import {
   Card,
   Button,
   ProgressBar,
-  Tooltips,
+  // Tooltips,
 } from '../../../components/partials';
 import {
   getMyInfo,
@@ -124,6 +124,17 @@ const UserProfile = () => {
   };
 
   const renderLabel = () => {
+    if (myInfo && myInfo.profile && myInfo.profile.status === 'approved') {
+      if (myInfo.profile.extra_status) {
+        return myInfo.profile.extra_status;
+      }
+      return 'VERIFIED';
+    }
+    return 'Not Verified';
+  };
+
+  /*
+  const renderLabelOld = () => {
     if (!myInfo || !myInfo.id || !myInfo.profile || !myInfo.profile.id)
       return 'Not Submitted';
     if (!myInfo.shuftipro || !myInfo.shuftipro.id) return 'Not Submitted';
@@ -132,6 +143,7 @@ const UserProfile = () => {
     if (myInfo.profile.status === 'denied') return 'Rejected';
     return 'VERIFIED';
   };
+  */
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -278,6 +290,16 @@ const UserProfile = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span>Membership Status:</span>
+                            </td>
+                            <td>
+                              <span className="text-primary underline">
+                                {renderLabel()}
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span>Verified Since:</span>
                             </td>
                             <td>
@@ -289,14 +311,11 @@ const UserProfile = () => {
                                   )}`}
                                 </span>
                               ) : (
-                                <Link to="/dashboard/verification">
-                                  <span className="text-primary underline">
-                                    {renderLabel()}
-                                  </span>
-                                </Link>
+                                <span>-</span>
                               )}
                             </td>
                           </tr>
+                          {/*
                           <tr>
                             <td>
                               <Tooltips
@@ -322,6 +341,7 @@ const UserProfile = () => {
                               <span>{metrics?.average_peers}</span>
                             </td>
                           </tr>
+                          */}
                         </tbody>
                       </table>
                     </StylesBasic>
@@ -419,7 +439,7 @@ const UserProfile = () => {
                       />
                     </div>
                     <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: {metrics?.current_block_height} block behind
+                      Current: {metrics?.blocks_behind} block behind
                     </p>
                     <ProgressBar
                       value={metrics?.block_height_average}

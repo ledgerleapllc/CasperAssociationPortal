@@ -6,10 +6,7 @@ import AppHeader from '../../components/layouts/app-header';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
-import {
-  bypassHelloSignRequest,
-  helloSignRequest,
-} from '../../shared/redux-saga/onboard/actions';
+import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 import { AppContext } from '../../pages/_app';
@@ -100,15 +97,6 @@ const EsignTerms = () => {
       setCurrentStep(currentStep + 1);
     }
   }, [helloSignComplete]);
-
-  // eslint-disable-next-line no-unused-vars
-  const handleByPass = () => {
-    dispatch(
-      bypassHelloSignRequest(() => {
-        setCurrentStep(currentStep + 1);
-      })
-    );
-  };
 
   const getNextButtonTitle = () => {
     if (currentStep === 1) {

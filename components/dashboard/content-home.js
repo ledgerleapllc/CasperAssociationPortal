@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -144,7 +145,7 @@ const ContentHome = () => {
   };
 
   const doUpdateViewNotifications = id => {
-    if (id !== 'verification') {
+    if (id !== 'verification' && !isNaN(id)) {
       dispatch(updateViewNotification({ id }, () => {}));
     }
   };

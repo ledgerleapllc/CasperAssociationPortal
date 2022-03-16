@@ -227,14 +227,10 @@ const DashboardSetting = () => {
             <div className="flex justify-between items-end mb-3.5">
               <div className="flex items-center">
                 <h3 className="mr-card text-dark2 text-lg font-medium">
-                  <Link to="/dashboard/settings">
-                    <a>User Settings</a>
-                  </Link>
+                  <Link to="/dashboard/settings">User Settings</Link>
                 </h3>
                 <h3 className="text-gray text-lg font-medium">
-                  <Link to="/dashboard/profile">
-                    <a>My Profile</a>
-                  </Link>
+                  <Link to="/dashboard/profile">My Profile</Link>
                 </h3>
               </div>
               <div>
