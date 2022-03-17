@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 import FormatIcon from '@material-ui/icons/FormatIndentDecrease';
 import CasperLogoDark from '../../public/images/casper_logo_dark.svg';
 import HomeIcon from '../../public/images/ic_home.svg';
@@ -276,6 +276,13 @@ const Sidebar = () => {
         <p className="text-xxs">
           ©{new Date().getFullYear()} Casper Association
         </p>
+        <div className="flex text-xxs items-center mt-1">
+          <Link to="/privacy-policy">Privacy Policy</Link>
+          <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+          <a href="/terms-of-service.pdf" target="_blank">
+            Terms of Service
+          </a>
+        </div>
       </div>
     </div>
   );
