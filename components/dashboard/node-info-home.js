@@ -13,7 +13,7 @@ const NodeInfoHome = () => {
           <span className="text-lg">Node Rank&nbsp;</span>
           <Tooltips
             placement="top"
-            title="Ranks all nodes in the platform weighted equally."
+            title="Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance."
             arrow
           >
             <img
