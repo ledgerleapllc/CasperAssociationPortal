@@ -117,10 +117,17 @@ const EsignTerms = () => {
                 setSelectedDocument(null);
               } else {
                 setSelectedDocument(document);
-                window.open(
-                  `${process.env.NEXT_PUBLIC_BASE_URL}${document.url}`,
-                  '_blank'
-                );
+                if (
+                  document.url.includes('http://') ||
+                  document.url.includes('https://')
+                ) {
+                  window.open(document.url);
+                } else {
+                  window.open(
+                    `${process.env.NEXT_PUBLIC_BASE_URL}${document.url}`,
+                    '_blank'
+                  );
+                }
               }
             }}
           />

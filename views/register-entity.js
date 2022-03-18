@@ -126,7 +126,7 @@ const RegisterEntity = () => {
 
   const onClickTerms = e => {
     e.preventDefault();
-    window.open('/sample.pdf', '_blank').focus();
+    window.open('/terms-of-service.pdf', '_blank').focus();
   };
 
   return (
