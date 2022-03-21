@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
+import AppFooter from '../../components/layouts/app-footer';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
@@ -24,11 +24,8 @@ const EsignTerms = () => {
   const { isLoading } = useSelector(
     state => state?.onboardReducer?.uploadLetter
   );
-
   const { setLoading } = useContext(AppContext);
-
   const router = useHistory();
-
   const totalSteps = 2;
 
   useEffect(() => {

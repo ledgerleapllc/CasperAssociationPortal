@@ -1,27 +1,118 @@
 /* eslint-disable no-restricted-globals */
-import { useState, useEffect, memo } from 'react';
+// import { useState, useEffect, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import ReactLoading from 'react-loading';
-import classNames from 'classnames';
-import { Card } from '../partials';
+import styled from 'styled-components';
+// import ReactLoading from 'react-loading';
+// import classNames from 'classnames';
+import { Card, Table } from '../partials';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 import {
   dismissNotification,
-  getEarningChart,
+  getMemberCountInfo,
+  getVerifiedMembers,
+  // getEarningChart,
   updateClickCTANotification,
   updateViewNotification,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import useNotifications from '../hooks/useNotifications';
 import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
-import { ValidatorChart } from '../charts/validator-chart';
+import { useTable } from '../partials/table';
+import VerifiedIcon from '../../public/images/ic_check_mark.svg';
+// import { ValidatorChart } from '../charts/validator-chart';
 
+/*
 const LineMemo = memo(({ name, data }) => (
   <ValidatorChart name={name} data={data} />
 ));
+*/
+
+const Styles = styled.div`
+  .verified-members-table {
+    display: flex;
+    flex-direction: column;
+    .col-1 {
+      width: 30%;
+    }
+    .col-2 {
+      width: 40%;
+    }
+    .col-3 {
+      width: 30%;
+    }
+`;
+
+const VerifiedMembers = () => {
+  const { data, register, hasMore, appendData, setHasMore, page, setPage } =
+    useTable();
+  const dispatch = useDispatch();
+  const fetchMembers = (pageValue = page) => {
+    dispatch(
+      getVerifiedMembers({ page: pageValue }, (results, isHasMore) => {
+        appendData(results);
+        setHasMore(isHasMore);
+        setPage(prev => prev + 1);
+      })
+    );
+  };
+
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="verified-members-table h-full"
+        onLoadMore={fetchMembers}
+        hasMore={hasMore}
+        dataLength={data.length}
+        noMargin
+      >
+        <Table.Header>
+          <Table.HeaderCell key="header1">
+            <p>Name</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header2">
+            <p>Validator</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header3">
+            <p>Status</p>
+          </Table.HeaderCell>
+        </Table.Header>
+        <Table.Body className="custom-padding-tracker">
+          {data.map((row, index) => (
+            <Table.BodyRow key={`b-${index}`}>
+              <Table.BodyCell key="body1">
+                <div className="flex items-center">
+                  <p className="mr-1">{row.pseudonym}</p>
+                  <VerifiedIcon />
+                </div>
+              </Table.BodyCell>
+              <Table.BodyCell key="body2">
+                <p className="truncate">{row.public_address_node}</p>
+              </Table.BodyCell>
+              <Table.BodyCell key="body3">
+                <p>
+                  {row.extra_status
+                    ? row.extra_status
+                    : row.node_status
+                    ? row.node_status
+                    : ''}
+                </p>
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
 
 const ContentHome = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -32,9 +123,11 @@ const ContentHome = () => {
   const [currentNotification, setCurrentNotifications] = useState(null);
   const { bannerNotis, popupNotis } = useNotifications();
   const [stats, setStats] = useState();
-  const [earningChart, setEarningChart] = useState();
-  const [optionChart, setOptionChart] = useState('day');
-  const [loadingDataChart, setLoadingDataChart] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [verified, setVerified] = useState(0);
+  // const [earningChart, setEarningChart] = useState();
+  // const [optionChart, setOptionChart] = useState('day');
+  // const [loadingDataChart, setLoadingDataChart] = useState(false);
   const router = useHistory();
 
   const dispatch = useDispatch();
@@ -46,6 +139,7 @@ const ContentHome = () => {
         setStats(res);
       })
     );
+    /*
     setLoadingDataChart(true);
     dispatch(
       getEarningChart(
@@ -56,6 +150,14 @@ const ContentHome = () => {
         },
         () => {}
       )
+    );
+    */
+    dispatch(
+      getMemberCountInfo(res => {
+        const { total: totalRes, verified: verifiedRes } = res;
+        setTotal(totalRes);
+        setVerified(verifiedRes);
+      })
     );
   }, []);
 
@@ -238,6 +340,24 @@ const ContentHome = () => {
       <div id="dashboard-content-node3__Detail">
         <div id="custom-validator-rewards-box3" className="z-50 lg:z-20">
           <Card className="w-full h-full px-9 py-5">
+            <div
+              className="flex items-center"
+              style={{
+                marginBottom: '1rem',
+              }}
+            >
+              <p
+                className="text-sm"
+                style={{ marginLeft: 'auto', marginRight: '0px' }}
+              >
+                Total Members: {total}
+              </p>
+              <p className="ml-3 text-sm">Verified Members: {verified}</p>
+            </div>
+            <VerifiedMembers />
+          </Card>
+          {/*
+          <Card className="w-full h-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <p className="text-lg lg:text-2xl">Validator Rewards</p>
@@ -319,6 +439,7 @@ const ContentHome = () => {
               </div>
             </div>
           </Card>
+          */}
         </div>
         <div id="dashboard-content-node3__SubDetail" className="gap-5">
           <div id="dashboard-content-node3__SubDetailLeft">
