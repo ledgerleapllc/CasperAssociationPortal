@@ -98,7 +98,16 @@ const VerifiedMembers = () => {
                 <p className="truncate">{row.public_address_node}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body3">
-                <p>
+                <p
+                  style={{
+                    color:
+                      row.extra_status === 'On Probation'
+                        ? 'orange'
+                        : row.extra_status === 'Suspended'
+                        ? 'red'
+                        : 'green',
+                  }}
+                >
                   {row.extra_status
                     ? row.extra_status
                     : row.node_status
@@ -352,7 +361,10 @@ const ContentHome = () => {
               >
                 Total Members: {total}
               </p>
-              <p className="ml-3 text-sm">Verified Members: {verified}</p>
+              <div className="ml-5 flex items-center">
+                <VerifiedIcon />
+                <p className="ml-1 text-sm">Verified Members: {verified}</p>
+              </div>
             </div>
             <VerifiedMembers />
           </Card>
