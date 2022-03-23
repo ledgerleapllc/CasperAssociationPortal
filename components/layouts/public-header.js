@@ -7,7 +7,7 @@ import PlusIcon from '../../public/images/ic_plus.svg';
 const PublicHeader = React.memo(() => (
   <header className="hidden lg:flex w-full bg-white shadow-light h-18">
     <div className="flex justify-between items-center container mx-auto">
-      <Link to="/home">
+      <Link to="/">
         <span>
           <CasperLogoDark />
         </span>

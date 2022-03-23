@@ -102,7 +102,7 @@ const Landing = () => {
               <Link to="/donate">Donate</Link>
             </li>
             <li>
-              <Link to="/home">Login / Register</Link>
+              <Link to="/login">Login / Register</Link>
             </li>
           </ul>
           <div
@@ -317,6 +317,7 @@ const Landing = () => {
               {...register('message', {
                 required: 'Message is required',
               })}
+              style={{ fontSize: '20px' }}
             />
             {formState.errors?.message && (
               <p className="mt-2 text-primary">
@@ -334,7 +335,7 @@ const Landing = () => {
         </form>
       </section>
       <footer className="bg-landing2 relative w-full flex justify-center text-white text-center h-24">
-        <ul className="text-lg flex items-center gap-24">
+        <ul className="flex items-center gap-24">
           <li onClick={() => scrollToAnchor(aboutRef)}>
             <a>About</a>
           </li>
@@ -348,7 +349,7 @@ const Landing = () => {
             <Link to="/donate">Donate</Link>
           </li>
           <li>
-            <Link to="/home">Login</Link>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </footer>

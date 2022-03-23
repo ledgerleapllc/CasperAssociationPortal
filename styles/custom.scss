@@ -215,6 +215,15 @@
       margin-bottom: 300px;
     }
   }
+  footer {
+    ul {
+      li {
+        a {
+          font-size: 20px;
+        }
+      }
+    }
+  }
   @media all and (max-width: 1023px) {
     .custom-text-box {
       display: block !important;
