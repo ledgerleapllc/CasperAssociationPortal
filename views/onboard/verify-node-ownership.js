@@ -42,7 +42,6 @@ const VerifyNodeOwnership = () => {
   };
 
   useEffect(() => {
-    // Close upload dialog when click outside
     document.addEventListener('click', doClickOutside, true);
     return () => {
       document.removeEventListener('click', doClickOutside, true);

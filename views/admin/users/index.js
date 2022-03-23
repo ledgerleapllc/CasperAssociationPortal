@@ -119,10 +119,7 @@ const AdminUserList = () => {
             </div>
             <div className="border-primary border-b-2" />
           </div>
-          <div
-            className="pt-8 flex flex-col flex-1 min-h-0"
-            // style={{ overflowY: 'auto' }}
-          >
+          <div className="pt-8 flex flex-col flex-1 min-h-0">
             <Styles className="h-full">
               <Table
                 {...register}

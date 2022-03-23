@@ -19,10 +19,8 @@ export class ApiService {
   axiosInstance;
 
   constructor() {
-    // Init axiosInstance
     this.axiosInstance = axios.create({
       baseURL: `${API_DOMAIN}/api/v1/`,
-      // Common header
       headers: {
         'Content-Type': 'application/json',
       },

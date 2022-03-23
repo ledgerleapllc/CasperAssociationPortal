@@ -109,7 +109,7 @@ const UserProfile = () => {
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
@@ -125,9 +125,8 @@ const UserProfile = () => {
       memberInfo.profile &&
       memberInfo.profile.status === 'approved'
     ) {
-      if (memberInfo.profile.extra_status) {
+      if (memberInfo.profile.extra_status)
         return memberInfo.profile.extra_status;
-      }
       return 'VERIFIED';
     }
     return 'Not Verified';
@@ -241,16 +240,6 @@ const UserProfile = () => {
                               )}
                             </td>
                           </tr>
-                          {/*
-                          <tr>
-                            <td>
-                              <span>Average Peers:</span>
-                            </td>
-                            <td>
-                              <span>{metrics?.average_peers}</span>
-                            </td>
-                          </tr>
-                          */}
                         </tbody>
                       </table>
                     </StylesBasic>

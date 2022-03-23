@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +11,6 @@ import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 import { AppContext } from '../../pages/_app';
-
-// Create the HelloSign Embedded instance.
-// Only do this once!
 
 const EsignTerms = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -70,7 +68,6 @@ const EsignTerms = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line global-require
     const HelloSign = require('hellosign-embedded');
     setClient(
       new HelloSign({
@@ -82,7 +79,6 @@ const EsignTerms = () => {
   useEffect(() => {
     if (client) {
       client.on('sign', () => {
-        // data: signatureId
         client.close();
         setHelloSignComplete(true);
       });
@@ -96,10 +92,7 @@ const EsignTerms = () => {
   }, [helloSignComplete]);
 
   const getNextButtonTitle = () => {
-    if (currentStep === 1) {
-      return 'Go to Esign';
-    }
-
+    if (currentStep === 1) return 'Go to Esign';
     return 'Continue';
   };
 
@@ -131,15 +124,11 @@ const EsignTerms = () => {
         </>
       );
     }
-
     return <EsignTermsSecondStep onContinue={handleNext} />;
   };
 
   const getNextButtonVisibility = () => {
-    if (currentStep === 1) {
-      return !!selectedDocument || isLoading;
-    }
-
+    if (currentStep === 1) return !!selectedDocument || isLoading;
     return true;
   };
 

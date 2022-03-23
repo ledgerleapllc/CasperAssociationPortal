@@ -1,5 +1,4 @@
 /* eslint-disable react/no-danger */
-/* eslint-disable no-use-before-define */
 import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -183,18 +182,6 @@ const DashboardDiscusionDetail = () => {
     });
   };
 
-  useEffect(() => {
-    if (id) {
-      fetchDiscussionDetail();
-      fetchComments();
-    }
-  }, [id]);
-
-  const onSubmit = params => {
-    setIsSubmitting(true);
-    postComment(params);
-  };
-
   const fetchDiscussionDetail = () => {
     setLoading(true);
     dispatch(
@@ -219,6 +206,18 @@ const DashboardDiscusionDetail = () => {
         setPage(prev => prev + 1);
       })
     );
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchDiscussionDetail();
+      fetchComments();
+    }
+  }, [id]);
+
+  const onSubmit = params => {
+    setIsSubmitting(true);
+    postComment(params);
   };
 
   const publish = () => {

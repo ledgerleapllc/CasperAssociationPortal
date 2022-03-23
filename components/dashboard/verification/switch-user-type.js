@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -107,10 +106,13 @@ export const SwitchUserType = ({ goNext }) => {
 
   const onSubmit = data => {
     setIsSubmitting(true);
-    data.type = 'entity';
+    const params = {
+      ...data,
+      type: 'entity',
+    };
     dispatch(
       submitNode(
-        data,
+        params,
         () => {
           dispatch(updateUser({ type: UserType.entity }));
           setIsSubmitting(false);

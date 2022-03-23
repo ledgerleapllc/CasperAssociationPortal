@@ -1,9 +1,4 @@
 import { Link } from 'react-router-dom';
-// import Facebook from '../../public/images/ic_facebook.svg';
-// import Twitter from '../../public/images/ic_twitter.svg';
-// import Youtube from '../../public/images/ic_youtube.svg';
-// import Linkedin from '../../public/images/ic_linkedin.svg';
-// import Medium from '../../public/images/ic_medium.svg';
 
 const AppFooter = ({ theme }) => (
   <div className="lg:visible invisible">

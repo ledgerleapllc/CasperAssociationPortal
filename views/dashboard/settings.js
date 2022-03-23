@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { Link } from 'react-router-dom';
 import { useContext, useRef, useState, useEffect } from 'react';
@@ -79,15 +78,8 @@ const DashboardSetting = () => {
   const user = useSelector(state => state.authReducer.userInfo);
   const [isSaving, setIsSaving] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState,
-    setValue,
-    getValues,
-    watch,
-  } = useForm();
+  const { register, handleSubmit, reset, formState, setValue, getValues } =
+    useForm();
 
   const toggle = field => {
     if (!enableInput[field]) {
@@ -121,13 +113,13 @@ const DashboardSetting = () => {
     dispatch(
       checkPassword(
         { current_password: currentPassword },
-        res => {
+        () => {
           setLoading(false);
           enableInput[field] = false;
           toggle(field);
           onClosed();
         },
-        err => {
+        () => {
           setLoading(false);
         }
       )

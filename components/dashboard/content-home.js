@@ -1,11 +1,8 @@
 /* eslint-disable no-restricted-globals */
-// import { useState, useEffect, memo } from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-// import ReactLoading from 'react-loading';
-// import classNames from 'classnames';
 import { Card, Table } from '../partials';
 import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
@@ -14,7 +11,6 @@ import {
   dismissNotification,
   getMemberCountInfo,
   getVerifiedMembers,
-  // getEarningChart,
   updateClickCTANotification,
   updateViewNotification,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
@@ -23,13 +19,6 @@ import useNotifications from '../hooks/useNotifications';
 import { getUserDashboard } from '../../shared/redux-saga/auth/actions';
 import { useTable } from '../partials/table';
 import VerifiedIcon from '../../public/images/ic_check_mark.svg';
-// import { ValidatorChart } from '../charts/validator-chart';
-
-/*
-const LineMemo = memo(({ name, data }) => (
-  <ValidatorChart name={name} data={data} />
-));
-*/
 
 const Styles = styled.div`
   .verified-members-table {
@@ -134,9 +123,6 @@ const ContentHome = () => {
   const [stats, setStats] = useState();
   const [total, setTotal] = useState(0);
   const [verified, setVerified] = useState(0);
-  // const [earningChart, setEarningChart] = useState();
-  // const [optionChart, setOptionChart] = useState('day');
-  // const [loadingDataChart, setLoadingDataChart] = useState(false);
   const router = useHistory();
 
   const dispatch = useDispatch();
@@ -148,19 +134,6 @@ const ContentHome = () => {
         setStats(res);
       })
     );
-    /*
-    setLoadingDataChart(true);
-    dispatch(
-      getEarningChart(
-        { node: userInfo.public_address_node },
-        res => {
-          setEarningChart(res);
-          setLoadingDataChart(false);
-        },
-        () => {}
-      )
-    );
-    */
     dispatch(
       getMemberCountInfo(res => {
         const { total: totalRes, verified: verifiedRes } = res;
@@ -347,7 +320,7 @@ const ContentHome = () => {
         </div>
       </div>
       <div id="dashboard-content-node3__Detail">
-        <div id="custom-validator-rewards-box3" className="z-50 lg:z-20">
+        <div id="custom-validator-rewards-box3" className="z-20">
           <Card className="w-full h-full px-9 py-5">
             <div
               className="flex items-center"
@@ -368,90 +341,6 @@ const ContentHome = () => {
             </div>
             <VerifiedMembers />
           </Card>
-          {/*
-          <Card className="w-full h-full px-9 py-5">
-            <div className="flex flex-col h-full justify-between">
-              <div className="flex flex-col lg:flex-row lg:justify-between">
-                <p className="text-lg lg:text-2xl">Validator Rewards</p>
-                <div>
-                  <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'day' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('day')}
-                      >
-                        Day
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'week' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('week')}
-                      >
-                        Week
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'month' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('month')}
-                      >
-                        Month
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'year' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('year')}
-                      >
-                        Year
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="h-full pt-2">
-                {loadingDataChart && (
-                  <div className="h-full flex items-center">
-                    <ReactLoading
-                      className="mx-auto"
-                      type="spinningBubbles"
-                      color="#FF473E"
-                      width={30}
-                      height={30}
-                    />
-                  </div>
-                )}
-                {!loadingDataChart && earningChart && (
-                  <LineMemo
-                    name="Self stake"
-                    data={earningChart[optionChart]}
-                  />
-                )}
-              </div>
-            </div>
-          </Card>
-          */}
         </div>
         <div id="dashboard-content-node3__SubDetail" className="gap-5">
           <div id="dashboard-content-node3__SubDetailLeft">

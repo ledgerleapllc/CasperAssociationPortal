@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-
 import { useRef, useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';

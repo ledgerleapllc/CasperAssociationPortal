@@ -97,7 +97,7 @@ const KycAmlDetail = () => {
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
@@ -120,7 +120,6 @@ const KycAmlDetail = () => {
             </div>
           </div>
           <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll padding-tracker">
-            {/* User Info */}
             <div className="flex flex-col pb-7 border-b border-gray">
               <p className="text-base font-medium pb-5">AML/Background</p>
               <div className="flex flex-row py-1">
@@ -178,7 +177,6 @@ const KycAmlDetail = () => {
                 <p className="text-sm w-5/6">{renderAPIResponse()}</p>
               </div>
             </div>
-            {/* ID Documment API */}
             <div className="flex flex-col py-7">
               <p className="text-base font-medium pb-5">Document Submission</p>
               <div className="flex flex-col pb-5">

@@ -78,7 +78,6 @@ const Styles = styled.div`
 `;
 
 const AdminTeams = () => {
-  // const [checked, setChecked] = useState({ intake });
   const { setDialog } = useDialog();
   const { setLoading } = useContext(AppContext);
   const dispatch = useDispatch();

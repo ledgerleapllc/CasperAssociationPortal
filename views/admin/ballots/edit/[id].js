@@ -49,7 +49,6 @@ const AdminEditBallot = () => {
     resolver: yupResolver(ballotSchema),
   });
 
-  // const watchUnit = watch('time_unit');
   const watchFiles = watch('files');
   const watchRemovedFiles = watch('file_ids_remove');
 

@@ -1,5 +1,5 @@
-/* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { createContext, useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';

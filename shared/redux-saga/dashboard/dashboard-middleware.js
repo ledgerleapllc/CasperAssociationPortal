@@ -28,7 +28,7 @@ export function* getVotes({ payload, successCb }) {
     const res = yield get([`users/votes?${query}`], {
       headers,
     });
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -39,7 +39,7 @@ export function* getMyVotes({ payload, successCb }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`users/my-votes?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -83,7 +83,6 @@ export function* publishDiscussion({ payload, resolve, reject }) {
   }
 }
 
-// Get Verified Members
 export function* getVerifiedMembers({ payload, successCb }) {
   try {
     const query = qs.stringify({
@@ -97,7 +96,6 @@ export function* getVerifiedMembers({ payload, successCb }) {
   }
 }
 
-// Get Discussions
 export function* getDiscussions({ payload, successCb }) {
   try {
     const query = qs.stringify({
@@ -118,7 +116,7 @@ export function* getPinnedDiscussions({ payload, resolve, reject }) {
       page: payload.page,
     });
     const res = yield get([`discussions/pin?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -133,7 +131,7 @@ export function* getDraftDiscussions({ payload, resolve, reject }) {
       page: payload.page,
     });
     const res = yield get([`discussions/draft?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -157,7 +155,7 @@ export function* getMyDiscussions({ payload, resolve, reject }) {
       page: payload.page,
     });
     const res = yield get([`discussions/my?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -241,7 +239,7 @@ export function* getDiscussionComments({ payload, resolve }) {
   });
   try {
     const res = yield get([`discussions/${payload.id}/comment?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -406,7 +404,7 @@ export function* updateViewNotification({ payload, resolve }) {
     const res = yield _put([`users/notification/${payload.id}/view`]);
     resolve(res);
   } catch (error) {
-    // yield put(saveApiResponseError(error));
+    resolve({});
   }
 }
 
@@ -415,7 +413,7 @@ export function* updateClickCTANotification({ payload, resolve }) {
     const res = yield _put([`users/notification/${payload.id}/click-cta`]);
     resolve(res);
   } catch (error) {
-    // yield put(saveApiResponseError(error));
+    resolve({});
   }
 }
 

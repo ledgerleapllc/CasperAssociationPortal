@@ -125,7 +125,6 @@ const ContentNode = ({ sendHightlightNode }) => {
     }
   }, [userInfo]);
 
-  // Only for Admin
   useEffect(() => {
     if (currentNode) {
       fetchNodeDetail(currentNode.public_address_node);
@@ -137,7 +136,7 @@ const ContentNode = ({ sendHightlightNode }) => {
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };

@@ -103,7 +103,6 @@ export const PerksTable = ({ hideOff }) => {
     }
   }, [hideOff]);
 
-  // Render Start Date
   const renderStartDate = row => {
     if (row.start_date && row.start_time) {
       return (
@@ -125,7 +124,6 @@ export const PerksTable = ({ hideOff }) => {
     return '';
   };
 
-  // Render End Date
   const renderEndDate = row => {
     if (row.end_date && row.end_time) {
       return (
@@ -147,7 +145,6 @@ export const PerksTable = ({ hideOff }) => {
     return '';
   };
 
-  //
   const doConfirm = id => {
     setLoading(true);
     dispatch(
@@ -173,7 +170,6 @@ export const PerksTable = ({ hideOff }) => {
     );
   };
 
-  // Delete Perk
   const clickDeletePerk = id => {
     setDialog({
       type: 'DialogCustom',

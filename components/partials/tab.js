@@ -18,7 +18,6 @@ const Tab = ({ data, className, scrollable, lazy }) => {
   const { location } = router;
   const [currentTab, setCurrentTab] = useState(0);
   useEffect(() => {
-    // const hash = getHash(asPath);
     const hash = getHash(location.hash);
     if (hash) {
       const ind = data.findIndex(x => x.id === hash);

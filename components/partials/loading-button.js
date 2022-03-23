@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import ReactLoading from 'react-loading';
 
 export function LoadingButton(props) {
@@ -11,7 +12,6 @@ export function LoadingButton(props) {
   return (
     <button
       className={btnClass}
-      // eslint-disable-next-line react/button-has-type
       type={props.type ? props.type : 'button'}
       disabled={props.isDisabled ? props.isDisabled : false}
       onClick={handleClick}

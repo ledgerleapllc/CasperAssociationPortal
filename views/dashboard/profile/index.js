@@ -5,12 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import {
-  Card,
-  Button,
-  ProgressBar,
-  // Tooltips,
-} from '../../../components/partials';
+import { Card, Button, ProgressBar } from '../../../components/partials';
 import {
   getMyInfo,
   uploadAvatar,
@@ -133,22 +128,10 @@ const UserProfile = () => {
     return 'Not Verified';
   };
 
-  /*
-  const renderLabelOld = () => {
-    if (!myInfo || !myInfo.id || !myInfo.profile || !myInfo.profile.id)
-      return 'Not Submitted';
-    if (!myInfo.shuftipro || !myInfo.shuftipro.id) return 'Not Submitted';
-    if (!myInfo.profile.status || myInfo.profile.status === 'pending')
-      return 'Submitted / Pending';
-    if (myInfo.profile.status === 'denied') return 'Rejected';
-    return 'VERIFIED';
-  };
-  */
-
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
     copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    copyText.setSelectionRange(0, 99999);
     navigator.clipboard.writeText(copyText.value);
     openSnack('primary', 'Copied Public Address!');
   };
@@ -315,33 +298,6 @@ const UserProfile = () => {
                               )}
                             </td>
                           </tr>
-                          {/*
-                          <tr>
-                            <td>
-                              <Tooltips
-                                placement="top"
-                                title="Peer count is calculated based on the number of peers over a 7 day period"
-                                arrow
-                              >
-                                <div
-                                  className="flex"
-                                  style={{ cursor: 'pointer' }}
-                                >
-                                  <span className="mr-1">Average Peers:</span>
-                                  <img
-                                    width="10px"
-                                    height="10px"
-                                    src="/images/ic_feather_info.svg"
-                                    alt=""
-                                  />
-                                </div>
-                              </Tooltips>
-                            </td>
-                            <td>
-                              <span>{metrics?.average_peers}</span>
-                            </td>
-                          </tr>
-                          */}
                         </tbody>
                       </table>
                     </StylesBasic>

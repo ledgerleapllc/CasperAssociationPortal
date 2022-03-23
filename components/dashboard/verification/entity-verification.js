@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -62,7 +61,6 @@ export const EntityVerification = () => {
   };
 
   useEffect(() => {
-    // Close upload dialog when click outside
     document.addEventListener('click', doClickOutside, true);
     return () => {
       document.removeEventListener('click', doClickOutside, true);
@@ -141,19 +139,21 @@ export const EntityVerification = () => {
 
   const onSubmit = data => {
     setIsSubmitting(true);
-    data.type = 'entity';
-
+    const params = {
+      ...data,
+      type: 'entity',
+    };
     dispatch(
       uploadVerificationDocs(
         uploadedDocuments,
         res => {
           const document = res.find(
-            item => item.name === data.page_is_representative
+            item => item.name === params.page_is_representative
           );
-          data.page_is_representative = document.id;
+          params.page_is_representative = document.id;
           dispatch(
             submitDetail(
-              data,
+              params,
               () => {
                 setIsSubmitting(false);
                 handleBeginKYC();
