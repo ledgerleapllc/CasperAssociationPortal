@@ -1,4 +1,3 @@
-// import { compareDesc } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,12 +8,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import {
-  Card,
-  // ClockBar,
-  ProgressBar,
-  Tooltips,
-} from '../../../components/partials';
+import { Card, ProgressBar, Tooltips } from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
 
@@ -215,62 +209,6 @@ const DashboardMembership = () => {
     };
   };
 
-  /*
-  const getNodeDataOld = () => {
-    if (nodeStatus === 'Probation') {
-      let nearestAspect = [];
-      nearestAspect = aspects
-        .map(x => ({
-          ...x,
-          time_end: metrics[`${x.aspect}_time_end`],
-        }))
-        .sort((a, b) =>
-          compareDesc(new Date(a.time_end), new Date(b.time_end))
-        );
-      return {
-        label: 'Probation',
-        desc: (
-          <div className="flex">
-            Probation! You must increase your
-            <span className="px-1">{nearestAspect[0]?.label} within</span>
-            <ClockBar
-              endTime={new Date(nearestAspect[0]?.time_end)}
-              hideProgressBar
-            />
-          </div>
-        ),
-      };
-    }
-
-    if (nodeStatus === 'Pulled') {
-      const failMetrics = [];
-      aspects.forEach(x => {
-        if (
-          metrics[x.aspect] <
-          metrics.monitoring_criteria[x.aspect].probation_start
-        ) {
-          failMetrics.push(x.label);
-        }
-      });
-      return {
-        label: 'Pulled!',
-        desc: (
-          <>
-            You must increase your {failMetrics.join(', ')} to restore full
-            portal access!
-          </>
-        ),
-      };
-    }
-
-    return {
-      label: 'Online',
-      desc: <>Nice work!</>,
-    };
-  };
-  */
-
-  // Format Value
   const formatValue = () => {
     let value = '';
     if (metricConfig?.max?.update_responsiveness) {

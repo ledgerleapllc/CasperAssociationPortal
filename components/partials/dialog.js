@@ -3,12 +3,10 @@
 import React, { useState, useCallback, memo } from 'react';
 import { createPortal } from 'react-dom';
 
-// Common dialog Context
 const DialogContext = React.createContext({
   setDialog: data => data,
 });
 
-// Create `useDialog` hook that using DialogContext
 const useDialog = () => {
   const context = React.useContext(DialogContext);
   if (!context) {
@@ -17,20 +15,14 @@ const useDialog = () => {
   return context;
 };
 
-// Dialog Component
 const Dialog = ({ dialog, onClosed }) => {
   const settings = dialog.settings ? dialog.settings : {};
   const [inputValue, setInputValue] = useState(dialog.defaultValue || '');
   const onCloseDialog = value => {
-    // Close dialog on DialogProvider
     onClosed();
-
-    // Execure afterClosed callback fn on Component
     if (dialog.afterClosed) {
       if (dialog.type === 'DialogPrompt') {
-        if (value) {
-          dialog.afterClosed(inputValue);
-        }
+        if (value) dialog.afterClosed(inputValue);
       } else dialog.afterClosed(value);
     }
   };
@@ -199,7 +191,6 @@ const ChildrenMemo = memo(({ children }) => children);
 const DialogProvider = props => {
   const [dialog, setDialog] = useState(null);
   const onClosed = useCallback(() => {
-    // Set null for DialogContext, that mean close Dialog Component on Provider
     setDialog(null);
   }, [setDialog]);
 

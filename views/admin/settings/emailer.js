@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -116,11 +115,6 @@ const Emailer = () => {
   const { setLoading } = useContext(AppContext);
   const { setDialog, onClosed } = useDialog();
 
-  useEffect(() => {
-    setLoading(true);
-    fetchEmailerAdmins();
-  }, []);
-
   const fetchEmailerAdmins = () => {
     dispatch(
       getEmailerData(
@@ -136,6 +130,11 @@ const Emailer = () => {
       )
     );
   };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchEmailerAdmins();
+  }, []);
 
   const changeTriggerAdmin = (e, item, index) => {
     const triggerAdminTemp = [...triggerAdminEmails];
@@ -153,9 +152,7 @@ const Emailer = () => {
         () => {
           setTriggerAdminEmails(triggerAdminTemp);
         },
-        () => {
-          //
-        }
+        () => {}
       )
     );
   };
@@ -177,9 +174,7 @@ const Emailer = () => {
         () => {
           setTriggerUserEmails(triggerUserTemp);
         },
-        () => {
-          //
-        }
+        () => {}
       )
     );
   };
@@ -189,6 +184,20 @@ const Emailer = () => {
     const itemNew = {
       ...item,
       content: e.target.value,
+    };
+    triggerUserTemp[index] = {
+      ...triggerUserTemp[index],
+      ...itemNew,
+    };
+    setTriggerUserEmails(triggerUserTemp);
+  };
+
+  const disableTriggerUserEdit = (item, index) => {
+    const triggerUserTemp = [...triggerUserEmails];
+
+    const itemNew = {
+      ...item,
+      editing: false,
     };
     triggerUserTemp[index] = {
       ...triggerUserTemp[index],
@@ -232,20 +241,6 @@ const Emailer = () => {
     );
   };
 
-  const disableTriggerUserEdit = (item, index) => {
-    const triggerUserTemp = [...triggerUserEmails];
-
-    const itemNew = {
-      ...item,
-      editing: false,
-    };
-    triggerUserTemp[index] = {
-      ...triggerUserTemp[index],
-      ...itemNew,
-    };
-    setTriggerUserEmails(triggerUserTemp);
-  };
-
   const enableTriggerUserEdit = (item, index) => {
     const triggerUserTemp = [...triggerUserEmails];
     const itemNew = {
@@ -259,7 +254,6 @@ const Emailer = () => {
     setTriggerUserEmails(triggerUserTemp);
   };
 
-  // Click Remove
   const clickRemove = item => {
     setDialog({
       type: 'DialogConfirm',

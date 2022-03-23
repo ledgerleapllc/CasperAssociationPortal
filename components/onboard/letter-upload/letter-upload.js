@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import IconX from '../../../public/images/ic_x.svg';
@@ -29,14 +28,6 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const uploadFileRef = useRef(null);
 
-  useEffect(() => {
-    // Close upload dialog when click outside
-    document.addEventListener('click', doClickOutside, true);
-    return () => {
-      document.removeEventListener('click', doClickOutside, true);
-    };
-  }, []);
-
   const handleUpload = action => {
     if (action === 'open') {
       const content = document.getElementById('custom-content');
@@ -46,6 +37,20 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
       setShowUploadModal(false);
     }
   };
+
+  const doClickOutside = e => {
+    const { target } = e;
+    if (!uploadFileRef?.current?.contains(target)) {
+      handleUpload('close');
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', doClickOutside, true);
+    return () => {
+      document.removeEventListener('click', doClickOutside, true);
+    };
+  }, []);
 
   const onDrop = useCallback(acceptedFiles => {
     const fileConvert = acceptedFiles[0];
@@ -65,19 +70,14 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
     onDocumentSelect({ name: fileName, file: newFile });
   }, []);
 
-  const {
-    getRootProps,
-    getInputProps,
-    // fileRejections,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({
-    multiple: false,
-    onDrop,
-    accept:
-      'image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, text/rtf',
-    maxSize: 2097152,
-  });
+  const { getRootProps, getInputProps, isDragAccept, isDragReject } =
+    useDropzone({
+      multiple: false,
+      onDrop,
+      accept:
+        'image/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain, text/rtf',
+      maxSize: 2097152,
+    });
 
   const style = useMemo(
     () => ({
@@ -87,13 +87,6 @@ const LetterUpload = ({ status, selectedDocument, onDocumentSelect }) => {
     }),
     [isDragReject, isDragAccept]
   );
-
-  const doClickOutside = e => {
-    const { target } = e;
-    if (!uploadFileRef?.current?.contains(target)) {
-      handleUpload('close');
-    }
-  };
 
   return (
     <>

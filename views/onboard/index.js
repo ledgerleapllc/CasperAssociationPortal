@@ -22,12 +22,10 @@ const Onboard = () => {
     return 33.33 * flag;
   };
 
-  // Click Onboard
   const clickOnboard = () => {
     if (!user.signature_request_id) router.push('/onboard/esign-terms');
   };
 
-  // Click Verify Node
   const clickVerifyNode = () => {
     if (!user.node_verified_at) router.push('/onboard/verify-node-ownership');
   };

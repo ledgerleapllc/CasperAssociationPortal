@@ -7,7 +7,7 @@ export function* getPublicMembers({ payload, resolve }) {
   try {
     const query = qs.stringify({ ...payload, limit: 100 });
     const res = yield get([`members?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));

@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -67,13 +66,63 @@ const Settings = () => {
     setPage,
   } = useTable();
 
-  useEffect(() => {
-    setLoading(true);
-    fetchWarningMetrics();
-    fetchLockPageRules();
-    fetchRecipients();
-    getMembership();
-  }, []);
+  const fetchWarningMetrics = () => {
+    dispatch(
+      getWarningMetrics(
+        res => {
+          const obj = res?.reduce((result, item) => {
+            const params = {
+              ...result,
+              [item.type]: item,
+            };
+            return params;
+          }, {});
+          setLoading(false);
+          setMetrics(obj);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const fetchLockPageRules = () => {
+    dispatch(
+      getLockPageRules(
+        res => {
+          if (res) {
+            res.kyc_not_verify = res.kyc_not_verify?.reduce((result, item) => {
+              const params = {
+                ...result,
+                [item.screen]: item,
+              };
+              return params;
+            }, {});
+            res.status_is_poor = res.status_is_poor?.reduce((result, item) => {
+              const params = {
+                ...result,
+                [item.screen]: item,
+              };
+              return params;
+            }, {});
+            setRules(res);
+          }
+        },
+        () => {}
+      )
+    );
+  };
+
+  const fetchRecipients = (pageValue = page) => {
+    dispatch(
+      listRecipients({ page: pageValue, limit: 999 }, (results, isHasMore) => {
+        setHasMore(isHasMore);
+        appendData(results);
+        setPage(prev => prev + 1);
+      })
+    );
+  };
 
   const getMembership = () => {
     dispatch(
@@ -86,6 +135,14 @@ const Settings = () => {
       )
     );
   };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchWarningMetrics();
+    fetchLockPageRules();
+    fetchRecipients();
+    getMembership();
+  }, []);
 
   const saveFile = () => {
     setLoading(true);
@@ -112,16 +169,6 @@ const Settings = () => {
 
   const cancelAgreement = () => {
     setReplaceAgreement(null);
-  };
-
-  const fetchRecipients = (pageValue = page) => {
-    dispatch(
-      listRecipients({ page: pageValue, limit: 999 }, (results, isHasMore) => {
-        setHasMore(isHasMore);
-        appendData(results);
-        setPage(prev => prev + 1);
-      })
-    );
   };
 
   const openAddRecipientDialog = () => {
@@ -185,48 +232,6 @@ const Settings = () => {
         ),
       },
     });
-  };
-
-  const fetchWarningMetrics = () => {
-    dispatch(
-      getWarningMetrics(
-        res => {
-          const obj = res?.reduce((result, item) => {
-            // eslint-disable-next-line no-param-reassign
-            result[item.type] = item;
-            return result;
-          }, {});
-          setLoading(false);
-          setMetrics(obj);
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-
-  const fetchLockPageRules = () => {
-    dispatch(
-      getLockPageRules(
-        res => {
-          if (res) {
-            res.kyc_not_verify = res.kyc_not_verify?.reduce((result, item) => {
-              // eslint-disable-next-line no-param-reassign
-              result[item.screen] = item;
-              return result;
-            }, {});
-            res.status_is_poor = res.status_is_poor?.reduce((result, item) => {
-              // eslint-disable-next-line no-param-reassign
-              result[item.screen] = item;
-              return result;
-            }, {});
-            setRules(res);
-          }
-        },
-        () => {}
-      )
-    );
   };
 
   return (

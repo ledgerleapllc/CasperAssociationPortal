@@ -106,7 +106,6 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
               >
                 <p className="text-lg font-medium">Perks Viewed</p>
               </Tooltips>
-              {/* <p className="text-5xl font-thin">{stats?.totalPerksActive}</p> */}
               <p className="text-5xl font-thin">{stats?.totalPerksViews}</p>
               <Dropdown
                 trigger={

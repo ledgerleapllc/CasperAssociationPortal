@@ -127,7 +127,6 @@ const AdminUserDetail = () => {
                   : 'Not Available'}
               </p>
             </div>
-            {/* User Info */}
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-base font-medium pb-5">User Info</p>
               <div className="flex flex-row py-1">
@@ -155,7 +154,6 @@ const AdminUserDetail = () => {
                 <p className="text-sm w-5/6">{userDetail?.telegram}</p>
               </div>
             </div>
-            {/* Company Info */}
             {userDetail?.type === 'Entity' && (
               <div className="flex flex-col py-7 border-b border-gray">
                 <p className="text-base font-medium pb-5">Company Info</p>
@@ -196,7 +194,6 @@ const AdminUserDetail = () => {
                 </div>
               </div>
             )}
-            {/* Node Info */}
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
@@ -217,11 +214,6 @@ const AdminUserDetail = () => {
                   <p className="text-sm font-medium w-1/6">
                     Block height average:
                   </p>
-                  {/*
-                  <p className="text-sm w-1/6">
-                    {metrics?.block_height_average || 0} behind
-                  </p>
-                  */}
                   <p className="text-sm w-1/6">
                     {metrics?.current_block_height || 0} behind
                   </p>
@@ -240,7 +232,6 @@ const AdminUserDetail = () => {
                 </div>
               </div>
             </div>
-            {/* KYC Info */}
             <div className="flex flex-col py-7">
               <p className="text-base font-medium pb-5">KYC Info</p>
               <div className="flex flex-row py-1">

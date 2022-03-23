@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -80,7 +79,6 @@ export const Shuftipro = () => {
         last_name: authUser.fullInfo.last_name || '',
         fuzzy_match: 1,
       },
-      // full_address: address,
       full_address: '',
       address_fuzzy_match: '1',
       supported_types: ['utility_bill', 'bank_statement'],
@@ -114,7 +112,6 @@ export const Shuftipro = () => {
         const { data } = response;
 
         if (validatesignature(data, responsesignature, clientSecret)) {
-          // Valid
           setUrl(data.verification_url);
           dispatch(
             saveShuftiproTemp({
@@ -123,12 +120,10 @@ export const Shuftipro = () => {
             })
           );
         } else {
-          // Invalid
           throw new Error();
         }
       })
       .catch(() => {
-        // Invalid
         setShuftiError("We can't start Shufti Pro. Please try again later!");
       });
   }, [authUser]);
@@ -147,6 +142,7 @@ export const Shuftipro = () => {
         <>
           <div className="shuftipro-iframe-wrap h-full">
             <iframe
+              title="Shuftipro Verification"
               className="w-full"
               style={{ height: '600px' }}
               src={url}

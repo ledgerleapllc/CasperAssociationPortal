@@ -80,7 +80,6 @@ export default function FieldArrayFormCSPR({
                     <button
                       className="underline text-primary text-xs focus:outline-none"
                       type="button"
-                      // disabled={fields.length === 1}
                       onClick={() => removeNode(index)}
                     >
                       Remove Owner

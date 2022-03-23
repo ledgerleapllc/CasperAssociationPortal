@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+/* eslint no-irregular-whitespace: ["error", { "skipRegExps": true }] */
 export const FIRSTNAME_PATTERN = /^[\.a-zA-Z\s ]*$/;
 export const NAME_PATTERN = /^[\.a-zA-Z-\s ]*$/;
 export const EMAIL_PATTERN =

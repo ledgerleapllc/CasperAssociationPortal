@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-// auth, verifying, onboarding, final, public
 export default function useUser({
   urlType = 'public',
   permissionRoute = null,

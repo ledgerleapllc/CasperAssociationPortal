@@ -17,7 +17,6 @@ export default function AppResolver() {
             content: Object.values(apiState?.response?.data?.errors)[0],
           },
           afterClosed: () => {
-            // Dispatch clear api Error state
             dispatch(clearApiResponseError());
           },
         });
@@ -29,7 +28,6 @@ export default function AppResolver() {
             content: apiState?.response?.message,
           },
           afterClosed: () => {
-            // Dispatch clear api Error state
             dispatch(clearApiResponseError());
           },
         });

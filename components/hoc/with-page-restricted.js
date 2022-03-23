@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLockPageConditions } from '../../shared/redux-saga/dashboard/dashboard-actions';
@@ -14,79 +13,6 @@ export const withPageRestricted = (Wrapper, page) => props => {
   const [alertCondition, setAlertCondition] = useState({});
 
   const { setDialog, onClosed } = useDialog();
-
-  useEffect(() => {
-    if (!['admin', 'sub-admin'].includes(userInfo.role)) {
-      dispatch(
-        getLockPageConditions(
-          res => {
-            setConditions(res);
-          },
-          () => {}
-        )
-      );
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
-    if (conditions) {
-      const _condition = {};
-      if (conditions.kyc_not_verify.includes(page)) {
-        _condition.kyc_not_verify_lock = true;
-      }
-
-      if (userInfo && userInfo.status === 'approved') {
-        _condition.kyc_not_verify = false;
-      } else {
-        _condition.kyc_not_verify = true;
-      }
-
-      if (conditions.status_is_poor?.includes(page)) {
-        _condition.node_poor_lock = true;
-      }
-
-      if (
-        userInfo &&
-        userInfo.status === 'approved' &&
-        userInfo.fullInfo &&
-        userInfo.fullInfo.profile &&
-        userInfo.fullInfo.profile.extra_status !== 'Suspended'
-      ) {
-        _condition.node_poor = false;
-      } else {
-        _condition.node_poor = true;
-      }
-
-      setAlertCondition(pre => ({ ...pre, ..._condition }));
-    }
-  }, [userInfo, conditions]);
-
-  useEffect(() => {
-    if (getRestrictedPageAlert(alertCondition)) {
-      setDialog({
-        type: 'DialogCustom',
-        data: {
-          content: (
-            <div className="p-16" style={{ backgroundColor: 'white' }}>
-              <p className="text-2xl text-center text-primary mb-5">
-                This Page is Restricted
-              </p>
-              <div className="h-full w-full flex flex-col items-center justify-between border-gray">
-                {getRestrictedPageAlert(alertCondition)}
-              </div>
-            </div>
-          ),
-        },
-        settings: {
-          noClose: true,
-          zIndex: 100,
-        },
-      });
-    }
-    return () => {
-      onClosed();
-    };
-  }, [alertCondition]);
 
   const getRestrictedPageAlert = condition => {
     if (condition) {
@@ -252,6 +178,79 @@ export const withPageRestricted = (Wrapper, page) => props => {
     }
     return null;
   };
+
+  useEffect(() => {
+    if (!['admin', 'sub-admin'].includes(userInfo.role)) {
+      dispatch(
+        getLockPageConditions(
+          res => {
+            setConditions(res);
+          },
+          () => {}
+        )
+      );
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (conditions) {
+      const _condition = {};
+      if (conditions.kyc_not_verify.includes(page)) {
+        _condition.kyc_not_verify_lock = true;
+      }
+
+      if (userInfo && userInfo.status === 'approved') {
+        _condition.kyc_not_verify = false;
+      } else {
+        _condition.kyc_not_verify = true;
+      }
+
+      if (conditions.status_is_poor?.includes(page)) {
+        _condition.node_poor_lock = true;
+      }
+
+      if (
+        userInfo &&
+        userInfo.status === 'approved' &&
+        userInfo.fullInfo &&
+        userInfo.fullInfo.profile &&
+        userInfo.fullInfo.profile.extra_status !== 'Suspended'
+      ) {
+        _condition.node_poor = false;
+      } else {
+        _condition.node_poor = true;
+      }
+
+      setAlertCondition(pre => ({ ...pre, ..._condition }));
+    }
+  }, [userInfo, conditions]);
+
+  useEffect(() => {
+    if (getRestrictedPageAlert(alertCondition)) {
+      setDialog({
+        type: 'DialogCustom',
+        data: {
+          content: (
+            <div className="p-16" style={{ backgroundColor: 'white' }}>
+              <p className="text-2xl text-center text-primary mb-5">
+                This Page is Restricted
+              </p>
+              <div className="h-full w-full flex flex-col items-center justify-between border-gray">
+                {getRestrictedPageAlert(alertCondition)}
+              </div>
+            </div>
+          ),
+        },
+        settings: {
+          noClose: true,
+          zIndex: 100,
+        },
+      });
+    }
+    return () => {
+      onClosed();
+    };
+  }, [alertCondition]);
 
   return <Wrapper {...props} />;
 };

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -69,10 +68,13 @@ export const IndividualVerification = () => {
 
   const onSubmit = data => {
     setIsSubmitting(true);
-    data.type = 'individual';
+    const params = {
+      ...data,
+      type: 'individual',
+    };
     dispatch(
       submitDetail(
-        data,
+        params,
         () => {
           setIsSubmitting(false);
           handleBeginKYC();

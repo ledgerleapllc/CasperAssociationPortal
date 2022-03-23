@@ -85,7 +85,6 @@ const metricsStrategies = {
 
 const metrics = createReducer(metricsStrategies, {});
 
-// my notifications
 const setNotifications = (state, payload) => ({
   ...state,
   ...payload,

@@ -264,9 +264,12 @@ export function* getMyMetrics() {
 
       res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
         (result, item) => {
-          // eslint-disable-next-line no-param-reassign
-          result[key[item.type]] = item;
-          return result;
+          const itemKey = key[item.type];
+          const params = {
+            ...result,
+            [itemKey]: item,
+          };
+          return params;
         },
         {}
       );
@@ -291,10 +294,6 @@ export function* getMyMetrics() {
       update_responsiveness: res.data?.update_responsiveness || 0,
       monitoring_criteria: res.data?.monitoring_criteria || null,
       average_uptime: res.data?.avg_uptime || 0,
-      // current_block_height:
-      //   DEFAULT_BASE_BLOCKS - block_height_average > 0
-      //     ? DEFAULT_BASE_BLOCKS - block_height_average
-      //     : 0,
       current_block_height: 100 - blocks_behind * 10,
       blocks_behind,
       average_responsiveness: res.data?.avg_update_responsiveness || 0,
@@ -343,7 +342,7 @@ export function* getNodesFromUser({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`users/list-node?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);

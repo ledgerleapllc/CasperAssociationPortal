@@ -28,7 +28,7 @@ export function* getListMembers({ payload, callback }) {
     const res = yield get([`admin/users?${query}`], {
       headers,
     });
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
     yield put(getListMembersSuccess(res.data));
   } catch (error) {
@@ -90,7 +90,7 @@ export function* getIntake({ payload, successCb }) {
     const res = yield get([`admin/users/intakes?${query}`], {
       headers,
     });
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
     yield put(getListIntakeSuccess(res.data));
   } catch (error) {
@@ -105,7 +105,7 @@ export function* getVerifications({ payload, resolve }) {
       page: payload.page,
     });
     const res = yield get([`admin/users/verification?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(getListIntakeError(error));
@@ -122,7 +122,7 @@ export function* getBallots({ payload, callback }) {
     const res = yield get([`admin/ballots?${query}`], {
       headers,
     });
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -137,8 +137,6 @@ export function* submitBallot({ payload, resolve, reject }) {
     });
     formData.append(`title`, payload.title);
     formData.append(`description`, payload.description);
-    // formData.append(`time`, payload.time);
-    // formData.append(`time_unit`, payload.time_unit);
     formData.append(`start_date`, payload.startDate);
     formData.append(`start_time`, payload.startTime);
     formData.append(`end_date`, payload.endDate);
@@ -201,7 +199,7 @@ export function* getBallotVotes({ payload, callback }) {
     const res = yield get([`admin/ballots/${payload.id}/votes?${query}`], {
       headers,
     });
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -225,7 +223,7 @@ export function* getSubadmins({ payload, callback }) {
       return xTemp;
     });
 
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(temp, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -240,7 +238,7 @@ export function* getIpHistories({ payload, callback }) {
     });
     const res = yield get([`admin/teams/${payload.id}/ip-histories?${query}`]);
 
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -254,8 +252,7 @@ export function* getLogUsersViewdDoc({ payload, callback }) {
       page: payload.page,
     });
     const res = yield get([`admin/ballots/viewed-docs/${payload.id}?${query}`]);
-
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -476,9 +473,12 @@ export function* getUserMetrics({ payload, resolve, reject }) {
       };
       res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
         (result, item) => {
-          // eslint-disable-next-line no-param-reassign
-          result[key[item.type]] = item;
-          return result;
+          const itemKey = key[item.type];
+          const params = {
+            ...result,
+            [itemKey]: item,
+          };
+          return params;
         },
         {}
       );
@@ -532,7 +532,7 @@ export function* getListPerks({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`admin/perks?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);
@@ -548,7 +548,7 @@ export function* getActivePerks({ payload, resolve, reject }) {
       ...x,
       image: { url: x.image_url },
     }));
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);
@@ -627,7 +627,7 @@ export function* getListPerkEngagements({ payload, resolve, reject }) {
     const { id, ...params } = payload;
     const query = qs.stringify(params);
     const res = yield get([`admin/perks/${id}/result?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);
@@ -713,7 +713,7 @@ export function* getListNotifications({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`admin/notification?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(
       res.data?.notifications?.data,
       res.data?.notifications?.current_page <
@@ -736,7 +736,7 @@ export function* getNotificationViewLogs({ payload, resolve }) {
     const res = yield get([
       `admin/notification/${payload.id}/view-logs?${query}`,
     ]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     const viewPercent =
       !res.data?.notification?.total_views || !res.data?.total_member
         ? 0
@@ -774,8 +774,6 @@ export function* updateBallot({ payload, resolve, reject }) {
     });
     formData.append(`title`, payload.title);
     formData.append(`description`, payload.description);
-    // formData.append(`time`, payload.time);
-    // formData.append(`time_unit`, payload.time_unit);
     formData.append(`start_date`, payload.startDate);
     formData.append(`start_time`, payload.startTime);
     formData.append(`end_date`, payload.endDate);
@@ -803,7 +801,7 @@ export function* getNodesFromAdmin({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`admin/list-node?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);
@@ -902,7 +900,7 @@ export function* listRecipients({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
     const res = yield get([`admin/contact-recipients?${query}`]);
-    yield delay(500); // => this need for scroll loadmore.
+    yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
     reject(error);
