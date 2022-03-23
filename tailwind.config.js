@@ -13,7 +13,7 @@ module.exports = {
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
   ],
-  purge: ['./components/**/*.js', './pages/**/*.js'],
+  purge: ['./components/**/*.js', './pages/**/*.js', './views/**/*.js'],
   theme: {
     extend: {
       transitionProperty: {

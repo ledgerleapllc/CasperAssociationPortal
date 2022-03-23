@@ -12,7 +12,6 @@ import {
   approveDocuments,
   getVerificationDetail,
   resetUserKYC,
-  resetIntakeKYC,
 } from '../../../../../shared/redux-saga/admin/actions';
 import Countries from '../../../../../public/json/country.json';
 import IconCheck from '../../../../../public/images/ic-feather-check.svg';
@@ -81,7 +80,7 @@ const AdminIntakeVerificationDetail = () => {
   const readDoc = () => {
     setReadUploadDocs(true);
     intakeDetail.document_files.forEach(file => {
-      window.open(`${process.env.NEXT_PUBLIC_BASE_URL}${file.url}`, '_blank');
+      window.open(`${file.url}`, '_blank');
     });
   };
 
@@ -110,9 +109,17 @@ const AdminIntakeVerificationDetail = () => {
             description="This will reset the KYC step and tell the user through email to submit again for the following reason:"
             onResetUser={message => {
               dispatch(
-                resetUserKYC({ id, message }, () => {
-                  onClosed();
-                })
+                resetUserKYC(
+                  { id, message },
+                  () => {
+                    onClosed();
+                    window.location.reload();
+                  },
+                  () => {
+                    onClosed();
+                    window.location.reload();
+                  }
+                )
               );
             }}
             onBack={() => onClosed()}
@@ -136,7 +143,7 @@ const AdminIntakeVerificationDetail = () => {
             onResetUser={message => {
               setLoading(true);
               dispatch(
-                resetIntakeKYC(
+                resetUserKYC(
                   { id, message },
                   () => {
                     onClosed();
@@ -170,7 +177,7 @@ const AdminIntakeVerificationDetail = () => {
         this name is on{' '}
         <a
           className="text-primary cursor-pointer underline"
-          href={`${process.env.NEXT_PUBLIC_BASE_URL}${representativeDoc?.url}`}
+          href={`${representativeDoc?.url}`}
           target="_blank"
           rel="noreferrer"
         >

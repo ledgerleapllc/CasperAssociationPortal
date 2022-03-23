@@ -1,4 +1,4 @@
-import { compareDesc } from 'date-fns';
+// import { compareDesc } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import {
   Card,
-  ClockBar,
+  // ClockBar,
   ProgressBar,
   Tooltips,
 } from '../../../components/partials';
@@ -131,8 +131,8 @@ const aspects = [
 const DashboardMembership = () => {
   const { metrics, refreshMetrics, metricConfig } = useMetrics();
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [kycStatus, setKYCStatus] = useState();
-  const [nodeStatus, setNodeStatus] = useState();
+  const [kycStatus, setKYCStatus] = useState(null);
+  const [nodeStatus, setNodeStatus] = useState(null);
   const [warningMetrics, setWarningMetrics] = useState([]);
 
   useEffect(() => {
@@ -154,7 +154,9 @@ const DashboardMembership = () => {
       aspects.forEach(x => {
         if (
           metrics[x.aspect] <
-          metrics?.monitoring_criteria[x.aspect].probation_start
+            metrics?.monitoring_criteria[x.aspect].warning_level ||
+          metrics[x.aspect] <
+            metrics?.monitoring_criteria[x.aspect].probation_start
         ) {
           warnings.push({
             ...x,
@@ -179,7 +181,7 @@ const DashboardMembership = () => {
         ),
       },
       0: {
-        label: 'Not verified',
+        label: 'Not Verified',
         desc: (
           <>
             Some parts of the portal are not yet open to you!{' '}
@@ -195,6 +197,26 @@ const DashboardMembership = () => {
   };
 
   const getNodeData = () => {
+    if (nodeStatus === 'Online') {
+      return {
+        label: 'Online',
+        desc: <>Nice work!</>,
+      };
+    }
+    if (nodeStatus === 'Offline') {
+      return {
+        label: 'Offline',
+        desc: '',
+      };
+    }
+    return {
+      label: '',
+      desc: '',
+    };
+  };
+
+  /*
+  const getNodeDataOld = () => {
     if (nodeStatus === 'Probation') {
       let nearestAspect = [];
       nearestAspect = aspects
@@ -246,6 +268,7 @@ const DashboardMembership = () => {
       desc: <>Nice work!</>,
     };
   };
+  */
 
   // Format Value
   const formatValue = () => {
@@ -368,13 +391,14 @@ const DashboardMembership = () => {
                   </div>
                 </Tooltips>
                 <p className="text-xs desc">
-                  {metrics.blocks_behind} blocks behind
+                  {metrics?.blocks_behind} blocks behind
                 </p>
                 <div className="flex-1 min-h-0 mt-4">
                   <ProgressBar
                     shape="circle"
-                    value={metrics.current_block_height}
-                    mask="x%"
+                    value={metrics.block_height_average}
+                    total={metricConfig?.max?.block_height_average}
+                    mask="x/y"
                   />
                 </div>
               </Card>

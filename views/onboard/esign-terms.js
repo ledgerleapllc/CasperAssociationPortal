@@ -1,15 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
+import AppFooter from '../../components/layouts/app-footer';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
 import EsignTermsSecondStep from '../../components/onboard/esign-terms/second-step';
 import OnboardStepper from '../../components/onboard/onboard-stepper';
-import {
-  bypassHelloSignRequest,
-  helloSignRequest,
-} from '../../shared/redux-saga/onboard/actions';
+import { helloSignRequest } from '../../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 import { AppContext } from '../../pages/_app';
@@ -27,11 +24,8 @@ const EsignTerms = () => {
   const { isLoading } = useSelector(
     state => state?.onboardReducer?.uploadLetter
   );
-
   const { setLoading } = useContext(AppContext);
-
   const router = useHistory();
-
   const totalSteps = 2;
 
   useEffect(() => {
@@ -101,15 +95,6 @@ const EsignTerms = () => {
     }
   }, [helloSignComplete]);
 
-  // eslint-disable-next-line no-unused-vars
-  const handleByPass = () => {
-    dispatch(
-      bypassHelloSignRequest(() => {
-        setCurrentStep(currentStep + 1);
-      })
-    );
-  };
-
   const getNextButtonTitle = () => {
     if (currentStep === 1) {
       return 'Go to Esign';
@@ -129,10 +114,17 @@ const EsignTerms = () => {
                 setSelectedDocument(null);
               } else {
                 setSelectedDocument(document);
-                window.open(
-                  `${process.env.NEXT_PUBLIC_BASE_URL}${document.url}`,
-                  '_blank'
-                );
+                if (
+                  document.url.includes('http://') ||
+                  document.url.includes('https://')
+                ) {
+                  window.open(document.url);
+                } else {
+                  window.open(
+                    `${process.env.NEXT_PUBLIC_BASE_URL}${document.url}`,
+                    '_blank'
+                  );
+                }
               }
             }}
           />

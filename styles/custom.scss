@@ -402,7 +402,7 @@
           }
           .custom-pinned-d-box,
           .custom-new-d-box {
-            width: 20%;
+            flex: 1;
             height: 130px;
           }
         }
@@ -721,6 +721,7 @@
             .custom-pinned-d-box, 
             .custom-new-d-box {
               width: 100%;
+              flex: none;
             }
           }
         }

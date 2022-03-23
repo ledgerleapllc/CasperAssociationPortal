@@ -16,6 +16,7 @@ import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import IconCopy from '../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../components/partials/snack-bar';
 import IconVerified from '../../public/images/ic_check_mark.svg';
+import AppFooter from '../../components/layouts/app-footer';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -112,6 +113,20 @@ const NodeExplorerDetail = () => {
     openSnack('primary', 'Copied Public Address!');
   };
 
+  const renderLabel = () => {
+    if (
+      memberInfo &&
+      memberInfo.profile &&
+      memberInfo.profile.status === 'approved'
+    ) {
+      if (memberInfo.profile.extra_status) {
+        return memberInfo.profile.extra_status;
+      }
+      return 'VERIFIED';
+    }
+    return 'Not Verified';
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <PublicHeader />
@@ -175,13 +190,33 @@ const NodeExplorerDetail = () => {
                         </tr>
                         <tr>
                           <td>
+                            <span>Member Type:</span>
+                          </td>
+                          <td>
+                            <span className="text-primary uppercase font-medium">
+                              {memberInfo?.profile?.type}
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>Membership Status:</span>
+                          </td>
+                          <td>
+                            <span className="text-primary underline">
+                              {renderLabel()}
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
                             <span>Verified Since:</span>
                           </td>
                           <td>
-                            {memberInfo?.kyc_verified_at ? (
+                            {memberInfo?.approve_at ? (
                               <span>
                                 {`${formatDate(
-                                  memberInfo?.kyc_verified_at,
+                                  memberInfo?.approve_at,
                                   'dd/MM/yyyy'
                                 )}`}
                               </span>
@@ -294,7 +329,7 @@ const NodeExplorerDetail = () => {
                     />
                   </div>
                   <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                    Current: {metrics?.current_block_height} block behind
+                    Current: {metrics?.blocks_behind} block behind
                   </p>
                   <ProgressBar
                     value={metrics?.block_height}
@@ -332,9 +367,9 @@ const NodeExplorerDetail = () => {
           </div>
         </div>
       </div>
-      <footer className="pb-2 flex justify-center text-xs">
-        ©{new Date().getFullYear()} Casper Association
-      </footer>
+      <div className="pb-3">
+        <AppFooter />
+      </div>
     </div>
   );
 };

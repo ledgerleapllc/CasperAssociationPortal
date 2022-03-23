@@ -8,6 +8,7 @@ import {
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const LandingView = lazy(() => import('../views/landing'));
+const PrivacyPolicyView = lazy(() => import('../views/privacy-policy'));
 const HomeView = lazy(() => import('../views/home'));
 const LoginView = lazy(() => import('../views/login'));
 const RegisterTypeView = lazy(() => import('../views/register-type'));
@@ -21,7 +22,6 @@ const VerifyEmailView = lazy(() => import('../views/verify-email'));
 const UpdateEmailView = lazy(() => import('../views/update-email'));
 const UpdatePasswordView = lazy(() => import('../views/update-password'));
 const RegisterSubAdminView = lazy(() => import('../views/register-sub-admin'));
-
 const OnboardView = lazy(() => import('../views/onboard/index'));
 const OnboardEsignTermsView = lazy(() =>
   import('../views/onboard/esign-terms')
@@ -32,25 +32,16 @@ const OnboardVerifyNodeView = lazy(() =>
 const OnboardUploadLetterView = lazy(() =>
   import('../views/onboard/upload-letter')
 );
-
 const NodeExplorerView = lazy(() => import('../views/node-explorer/index'));
 const NodeExplorerDetailView = lazy(() =>
   import('../views/node-explorer/[id]')
 );
-
 const DonateView = lazy(() => import('../views/donate/index'));
-
 const AdminDashboardView = lazy(() => import('../views/admin/dashboard'));
 const AdminTeamsView = lazy(() => import('../views/admin/teams'));
 const AdminIntakeView = lazy(() => import('../views/admin/intake/index'));
 const AdminIntakeVerificationDetailView = lazy(() =>
   import('../views/admin/intake/verification/[id]/index')
-);
-const AdminIntakeVerificationAMLReviewView = lazy(() =>
-  import('../views/admin/intake/verification/[id]/aml-review')
-);
-const AdminIntakeVerificationKYCReviewView = lazy(() =>
-  import('../views/admin/intake/verification/[id]/kyc-review')
 );
 const AdminUsersView = lazy(() => import('../views/admin/users/index'));
 const AdminUsersDetailView = lazy(() =>
@@ -88,7 +79,6 @@ const AdminSettingsNotificationsAddView = lazy(() =>
 const AdminSettingsNotificationsDetailView = lazy(() =>
   import('../views/admin/settings/notifications/detail/[id]/index')
 );
-
 const DashboardView = lazy(() => import('../views/dashboard/index'));
 const DashboardPerksView = lazy(() => import('../views/dashboard/perks/index'));
 const DashboardPerksDetailView = lazy(() =>
@@ -120,13 +110,13 @@ const DashboardVotesView = lazy(() => import('../views/dashboard/votes/index'));
 const DashboardVotesDetailView = lazy(() =>
   import('../views/dashboard/votes/[id]')
 );
+const DashboardSettingsView = lazy(() => import('../views/dashboard/settings'));
 const DashboardProfileView = lazy(() =>
   import('../views/dashboard/profile/index')
 );
 const DashboardProfileDetailView = lazy(() =>
   import('../views/dashboard/profile/[id]')
 );
-
 const ChangeEmailCancelView = lazy(() =>
   import('../views/change-email/cancel-changes')
 );
@@ -139,6 +129,7 @@ const LandingPage = () => (
     <Suspense fallback={null}>
       <Switch>
         <Route path="/" exact component={LandingView} />
+        <Route path="/privacy-policy" exact component={PrivacyPolicyView} />
         <Route
           path="/change-email/cancel-changes"
           exact
@@ -175,7 +166,6 @@ const LandingPage = () => (
           component={RegisterSubAdminView}
         />
         <Route path="/welcome" exact component={WelcomeView} />
-
         <Route path="/onboard" exact component={OnboardView} />
         <Route
           path="/onboard/esign-terms"
@@ -192,30 +182,17 @@ const LandingPage = () => (
           exact
           component={OnboardUploadLetterView}
         />
-
         <Route path="/admin" exact>
           <Redirect to="/admin/dashboard" />
         </Route>
         <Route path="/admin/dashboard" exact component={AdminDashboardView} />
         <Route path="/admin/teams" exact component={AdminTeamsView} />
-
         <Route path="/admin/intake" exact component={AdminIntakeView} />
         <Route
           path="/admin/intake/verification/:id"
           exact
           component={AdminIntakeVerificationDetailView}
         />
-        <Route
-          path="/admin/intake/verification/:id/aml-review"
-          exact
-          component={AdminIntakeVerificationAMLReviewView}
-        />
-        <Route
-          path="/admin/intake/verification/:id/kyc-review"
-          exact
-          component={AdminIntakeVerificationKYCReviewView}
-        />
-
         <Route path="/admin/users" exact component={AdminUsersView} />
         <Route path="/admin/users/:id" exact component={AdminUsersDetailView} />
         <Route
@@ -223,7 +200,6 @@ const LandingPage = () => (
           exact
           component={AdminUsersDetailKYCView}
         />
-
         <Route path="/admin/ballots" exact component={AdminBallotsView} />
         <Route
           path="/admin/ballots/add"
@@ -245,7 +221,6 @@ const LandingPage = () => (
           exact
           component={AdminBallotsDetailCurrentVotesView}
         />
-
         <Route path="/admin/perks" exact component={AdminPerksView} />
         <Route path="/admin/perks/add" exact component={AdminAddPerksView} />
         <Route
@@ -253,7 +228,6 @@ const LandingPage = () => (
           exact
           component={AdminPerksDetailView}
         />
-
         <Route path="/admin/settings" exact component={AdminSettingsView} />
         <Route
           path="/admin/settings/emailer"
@@ -275,7 +249,6 @@ const LandingPage = () => (
           exact
           component={AdminSettingsNotificationsDetailView}
         />
-
         <Route path="/dashboard" exact component={DashboardView} />
         <Route path="/dashboard/perks" exact component={DashboardPerksView} />
         <Route
@@ -283,7 +256,6 @@ const LandingPage = () => (
           exact
           component={DashboardPerksDetailView}
         />
-
         <Route
           path="/dashboard/verification"
           exact
@@ -326,7 +298,11 @@ const LandingPage = () => (
           exact
           component={DashboardVotesDetailView}
         />
-
+        <Route
+          path="/dashboard/settings"
+          exact
+          component={DashboardSettingsView}
+        />
         <Route
           path="/dashboard/profile"
           exact

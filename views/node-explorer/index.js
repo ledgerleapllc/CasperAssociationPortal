@@ -8,6 +8,7 @@ import { formatDate, numberWithCommas } from '../../shared/core/utils';
 import { getPublicMembers } from '../../shared/redux-saga/member-viewer/actions';
 import IconRefresh from '../../public/images/ic_refresh.svg';
 import PublicHeader from '../../components/layouts/public-header';
+import AppFooter from '../../components/layouts/app-footer';
 
 const TableSlider = styled.table`
   tr {
@@ -335,9 +336,9 @@ const NodeExplorer = () => {
           </div>
         </div>
       </div>
-      <footer className="pb-2 flex justify-center text-xs">
-        ©{new Date().getFullYear()} Casper Association
-      </footer>
+      <div className="pb-3">
+        <AppFooter />
+      </div>
     </div>
   );
 };

@@ -6,9 +6,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-
 import { LoadingButton, Tooltips } from '../../partials';
-
 import {
   NUMBER_PATTERN,
   NEGATIVE_NUMBER_PATTERN,
@@ -292,6 +290,7 @@ const SettingMetricForm = ({
             </div>
           </div>
         </div>
+        {/*
         <p className="mb-3">
           What time window should the system use to calculate the average?
         </p>
@@ -379,6 +378,7 @@ const SettingMetricForm = ({
 
           <div className="w-full lg:w-6/12 ml-10" />
         </div>
+        */}
         <p className="mb-3">
           How much time should the user be given to correct this?
         </p>
@@ -467,6 +467,7 @@ const SettingMetricForm = ({
 
           <div className="w-full lg:w-6/12 ml-10" />
         </div>
+        {/*
         <p className="mb-3">
           How often should the system check that the above criteria has been
           met?
@@ -552,9 +553,9 @@ const SettingMetricForm = ({
               )}
             </div>
           </div>
-
           <div className="w-full lg:w-6/12 ml-10" />
         </div>
+        */}
         <LoadingButton
           type="submit"
           isDisabled={isSubmitting}

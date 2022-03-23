@@ -66,18 +66,6 @@ export function* getUserKYCInfo(data) {
   }
 }
 
-export function* approveKYC(data) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post([`admin/users/${data.payload}/approve-kyc`], null, { headers });
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* denyKYC(data) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -387,50 +375,6 @@ export function* refreshLinks({ payload, resolve, reject }) {
 export function* getVerificationDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* approveUserAML({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`/admin/users/${payload.id}/approve-aml`]);
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* resetUserAML({ payload, resolve, reject }) {
-  try {
-    const { message, id } = payload;
-    const res = yield post([`/admin/users/${id}/reset-aml`], { message });
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* approveUserKYC({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`/admin/users/${payload.id}/approve-kyc`]);
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* resetIntakeKYC({ payload, resolve, reject }) {
-  try {
-    const { message, id } = payload;
-    const res = yield post([`/admin/users/${id}/reset-intake-kyc`], {
-      message,
-    });
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -995,7 +939,6 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_USER_METRICS', getUserMetrics)]);
   yield all([takeLatest('UPDATE_USER_METRICS', updateUserMetrics)]);
   yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
-  yield all([takeLatest('APPROVE_KYC', approveKYC)]);
   yield all([takeLatest('DENY_KYC', denyKYC)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
@@ -1029,10 +972,6 @@ export function* watchAdmin() {
     takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
   ]);
   yield all([takeLatest('REFRESH_LINKS', refreshLinks)]);
-  yield all([takeLatest('APPROVE_USER_AML', approveUserAML)]);
-  yield all([takeLatest('RESET_USER_AML', resetUserAML)]);
-  yield all([takeLatest('APPROVE_USER_KYC', approveUserKYC)]);
-  yield all([takeLatest('RESET_INTAKE_KYC', resetIntakeKYC)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
   yield all([takeLatest('ACTIVATE_VERIFIED_STATUS', activateVerifiedStatus)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);

@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
 import IconCheckCircle from '../../public/images/ic_check_circle.svg';
 import IconWaitingCircle from '../../public/images/ic-time.svg';
-import { bypassOnboardStep } from '../../shared/redux-saga/onboard/actions';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
 
 const OnboardItem = ({
@@ -16,9 +14,6 @@ const OnboardItem = ({
   waitingStep,
   description,
   onClick,
-  stepType,
-  userInfoKey,
-  handleBypass,
   disabled,
 }) => {
   const [onHover, setOnHover] = useState(false);
@@ -40,20 +35,6 @@ const OnboardItem = ({
       );
     }
   }, [user]);
-
-  const handleByPass = () => {
-    handleBypass(true);
-    dispatch(
-      bypassOnboardStep({ type: stepType }, () => {
-        dispatch(
-          updateUser({
-            [userInfoKey]: true,
-          })
-        );
-        handleBypass(false);
-      })
-    );
-  };
 
   return (
     <div className={className} style={{ position: 'relative' }}>
@@ -80,15 +61,6 @@ const OnboardItem = ({
       >
         <div className="relative">
           <img src={imageUrl} alt="esign terms" className="object-cover z-4" />
-          <div className="absolute left-0 bottom-0 p-4 z-3">
-            <button
-              type="button"
-              className="text-xl text-white focus:outline-none"
-              onClick={handleByPass}
-            >
-              Dev Clear
-            </button>
-          </div>
           <div
             className={`transition duration-300 ease-in-out absolute left-0 right-0 top-0 bottom-0 ${
               onHover ? 'opacity-100 z-4' : 'opacity-0 z-2'

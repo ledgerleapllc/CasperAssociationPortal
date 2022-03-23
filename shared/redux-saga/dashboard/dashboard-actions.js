@@ -55,6 +55,12 @@ export const recordVote = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getVerifiedMembers = (payload, successCb) => ({
+  type: 'GET_VERIFIED_MEMBERS',
+  payload,
+  successCb,
+});
+
 export const getDiscussions = (payload, successCb) => ({
   type: 'GET_DISCUSSIONS',
   payload,
@@ -93,6 +99,12 @@ export const getTrendingDiscussions = (payload, resolve) => ({
   type: 'GET_TRENDING_DISCUSSIONS',
   payload,
   resolve,
+});
+
+export const getMemberCountInfo = (resolve, reject) => ({
+  type: 'GET_MEMBER_COUNT_INFO',
+  resolve,
+  reject,
 });
 
 export const getDiscussionDetail = (id, resolve, reject) => ({

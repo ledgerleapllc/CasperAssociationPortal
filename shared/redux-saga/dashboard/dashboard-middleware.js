@@ -83,6 +83,21 @@ export function* publishDiscussion({ payload, resolve, reject }) {
   }
 }
 
+// Get Verified Members
+export function* getVerifiedMembers({ payload, successCb }) {
+  try {
+    const query = qs.stringify({
+      limit: payload.limit || 50,
+      page: payload.page,
+    });
+    const res = yield get([`verified-members/all?${query}`]);
+    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+// Get Discussions
 export function* getDiscussions({ payload, successCb }) {
   try {
     const query = qs.stringify({
@@ -195,6 +210,16 @@ export function* setRemoveNewMark({ id }) {
   try {
     yield destroy([`discussions/${id}/new`]);
   } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getMemberCountInfo({ resolve, reject }) {
+  try {
+    const res = yield get([`member-count-info`]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
     yield put(saveApiResponseError(error));
   }
 }
@@ -460,8 +485,10 @@ export function* watchDemoData() {
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
   yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
+  yield all([takeEvery('GET_VERIFIED_MEMBERS', getVerifiedMembers)]);
   yield all([takeEvery('GET_DISCUSSIONS', getDiscussions)]);
   yield all([takeEvery('GET_DISCUSSION_DETAIL', getDiscussionDetail)]);
+  yield all([takeEvery('GET_MEMBER_COUNT_INFO', getMemberCountInfo)]);
   yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
