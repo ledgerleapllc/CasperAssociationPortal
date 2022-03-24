@@ -119,7 +119,7 @@ const Landing = () => {
             rewards, uptime, stake amount, delegator count and much more.
             Available to all node operators.
           </p>
-          <div className="flex gap-10 mt-10 justify-center">
+          <div id="landing-page__heroButtons" className="gap-10 mt-10">
             <button
               type="button"
               className="w-52 h-16 border-2 border-landing1"
@@ -174,7 +174,7 @@ const Landing = () => {
             className="flex items-center gap-16 custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div>
+            <div className="custom-text-box__Placeholder">
               <div
                 className="bg-white"
                 style={{ width: '32rem', height: '32rem' }}
@@ -213,7 +213,7 @@ const Landing = () => {
             className="flex items-center flex-row-reverse gap-16 custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div>
+            <div className="custom-text-box__Placeholder">
               <div
                 className="bg-white"
                 style={{ width: '32rem', height: '32rem' }}
@@ -236,7 +236,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="flex items-center gap-16 custom-text-box">
-            <div>
+            <div className="custom-text-box__Placeholder">
               <div
                 className="bg-white"
                 style={{ width: '32rem', height: '32rem' }}
@@ -280,7 +280,7 @@ const Landing = () => {
                 }}
               />
               {formState.errors?.name && (
-                <p className="mt-2 text-primary">
+                <p className="mt-2 text-primary text-left">
                   {formState.errors.name?.message}
                 </p>
               )}
@@ -303,7 +303,7 @@ const Landing = () => {
                 }}
               />
               {formState.errors?.email && (
-                <p className="mt-2 text-primary">
+                <p className="mt-2 text-primary text-left">
                   {formState.errors.email?.message}
                 </p>
               )}
@@ -320,13 +320,13 @@ const Landing = () => {
               style={{ fontSize: '20px' }}
             />
             {formState.errors?.message && (
-              <p className="mt-2 text-primary">
+              <p className="mt-2 text-primary text-left">
                 {formState.errors.message?.message}
               </p>
             )}
           </div>
           <button
-            style={{ fontSize: '20px' }}
+            style={{ fontSize: '20px', maxWidth: '100%' }}
             type="submit"
             className="mt-12 w-60 h-18 bg-landing1"
           >
