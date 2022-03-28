@@ -102,7 +102,7 @@ const Landing = () => {
               <Link to="/donate">Donate</Link>
             </li>
             <li>
-              <Link to="/home">Login / Register</Link>
+              <Link to="/login">Login / Register</Link>
             </li>
           </ul>
           <div
@@ -119,7 +119,7 @@ const Landing = () => {
             rewards, uptime, stake amount, delegator count and much more.
             Available to all node operators.
           </p>
-          <div className="flex gap-10 mt-10 justify-center">
+          <div id="landing-page__heroButtons" className="gap-10 mt-10">
             <button
               type="button"
               className="w-52 h-16 border-2 border-landing1"
@@ -171,14 +171,11 @@ const Landing = () => {
       >
         <div className="flex flex-col" style={{ width: '100%' }}>
           <div
-            className="flex items-center gap-16 custom-text-box"
+            className="flex items-center custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+            <div className="custom-text-box__SVG">
+              <img src="/images/monitor.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>Monitor your node status</h2>
@@ -210,14 +207,11 @@ const Landing = () => {
             </div>
           </div>
           <div
-            className="flex items-center flex-row-reverse gap-16 custom-text-box"
+            className="flex items-center flex-row-reverse custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+            <div className="custom-text-box__SVG">
+              <img src="/images/perks.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>
@@ -235,12 +229,9 @@ const Landing = () => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-16 custom-text-box">
-            <div>
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+          <div className="flex items-center custom-text-box">
+            <div className="custom-text-box__SVG">
+              <img src="/images/discussions.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>Create interesting discussions</h2>
@@ -280,7 +271,7 @@ const Landing = () => {
                 }}
               />
               {formState.errors?.name && (
-                <p className="mt-2 text-primary">
+                <p className="mt-2 text-primary text-left">
                   {formState.errors.name?.message}
                 </p>
               )}
@@ -303,7 +294,7 @@ const Landing = () => {
                 }}
               />
               {formState.errors?.email && (
-                <p className="mt-2 text-primary">
+                <p className="mt-2 text-primary text-left">
                   {formState.errors.email?.message}
                 </p>
               )}
@@ -317,15 +308,16 @@ const Landing = () => {
               {...register('message', {
                 required: 'Message is required',
               })}
+              style={{ fontSize: '20px' }}
             />
             {formState.errors?.message && (
-              <p className="mt-2 text-primary">
+              <p className="mt-2 text-primary text-left">
                 {formState.errors.message?.message}
               </p>
             )}
           </div>
           <button
-            style={{ fontSize: '20px' }}
+            style={{ fontSize: '20px', maxWidth: '100%' }}
             type="submit"
             className="mt-12 w-60 h-18 bg-landing1"
           >
@@ -334,7 +326,7 @@ const Landing = () => {
         </form>
       </section>
       <footer className="bg-landing2 relative w-full flex justify-center text-white text-center h-24">
-        <ul className="text-lg flex items-center gap-24">
+        <ul className="flex items-center gap-24">
           <li onClick={() => scrollToAnchor(aboutRef)}>
             <a>About</a>
           </li>
@@ -348,7 +340,7 @@ const Landing = () => {
             <Link to="/donate">Donate</Link>
           </li>
           <li>
-            <Link to="/home">Login</Link>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </footer>

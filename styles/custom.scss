@@ -77,6 +77,10 @@
       font-size: 20px;
       font-weight: 400;
     }
+    #landing-page__heroButtons {
+      display: flex;
+      justify-content: center;
+    }
   }
   #landing-page__home__h2 {
     font-size: 48px;
@@ -122,7 +126,7 @@
         }
       }
     }
-    @media all and (max-width: 767px) {
+    @media all and (max-width: 991px) {
       #custom-nav-burger {
         display: flex;
         justify-content: flex-end;
@@ -174,7 +178,17 @@
     }
   }
   .custom-text-box {
+    .custom-text-box__SVG {
+      width: 600px;
+      > img {
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+    }
     .custom-text-box__Text {
+      flex: 1;
       > h2 {
         font-size: 36px;
         margin: 0;
@@ -215,9 +229,24 @@
       margin-bottom: 300px;
     }
   }
+  footer {
+    ul {
+      li {
+        a {
+          font-size: 20px;
+        }
+      }
+    }
+  }
   @media all and (max-width: 1023px) {
     .custom-text-box {
       display: block !important;
+      .custom-text-box__SVG {
+        width: 100%;
+      }
+      .custom-text-box__Text {
+        width: 100%;
+      }
       h2 {
         margin-top: 1.5rem;
       }
@@ -229,24 +258,28 @@
       }
     }
   }
-  @media all and (max-width: 767px) {
-    .custom-text-box {
-      button {
-        width: 100% !important;
-      }
-    }
+  @media all and (max-width: 991px) {
     #landing-page__hero {
       max-width: 100%;
       padding: 0 15px;
     }
+    #landing-page__heroButtons {
+      flex-direction: column;
+      > button, > a, > a > button {
+        width: 100%;
+      }
+    }
     > section {
       > div {
         > h1 {
-          font-size: 2rem !important;
+          font-size: 3rem !important;
           text-align: center !important;
           line-height: 1.2 !important;
         }
       }
+    }
+    #landing-page__home__h2 {
+      font-size: 1.5rem;
     }
     #landing-page__contact {
       > .flex {
