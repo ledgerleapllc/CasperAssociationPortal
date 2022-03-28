@@ -171,14 +171,11 @@ const Landing = () => {
       >
         <div className="flex flex-col" style={{ width: '100%' }}>
           <div
-            className="flex items-center gap-16 custom-text-box"
+            className="flex items-center custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div className="custom-text-box__Placeholder">
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+            <div className="custom-text-box__SVG">
+              <img src="/images/monitor.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>Monitor your node status</h2>
@@ -210,14 +207,11 @@ const Landing = () => {
             </div>
           </div>
           <div
-            className="flex items-center flex-row-reverse gap-16 custom-text-box"
+            className="flex items-center flex-row-reverse custom-text-box"
             style={{ marginBottom: '300px' }}
           >
-            <div className="custom-text-box__Placeholder">
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+            <div className="custom-text-box__SVG">
+              <img src="/images/perks.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>
@@ -235,12 +229,9 @@ const Landing = () => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-16 custom-text-box">
-            <div className="custom-text-box__Placeholder">
-              <div
-                className="bg-white"
-                style={{ width: '32rem', height: '32rem' }}
-              />
+          <div className="flex items-center custom-text-box">
+            <div className="custom-text-box__SVG">
+              <img src="/images/discussions.svg" alt="" />
             </div>
             <div className="custom-text-box__Text">
               <h2>Create interesting discussions</h2>

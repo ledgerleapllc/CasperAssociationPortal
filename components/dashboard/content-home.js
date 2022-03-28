@@ -320,7 +320,7 @@ const ContentHome = () => {
         </div>
       </div>
       <div id="dashboard-content-node3__Detail">
-        <div id="custom-validator-rewards-box3" className="z-20">
+        <div id="custom-validator-rewards-box3">
           <Card className="w-full h-full px-9 py-5">
             <div
               className="flex items-center"

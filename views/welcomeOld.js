@@ -8,7 +8,6 @@ const Welcome = () => {
   const history = useHistory();
   const detectMobile = useMobileDetect();
 
-  // Begin Onboard
   const beginOnboard = () => {
     localStorage.removeItem('steps');
     history.push('/onboard');
@@ -48,22 +47,34 @@ const Welcome = () => {
                 detectMobile.isMobile() ? '' : 'Portal'
               }`}
             </p>
+            <p className="text-sm text-dark1 mt-2 text-center">
+              A message from our director
+            </p>
             <p className="text-sm text-dark1 mt-4">
-              Dear Casper Blockchain Validator,
+              Node operator,
               <br />
               <br />
-              The Board of the Casper Association welcomes you to the membership
-              portal. On this site, you can follow the process and become a
-              member of the Casper Association.
+              First, thank you for being an essential part of Casper. Our node
+              operators are the beating heart at the very core of our
+              technology. Our Casper Association exists to serve not just the
+              Casper Protocol, but also you, the smaller parts that comprise our
+              greater whole. Never forget that as the world builds on Casper,
+              their machinations live on your collective servers.
               <br />
               <br />
-              Once you completed the identification and application process, you
-              will be able to vote in the Association business and its
-              governance.
-              <br />
-              <br />
-              We are looking forward to welcoming you as a member of the Casper
-              Association.
+              As a node operator, you are eligible to become a member of the
+              Casper Association where you will help determine the future of the
+              Casper blockchain. Our members only portal allows you to discuss
+              the Casper protocol or your needs as an operator, vote on major
+              updates to the blockchain, and even propose new features and
+              functions for the technology. Your success as a node operator is
+              Casper’s success, so inside you will also find instrumental tools
+              to help you as a node operator. Tools like node health monitoring,
+              node status alerts, and network statistics and features not found
+              elsewhere support you in your mission. As Casper grows, so will
+              the features of the association portal, so get in here and help
+              guide Casper alongside us through the 2020s. To complete your
+              registration process, please complete the following 3 steps.
             </p>
             <div className="flex mt-12 w-full">
               <img

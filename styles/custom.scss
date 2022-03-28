@@ -178,7 +178,17 @@
     }
   }
   .custom-text-box {
+    .custom-text-box__SVG {
+      width: 600px;
+      > img {
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+    }
     .custom-text-box__Text {
+      flex: 1;
       > h2 {
         font-size: 36px;
         margin: 0;
@@ -231,14 +241,11 @@
   @media all and (max-width: 1023px) {
     .custom-text-box {
       display: block !important;
-      .custom-text-box__Placeholder {
+      .custom-text-box__SVG {
         width: 100%;
-        .bg-white {
-          width: 100% !important;
-        }
       }
       .custom-text-box__Text {
-        margin-top: 20px;
+        width: 100%;
       }
       h2 {
         margin-top: 1.5rem;
