@@ -111,7 +111,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   };
 
   return (
-    <Styles className="h-full w-full text-base font-thin">
+    <Styles className="w-full h-full text-base font-thin">
       <Table
         {...register}
         className="nodes-table w-full h-full min-w-full pl-7px"

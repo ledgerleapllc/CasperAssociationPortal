@@ -16,8 +16,8 @@ const entityTypeList = [
     name: 'LLC',
   },
   {
-    code: 'Coporation',
-    name: 'Coporation',
+    code: 'Corporation',
+    name: 'Corporation',
   },
   {
     code: 'Trust',
