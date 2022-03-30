@@ -54,16 +54,12 @@ const Welcome = () => {
               <br />
               The Board of the Casper Association welcomes you to the membership
               portal. On this site, you can follow the process and become a
-              member of the Casper Association.
-              <br />
-              <br />
-              Once you completed the identification and application process, you
-              will be able to vote in the Association business and its
-              governance.
-              <br />
-              <br />
-              We are looking forward to welcoming you as a member of the Casper
-              Association.
+              member of the Casper Association. Once you completed the
+              identification and application process, you will be able to vote
+              in the Association business and its governance. We are looking
+              forward to welcoming you as a member of the Casper Association. To
+              complete your registration process, please complete the following
+              three steps.
             </p>
             <div className="flex mt-12 w-full">
               <img
