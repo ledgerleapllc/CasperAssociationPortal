@@ -272,7 +272,7 @@ const NodeExplorer = () => {
               >
                 <Table.Header>
                   <Table.HeaderCell key="name">
-                    <p>Users Name</p>
+                    <p>Name</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell key="regDate">
                     <p>Registration Date</p>
@@ -302,7 +302,7 @@ const NodeExplorer = () => {
                       }
                     >
                       <Table.BodyCell key="body1">
-                        <p className="truncate">{row.full_name}</p>
+                        <p className="truncate">{row.pseudonym}</p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body2">
                         <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
