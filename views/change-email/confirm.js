@@ -17,7 +17,6 @@ const ChangeEmailConfirm = () => {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
   };
-
   const query = useQuery();
 
   useEffect(() => {
