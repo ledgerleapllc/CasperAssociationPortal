@@ -29,11 +29,11 @@ const RegisterSubAdmin = () => {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
   };
+  const query = useQuery();
 
   const onSubmit = data => {
     const temp = data;
     setIsSubmitting(true);
-    const query = useQuery();
     temp.email = query.get('email');
     temp.code = query.get('code');
     dispatch(

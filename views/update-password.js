@@ -29,11 +29,11 @@ const UpdatePassword = () => {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
   };
+  const query = useQuery();
 
   const onSubmit = data => {
     const temp = data;
     setIsSubmitting(true);
-    const query = useQuery();
     temp.email = query.get('email');
     temp.code = query.get('code');
     dispatch(
@@ -182,9 +182,9 @@ const UpdatePassword = () => {
                     className="mr-2"
                     alt="Go home page"
                   />
-                  <a className="text-primary underline font-medium">
+                  <span className="text-primary underline font-medium">
                     Cancel and go back
-                  </a>
+                  </span>
                 </p>
               </Link>
             </div>
