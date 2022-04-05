@@ -350,6 +350,17 @@ export function* getNodesFromUser({ payload, resolve, reject }) {
   }
 }
 
+export function* checkSessionId({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`donation?${query}`]);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getUserDashboard({ resolve, reject }) {
   try {
     const res = yield get([`users/dashboard`]);
@@ -400,6 +411,7 @@ export function* watchAuth() {
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
   yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
   yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
+  yield all([takeLatest('CHECK_SESSION_ID', checkSessionId)]);
   yield all([takeLatest('DONATE', donate)]);
   yield all([takeLatest('CONTACT_US_FROM_GUEST', contactUsFromGuest)]);
 }

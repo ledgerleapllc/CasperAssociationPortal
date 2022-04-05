@@ -150,6 +150,13 @@ export const getNodesFromUser = (payload, resolve, reject) => ({
   reject,
 });
 
+export const checkSessionId = (payload, resolve, reject) => ({
+  type: 'CHECK_SESSION_ID',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getUserDashboard = (resolve, reject) => ({
   type: 'GET_USER_DASHBOARD',
   resolve,
