@@ -241,11 +241,28 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span className="flex gap-2 items-center">
-                                {capitalize(myInfo?.full_name)}{' '}
+                                {capitalize(myInfo?.full_name)}{', '}
+                                {myInfo?.profile?.blockchain_name}{' '}
                                 {myInfo?.profile?.status === 'approved' && (
                                   <VerifiedIcon className="text-primary" />
                                 )}
                               </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>&ensp;</span>
+                            </td>
+                            <td>
+                              {myInfo?.profile?.blockchain_desc ? (
+                                <span>
+                                  {myInfo?.profile?.blockchain_desc}
+                                </span>
+                              ) : (
+                                <span>
+                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank">Casper Account Info Standard</a>
+                                </span>
+                              )}
                             </td>
                           </tr>
                           <tr>
