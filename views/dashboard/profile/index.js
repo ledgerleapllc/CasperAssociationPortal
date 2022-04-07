@@ -254,13 +254,13 @@ const UserProfile = () => {
                               <span>&ensp;</span>
                             </td>
                             <td>
-                              {myInfo?.profile?.blockchain_desc ? (
+                              {myInfo?.profile?.blockchain_name ? (
                                 <span>
                                   {myInfo?.profile?.blockchain_desc}
                                 </span>
                               ) : (
-                                <span>
-                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank">Casper Account Info Standard</a>
+                                <span className="text-sm text-gray">
+                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank" className="text-sm text-primary">Casper Account Info Standard</a>
                                 </span>
                               )}
                             </td>
