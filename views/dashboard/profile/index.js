@@ -342,7 +342,7 @@ const UserProfile = () => {
                       </tr>
                       <tr>
                         <td>
-                          <span>CSPR Delegated:</span>
+                          <span>Self Staked:</span>
                         </td>
                         <td>
                           <span>

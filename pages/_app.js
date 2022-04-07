@@ -31,17 +31,23 @@ const Container = props => {
     state => state.authReducer.fetchUserInfo
   );
   const [token, setToken] = useState(1);
-  useEffect(() => {
+
+  const resizeHandler = () => {
     const width = window.innerWidth;
     if (width >= 992) {
       dispatch(setCollapsed({ isCollapsed: false }));
     } else {
       dispatch(setCollapsed({ isCollapsed: true }));
     }
+  };
+
+  useEffect(() => {
+    resizeHandler();
     setToken(getToken());
     if (getToken()) {
       dispatch(fetchUserInfo(() => {}));
     }
+    window.addEventListener('resize', resizeHandler);
   }, []);
 
   return (fetchUserInfoResponse.process > 1 || !token) && <>{props.children}</>;

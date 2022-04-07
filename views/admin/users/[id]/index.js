@@ -9,13 +9,16 @@ import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { BackButton, Card } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
-import { getShortNodeAddress } from '../../../../shared/core/utils';
+// import { getShortNodeAddress } from '../../../../shared/core/utils';
+import IconCopy from '../../../../public/images/ic_copy.svg';
+import { useSnackBar } from '../../../../components/partials/snack-bar';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const routerParams = useParams();
   const { id } = routerParams;
   const userDetail = useSelector(state => state.userDetailReducer.data);
+  const { openSnack } = useSnackBar();
 
   const [, setOverrideValue] = useState({
     uptime: '',
@@ -94,6 +97,14 @@ const AdminUserDetail = () => {
         </>
       );
     return 'Not Submitted';
+  };
+
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
   };
 
   return (
@@ -197,9 +208,30 @@ const AdminUserDetail = () => {
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
-                <p className="pb-4 text-sm font-medium w-full">
-                  {getShortNodeAddress(userDetail?.public_address_node)}
+                <p className="pb-4 text-sm font-medium w-full flex">
+                  <span
+                    style={{
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {userDetail?.public_address_node}
+                  </span>
+                  <button
+                    className="ml-3"
+                    type="button"
+                    onClick={() => copyClipboard()}
+                  >
+                    <IconCopy />
+                  </button>
                 </p>
+                <input
+                  id="public-address"
+                  value={userDetail?.public_address_node || ''}
+                  readOnly
+                  hidden
+                />
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
                   <p className="text-sm w-5/6">

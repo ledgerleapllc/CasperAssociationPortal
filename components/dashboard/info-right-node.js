@@ -213,7 +213,7 @@ const InfoRightNode = memo(({ currentNode }) => {
                     sharing equally weighted importance.
                   </p>
                   <p>
-                    {metrics?.rank
+                    {!isAdmin && metrics?.rank
                       ? `Your Node Rank: ${metrics?.rank} out of ${metrics?.totalCount}`
                       : ''}
                   </p>

@@ -276,7 +276,7 @@ const Sidebar = () => {
         <p className="text-xxs">
           ©{new Date().getFullYear()} Casper Association
         </p>
-        <div className="flex text-xxs items-center mt-1">
+        <div className="sidebar-footer flex text-xxs items-center mt-1">
           <Link to="/privacy-policy">Privacy Policy</Link>
           <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
           <a href="/terms-of-service.pdf" target="_blank">

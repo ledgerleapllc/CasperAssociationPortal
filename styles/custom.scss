@@ -335,6 +335,7 @@
         margin-top: auto;
       }
       #dashboard-layoutSidebar__logo {
+        display: flex;
         align-items: center;
         > svg {
           margin-left: 0;
@@ -346,7 +347,9 @@
           margin-right: 0;
         }
         @media all and (max-width: 991px) {
-          display: flex;
+          > div {
+            display: block;
+          }
         }
       }
     }
@@ -355,7 +358,6 @@
       width: 60px;
       #dashboard-layoutSidebar__inner {
         padding-left: 0.75rem !important;
-
         #dashboard-layoutSidebar__logo {
           > svg {
             display: none;
@@ -376,7 +378,7 @@
             }
           }
         }
-        > p {
+        > p, .sidebar-footer {
           display: none;
         }
       }
@@ -389,11 +391,9 @@
     padding-left: 250px;
     overflow: hidden;
     position: relative;
-
     &.collapsedSidebar {
       padding-left: 60px;
     }
-
     #dashboard-layoutContent__header {
       width: 100%;
       height: 4.5rem;
@@ -403,13 +403,11 @@
       position: 'relative';
       z-index: 2;
     }
-
     #landing-page__dashboard {
       width: 100%;
       height: calc(100vh - 4.5rem);
       overflow-x: hidden;
       overflow-y: auto;
-
       #custom-ballot-listHeader {
         @media all and (max-width: 1023px) {
           flex-direction: column;
@@ -430,7 +428,6 @@
           }
         }
       }
-
       #dashboard-page__ballots {
         @media all and (max-width: 767px) {
           #custom-ballot-upload {
@@ -446,7 +443,6 @@
           }
         }
       }
-
       #dashboard-page__perks {
         @media all and (max-width: 767px) {
           #custom-perk-upload {
@@ -457,13 +453,11 @@
           }
         }
       }
-
       #landing-page__membership {
         max-width: 82rem;
         width: 100%;
         display: flex;
         flex-direction: column;
-
         #landing-page__membership_Widgets {
           display: flex;
           #landing-page__membership_WidgetsLeft {
