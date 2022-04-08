@@ -128,6 +128,24 @@ const UserProfile = () => {
     return 'Not Verified';
   };
 
+  const renderCaKycHash = () => {
+    if(
+      myInfo &&
+      myInfo.profile &&
+      myInfo.profile.casper_association_kyc_hash &&
+      myInfo.profile.casper_association_kyc_hash.length > 12
+    ) {
+      return (
+        ' ' + 
+        myInfo.profile.casper_association_kyc_hash.slice(0, 3) +
+        '...' +
+        myInfo.profile.casper_association_kyc_hash.slice(
+          myInfo.profile.casper_association_kyc_hash.length - 3
+        )
+      );
+    }
+  }
+
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
     copyText.select();
@@ -295,6 +313,9 @@ const UserProfile = () => {
                             <td>
                               <span className="text-primary underline">
                                 {renderLabel()}
+                              </span>
+                              <span className="text-sm text-gray">
+                                {renderCaKycHash()}
                               </span>
                             </td>
                           </tr>
