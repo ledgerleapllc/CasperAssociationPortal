@@ -132,6 +132,24 @@ const UserProfile = () => {
     return 'Not Verified';
   };
 
+  const renderCaKycHash = () => {
+    if(
+      memberInfo &&
+      memberInfo.profile &&
+      memberInfo.profile.casper_association_kyc_hash &&
+      memberInfo.profile.casper_association_kyc_hash.length > 12
+    ) {
+      return (
+        ' ' + 
+        memberInfo.profile.casper_association_kyc_hash.slice(0, 3) +
+        '...' +
+        memberInfo.profile.casper_association_kyc_hash.slice(
+          memberInfo.profile.casper_association_kyc_hash.length - 3
+        )
+      );
+    }
+  }
+
   return (
     <LayoutDashboard>
       <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -183,11 +201,28 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span className="flex gap-2 items-center">
-                                {capitalize(memberInfo?.full_name)}{' '}
+                                {capitalize(memberInfo?.full_name)}{', '}
+                                {memberInfo?.profile?.blockchain_name}{' '}
                                 {memberInfo?.profile?.status === 'approved' && (
                                   <VerifiedIcon className="text-primary" />
                                 )}
                               </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>&ensp;</span>
+                            </td>
+                            <td>
+                              {memberInfo?.profile?.blockchain_name ? (
+                                <span>
+                                  {memberInfo?.profile?.blockchain_desc}
+                                </span>
+                              ) : (
+                                <span className="text-sm text-gray">
+                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank" className="text-sm text-primary">Casper Account Info Standard</a>
+                                </span>
+                              )}
                             </td>
                           </tr>
                           <tr>
@@ -220,6 +255,9 @@ const UserProfile = () => {
                             <td>
                               <span className="text-primary underline">
                                 {renderLabel()}
+                              </span>
+                              <span className="text-sm text-gray">
+                                {renderCaKycHash()}
                               </span>
                             </td>
                           </tr>
