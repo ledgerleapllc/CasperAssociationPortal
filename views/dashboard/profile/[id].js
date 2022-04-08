@@ -140,14 +140,26 @@ const UserProfile = () => {
       memberInfo.profile.casper_association_kyc_hash.length > 12
     ) {
       return (
-        ' ' + 
-        memberInfo.profile.casper_association_kyc_hash.slice(0, 3) +
+        '&emsp;' + 
+        memberInfo.profile.casper_association_kyc_hash.slice(0, 6) +
         '...' +
         memberInfo.profile.casper_association_kyc_hash.slice(
-          memberInfo.profile.casper_association_kyc_hash.length - 3
+          memberInfo.profile.casper_association_kyc_hash.length - 6
         )
       );
     }
+    return '';
+  }
+
+  const renderCaKycHashFull = () => {
+    if(
+      myInfo &&
+      myInfo.profile &&
+      myInfo.profile.casper_association_kyc_hash
+    ) {
+      return myInfo.profile.casper_association_kyc_hash;
+    }
+    return '';
   }
 
   return (
@@ -256,8 +268,10 @@ const UserProfile = () => {
                               <span className="text-primary underline">
                                 {renderLabel()}
                               </span>
-                              <span className="text-sm text-gray">
-                                {renderCaKycHash()}
+                              <span className="text-sm text-gray underline">
+                               <a target="_blank" href={process.env.NEXT_PUBLIC_BASE_URL + '/api/v1/members/ca-kyc-hash/' + renderCaKycHashFull()}>
+                                  {renderCaKycHash()}
+                                </a>
                               </span>
                             </td>
                           </tr>
