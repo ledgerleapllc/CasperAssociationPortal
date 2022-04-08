@@ -79,7 +79,9 @@ const VerifiedMembers = () => {
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="body1">
                 <div className="flex items-center">
-                  <p className="mr-1">{row.pseudonym}</p>
+                  <p className="mr-1">
+                    <a href={`/dashboard/profile/${row.id}`}>{row.pseudonym}</a>
+                  </p>
                   <VerifiedIcon />
                 </div>
               </Table.BodyCell>
