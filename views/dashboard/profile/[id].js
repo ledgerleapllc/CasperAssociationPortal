@@ -140,7 +140,7 @@ const UserProfile = () => {
       memberInfo.profile.casper_association_kyc_hash.length > 12
     ) {
       return (
-        '&emsp;' + 
+        ' ' + 
         memberInfo.profile.casper_association_kyc_hash.slice(0, 6) +
         '...' +
         memberInfo.profile.casper_association_kyc_hash.slice(
