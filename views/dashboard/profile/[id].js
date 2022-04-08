@@ -133,34 +133,32 @@ const UserProfile = () => {
   };
 
   const renderCaKycHash = () => {
-    if(
+    if (
       memberInfo &&
       memberInfo.profile &&
       memberInfo.profile.casper_association_kyc_hash &&
       memberInfo.profile.casper_association_kyc_hash.length > 12
     ) {
-      return (
-        ' ' + 
-        memberInfo.profile.casper_association_kyc_hash.slice(0, 6) +
-        '...' +
-        memberInfo.profile.casper_association_kyc_hash.slice(
-          memberInfo.profile.casper_association_kyc_hash.length - 6
-        )
-      );
+      return ` ${memberInfo.profile.casper_association_kyc_hash.slice(
+        0,
+        6
+      )}...${memberInfo.profile.casper_association_kyc_hash.slice(
+        memberInfo.profile.casper_association_kyc_hash.length - 6
+      )}`;
     }
     return '';
-  }
+  };
 
   const renderCaKycHashFull = () => {
-    if(
-      myInfo &&
-      myInfo.profile &&
-      myInfo.profile.casper_association_kyc_hash
+    if (
+      memberInfo &&
+      memberInfo.profile &&
+      memberInfo.profile.casper_association_kyc_hash
     ) {
-      return myInfo.profile.casper_association_kyc_hash;
+      return memberInfo.profile.casper_association_kyc_hash;
     }
     return '';
-  }
+  };
 
   return (
     <LayoutDashboard>
@@ -213,7 +211,8 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span className="flex gap-2 items-center">
-                                {capitalize(memberInfo?.full_name)}{', '}
+                                {capitalize(memberInfo?.full_name)}
+                                {', '}
                                 {memberInfo?.profile?.blockchain_name}{' '}
                                 {memberInfo?.profile?.status === 'approved' && (
                                   <VerifiedIcon className="text-primary" />
@@ -232,7 +231,16 @@ const UserProfile = () => {
                                 </span>
                               ) : (
                                 <span className="text-sm text-gray">
-                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank" className="text-sm text-primary">Casper Account Info Standard</a>
+                                  Owner of this validator node has not verified
+                                  their details using the{' '}
+                                  <a
+                                    href="https://github.com/make-software/casper-account-info-standard"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-sm text-primary"
+                                  >
+                                    Casper Account Info Standard
+                                  </a>
                                 </span>
                               )}
                             </td>
@@ -269,7 +277,13 @@ const UserProfile = () => {
                                 {renderLabel()}
                               </span>
                               <span className="text-sm text-gray underline">
-                               <a target="_blank" href={process.env.NEXT_PUBLIC_BASE_URL + '/api/v1/members/ca-kyc-hash/' + renderCaKycHashFull()}>
+                                <a
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  href={`${
+                                    process.env.NEXT_PUBLIC_BASE_URL
+                                  }/api/v1/members/ca-kyc-hash/${renderCaKycHashFull()}`}
+                                >
                                   {renderCaKycHash()}
                                 </a>
                               </span>
