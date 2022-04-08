@@ -323,7 +323,7 @@ const UserProfile = () => {
                               <span>Membership Status:</span>
                             </td>
                             <td>
-                              <span className="text-primary underline">
+                              <span className="text-primary">
                                 {renderLabel()}
                               </span>
                               <span className="text-sm text-gray underline">
