@@ -157,12 +157,20 @@ const Landing = () => {
           />
         </div>
       </section>
-      <section className="custom-container flex flex-col items-center">
-        <h2 className="text-center" id="landing-page__home__h2">
-          “The Casper Member Portal offers me the ability to monitor and track
-          the real-time stats of my node.”
-        </h2>
-        <span id="landing-page__home__span">- Jason Stone</span>
+      <section
+        className="custom-container flex flex-col items-center text-center"
+        id="landing-page__home__h3Section"
+      >
+        <h3>
+          Any validator on the Casper Network can become a Member of the Casper
+          Association.
+        </h3>
+        <span />
+        <p>
+          The Casper Association is a Swiss Association based in Zug responsible
+          for the development of the Casper Ecosystem and the open source
+          development of the Casper Network.
+        </p>
       </section>
       <section
         ref={toolsRef}
@@ -172,7 +180,7 @@ const Landing = () => {
         <div className="flex flex-col" style={{ width: '100%' }}>
           <div
             className="flex items-center custom-text-box"
-            style={{ marginBottom: '300px' }}
+            style={{ marginBottom: '200px' }}
           >
             <div className="custom-text-box__SVG">
               <img src="/images/monitor.svg" alt="" />
@@ -208,7 +216,7 @@ const Landing = () => {
           </div>
           <div
             className="flex items-center flex-row-reverse custom-text-box"
-            style={{ marginBottom: '300px' }}
+            style={{ marginBottom: '200px' }}
           >
             <div className="custom-text-box__SVG">
               <img src="/images/perks.svg" alt="" />
@@ -245,6 +253,16 @@ const Landing = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section
+        className="custom-container flex flex-col items-center"
+        style={{ marginBottom: '300px' }}
+      >
+        <h2 className="text-center" id="landing-page__home__h2">
+          “The Casper Member Portal offers me the ability to monitor and track
+          the real-time stats of my node.”
+        </h2>
+        <span id="landing-page__home__span">- Jason Stone</span>
       </section>
       <section
         className="custom-container text-center"

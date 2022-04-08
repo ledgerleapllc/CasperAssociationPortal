@@ -57,9 +57,9 @@ const Welcome = () => {
               member of the Casper Association. Once you completed the
               identification and application process, you will be able to vote
               in the Association business and its governance. We are looking
-              forward to welcoming you as a member of the Casper Association. To
-              complete your registration process, please complete the following
-              three steps.
+              forward to welcoming you as a member of the Casper Association.
+              Any validator can become a member. Validators wishing to become
+              members of the Association must:
             </p>
             <div className="flex mt-12 w-full">
               <img
@@ -91,9 +91,15 @@ const Welcome = () => {
                 height={14}
               />
               <p className="text-xs lg:text-sm text-dark1 ml-5">
-                Submit a letter of motivation.
+                Submit KYC details for your node.
               </p>
             </div>
+            <p className="text-sm text-dark1 mt-10">
+              Once a validator becomes a member, they can participate in
+              Association business (e.g. voting, or submitting proposals).
+              Member’s validator nodes must maintain certain technical
+              requirements in order to participate in association business.
+            </p>
             <div className="flex justify-center">
               <button
                 type="button"
