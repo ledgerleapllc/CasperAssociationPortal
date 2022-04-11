@@ -281,7 +281,7 @@ const DashboardMembership = () => {
                 <Tooltips
                   disableTheme
                   placement="top"
-                  title="Uptime message"
+                  title="Uptime measures the amount of rewards a given node collects out of the total possible rewards a node could collect over a period of 30 days"
                   arrow
                 >
                   <div
