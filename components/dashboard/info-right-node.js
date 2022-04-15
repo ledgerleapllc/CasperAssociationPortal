@@ -151,18 +151,22 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                   </Link>
                 )}
                 {!isAdmin && (
-                  <Tooltips
-                    placement="left"
-                    title={row.blockchain_name}&#013;{row.blockchain_desc}
-                    arrow
-                    key="public_address"
-                  >
-                    <p className="relative h-full">
-                      <span className="truncate absolute inset-0">
-                        {getShortNodeAddress(row.public_address_node, 20)}
-                      </span>
-                    </p>
-                  </Tooltips>
+                  <Link to={`/dashboard/profile/${row.user_id}`}>
+                    <span>
+                      <Tooltips
+                        placement="left"
+                        title={row?.blockchain_name ? `${row?.blockchain_name} - ${row?.blockchain_desc}` : row?.pseudonym}
+                        arrow
+                        key="public_address"
+                      >
+                        <p className="relative h-full">
+                          <span className="truncate absolute inset-0">
+                            {getShortNodeAddress(row.public_address_node, 20)}
+                          </span>
+                        </p>
+                      </Tooltips>
+                    </span>
+                  </Link>
                 )}
               </Table.BodyCell>
             </Table.BodyRow>
