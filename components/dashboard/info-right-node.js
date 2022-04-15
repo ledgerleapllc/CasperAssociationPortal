@@ -157,8 +157,8 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                         placement="left"
                         title={
                           row?.blockchain_name
-                          ? `${row?.blockchain_name} - ${row?.blockchain_desc}`
-                          : row?.pseudonym
+                            ? `${row?.blockchain_name} - ${row?.blockchain_desc}`
+                            : row?.pseudonym
                         }
                         arrow
                         key="public_address"
