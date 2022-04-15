@@ -153,7 +153,7 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                 {!isAdmin && (
                   <Tooltips
                     placement="left"
-                    title={row.public_address_node}
+                    title={row.blockchain_name}&#013;{row.blockchain_desc}
                     arrow
                     key="public_address"
                   >
