@@ -155,7 +155,11 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
                     <span>
                       <Tooltips
                         placement="left"
-                        title={row?.blockchain_name ? `${row?.blockchain_name} - ${row?.blockchain_desc}` : row?.pseudonym}
+                        title={
+                          row?.blockchain_name
+                          ? `${row?.blockchain_name} - ${row?.blockchain_desc}`
+                          : row?.pseudonym
+                        }
                         arrow
                         key="public_address"
                       >
