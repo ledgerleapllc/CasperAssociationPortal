@@ -1,29 +1,20 @@
-/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
-import { sha256 } from  'js-sha256';
+import { sha256 } from 'js-sha256';
 import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
-import { Checkbox } from '../../partials';
-import {
-  saveShuftiproTemp,
-  updateShuftiproTemp,
-} from '../../../shared/redux-saga/onboard/actions';
-import { useDialog } from '../../partials/dialog';
+import { saveShuftiproTemp } from '../../../shared/redux-saga/onboard/actions';
 
-const { clientId, clientSecret } = SHUFTI_CONST[process.env.MODE];
+const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);
-  const [referenceId, setReferenceId] = useState();
-  const [finalKYC, setFinalKYC] = useState(false);
+  const [, setReferenceId] = useState();
   const [shuftiError, setShuftiError] = useState('');
   const [url, setUrl] = useState();
   const [loading, setLoading] = useState(true);
   const authUser = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
-  const { dialog, onClosed } = useDialog();
 
   const validatesignature = (data, signature, SK) => {
     let dataTemp = JSON.stringify(data);
@@ -33,7 +24,7 @@ export const Shuftipro = () => {
     sha256(dataTemp);
     const hash = sha256.create();
     hash.update(dataTemp);
-    return hash.hex() == signature;
+    return hash.hex() === signature;
   };
 
   useEffect(() => {
@@ -45,6 +36,7 @@ export const Shuftipro = () => {
 
     const payload = {
       reference: referenceIdTemp,
+      callback_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/shuftipro-status`,
       email: authUser.fullInfo.email,
       country: '',
       verification_mode: 'image_only',
@@ -69,13 +61,25 @@ export const Shuftipro = () => {
       supported_types: ['id_card', 'passport', 'driving_license'],
     };
 
+    let address = '';
+    if (authUser.fullInfo.address) {
+      address = authUser.fullInfo.address;
+    }
+    if (authUser.fullInfo.city) {
+      if (address) {
+        address += `, ${authUser.fullInfo.city}`;
+      } else {
+        address = authUser.fullInfo.city;
+      }
+    }
+
     payload.address = {
       name: {
         first_name: authUser.fullInfo.first_name || '',
         last_name: authUser.fullInfo.last_name || '',
         fuzzy_match: 1,
       },
-      full_address: `${authUser.fullInfo.address}, ${authUser.fullInfo.city}`,
+      full_address: '',
       address_fuzzy_match: '1',
       supported_types: ['utility_bill', 'bank_statement'],
       verification_instructions: {
@@ -108,7 +112,6 @@ export const Shuftipro = () => {
         const { data } = response;
 
         if (validatesignature(data, responsesignature, clientSecret)) {
-          // Valid
           setUrl(data.verification_url);
           dispatch(
             saveShuftiproTemp({
@@ -117,65 +120,13 @@ export const Shuftipro = () => {
             })
           );
         } else {
-          // Invalid
           throw new Error();
         }
       })
       .catch(() => {
-        // Invalid
         setShuftiError("We can't start Shufti Pro. Please try again later!");
       });
   }, [authUser]);
-
-  const clickContinue = () => {
-    if (!referenceId) {
-      return;
-    }
-
-    axios({
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${token}`,
-      },
-      data: JSON.stringify({
-        reference: referenceId,
-      }),
-      url: `${SHUFTI_API_URL}/status`,
-    })
-      .then(response => {
-        let isValid = false;
-        if (response && response.data) {
-          const { data } = response;
-
-          const { event, proofs } = data;
-
-          if (event && proofs && proofs.address && proofs.document)
-            isValid = true;
-        }
-
-        if (isValid) {
-          dispatch(
-            updateShuftiproTemp(
-              {
-                reference_id: referenceId,
-                user_id: authUser.id,
-              },
-              () => {
-                onClosed();
-                dialog.afterClosed('verified');
-              }
-            )
-          );
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(() => {
-        onClosed();
-        dialog.afterClosed('');
-      });
-  };
 
   if (loading) {
     return (
@@ -191,30 +142,13 @@ export const Shuftipro = () => {
         <>
           <div className="shuftipro-iframe-wrap h-full">
             <iframe
+              title="Shuftipro Verification"
               className="w-full"
-              style={{ height: '500px' }}
+              style={{ height: '600px' }}
               src={url}
               id="shuftipro-iframe"
               frameBorder="0"
             />
-          </div>
-          <div className="pt-10">
-            <div className="text-center c-checkbox-itemSymbol">
-              <Checkbox
-                onChange={val => setFinalKYC(val)}
-                labelText="I have reached the final step of the above KYC process"
-              />
-            </div>
-          </div>
-          <div className="text-center mt-4">
-            <button
-              type="button"
-              disabled={!finalKYC}
-              className="disabled:opacity-25 disabled:cursor-not-allowed text-lg text-white w-1/2 lg:w-1/2 h-16 rounded-full bg-primary hover:opacity-40 focus:outline-none shadow-md"
-              onClick={() => clickContinue()}
-            >
-              Continue
-            </button>
           </div>
         </>
       )}

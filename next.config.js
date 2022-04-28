@@ -1,10 +1,15 @@
-require('dotenv').config();
+require('dotenv').config({ path: `${process.env.ENVIRONMENT}` });
 const path = require('path');
 
 module.exports = {
-  env: {
-    BASE_URL: process.env.BASE_URL,
-    MODE: process.env.MODE,
+  async rewrites() {
+    return [
+      // Rewrite everything else to use `pages/index`
+      {
+        source: '/:path*',
+        destination: '/',
+      },
+    ];
   },
   future: {
     webpack5: true,
@@ -13,19 +18,10 @@ module.exports = {
     loader: 'imgix',
     path: 'https://caspermember.com/',
   },
-  async redirects() {
-    return [
-      {
-        destination: '/home',
-        permanent: false,
-        source: '/',
-      },
-    ];
-  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  trailingSlash: true,
+  // trailingSlash: true,
   webpack: config => {
     config.module.rules.push({
       test: /\.(png|jp(e*)g|gif)$/,

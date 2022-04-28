@@ -20,12 +20,12 @@ const userInitialState = {
 
 const setUser = (state, payload) => {
   let period;
-  if (!payload.email_verified_at) {
+  if (!payload.email_verified_at || payload.factor_auth_guard) {
     period = 'verifying';
   } else if (
     !payload.signature_request_id ||
     !payload.node_verified_at ||
-    !payload.kyc_verified_at
+    !payload.letter_verified_at
   ) {
     period = 'onboarding';
   } else {
@@ -41,7 +41,11 @@ const setUser = (state, payload) => {
     signature_request_id: payload.signature_request_id,
     node_verified_at: payload.node_verified_at,
     kyc_verified_at: payload.kyc_verified_at,
-    type: payload.profile ? payload.profile.type : null,
+    type: payload?.profile?.type || payload?.type,
+    letter_file: payload?.letter_file,
+    letter_verified_at: payload?.letter_verified_at,
+    letter_rejected_at: payload?.letter_rejected_at,
+    status: payload?.profile?.status || null,
   };
 };
 
@@ -69,7 +73,95 @@ const fetchUserInfo = createReducer(fetchUserInfoStrategies, {
   ...initialState,
 });
 
+const setMetrics = (state, payload) => payload;
+
+const clearMetrics = () => ({});
+
+const metricsStrategies = {
+  SET_METRICS: setMetrics,
+  CLEAR_METRICS: clearMetrics,
+  __default__: state => state,
+};
+
+const metrics = createReducer(metricsStrategies, {});
+
+const setNotifications = (state, payload) => ({
+  ...state,
+  ...payload,
+});
+
+const clearNotifications = () => ({
+  banner: null,
+  popup: null,
+});
+
+const notificationsStrategies = {
+  SET_NOTIFICATIONS: setNotifications,
+  CLEAR_NOTIFICATIONS: clearNotifications,
+  __default__: state => state,
+};
+
+const notifications = createReducer(notificationsStrategies, {
+  banner: null,
+  popup: null,
+});
+
+const setMetricConfig = (state, payload) => ({
+  ...state,
+  max: {
+    ...state.max,
+    ...payload.max,
+  },
+});
+
+const metricConfigStrategies = {
+  SET_METRIC_CONFIG: setMetricConfig,
+  __default__: state => state,
+};
+
+const metricConfig = createReducer(metricConfigStrategies, {
+  max: {
+    block_height_average: 0,
+    peers: 0,
+    update_responsiveness: 0,
+  },
+});
+
+const setPermissions = (state, payload) => ({
+  ...state,
+  ...payload,
+});
+
+const clearPermissions = () => ({});
+
+const permissionsStrategies = {
+  SET_PERMISSIONS: setPermissions,
+  CLEAR_PERMISSIONS: clearPermissions,
+  __default__: state => state,
+};
+
+const permissions = createReducer(permissionsStrategies, {});
+
+const setCollapsed = (state, payload) => ({
+  ...state,
+  isCollapsed: payload.isCollapsed,
+});
+
+const appInfoStrategies = {
+  SET_COLLAPSED: setCollapsed,
+  __default__: state => state,
+};
+
+const appInfo = createReducer(appInfoStrategies, {
+  isCollapsed: false,
+});
+
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
+  metrics,
+  permissions,
+  notifications,
+  metricConfig,
+  appInfo,
 });

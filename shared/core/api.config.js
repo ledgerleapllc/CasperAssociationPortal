@@ -18,7 +18,6 @@ export const callingApi = state => ({
   error: null,
 });
 
-
 export const handleApiSuccess = (state, payload) => ({
   ...state,
   process: API_PROCESS.SUCESS,

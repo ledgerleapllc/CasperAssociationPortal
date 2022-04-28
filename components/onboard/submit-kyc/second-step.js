@@ -1,21 +1,25 @@
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { NAME_PATTERN } from '../../../helpers/form-validation';
 import Countries from '../../../public/json/country.json';
 import { submitKYC } from '../../../shared/redux-saga/onboard/actions';
 import { DateTimePicker } from '../../partials';
+import { AppContext } from '../../../pages/_app';
 
 const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
-  const { control, watch, register, handleSubmit, formState, setValue } = useForm({
-    mode: 'onChange',
-  });
+  const { control, watch, register, handleSubmit, formState, setValue } =
+    useForm({
+      mode: 'onChange',
+    });
   const watchCitizenship = watch('country_citizenship', false);
   const watchResidence = watch('country_residence', false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.authReducer.userInfo);
+  const { setLoading } = useContext(AppContext);
 
   const onSubmit = data => {
+    setLoading(true);
     dispatch(
       submitKYC(
         {
@@ -23,7 +27,11 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
           type,
         },
         () => {
+          setLoading(false);
           nextStep();
+        },
+        () => {
+          setLoading(false);
         }
       )
     );
@@ -36,12 +44,12 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
 
   return (
     <form
-      className="flex-grow flex items-center justify-center mt-16 md:mt-0"
+      className="flex-grow flex items-center justify-center mt-16 lg:mt-0"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="pt-8 animate__animated animate__fadeInUp animate__delay-2s">
-        <div className="md:flex md:space-x-5">
-          <div className="w-full md:flex-1">
+        <div className="lg:flex lg:space-x-5">
+          <div className="w-full lg:flex-1">
             <input
               type="text"
               className="w-full h-14 px-7 rounded-full shadow-md focus:outline-none"
@@ -60,7 +68,7 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               </p>
             )}
           </div>
-          <div className="w-full md:flex-1 h-14 mt-2 md:mt-0">
+          <div className="w-full lg:flex-1 h-14 mt-2 lg:mt-0">
             <input
               type="text"
               className="w-full h-14 px-7 rounded-full shadow-md focus:outline-none"
@@ -80,8 +88,8 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
             )}
           </div>
         </div>
-        <div className="md:flex space-x-5 mt-2">
-          <div className="w-full md:flex-1">
+        <div className="lg:flex space-x-5 mt-2">
+          <div className="w-full lg:flex-1">
             <Controller
               name="dob"
               control={control}
@@ -90,7 +98,10 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               }}
               defaultValue=""
               render={({ field: { onChange: onChangeDate } }) => (
-                <DateTimePicker onChange={onChangeDate} />
+                <DateTimePicker
+                  placeholder="DOB (mm/dd/yyyy) *"
+                  onChange={onChangeDate}
+                />
               )}
             />
             {formState.errors?.dob && (
@@ -99,7 +110,7 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               </p>
             )}
           </div>
-          <div className="md:flex-1 px-7" />
+          <div className="lg:flex-1 px-7" />
         </div>
         <div className="w-full mt-2">
           <input
@@ -116,8 +127,8 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
             </p>
           )}
         </div>
-        <div className="md:flex md:space-x-5 mt-2">
-          <div className="w-full md:flex-1">
+        <div className="lg:flex lg:space-x-5 mt-2">
+          <div className="w-full lg:flex-1">
             <input
               type="text"
               className="w-full h-14 px-7 rounded-full shadow-md focus:outline-none"
@@ -132,10 +143,10 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               </p>
             )}
           </div>
-          <div className="w-full md:flex-1">
+          <div className="w-full lg:flex-1">
             <input
               type="text"
-              className="w-full mt-2 md:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+              className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
               placeholder="Postal Code or Zip *"
               {...register('zip', {
                 required: 'Zip is required',
@@ -148,9 +159,9 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
             )}
           </div>
         </div>
-        <div className="md:flex md:space-x-5 mt-2">
-          <div className="w-full md:flex-1">
-            <div className="flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+        <div className="lg:flex lg:space-x-5 mt-2">
+          <div className="w-full lg:flex-1">
+            <div className="flex items-center justify-between px-7 mt-2 lg:mt-0 h-14 rounded-full shadow-md">
               <select
                 className={`max-w-60 cursor-pointer focus:outline-none ${
                   watchCitizenship ? 'text-black' : 'text-gray'
@@ -175,8 +186,8 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
               </p>
             )}
           </div>
-          <div className="w-full md:flex-1">
-            <div className="w-full md:flex-1 flex items-center justify-between px-7 mt-2 md:mt-0 h-14 rounded-full shadow-md">
+          <div className="w-full lg:flex-1">
+            <div className="w-full lg:flex-1 flex items-center justify-between px-7 mt-2 lg:mt-0 h-14 rounded-full shadow-md">
               <select
                 className={`max-w-60 cursor-pointer focus:outline-none ${
                   watchResidence ? 'text-black' : 'text-gray'
@@ -213,7 +224,7 @@ const SubmitKYCSecondStep = forwardRef(({ onNext, nextStep, type }, ref) => {
         </button>
         <button
           type="button"
-          className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+          className="lg:hidden my-5 text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
           onClick={onNext}
         >
           Continue

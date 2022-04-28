@@ -51,12 +51,15 @@ export const verifyEmail = (payload, callback, resetSubmitting) => ({
   resetSubmitting,
 });
 
-export const resend2FaCode = () => ({
-  type: 'RESEND_2FA_CODE',
+export const resendVerificationCode = (resolve, reject) => ({
+  type: 'RESEND_VERIFICATION_CODE',
+  resolve,
+  reject,
 });
 
-export const fetchUserInfo = () => ({
+export const fetchUserInfo = resolve => ({
   type: 'FETCH_USER_INFO',
+  resolve,
 });
 
 export const fetchUserInfoSuccess = payload => ({
@@ -81,4 +84,115 @@ export const updateUser = payload => ({
 
 export const clearUser = () => ({
   type: 'CLEAR_USER_INFO',
+});
+
+export const changeEmailConfirm = (payload, resolve, reject) => ({
+  type: 'CHANGE_EMAIL_CONFIRM',
+  payload,
+  resolve,
+  reject,
+});
+
+export const changeEmailCancel = (payload, resolve, reject) => ({
+  type: 'CHANGE_EMAIL_CANCEL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const verify2FA = (payload, resolve, reject) => ({
+  type: 'VERIFY_2FA',
+  payload,
+  resolve,
+  reject,
+});
+
+export const resend2FACode = (payload, resolve, reject) => ({
+  type: 'RESEND_2FA_CODE',
+  resolve,
+  reject,
+});
+
+export const getMyMetrics = () => ({
+  type: 'GET_MY_METRICS',
+});
+
+export const setMetrics = payload => ({
+  type: 'SET_METRICS',
+  payload,
+});
+
+export const clearMetrics = () => ({
+  type: 'CLEAR_METRICS',
+});
+
+export const getBannerNotifications = () => ({
+  type: 'GET_BANNER_NOTIFICATIONS',
+});
+
+export const getPopupNotifications = () => ({
+  type: 'GET_POPUP_NOTIFICATIONS',
+});
+
+export const setNotifications = payload => ({
+  type: 'SET_NOTIFICATIONS',
+  payload,
+});
+
+export const clearNotifications = () => ({
+  type: 'CLEAR_NOTIFICATIONS',
+});
+
+export const getNodesFromUser = (payload, resolve, reject) => ({
+  type: 'GET_NODES_FROM_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const checkSessionId = (payload, resolve, reject) => ({
+  type: 'CHECK_SESSION_ID',
+  payload,
+  resolve,
+  reject,
+});
+
+export const getUserDashboard = (resolve, reject) => ({
+  type: 'GET_USER_DASHBOARD',
+  resolve,
+  reject,
+});
+
+export const setMetricConfig = payload => ({
+  type: 'SET_METRIC_CONFIG',
+  payload,
+});
+
+export const setPermissions = payload => ({
+  type: 'SET_PERMISSIONS',
+  payload,
+});
+
+export const setCollapsed = payload => ({
+  type: 'SET_COLLAPSED',
+  payload,
+});
+
+export const clearPermissions = payload => ({
+  type: 'CLEAR_PERMISSIONS',
+  payload,
+});
+
+export const donate = (payload, resolve, reject) => ({
+  type: 'DONATE',
+  payload,
+  resolve,
+  reject,
+});
+
+export const contactUsFromGuest = (payload, resolve, reject) => ({
+  type: 'CONTACT_US_FROM_GUEST',
+  payload,
+  resolve,
+  reject,
 });

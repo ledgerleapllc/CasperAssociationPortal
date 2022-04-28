@@ -1,15 +1,22 @@
 import React, { Children } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { Link, useHistory } from 'react-router-dom';
 
 const ActiveLink = ({ children, activeClassName, ...props }) => {
-  const { pathname } = useRouter();
+  const history = useHistory();
+  const { pathname } = history.location;
   const child = Children.only(children);
   const childClassName = child.props.className || '';
-  const className =
-    pathname.includes(props.href) || pathname.includes(props.as)
-      ? `${childClassName} ${activeClassName}`.trim()
-      : childClassName;
+  let className = childClassName;
+
+  if (props.to === '/dashboard') {
+    if (pathname === props.to)
+      className = `${childClassName} ${activeClassName}`.trim();
+  } else if (props.to === '/dashboard/settings') {
+    if (['/dashboard/profile', '/dashboard/settings'].includes(pathname))
+      className = `${childClassName} ${activeClassName}`.trim();
+  } else if (pathname.includes(props.to) || pathname.includes(props.as)) {
+    className = `${childClassName} ${activeClassName}`.trim();
+  }
 
   return (
     <Link {...props}>

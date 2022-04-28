@@ -49,27 +49,29 @@ export default function FieldArrayFormCSPR({
   };
 
   const insertNode = () => {
-    append({ ...defaultNode });
+    if (watchFormDefault[fields.length - 1].isAdded) {
+      append({ ...defaultNode });
+    }
   };
 
   const removeNode = index => {
-    // setValue(`form[${index}]`, { ...defaultNode });
+    setValue(`form[${index}]`, { ...defaultNode });
     remove(index);
     $submitOwnerNodes.current.click();
   };
 
   return (
     <>
-      <ul className="grid grid-flow-row md:grid-cols-2 md:grid-rows-2 max-w-xl">
+      <ul className="grid grid-flow-row lg:grid-cols-2 lg:grid-rows-2 max-w-xl">
         {new Array(MAX_OWNER_NODES).fill(1).map((item, index) => (
           <li
             key={`node-${index}`}
-            className={`h-50 md:h-40 md:m-2 ${
-              index >= fields.length ? 'hidden md:block' : ''
+            className={`h-50 lg:h-40 lg:m-2 ${
+              index >= fields.length ? 'hidden lg:block' : ''
             }`}
           >
             {index < fields.length && (
-              <div className="h-full md:shadow-lg my-5 md:my-0 md:p-4 animate__animated animate__fadeIn animate__delay-3s">
+              <div className="h-full lg:shadow-lg my-5 lg:my-0 lg:p-4 animate__animated animate__fadeIn animate__delay-3s">
                 <div className="flex justify-between">
                   <p className="font-bold text-dark1 text-sm">
                     {handleShowTitleForm(index + 1)}
@@ -78,7 +80,6 @@ export default function FieldArrayFormCSPR({
                     <button
                       className="underline text-primary text-xs focus:outline-none"
                       type="button"
-                      // disabled={fields.length === 1}
                       onClick={() => removeNode(index)}
                     >
                       Remove Owner
@@ -86,7 +87,7 @@ export default function FieldArrayFormCSPR({
                   ) : (
                     <button
                       disabled={!isDirty || !isValid}
-                      className="hidden md:block disabled:opacity-25 underline text-primary text-xs focus:outline-none"
+                      className="hidden lg:block disabled:opacity-25 underline text-primary text-xs focus:outline-none"
                       type="button"
                       onClick={() => submitNode(index)}
                     >
@@ -94,51 +95,51 @@ export default function FieldArrayFormCSPR({
                     </button>
                   )}
                 </div>
-                <div className="pt-2 pb-7 md:pb-4 relative">
+                <div className="pt-2 pb-7 lg:pb-4 relative">
                   <input
                     type="text"
-                    className="w-full h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none md:text-xs md:border-gray md:border-b focus:outline-none placeholder-gray-50"
+                    className="w-full h-14 lg:h-4 px-7 lg:p-0 shadow-md lg:shadow-none rounded-full lg:rounded-none lg:text-xs lg:border-gray lg:border-b focus:outline-none placeholder-gray-50"
                     placeholder="Email Address *"
                     {...register(`form.${index}.email`)}
                     hidden={watchFormDefault[index].isAdded}
                   />
                   {watchFormDefault[index].isAdded && (
-                    <span className="pt-6 block md:inline h-14 md:h-4 px-7 md:p-0 md:text-xs">
+                    <span className="pt-6 block lg:inline h-14 lg:h-4 px-7 lg:p-0 lg:text-xs">
                       {watchFormDefault[index].email}
                     </span>
                   )}
                   {errors.form && errors.form[index]?.email && (
-                    <p className="absolute bottom-0 ml-7 md:ml-0 text-primary md:text-xxs pt-1">
+                    <p className="absolute bottom-0 ml-7 lg:ml-0 text-primary lg:text-xxs pt-1">
                       {errors.form[index].email.message}
                     </p>
                   )}
                 </div>
-                <div className="flex md:flex-col">
-                  <div className="w-28 md:w-auto pb-7 md:pb-4 relative">
+                <div className="flex lg:flex-col">
+                  <div className="w-28 lg:w-auto pb-7 lg:pb-4 relative">
                     <input
                       type="number"
-                      className={`w-full md:w-max h-14 md:h-4 px-7 md:p-0 shadow-md md:shadow-none rounded-full md:rounded-none md:text-xs md:border-b
+                      className={`w-full lg:w-max h-14 lg:h-4 px-7 lg:p-0 shadow-md lg:shadow-none rounded-full lg:rounded-none lg:text-xs lg:border-b
                       focus:outline-none placeholder-gray-50`}
                       placeholder="% of CSPR"
                       {...register(`form.${index}.percent`)}
                       hidden={watchFormDefault[index].isAdded}
                     />
                     {watchFormDefault[index].isAdded && (
-                      <span className="w-28 md:w-auto h-14 md:h-4 px-7 md:p-0 md:text-xs">
+                      <span className="w-28 lg:w-auto h-14 lg:h-4 px-7 lg:p-0 lg:text-xs">
                         {watchFormDefault[index].percent}%
                       </span>
                     )}
                     {errors.form && errors.form[index]?.percent && (
-                      <p className="w-screen md:w-full absolute bottom-0 ml-7 md:ml-0 mt-2 text-primary md:text-xxs">
+                      <p className="w-screen lg:w-full absolute bottom-0 ml-7 lg:ml-0 mt-2 text-primary lg:text-xxs">
                         {errors.form[index].percent.message}
                       </p>
                     )}
                   </div>
                   <fieldset
-                    className="pt-1 pb-7 md:pb-4 inline-flex"
+                    className="pt-1 pb-7 lg:pb-4 inline-flex"
                     disabled={watchFormDefault[index].isAdded}
                   >
-                    <div className="flex items-center ml-4 md:ml-0">
+                    <div className="flex items-center ml-4 lg:ml-0">
                       <label className="relative pl-8 inline-flex items-center mr-6">
                         <input
                           type="radio"
@@ -193,7 +194,7 @@ export default function FieldArrayFormCSPR({
           fields.length > 1
             ? 'bg-white border-2 border-primary hover:bg-primary hover:bg-opacity-40 hover:text-white text-primary'
             : 'bg-primary text-white hover:opacity-40'
-        } md:hidden disabled:opacity-25 text-lg w-full h-16 rounded-full shadow-md focus:outline-none`}
+        } lg:hidden disabled:opacity-25 text-lg w-full h-16 rounded-full shadow-md focus:outline-none`}
         onClick={() => {
           submitNode(fields.length - 1);
           if (fields.length < 4) {
@@ -206,7 +207,7 @@ export default function FieldArrayFormCSPR({
       {fields.length > 1 && (
         <button
           type="button"
-          className="md:hidden my-5 text-lg text-white w-full md:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+          className="lg:hidden my-5 text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
           onClick={onNext}
         >
           Finished

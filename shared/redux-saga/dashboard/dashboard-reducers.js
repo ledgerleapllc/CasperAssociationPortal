@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-computed-key */
 import { createReducer } from '../../../helpers/reducer-factory';
 
 const initialState = {
@@ -34,3 +35,33 @@ const strategiesList = {
 };
 
 export const demoDataReducer = createReducer(strategiesList, initialState);
+
+const getVoteDetail = state => ({
+  ...state,
+  isLoading: true,
+});
+
+const getVoteDetailSuccess = (state, payload) => ({
+  ...state,
+  data: payload,
+  isLoading: false,
+});
+
+const getVoteDetailError = (state, payload) => ({
+  ...state,
+  error: payload,
+  hasError: true,
+  isLoading: false,
+});
+
+const strategiesVoteDetail = {
+  ['GET_VOTE_DETAIL']: getVoteDetail,
+  ['GET_VOTE_DETAIL_SUCCESS']: getVoteDetailSuccess,
+  ['GET_VOTE_DETAIL_ERROR']: getVoteDetailError,
+  __default__: state => state,
+};
+
+export const voteDetailReducer = createReducer(
+  strategiesVoteDetail,
+  initialState
+);

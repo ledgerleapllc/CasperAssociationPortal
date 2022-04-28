@@ -1,23 +1,14 @@
-export const helloSignRequest = callback => ({
+export const helloSignRequest = (resolve, reject) => ({
   type: 'HELLO_SIGN_REQUEST',
-  callback,
+  resolve,
+  reject,
 });
 
-export const bypassHelloSignRequest = callback => ({
-  type: 'BYPASS_HELLO_SIGN_REQUEST',
-  callback,
-});
-
-export const bypassOnboardStep = (payload, callback) => ({
-  type: 'BYPASS_ONBOARD_STEP',
-  payload,
-  callback,
-});
-
-export const submitKYC = (payload, resolve) => ({
+export const submitKYC = (payload, resolve, reject) => ({
   type: 'SUBMIT_KYC',
   payload,
   resolve,
+  reject,
 });
 
 export const saveShuftiproTemp = payload => ({
@@ -25,10 +16,18 @@ export const saveShuftiproTemp = payload => ({
   payload,
 });
 
-export const updateShuftiproTemp = (payload, resolve) => ({
+export const updateShuftiproTemp = (payload, resolve, reject) => ({
   type: 'UPDATE_SHUFTI',
   payload,
   resolve,
+  reject,
+});
+
+export const deleteShuftiproTemp = (payload, resolve, reject) => ({
+  type: 'DELETE_SHUFTI',
+  payload,
+  resolve,
+  reject,
 });
 
 export const submitPublicAddress = (payload, callback, isVerifying) => ({
@@ -38,32 +37,24 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
-export const verifyFileCasperSigner = (payload, callback) => ({
+export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
-  callback,
-  payload,
-});
-
-export const updateTypeOwnerNode = (payload, resolve) => ({
-  type: 'UPDATE_TYPE_OWNER_NODE',
   payload,
   resolve,
+  reject,
 });
 
-export const postOwnerNodes = (payload, resolve) => ({
-  type: 'POST_OWNER_NODES',
-  payload,
+export const downloadMessageContent = (resolve, reject) => ({
+  type: 'DOWNLOAD_MESSAGE_CONTENT',
   resolve,
+  reject,
 });
 
-export const handleViewGuide = () => ({
-  type: 'HANDLE_VIEW_GUIDE',
-});
-
-export const uploadLetter = (payload, callback) => ({
+export const uploadLetter = (payload, resolve, reject) => ({
   type: 'UPLOAD_LETTER',
-  callback,
   payload,
+  resolve,
+  reject,
 });
 
 export const uploadLetterSuccess = payload => ({
@@ -101,4 +92,18 @@ export const clearOwnerNodes = () => ({
 
 export const clearLetter = () => ({
   type: 'CLEAR_LETTER',
+});
+
+export const getMembershipFileForUser = (payload, resolve, reject) => ({
+  type: 'GET_MEMBERSHIP_FILE_FOR_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const membershipAgreementForUser = (payload, resolve, reject) => ({
+  type: 'MEMBERSHIP_AGREEMENT_FOR_USER',
+  payload,
+  resolve,
+  reject,
 });

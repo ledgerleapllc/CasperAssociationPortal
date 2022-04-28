@@ -1,3 +1,4 @@
+/* eslint-disable node/callback-return */
 import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as putApi } from '../../core/saga-api';
@@ -9,7 +10,7 @@ import {
   getOwnerNodesError,
 } from './actions';
 
-export function* helloSignRequest({ callback }) {
+export function* helloSignRequest({ resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -17,35 +18,10 @@ export function* helloSignRequest({ callback }) {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
     const res = yield post(['users/hellosign-request'], null, { headers });
-    callback(res);
+    resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
-  }
-}
-
-export function* bypassHelloSignRequest({ callback }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield post(['users/verify-bypass'], null, { headers });
-    callback(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* bypassOnboardStep({ payload, callback }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield post(['users/verify-bypass'], payload, { headers });
-    callback(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
@@ -68,7 +44,7 @@ export function* submitPublicAddress({ payload, callback, isVerifying }) {
   }
 }
 
-export function* verifyFileCasperSigner({ payload, callback }) {
+export function* verifyFileCasperSigner({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -79,26 +55,23 @@ export function* verifyFileCasperSigner({ payload, callback }) {
     const formData = new FormData();
     formData.append('file', payload.newFile);
     yield post(['users/verify-file-casper-signer'], formData, { headers });
-    callback();
+    resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
-export function* handleViewGuide() {
+export function* downloadMessageContent({ resolve, reject }) {
   try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    yield get(['users/message-content'], { headers });
+    const res = yield get(['users/message-content'], { responseType: 'blob' });
+    resolve(res);
   } catch (error) {
+    reject(error);
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* submitKYC({ payload, resolve }) {
+export function* submitKYC({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -108,6 +81,7 @@ export function* submitKYC({ payload, resolve }) {
     resolve();
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject();
   }
 }
 
@@ -123,7 +97,25 @@ export function* saveShuftiproTemp({ payload }) {
   }
 }
 
-export function* updateShuftiproTemp({ payload, resolve }) {
+export function* deleteShuftiproTemp({ payload, resolve, reject }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    yield putApi(['users/shuftipro-temp/delete'], payload, { headers });
+    resolve();
+  } catch (error) {
+    if (error.data.code === 400) {
+      resolve();
+    } else {
+      yield put(saveApiResponseError(error));
+      reject();
+    }
+  }
+}
+
+export function* updateShuftiproTemp({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -132,37 +124,16 @@ export function* updateShuftiproTemp({ payload, resolve }) {
     yield putApi(['users/shuftipro-temp'], payload, { headers });
     resolve();
   } catch (error) {
-    yield put(saveApiResponseError(error));
+    if (error.data.code === 400) {
+      resolve();
+    } else {
+      yield put(saveApiResponseError(error));
+      reject();
+    }
   }
 }
 
-export function* updateTypeOwnerNode({ payload, resolve }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield putApi(['users/type-owner-node'], payload, { headers });
-    resolve();
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* postOwnerNodes({ payload, resolve }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/owner-node'], payload, { headers });
-    resolve();
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* uploadLetter({ payload, callback }) {
+export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
@@ -174,8 +145,9 @@ export function* uploadLetter({ payload, callback }) {
     formData.append('file', payload.newFile);
     const res = yield post(['users/upload-letter'], formData, { headers });
     yield put(uploadLetterSuccess(res.data));
-    callback();
+    resolve();
   } catch (error) {
+    reject();
     yield put(uploadLetterError(error));
     yield put(saveApiResponseError(error));
   }
@@ -208,19 +180,42 @@ export function* resendEmailOwnerNodes({ payload }) {
   }
 }
 
+export function* getMembershipFileForUser({ payload, resolve, reject }) {
+  try {
+    const res = yield get(['users/membership-file'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* membershipAgreementForUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post(['users/membership-agreement'], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
-  yield all([takeLatest('BYPASS_HELLO_SIGN_REQUEST', bypassHelloSignRequest)]);
-  yield all([takeLatest('BYPASS_ONBOARD_STEP', bypassOnboardStep)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
-  yield all([takeLatest('HANDLE_VIEW_GUIDE', handleViewGuide)]);
+  yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
   yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
-  yield all([takeLatest('UPDATE_TYPE_OWNER_NODE', updateTypeOwnerNode)]);
-  yield all([takeLatest('POST_OWNER_NODES', postOwnerNodes)]);
+  yield all([takeLatest('DELETE_SHUFTI', deleteShuftiproTemp)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
   yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
   yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);
+  yield all([
+    takeLatest('GET_MEMBERSHIP_FILE_FOR_USER', getMembershipFileForUser),
+  ]);
+  yield all([
+    takeLatest('MEMBERSHIP_AGREEMENT_FOR_USER', membershipAgreementForUser),
+  ]);
 }

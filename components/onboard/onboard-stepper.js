@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../shared/redux-saga/auth/actions';
@@ -17,24 +17,25 @@ const OnboardStepper = ({
   onPrev,
   onNext,
 }) => {
-  const router = useRouter();
+  const router = useHistory();
   const [allStepsDone, setAllStepsDone] = useState(false);
   const user = useSelector(state => state.authReducer.userInfo);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (
-      (title === 'Submit KYC' &&
-        currentStep === 6 &&
+      (title === 'Upload Letter of Motivation' &&
+        user?.letter_verified_at &&
         user.signature_request_id &&
         user.node_verified_at) ||
       (title === 'Esign Terms' &&
         currentStep === 2 &&
         user.node_verified_at &&
-        user.kyc_verified_at) ||
+        user?.letter_verified_at) ||
       (title === 'Verify Node Ownership' &&
         currentStep === 3 &&
         user.signature_request_id &&
-        user.kyc_verified_at)
+        user?.letter_verified_at)
     ) {
       setAllStepsDone(true);
     }
@@ -61,54 +62,26 @@ const OnboardStepper = ({
   };
 
   return (
-    <>
-      <div className="block md:hidden w-full flex justify-between animate__animated animate__fadeInUp">
-        <button
-          type="button"
-          className="flex items-center focus:outline-none"
-          onClick={onPrev}
-        >
-          <img
-            src="/images/ic_prev_circle.svg"
-            alt="prev"
-            width="18"
-            height="18"
-            className="mr-2"
-          />
-          <span className="text-primary text-sm">Back</span>
-        </button>
+    <div
+      className="onboard-stepper-block"
+      style={{ width: '1200px', maxWidth: '100%' }}
+    >
+      <div className="block lg:hidden w-full flex justify-between animate__animated animate__fadeInUp">
         {title === 'Submit KYC' ? (
-          <ul className="list-disc md:list-none">
+          <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">
               {handleTopNextButton()}
             </li>
           </ul>
-        ) : (
-          <button
-            type="button"
-            className={`flex items-center focus:outline-none ${
-              showNextButton ? 'visible' : 'invisible'
-            }`}
-            onClick={onNext}
-          >
-            <span className="text-primary text-sm">Next</span>
-            <img
-              src="/images/ic_next_circle.svg"
-              alt="next"
-              width="18"
-              height="18"
-              className="ml-2"
-            />
-          </button>
-        )}
+        ) : null}
         {!showNextButton && title === 'Submit KYC' && (
-          <ul className="list-disc md:list-none">
+          <ul className="list-disc lg:list-none">
             <li className="text-primary font-bold text-sm">Operator KYC</li>
           </ul>
         )}
       </div>
-      <div className="w-full md:w-8.85/10">
-        <div className="hidden md:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
+      <div className="w-full">
+        <div className="hidden lg:flex border-b border-gray pb-1 animate__animated animate__fadeInUp">
           <span className="font-bold text-dark2">{title}</span>
           {title === 'Submit KYC' && (
             <ul className="flex list-disc">
@@ -130,18 +103,18 @@ const OnboardStepper = ({
           )}
         </div>
         <div
-          className="hidden md:block border-b border-primary border-2 animate__animated animate__fadeInUp"
+          className="hidden lg:block border-b border-primary border-2 animate__animated animate__fadeInUp"
           style={{ width: `${(currentStep * 100) / totalSteps}%` }}
         />
         <div
           id="custom-content"
-          className="mt-2 md:flex md:space-x-12 animate__animated animate__fadeInUp"
+          className="mt-2 lg:flex lg:space-x-12 animate__animated animate__fadeInUp"
         >
-          <div className="relative w-full md:w-auto md:flex-none md:h-114">
+          <div className="relative w-full lg:w-auto lg:flex-none lg:h-114">
             <img
               src={imageUrl}
               alt="esign terms"
-              className="w-full h-44 md:h-auto object-cover"
+              className="w-full h-44 lg:h-auto object-cover"
             />
             <div className="absolute bottom-0 mx-4 my-8 opacity-30">
               <p className="text-2xl">{title}</p>
@@ -150,7 +123,7 @@ const OnboardStepper = ({
           </div>
           <div className="flex-grow">{stepContent}</div>
         </div>
-        <div className="hidden md:flex justify-between border-b border-gray pb-2">
+        <div className="onboard-stepper-blockButtons lg:flex justify-between border-b border-gray pb-2">
           <button
             type="button"
             className={`${
@@ -184,7 +157,7 @@ const OnboardStepper = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

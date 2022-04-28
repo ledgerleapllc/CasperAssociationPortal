@@ -1,337 +1,652 @@
-import { Line } from 'react-chartjs-2';
-import { Card } from '../partials';
-import InfoRightNode from './info-right-node';
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import classNames from 'classnames';
+import ReactLoading from 'react-loading';
+import { useState, useEffect, useContext, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import useMetrics from '../hooks/useMetrics';
+import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
+import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+import IconCopy from '../../public/images/ic_copy.svg';
+import {
+  getNodesFromAdmin,
+  getNodeDetail,
+} from '../../shared/redux-saga/admin/actions';
+import {
+  getPriceTokenGraphInfo,
+  getEarningChart,
+  getEarningData,
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../pages/_app';
+import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
+import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
+import { useSnackBar } from '../partials/snack-bar';
+import { ValidatorChart } from '../charts/validator-chart';
 
-const ContentNode = () => {
-  const lineData = {
-    datasets: [
-      {
-        backgroundColor: 'rgba(255,71,62, 0.7)',
-        data: [1400, 1600, 1500, 2000, 1800, 1600, 1850],
-        fill: true,
-        fillOpacity: 0.6,
-        label: 'Current',
-        pointRadius: 0,
-        showLine: false,
-      },
-      {
-        borderColor: '#FF473E',
-        borderDash: [5, 5],
-        data: [1500, 1550, 1650, 1900, 1700, 1650, 1780],
-        fill: false,
-        label: 'Previous',
-        pointRadius: 0,
-        showLine: true,
-      },
-    ],
-    labels: ['Sun', 'Mon', 'Tues', 'Wed', 'Thrs', 'Fri', 'Sat'],
-  };
-  const lineOptions = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          borderDash: [5, 5],
-          drawBorder: false,
-        },
-      },
-    },
-  };
+const LineMemo = memo(({ type, name, data }) => (
+  <ValidatorChart type={type} name={name} data={data} />
+));
 
-  const cpuUsageData = {
-    datasets: [
-      {
-        borderColor: '#FF473E',
-        borderWidth: 1,
-        data: [11, 92, 53, 78, 54],
-        fill: false,
-        label: 'CPU',
-        pointRadius: 0,
-        showLine: true,
-      },
-    ],
-    labels: ['12:00', '13:00', '14:00', '15:00', '16:00'],
+const ContentNode = ({ sendHightlightNode }) => {
+  const { metrics, metricConfig } = useMetrics();
+  const authUser = useSelector(state => state.authReducer.userInfo);
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [nodesList, setNodesList] = useState([]);
+  const [currentNode, setCurrentNode] = useState();
+  const [priceTokenGraphInfo, setPriceTokenGraphInfo] = useState([]);
+  const [nodeDetail, setNodeDetail] = useState(null);
+  const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
+  const [earning, setEarning] = useState();
+  const [earningChart, setEarningChart] = useState();
+  const [optionChart, setOptionChart] = useState('day');
+  const [optionPriceChart, setOptionPriceChart] = useState('day');
+  const { openSnack } = useSnackBar();
+  const [loadingDataChart, setLoadingDataChart] = useState(false);
+
+  const fetchNodes = () => {
+    dispatch(
+      getNodesFromAdmin({ page: 1, limit: 9999 }, result => {
+        setNodesList(result);
+        setCurrentNode(result[0]);
+        sendHightlightNode(result[0]);
+      })
+    );
   };
 
-  const cpuUsageOption = {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
+  const fetchPriceToken = () => {
+    dispatch(
+      getPriceTokenGraphInfo(
+        res => {
+          setPriceTokenGraphInfo(res);
         },
-      },
-      y: {
-        grid: {
-          borderDash: [5, 5],
-          drawBorder: false,
+        () => {}
+      )
+    );
+  };
+
+  const fetchNodeDetail = nodeName => {
+    setLoading(true);
+    dispatch(
+      getNodeDetail(
+        nodeName,
+        res => {
+          setLoading(false);
+          setNodeDetail(res);
         },
-        position: 'left',
-        ticks: {
-          fontSize: 10,
-          max: 100,
-          min: 0,
-          stepSize: 25,
-          callback: function (value) {
-            return value + '%';
-          },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    fetchPriceToken();
+  }, []);
+
+  const fetchNodeEarning = address => {
+    dispatch(
+      getEarningData(
+        { node: address },
+        res => {
+          setEarning(res);
         },
-      },
-    },
+        () => {}
+      )
+    );
+  };
+
+  const fetchNodeChart = address => {
+    setLoadingDataChart(true);
+    dispatch(
+      getEarningChart(
+        { node: address },
+        res => {
+          setEarningChart(res);
+          setLoadingDataChart(false);
+        },
+        () => {}
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
+      setIsAdmin(isAdminTemp);
+      if (isAdminTemp) {
+        fetchNodes();
+      } else {
+        fetchNodeChart(userInfo.public_address_node);
+        fetchNodeEarning(userInfo.public_address_node);
+      }
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (currentNode) {
+      fetchNodeDetail(currentNode.public_address_node);
+      fetchNodeEarning(currentNode.public_address_node);
+      fetchNodeChart(currentNode.public_address_node);
+    }
+  }, [currentNode]);
+
+  const copyClipboard = () => {
+    const copyText = document.getElementById('public-address');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(copyText.value);
+    openSnack('primary', 'Copied Public Address!');
+  };
+
+  const renderMaxPeers = () => {
+    const maxPeers = metricConfig?.max?.peers;
+    const peers =
+      authUser?.role === 'admin' ? metrics?.peers_setting : metrics?.peers;
+    if (maxPeers && peers) {
+      if (maxPeers > peers) return maxPeers;
+      return peers;
+    }
+    if (maxPeers) return maxPeers;
+    return peers;
   };
 
   return (
-    <div className="flex flex-col lg:justify-between w-full h-full lg:pr-6">
-      <div className="flex flex-wrap lg:flex-nowrap lg:h-1/10 -mx-3">
-        <div className="hidden lg:block lg:w-4/6 px-3 mb-3">
-          <Card className="lg:flex-grow">
-            <div className="flex flex-col px-9 py-4">
-              <div className="flex">
-                <span className="text-lg font-normal">Node Name</span>
-                <img
-                  className="pl-3"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
+    <div className="flex flex-col w-full h-full">
+      <div id="dashboard-content-node2__widgets" className="gap-5">
+        <div className="custom-public-key-box h-full">
+          <Card className="h-full lg:flex-grow">
+            <div className="flex flex-col px-9 h-full justify-center">
+              <div className="flex justify-between">
+                <div className="flex gap-2">
+                  <span className="text-lg font-normal">Public Key</span>
+                  <Tooltips
+                    placement="top"
+                    title="Displays the selected node address"
+                    arrow
+                  >
+                    <img
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </Tooltips>
+                </div>
+                <button
+                  className="ml-6"
+                  type="button"
+                  onClick={() => copyClipboard()}
+                >
+                  <IconCopy />
+                </button>
+                <input
+                  id="public-address"
+                  value={
+                    isAdmin
+                      ? currentNode?.public_address_node ?? ''
+                      : userInfo.public_address_node ?? ''
+                  }
+                  readOnly
+                  hidden
                 />
               </div>
-              <div className="flex">
-                <span className="text-base font-thin">
-                  0x961d61792ca1c5e08a3cec4261e08ef4eaea5b5d
-                </span>
-                <img className="pl-3" src="/images/ic_down.svg" alt="Info" />
+              <div className="flex w-full">
+                {isAdmin && (
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <Tooltips
+                            placement="bottom"
+                            title={currentNode?.public_address_node}
+                            arrow
+                          >
+                            <span className="text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                currentNode?.public_address_node,
+                                30
+                              )}
+                            </span>
+                          </Tooltips>
+                        </p>
+                        <ArrowIcon />
+                      </div>
+                    }
+                  >
+                    <ul>
+                      {nodesList.map((node, index) => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() => {
+                            setCurrentNode(node);
+                            sendHightlightNode(node);
+                          }}
+                          key={`node_${index}`}
+                        >
+                          <p className="w-full relative h-6">
+                            <span className="text-center text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                node?.public_address_node,
+                                30
+                              )}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
+                )}
+                {!isAdmin && (
+                  <>
+                    <span className="text-base font-thin">
+                      {getShortNodeAddress(userInfo?.public_address_node, 30)}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 px-3 mb-3">
-          <Card className="lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 py-4">
-              <div className="flex">
-                <span className="text-base md:text-lg lg:text-lg font-normal text-black1">
+        <div className="custom-stake-amount-box h-full">
+          <Card className="h-full lg:flex-none">
+            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+              <div className="flex gap-2">
+                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Stake Amount
                 </span>
+                <Tooltips
+                  placement="top"
+                  title="Amount staked to the selected node"
+                  arrow
+                >
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
+                </Tooltips>
+              </div>
+              <div className="flex flex-row gap-2">
+                <span className="text-base text-black1 font-thin">
+                  {numberWithCommas(
+                    isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
+                  )}
+                </span>
                 <img
-                  className="hidden lg:block pl-3"
-                  src="/images/ic_feather_info.svg"
+                  width="18px"
+                  height="18px"
+                  src="/images/ic_logo_home.svg"
                   alt="Info"
                 />
               </div>
-              <span className="text-base text-black1 font-thin">2,502,815</span>
             </div>
           </Card>
         </div>
-        <div className="w-2/4 lg:w-1/3 px-3 mb-3">
-          <Card className="lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 py-4">
-              <div className="flex">
-                <span className="text-base md:text-lg lg:text-lg font-normal text-black1">
+        <div className="custom-deletagors-box h-full">
+          <Card className="h-full lg:flex-none">
+            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+              <div className="flex gap-2">
+                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                   Delegators
                 </span>
+                <Tooltips
+                  placement="top"
+                  title="Number of delegators to the selected node."
+                  arrow
+                >
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
+                </Tooltips>
+              </div>
+              <div className="flex flex-row gap-2">
+                <span className="text-base text-black1 font-thin">
+                  {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
+                </span>
                 <img
-                  className="hidden lg:block pl-3"
-                  src="/images/ic_feather_info.svg"
+                  width="18px"
+                  height="18px"
+                  src="/images/delegators.svg"
                   alt="Info"
                 />
               </div>
-              <span className="text-base text-black1 font-thin">8</span>
             </div>
           </Card>
         </div>
       </div>
-      <Card className="block lg:hidden h-auto">
-        <div className="h-auto w-full">
-          <InfoRightNode />
-        </div>
-      </Card>
-      <div className="flex flex-col lg:h-8.5/10 lg:justify-between">
-        <div className="hidden lg:flex my-10 lg:mt-0 h-auto lg:h-1/3">
-          <Card className="w-full px-9 py-5">
+      <div id="dashboard-content-node2__Detail">
+        <div id="custom-validator-rewards-box">
+          <Card className="h-full w-full px-9 py-5">
             <div className="flex flex-col h-full justify-between">
               <div className="flex flex-col lg:flex-row lg:justify-between">
                 <div className="flex">
                   <p className="text-lg">Validator Rewards</p>
-                  <div className="flex items-center">
-                    <img
-                      className="pl-10"
-                      src="/images/ic_line_node.svg"
-                      alt="Line"
-                    />
-                    <p className="text-xs pl-2">Previous</p>
-                  </div>
                 </div>
                 <div>
-                  <ul className="mt-4 lg:mt-0 flex items-center">
-                    <li className="text-sm lg:mx-4">
-                      <a>Day</a>
+                  <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                    <li className="text-sm w-16">
+                      <button
+                        className={classNames(
+                          'w-full',
+                          optionChart === 'day' &&
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
+                        type="button"
+                        onClick={() => setOptionChart('day')}
+                      >
+                        Day
+                      </button>
                     </li>
-                    <li className="px-4">
-                      <a className="rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink">
+                    <li className="text-sm w-16">
+                      <button
+                        className={classNames(
+                          'w-full',
+                          optionChart === 'week' &&
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
+                        type="button"
+                        onClick={() => setOptionChart('week')}
+                      >
                         Week
-                      </a>
+                      </button>
                     </li>
-                    <li className="text-sm mx-4">
-                      <a>Month</a>
+                    <li className="text-sm w-16">
+                      <button
+                        className={classNames(
+                          'w-full',
+                          optionChart === 'month' &&
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
+                        type="button"
+                        onClick={() => setOptionChart('month')}
+                      >
+                        Month
+                      </button>
                     </li>
-                    <li className="text-sm mx-4">
-                      <a>Year</a>
+                    <li className="text-sm w-16">
+                      <button
+                        className={classNames(
+                          'w-full',
+                          optionChart === 'year' &&
+                            'rounded-lg text-primary text-sm shadow-activeLink'
+                        )}
+                        type="button"
+                        onClick={() => setOptionChart('year')}
+                      >
+                        Year
+                      </button>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div className="h-full py-4">
-                <Line data={lineData} options={lineOptions} />
+              <div className="h-full pt-2">
+                {loadingDataChart && (
+                  <div className="h-full flex items-center">
+                    <ReactLoading
+                      className="mx-auto"
+                      type="spinningBubbles"
+                      color="#FF473E"
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                )}
+                {!loadingDataChart && earningChart && (
+                  <LineMemo
+                    name="Self stake"
+                    data={earningChart[optionChart]}
+                  />
+                )}
               </div>
             </div>
           </Card>
         </div>
-        <div className="flex flex-col-reverse mb-20 lg:mb-0 lg:flex-row auto lg:h-3/5">
-          <Card className="flex-grow w-full lg:w-2/5 mt-5 lg:mt-0 lg:mr-3 h-full">
-            <div className="w-full px-9 py-5 flex flex-col h-full justify-between">
-              <p className="text-lg">CPU Usage</p>
-              <div className="h-full py-4">
-                <Line data={cpuUsageData} options={cpuUsageOption} />
-              </div>
-            </div>
-          </Card>
-          <div className="flex flex-col justify-between w-full mt-5 lg:mt-0 lg:w-3/5 lg:ml-3 h-auto lg:h-full">
-            <Card className="flex flex-col justify-between px-5 lg:px-9 py-7 h-auto lg:h-3/5 w-full overflow-y-scroll">
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Uptime</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    75%
+        <div id="dashboard-content-node2__SubDetail" className="gap-5">
+          <div id="dashboard-content-node2__SubDetailLeft">
+            <Card className="w-full h-full">
+              <div className="w-full py-5 flex flex-col h-full justify-between">
+                <div className="flex flex-col lg:flex-row lg:justify-between px-9">
+                  <div className="flex">
+                    <p className="text-lg">Price</p>
+                  </div>
+                  <div>
+                    <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'day' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('day')}
+                        >
+                          Day
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'week' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('week')}
+                        >
+                          Week
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'month' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('month')}
+                        >
+                          Month
+                        </button>
+                      </li>
+                      <li className="text-sm w-16">
+                        <button
+                          className={classNames(
+                            'w-full',
+                            optionPriceChart === 'year' &&
+                              'rounded-lg text-primary text-sm shadow-activeLink'
+                          )}
+                          type="button"
+                          onClick={() => setOptionPriceChart('year')}
+                        >
+                          Year
+                        </button>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Peers</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
+                <div className="w-full relative pr-9 h-8.5/10">
+                  <LineMemo
+                    type="decimals"
+                    name="Price"
+                    data={priceTokenGraphInfo[optionPriceChart]}
                   />
-                </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-1/2 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    49/88
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-row py-1">
-                  <span className="text-lg">Performance</span>
-                  <img
-                    className="pl-3"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </div>
-                <div className="overflow-hidden h-4 mt-2 text-xs flex rounded-lg bg-gray bg-opacity-50">
-                  <div className="w-3/4 shadow-none flex flex-col text-center whitespace-nowrap text-white font-thin justify-center bg-primary">
-                    75%
-                  </div>
                 </div>
               </div>
             </Card>
-            <Card className="flex flex-row mt-5 lg:mt-0 py-4 lg:py-6 lg:h-1/3">
-              <div className="flex flex-col w-1/2 px-5 lg:px-0 border-r border-gray lg:pl-20 justify-center">
-                <div className="flex flex-row">
-                  <span className="text-lg">Daily Earnings</span>
-                  <img
-                    className="pl-3 lg:pl-5"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </div>
-                <div className="flex flex-row mt-3">
-                  <img
-                    width="18px"
-                    height="18px"
-                    src="/images/ic_logo_home.svg"
-                    alt="Info"
-                  />
-                  <span className="text-base font-thin pl-3">0.0154</span>
-                </div>
-              </div>
-              <div className="flex flex-col px-5 lg:px-0 w-1/2 lg:pl-20 justify-center">
-                <div className="flex flex-row">
-                  <span className="text-lg">Total Earnings</span>
-                  <img
-                    className="pl-3 lg:pl-5"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </div>
-                <div className="flex flex-row mt-3">
-                  <img
-                    width="18px"
-                    height="18px"
-                    src="/images/ic_logo_home.svg"
-                    alt="Info"
-                  />
-                  <span className="text-base font-thin pl-3">6.101297</span>
-                </div>
-              </div>
-            </Card>
-            <div className="flex lg:hidden mt-5 h-auto">
-              <Card className="w-full px-9 py-5">
-                <div className="flex flex-col h-full justify-between">
-                  <div className="flex flex-col lg:flex-row lg:justify-between">
-                    <div className="flex justify-between">
-                      <p className="text-2xl">Validator Rewards</p>
-                      <div className="flex items-center">
+          </div>
+          <div id="dashboard-content-node2__SubDetailRight">
+            <div id="custom-uptime-box">
+              <Card className="flex items-center px-5 w-full h-full">
+                <div className="h-8/10 flex flex-col justify-between w-full">
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Uptime</span>
+                      <Tooltips
+                        placement="right"
+                        title="Uptime for the selected node."
+                        arrow
+                      >
                         <img
-                          className="lg:pl-10"
-                          src="/images/ic_line_node.svg"
-                          alt="Line"
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
                         />
-                        <p className="text-xs pl-2">Previous</p>
-                      </div>
+                      </Tooltips>
                     </div>
-                    <div>
-                      <ul className="mt-4 lg:mt-0 flex items-center">
-                        <li className="text-sm lg:mx-4">
-                          <a>Day</a>
-                        </li>
-                        <li className="px-4">
-                          <a className="rounded-lg px-4 py-1 text-primary text-sm shadow-activeLink">
-                            Week
-                          </a>
-                        </li>
-                        <li className="text-sm mx-4">
-                          <a>Month</a>
-                        </li>
-                        <li className="text-sm mx-4">
-                          <a>Year</a>
-                        </li>
-                      </ul>
-                    </div>
+                    <ProgressBar
+                      value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
+                      total={metricConfig?.max?.uptime}
+                      mask="x%"
+                    />
                   </div>
-                  <div className="h-full py-4">
-                    <Line data={lineData} options={lineOptions} />
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Block Height</span>
+                      <Tooltips
+                        placement="right"
+                        title="Block height for the selected node."
+                        arrow
+                      >
+                        <img
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
+                        />
+                      </Tooltips>
+                    </div>
+                    <ProgressBar
+                      value={
+                        isAdmin
+                          ? +nodeDetail?.block_height_average
+                          : metrics?.block_height_average
+                      }
+                      total={
+                        isAdmin
+                          ? DEFAULT_BASE_BLOCKS
+                          : metricConfig?.max?.block_height_average
+                      }
+                      mask="x/y"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Update Responsiveness</span>
+                      <Tooltips
+                        placement="right"
+                        title="Update responsiveness for the selected node."
+                        arrow
+                      >
+                        <img
+                          width="10px"
+                          height="10px"
+                          src="/images/ic_feather_info.svg"
+                          alt="Info"
+                        />
+                      </Tooltips>
+                    </div>
+                    <ProgressBar
+                      value={
+                        isAdmin
+                          ? +nodeDetail?.update_responsiveness
+                          : metrics?.update_responsiveness
+                      }
+                      total={
+                        isAdmin
+                          ? nodeDetail?.max_update_responsiveness
+                          : metricConfig?.max?.update_responsiveness
+                      }
+                      mask=""
+                      options={{
+                        startText: 'Needs Improvement',
+                        endText: 'Great',
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex gap-3 flex-row py-1">
+                      <span className="text-lg">Peers</span>
+                    </div>
+                    <ProgressBar
+                      value={
+                        authUser?.role === 'admin'
+                          ? metrics?.peers_setting
+                          : metrics?.peers
+                      }
+                      total={renderMaxPeers()}
+                      mask="x/y"
+                    />
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div id="custom-earnings-box">
+              <Card className="custom-earnings-boxCard">
+                <div className="custom-earnings-singleBox flex flex-col w-1/2 px-5 lg:px-9 border-r border-gray justify-center">
+                  <div className="flex gap-3 flex-row">
+                    <span className="text-lg">Daily Earnings</span>
+                    <Tooltips
+                      placement="top"
+                      title="Displays today's earnings."
+                      arrow
+                    >
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
+                    </Tooltips>
+                  </div>
+                  <div className="flex flex-row mt-3">
+                    <span className="text-base font-thin pr-3">
+                      {numberWithCommas(Math.round(earning?.daily_earning))}
+                    </span>
+                    <img
+                      width="18px"
+                      height="18px"
+                      src="/images/ic_logo_home.svg"
+                      alt="Info"
+                    />
+                  </div>
+                </div>
+                <div className="custom-earnings-singleBox flex flex-col px-5 lg:px-9 w-1/2 justify-center">
+                  <div className="flex gap-3 flex-row">
+                    <span className="text-lg">Min Bid Slot</span>
+                    <Tooltips
+                      placement="top"
+                      title="Displays the minimum bidding amount to win a slot in the validator pool"
+                      arrow
+                    >
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
+                    </Tooltips>
+                  </div>
+                  <div className="flex flex-row mt-3">
+                    <span className="text-base font-thin pr-3">
+                      {numberWithCommas(Math.round(earning?.mbs))}
+                    </span>
+                    <img
+                      width="18px"
+                      height="18px"
+                      src="/images/ic_logo_home.svg"
+                      alt="Info"
+                    />
                   </div>
                 </div>
               </Card>

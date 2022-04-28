@@ -1,0 +1,64 @@
+.date-time-perks {
+  @apply mt-2 rounded-none w-full border border-gray1 shadow-md;
+}
+.active-link {
+  .line-hr {
+    display: block;
+  }
+}
+
+.padding-tracker { 
+  @apply lg:-mr-card lg:pr-card-tracker;
+}
+
+.padding-tracker-member-perks { 
+  @apply lg:-mr-16 lg:pr-card-tracker;
+}
+
+
+.membership {
+  .metrics-card {
+    .desc {
+      @apply text-gray;
+    }
+    &-warning {
+      @apply bg-primary text-white;
+      .desc {
+        @apply text-white;
+      }
+      .progress-bar-circle {
+        .progress-tracker {
+          @apply text-white;
+        }
+        .progress-tracking {
+          @apply text-red;
+        }
+      }
+    }
+  }
+}
+.progress-bar {
+  &-circle {
+    .progress-tracker {
+      @apply text-gray1;
+    }
+    .progress-tracking {
+      @apply text-primary;
+    }
+  }
+}
+.nodes-table {
+  .highlight {
+    @apply lg:rounded-2xl lg:bg-primary text-white;
+  }
+  .fail-node {
+    @apply text-primary font-normal;
+  }
+}
+
+.admin-perks-page {
+  .padding-tracker-member-perks {
+    margin-right: -2rem;
+    padding-right: 0;
+  }
+}

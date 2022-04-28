@@ -1,70 +1,26 @@
-import Facebook from '../../public/images/ic_facebook.svg';
-import Twitter from '../../public/images/ic_twitter.svg';
-import Youtube from '../../public/images/ic_youtube.svg';
-import Linkedin from '../../public/images/ic_linkedin.svg';
-import Medium from '../../public/images/ic_medium.svg';
+import { Link } from 'react-router-dom';
 
 const AppFooter = ({ theme }) => (
-  <div className="flex items-center justify-between lg:visible invisible">
+  <div className="lg:visible invisible">
     <p
       className={`${
         theme === 'light' ? 'text-white' : 'text-dark2'
-      } text-xs animate__animated animate__fadeIn animate__delay-5s
+      } text-xs text-center animate__animated animate__fadeIn animate__delay-2s
     `}
     >
-      ©2021 CasperLabs.io
+      ©{new Date().getFullYear()} Casper Association
     </p>
-    <div className="flex space-x-6 animate__animated animate__fadeIn animate__delay-5s">
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Facebook
-          width={8}
-          height={16}
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Twitter
-          width={20}
-          height={16}
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Youtube
-          width={22}
-          height={16}
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Linkedin
-          width={16}
-          height={16}
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
-      <button
-        className="flex bottom-0 transition duration-300 ease-in-out transform hover:scale-150"
-        type="button"
-      >
-        <Medium
-          width={20}
-          height={16}
-          className={theme === 'light' ? 'text-white' : 'text-primary'}
-        />
-      </button>
+    <div
+      className={`${
+        theme === 'light' ? 'text-white' : 'text-dark2'
+      } flex text-xs items-center justify-center mt-2 animate__animated animate__fadeIn animate__delay-2s
+    `}
+    >
+      <Link to="/privacy-policy">Privacy Policy</Link>
+      <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <a href="/terms-of-service.pdf" target="_blank">
+        Terms of Service
+      </a>
     </div>
   </div>
 );

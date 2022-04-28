@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint no-irregular-whitespace: ["error", { "skipRegExps": true }] */
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -62,7 +64,10 @@ const SubmitKYCFifthStep = ({ onNext, onHasOwner }) => {
       </p>
       <br />
       <div className="animate__animated animate__fadeIn animate__delay-6s">
-        <form onSubmit={handleSubmit(onSubmit)} onKeyDown={e => checkKeyDown(e)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          onKeyDown={e => checkKeyDown(e)}
+        >
           <FieldArrayFormCSPR
             {...{
               control,

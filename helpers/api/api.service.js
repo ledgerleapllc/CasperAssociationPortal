@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 
 function createURL(uri) {
@@ -18,13 +19,16 @@ export class ApiService {
   axiosInstance;
 
   constructor() {
-    // Init axiosInstance
     this.axiosInstance = axios.create({
       baseURL: `${API_DOMAIN}/api/v1/`,
-      // Common header
       headers: {
         'Content-Type': 'application/json',
       },
+    });
+    this.axiosInstance.interceptors.request.use(_config => {
+      const token = localStorage.getItem('ACCESS-TOKEN');
+      if (token) _config.headers.Authorization = `Bearer ${token}`;
+      return _config;
     });
   }
 
