@@ -55,8 +55,15 @@ Install packages and setup environment. You will need to modify **.env.productio
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt install nodejs -y
 curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
-yarn build
 yarn install
+```
+
+Build command depends on environment. If you are running a custom environment, you'll need to modify env/.env.*
+
+```
+yarn build-dev
+yarn build-staging
+yarn build-prod
 ```
 
 The above commands will build **out/** on site using the variables from your .env.production file.
