@@ -22,6 +22,7 @@ const HtmlTooltip = withStyles(theme => ({
 const VerifyNodeOwnershipFirstStep = ({
   isVerified,
   setPublicAddressVerified,
+  setPublicAddress,
 }) => {
   const dispatch = useDispatch();
   const { formState, register, handleSubmit, watch } = useForm();
@@ -56,6 +57,7 @@ const VerifyNodeOwnershipFirstStep = ({
         },
         () => {
           setPublicAddressVerified(true);
+          setPublicAddress(pubAddress);
         },
         () => {
           setIsVerifying(false);

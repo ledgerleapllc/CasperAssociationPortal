@@ -251,17 +251,19 @@ export function* resend2FACode({ resolve, reject }) {
   }
 }
 
-export function* getMyMetrics() {
+export function* getMyMetrics({ public_address_node }) {
   const DEFAULT_BASE_BLOCKS = 10;
   try {
-    const res = yield get(['users/metrics']);
+    const url = public_address_node
+      ? `users/metrics?public_address_node=${public_address_node}`
+      : 'users/metrics';
+    const res = yield get([url]);
     if (res.data?.monitoring_criteria) {
       const key = {
         uptime: 'uptime',
         'block-height': 'block_height_average',
         'update-responsiveness': 'update_responsiveness',
       };
-
       res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
         (result, item) => {
           const itemKey = key[item.type];

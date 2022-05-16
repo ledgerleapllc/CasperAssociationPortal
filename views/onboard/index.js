@@ -17,7 +17,6 @@ const Onboard = () => {
     if (user.signature_request_id) flag += 1;
     if (user.node_verified_at) flag += 1;
     if (user.letter_file) flag += 1;
-
     if (flag === 3) return 100;
     return 33.33 * flag;
   };

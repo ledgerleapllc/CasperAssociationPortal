@@ -797,6 +797,18 @@ export function* getAdminDashboard({ payload, resolve, reject }) {
   }
 }
 
+export function* getNodesByUser({ payload, resolve, reject }) {
+  try {
+    const query = qs.stringify(payload);
+    const res = yield get([`users/list-node-by?${query}`]);
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getNodesFromAdmin({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
@@ -993,6 +1005,7 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_NOTIFICATIONS', getListNotifications)]);
   yield all([takeLatest('GET_ADMIN_DASHBOARD', getAdminDashboard)]);
   yield all([takeEvery('GET_NODES_FROM_ADMIN', getNodesFromAdmin)]);
+  yield all([takeEvery('GET_NODES_BY_USER', getNodesByUser)]);
   yield all([
     takeLatest('GET_NOTIFICATION_VIEW_LOGS', getNotificationViewLogs),
   ]);
