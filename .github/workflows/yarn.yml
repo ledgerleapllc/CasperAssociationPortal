@@ -1,0 +1,27 @@
+# Workflow will do a fresh install and build of node using Yarn
+
+name: Yarn CI
+
+on:
+  push:
+    branches: "*"
+
+jobs:
+  build:
+    name: Yarn build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: install
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        - cmd: build-dev
+          if: github.ref == 'refs/heads/development'
+
+        - cmd: build-staging
+          if: github.ref == 'refs/heads/staging'
+
+        - cmd: build-prod
+          if: github.ref == 'refs/heads/master'
