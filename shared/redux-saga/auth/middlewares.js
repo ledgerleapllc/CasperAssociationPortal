@@ -251,12 +251,17 @@ export function* resend2FACode({ resolve, reject }) {
   }
 }
 
-export function* getMyMetrics({ public_address_node }) {
+export function* getMyMetrics({ public_address_node, isTotal }) {
   const DEFAULT_BASE_BLOCKS = 10;
   try {
-    const url = public_address_node
+    let url = public_address_node
       ? `users/metrics?public_address_node=${public_address_node}`
-      : 'users/metrics';
+      : 'users/metrics?v=1';
+    if (isTotal) {
+      url += '&isTotal=1';
+    } else {
+      url += '&isTotal=0';
+    }
     const res = yield get([url]);
     if (res.data?.monitoring_criteria) {
       const key = {

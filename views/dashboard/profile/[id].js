@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -5,8 +7,14 @@ import styled from 'styled-components';
 import IconCopy from '../../../public/images/ic_copy.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, ProgressBar } from '../../../components/partials';
+import {
+  Card,
+  ProgressBar,
+  Dropdown,
+  Tooltips,
+} from '../../../components/partials';
 import IconCamera from '../../../public/images/ic_camera.svg';
+import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import {
   formatDate,
   generateTextForEras,
@@ -64,7 +72,33 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const [memberInfo, setMemberInfo] = useState(null);
   const [metrics, setMetrics] = useState(null);
+  const [addressList, setAddressList] = useState([]);
+  const [currentUserNode, setCurrentUserNode] = useState();
   const { openSnack } = useSnackBar();
+
+  const refreshMetrics = temp => {
+    let block_height =
+      DEFAULT_BASE_BLOCKS -
+      (temp.max_block_height_average - temp.block_height_average);
+    if (block_height < 0) {
+      block_height = 0;
+    }
+    const metricTemp = {
+      ...temp,
+      uptime: temp.uptime || 0,
+      block_height,
+      peers: temp.peers || 0,
+      update_responsiveness: temp.update_responsiveness || 0,
+      monitoring_criteria: temp.monitoring_criteria || null,
+      average_uptime: temp.avg_uptime || 0,
+      avg_update_responsiveness: temp.avg_update_responsiveness || 0,
+      current_block_height:
+        DEFAULT_BASE_BLOCKS - block_height > 0
+          ? DEFAULT_BASE_BLOCKS - block_height
+          : 0,
+    };
+    setMetrics(metricTemp);
+  };
 
   useEffect(() => {
     if (id) {
@@ -72,31 +106,16 @@ const UserProfile = () => {
       dispatch(
         getPublicMemberDetail(
           id,
+          null,
           res => {
             setLoading(false);
             setMemberInfo(res);
-            const temp = res.metric;
-            let block_height =
-              DEFAULT_BASE_BLOCKS -
-              (temp.max_block_height_average - temp.block_height_average);
-            if (block_height < 0) {
-              block_height = 0;
+            const addresses = res.addresses || [];
+            setAddressList(addresses);
+            if (addresses && addresses.length > 0) {
+              setCurrentUserNode(addresses[0]);
             }
-            const metricTemp = {
-              ...temp,
-              uptim: temp.uptime || 0,
-              block_height,
-              peers: temp.peers || 0,
-              update_responsiveness: temp.update_responsiveness || 0,
-              monitoring_criteria: temp.monitoring_criteria || null,
-              average_uptime: temp.avg_uptime || 0,
-              avg_update_responsiveness: temp.avg_update_responsiveness || 0,
-              current_block_height:
-                DEFAULT_BASE_BLOCKS - block_height > 0
-                  ? DEFAULT_BASE_BLOCKS - block_height
-                  : 0,
-            };
-            setMetrics(metricTemp);
+            refreshMetrics(res.metric);
           },
           () => {
             setLoading(false);
@@ -105,6 +124,23 @@ const UserProfile = () => {
       );
     }
   }, [id]);
+
+  const refreshUserInfo = address => {
+    setLoading(true);
+    dispatch(
+      getPublicMemberDetail(
+        id,
+        address?.public_address_node || null,
+        res => {
+          setLoading(false);
+          refreshMetrics(res.metric);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -322,27 +358,70 @@ const UserProfile = () => {
                           <span>Node Address:</span>
                         </td>
                         <td>
-                          <span className="inline-flex gap-2 items-center">
-                            {getShortNodeAddress(
-                              memberInfo?.public_address_node
-                            )}
-                            {memberInfo?.profile?.status === 'approved' && (
-                              <VerifiedIcon className="text-primary" />
-                            )}
-                          </span>
-                          <button
-                            className="ml-6"
-                            type="button"
-                            onClick={() => copyClipboard()}
-                          >
-                            <IconCopy />
-                          </button>
-                          <input
-                            id="public-address"
-                            value={memberInfo?.public_address_node || ''}
-                            readOnly
-                            hidden
-                          />
+                          <div className="flex items-center">
+                            <div style={{ width: '300px' }}>
+                              <Dropdown
+                                className="w-full"
+                                trigger={
+                                  <div className="flex items-center gap-2">
+                                    <p className="w-full relative h-6">
+                                      <Tooltips
+                                        placement="bottom"
+                                        title={
+                                          currentUserNode?.public_address_node
+                                        }
+                                        arrow
+                                      >
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            currentUserNode?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </Tooltips>
+                                    </p>
+                                    <ArrowIcon />
+                                  </div>
+                                }
+                              >
+                                <ul>
+                                  {addressList.map((address, index) => (
+                                    <li
+                                      className="p-2 hover:text-primary cursor-pointer"
+                                      onClick={() => {
+                                        setCurrentUserNode(address);
+                                        refreshUserInfo(address);
+                                      }}
+                                      key={`node_${index}`}
+                                    >
+                                      <p className="w-full relative h-6">
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            address?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </p>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </Dropdown>
+                            </div>
+                            <button
+                              className="ml-6"
+                              type="button"
+                              onClick={() => copyClipboard()}
+                              style={{ marginBottom: '5px' }}
+                            >
+                              <IconCopy />
+                            </button>
+                            <input
+                              id="public-address"
+                              value={currentUserNode?.public_address_node || ''}
+                              readOnly
+                              hidden
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr>

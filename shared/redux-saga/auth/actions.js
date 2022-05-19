@@ -113,9 +113,10 @@ export const resend2FACode = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getMyMetrics = (public_address_node = null) => ({
+export const getMyMetrics = (public_address_node = null, isTotal = false) => ({
   type: 'GET_MY_METRICS',
   public_address_node,
+  isTotal,
 });
 
 export const setMetrics = payload => ({

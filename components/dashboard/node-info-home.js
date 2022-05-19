@@ -4,13 +4,17 @@ import useMetrics from '../hooks/useMetrics';
 import { ProgressBar, Tooltips } from '../partials';
 
 const NodeInfoHome = () => {
-  const { metrics, metricConfig } = useMetrics();
+  const { metrics, metricConfig } = useMetrics(true);
   return (
     <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
-          <span className="text-lg">Node Rank&nbsp;</span>
+          <span className="text-lg">
+            {metrics?.addresses && metrics?.addresses.length > 0
+              ? 'Top Node Rank'
+              : 'Node Rank'}
+          </span>
           <Tooltips
             placement="top"
             title="Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance."
@@ -21,6 +25,7 @@ const NodeInfoHome = () => {
               height="10px"
               src="/images/ic_feather_info.svg"
               alt="Info"
+              style={{ marginLeft: '5px' }}
             />
           </Tooltips>
         </div>
