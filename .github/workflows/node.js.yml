@@ -6,7 +6,7 @@ name: Node.js CI
 on:
   push:
     branches: "*"
-    
+
 jobs:
   build:
 
@@ -24,6 +24,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+    - run: npm install
+
+    - run: npm run build-prod --if-present
+      if: github.ref == 'refs/heads/main'
+
+    - run: npm run build-staging --if-present
+      if: github.ref == 'refs/heads/staging'
+
+    - run: npm run build-dev --if-present
+      if: github.ref == 'refs/heads/dev'
+
     - run: npm test
