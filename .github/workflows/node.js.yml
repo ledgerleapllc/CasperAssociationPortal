@@ -33,6 +33,6 @@ jobs:
       if: github.ref == 'refs/heads/staging'
 
     - run: npm run build-dev --if-present
-      if: github.ref == 'refs/heads/dev'
+      if: github.ref == 'refs/heads/development'
 
     - run: npm test
