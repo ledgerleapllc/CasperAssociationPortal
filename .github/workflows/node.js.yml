@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ staging ]
+    branches: "*"
   pull_request:
-    branches: [ staging ]
+    types: [ opened, reopened, synchronize ]
 
 jobs:
   build:
