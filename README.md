@@ -13,6 +13,7 @@ This is the frontend repo of the portal. To see the frontend repo, visit https:/
  - NextJS/Vercel, and NodeJS version 14+ v16.6.2+
  - NPM 7.20.3+
  - Yarn 1.22.15+
+ - Git Version 2+
 
 You can find documentation on NextJS here https://github.com/vercel/next.js/
 
