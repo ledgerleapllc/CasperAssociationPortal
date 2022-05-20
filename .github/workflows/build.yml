@@ -39,6 +39,10 @@ jobs:
         node-version: ${{ env.selected_node_version }}
         cache: yarn
 
+    - name: yarn install
+      run: |
+        yarn install
+
     - name: yarn build
       run: |
         yarn build-$BUILD_STEP
