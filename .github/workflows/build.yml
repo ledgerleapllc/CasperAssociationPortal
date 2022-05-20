@@ -3,10 +3,8 @@ name: App build
 on:
   push: 
     branches: "*"
-    
-jobs:
-  #Set up the variable build step according to the branch name
 
+jobs:
   build:
     runs-on: ubuntu-latest
 
