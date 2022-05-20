@@ -3,9 +3,7 @@ name: App build
 on:
   push: 
     branches: "*"
-  pull_request:
-    branches: "*"
-
+    
 jobs:
   #Set up the variable build step according to the branch name
 
