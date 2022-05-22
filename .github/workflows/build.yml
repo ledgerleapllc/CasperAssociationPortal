@@ -1,0 +1,44 @@
+name: App build
+
+on:
+  push: 
+    branches: "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env: 
+      selected_node_version: 16
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Sets build step according to other branches (dev included)
+      run: |
+        echo "BUILD_STEP=dev" >> $GITHUB_ENV
+      if: github.ref != 'refs/heads/development' && github.ref != 'refs/heads/staging' 
+
+    - name: Sets build step according to staging branch
+      run: |
+        echo "BUILD_STEP=staging" >> $GITHUB_ENV
+      if: github.ref == 'refs/heads/staging' 
+
+    - name: Sets build step according to master branch
+      run: |
+        echo "BUILD_STEP=prod" >> $GITHUB_ENV
+      if: github.ref == 'refs/heads/master' 
+
+    - name: Use Node.js ${{ env.selected_node_version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.selected_node_version }}
+        cache: yarn
+
+    - name: yarn install
+      run: |
+        yarn install
+
+    - name: yarn build
+      run: |
+        yarn build-$BUILD_STEP
