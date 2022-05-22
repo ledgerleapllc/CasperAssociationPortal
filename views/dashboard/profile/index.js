@@ -471,7 +471,7 @@ const UserProfile = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>{myInfo?.validator_fee}%</span>
+                          <span>{currentUserNode?.validator_fee}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -479,9 +479,7 @@ const UserProfile = () => {
                           <span>Self Staked:</span>
                         </td>
                         <td>
-                          <span>
-                            {numberWithCommas(myInfo?.metric?.stake_amount)}
-                          </span>
+                          <span>{numberWithCommas(metrics?.stake_amount)}</span>
                         </td>
                       </tr>
                       <tr>
@@ -490,9 +488,7 @@ const UserProfile = () => {
                         </td>
                         <td>
                           <span>
-                            {numberWithCommas(
-                              myInfo?.metric?.self_staked_amount
-                            )}
+                            {numberWithCommas(metrics?.self_stake_amount)}
                           </span>
                         </td>
                       </tr>
