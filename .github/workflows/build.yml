@@ -5,45 +5,6 @@ on:
     branches: "*"
 
 jobs:
-  set-build-step-for-PR:
-    if:  github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Sets build step according to other branches (dev included)
-      run: |
-        echo "BUILD_STEP=dev" >> $GITHUB_ENV
-      if: github.event.pull_request.base.ref != 'development' && github.event.pull_request.base.ref != 'staging' 
-
-    - name: Sets build step according to staging branch
-      run: |
-        echo "BUILD_STEP=staging" >> $GITHUB_ENV
-      if: github.event.pull_request.base.ref == 'staging' 
-
-    - name: Sets build step according to master branch
-      run: |
-        echo "BUILD_STEP=prod" >> $GITHUB_ENV
-      if: github.event.pull_request.base.ref == 'master' 
-
-  set-build-step-for-push:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Sets build step according to other branches (dev included)
-      run: |
-        echo "BUILD_STEP=dev" >> $GITHUB_ENV
-      if: github.ref != 'refs/heads/development' && github.ref != 'refs/heads/staging' 
-
-    - name: Sets build step according to staging branch
-      run: |
-        echo "BUILD_STEP=staging" >> $GITHUB_ENV
-      if: github.ref == 'refs/heads/staging' 
-
-    - name: Sets build step according to master branch
-      run: |
-        echo "BUILD_STEP=prod" >> $GITHUB_ENV
-      if: github.ref == 'refs/heads/master' 
-
   build:
     runs-on: ubuntu-latest
 
@@ -51,7 +12,20 @@ jobs:
       selected_node_version: 16
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Sets build step according to other branches (dev included)
+      run: |
+        echo "BUILD_STEP=dev" >> $GITHUB_ENV
+      if: (github.event_name == 'pull_request' && github.event.pull_request.base.ref != 'staging' && github.event.pull_request.base.ref != 'master') || (github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/master')
+
+    - name: Sets build step according to staging branch
+      run: |
+        echo "BUILD_STEP=staging" >> $GITHUB_ENV
+      if: (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'staging') || (github.ref == 'refs/heads/staging') 
+
+    - name: Sets build step according to master branch
+      run: |
+        echo "BUILD_STEP=prod" >> $GITHUB_ENV
+      if: (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'master') || (github.ref == 'refs/heads/master') 
 
     - name: Use Node.js ${{ env.selected_node_version }}
       uses: actions/setup-node@v2
@@ -66,5 +40,3 @@ jobs:
     - name: yarn build
       run: |
         yarn build-$BUILD_STEP
-      env:
-        BUILD_STEP: ${{ env.BUILD_STEP }}
