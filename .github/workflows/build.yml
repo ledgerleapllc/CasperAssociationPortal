@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Sets build step according to other branches (dev included)
       run: |
         echo "BUILD_STEP=dev" >> $GITHUB_ENV
@@ -31,8 +29,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Sets build step according to other branches (dev included)
       run: |
         echo "BUILD_STEP=dev" >> $GITHUB_ENV
@@ -55,6 +51,8 @@ jobs:
       selected_node_version: 16
 
     steps:
+    - uses: actions/checkout@v3
+
     - name: Use Node.js ${{ env.selected_node_version }}
       uses: actions/setup-node@v2
       with:
