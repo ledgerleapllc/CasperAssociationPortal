@@ -66,3 +66,5 @@ jobs:
     - name: yarn build
       run: |
         yarn build-$BUILD_STEP
+      env:
+        BUILD_STEP: ${{ env.BUILD_STEP }}
