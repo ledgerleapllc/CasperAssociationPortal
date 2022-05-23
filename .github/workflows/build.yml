@@ -6,7 +6,7 @@ on:
 
 jobs:
   set-build-step-for-PR:
-    if:  $GITHUB_EVENT_NAME == "pull_request"
+    if:  github.event_name == "pull_request"
     runs-on: ubuntu-latest
 
     steps:
