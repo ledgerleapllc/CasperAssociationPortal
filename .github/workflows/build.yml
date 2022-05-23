@@ -5,11 +5,30 @@ on:
     branches: "*"
 
 jobs:
-  build:
+  set-build-step-for-PR:
+    if:  $GITHUB_EVENT_NAME == "pull_request"
     runs-on: ubuntu-latest
 
-    env: 
-      selected_node_version: 16
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Sets build step according to other branches (dev included)
+      run: |
+        echo "BUILD_STEP=dev" >> $GITHUB_ENV
+      if: github.event.pull_request.base.ref != 'development' && github.event.pull_request.base.ref != 'staging' 
+
+    - name: Sets build step according to staging branch
+      run: |
+        echo "BUILD_STEP=staging" >> $GITHUB_ENV
+      if: github.event.pull_request.base.ref == 'staging' 
+
+    - name: Sets build step according to master branch
+      run: |
+        echo "BUILD_STEP=prod" >> $GITHUB_ENV
+      if: github.event.pull_request.base.ref == 'master' 
+
+  set-build-step-for-push:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -29,6 +48,13 @@ jobs:
         echo "BUILD_STEP=prod" >> $GITHUB_ENV
       if: github.ref == 'refs/heads/master' 
 
+  build:
+    runs-on: ubuntu-latest
+
+    env: 
+      selected_node_version: 16
+
+    steps:
     - name: Use Node.js ${{ env.selected_node_version }}
       uses: actions/setup-node@v2
       with:
