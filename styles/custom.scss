@@ -330,6 +330,157 @@
   }
 }
 
+.dashboard-guide {
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background-color: white;
+  border: 1px solid #efefef;
+  border-radius: 7px;
+  width: 450px;
+  > section {
+    position: relative;
+    padding: 1rem;
+    display: block;
+    width: 100%;
+    #dashboard-guide-left {
+      position: absolute;
+      top: 25px;
+      left: -20px;
+    }
+    #dashboard-guide-right {
+      position: absolute;
+      top: 25px;
+      right: -20px;
+    }
+    > h2 {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin: 0;
+      padding: 0;
+    }
+    > p {
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+    > div {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      > ul {
+        margin-left: 0;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+        li {
+          span {
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: #efefef;
+            border-radius: 500rem;
+            margin-right: 5px;
+            &.active {
+              background-color: #FF473E;
+            }
+          }
+        }
+      }
+      > button {
+        margin-left: auto;
+        margin-right: 0;
+        padding: 5px 20px;
+      }
+    }
+  }
+  &#dashboard-guide-1 {
+    top: 90px;
+    left: 230px;
+  }
+  &#dashboard-guide-2 {
+    top: 10px;
+    left: -460px;
+    #dashboard-guide-left {
+      display: none;
+    }
+    #dashboard-guide-right {
+      display: block;
+    }
+  }
+  &#dashboard-guide-3 {
+    top: 140px;
+    left: 230px;
+  }
+  &#dashboard-guide-4 {
+    top: 230px;
+    left: 230px;
+  }
+  &#dashboard-guide-5 {
+    top: 280px;
+    left: 230px;
+  }
+  &#dashboard-guide-6 {
+    top: 330px;
+    left: 230px;
+  }
+  &#dashboard-guide-7 {
+    top: 380px;
+    left: 230px;
+  }
+  &#dashboard-guide-8 {
+    top: 380px;
+    left: 230px;
+  }
+
+  @media all and (max-width: 1535px) {
+    &#dashboard-guide-1 {
+      top: 70px;
+    }
+    &#dashboard-guide-2 {
+      top: 0px;
+    }
+    &#dashboard-guide-3 {
+      top: 110px;
+    }
+    &#dashboard-guide-4 {
+      top: 190px;
+    }
+    &#dashboard-guide-5 {
+      top: 225px;
+    }
+    &#dashboard-guide-6 {
+      top: 265px;
+    }
+    &#dashboard-guide-7 {
+      top: 300px;
+    }
+    &#dashboard-guide-8 {
+      top: 300px;
+    }
+  }
+  @media all and (max-width: 1399px) {
+    &#dashboard-guide-2 {
+      top: 20px;
+      left: 170px;
+      #dashboard-guide-left {
+        display: block;
+      }
+      #dashboard-guide-right {
+        display: none;
+      }
+    }
+  }
+  @media all and (max-width: 1023px) {
+    &#dashboard-guide-1 {
+      top: 90px;
+    }
+  }
+  @media all and (max-width: 991px) {
+    display: none;
+  }
+}
+
 #dashboard-layout {
   width: 100%;
   height: 100vh;
@@ -431,6 +582,7 @@
       height: calc(100vh - 4.5rem);
       overflow-x: hidden;
       overflow-y: auto;
+      position: relative;
       #custom-ballot-listHeader {
         @media all and (max-width: 1023px) {
           flex-direction: column;
@@ -554,6 +706,7 @@
         #landing-page__dashboardInner3_right {
           flex: 0 0 20%;
           height: calc(100vh - 7.625rem);
+          position: relative;
         }
 
         #dashboard-content-node3__widgets {

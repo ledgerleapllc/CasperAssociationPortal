@@ -175,6 +175,11 @@ export const setPermissions = payload => ({
   payload,
 });
 
+export const setGuideStep = payload => ({
+  type: 'SET_GUIDE_STEP',
+  payload,
+});
+
 export const setAuthUserNode = payload => ({
   type: 'SET_AUTH_USER_NODE',
   payload,
