@@ -113,8 +113,10 @@ export const resend2FACode = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getMyMetrics = () => ({
+export const getMyMetrics = (public_address_node = null, isTotal = false) => ({
   type: 'GET_MY_METRICS',
+  public_address_node,
+  isTotal,
 });
 
 export const setMetrics = payload => ({
@@ -170,6 +172,16 @@ export const setMetricConfig = payload => ({
 
 export const setPermissions = payload => ({
   type: 'SET_PERMISSIONS',
+  payload,
+});
+
+export const setGuideStep = payload => ({
+  type: 'SET_GUIDE_STEP',
+  payload,
+});
+
+export const setAuthUserNode = payload => ({
+  type: 'SET_AUTH_USER_NODE',
   payload,
 });
 

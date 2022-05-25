@@ -95,15 +95,19 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   }, [filter.node_failing]);
 
   const renderClass = row => {
-    if (!isAdmin && userInfo.public_address_node === row.public_address_node) {
-      return 'custom-highlight';
-    }
     if (isAdmin && row.is_fail_node) {
       return 'fail-node';
     }
     if (
-      isAdmin &&
+      hightlightNode &&
       hightlightNode?.public_address_node === row.public_address_node
+    ) {
+      return 'custom-highlight';
+    }
+    if (
+      !isAdmin &&
+      (!hightlightNode || !hightlightNode.public_address_node) &&
+      userInfo.public_address_node === row.public_address_node
     ) {
       return 'custom-highlight';
     }

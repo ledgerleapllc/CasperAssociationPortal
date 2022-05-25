@@ -91,6 +91,9 @@ const DashboardMembershipView = lazy(() =>
   import('../views/dashboard/membership/index')
 );
 const DashboardNodesView = lazy(() => import('../views/dashboard/nodes'));
+const DashboardNodesNewView = lazy(() =>
+  import('../views/dashboard/nodes/new')
+);
 const DashboardDiscussionView = lazy(() =>
   import('../views/dashboard/discussion/index')
 );
@@ -265,6 +268,11 @@ const LandingPage = () => (
           path="/dashboard/membership"
           exact
           component={DashboardMembershipView}
+        />
+        <Route
+          path="/dashboard/nodes/new"
+          exact
+          component={DashboardNodesNewView}
         />
         <Route path="/dashboard/nodes" exact component={DashboardNodesView} />
         <Route

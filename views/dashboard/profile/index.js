@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -5,12 +7,19 @@ import { Link, useHistory } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, Button, ProgressBar } from '../../../components/partials';
+import {
+  Card,
+  Button,
+  ProgressBar,
+  Dropdown,
+  Tooltips,
+} from '../../../components/partials';
 import {
   getMyInfo,
   uploadAvatar,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import IconCamera from '../../../public/images/ic_camera.svg';
+import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import {
   formatDate,
   generateTextForEras,
@@ -19,6 +28,7 @@ import {
 } from '../../../shared/core/utils';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { logoutApp, updateUser } from '../../../shared/redux-saga/auth/actions';
+import { getNodesByUser } from '../../../shared/redux-saga/admin/actions';
 import useMetrics from '../../../components/hooks/useMetrics';
 import IconCopy from '../../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../../components/partials/snack-bar';
@@ -64,8 +74,10 @@ const StylesAdvanced = styled.div`
 const UserProfile = () => {
   const dispatch = useDispatch();
   const [myInfo, setMyInfo] = useState({});
+  const [addressList, setAddressList] = useState([]);
+  const [currentUserNode, setCurrentUserNode] = useState();
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const { metrics, metricConfig } = useMetrics();
+  const { metrics, refreshMetrics, metricConfig } = useMetrics();
   const user = useSelector(state => state.authReducer.userInfo);
   const { openSnack } = useSnackBar();
   const router = useHistory();
@@ -78,6 +90,14 @@ const UserProfile = () => {
         },
         () => {}
       )
+    );
+    dispatch(
+      getNodesByUser({}, result => {
+        const addresses = result.addresses || [];
+        setAddressList(addresses);
+        setCurrentUserNode(addresses[0]);
+        refreshMetrics(addresses[0].public_address_node);
+      })
     );
   }, []);
 
@@ -129,26 +149,24 @@ const UserProfile = () => {
   };
 
   const renderCaKycHash = () => {
-    if(
+    if (
       myInfo &&
       myInfo.profile &&
       myInfo.profile.casper_association_kyc_hash &&
       myInfo.profile.casper_association_kyc_hash.length > 12
     ) {
-      return (
-        ' ' + 
-        myInfo.profile.casper_association_kyc_hash.slice(0, 6) +
-        '...' +
-        myInfo.profile.casper_association_kyc_hash.slice(
-          myInfo.profile.casper_association_kyc_hash.length - 6
-        )
-      );
+      return ` ${myInfo.profile.casper_association_kyc_hash.slice(
+        0,
+        6
+      )}...${myInfo.profile.casper_association_kyc_hash.slice(
+        myInfo.profile.casper_association_kyc_hash.length - 6
+      )}`;
     }
     return '';
-  }
+  };
 
   const renderCaKycHashFull = () => {
-    if(
+    if (
       myInfo &&
       myInfo.profile &&
       myInfo.profile.casper_association_kyc_hash
@@ -156,7 +174,7 @@ const UserProfile = () => {
       return myInfo.profile.casper_association_kyc_hash;
     }
     return '';
-  }
+  };
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -271,7 +289,8 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span className="flex gap-2 items-center">
-                                {capitalize(myInfo?.full_name)}{', '}
+                                {capitalize(myInfo?.full_name)}
+                                {', '}
                                 {myInfo?.profile?.blockchain_name}{' '}
                                 {myInfo?.profile?.status === 'approved' && (
                                   <VerifiedIcon className="text-primary" />
@@ -285,12 +304,19 @@ const UserProfile = () => {
                             </td>
                             <td>
                               {myInfo?.profile?.blockchain_name ? (
-                                <span>
-                                  {myInfo?.profile?.blockchain_desc}
-                                </span>
+                                <span>{myInfo?.profile?.blockchain_desc}</span>
                               ) : (
                                 <span className="text-sm text-gray">
-                                  Owner of this validator node has not verified their details using the <a href="https://github.com/make-software/casper-account-info-standard" target="_blank" className="text-sm text-primary">Casper Account Info Standard</a>
+                                  Owner of this validator node has not verified
+                                  their details using the{' '}
+                                  <a
+                                    rel="noreferrer"
+                                    href="https://github.com/make-software/casper-account-info-standard"
+                                    target="_blank"
+                                    className="text-sm text-primary"
+                                  >
+                                    Casper Account Info Standard
+                                  </a>
                                 </span>
                               )}
                             </td>
@@ -327,7 +353,13 @@ const UserProfile = () => {
                                 {renderLabel()}
                               </span>
                               <span className="text-sm text-gray underline">
-                                <a target="_blank" href={process.env.NEXT_PUBLIC_BASE_URL + '/api/v1/members/ca-kyc-hash/' + renderCaKycHashFull()}>
+                                <a
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  href={`${
+                                    process.env.NEXT_PUBLIC_BASE_URL
+                                  }/api/v1/members/ca-kyc-hash/${renderCaKycHashFull()}`}
+                                >
                                   {renderCaKycHash()}
                                 </a>
                               </span>
@@ -366,22 +398,72 @@ const UserProfile = () => {
                           <span>Node Address:</span>
                         </td>
                         <td>
-                          <span>
-                            {getShortNodeAddress(myInfo?.public_address_node)}
-                          </span>
-                          <button
-                            className="ml-6"
-                            type="button"
-                            onClick={() => copyClipboard()}
-                          >
-                            <IconCopy />
-                          </button>
-                          <input
-                            id="public-address"
-                            value={myInfo?.public_address_node || ''}
-                            readOnly
-                            hidden
-                          />
+                          <div className="flex items-center">
+                            <div style={{ width: '300px' }}>
+                              <Dropdown
+                                className="w-full"
+                                trigger={
+                                  <div className="flex items-center gap-2">
+                                    <p className="w-full relative h-6">
+                                      <Tooltips
+                                        placement="bottom"
+                                        title={
+                                          currentUserNode?.public_address_node
+                                        }
+                                        arrow
+                                      >
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            currentUserNode?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </Tooltips>
+                                    </p>
+                                    <ArrowIcon />
+                                  </div>
+                                }
+                              >
+                                <ul>
+                                  {addressList.map((address, index) => (
+                                    <li
+                                      className="p-2 hover:text-primary cursor-pointer"
+                                      onClick={() => {
+                                        setCurrentUserNode(address);
+                                        refreshMetrics(
+                                          address.public_address_node
+                                        );
+                                      }}
+                                      key={`node_${index}`}
+                                    >
+                                      <p className="w-full relative h-6">
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            address?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </p>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </Dropdown>
+                            </div>
+                            <button
+                              className="ml-6"
+                              type="button"
+                              onClick={() => copyClipboard()}
+                              style={{ marginBottom: '5px' }}
+                            >
+                              <IconCopy />
+                            </button>
+                            <input
+                              id="public-address"
+                              value={currentUserNode?.public_address_node || ''}
+                              readOnly
+                              hidden
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr>
@@ -389,7 +471,7 @@ const UserProfile = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>{myInfo?.validator_fee}%</span>
+                          <span>{currentUserNode?.validator_fee}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -397,9 +479,7 @@ const UserProfile = () => {
                           <span>Self Staked:</span>
                         </td>
                         <td>
-                          <span>
-                            {numberWithCommas(myInfo?.metric?.stake_amount)}
-                          </span>
+                          <span>{numberWithCommas(metrics?.stake_amount)}</span>
                         </td>
                       </tr>
                       <tr>
@@ -408,9 +488,7 @@ const UserProfile = () => {
                         </td>
                         <td>
                           <span>
-                            {numberWithCommas(
-                              myInfo?.metric?.self_staked_amount
-                            )}
+                            {numberWithCommas(metrics?.self_stake_amount)}
                           </span>
                         </td>
                       </tr>

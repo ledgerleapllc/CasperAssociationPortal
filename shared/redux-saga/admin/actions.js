@@ -420,6 +420,13 @@ export const getAdminDashboard = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getNodesByUser = (payload, resolve, reject) => ({
+  type: 'GET_NODES_BY_USER',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getNodesFromAdmin = (payload, resolve, reject) => ({
   type: 'GET_NODES_FROM_ADMIN',
   payload,

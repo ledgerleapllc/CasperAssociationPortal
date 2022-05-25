@@ -4,12 +4,14 @@ import classNames from 'classnames';
 import ReactLoading from 'react-loading';
 import { useState, useEffect, useContext, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
 import {
   getNodesFromAdmin,
+  getNodesByUser,
   getNodeDetail,
 } from '../../shared/redux-saga/admin/actions';
 import {
@@ -22,18 +24,21 @@ import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
 import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
+import { setAuthUserNode } from '../../shared/redux-saga/auth/actions';
 
 const LineMemo = memo(({ type, name, data }) => (
   <ValidatorChart type={type} name={name} data={data} />
 ));
 
 const ContentNode = ({ sendHightlightNode }) => {
-  const { metrics, metricConfig } = useMetrics();
+  const { metrics, refreshMetrics, metricConfig } = useMetrics();
   const authUser = useSelector(state => state.authReducer.userInfo);
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [nodesList, setNodesList] = useState([]);
+  const [addressList, setAddressList] = useState([]);
   const [currentNode, setCurrentNode] = useState();
+  const [currentUserNode, setCurrentUserNode] = useState();
   const [priceTokenGraphInfo, setPriceTokenGraphInfo] = useState([]);
   const [nodeDetail, setNodeDetail] = useState(null);
   const dispatch = useDispatch();
@@ -44,6 +49,23 @@ const ContentNode = ({ sendHightlightNode }) => {
   const [optionPriceChart, setOptionPriceChart] = useState('day');
   const { openSnack } = useSnackBar();
   const [loadingDataChart, setLoadingDataChart] = useState(false);
+
+  const fetchUserNodes = () => {
+    dispatch(
+      getNodesByUser({}, result => {
+        const addresses = result.addresses || [];
+        setAddressList(addresses);
+        setCurrentUserNode(addresses[0]);
+        sendHightlightNode(addresses[0]);
+        dispatch(
+          setAuthUserNode({
+            authUserNode: addresses[0],
+          })
+        );
+        refreshMetrics(addresses[0].public_address_node);
+      })
+    );
+  };
 
   const fetchNodes = () => {
     dispatch(
@@ -119,11 +141,19 @@ const ContentNode = ({ sendHightlightNode }) => {
       if (isAdminTemp) {
         fetchNodes();
       } else {
-        fetchNodeChart(userInfo.public_address_node);
-        fetchNodeEarning(userInfo.public_address_node);
+        // fetchNodeChart(userInfo.public_address_node);
+        // fetchNodeEarning(userInfo.public_address_node);
+        fetchUserNodes();
       }
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (currentUserNode) {
+      fetchNodeChart(currentUserNode.public_address_node);
+      fetchNodeEarning(currentUserNode.public_address_node);
+    }
+  }, [currentUserNode]);
 
   useEffect(() => {
     if (currentNode) {
@@ -187,7 +217,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                   value={
                     isAdmin
                       ? currentNode?.public_address_node ?? ''
-                      : userInfo.public_address_node ?? ''
+                      : currentUserNode?.public_address_node ?? ''
                   }
                   readOnly
                   hidden
@@ -242,9 +272,66 @@ const ContentNode = ({ sendHightlightNode }) => {
                 )}
                 {!isAdmin && (
                   <>
+                    <Dropdown
+                      className="mt-2 w-full"
+                      trigger={
+                        <div className="flex items-center gap-2">
+                          <p className="w-full relative h-6">
+                            <Tooltips
+                              placement="bottom"
+                              title={currentUserNode?.public_address_node}
+                              arrow
+                            >
+                              <span className="text-base font-thin truncate absolute inset-0">
+                                {getShortNodeAddress(
+                                  currentUserNode?.public_address_node,
+                                  30
+                                )}
+                              </span>
+                            </Tooltips>
+                          </p>
+                          <ArrowIcon />
+                        </div>
+                      }
+                    >
+                      <Link to="/dashboard/nodes/new">
+                        <span className="text-primary w-full flex items-center justify-center">
+                          Add a new node
+                        </span>
+                      </Link>
+                      <ul>
+                        {addressList.map((address, index) => (
+                          <li
+                            className="p-2 hover:text-primary cursor-pointer"
+                            onClick={() => {
+                              setCurrentUserNode(address);
+                              sendHightlightNode(address);
+                              dispatch(
+                                setAuthUserNode({
+                                  authUserNode: address,
+                                })
+                              );
+                              refreshMetrics(address.public_address_node);
+                            }}
+                            key={`node_${index}`}
+                          >
+                            <p className="w-full relative h-6">
+                              <span className="text-center text-base font-thin truncate absolute inset-0">
+                                {getShortNodeAddress(
+                                  address?.public_address_node,
+                                  30
+                                )}
+                              </span>
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </Dropdown>
+                    {/*
                     <span className="text-base font-thin">
                       {getShortNodeAddress(userInfo?.public_address_node, 30)}
                     </span>
+                    */}
                   </>
                 )}
               </div>
