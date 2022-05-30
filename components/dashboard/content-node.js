@@ -573,8 +573,9 @@ const ContentNode = ({ sendHightlightNode }) => {
           </div>
           <div id="dashboard-content-node2__SubDetailRight">
             <div id="custom-uptime-box">
-              <Card className="flex items-center px-5 w-full h-full">
+              <Card className="flex items-start px-5 w-full h-full">
                 <div className="h-8/10 flex flex-col justify-between w-full">
+                  <p className="text-lg pt-5 pb-3">Node Metrics</p>
                   <div className="flex flex-col">
                     <div className="flex gap-3 flex-row py-1">
                       <span className="text-lg">Uptime</span>
