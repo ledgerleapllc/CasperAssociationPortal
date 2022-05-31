@@ -330,15 +330,16 @@ const ContentHome = () => {
                 marginBottom: '1rem',
               }}
             >
-              <p
-                className="text-sm"
+              <p className="text-lg">Association Members</p>
+              <div
+                className="flex items-center"
                 style={{ marginLeft: 'auto', marginRight: '0px' }}
               >
-                Total Members: {total}
-              </p>
-              <div className="ml-5 flex items-center">
-                <VerifiedIcon />
-                <p className="ml-1 text-sm">Verified Members: {verified}</p>
+                <p className="text-sm">Total Members: {total}</p>
+                <div className="ml-5 flex items-center">
+                  <VerifiedIcon />
+                  <p className="ml-1 text-sm">Verified Members: {verified}</p>
+                </div>
               </div>
             </div>
             <VerifiedMembers />
