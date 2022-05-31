@@ -17,7 +17,7 @@ const LineProgressBar = ({ text, progress, options }) => {
   return (
     <div className="w-full mb-3">
       <div
-        className="progress-bar progress-bar-line relative w-full overflow-hidden mt-3 text-xs border border-gray1 flex rounded-lg bg-gray1"
+        className="progress-bar progress-bar-line relative w-full overflow-hidden text-xs border border-gray1 flex rounded-lg bg-gray1"
         style={{ height: '16px', padding: '0.03rem' }}
       >
         <div
