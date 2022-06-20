@@ -15,6 +15,7 @@ const VerifyNodeOwnership = () => {
   const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const [publicAddressVerified, setPublicAddressVerified] = useState(false);
+  const [publicAddress, setPublicAddress] = useState('');
   const [signedFileUploaded, setSignedFileUploaded] = useState(null);
   const [messageFileStatus, setMessageFileStatus] = useState('checking');
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -97,7 +98,6 @@ const VerifyNodeOwnership = () => {
     if (currentStep === totalSteps) {
       return 'Complete';
     }
-
     return 'Next';
   };
 
@@ -106,6 +106,7 @@ const VerifyNodeOwnership = () => {
       return (
         <VerifyNodeOwnershipFirstStep
           setPublicAddressVerified={setPublicAddressVerified}
+          setPublicAddress={setPublicAddress}
           isVerified={publicAddressVerified}
         />
       );
@@ -165,13 +166,13 @@ const VerifyNodeOwnership = () => {
       return (
         <VerifyNodeOwnershipThirdStep
           newFile={signedFileUploaded}
+          publicAddress={publicAddress}
           onContinue={handleNext}
           setMessageFileStatus={setMessageFileStatus}
           onRefresh={onRefresh}
         />
       );
     }
-
     return <></>;
   };
 
@@ -185,7 +186,6 @@ const VerifyNodeOwnership = () => {
     if (currentStep === 3) {
       return messageFileStatus === 'succeed';
     }
-
     return true;
   };
 

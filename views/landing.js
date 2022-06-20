@@ -114,18 +114,18 @@ const Landing = () => {
       <section className="pt-52 flex flex-col justify-center">
         <div id="landing-page__hero" className="mb-32">
           <h1 className="text-center">Casper Association Portal</h1>
-          {/*<p className="text-center">
+          {/* <p className="text-center">
             Keep track of the status of your validator node(s) in one place. See
             rewards, uptime, stake amount, delegator count and much more.
             Available to all node operators.
-          </p>*/}
+          </p> */}
           <p className="text-center">
-            Trusted members of the Association will be able to participate in 
-            perks as a part of the Association Membership. 
-            By verifying your information, you help make the Casper Network 
-            more transparent and trustworthy. Get more tools to better manage 
-            and track your node. Once a member, validators can participate 
-            in votes and the governance of the Casper Association.
+            Trusted members of the Association will be able to participate in
+            perks as a part of the Association Membership. By verifying your
+            information, you help make the Casper Network more transparent and
+            trustworthy. Get more tools to better manage and track your node.
+            Once a member, validators can participate in votes and the
+            governance of the Casper Association.
           </p>
           <div id="landing-page__heroButtons" className="gap-10 mt-10">
             <button

@@ -57,7 +57,6 @@ export const AppContext = createContext({});
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
-
   return (
     <Provider store={store}>
       <Head>
@@ -81,7 +80,6 @@ function MyApp({ Component, pageProps }) {
           }}
         ></Script>
       </Head>
-
       <AppContext.Provider value={{ loading, setLoading }}>
         <DialogProvider>
           <SnackBarProvider>

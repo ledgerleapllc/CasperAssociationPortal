@@ -4,9 +4,15 @@ export const getPublicMembers = (payload, resolve) => ({
   resolve,
 });
 
-export const getPublicMemberDetail = (id, resolve, reject) => ({
+export const getPublicMemberDetail = (
+  id,
+  public_address_node,
+  resolve,
+  reject
+) => ({
   type: 'GET_PUBLIC_MEMBER_DETAIL',
   id,
+  public_address_node,
   resolve,
   reject,
 });

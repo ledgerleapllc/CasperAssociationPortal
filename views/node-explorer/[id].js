@@ -71,6 +71,7 @@ const NodeExplorerDetail = () => {
       dispatch(
         getPublicMemberDetail(
           id,
+          null,
           res => {
             setLoading(false);
             setMemberInfo(res);

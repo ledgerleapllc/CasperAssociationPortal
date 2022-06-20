@@ -37,8 +37,29 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
+export const checkPublicAddress = (payload, callback, isVerifying) => ({
+  type: 'CHECK_PUBLIC_ADDRESS',
+  callback,
+  isVerifying,
+  payload,
+});
+
+export const submitPublicAddress2 = (payload, callback, isVerifying) => ({
+  type: 'SUBMIT_PUBLIC_ADDRESS_2',
+  callback,
+  isVerifying,
+  payload,
+});
+
 export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const verifyFileCasperSigner2 = (payload, resolve, reject) => ({
+  type: 'VERIFY_FILE_CASPER_SIGNER_2',
   payload,
   resolve,
   reject,

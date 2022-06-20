@@ -8,6 +8,7 @@ import { verifyFileCasperSigner } from '../../../shared/redux-saga/onboard/actio
 
 const VerifyNodeOwnershipThirdStep = ({
   newFile,
+  publicAddress,
   onContinue,
   setMessageFileStatus,
   onRefresh,
@@ -21,6 +22,7 @@ const VerifyNodeOwnershipThirdStep = ({
         verifyFileCasperSigner(
           {
             newFile,
+            publicAddress,
           },
           () => {
             setStatus('succeed');

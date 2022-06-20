@@ -14,9 +14,17 @@ export function* getPublicMembers({ payload, resolve }) {
   }
 }
 
-export function* getPublicMemberDetail({ id, resolve, reject }) {
+export function* getPublicMemberDetail({
+  id,
+  public_address_node,
+  resolve,
+  reject,
+}) {
   try {
-    const res = yield get([`members/${id}`]);
+    const url = public_address_node
+      ? `members/${id}?public_address_node=${public_address_node}`
+      : `members/${id}`;
+    const res = yield get([url]);
     resolve(res.data);
   } catch (error) {
     reject();

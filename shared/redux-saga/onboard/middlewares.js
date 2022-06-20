@@ -25,6 +25,44 @@ export function* helloSignRequest({ resolve, reject }) {
   }
 }
 
+export function* checkPublicAddress({ payload, callback, isVerifying }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const params = qs.stringify({
+      public_address: payload.pubAddress,
+    });
+    yield post(['users/check-public-address'], params, { headers });
+    callback();
+    isVerifying();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    isVerifying();
+  }
+}
+
+export function* submitPublicAddress2({ payload, callback, isVerifying }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const params = qs.stringify({
+      public_address: payload.pubAddress,
+    });
+    yield post(['users/submit-public-address-2'], params, { headers });
+    callback();
+    isVerifying();
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    isVerifying();
+  }
+}
+
 export function* submitPublicAddress({ payload, callback, isVerifying }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -44,6 +82,23 @@ export function* submitPublicAddress({ payload, callback, isVerifying }) {
   }
 }
 
+export function* verifyFileCasperSigner2({ payload, resolve, reject }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const formData = new FormData();
+    formData.append('file', payload.newFile);
+    formData.append('address', payload.publicAddress);
+    yield post(['users/verify-file-casper-signer-2'], formData, { headers });
+    resolve();
+  } catch (error) {
+    reject();
+  }
+}
+
 export function* verifyFileCasperSigner({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -51,9 +106,9 @@ export function* verifyFileCasperSigner({ payload, resolve, reject }) {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-
     const formData = new FormData();
     formData.append('file', payload.newFile);
+    formData.append('address', payload.publicAddress);
     yield post(['users/verify-file-casper-signer'], formData, { headers });
     resolve();
   } catch (error) {
@@ -203,7 +258,12 @@ export function* membershipAgreementForUser({ payload, resolve, reject }) {
 export function* watchOnboard() {
   yield all([takeLatest('HELLO_SIGN_REQUEST', helloSignRequest)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
+  yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS_2', submitPublicAddress2)]);
+  yield all([takeLatest('CHECK_PUBLIC_ADDRESS', checkPublicAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
+  yield all([
+    takeLatest('VERIFY_FILE_CASPER_SIGNER_2', verifyFileCasperSigner2),
+  ]);
   yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
