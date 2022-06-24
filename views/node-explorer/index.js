@@ -316,7 +316,7 @@ const NodeExplorer = () => {
                       </Table.BodyCell>
                       <Table.BodyCell key="body4">
                         <p className="capitalize">
-                          {row.delegation_rate || 0}%
+                          {row.delegation_rate*100 || 0}%
                         </p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body5">
