@@ -287,7 +287,7 @@ const NodeExplorer = () => {
                     <p>Delegates</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell key="cspr">
-                    <p>Self Staked</p>
+                    <p>Total Stake</p>
                   </Table.HeaderCell>
                   <Table.HeaderCell key="uptime">
                     <p>Uptime</p>
@@ -316,7 +316,7 @@ const NodeExplorer = () => {
                       </Table.BodyCell>
                       <Table.BodyCell key="body4">
                         <p className="capitalize">
-                          {row.delegation_rate || 0}%
+                          {row.delegation_rate*100 || 0}%
                         </p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body5">

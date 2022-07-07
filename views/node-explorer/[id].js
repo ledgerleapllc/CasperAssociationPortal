@@ -282,7 +282,7 @@ const NodeExplorerDetail = () => {
                     </tr>
                     <tr>
                       <td>
-                        <span>CSPR Self-Staked:</span>
+                        <span>Self Staked:</span>
                       </td>
                       <td>
                         <span>
@@ -292,7 +292,7 @@ const NodeExplorerDetail = () => {
                     </tr>
                     <tr>
                       <td>
-                        <span>Self Staked:</span>
+                        <span>Total Stake:</span>
                       </td>
                       <td>
                         <span>{numberWithCommas(metrics?.stake_amount)}</span>
