@@ -476,7 +476,7 @@ const UserProfile = () => {
                       </tr>
                       <tr>
                         <td>
-                          <span>Self Staked:</span>
+                          <span>Total Stake:</span>
                         </td>
                         <td>
                           <span>{numberWithCommas(metrics?.stake_amount)}</span>
@@ -484,7 +484,7 @@ const UserProfile = () => {
                       </tr>
                       <tr>
                         <td>
-                          <span>CSPR Self-Staked:</span>
+                          <span>Self Stake:</span>
                         </td>
                         <td>
                           <span>
