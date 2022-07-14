@@ -1,0 +1,28 @@
+
+- name: add apt keys
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items: "{{ repos.key_urls }}"
+
+- name: add repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ repos.strings }}"
+
+- name: Install required packages
+  apt:
+    name: "{{ packages.required.apt }}"
+    update-cache: yes
+
+- name: Create the app user if it doesn't exist
+  user:
+    name: "{{ security.app_user }}"
+    state: present
+    system: yes
+    shell: /bin/bash
+    create_home: yes
+
+
