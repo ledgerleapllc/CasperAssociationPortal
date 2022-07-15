@@ -1,0 +1,10 @@
+- name: Restart apache handler
+  service:
+    name: apache2
+    state: restarted
+  tags:
+  - apache
+  - config
+  - update
+  - first_setup
+  become: true
