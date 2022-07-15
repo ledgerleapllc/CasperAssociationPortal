@@ -25,4 +25,8 @@
     shell: /bin/bash
     create_home: yes
 
+- name: Set up server name var if not defined
+  set_fact:
+    server_name: "localhost"
+  when: server_name is not defined
 

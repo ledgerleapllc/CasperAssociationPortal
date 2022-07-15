@@ -1,6 +1,5 @@
 app:
   home: "/var/www/app"
-  server_name: localhost
 
 nodejs:
   version: "17"

@@ -43,6 +43,7 @@
     owner: "{{ security.app_user }}"
     group: "{{ security.app_user }}"
     mode: 0755
+    recurse: true
   become: true
   tags:
   - apache
@@ -123,21 +124,29 @@
   when: clone_repo.changed
 
 - name: Run the app in dev mode in the background
-  shell: sudo -u {{ security.app_user }} yarn dev &
+  shell: "(sudo -u {{ security.app_user }} nohup yarn dev & 2>&1 &)"
+  async: 10
+  poll: 0
   args:
     chdir: "{{ app.home }}"
   tags:
   - yarn
   - config
   - first_setup
-  when: clone_repo.changed and deployment.env == 'local' or deployment.env == 'dev'
+  when: clone_repo.changed and deployment.env == 'local'
 
-- name: Test that the app is running
-  shell: curl -s http://localhost:3000/
+- name: Test that the app is running (LOCAL)
+  shell: sleep 10s && curl -s http://localhost:3000/
   args:
     chdir: "{{ app.home }}"
   tags:
-  - yarn
-  - config
-  - first_setup
-  when: clone_repo.changed
+  - test
+  when: clone_repo.changed and deployment.env == 'local'
+
+- name: Test that the app is running (DEV)
+  shell: "curl -s https://{{ server_name }}"
+  args:
+    chdir: "{{ app.home }}"
+  tags:
+  - test
+  when: clone_repo.changed and deployment.env == 'dev'
