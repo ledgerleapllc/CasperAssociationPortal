@@ -31,3 +31,4 @@ jobs:
           options: |
             --limit casper-mem-port-frontend
             --verbose
+            --extra_vars version={{ GITHUB_REF }}

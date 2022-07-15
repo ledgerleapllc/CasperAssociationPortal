@@ -9,17 +9,18 @@
   set_fact:
     version: master
   changed_when: false
+  when: "{{ version }} is not defined and deployment.env == 'prod'"
 
 - name: Set up version according to environment (DEV)
   set_fact:
     version: development
-  when: deployment.env == 'local' or deployment.env == 'dev'
+  when: "(deployment.env == 'local' or deployment.env == 'dev') and {{ version }} is not defined"
   changed_when: false
 
 - name: Set up version according to environment (STAGING)
   set_fact:
     version: staging
-  when: deployment.env == 'staging'
+  when: "deployment.env == 'staging' and {{ version }} is not defined"
   changed_when: false
 
 #Apache
