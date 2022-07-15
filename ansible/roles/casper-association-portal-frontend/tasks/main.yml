@@ -72,7 +72,7 @@
   - update
   - first_setup
   register: clone_repo
-  qchanged_when: " clone_repo.before is not defined or clone_repo.before != clone_repo.after"
+  changed_when: " clone_repo.before is not defined or clone_repo.before != clone_repo.after"
   become: true
 
 - name: Ensure the CasperAssociationPortal directory is owned by the app_user
