@@ -36,4 +36,4 @@ jobs:
           options: |
             --limit casper-mem-port-frontend
             --verbose
-            --extra_vars "version=${{ steps.extract_branch.outputs.branch }}"
+            --extra-vars "version=${{ steps.extract_branch.outputs.branch }}"
