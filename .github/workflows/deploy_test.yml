@@ -13,6 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        
 
       # Run a test deployment on the runner with ansible
       - name: Run playbook
@@ -31,4 +32,4 @@ jobs:
           options: |
             --limit casper-mem-port-frontend
             --verbose
-            --extra_vars version={{ GITHUB_REF }}
+            --extra_vars version=${{ GITHUB_REF }}
