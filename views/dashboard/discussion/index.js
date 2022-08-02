@@ -4,6 +4,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Head from 'next/head';
 import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import {
@@ -551,36 +552,41 @@ const DashboardDiscusion = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <DashboardDiscusionContext.Provider
-        value={{
-          togglePinnedList,
-          removeNewFromList,
-        }}
-      >
-        <Card
-          className="h-full lg:pl-card lg:py-5 lg:shadow-2xl overflow-y-auto-1"
-          noShadow
+    <>
+      <Head>
+        <title>Discussions - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <DashboardDiscusionContext.Provider
+          value={{
+            togglePinnedList,
+            removeNewFromList,
+          }}
         >
-          <div className="w-full h-full">
-            <div className="flex justify-end lg:mr-card">
-              <Link to="/dashboard/discussion/add">
-                <span>
-                  <Button className="relative z-1 px-5 py-2" primary>
-                    + New Discussion
-                  </Button>
-                </span>
-              </Link>
+          <Card
+            className="h-full lg:pl-card lg:py-5 lg:shadow-2xl overflow-y-auto-1"
+            noShadow
+          >
+            <div className="w-full h-full">
+              <div className="flex justify-end lg:mr-card">
+                <Link to="/dashboard/discussion/add">
+                  <span>
+                    <Button className="relative z-1 px-5 py-2" primary>
+                      + New Discussion
+                    </Button>
+                  </span>
+                </Link>
+              </div>
+              <Tab
+                className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
+                data={tabsData}
+                lazy
+              />
             </div>
-            <Tab
-              className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
-              data={tabsData}
-              lazy
-            />
-          </div>
-        </Card>
-      </DashboardDiscusionContext.Provider>
-    </LayoutDashboard>
+          </Card>
+        </DashboardDiscusionContext.Provider>
+      </LayoutDashboard>
+    </>
   );
 };
 

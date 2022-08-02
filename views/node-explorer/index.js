@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import Head from 'next/head';
 import { Button, Slider } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import { formatDate, numberWithCommas } from '../../shared/core/utils';
@@ -160,186 +161,193 @@ const NodeExplorer = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <PublicHeader />
-      <div className="flex-1 min-h-0 flex flex-col pt-14 mx-auto w-container bg-transparent">
-        <div className="flex h-2/5">
-          <div className="w-4/5 border-r-2 border-gray">
-            <h2 className="text-lg font-medium">
-              Drag the sliders to adjust the weighted score for each category.
-            </h2>
-            <TableSlider className="text-gray text-xs my-5 w-10/12">
-              <tbody>
-                <tr>
-                  <td>Uptime</td>
-                  <td>{sliderValues.uptime || 0}</td>
-                  <td>
-                    <Slider
-                      onChange={val => handleSlider('uptime', val)}
-                      maxValue={getMax('uptime')}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Validator Fee</td>
-                  <td>{sliderValues.delegation_rate || 0}</td>
-                  <td>
-                    <Slider
-                      onChange={val => handleSlider('delegation_rate', val)}
-                      maxValue={getMax('delegation_rate')}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Update Responsiveness</td>
-                  <td>{sliderValues.update_responsiveness || 0}</td>
-                  <td>
-                    <Slider
-                      maxValue={getMax('update_responsiveness')}
-                      onChange={val =>
-                        handleSlider('update_responsiveness', val)
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Delegators</td>
-                  <td>{sliderValues.delegators || 0}</td>
-                  <td>
-                    <Slider
-                      maxValue={getMax('delegators')}
-                      onChange={val => handleSlider('delegators', val)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Stake Amount</td>
-                  <td>{sliderValues.stake_amount || 0}</td>
-                  <td>
-                    <Slider
-                      maxValue={getMax('stake_amount')}
-                      onChange={val => handleSlider('stake_amount', val)}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </TableSlider>
-            {getMax('all') === 100 && (
-              <Button primary onClick={() => refresh()}>
-                <IconRefresh className="mr-2" /> Refresh
-              </Button>
-            )}
-            {getMax('all') !== 100 && (
-              <Button primary onClick={() => applySlider()}>
-                Apply to Table
-              </Button>
-            )}
-          </div>
-          <div className="pl-8 w-1/5 font-medium">
-            <h3 className="text-base mb-9">Remaining Points</h3>
-            <h2 className="text-6xl mb-2">{getMax('all')}</h2>
-            {getMax('all') === 0 && (
-              <p className="text-primary text-xs">
-                All of your points are allocated!
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col h-3/5">
-          <div className="flex justify-between pt-8 border-primary border-b-2 pb-3">
-            <div className="flex flex-col justify-center">
-              <h3 className="text-dark2 text-lg font-medium">Member Nodes</h3>
-              <p className="text-xs text-gray">
-                Click on a user to see more details
-              </p>
+    <>
+      <Head>
+        <title>Node Explorer - Casper Association Portal</title>
+      </Head>
+      <div className="flex flex-col h-screen">
+        <PublicHeader />
+        <div className="flex-1 min-h-0 flex flex-col pt-14 mx-auto w-container bg-transparent">
+          <div className="flex h-2/5">
+            <div className="w-4/5 border-r-2 border-gray">
+              <h2 className="text-lg font-medium">
+                Drag the sliders to adjust the weighted score for each category.
+              </h2>
+              <TableSlider className="text-gray text-xs my-5 w-10/12">
+                <tbody>
+                  <tr>
+                    <td>Uptime</td>
+                    <td>{sliderValues.uptime || 0}</td>
+                    <td>
+                      <Slider
+                        onChange={val => handleSlider('uptime', val)}
+                        maxValue={getMax('uptime')}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Validator Fee</td>
+                    <td>{sliderValues.delegation_rate || 0}</td>
+                    <td>
+                      <Slider
+                        onChange={val => handleSlider('delegation_rate', val)}
+                        maxValue={getMax('delegation_rate')}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Update Responsiveness</td>
+                    <td>{sliderValues.update_responsiveness || 0}</td>
+                    <td>
+                      <Slider
+                        maxValue={getMax('update_responsiveness')}
+                        onChange={val =>
+                          handleSlider('update_responsiveness', val)
+                        }
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Delegators</td>
+                    <td>{sliderValues.delegators || 0}</td>
+                    <td>
+                      <Slider
+                        maxValue={getMax('delegators')}
+                        onChange={val => handleSlider('delegators', val)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Stake Amount</td>
+                    <td>{sliderValues.stake_amount || 0}</td>
+                    <td>
+                      <Slider
+                        maxValue={getMax('stake_amount')}
+                        onChange={val => handleSlider('stake_amount', val)}
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </TableSlider>
+              {getMax('all') === 100 && (
+                <Button primary onClick={() => refresh()}>
+                  <IconRefresh className="mr-2" /> Refresh
+                </Button>
+              )}
+              {getMax('all') !== 100 && (
+                <Button primary onClick={() => applySlider()}>
+                  Apply to Table
+                </Button>
+              )}
             </div>
-            <input
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={e => handleSearch(e.target.value)}
-              className="w-52 h-11 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
-            />
+            <div className="pl-8 w-1/5 font-medium">
+              <h3 className="text-base mb-9">Remaining Points</h3>
+              <h2 className="text-6xl mb-2">{getMax('all')}</h2>
+              {getMax('all') === 0 && (
+                <p className="text-primary text-xs">
+                  All of your points are allocated!
+                </p>
+              )}
+            </div>
           </div>
-          <div className="flex w-full flex-1 min-h-0 mb-5">
-            <Styles className="h-full w-full">
-              <Table
-                {...register}
-                className="members-table pt-5 h-full w-full"
-                onLoadMore={fetchMembers}
-                hasMore={hasMore}
-                dataLength={data.length}
-              >
-                <Table.Header>
-                  <Table.HeaderCell key="name">
-                    <p>Name</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="regDate">
-                    <p>Registration Date</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="verified">
-                    <p>Verified</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="rate">
-                    <p>Rate</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="delegates">
-                    <p>Delegates</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="cspr">
-                    <p>Total Stake</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="uptime">
-                    <p>Uptime</p>
-                  </Table.HeaderCell>
-                </Table.Header>
-                <Table.Body className="">
-                  {data.map((row, ind) => (
-                    <Table.BodyRow
-                      key={`a-${ind}`}
-                      selectRowHandler={() =>
-                        router.push(`/node-explorer/${row.id}`)
-                      }
-                    >
-                      <Table.BodyCell key="body1">
-                        <p className="truncate">{row.pseudonym}</p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body2">
-                        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body3">
-                        <p
-                          className={row.kyc_verified_at ? 'text-primary' : ''}
-                        >
-                          {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
-                        </p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body4">
-                        <p className="capitalize">
-                          {row.delegation_rate*100 || 0}%
-                        </p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body5">
-                        <p>{row.delegators_count || 0}</p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body6">
-                        <p>{numberWithCommas(row.total_staked_amount)}</p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body7">
-                        <p>{row.uptime || 0}%</p>
-                      </Table.BodyCell>
-                    </Table.BodyRow>
-                  ))}
-                </Table.Body>
-              </Table>
-            </Styles>
+          <div className="flex flex-col h-3/5">
+            <div className="flex justify-between pt-8 border-primary border-b-2 pb-3">
+              <div className="flex flex-col justify-center">
+                <h3 className="text-dark2 text-lg font-medium">Member Nodes</h3>
+                <p className="text-xs text-gray">
+                  Click on a user to see more details
+                </p>
+              </div>
+              <input
+                type="text"
+                placeholder="Search"
+                value={search}
+                onChange={e => handleSearch(e.target.value)}
+                className="w-52 h-11 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
+              />
+            </div>
+            <div className="flex w-full flex-1 min-h-0 mb-5">
+              <Styles className="h-full w-full">
+                <Table
+                  {...register}
+                  className="members-table pt-5 h-full w-full"
+                  onLoadMore={fetchMembers}
+                  hasMore={hasMore}
+                  dataLength={data.length}
+                >
+                  <Table.Header>
+                    <Table.HeaderCell key="name">
+                      <p>Name</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="regDate">
+                      <p>Registration Date</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="verified">
+                      <p>Verified</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="rate">
+                      <p>Rate</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="delegates">
+                      <p>Delegates</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="cspr">
+                      <p>Total Stake</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="uptime">
+                      <p>Uptime</p>
+                    </Table.HeaderCell>
+                  </Table.Header>
+                  <Table.Body className="">
+                    {data.map((row, ind) => (
+                      <Table.BodyRow
+                        key={`a-${ind}`}
+                        selectRowHandler={() =>
+                          router.push(`/node-explorer/${row.id}`)
+                        }
+                      >
+                        <Table.BodyCell key="body1">
+                          <p className="truncate">{row.pseudonym}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body2">
+                          <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body3">
+                          <p
+                            className={
+                              row.kyc_verified_at ? 'text-primary' : ''
+                            }
+                          >
+                            {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
+                          </p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body4">
+                          <p className="capitalize">
+                            {row.delegation_rate * 100 || 0}%
+                          </p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body5">
+                          <p>{row.delegators_count || 0}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body6">
+                          <p>{numberWithCommas(row.total_staked_amount)}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body7">
+                          <p>{row.uptime || 0}%</p>
+                        </Table.BodyCell>
+                      </Table.BodyRow>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </Styles>
+            </div>
           </div>
         </div>
+        <div className="pb-3">
+          <AppFooter />
+        </div>
       </div>
-      <div className="pb-3">
-        <AppFooter />
-      </div>
-    </div>
+    </>
   );
 };
 

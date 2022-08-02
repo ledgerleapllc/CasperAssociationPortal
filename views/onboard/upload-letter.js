@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Head from 'next/head';
 import AppFooter from '../../components/layouts/app-footer';
 import AppHeader from '../../components/layouts/app-header';
 import LetterUpload from '../../components/onboard/letter-upload/letter-upload';
@@ -104,27 +104,32 @@ const UploadLetter = () => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
-      <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
-        <AppHeader theme="dark" />
-        <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
-          <OnboardStepper
-            title="Upload Letter of Motivation"
-            description="Write and upload a short letter of motivation outlining why you would like to sign up."
-            imageUrl="/images/img_signature_blur.png"
-            currentStep={currentStep}
-            totalSteps={totalSteps}
-            stepContent={getStepContent()}
-            showNextButton={selectedDocument || currentStep === 2}
-            showContinueButton={selectedDocument || currentStep === 2}
-            continueButtonTitle="Continue"
-            onPrev={handlePrev}
-            onNext={handleNext}
-          />
+    <>
+      <Head>
+        <title>Upload Letter - Casper Association Portal</title>
+      </Head>
+      <div className="flex justify-center min-h-screen">
+        <div className="w-full md:max-w-screen-2xl md:p-9 p-4 flex flex-col">
+          <AppHeader theme="dark" />
+          <div className="flex-grow md:flex md:items-center justify-center mt-12 md:mt-0">
+            <OnboardStepper
+              title="Upload Letter of Motivation"
+              description="Write and upload a short letter of motivation outlining why you would like to sign up."
+              imageUrl="/images/img_signature_blur.png"
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+              stepContent={getStepContent()}
+              showNextButton={selectedDocument || currentStep === 2}
+              showContinueButton={selectedDocument || currentStep === 2}
+              continueButtonTitle="Continue"
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
+          </div>
+          <AppFooter theme="dark" />
         </div>
-        <AppFooter theme="dark" />
       </div>
-    </div>
+    </>
   );
 };
 

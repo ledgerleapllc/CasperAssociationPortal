@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Head from 'next/head';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 import InfoRightHome from '../../components/dashboard/info-right-home';
@@ -101,21 +102,26 @@ const Dashboard = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <div id="landing-page__dashboardInner3">
-        <div id="landing-page__dashboardInner3_left">
-          <ContentHome />
+    <>
+      <Head>
+        <title>Dashboard - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <div id="landing-page__dashboardInner3">
+          <div id="landing-page__dashboardInner3_left">
+            <ContentHome />
+          </div>
+          <div id="landing-page__dashboardInner3_right">
+            {renderGuideIn()}
+            <Card className="w-full h-full">
+              <div className="overflow-y-scroll w-full h-full">
+                <InfoRightHome />
+              </div>
+            </Card>
+          </div>
         </div>
-        <div id="landing-page__dashboardInner3_right">
-          {renderGuideIn()}
-          <Card className="w-full h-full">
-            <div className="overflow-y-scroll w-full h-full">
-              <InfoRightHome />
-            </div>
-          </Card>
-        </div>
-      </div>
-    </LayoutDashboard>
+      </LayoutDashboard>
+    </>
   );
 };
 export default LoadingScreen(Dashboard, 'final-member');
