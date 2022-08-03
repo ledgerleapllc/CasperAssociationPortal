@@ -1,0 +1,7 @@
+app:
+  home: "/var/www/app"
+
+nodejs:
+  version: "17"
+
+redeploy: false
