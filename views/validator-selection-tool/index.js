@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Head from 'next/head';
-import { Button, Slider } from '../../components/partials';
+import { Button, Slider, Tooltips } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import { formatDate, numberWithCommas } from '../../shared/core/utils';
 import { getPublicMembers } from '../../shared/redux-saga/member-viewer/actions';
@@ -111,6 +111,12 @@ const NodeExplorer = () => {
     fetchMembers();
   }, []);
 
+  const getTotal = () => {
+    const fields = Object.keys(sliderValues);
+    const total = fields.reduce((sum, x) => sum + (+sliderValues[x] || 0), 0);
+    return total;
+  };
+
   const getMax = key => {
     let fields;
     if (key === 'all') {
@@ -163,7 +169,7 @@ const NodeExplorer = () => {
   return (
     <>
       <Head>
-        <title>Node Explorer - Casper Association Portal</title>
+        <title>Validator Selection Tool - Casper Association Portal</title>
       </Head>
       <div className="flex flex-col h-screen">
         <PublicHeader />
@@ -171,12 +177,30 @@ const NodeExplorer = () => {
           <div className="flex h-2/5">
             <div className="w-4/5 border-r-2 border-gray">
               <h2 className="text-lg font-medium">
-                Drag the sliders to adjust the weighted score for each category.
+                Validator Selection Tool - Drag the sliders to adjust the{' '}
+                weighted score for each category.
               </h2>
               <TableSlider className="text-gray text-xs my-5 w-10/12">
                 <tbody>
                   <tr>
-                    <td>Uptime</td>
+                    <td>
+                      <p className="flex flex-row text-xs text-gray">
+                        Uptime&nbsp;&nbsp;
+                        <Tooltips
+                          placement="top"
+                          title="30 day rolling uptime percentage of a validator"
+                          arrow
+                          className="cursor-pointer"
+                        >
+                          <img
+                            width="10px"
+                            height="10px"
+                            src="/images/ic_feather_info.svg"
+                            alt="Info"
+                          />
+                        </Tooltips>
+                      </p>
+                    </td>
                     <td>{sliderValues.uptime || 0}</td>
                     <td>
                       <Slider
@@ -186,7 +210,24 @@ const NodeExplorer = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Validator Fee</td>
+                    <td>
+                      <p className="flex flex-row text-xs text-gray">
+                        Validator Fee&nbsp;&nbsp;
+                        <Tooltips
+                          placement="top"
+                          title="The percentage a particular validator's take from the rewards pool"
+                          arrow
+                          className="cursor-pointer"
+                        >
+                          <img
+                            width="10px"
+                            height="10px"
+                            src="/images/ic_feather_info.svg"
+                            alt="Info"
+                          />
+                        </Tooltips>
+                      </p>
+                    </td>
                     <td>{sliderValues.delegation_rate || 0}</td>
                     <td>
                       <Slider
@@ -196,7 +237,24 @@ const NodeExplorer = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Update Responsiveness</td>
+                    <td>
+                      <p className="flex flex-row text-xs text-gray">
+                        Update Responsiveness&nbsp;&nbsp;
+                        <Tooltips
+                          placement="top"
+                          title="Hint of a validator's promptness to mandatory protocol upgrades"
+                          arrow
+                          className="cursor-pointer"
+                        >
+                          <img
+                            width="10px"
+                            height="10px"
+                            src="/images/ic_feather_info.svg"
+                            alt="Info"
+                          />
+                        </Tooltips>
+                      </p>
+                    </td>
                     <td>{sliderValues.update_responsiveness || 0}</td>
                     <td>
                       <Slider
@@ -208,7 +266,24 @@ const NodeExplorer = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Delegators</td>
+                    <td>
+                      <p className="flex flex-row text-xs text-gray">
+                        Delegators&nbsp;&nbsp;
+                        <Tooltips
+                          placement="top"
+                          title="Total count of delegators to a particular validator"
+                          arrow
+                          className="cursor-pointer"
+                        >
+                          <img
+                            width="10px"
+                            height="10px"
+                            src="/images/ic_feather_info.svg"
+                            alt="Info"
+                          />
+                        </Tooltips>
+                      </p>
+                    </td>
                     <td>{sliderValues.delegators || 0}</td>
                     <td>
                       <Slider
@@ -218,7 +293,24 @@ const NodeExplorer = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td>Stake Amount</td>
+                    <td>
+                      <p className="flex flex-row text-xs text-gray">
+                        Stake Amount&nbsp;&nbsp;
+                        <Tooltips
+                          placement="top"
+                          title="Total amount staked to a particular validator. Self stake + third party stake"
+                          arrow
+                          className="cursor-pointer"
+                        >
+                          <img
+                            width="10px"
+                            height="10px"
+                            src="/images/ic_feather_info.svg"
+                            alt="Info"
+                          />
+                        </Tooltips>
+                      </p>
+                    </td>
                     <td>{sliderValues.stake_amount || 0}</td>
                     <td>
                       <Slider
@@ -241,11 +333,19 @@ const NodeExplorer = () => {
               )}
             </div>
             <div className="pl-8 w-1/5 font-medium">
-              <h3 className="text-base mb-9">Remaining Points</h3>
-              <h2 className="text-6xl mb-2">{getMax('all')}</h2>
+              <h3 className="text-base mb-5">Remaining Weight</h3>
+              {/* <h2 className="text-6xl mb-2">{getMax('all')}</h2> */}
+              <h2 className="text-4xl mb-2">{getTotal()} / 100</h2>
+              <p className="mt-5 mb-3 text-xs text-gray">
+                Drag the sliders to customize the facets that are most important
+                to you in selecting a validator. As you assign points, the
+                validators in the Casper network will be ranked according to the
+                weights you give to each Add total points and a summary of what
+                it is.
+              </p>
               {getMax('all') === 0 && (
                 <p className="text-primary text-xs">
-                  All of your points are allocated!
+                  All of your weight has been allocated!
                 </p>
               )}
             </div>
@@ -253,7 +353,9 @@ const NodeExplorer = () => {
           <div className="flex flex-col h-3/5">
             <div className="flex justify-between pt-8 border-primary border-b-2 pb-3">
               <div className="flex flex-col justify-center">
-                <h3 className="text-dark2 text-lg font-medium">Member Nodes</h3>
+                <h3 className="text-dark2 text-lg font-medium">
+                  Member nodes ranked by your criteria
+                </h3>
                 <p className="text-xs text-gray">
                   Click on a user to see more details
                 </p>
@@ -303,7 +405,7 @@ const NodeExplorer = () => {
                       <Table.BodyRow
                         key={`a-${ind}`}
                         selectRowHandler={() =>
-                          router.push(`/node-explorer/${row.id}`)
+                          router.push(`/validator-selection-tool/${row.id}`)
                         }
                       >
                         <Table.BodyCell key="body1">
