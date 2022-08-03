@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -454,15 +455,24 @@ const DashboardVote = () => {
   }, [userInfo]);
 
   return (
-    <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          {tabsData.length > 0 && (
-            <Tab className="w-full h-full pt-12 lg:pt-4" data={tabsData} lazy />
-          )}
-        </div>
-      </Card>
-    </LayoutDashboard>
+    <>
+      <Head>
+        <title>Votes - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+          <div className="w-full h-full">
+            {tabsData.length > 0 && (
+              <Tab
+                className="w-full h-full pt-12 lg:pt-4"
+                data={tabsData}
+                lazy
+              />
+            )}
+          </div>
+        </Card>
+      </LayoutDashboard>
+    </>
   );
 };
 
