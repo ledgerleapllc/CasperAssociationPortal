@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -25,7 +25,7 @@ const VerifyNodeOwnershipFirstStep = ({
   setPublicAddress,
 }) => {
   const dispatch = useDispatch();
-  const { formState, register, handleSubmit, watch } = useForm();
+  const { formState, handleSubmit, watch, register, setValue } = useForm();
   const [isVerifying, setIsVerifying] = useState(false);
   const regex_ed22519 = /^01[0-9a-fA-F]{64}$/;
   const regex_secp256k1 = /^02[0-9a-fA-F]{66}$/;
@@ -41,6 +41,14 @@ const VerifyNodeOwnershipFirstStep = ({
   };
 
   const watchAddress = watch('publicAddress');
+  const userInfo = useSelector(state => state.authReducer.userInfo);
+
+  useEffect(() => {
+    setValue('publicAddress', userInfo?.fullInfo?.public_address_node, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  }, []);
 
   useEffect(() => {
     if (check_validator_public_key_regex(watchAddress) === false)
@@ -49,21 +57,33 @@ const VerifyNodeOwnershipFirstStep = ({
 
   const onSubmit = data => {
     const pubAddress = data.publicAddress;
-    setIsVerifying(true);
-    dispatch(
-      submitPublicAddress(
-        {
-          pubAddress,
-        },
-        () => {
-          setPublicAddressVerified(true);
-          setPublicAddress(pubAddress);
-        },
-        () => {
-          setIsVerifying(false);
-        }
-      )
-    );
+    const userAddress = userInfo?.fullInfo?.public_address_node;
+
+    if (!userAddress) {
+      setIsVerifying(true);
+      dispatch(
+        submitPublicAddress(
+          {
+            pubAddress,
+          },
+          () => {
+            setPublicAddressVerified(true);
+            setPublicAddress(pubAddress);
+          },
+          () => {
+            setIsVerifying(false);
+          }
+        )
+      );
+    } else if (
+      !pubAddress ||
+      pubAddress.toLowerCase() !== userAddress.toLowerCase()
+    ) {
+      setPublicAddressVerified(false);
+    } else {
+      setPublicAddressVerified(true);
+      setPublicAddress(pubAddress);
+    }
   };
 
   return (
@@ -93,13 +113,14 @@ const VerifyNodeOwnershipFirstStep = ({
           readOnly={isVerified}
           className="w-full h-16 text-xl px-7 lg:pr-72 rounded-full shadow-md focus:outline-none"
           name="publicAddress"
+          disabled={!!userInfo?.fullInfo?.public_address_node}
           {...register('publicAddress', {
             validate: value =>
               check_validator_public_key_regex(value) !== false ||
               'This is not a valid address',
           })}
         />
-        <span className="lg:absolute right-0">
+        <span className="lg:absolute top-0 right-0">
           <LoadingButton
             type="submit"
             isDisabled={isVerifying || !watchAddress}

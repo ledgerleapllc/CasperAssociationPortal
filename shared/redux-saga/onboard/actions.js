@@ -37,6 +37,12 @@ export const submitPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
+export const checkValidatorAddress = (payload, callback) => ({
+  type: 'CHECK_VALIDATOR_ADDRESS',
+  payload,
+  callback,
+});
+
 export const checkPublicAddress = (payload, callback, isVerifying) => ({
   type: 'CHECK_PUBLIC_ADDRESS',
   callback,

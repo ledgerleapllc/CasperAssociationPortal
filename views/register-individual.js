@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
+import ReactLoading from 'react-loading';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import {
@@ -19,9 +20,15 @@ import {
 } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { registerIndividual } from '../shared/redux-saga/auth/actions';
+import { checkValidatorAddress } from '../shared/redux-saga/onboard/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
+import IconCheck from '../public/images/ic-feather-check.svg';
 
 const RegisterIndividual = () => {
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [validatorAddressMessage, setValidatorAddressMessage] = useState('');
+  const [validatorAddressVerified, setValidatorAddressVerified] =
+    useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
   const router = useHistory();
@@ -39,26 +46,61 @@ const RegisterIndividual = () => {
   });
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const onSubmit = data => {
+
+  const checkVAddress = validatorAddress =>
+    new Promise(resolve => {
+      setValidatorAddressMessage('');
+      setValidatorAddressVerified(false);
+      setIsVerifying(true);
+      dispatch(
+        checkValidatorAddress(
+          {
+            validatorAddress,
+          },
+          res => {
+            setIsVerifying(false);
+            if (res) {
+              if (res.message) {
+                setValidatorAddressMessage(res.message);
+                setValidatorAddressVerified(false);
+                resolve(false);
+              } else {
+                setValidatorAddressVerified(true);
+                resolve(true);
+              }
+            } else {
+              setValidatorAddressVerified(false);
+              resolve(false);
+            }
+          }
+        )
+      );
+    });
+
+  const onSubmit = async data => {
     const params = {
       ...data,
     };
     if (params.telegram === '@') {
       delete params.telegram;
     }
-
-    setIsSubmitting(true);
-    dispatch(
-      registerIndividual(
-        params,
-        () => {
-          router.push('/verify-email');
-        },
-        () => {
-          setIsSubmitting(false);
-        }
-      )
-    );
+    let validatorAddress = data.validatorAddress || '';
+    validatorAddress = validatorAddress.toLowerCase();
+    const verifyResponse = await checkVAddress(validatorAddress);
+    if (verifyResponse) {
+      setIsSubmitting(true);
+      dispatch(
+        registerIndividual(
+          params,
+          () => {
+            router.push('/verify-email');
+          },
+          () => {
+            setIsSubmitting(false);
+          }
+        )
+      );
+    }
   };
 
   const validateFields = () => {
@@ -337,6 +379,52 @@ const RegisterIndividual = () => {
                     )}
                   </div>
                 </div>
+                <div className="mt-10">
+                  <p>
+                    At this time, the portal is only accepting membership from
+                    active validator node operators. Please enter your first
+                    validator node address. If you have more than one, you can
+                    add these later after registration.
+                  </p>
+                  <div className="mt-3 flex items-center">
+                    <div className="w-full lg:w-6/12">
+                      <input
+                        type="text"
+                        className="w-full mt-2 lg:mt-0 h-14 px-7 rounded-full shadow-md focus:outline-none"
+                        placeholder="Enter validator node address *"
+                        name="validatorAddress"
+                        {...register('validatorAddress', {
+                          required: 'Validator address is required',
+                        })}
+                        disabled={isVerifying}
+                        onChange={() => {
+                          setValidatorAddressMessage('');
+                          setValidatorAddressVerified(false);
+                        }}
+                      />
+                    </div>
+                    {isVerifying ? (
+                      <ReactLoading
+                        className="ml-3"
+                        type="spinningBubbles"
+                        color="#FF473E"
+                        width={30}
+                        height={30}
+                      />
+                    ) : validatorAddressVerified ? (
+                      <div className="ml-3">
+                        <IconCheck className="text-primary" />
+                      </div>
+                    ) : null}
+                  </div>
+                  {formState.errors?.validatorAddress ||
+                  validatorAddressMessage ? (
+                    <p className="pl-7 mt-2 text-primary">
+                      {formState.errors?.validatorAddress?.message ||
+                        validatorAddressMessage}
+                    </p>
+                  ) : null}
+                </div>
               </div>
               <div className="flex mt-10 animate__animated animate__fadeInUp animate__delay-1s">
                 <button
@@ -390,8 +478,10 @@ const RegisterIndividual = () => {
                 <div className="animate__animated animate__fadeInLeft animate__delay-1-5s">
                   <LoadingButton
                     type="submit"
-                    isDisabled={!validateFields() || isSubmitting}
-                    isLoading={isSubmitting}
+                    isDisabled={
+                      !validateFields() || isSubmitting || isVerifying
+                    }
+                    isLoading={isSubmitting || isVerifying}
                     title="Submit"
                     className="text-lg text-white w-full lg:w-64 h-16 rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   />

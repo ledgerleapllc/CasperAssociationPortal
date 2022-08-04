@@ -25,6 +25,24 @@ export function* helloSignRequest({ resolve, reject }) {
   }
 }
 
+export function* checkValidatorAddress({ payload, callback }) {
+  try {
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    const params = qs.stringify({
+      public_address: payload.validatorAddress,
+    });
+    const res = yield post(['users/check-validator-address'], params, {
+      headers,
+    });
+    callback(res.data || {});
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    callback(null);
+  }
+}
+
 export function* checkPublicAddress({ payload, callback, isVerifying }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -260,6 +278,7 @@ export function* watchOnboard() {
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS', submitPublicAddress)]);
   yield all([takeLatest('SUBMIT_PUBLIC_ADDRESS_2', submitPublicAddress2)]);
   yield all([takeLatest('CHECK_PUBLIC_ADDRESS', checkPublicAddress)]);
+  yield all([takeLatest('CHECK_VALIDATOR_ADDRESS', checkValidatorAddress)]);
   yield all([takeLatest('VERIFY_FILE_CASPER_SIGNER', verifyFileCasperSigner)]);
   yield all([
     takeLatest('VERIFY_FILE_CASPER_SIGNER_2', verifyFileCasperSigner2),

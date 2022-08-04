@@ -66,6 +66,7 @@ export function* registerEntity({ payload, callback, resetSubmitting }) {
       password: payload.password,
       pseudonym: payload.pseudonym,
       telegram: payload.telegram,
+      validatorAddress: payload.validatorAddress || '',
     });
     const res = yield post(['auth/register-entity'], params, { headers });
     setToken(res.data.access_token);
@@ -91,6 +92,7 @@ export function* registerIndividual({ payload, callback, resetSubmitting }) {
       password: payload.password,
       pseudonym: payload.pseudonym,
       telegram: payload.telegram,
+      validatorAddress: payload.validatorAddress || '',
     });
     const res = yield post(['auth/register-individual'], params, { headers });
     setToken(res.data.access_token);
