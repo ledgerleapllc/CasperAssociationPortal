@@ -180,6 +180,11 @@ export const setGuideStep = payload => ({
   payload,
 });
 
+export const setHideGuide = payload => ({
+  type: 'SET_HIDE_GUIDE',
+  payload,
+});
+
 export const setAuthUserNode = payload => ({
   type: 'SET_AUTH_USER_NODE',
   payload,
