@@ -92,7 +92,11 @@ const RegisterIndividual = () => {
       dispatch(
         registerIndividual(
           params,
-          () => {
+          userData => {
+            localStorage.setItem(
+              `TEMP_VALIDATOR_ADDRESS_${userData.id}`,
+              validatorAddress
+            );
             router.push('/verify-email');
           },
           () => {

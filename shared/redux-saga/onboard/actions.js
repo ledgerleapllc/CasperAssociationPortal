@@ -50,13 +50,6 @@ export const checkPublicAddress = (payload, callback, isVerifying) => ({
   payload,
 });
 
-export const submitPublicAddress2 = (payload, callback, isVerifying) => ({
-  type: 'SUBMIT_PUBLIC_ADDRESS_2',
-  callback,
-  isVerifying,
-  payload,
-});
-
 export const verifyFileCasperSigner = (payload, resolve, reject) => ({
   type: 'VERIFY_FILE_CASPER_SIGNER',
   payload,

@@ -44,10 +44,15 @@ const VerifyNodeOwnershipFirstStep = ({
   const userInfo = useSelector(state => state.authReducer.userInfo);
 
   useEffect(() => {
-    setValue('publicAddress', userInfo?.fullInfo?.public_address_node, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
+    const tempAddress = localStorage.getItem(
+      `TEMP_VALIDATOR_ADDRESS_${userInfo.id}`
+    );
+    if (tempAddress) {
+      setValue('publicAddress', tempAddress, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -57,33 +62,21 @@ const VerifyNodeOwnershipFirstStep = ({
 
   const onSubmit = data => {
     const pubAddress = data.publicAddress;
-    const userAddress = userInfo?.fullInfo?.public_address_node;
-
-    if (!userAddress) {
-      setIsVerifying(true);
-      dispatch(
-        submitPublicAddress(
-          {
-            pubAddress,
-          },
-          () => {
-            setPublicAddressVerified(true);
-            setPublicAddress(pubAddress);
-          },
-          () => {
-            setIsVerifying(false);
-          }
-        )
-      );
-    } else if (
-      !pubAddress ||
-      pubAddress.toLowerCase() !== userAddress.toLowerCase()
-    ) {
-      setPublicAddressVerified(false);
-    } else {
-      setPublicAddressVerified(true);
-      setPublicAddress(pubAddress);
-    }
+    setIsVerifying(true);
+    dispatch(
+      submitPublicAddress(
+        {
+          pubAddress,
+        },
+        () => {
+          setPublicAddressVerified(true);
+          setPublicAddress(pubAddress);
+        },
+        () => {
+          setIsVerifying(false);
+        }
+      )
+    );
   };
 
   return (
@@ -113,7 +106,6 @@ const VerifyNodeOwnershipFirstStep = ({
           readOnly={isVerified}
           className="w-full h-16 text-xl px-7 lg:pr-72 rounded-full shadow-md focus:outline-none"
           name="publicAddress"
-          disabled={!!userInfo?.fullInfo?.public_address_node}
           {...register('publicAddress', {
             validate: value =>
               check_validator_public_key_regex(value) !== false ||
