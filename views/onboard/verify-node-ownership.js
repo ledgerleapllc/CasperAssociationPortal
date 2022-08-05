@@ -70,7 +70,6 @@ const VerifyNodeOwnership = () => {
   });
 
   const router = useHistory();
-
   const totalSteps = 3;
 
   const handlePrev = () => {

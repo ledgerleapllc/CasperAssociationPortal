@@ -66,12 +66,13 @@ export function* registerEntity({ payload, callback, resetSubmitting }) {
       password: payload.password,
       pseudonym: payload.pseudonym,
       telegram: payload.telegram,
+      validatorAddress: payload.validatorAddress || '',
     });
     const res = yield post(['auth/register-entity'], params, { headers });
     setToken(res.data.access_token);
     localStorage.setItem('USER_ID', res.data.user_id);
     yield put(setUser(res.data));
-    callback();
+    callback(res.data);
     resetSubmitting();
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -91,11 +92,12 @@ export function* registerIndividual({ payload, callback, resetSubmitting }) {
       password: payload.password,
       pseudonym: payload.pseudonym,
       telegram: payload.telegram,
+      validatorAddress: payload.validatorAddress || '',
     });
     const res = yield post(['auth/register-individual'], params, { headers });
     setToken(res.data.access_token);
     yield put(setUser(res.data));
-    callback();
+    callback(res.data);
     resetSubmitting();
   } catch (error) {
     yield put(saveApiResponseError(error));

@@ -1,8 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuideStep } from '../../shared/redux-saga/auth/actions';
+import {
+  setGuideStep,
+  setHideGuide,
+} from '../../shared/redux-saga/auth/actions';
 import Header from '../dashboard/header';
 import Sidebar from '../dashboard/sidebar';
+import IconX from '../../public/images/ic_x.svg';
 
 export default function LayoutDashboard({ children, bg }) {
   const isCollapsed = useSelector(
@@ -10,6 +16,8 @@ export default function LayoutDashboard({ children, bg }) {
   );
   const guideStep = useSelector(state => state.authReducer.appInfo.guideStep);
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const hideGuide = useSelector(state => state.authReducer.appInfo.hideGuide);
+
   const [isAdmin, setIsAdmin] = useState(null);
   const dispatch = useDispatch();
 
@@ -32,10 +40,17 @@ export default function LayoutDashboard({ children, bg }) {
   };
 
   const renderGuideOut = () => {
-    if (isAdmin || !guideStep || guideStep > 8 || guideStep === 2) return null;
+    if (isAdmin || hideGuide || !guideStep || guideStep > 8 || guideStep === 2)
+      return null;
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
         <section>
+          <div
+            id="dashboard-guide-close"
+            onClick={() => dispatch(setHideGuide({ hideGuide: true }))}
+          >
+            <IconX className="text-xs" style={{ color: '#CCC' }} />
+          </div>
           {[1, 3, 4, 5, 6, 7, 8].includes(guideStep) ? (
             <img
               id="dashboard-guide-left"
@@ -126,6 +141,7 @@ export default function LayoutDashboard({ children, bg }) {
                   <span className={guideStep === 8 ? 'active' : ''} />
                 </li>
               </ul>
+              <span>{guideStep} / 8</span>
               <button
                 type="button"
                 className="text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
