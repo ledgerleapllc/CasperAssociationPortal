@@ -17,13 +17,23 @@
     name: "{{ packages.required.apt }}"
     update-cache: yes
 
-- name: Create the app user if it doesn't exist
-  user:
-    name: "{{ security.app_user }}"
-    state: present
-    system: yes
-    shell: /bin/bash
-    create_home: yes
+- name: Install nvm
+  shell: >
+    curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | sh
+    creates=/home/{{ security.app_user }}/.nvm/nvm.sh
+  become: true
+  become_user: "{{ security.app_user }}"
+  become_flags: -i
+
+
+- name: Install node and set version
+  shell: >
+    /bin/bash -c "source ~/.nvm/nvm.sh && nvm install {{ nodejs.version }} && nvm alias default {{ nodejs.version }} && nvm use default"
+    creates=/home/{{ ansible_user_id }}/.nvm/alias
+  become: true
+  become_user: "{{ security.app_user }}"
+  become_flags: -i
+
 
 - name: Set up server name var if not defined
   set_fact:
