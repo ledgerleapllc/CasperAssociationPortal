@@ -52,7 +52,7 @@ const UpdateEmail = () => {
         style={{
           backgroundImage: `url('/images/bg_welcome${
             detectMobile.isMobile() ? '_mobile' : ''
-          }.png')`,
+          }.jpg')`,
           backgroundSize: 'cover',
         }}
       >
