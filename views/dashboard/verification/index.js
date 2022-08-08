@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Head from 'next/head';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card } from '../../../components/partials';
@@ -58,23 +59,28 @@ const Verification = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <Card className="h-full px-card py-5 lg:shadow-2xl" noShadow>
-        <div className="flex flex-col w-full h-full">
-          <div className="card-header w-full">
-            <div className="flex flex-col justify-center">
-              <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
-                Verification &amp; Profile
-              </h3>
-              <div className="border-primary border-b-2" />
+    <>
+      <Head>
+        <title>Get Verified - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <Card className="h-full px-card py-5 lg:shadow-2xl" noShadow>
+          <div className="flex flex-col w-full h-full">
+            <div className="card-header w-full">
+              <div className="flex flex-col justify-center">
+                <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
+                  Verification &amp; Profile
+                </h3>
+                <div className="border-primary border-b-2" />
+              </div>
+            </div>
+            <div className="card-body -ml-1 pl-1 pt-8 overflow-y-auto min-h-0 flex-1 padding-tracker">
+              <div className="">{getContent()}</div>
             </div>
           </div>
-          <div className="card-body -ml-1 pl-1 pt-8 overflow-y-auto min-h-0 flex-1 padding-tracker">
-            <div className="">{getContent()}</div>
-          </div>
-        </div>
-      </Card>
-    </LayoutDashboard>
+        </Card>
+      </LayoutDashboard>
+    </>
   );
 };
 

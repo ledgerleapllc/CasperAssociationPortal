@@ -157,10 +157,16 @@ const setGuideStep = (state, payload) => ({
   guideStep: payload.guideStep,
 });
 
+const setHideGuide = (state, payload) => ({
+  ...state,
+  hideGuide: payload.hideGuide,
+});
+
 const appInfoStrategies = {
   SET_COLLAPSED: setCollapsed,
   SET_AUTH_USER_NODE: setAuthUserNode,
   SET_GUIDE_STEP: setGuideStep,
+  SET_HIDE_GUIDE: setHideGuide,
   __default__: state => state,
 };
 
@@ -168,6 +174,7 @@ const appInfo = createReducer(appInfoStrategies, {
   isCollapsed: false,
   authUserNode: null,
   guideStep: null,
+  hideGuide: false,
 });
 
 export const authReducer = combineReducers({

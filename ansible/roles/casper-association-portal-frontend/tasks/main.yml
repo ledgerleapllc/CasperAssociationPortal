@@ -1,0 +1,154 @@
+- name: Run prerequisite tasks
+  include: prerequisites.yml
+  become: true
+  tags:
+  - prerequisites
+  - first_setup
+
+- name: Set up version according to environment (PROD)
+  set_fact:
+    version: master
+  changed_when: false
+  when: version is not defined and deployment.env == 'prod'
+
+- name: Set up version according to environment (DEV)
+  set_fact:
+    version: development
+  when: (deployment.env == 'local' or deployment.env == 'dev') and version is not defined
+  changed_when: false
+
+- name: Set up version according to environment (STAGING)
+  set_fact:
+    version: staging
+  when: deployment.env == 'staging' and version is not defined
+  changed_when: false
+
+#Apache
+- name: Loop through apache modules and enable them
+  shell: a2enmod {{ item }}
+  with_items: "{{ apache.a2enmod.module_list }}"
+  when: apache.a2enmod.module_list is defined
+  become: true
+  tags:
+  - apache
+  - config
+  - first_setup
+  register: apache_modules
+  changed_when: "'already enabled' not in apache_modules.stdout"
+  notify: restart_apache
+
+
+- name: Create the app directory
+  file:
+    dest: "{{ app.home }}"
+    state: directory
+    owner: "{{ security.app_user }}"
+    group: "{{ security.app_user }}"
+    mode: 0755
+    recurse: true
+  become: true
+  tags:
+  - apache
+  - config
+  - first_setup
+
+- name: Add the app directory to the safe directories if not there already
+  shell: if ! grep -q "{{ app.home }}" ~/.gitconfig; then git config --global --add safe.directory "{{ app.home }}" && echo "Git folder added to the safe directories"; fi
+  register: git_safe_dir
+  changed_when: "'added' in git_safe_dir.stdout"
+
+# Git clone
+- name: Clone the CasperAssociationPortal Github repo into the app home
+  git:
+    repo: https://github.com/ledgerleapllc/CasperAssociationPortal
+    dest: "{{ app.home }}"
+    version: "{{ version }}"
+    update: yes
+    force: yes
+    clone: yes
+  tags:
+  - git
+  - config
+  - update
+  - first_setup
+  register: clone_repo
+  changed_when: " clone_repo.before is not defined or clone_repo.before != clone_repo.after"
+  become: true
+
+- name: Ensure the CasperAssociationPortal directory is owned by the app_user
+  file:
+    dest: "{{ app.home }}"
+    state: directory
+    owner: "{{ security.app_user }}"
+    group: "{{ security.app_user }}"
+    mode: 0755
+    recurse: true
+  become: true
+  tags:
+  - apache
+  - config
+  - first_setup
+
+- name: Create app.conf file from the template
+  template:
+    src: app.conf.j2
+    dest: "/etc/apache2/sites-enabled/app.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+  become: true
+  tags:
+  - config
+  - apache
+  - update
+  - first_setup
+
+- name: Yarn install
+  shell: sudo -u {{ security.app_user }} yarn install
+  args:
+    chdir: "{{ app.home }}"
+  when: clone_repo.changed
+  become: true
+  tags:
+  - yarn
+  - config
+  - update
+  - first_setup
+
+- name: Build with Yarn
+  shell: sudo -u {{ security.app_user }} yarn build-{{ deployment.env }}
+  args:
+    chdir: "{{ app.home }}"
+  tags:
+  - yarn
+  - config
+  - first_setup
+  when: clone_repo.changed
+
+- name: Run the app in dev mode in the background
+  shell: "(sudo -u {{ security.app_user }} nohup yarn dev & 2>&1 &)"
+  async: 10
+  poll: 0
+  args:
+    chdir: "{{ app.home }}"
+  tags:
+  - yarn
+  - config
+  - first_setup
+  when: clone_repo.changed and deployment.env == 'local'
+
+- name: Test that the app is running (LOCAL)
+  shell: sleep 10s && curl -s http://localhost:3000/
+  args:
+    chdir: "{{ app.home }}"
+  tags:
+  - test
+  when: clone_repo.changed and deployment.env == 'local'
+
+- name: Test that the app is running (DEV)
+  shell: "curl -s https://{{ server_name }}"
+  args:
+    chdir: "{{ app.home }}"
+  tags:
+  - test
+  when: clone_repo.changed and deployment.env == 'dev'

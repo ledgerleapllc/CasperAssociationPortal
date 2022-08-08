@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -11,7 +12,7 @@ import {
   ForAgainst,
   Table,
   ClockBar,
-  Tooltips,
+  // Tooltips,
   StatusText,
 } from '../../../components/partials';
 import {
@@ -176,6 +177,7 @@ const Tab1 = () => {
           <Table.HeaderCell key="header3">
             <p>Votes</p>
           </Table.HeaderCell>
+          {/*
           <Table.HeaderCell key="header4">
             <Tooltips
               placement="top"
@@ -185,6 +187,7 @@ const Tab1 = () => {
               <p>Current Split</p>
             </Tooltips>
           </Table.HeaderCell>
+          */}
           <Table.HeaderCell key="header5">
             <p>Start Date &amp; Time</p>
           </Table.HeaderCell>
@@ -204,11 +207,150 @@ const Tab1 = () => {
               <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
+              {/*
               <Table.BodyCell key="body4">
                 <ForAgainst
                   splitFor={row.vote?.for_value}
                   splitAgainst={row.vote?.against_value}
                 />
+              </Table.BodyCell>
+              */}
+              <Table.BodyCell key="body5">
+                {renderStartDate(row)}
+              </Table.BodyCell>
+              <Table.BodyCell key="body6">
+                <a className="text-primary cursor-pointer underline">View</a>
+              </Table.BodyCell>
+            </Table.BodyRow>
+          ))}
+        </Table.Body>
+      </Table>
+    </Styles>
+  );
+};
+
+const Tab4 = () => {
+  const {
+    data,
+    register,
+    hasMore,
+    appendData,
+    resetData,
+    setHasMore,
+    page,
+    setPage,
+    params,
+    setParams,
+  } = useTable();
+  const dispatch = useDispatch();
+  const router = useHistory();
+  const fetchScheduledVotes = (pageValue = page, paramsValue = params) => {
+    dispatch(
+      getVotes(
+        { status: 'scheduled', page: pageValue, ...paramsValue },
+        (results, isHasMore) => {
+          setHasMore(isHasMore);
+          appendData(results);
+          setPage(prev => prev + 1);
+        }
+      )
+    );
+  };
+
+  useEffect(() => {
+    fetchScheduledVotes();
+  }, []);
+
+  const handleSort = async (key, direction) => {
+    const newParams = {
+      sort_key: key,
+      sort_direction: direction,
+    };
+    setParams(newParams);
+    resetData();
+    fetchScheduledVotes(1, newParams);
+  };
+
+  const goToVoteDetail = id => {
+    router.push(`/dashboard/votes/${id}`);
+  };
+
+  const renderTimer = row => {
+    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+      return (
+        <ClockBar
+          endTime={new Date(`${row.end_date} ${row.end_time}`)}
+          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+        />
+      );
+    }
+    return (
+      <ClockBar
+        endTime={new Date(row.time_end)}
+        startTime={new Date(row.created_at)}
+      />
+    );
+  };
+
+  const renderStartDate = row => {
+    if (row.start_date && row.start_time) {
+      const date = `${row.start_date} ${row.start_time}`;
+      return (
+        <p>
+          {`${formatDate(date, 'dd/MM/yyyy')}`}
+          <br />
+          {`${formatDate(date, 'HH:mm aaa')} EST`}
+        </p>
+      );
+    }
+
+    return (
+      <p>
+        {`${formatDate(row.created_at, 'dd/MM/yyyy')}`}
+        <br />
+        {`${formatDate(row.created_at, 'HH:mm aaa')} EST`}
+      </p>
+    );
+  };
+
+  return (
+    <Styles className="h-full">
+      <Table
+        {...register}
+        className="active-vote-table pt-10 h-full"
+        onLoadMore={fetchScheduledVotes}
+        hasMore={hasMore}
+        dataLength={data.length}
+        onSort={handleSort}
+      >
+        <Table.Header>
+          <Table.HeaderCell key="header1">
+            <p>Title</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header2" sortKey="time_end">
+            <p>Time Remaining</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header3">
+            <p>Votes</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header5">
+            <p>Start Date &amp; Time</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header6" />
+        </Table.Header>
+        <Table.Body className="custom-padding-tracker">
+          {data.map((row, ind) => (
+            <Table.BodyRow
+              className="py-6"
+              key={ind}
+              selectRowHandler={() => goToVoteDetail(row.id)}
+            >
+              <Table.BodyCell key="body1">
+                <p className="truncate">{row.title}</p>
+              </Table.BodyCell>
+              <Table.BodyCell key="body2">{renderTimer(row)}</Table.BodyCell>
+              <Table.BodyCell key="body3">
+                <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body5">
                 {renderStartDate(row)}
@@ -445,6 +587,11 @@ const DashboardVote = () => {
           title: 'Active Votes',
         },
         {
+          content: Tab4,
+          id: 'scheduled-votes',
+          title: 'Scheduled Votes',
+        },
+        {
           content: Tab2,
           id: 'finished',
           title: 'Finished',
@@ -454,15 +601,24 @@ const DashboardVote = () => {
   }, [userInfo]);
 
   return (
-    <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="w-full h-full">
-          {tabsData.length > 0 && (
-            <Tab className="w-full h-full pt-12 lg:pt-4" data={tabsData} lazy />
-          )}
-        </div>
-      </Card>
-    </LayoutDashboard>
+    <>
+      <Head>
+        <title>Votes - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+          <div className="w-full h-full">
+            {tabsData.length > 0 && (
+              <Tab
+                className="w-full h-full pt-12 lg:pt-4"
+                data={tabsData}
+                lazy
+              />
+            )}
+          </div>
+        </Card>
+      </LayoutDashboard>
+    </>
   );
 };
 

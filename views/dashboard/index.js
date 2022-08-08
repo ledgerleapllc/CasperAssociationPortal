@@ -1,15 +1,23 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Head from 'next/head';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 import InfoRightHome from '../../components/dashboard/info-right-home';
 import ContentHome from '../../components/dashboard/content-home';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
-import { setGuideStep } from '../../shared/redux-saga/auth/actions';
+import {
+  setGuideStep,
+  setHideGuide,
+} from '../../shared/redux-saga/auth/actions';
+import IconX from '../../public/images/ic_x.svg';
 
 const Dashboard = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const guideStep = useSelector(state => state.authReducer.appInfo.guideStep);
+  const hideGuide = useSelector(state => state.authReducer.appInfo.hideGuide);
   const [isAdmin, setIsAdmin] = useState(null);
   const dispatch = useDispatch();
 
@@ -32,10 +40,17 @@ const Dashboard = () => {
   };
 
   const renderGuideIn = () => {
-    if (isAdmin || !guideStep || guideStep > 8 || guideStep !== 2) return null;
+    if (isAdmin || hideGuide || !guideStep || guideStep > 8 || guideStep !== 2)
+      return null;
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
         <section>
+          <div
+            id="dashboard-guide-close"
+            onClick={() => dispatch(setHideGuide({ hideGuide: true }))}
+          >
+            <IconX className="text-xs" style={{ color: '#CCC' }} />
+          </div>
           {[2].includes(guideStep) ? (
             <>
               <img
@@ -86,6 +101,7 @@ const Dashboard = () => {
                   <span className={guideStep === 8 ? 'active' : ''} />
                 </li>
               </ul>
+              <span>{guideStep} / 8</span>
               <button
                 type="button"
                 className="text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
@@ -101,21 +117,26 @@ const Dashboard = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <div id="landing-page__dashboardInner3">
-        <div id="landing-page__dashboardInner3_left">
-          <ContentHome />
+    <>
+      <Head>
+        <title>Dashboard - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <div id="landing-page__dashboardInner3">
+          <div id="landing-page__dashboardInner3_left">
+            <ContentHome />
+          </div>
+          <div id="landing-page__dashboardInner3_right">
+            {renderGuideIn()}
+            <Card className="w-full h-full">
+              <div className="overflow-y-scroll w-full h-full">
+                <InfoRightHome />
+              </div>
+            </Card>
+          </div>
         </div>
-        <div id="landing-page__dashboardInner3_right">
-          {renderGuideIn()}
-          <Card className="w-full h-full">
-            <div className="overflow-y-scroll w-full h-full">
-              <InfoRightHome />
-            </div>
-          </Card>
-        </div>
-      </div>
-    </LayoutDashboard>
+      </LayoutDashboard>
+    </>
   );
 };
 export default LoadingScreen(Dashboard, 'final-member');

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useContext, useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import Head from 'next/head';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Button, Card, ToggleButton } from '../../components/partials';
@@ -212,224 +213,232 @@ const DashboardSetting = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-        <div className="flex flex-col w-full h-full">
-          <div className="card-header lg:mr-card">
-            <div className="flex justify-between items-end mb-3.5">
-              <div className="flex items-center">
-                <h3 className="mr-card text-dark2 text-lg font-medium">
-                  <Link to="/dashboard/settings">User Settings</Link>
-                </h3>
-                <h3 className="text-gray text-lg font-medium">
-                  <Link to="/dashboard/profile">My Profile</Link>
-                </h3>
-              </div>
-              <div>
-                <Button
-                  primary
-                  isLoading={isSaving}
-                  sizeSpinner={20}
-                  disabled={!canSubmit()}
-                  onClick={() => $submitRef.current.click()}
-                  className="px-5 py-2"
-                >
-                  Save Changes
-                </Button>
-              </div>
-            </div>
-            <div className="border-primary border-b-2" />
-          </div>
-          <div
-            className="card-body flex-1 min-h-0 pt-8 overflow-y-auto -ml-1 pl-1"
-            style={{ overflowX: 'hidden' }}
-          >
-            <div className="lg:pr-card">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col lg:flex-row">
-                  <div className="w-full lg:w-1/2 pb-12">
-                    <div className="form-group">
-                      <div className="flex justify-between">
-                        <label htmlFor="username">Username</label>
-                        <EditButton mobile field="username" />
-                      </div>
-                      <div className="mt-5 flex items-center">
-                        <input
-                          name="username"
-                          type="text"
-                          disabled={!enableInput.username}
-                          {...register(
-                            'username',
-                            enableInput.username
-                              ? {
-                                  required: 'User Name is required',
-                                  pattern: {
-                                    message: 'User Name is invalid',
-                                    value: USERNAME_PATTERN,
-                                  },
-                                }
-                              : {}
-                          )}
-                          className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
-                        />
-                        <EditButton field="username" />
-                      </div>
-                      {enableInput.username && formState.errors?.username && (
-                        <p className="px-7 pt-2 text-primary">
-                          {formState.errors.username?.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-1/2 pb-12">
-                    <div className="form-group">
-                      <div className="flex justify-between">
-                        <label htmlFor="email">
-                          Email Address
-                          {user.fullInfo?.new_email &&
-                            user.fullInfo?.new_email !==
-                              user.fullInfo?.email && (
-                              <span className="text-primary"> (verifying)</span>
-                            )}
-                        </label>
-                        <EditButton mobile field="email" />
-                      </div>
-                      <div className="mt-5 flex items-center">
-                        <input
-                          name="email"
-                          type="text"
-                          disabled={!enableInput.email}
-                          {...register(
-                            'email',
-                            enableInput.email
-                              ? {
-                                  required: 'Email is required',
-                                  pattern: {
-                                    message: 'Email is invalid',
-                                    value: EMAIL_PATTERN,
-                                  },
-                                }
-                              : {}
-                          )}
-                          className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
-                        />
-                        <EditButton field="email" />
-                      </div>
-                      {enableInput.email && formState.errors?.email && (
-                        <p className="px-7 pt-2 text-primary">
-                          {formState.errors.email?.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+    <>
+      <Head>
+        <title>Settings - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+          <div className="flex flex-col w-full h-full">
+            <div className="card-header lg:mr-card">
+              <div className="flex justify-between items-end mb-3.5">
+                <div className="flex items-center">
+                  <h3 className="mr-card text-dark2 text-lg font-medium">
+                    <Link to="/dashboard/settings">User Settings</Link>
+                  </h3>
+                  <h3 className="text-gray text-lg font-medium">
+                    <Link to="/dashboard/profile">My Profile</Link>
+                  </h3>
                 </div>
-                <div className="flex flex-col lg:flex-row">
-                  <div className="w-full lg:w-1/2 pb-12">
-                    <div className="form-group">
-                      <div className="flex justify-between">
-                        <label htmlFor="password">Update Password</label>
-                        <EditButton mobile field="password" />
-                      </div>
-                      <div className="mt-5 flex items-center">
-                        <input
-                          disabled={!enableInput.password}
-                          placeholder="New Password"
-                          type="password"
-                          {...register(
-                            'password',
-                            enableInput.password
-                              ? {
-                                  required: 'New Password is required',
-                                  minLength: {
-                                    message: 'Min 8 characters',
-                                    value: 8,
-                                  },
-                                  pattern: {
-                                    message: 'Password is invalid',
-                                    value: PASSWORD_PATTERN,
-                                  },
-                                }
-                              : {}
-                          )}
-                          className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
-                        />
-                        <EditButton field="password" />
-                      </div>
-                      {enableInput.password && formState.errors?.password && (
-                        <p className="px-7 pt-2 text-primary">
-                          {formState.errors.password?.message}
-                        </p>
-                      )}
-                      <div className="pt-8">
-                        <input
-                          placeholder="Confirm New Password"
-                          type="password"
-                          disabled={!enableInput.password}
-                          {...register(
-                            'confirm_password',
-                            enableInput.password
-                              ? {
-                                  validate: value =>
-                                    value === getValues().password ||
-                                    'Password not match',
-                                }
-                              : {}
-                          )}
-                          className="w-full lg:w-3/4 mr-6 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
-                        />
-                      </div>
-                      {enableInput.password &&
-                        formState.errors?.confirm_password && (
+                <div>
+                  <Button
+                    primary
+                    isLoading={isSaving}
+                    sizeSpinner={20}
+                    disabled={!canSubmit()}
+                    onClick={() => $submitRef.current.click()}
+                    className="px-5 py-2"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </div>
+              <div className="border-primary border-b-2" />
+            </div>
+            <div
+              className="card-body flex-1 min-h-0 pt-8 overflow-y-auto -ml-1 pl-1"
+              style={{ overflowX: 'hidden' }}
+            >
+              <div className="lg:pr-card">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="flex flex-col lg:flex-row">
+                    <div className="w-full lg:w-1/2 pb-12">
+                      <div className="form-group">
+                        <div className="flex justify-between">
+                          <label htmlFor="username">Username</label>
+                          <EditButton mobile field="username" />
+                        </div>
+                        <div className="mt-5 flex items-center">
+                          <input
+                            name="username"
+                            type="text"
+                            disabled={!enableInput.username}
+                            {...register(
+                              'username',
+                              enableInput.username
+                                ? {
+                                    required: 'User Name is required',
+                                    pattern: {
+                                      message: 'User Name is invalid',
+                                      value: USERNAME_PATTERN,
+                                    },
+                                  }
+                                : {}
+                            )}
+                            className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
+                          />
+                          <EditButton field="username" />
+                        </div>
+                        {enableInput.username && formState.errors?.username && (
                           <p className="px-7 pt-2 text-primary">
-                            {formState.errors.confirm_password?.message}
+                            {formState.errors.username?.message}
                           </p>
                         )}
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-1/2 pb-12">
-                    <div className="form-group">
-                      <label htmlFor="2fa">2FA toggle</label>
-                      <div className="hidden lg:block pl-5 mt-5">
-                        <fieldset
-                          className="disabled:opacity-40"
-                          disabled={is2FAInputDisabled()}
-                        >
-                          <label className="relative pl-8 inline-flex items-center mr-6">
-                            <input
-                              type="radio"
-                              className="text-primary"
-                              onClick={() => toggleRadio('twoFA_login', 1)}
-                              value="1"
-                              {...register('twoFA_login')}
-                            />
-                            <span className="text-sm text-dark1">ON</span>
-                          </label>
-                          <br />
-                          <label className="relative inline-flex pl-8 mt-6 flex">
-                            <input
-                              type="radio"
-                              className="text-primary"
-                              onClick={() => toggleRadio('twoFA_login', 0)}
-                              value="0"
-                              {...register('twoFA_login')}
-                            />
-                            <span className="text-sm text-dark1">OFF</span>
-                          </label>
-                        </fieldset>
-                      </div>
-                      <div className="block lg:hidden pl-5 mt-5">
-                        <ToggleButton />
                       </div>
                     </div>
+                    <div className="w-full lg:w-1/2 pb-12">
+                      <div className="form-group">
+                        <div className="flex justify-between">
+                          <label htmlFor="email">
+                            Email Address
+                            {user.fullInfo?.new_email &&
+                              user.fullInfo?.new_email !==
+                                user.fullInfo?.email && (
+                                <span className="text-primary">
+                                  {' '}
+                                  (verifying)
+                                </span>
+                              )}
+                          </label>
+                          <EditButton mobile field="email" />
+                        </div>
+                        <div className="mt-5 flex items-center">
+                          <input
+                            name="email"
+                            type="text"
+                            disabled={!enableInput.email}
+                            {...register(
+                              'email',
+                              enableInput.email
+                                ? {
+                                    required: 'Email is required',
+                                    pattern: {
+                                      message: 'Email is invalid',
+                                      value: EMAIL_PATTERN,
+                                    },
+                                  }
+                                : {}
+                            )}
+                            className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none disabled:text-gray"
+                          />
+                          <EditButton field="email" />
+                        </div>
+                        {enableInput.email && formState.errors?.email && (
+                          <p className="px-7 pt-2 text-primary">
+                            {formState.errors.email?.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <button ref={$submitRef} type="submit" hidden />
-              </form>
+                  <div className="flex flex-col lg:flex-row">
+                    <div className="w-full lg:w-1/2 pb-12">
+                      <div className="form-group">
+                        <div className="flex justify-between">
+                          <label htmlFor="password">Update Password</label>
+                          <EditButton mobile field="password" />
+                        </div>
+                        <div className="mt-5 flex items-center">
+                          <input
+                            disabled={!enableInput.password}
+                            placeholder="New Password"
+                            type="password"
+                            {...register(
+                              'password',
+                              enableInput.password
+                                ? {
+                                    required: 'New Password is required',
+                                    minLength: {
+                                      message: 'Min 8 characters',
+                                      value: 8,
+                                    },
+                                    pattern: {
+                                      message: 'Password is invalid',
+                                      value: PASSWORD_PATTERN,
+                                    },
+                                  }
+                                : {}
+                            )}
+                            className="w-full lg:w-3/4 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                          />
+                          <EditButton field="password" />
+                        </div>
+                        {enableInput.password && formState.errors?.password && (
+                          <p className="px-7 pt-2 text-primary">
+                            {formState.errors.password?.message}
+                          </p>
+                        )}
+                        <div className="pt-8">
+                          <input
+                            placeholder="Confirm New Password"
+                            type="password"
+                            disabled={!enableInput.password}
+                            {...register(
+                              'confirm_password',
+                              enableInput.password
+                                ? {
+                                    validate: value =>
+                                      value === getValues().password ||
+                                      'Password not match',
+                                  }
+                                : {}
+                            )}
+                            className="w-full lg:w-3/4 mr-6 lg:mt-0 h-14 px-7 rounded-full shadow-activeLink focus:outline-none"
+                          />
+                        </div>
+                        {enableInput.password &&
+                          formState.errors?.confirm_password && (
+                            <p className="px-7 pt-2 text-primary">
+                              {formState.errors.confirm_password?.message}
+                            </p>
+                          )}
+                      </div>
+                    </div>
+                    <div className="w-full lg:w-1/2 pb-12">
+                      <div className="form-group">
+                        <label htmlFor="2fa">2FA toggle</label>
+                        <div className="hidden lg:block pl-5 mt-5">
+                          <fieldset
+                            className="disabled:opacity-40"
+                            disabled={is2FAInputDisabled()}
+                          >
+                            <label className="relative pl-8 inline-flex items-center mr-6">
+                              <input
+                                type="radio"
+                                className="text-primary"
+                                onClick={() => toggleRadio('twoFA_login', 1)}
+                                value="1"
+                                {...register('twoFA_login')}
+                              />
+                              <span className="text-sm text-dark1">ON</span>
+                            </label>
+                            <br />
+                            <label className="relative inline-flex pl-8 mt-6 flex">
+                              <input
+                                type="radio"
+                                className="text-primary"
+                                onClick={() => toggleRadio('twoFA_login', 0)}
+                                value="0"
+                                {...register('twoFA_login')}
+                              />
+                              <span className="text-sm text-dark1">OFF</span>
+                            </label>
+                          </fieldset>
+                        </div>
+                        <div className="block lg:hidden pl-5 mt-5">
+                          <ToggleButton />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button ref={$submitRef} type="submit" hidden />
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </Card>
-    </LayoutDashboard>
+        </Card>
+      </LayoutDashboard>
+    </>
   );
 };
 

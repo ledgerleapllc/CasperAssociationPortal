@@ -62,11 +62,43 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Casper Association Portal</title>
         <link rel="icon" href="/faviconNew.svg" />
-        <meta name="description" content="Casper Association Portal" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, user-scalable=no"
         />
+        <meta
+          name="description"
+          content="The Casper Association is the nonprofit entity that oversees the ongoing evolution and decentralization of the Casper Network. It provides resources to help accelerate the adoption of Casper and its growing ecosystem of decentralized applications."
+        />
+        <meta
+          name="keywords"
+          content="Casper,Association,Portal,cspr,blockchain,validators,crypto,nonprofit,decentralized"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@Casper_Labs" />
+        <meta name="twitter:title" content="Casper Association Portal" />
+        <meta
+          name="twitter:description"
+          content="The Casper Association is the nonprofit entity that oversees the ongoing evolution and decentralization of the Casper Network. It provides resources to help accelerate the adoption of Casper and its growing ecosystem of decentralized applications."
+        />
+        <meta
+          name="twitter:image"
+          content="https://members.casper.network/images/og.jpg"
+        />
+        <meta name="twitter:image:alt" content="Casper Association Portal" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://members.casper.network" />
+        <meta property="og:title" content="Casper Association Portal" />
+        <meta
+          property="og:image"
+          content="https://members.casper.network/images/og.jpg"
+        />
+        <meta property="og:image:alt" content="Casper Association Portal" />
+        <meta
+          property="og:description"
+          content="The Casper Association is the nonprofit entity that oversees the ongoing evolution and decentralization of the Casper Network. It provides resources to help accelerate the adoption of Casper and its growing ecosystem of decentralized applications."
+        />
+        <meta property="og:site_name" content="Casper Association Portal" />
         <Script
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{

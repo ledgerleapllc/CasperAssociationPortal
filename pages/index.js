@@ -32,9 +32,11 @@ const OnboardVerifyNodeView = lazy(() =>
 const OnboardUploadLetterView = lazy(() =>
   import('../views/onboard/upload-letter')
 );
-const NodeExplorerView = lazy(() => import('../views/node-explorer/index'));
+const NodeExplorerView = lazy(() =>
+  import('../views/validator-selection-tool/index')
+);
 const NodeExplorerDetailView = lazy(() =>
-  import('../views/node-explorer/[id]')
+  import('../views/validator-selection-tool/[id]')
 );
 const DonateView = lazy(() => import('../views/donate/index'));
 const AdminDashboardView = lazy(() => import('../views/admin/dashboard'));
@@ -144,9 +146,13 @@ const LandingPage = () => (
           component={ChangeEmailConfirmView}
         />
         <Route path="/donate" exact component={DonateView} />
-        <Route path="/node-explorer" exact component={NodeExplorerView} />
         <Route
-          path="/node-explorer/:id"
+          path="/validator-selection-tool"
+          exact
+          component={NodeExplorerView}
+        />
+        <Route
+          path="/validator-selection-tool/:id"
           exact
           component={NodeExplorerDetailView}
         />

@@ -18,6 +18,7 @@ import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ShuftiIcon from '../../public/images/shufti.svg';
 import ListIcon from '../../public/images/ic_list.svg';
+import QuestionMarkIcon from '../../public/images/question-circle.svg';
 import usePermissions from '../hooks/usePermissions';
 import { setCollapsed } from '../../shared/redux-saga/auth/actions';
 
@@ -71,6 +72,12 @@ const mainUserNavs = [
     icon: ContactIcon,
     label: 'contact us',
     path: '/dashboard/contact-us',
+  },
+  {
+    key: 'question',
+    icon: QuestionMarkIcon,
+    label: 'get support',
+    path: '#',
   },
 ];
 

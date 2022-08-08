@@ -354,6 +354,12 @@
       top: 25px;
       right: -20px;
     }
+    #dashboard-guide-close {
+      position: absolute;
+      cursor: pointer;
+      top: -5px;
+      right: 10px;
+    }
     > h2 {
       font-size: 0.9rem;
       font-weight: 500;
@@ -370,7 +376,7 @@
       align-items: center;
       > ul {
         margin-left: 0;
-        margin-right: auto;
+        margin-right: 15px;
         display: flex;
         align-items: center;
         li {
@@ -386,6 +392,14 @@
             }
           }
         }
+      }
+      > span {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        margin-left: 0;
+        margin-right: auto;
       }
       > button {
         margin-left: auto;
