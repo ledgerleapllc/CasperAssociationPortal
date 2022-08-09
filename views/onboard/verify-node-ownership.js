@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
+import Head from 'next/head';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import AppHeader from '../../components/layouts/app-header';
 import AppFooter from '../../components/layouts/app-footer';
@@ -69,7 +70,6 @@ const VerifyNodeOwnership = () => {
   });
 
   const router = useHistory();
-
   const totalSteps = 3;
 
   const handlePrev = () => {
@@ -190,34 +190,39 @@ const VerifyNodeOwnership = () => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
-      <div
-        className="
-          flex flex-col w-full
-          p-4
-          lg:p-9
-          xl:p-9
-        "
-      >
-        <AppHeader theme="dark" />
-        <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
-          <OnboardStepper
-            title="Verify Node Ownership"
-            description="Please choose Sign In if you have an existing account or Register if this is your first time here."
-            imageUrl="/images/img_ownership_blur.png"
-            currentStep={currentStep}
-            totalSteps={totalSteps}
-            stepContent={getStepContent()}
-            showNextButton={getNextButtonVisibility()}
-            showContinueButton={getNextButtonVisibility()}
-            continueButtonTitle={getNextButtonTitle()}
-            onPrev={handlePrev}
-            onNext={handleNext}
-          />
+    <>
+      <Head>
+        <title>Verify Node Ownership - Casper Association Portal</title>
+      </Head>
+      <div className="flex justify-center min-h-screen">
+        <div
+          className="
+            flex flex-col w-full
+            p-4
+            lg:p-9
+            xl:p-9
+          "
+        >
+          <AppHeader theme="dark" />
+          <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
+            <OnboardStepper
+              title="Verify Node Ownership"
+              description="Please choose Sign In if you have an existing account or Register if this is your first time here."
+              imageUrl="/images/img_ownership_blur.png"
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+              stepContent={getStepContent()}
+              showNextButton={getNextButtonVisibility()}
+              showContinueButton={getNextButtonVisibility()}
+              continueButtonTitle={getNextButtonTitle()}
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
+          </div>
+          <AppFooter theme="dark" />
         </div>
-        <AppFooter theme="dark" />
       </div>
-    </div>
+    </>
   );
 };
 

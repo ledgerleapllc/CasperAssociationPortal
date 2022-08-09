@@ -1,6 +1,7 @@
 import { Link, useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Head from 'next/head';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -590,22 +591,30 @@ const tabsData = [
 ];
 
 const Ballots = () => (
-  <LayoutDashboard>
-    <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-      <div className="w-full h-full">
-        <div className="flex justify-end lg:mr-card relative">
-          <Link to="/admin/ballots/add">
-            <span>
-              <Button primary className="px-5 py-2">
-                + New Ballot
-              </Button>
-            </span>
-          </Link>
+  <>
+    <Head>
+      <title>Ballots - Casper Association Portal</title>
+    </Head>
+    <LayoutDashboard>
+      <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+        <div className="w-full h-full">
+          <div className="flex justify-end lg:mr-card relative">
+            <Link to="/admin/ballots/add">
+              <span>
+                <Button primary className="px-5 py-2">
+                  + New Ballot
+                </Button>
+              </span>
+            </Link>
+          </div>
+          <Tab
+            className="w-full h-full pt-12 lg:pt-0 lg:-mt-7"
+            data={tabsData}
+          />
         </div>
-        <Tab className="w-full h-full pt-12 lg:pt-0 lg:-mt-7" data={tabsData} />
-      </div>
-    </Card>
-  </LayoutDashboard>
+      </Card>
+    </LayoutDashboard>
+  </>
 );
 
 export default LoadingScreen(Ballots, 'final-admin', 'ballots');

@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import Switch from 'react-switch';
+import Head from 'next/head';
 import {
   getSubadmins,
   inviteSubadmin,
@@ -330,271 +331,278 @@ const AdminTeams = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <Card className="h-full px-card py-5">
-        <div className="flex flex-col bg-transparent h-full">
-          <div className="w-full">
-            <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
-              Team Management
-            </h3>
-            <div className="border-primary border-b-2" />
-          </div>
-          <div className="pt-3 flex items-center justify-between">
-            <h4 className="text-dark2 text-lg lg:pr-32 font-medium">Admins</h4>
-            <Button
-              className="px-6"
-              primary
-              type="button"
-              onClick={showNewAdminDlg}
-            >
-              + New Admin
-            </Button>
-          </div>
-          <div
-            className="flex flex-1 flex-col min-h-0"
-            style={{ overflowY: 'auto' }}
-          >
-            <Styles className="h-full pt-4">
-              <Table
-                className="teams-table h-full"
-                {...register}
-                onLoadMore={fetchSubadmins}
-                hasMore={hasMore}
-                dataLength={data?.length}
+    <>
+      <Head>
+        <title>Team Management - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <Card className="h-full px-card py-5">
+          <div className="flex flex-col bg-transparent h-full">
+            <div className="w-full">
+              <h3 className="h-11 text-dark2 text-lg lg:pr-32 font-medium mb-3 flex items-end">
+                Team Management
+              </h3>
+              <div className="border-primary border-b-2" />
+            </div>
+            <div className="pt-3 flex items-center justify-between">
+              <h4 className="text-dark2 text-lg lg:pr-32 font-medium">
+                Admins
+              </h4>
+              <Button
+                className="px-6"
+                primary
+                type="button"
+                onClick={showNewAdminDlg}
               >
-                <Table.Header>
-                  <Table.HeaderCell key="header1">
-                    <p>Added Date</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header2">
-                    <p>Status</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header3">
-                    <p>Email</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header4">
-                    <p>Last Login</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header5">
-                    <p>IP</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header6">
-                    <Tooltips
-                      placement="top"
-                      title="Toggles admin access to the intake tab."
-                      arrow
-                    >
-                      <p>Intake</p>
-                    </Tooltips>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header7">
-                    <Tooltips
-                      placement="top"
-                      title="Toggles admin access to the users tab."
-                      arrow
-                    >
-                      <p>Users</p>
-                    </Tooltips>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header8">
-                    <Tooltips
-                      placement="top"
-                      title="Toggles admin access to the ballots tab."
-                      arrow
-                    >
-                      <p>Ballots</p>
-                    </Tooltips>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header9">
-                    <Tooltips
-                      placement="top"
-                      title="Toggles admin access to the perks tab."
-                      arrow
-                    >
-                      <p>Perks</p>
-                    </Tooltips>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header10">
-                    <Tooltips
-                      placement="top"
-                      title="Toggles admin access to the teams tab."
-                      arrow
-                    >
-                      <p>Teams</p>
-                    </Tooltips>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header11">
-                    <p>Admin Action</p>
-                  </Table.HeaderCell>
-                </Table.Header>
-                <Table.Body className="custom-padding-tracker">
-                  {data.map(admin => (
-                    <Table.BodyRow key={`admin-team-${admin.id}`}>
-                      <Table.BodyCell key="body1">
-                        {`${formatDate(admin.created_at)}`}
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body2">
-                        {renderStatus(admin.member_status)}
-                        {admin.member_status === 'invited' && (
-                          <button
-                            type="button"
-                            className="inline-flex text-xs text-primary underline"
-                            onClick={() => resendLink(admin)}
-                          >
-                            Resend Link
-                          </button>
-                        )}
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body3">
-                        <p className="break-words">{admin.email}</p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body4">
-                        {admin.last_login_at && (
-                          <>
-                            <p>
-                              {`${formatDate(
-                                admin.last_login_at,
-                                'dd/MM/yyyy'
-                              )}`}
-                            </p>
-                            <p className="text-xs">
-                              {`${formatDate(
-                                admin.last_login_at,
-                                'HH:mm aa'
-                              )} EST`}
-                            </p>
-                          </>
-                        )}
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body5">
-                        <p className="relative h-4">
-                          <span
-                            className="absolute left-0 top-0 w-full truncate cursor-pointer"
-                            onClick={() => {
-                              openIPHistories(admin.id);
-                            }}
-                          >
-                            {admin.last_login_ip_address}
-                          </span>
-                        </p>
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body6">
-                        <Switch
-                          onChange={_check =>
-                            setPermission(admin.id, 'intake', _check)
-                          }
-                          checked={!!admin.permissions?.intake}
-                          checkedIcon={null}
-                          uncheckedIcon={null}
-                          offColor="#bbb"
-                          onColor="#ff474e"
-                          height={18}
-                          width={40}
-                        />
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body7">
-                        <Switch
-                          onChange={_check =>
-                            setPermission(admin.id, 'users', _check)
-                          }
-                          checked={!!admin.permissions?.users}
-                          checkedIcon={null}
-                          uncheckedIcon={null}
-                          offColor="#bbb"
-                          onColor="#ff474e"
-                          height={18}
-                          width={40}
-                        />
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body8">
-                        <Switch
-                          onChange={_check =>
-                            setPermission(admin.id, 'ballots', _check)
-                          }
-                          checked={!!admin.permissions?.ballots}
-                          checkedIcon={null}
-                          uncheckedIcon={null}
-                          offColor="#bbb"
-                          onColor="#ff474e"
-                          height={18}
-                          width={40}
-                        />
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body9">
-                        <Switch
-                          onChange={_check =>
-                            setPermission(admin.id, 'perks', _check)
-                          }
-                          checked={!!admin.permissions?.perks}
-                          checkedIcon={null}
-                          uncheckedIcon={null}
-                          offColor="#bbb"
-                          onColor="#ff474e"
-                          height={18}
-                          width={40}
-                        />
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body10">
-                        <Switch
-                          onChange={_check =>
-                            setPermission(admin.id, 'teams', _check)
-                          }
-                          checked={!!admin.permissions?.teams}
-                          checkedIcon={null}
-                          uncheckedIcon={null}
-                          offColor="#bbb"
-                          onColor="#ff474e"
-                          height={18}
-                          width={40}
-                        />
-                      </Table.BodyCell>
-                      <Table.BodyCell key="body11">
-                        <div className="flex gap-3 items-center">
-                          <Button
-                            className="px-6 py-1"
-                            size="small"
-                            primaryOutline
-                            onClick={() => {
-                              resetPassword(admin);
-                            }}
-                            style={{ height: 'auto' }}
-                          >
-                            Reset Password
-                          </Button>
-                          {admin.member_status !== 'revoked' ? (
-                            <Button
-                              className="w-28"
-                              size="small"
-                              primary
-                              onClick={() => {
-                                revokeAdmin(admin);
-                              }}
+                + New Admin
+              </Button>
+            </div>
+            <div
+              className="flex flex-1 flex-col min-h-0"
+              style={{ overflowY: 'auto' }}
+            >
+              <Styles className="h-full pt-4">
+                <Table
+                  className="teams-table h-full"
+                  {...register}
+                  onLoadMore={fetchSubadmins}
+                  hasMore={hasMore}
+                  dataLength={data?.length}
+                >
+                  <Table.Header>
+                    <Table.HeaderCell key="header1">
+                      <p>Added Date</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header2">
+                      <p>Status</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header3">
+                      <p>Email</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header4">
+                      <p>Last Login</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header5">
+                      <p>IP</p>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header6">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the intake tab."
+                        arrow
+                      >
+                        <p>Intake</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header7">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the users tab."
+                        arrow
+                      >
+                        <p>Users</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header8">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the ballots tab."
+                        arrow
+                      >
+                        <p>Ballots</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header9">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the perks tab."
+                        arrow
+                      >
+                        <p>Perks</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header10">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the teams tab."
+                        arrow
+                      >
+                        <p>Teams</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header11">
+                      <p>Admin Action</p>
+                    </Table.HeaderCell>
+                  </Table.Header>
+                  <Table.Body className="custom-padding-tracker">
+                    {data.map(admin => (
+                      <Table.BodyRow key={`admin-team-${admin.id}`}>
+                        <Table.BodyCell key="body1">
+                          {`${formatDate(admin.created_at)}`}
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body2">
+                          {renderStatus(admin.member_status)}
+                          {admin.member_status === 'invited' && (
+                            <button
+                              type="button"
+                              className="inline-flex text-xs text-primary underline"
+                              onClick={() => resendLink(admin)}
                             >
-                              Revoke
-                            </Button>
-                          ) : (
-                            <Button
-                              className="w-28"
-                              size="small"
-                              primary
-                              onClick={() => {
-                                undoRevokeAdmin(admin);
-                              }}
-                            >
-                              Undo
-                            </Button>
+                              Resend Link
+                            </button>
                           )}
-                        </div>
-                      </Table.BodyCell>
-                    </Table.BodyRow>
-                  ))}
-                </Table.Body>
-              </Table>
-            </Styles>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body3">
+                          <p className="break-words">{admin.email}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body4">
+                          {admin.last_login_at && (
+                            <>
+                              <p>
+                                {`${formatDate(
+                                  admin.last_login_at,
+                                  'dd/MM/yyyy'
+                                )}`}
+                              </p>
+                              <p className="text-xs">
+                                {`${formatDate(
+                                  admin.last_login_at,
+                                  'HH:mm aa'
+                                )} EST`}
+                              </p>
+                            </>
+                          )}
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body5">
+                          <p className="relative h-4">
+                            <span
+                              className="absolute left-0 top-0 w-full truncate cursor-pointer"
+                              onClick={() => {
+                                openIPHistories(admin.id);
+                              }}
+                            >
+                              {admin.last_login_ip_address}
+                            </span>
+                          </p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body6">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'intake', _check)
+                            }
+                            checked={!!admin.permissions?.intake}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body7">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'users', _check)
+                            }
+                            checked={!!admin.permissions?.users}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body8">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'ballots', _check)
+                            }
+                            checked={!!admin.permissions?.ballots}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body9">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'perks', _check)
+                            }
+                            checked={!!admin.permissions?.perks}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body10">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'teams', _check)
+                            }
+                            checked={!!admin.permissions?.teams}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body11">
+                          <div className="flex gap-3 items-center">
+                            <Button
+                              className="px-6 py-1"
+                              size="small"
+                              primaryOutline
+                              onClick={() => {
+                                resetPassword(admin);
+                              }}
+                              style={{ height: 'auto' }}
+                            >
+                              Reset Password
+                            </Button>
+                            {admin.member_status !== 'revoked' ? (
+                              <Button
+                                className="w-28"
+                                size="small"
+                                primary
+                                onClick={() => {
+                                  revokeAdmin(admin);
+                                }}
+                              >
+                                Revoke
+                              </Button>
+                            ) : (
+                              <Button
+                                className="w-28"
+                                size="small"
+                                primary
+                                onClick={() => {
+                                  undoRevokeAdmin(admin);
+                                }}
+                              >
+                                Undo
+                              </Button>
+                            )}
+                          </div>
+                        </Table.BodyCell>
+                      </Table.BodyRow>
+                    ))}
+                  </Table.Body>
+                </Table>
+              </Styles>
+            </div>
           </div>
-        </div>
-      </Card>
-    </LayoutDashboard>
+        </Card>
+      </LayoutDashboard>
+    </>
   );
 };
 

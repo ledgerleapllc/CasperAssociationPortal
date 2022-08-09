@@ -9,11 +9,11 @@ const NodeInfoHome = () => {
     <div className="flex flex-col pt-5 lg:pb-3">
       <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
-        <div className="flex flex-row">
+        <div>
           <span className="text-lg">
             {metrics?.addresses && metrics?.addresses.length > 0
-              ? 'Top Node Rank'
-              : 'Node Rank'}
+              ? 'Top Registered Node Rankings'
+              : 'Registered Node Rankings'}
           </span>
           <Tooltips
             placement="top"
@@ -25,7 +25,7 @@ const NodeInfoHome = () => {
               height="10px"
               src="/images/ic_feather_info.svg"
               alt="Info"
-              style={{ marginLeft: '5px' }}
+              style={{ marginLeft: '5px', display: 'inline-block' }}
             />
           </Tooltips>
         </div>

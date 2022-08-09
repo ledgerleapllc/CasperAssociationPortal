@@ -214,7 +214,9 @@ const InfoRightNode = memo(({ currentNode }) => {
       <div className="flex flex-col w-full h-full">
         <div id="dashboard-content-node1__header" className="pl-3">
           <div id="dashboard-content-node1__title">
-            <span className="text-lg font-normal pr-1">Node Rank&nbsp;</span>
+            <span className="text-lg font-normal pr-1">
+              Registered Node Rankings&nbsp;
+            </span>
             <Tooltips
               placement="top"
               title={
@@ -226,7 +228,7 @@ const InfoRightNode = memo(({ currentNode }) => {
                   </p>
                   <p>
                     {!isAdmin && metrics?.rank
-                      ? `Your Node Rank: ${metrics?.rank} out of ${metrics?.totalCount}`
+                      ? `Your Registered Node Ranking: ${metrics?.rank} out of ${metrics?.totalCount}`
                       : ''}
                   </p>
                 </>
