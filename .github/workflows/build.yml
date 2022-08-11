@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      selected_node_version: 16
+      selected_node_version: 17
 
     steps:
     - uses: actions/checkout@v3
