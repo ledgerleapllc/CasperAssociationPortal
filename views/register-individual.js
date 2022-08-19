@@ -31,6 +31,7 @@ const RegisterIndividual = () => {
     useState(false);
   const [agreeChecked, setAgreeChecked] = useState(false);
   const [understandChecked, setUnderstandChecked] = useState(false);
+  const [newsletterChecked, setNewsletterChecked] = useState(false);
   const router = useHistory();
   const {
     control,
@@ -108,7 +109,7 @@ const RegisterIndividual = () => {
   };
 
   const validateFields = () => {
-    if (!agreeChecked || !understandChecked) {
+    if (!agreeChecked || !understandChecked || !newsletterChecked) {
       return false;
     }
     return true;
@@ -477,6 +478,45 @@ const RegisterIndividual = () => {
                   understand that I will be required to prove I am a node
                   operator.
                 </p>
+              </div>
+              <div className="flex mt-5 animate__animated animate__fadeInUp animate__delay-1-5s">
+                <button
+                  type="button"
+                  className="flex items-baseline focus:outline-none"
+                  onClick={() => setNewsletterChecked(!newsletterChecked)}
+                >
+                  <img
+                    src={`/images/${
+                      newsletterChecked ? 'ic_check.svg' : 'ic_uncheck.svg'
+                    }`}
+                    alt="understand checkbox"
+                    width={18}
+                    height={18}
+                  />
+                </button>
+                <div className="flex-1 text-dark1 ml-4">
+                  <p className="break-words text-sm">
+                    I want to sign up to the newsletter for the latest
+                    information and Casper insights.
+                  </p>
+                  <p className="break-words text-xs mt-3">
+                    Disclaimer: You can withdraw your consent at any time by
+                    unsubscribing or sending an e-mail to{' '}
+                    <a className="underline" href="mailto:info@casper.network">
+                      info@casper.network
+                    </a>
+                    . For further information see the Data Privacy Policy{' '}
+                    <a
+                      className="underline"
+                      href="https://casper.meta.ditoy.com/en-us/privacy-policy"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      https://casper.meta.ditoy.com/en-us/privacy-policy
+                    </a>
+                    .
+                  </p>
+                </div>
               </div>
               <div className="lg:flex lg:flex-row-reverse mt-10">
                 <div className="animate__animated animate__fadeInLeft animate__delay-1-5s">
