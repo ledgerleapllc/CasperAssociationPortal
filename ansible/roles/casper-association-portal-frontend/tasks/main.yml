@@ -37,6 +37,9 @@
   changed_when: "'already enabled' not in apache_modules.stdout"
   notify: restart_apache
 
+- name: Flush handlers
+  meta: flush_handlers
+
 
 - name: Create the app directory
   file:
@@ -118,7 +121,7 @@
   - apache
   - update
   - first_setup
-  when: deployment.env == 'development'
+  when: deployment.env == 'dev'
 
 - name: Enable the app.conf file
   shell: a2ensite app.conf
