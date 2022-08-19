@@ -156,7 +156,9 @@ const DashboardMembership = () => {
           warnings.push({
             ...x,
             ...metrics?.monitoring_criteria[x.aspect],
-            time_start: metrics[`${x.aspect}_time_start`],
+            time_start:
+              metrics[`${x.aspect}_time_start`] ||
+              metrics?.monitoring_criteria[x.aspect].updated_at,
           });
         }
       });

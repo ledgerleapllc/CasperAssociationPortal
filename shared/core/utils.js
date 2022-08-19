@@ -3,7 +3,8 @@ import { format } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 
 export const formatDate = (time, formatType = 'dd/MM/yyyy') => {
-  const timeConvert = new Date(time);
+  let timeConvert = new Date(time);
+  if (!time) timeConvert = new Date();
   if (timeConvert.toString() === 'Invalid Date') return timeConvert.toString();
   return format(timeConvert, formatType);
 };
