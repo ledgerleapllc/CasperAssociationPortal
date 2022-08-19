@@ -5,15 +5,14 @@ packages:
     - git
     - nodejs
     - yarn
+    - acl
 
 repos:
   key_urls:
-  - https://deb.nodesource.com/gpgkey/nodesource.gpg.key
   - https://dl.yarnpkg.com/debian/pubkey.gpg
 
   strings:
-  - deb https://deb.nodesource.com/node_16.x {{ ansible_lsb.codename }} main
-  - deb https://dl.yarnpkg.com/debian stable main
+  - "deb https://dl.yarnpkg.com/debian stable main"
 
 apache:
   a2enmod:
