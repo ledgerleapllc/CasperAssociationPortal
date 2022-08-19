@@ -17,6 +17,14 @@
     name: "{{ packages.required.apt }}"
     update-cache: yes
 
+- name: Create the app user if it doesn't exist
+  user:
+    name: "{{ security.app_user }}"
+    state: present
+    system: yes
+    shell: /bin/bash
+    create_home: yes
+
 - name: Install nvm
   shell: >
     curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | sh
