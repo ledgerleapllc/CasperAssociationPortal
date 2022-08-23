@@ -57,7 +57,7 @@ const EsignTerms = () => {
             setLoading(false);
             client.open(res.data.url, {
               clientId: process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID,
-              skipDomainVerification: true,
+              // skipDomainVerification: true,
             });
           },
           () => {
