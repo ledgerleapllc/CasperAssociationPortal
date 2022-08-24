@@ -99,9 +99,6 @@ const Landing = () => {
               <Link to="/validator-selection-tool">Validator Tool</Link>
             </li>
             <li>
-              <Link to="/donate">Donate</Link>
-            </li>
-            <li>
               <Link to="/login">Login / Register</Link>
             </li>
           </ul>
@@ -361,9 +358,6 @@ const Landing = () => {
           </li>
           <li>
             <Link to="/validator-selection-tool">Validator Tool</Link>
-          </li>
-          <li>
-            <Link to="/donate">Donate</Link>
           </li>
           <li>
             <Link to="/login">Login</Link>
