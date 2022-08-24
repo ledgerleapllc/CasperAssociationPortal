@@ -11,6 +11,8 @@ import { donate, checkSessionId } from '../../shared/redux-saga/auth/actions';
 import { AppContext } from '../../pages/_app';
 
 const DonatePage = () => {
+  window.location.href = '/';
+
   const { formState, register, watch, handleSubmit, reset, setValue } = useForm(
     {
       mode: 'onChange',
