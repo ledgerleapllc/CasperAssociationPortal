@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Head from 'next/head';
 import AppHeader from '../../components/layouts/app-header';
 import AppFooter from '../../components/layouts/app-footer';
 import EsignTermsFirstStep from '../../components/onboard/esign-terms/first-step';
@@ -56,7 +57,7 @@ const EsignTerms = () => {
             setLoading(false);
             client.open(res.data.url, {
               clientId: process.env.NEXT_PUBLIC_HELLOSIGN_CLIENT_ID,
-              skipDomainVerification: true,
+              // skipDomainVerification: true,
             });
           },
           () => {
@@ -133,35 +134,40 @@ const EsignTerms = () => {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
-      <div
-        className="
-          flex flex-col w-full
-          p-4
-          lg:max-w-380 lg:p-9
-          xl:max-w-screen-xl xl:p-9
-          2xl:max-w-screen-2xl
-        "
-      >
-        <AppHeader theme="dark" />
-        <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
-          <OnboardStepper
-            title="Esign Terms"
-            description="You must read and agree to the terms of service before continuing to the portal"
-            imageUrl="/images/img_signature_blur.png"
-            currentStep={currentStep}
-            totalSteps={totalSteps}
-            stepContent={getStepContent()}
-            showNextButton={getNextButtonVisibility()}
-            showContinueButton={getNextButtonVisibility()}
-            continueButtonTitle={getNextButtonTitle()}
-            onPrev={handlePrev}
-            onNext={handleNext}
-          />
+    <>
+      <Head>
+        <title>Esign Terms - Casper Association Portal</title>
+      </Head>
+      <div className="flex justify-center min-h-screen">
+        <div
+          className="
+            flex flex-col w-full
+            p-4
+            lg:max-w-380 lg:p-9
+            xl:max-w-screen-xl xl:p-9
+            2xl:max-w-screen-2xl
+          "
+        >
+          <AppHeader theme="dark" />
+          <div className="flex-grow lg:flex lg:items-center justify-center mt-12 lg:mt-0">
+            <OnboardStepper
+              title="Esign Terms"
+              description="You must read and agree to the terms of service before continuing to the portal"
+              imageUrl="/images/img_signature_blur.png"
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+              stepContent={getStepContent()}
+              showNextButton={getNextButtonVisibility()}
+              showContinueButton={getNextButtonVisibility()}
+              continueButtonTitle={getNextButtonTitle()}
+              onPrev={handlePrev}
+              onNext={handleNext}
+            />
+          </div>
+          <AppFooter theme="dark" />
         </div>
-        <AppFooter theme="dark" />
       </div>
-    </div>
+    </>
   );
 };
 

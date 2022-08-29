@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Link, useHistory } from 'react-router-dom';
+import Head from 'next/head';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
 import { useContext, useState } from 'react';
@@ -189,41 +190,46 @@ const VerifyEmail = () => {
   };
 
   return (
-    <div
-      className="flex justify-center h-screen"
-      style={{
-        backgroundImage: `url('/images/bg_welcome${
-          detectMobile.isMobile() ? '_mobile' : ''
-        }.png')`,
-        backgroundSize: 'cover',
-      }}
-    >
+    <>
+      <Head>
+        <title>Verify Email Address - Casper Association Portal</title>
+      </Head>
       <div
-        className="
-          flex flex-col w-full
-          p-4
-          lg:max-w-380 lg:p-9
-          xl:max-w-screen-xl xl:p-9
-          2xl:max-w-screen-2xl"
+        className="flex justify-center h-screen"
+        style={{
+          backgroundImage: `url('/images/bg_welcome${
+            detectMobile.isMobile() ? '_mobile' : ''
+          }.jpg')`,
+          backgroundSize: 'cover',
+        }}
       >
-        <AppHeader theme="light" />
-        <form
-          className="flex-grow flex items-center justify-center"
-          onSubmit={handleSubmit(onSubmit)}
+        <div
+          className="
+            flex flex-col w-full
+            p-4
+            lg:max-w-380 lg:p-9
+            xl:max-w-screen-xl xl:p-9
+            2xl:max-w-screen-2xl"
         >
-          <div
-            className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:p-44"
-            style={{
-              backgroundImage: `url('/images/login_overlay.png')`,
-              backgroundSize: 'cover',
-            }}
+          <AppHeader theme="light" />
+          <form
+            className="flex-grow flex items-center justify-center"
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <VerifySection />
-          </div>
-        </form>
-        <AppFooter theme="light" />
+            <div
+              className="bg-white w-full lg:w-2/3 text-center px-4 py-12 lg:p-44"
+              style={{
+                backgroundImage: `url('/images/login_overlay.png')`,
+                backgroundSize: 'cover',
+              }}
+            >
+              <VerifySection />
+            </div>
+          </form>
+          <AppFooter theme="light" />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

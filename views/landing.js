@@ -96,10 +96,7 @@ const Landing = () => {
               <a>Tools</a>
             </li>
             <li>
-              <Link to="/node-explorer">Explore</Link>
-            </li>
-            <li>
-              <Link to="/donate">Donate</Link>
+              <Link to="/validator-selection-tool">Validator Tool</Link>
             </li>
             <li>
               <Link to="/login">Login / Register</Link>
@@ -135,12 +132,12 @@ const Landing = () => {
             >
               Learn More
             </button>
-            <Link to="/node-explorer">
+            <Link to="/validator-selection-tool">
               <button
                 type="button"
                 className="w-52 h-16 border-2 border-landing1"
               >
-                Node Explore
+                Validator Tool
               </button>
             </Link>
           </div>
@@ -360,10 +357,7 @@ const Landing = () => {
             <a>Tools</a>
           </li>
           <li>
-            <Link to="/node-explorer">Explore</Link>
-          </li>
-          <li>
-            <Link to="/donate">Donate</Link>
+            <Link to="/validator-selection-tool">Validator Tool</Link>
           </li>
           <li>
             <Link to="/login">Login</Link>

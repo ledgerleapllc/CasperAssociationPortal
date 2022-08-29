@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Head from 'next/head';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card } from '../../components/partials';
 import InfoRightAdminHome from '../../components/admin/info-right-admin-home';
@@ -27,20 +28,25 @@ const AdminDashboard = () => {
   };
 
   return (
-    <LayoutDashboard>
-      <div id="landing-page__dashboardInner">
-        <div id="landing-page__dashboardInner_left">
-          <ContentAdminHome stats={stats} changeFrame={fetchStats} />
+    <>
+      <Head>
+        <title>Dashboard - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard>
+        <div id="landing-page__dashboardInner">
+          <div id="landing-page__dashboardInner_left">
+            <ContentAdminHome stats={stats} changeFrame={fetchStats} />
+          </div>
+          <div id="landing-page__dashboardInner_right">
+            <Card>
+              <div className="overflow-y-scroll h-full">
+                <InfoRightAdminHome stats={stats} />
+              </div>
+            </Card>
+          </div>
         </div>
-        <div id="landing-page__dashboardInner_right">
-          <Card>
-            <div className="overflow-y-scroll h-full">
-              <InfoRightAdminHome stats={stats} />
-            </div>
-          </Card>
-        </div>
-      </div>
-    </LayoutDashboard>
+      </LayoutDashboard>
+    </>
   );
 };
 

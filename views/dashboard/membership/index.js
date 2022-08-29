@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import Head from 'next/head';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';
 import classNames from 'classnames';
@@ -155,7 +156,9 @@ const DashboardMembership = () => {
           warnings.push({
             ...x,
             ...metrics?.monitoring_criteria[x.aspect],
-            time_start: metrics[`${x.aspect}_time_start`],
+            time_start:
+              metrics[`${x.aspect}_time_start`] ||
+              metrics?.monitoring_criteria[x.aspect].updated_at,
           });
         }
       });
@@ -221,159 +224,172 @@ const DashboardMembership = () => {
   };
 
   return (
-    <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
-      <div id="landing-page__membership" className="membership gap-5">
-        {warningMetrics?.length > 0 && (
-          <WarningCards warnings={warningMetrics} />
-        )}
-        <Card className="flex flex-col px-9 py-5">
-          <span className="text-lg font-medium">Membership</span>
-          <div className="mt-2.5 mb-8 border border-primary border-b" />
-          <p className="pb-5">
-            {`All members of the Casper portal need to maintain minimum node
-            metrics to have access to all parts of the portal including Node
-            Uptime, Block Height, and Update Responsiveness. If your node falls
-            short of the minimum criteria, you will be notified through email
-            and given a grace period to fix your statistics. If you do not fix
-            it in time, some areas of your portal access will be blocked until
-            your average is restored.`}
-          </p>
-        </Card>
-        <div id="landing-page__membership_Widgets">
-          <div id="landing-page__membership_WidgetsLeft" className="gap-5">
-            <Card className="custom-membership-widget flex px-9 py-6 gap-6">
-              <div className="w-60">
-                <span className="text-lg font-medium">Node Status:</span>
-              </div>
-              <div className="flex flex-1 flex-col gap-1.25">
-                <p className="text-lg font-medium text-primary">
-                  {getNodeData()?.label}
-                </p>
-                <span className="text-sm text-gray">{getNodeData()?.desc}</span>
-              </div>
-            </Card>
-            <Card className="custom-membership-widget flex px-9 py-6 gap-6">
-              <div className="w-60">
-                <span className="text-lg font-medium">
-                  Identity Verification Status:
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col gap-1.25">
-                <p className="text-lg font-medium text-primary">
-                  {getKYCVerifiedData()?.label}
-                </p>
-                <span className="text-sm text-gray">
-                  {getKYCVerifiedData()?.desc}
-                </span>
-              </div>
-            </Card>
-          </div>
-          <div id="landing-page__membership_WidgetsRight">
-            <div className="flex h-full gap-5">
-              <Card
-                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                  (!metrics.uptime ||
-                    metrics.uptime <
-                      metrics?.monitoring_criteria?.uptime?.warning_level) &&
-                  'metrics-card-warning'
-                }`}
-              >
-                <Tooltips
-                  disableTheme
-                  placement="top"
-                  title="Uptime measures the amount of rewards a given node collects out of the total possible rewards a node could collect over a period of 30 days"
-                  arrow
-                >
-                  <div
-                    className="flex pb-1"
-                    style={{ alignItems: 'center', cursor: 'pointer' }}
-                  >
-                    <p className="text-sm font-medium pr-1">Uptime</p>
-                    <InfoIcon style={{ fontSize: '20px' }} />
-                  </div>
-                </Tooltips>
-                <p className="text-xs desc">
-                  Average: {metrics.average_uptime}%
-                </p>
-                <div className="flex-1 min-h-0 mt-4">
-                  <ProgressBar
-                    shape="circle"
-                    value={
-                      metrics.uptime ? parseFloat(metrics.uptime.toFixed(2)) : 0
-                    }
-                    mask="x%"
-                  />
+    <>
+      <Head>
+        <title>Membership - Casper Association Portal</title>
+      </Head>
+      <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
+        <div id="landing-page__membership" className="membership gap-5">
+          {warningMetrics?.length > 0 && (
+            <WarningCards warnings={warningMetrics} />
+          )}
+          <Card className="flex flex-col px-9 py-5">
+            <span className="text-lg font-medium">Membership</span>
+            <div className="mt-2.5 mb-8 border border-primary border-b" />
+            <p className="pb-5">
+              {`All members of the Casper portal need to maintain minimum node
+              metrics to have access to all parts of the portal including Node
+              Uptime, Block Height, and Update Responsiveness. If your node falls
+              short of the minimum criteria, you will be notified through email
+              and given a grace period to fix your statistics. If you do not fix
+              it in time, some areas of your portal access will be blocked until
+              your average is restored.`}
+            </p>
+          </Card>
+          <div id="landing-page__membership_Widgets">
+            <div id="landing-page__membership_WidgetsLeft" className="gap-5">
+              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
+                <div className="w-60">
+                  <span className="text-lg font-medium">Node Status:</span>
+                </div>
+                <div className="flex flex-1 flex-col gap-1.25">
+                  <p className="text-lg font-medium text-primary">
+                    {getNodeData()?.label}
+                  </p>
+                  <span className="text-sm text-gray">
+                    {getNodeData()?.desc}
+                  </span>
                 </div>
               </Card>
-              <Card
-                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                  (!metrics.block_height_average ||
-                    metrics.block_height_average <
-                      metrics?.monitoring_criteria?.block_height_average
-                        ?.warning_level) &&
-                  'metrics-card-warning'
-                }`}
-              >
-                <Tooltips
-                  disableTheme
-                  placement="top"
-                  title="Blockheight measures what block you are on from the last 10 blocks"
-                  arrow
-                >
-                  <div
-                    className="flex pb-1"
-                    style={{ alignItems: 'center', cursor: 'pointer' }}
-                  >
-                    <p className="text-sm font-medium pr-1">Block Height</p>
-                    <InfoIcon style={{ fontSize: '20px' }} />
-                  </div>
-                </Tooltips>
-                <p className="text-xs desc">
-                  {metrics?.blocks_behind} blocks behind
-                </p>
-                <div className="flex-1 min-h-0 mt-4">
-                  <ProgressBar
-                    shape="circle"
-                    value={metrics.block_height_average}
-                    total={metricConfig?.max?.block_height_average}
-                    mask="x/y"
-                  />
+              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
+                <div className="w-60">
+                  <span className="text-lg font-medium">
+                    Identity Verification Status:
+                  </span>
                 </div>
-              </Card>
-              <Card
-                className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                  (!metrics.update_responsiveness ||
-                    metrics.update_responsiveness <
-                      metrics?.monitoring_criteria?.update_responsiveness
-                        ?.warning_level) &&
-                  'metrics-card-warning'
-                }`}
-              >
-                <p className="text-sm font-medium pb-1">Updates</p>
-                <p className="text-xs desc">On Time</p>
-                <div className="flex-1 min-h-0 mt-4">
-                  <ProgressBar shape="circle" value={formatValue()} mask="x%" />
-                </div>
-              </Card>
-              <Card className="flex flex-col px-6 pt-6 h-full metrics-card">
-                <p className="text-sm font-medium pb-1">Peers</p>
-                <p className="text-xs desc">
-                  Average: {metrics?.average_peers}
-                </p>
-                <div className="flex-1 min-h-0 mt-4">
-                  <ProgressBar
-                    shape="circle"
-                    value={metrics?.peers}
-                    total={metricConfig?.max?.peers}
-                    mask="x/y"
-                  />
+                <div className="flex flex-1 flex-col gap-1.25">
+                  <p className="text-lg font-medium text-primary">
+                    {getKYCVerifiedData()?.label}
+                  </p>
+                  <span className="text-sm text-gray">
+                    {getKYCVerifiedData()?.desc}
+                  </span>
                 </div>
               </Card>
             </div>
+            <div id="landing-page__membership_WidgetsRight">
+              <div className="flex h-full gap-5">
+                <Card
+                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
+                    (!metrics.uptime ||
+                      metrics.uptime <
+                        metrics?.monitoring_criteria?.uptime?.warning_level) &&
+                    'metrics-card-warning'
+                  }`}
+                >
+                  <Tooltips
+                    disableTheme
+                    placement="top"
+                    title="Uptime measures the amount of rewards a given node collects out of the total possible rewards a node could collect over a period of 30 days"
+                    arrow
+                  >
+                    <div
+                      className="flex pb-1"
+                      style={{ alignItems: 'center', cursor: 'pointer' }}
+                    >
+                      <p className="text-sm font-medium pr-1">Uptime</p>
+                      <InfoIcon style={{ fontSize: '20px' }} />
+                    </div>
+                  </Tooltips>
+                  <p className="text-xs desc">
+                    Average: {metrics.average_uptime}%
+                  </p>
+                  <div className="flex-1 min-h-0 mt-4">
+                    <ProgressBar
+                      shape="circle"
+                      value={
+                        metrics.uptime
+                          ? parseFloat(metrics.uptime.toFixed(2))
+                          : 0
+                      }
+                      mask="x%"
+                    />
+                  </div>
+                </Card>
+                <Card
+                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
+                    (!metrics.block_height_average ||
+                      metrics.block_height_average <
+                        metrics?.monitoring_criteria?.block_height_average
+                          ?.warning_level) &&
+                    'metrics-card-warning'
+                  }`}
+                >
+                  <Tooltips
+                    disableTheme
+                    placement="top"
+                    title="Blockheight measures what block you are on from the last 10 blocks"
+                    arrow
+                  >
+                    <div
+                      className="flex pb-1"
+                      style={{ alignItems: 'center', cursor: 'pointer' }}
+                    >
+                      <p className="text-sm font-medium pr-1">Block Height</p>
+                      <InfoIcon style={{ fontSize: '20px' }} />
+                    </div>
+                  </Tooltips>
+                  <p className="text-xs desc">
+                    {metrics?.blocks_behind} blocks behind
+                  </p>
+                  <div className="flex-1 min-h-0 mt-4">
+                    <ProgressBar
+                      shape="circle"
+                      value={metrics.block_height_average}
+                      total={metricConfig?.max?.block_height_average}
+                      mask="x/y"
+                    />
+                  </div>
+                </Card>
+                <Card
+                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
+                    (!metrics.update_responsiveness ||
+                      metrics.update_responsiveness <
+                        metrics?.monitoring_criteria?.update_responsiveness
+                          ?.warning_level) &&
+                    'metrics-card-warning'
+                  }`}
+                >
+                  <p className="text-sm font-medium pb-1">Updates</p>
+                  <p className="text-xs desc">On Time</p>
+                  <div className="flex-1 min-h-0 mt-4">
+                    <ProgressBar
+                      shape="circle"
+                      value={formatValue()}
+                      mask="x%"
+                    />
+                  </div>
+                </Card>
+                <Card className="flex flex-col px-6 pt-6 h-full metrics-card">
+                  <p className="text-sm font-medium pb-1">Peers</p>
+                  <p className="text-xs desc">
+                    Average: {metrics?.average_peers}
+                  </p>
+                  <div className="flex-1 min-h-0 mt-4">
+                    <ProgressBar
+                      shape="circle"
+                      value={metrics?.peers}
+                      total={metricConfig?.max?.peers}
+                      mask="x/y"
+                    />
+                  </div>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </LayoutDashboard>
+      </LayoutDashboard>
+    </>
   );
 };
 
