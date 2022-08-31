@@ -1,14 +1,16 @@
+/* eslint-disable no-prototype-builtins */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLockPageConditions } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import IconCheck from '../../public/images/ic-feather-check.svg';
 import IconX from '../../public/images/ic_x.svg';
+import usePermissions from '../hooks/usePermissions';
 
 export const withPageRestricted = (Wrapper, page) => props => {
   const dispatch = useDispatch();
   const userInfo = useSelector(state => state.authReducer.userInfo);
-
+  const { pagePermissions } = usePermissions();
   const [conditions, setConditions] = useState(null);
   const [alertCondition, setAlertCondition] = useState({});
 
@@ -237,6 +239,39 @@ export const withPageRestricted = (Wrapper, page) => props => {
               </p>
               <div className="h-full w-full flex flex-col items-center justify-between border-gray">
                 {getRestrictedPageAlert(alertCondition)}
+              </div>
+            </div>
+          ),
+        },
+        settings: {
+          noClose: true,
+          zIndex: 100,
+        },
+      });
+    } else if (
+      pagePermissions &&
+      pagePermissions.hasOwnProperty(page) &&
+      !pagePermissions[page]
+    ) {
+      setDialog({
+        type: 'DialogCustom',
+        data: {
+          content: (
+            <div className="p-16" style={{ backgroundColor: 'white' }}>
+              <p className="text-2xl text-center text-primary mb-5">
+                This Page is Restricted
+              </p>
+              <div className="h-full w-full flex flex-col items-center justify-between border-gray">
+                <p className="my-9">
+                  Uh oh! Your access to this page has been blocked by
+                  administrator.
+                </p>
+                <a
+                  href="/dashboard"
+                  className="text-center lg:mr-5 py-2 text-lg w-8/12 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                >
+                  Go to Dashboard
+                </a>
               </div>
             </div>
           ),
