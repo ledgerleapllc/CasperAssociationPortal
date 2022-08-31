@@ -170,6 +170,11 @@ export const setMetricConfig = payload => ({
   payload,
 });
 
+export const setPagePermissions = payload => ({
+  type: 'SET_PAGE_PERMISSIONS',
+  payload,
+});
+
 export const setPermissions = payload => ({
   type: 'SET_PERMISSIONS',
   payload,
@@ -192,6 +197,11 @@ export const setAuthUserNode = payload => ({
 
 export const setCollapsed = payload => ({
   type: 'SET_COLLAPSED',
+  payload,
+});
+
+export const clearPagePermissions = payload => ({
+  type: 'CLEAR_PAGE_PERMISSIONS',
   payload,
 });
 

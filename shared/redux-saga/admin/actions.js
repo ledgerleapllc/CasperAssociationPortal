@@ -26,6 +26,13 @@ export const getUserMetrics = (payload, resolve, reject) => ({
   reject,
 });
 
+export const updateBlockAccess = (payload, resolve, reject) => ({
+  type: 'UPDATE_BLOCK_ACCESS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const updateUserMetrics = (payload, resolve, reject) => ({
   type: 'UPDATE_USER_METRICS',
   payload,
