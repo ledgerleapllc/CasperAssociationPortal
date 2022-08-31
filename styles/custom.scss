@@ -17,6 +17,31 @@
   color: white;
   border-radius: 1rem;
 }
+#user-detail-headerSection {
+  display: flex;
+  .block-access-wrap {
+    margin-left: auto;
+    margin-right: 0;
+    .block-access-item {
+      display: flex;
+      flex-direction: column;
+      width: 100px;
+      &.last {
+        width: auto;
+      }
+      > span {
+        margin-bottom: 4px;
+      }
+    }
+  }
+  @media screen and (max-width: 1023px) {
+    flex-direction: column;
+    .block-access-wrap {
+      margin-left: 0;
+      padding-bottom: 1rem;
+    }
+  }
+}
 .admin-perks-page {
   width: 100%;
   min-height: calc(100vh - 7.625rem);
