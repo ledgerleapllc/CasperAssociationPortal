@@ -131,7 +131,6 @@ const setPermissions = (state, payload) => ({
   ...state,
   ...payload,
 });
-
 const clearPermissions = () => ({});
 
 const permissionsStrategies = {
@@ -140,7 +139,20 @@ const permissionsStrategies = {
   __default__: state => state,
 };
 
+const setPagePermissions = (state, payload) => ({
+  ...state,
+  ...payload,
+});
+const clearPagePermissions = () => ({});
+
+const pagePermissionsStrategies = {
+  SET_PAGE_PERMISSIONS: setPagePermissions,
+  CLEAR_PAGE_PERMISSIONS: clearPagePermissions,
+  __default__: state => state,
+};
+
 const permissions = createReducer(permissionsStrategies, {});
+const pagePermissions = createReducer(pagePermissionsStrategies, {});
 
 const setCollapsed = (state, payload) => ({
   ...state,
@@ -182,6 +194,7 @@ export const authReducer = combineReducers({
   userInfo,
   metrics,
   permissions,
+  pagePermissions,
   notifications,
   metricConfig,
   appInfo,

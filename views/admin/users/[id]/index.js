@@ -1,15 +1,17 @@
+/* eslint-disable no-prototype-builtins */
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Switch from 'react-switch';
 import {
   getUserDetail,
   getUserMetrics,
+  updateBlockAccess,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { BackButton, Card } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
-// import { getShortNodeAddress } from '../../../../shared/core/utils';
 import IconCopy from '../../../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../../../components/partials/snack-bar';
 
@@ -33,6 +35,8 @@ const AdminUserDetail = () => {
     update_responsiveness: '0',
     peers: '0',
   });
+
+  const [blockAccess, setBlockAccess] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -65,6 +69,24 @@ const AdminUserDetail = () => {
       );
     }
   }, [id]);
+
+  useEffect(() => {
+    if (userDetail && userDetail.id && userDetail.page_permissions) {
+      const permissions = userDetail.page_permissions;
+      const blockAccessV = {
+        nodes: 0,
+        discussions: 0,
+        votes: 0,
+        perks: 0,
+      };
+      if (permissions && permissions.length > 0) {
+        permissions.forEach(permission => {
+          blockAccessV[permission.name] = 1 - permission.is_permission;
+        });
+      }
+      setBlockAccess(blockAccessV);
+    }
+  }, [userDetail]);
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
@@ -107,20 +129,110 @@ const AdminUserDetail = () => {
     openSnack('primary', 'Copied Public Address!');
   };
 
+  const updateBlockAccessState = key => {
+    if (!blockAccess || !blockAccess.hasOwnProperty(key)) return;
+    const blockAccessV = JSON.parse(JSON.stringify(blockAccess));
+    blockAccessV[key] = 1 - blockAccessV[key];
+    setBlockAccess(blockAccessV);
+    dispatch(
+      updateBlockAccess(
+        {
+          userId: userDetail?.id,
+          name: key,
+          blocked: blockAccessV[key],
+        },
+        () => {},
+        () => {}
+      )
+    );
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full py-5 pl-card">
         <div className="h-full flex flex-col bg-transparent h-full">
           <div className="w-full">
-            <div className="mt-4 flex flex-col justify-center border-primary border-b-2 mr-card">
-              <BackButton href="/admin/users" text="Back" force />
-              <h3 className="text-dark2 text-lg font-medium mb-1">
-                User details for user {userDetail?.email}
-              </h3>
-              <p className="text-sm text-gray pb-3">
-                User details are displayed below with admin functions for user
-                management.
-              </p>
+            <div
+              id="user-detail-headerSection"
+              className="mt-4 border-primary border-b-2 mr-card"
+            >
+              <div className="flex flex-col justify-center">
+                <BackButton href="/admin/users" text="Back" force />
+                <h3 className="text-dark2 text-lg font-medium mb-1">
+                  User details for user {userDetail?.email}
+                </h3>
+                <p className="text-sm text-gray pb-3">
+                  User details are displayed below with admin functions for user
+                  management.
+                </p>
+              </div>
+              <div className="block-access-wrap">
+                {blockAccess ? (
+                  <h2 className="font-bold text-primary mb-1">Block Access</h2>
+                ) : null}
+                <div className="flex align-center">
+                  {blockAccess && blockAccess.hasOwnProperty('nodes') ? (
+                    <div className="block-access-item">
+                      <span className="text-xs">Nodes</span>
+                      <Switch
+                        checked={!!blockAccess.nodes}
+                        onChange={() => updateBlockAccessState('nodes')}
+                        checkedIcon={null}
+                        uncheckedIcon={null}
+                        offColor="#bbb"
+                        onColor="#ff474e"
+                        height={18}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
+                  {blockAccess && blockAccess.hasOwnProperty('discussions') ? (
+                    <div className="block-access-item">
+                      <span className="text-xs">Discussions</span>
+                      <Switch
+                        checked={!!blockAccess.discussions}
+                        onChange={() => updateBlockAccessState('discussions')}
+                        checkedIcon={null}
+                        uncheckedIcon={null}
+                        offColor="#bbb"
+                        onColor="#ff474e"
+                        height={18}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
+                  {blockAccess && blockAccess.hasOwnProperty('votes') ? (
+                    <div className="block-access-item">
+                      <span className="text-xs">Votes</span>
+                      <Switch
+                        checked={!!blockAccess.votes}
+                        onChange={() => updateBlockAccessState('votes')}
+                        checkedIcon={null}
+                        uncheckedIcon={null}
+                        offColor="#bbb"
+                        onColor="#ff474e"
+                        height={18}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
+                  {blockAccess && blockAccess.hasOwnProperty('perks') ? (
+                    <div className="block-access-item last">
+                      <span className="text-xs">Perks</span>
+                      <Switch
+                        checked={!!blockAccess.perks}
+                        onChange={() => updateBlockAccessState('perks')}
+                        checkedIcon={null}
+                        uncheckedIcon={null}
+                        offColor="#bbb"
+                        onColor="#ff474e"
+                        height={18}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll pr-card-tracker">
