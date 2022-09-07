@@ -671,6 +671,16 @@ export function* updateWarningMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* updateBlockAccess({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/block-access`], payload);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* addNotification({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/notification`], payload);
@@ -999,6 +1009,7 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
   yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
+  yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
   yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);

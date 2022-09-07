@@ -173,6 +173,9 @@ const SettingMetricForm = ({
                         if (type === 'uptime' && (value < 0 || value > 100)) {
                           return 'Warning Level is invalid';
                         }
+                        if (type === 'block-height' && value > 10) {
+                          return 'Warning Level is invalid';
+                        }
                         return null;
                       },
                     })}
@@ -244,6 +247,9 @@ const SettingMetricForm = ({
                       },
                       validate: value => {
                         if (type === 'uptime' && (value < 0 || value > 100)) {
+                          return 'Probation start is invalid';
+                        }
+                        if (type === 'block-height' && value > 10) {
                           return 'Probation start is invalid';
                         }
                         return null;

@@ -16,7 +16,9 @@ import {
   clearNotifications,
   setMetricConfig,
   setPermissions,
+  setPagePermissions,
   clearPermissions,
+  clearPagePermissions,
 } from './actions';
 import { clearLetter, clearOwnerNodes } from '../onboard/actions';
 
@@ -46,6 +48,7 @@ export function* logoutApp() {
   yield put(clearMetrics());
   yield put(clearNotifications());
   yield put(clearPermissions());
+  yield put(clearPagePermissions());
   localStorage.removeItem('SEEN_POPUP_NOTIFICATIONS');
 }
 
@@ -200,7 +203,15 @@ export function* fetchUserInfo({ resolve }) {
       }),
       {}
     );
+    const pagePermissions = res.data?.page_permissions.reduce(
+      (sum, x) => ({
+        ...sum,
+        [x.name]: x.is_permission,
+      }),
+      {}
+    );
     yield put(setPermissions(permissions));
+    yield put(setPagePermissions(pagePermissions));
     resolve();
     yield put(fetchUserInfoSuccess(res.data));
   } catch (error) {
