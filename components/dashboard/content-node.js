@@ -21,7 +21,7 @@ import {
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
 import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
-import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
+// import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
 import { setAuthUserNode } from '../../shared/redux-saga/auth/actions';
@@ -581,7 +581,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                       <span className="text-lg">Uptime</span>
                       <Tooltips
                         placement="right"
-                        title="Uptime for the selected node."
+                        title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
                         arrow
                       >
                         <img
@@ -597,7 +597,19 @@ const ContentNode = ({ sendHightlightNode }) => {
                       total={metricConfig?.max?.uptime}
                       mask="x%"
                     />
+                    <div className="flex justify-between mb-3">
+                      <p className="text-xs">
+                        <b>Total ERAs:</b> X
+                      </p>
+                      <p className="text-xs">
+                        <b>ERAs since Redmark:</b> X
+                      </p>
+                      <p className="text-xs">
+                        <b>Total Redmarks:</b> X
+                      </p>
+                    </div>
                   </div>
+                  {/*
                   <div className="flex flex-col">
                     <div className="flex gap-3 flex-row py-1">
                       <span className="text-lg">Block Height</span>
@@ -628,6 +640,7 @@ const ContentNode = ({ sendHightlightNode }) => {
                       mask="x/y"
                     />
                   </div>
+                  */}
                   <div className="flex flex-col">
                     <div className="flex gap-3 flex-row py-1">
                       <span className="text-lg">Update Responsiveness</span>

@@ -25,10 +25,10 @@ const Styles = styled.div`
     display: flex;
     flex-direction: column;
     .col-1 {
-      width: 30%;
+      width: 40%;
     }
     .col-2 {
-      width: 40%;
+      width: 30%;
     }
     .col-3 {
       width: 30%;
@@ -64,11 +64,11 @@ const VerifiedMembers = () => {
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell key="header1">
-            <p>Name</p>
-          </Table.HeaderCell>
           <Table.HeaderCell key="header2">
             <p>Validator</p>
+          </Table.HeaderCell>
+          <Table.HeaderCell key="header1">
+            <p>Name</p>
           </Table.HeaderCell>
           <Table.HeaderCell key="header3">
             <p>Status</p>
@@ -77,6 +77,9 @@ const VerifiedMembers = () => {
         <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
+              <Table.BodyCell key="body2">
+                <p className="truncate">{row.public_address_node}</p>
+              </Table.BodyCell>
               <Table.BodyCell key="body1">
                 <div className="flex items-center">
                   <p className="mr-1">
@@ -84,9 +87,6 @@ const VerifiedMembers = () => {
                   </p>
                   <VerifiedIcon />
                 </div>
-              </Table.BodyCell>
-              <Table.BodyCell key="body2">
-                <p className="truncate">{row.public_address_node}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body3">
                 <p
@@ -132,9 +132,12 @@ const ContentHome = () => {
 
   useEffect(() => {
     dispatch(
-      getUserDashboard(res => {
-        setStats(res);
-      })
+      getUserDashboard(
+        res => {
+          setStats(res);
+        },
+        () => {}
+      )
     );
     dispatch(
       getMemberCountInfo(res => {
@@ -330,7 +333,7 @@ const ContentHome = () => {
                 marginBottom: '1rem',
               }}
             >
-              <p className="text-lg">Association Members</p>
+              <p className="text-lg font-medium">Association Members</p>
               <div
                 className="flex items-center"
                 style={{ marginLeft: 'auto', marginRight: '0px' }}

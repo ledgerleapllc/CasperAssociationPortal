@@ -685,6 +685,9 @@
             .flex {
               .metrics-card {
                 width: 25%;
+                &.double {
+                  width: 50%;
+                }
               }
             }
           }
@@ -852,17 +855,17 @@
               flex-direction: column;
               #custom-uptime-box {
                 width: 100%;
-                height: calc(100vh - 7.625rem - 500px - 3.75rem);
-                min-height: 340px;
+                height: calc(100vh - 7.625rem - 540px - 3.75rem);
+                min-height: 296px;
               }
               #custom-earnings-box {
                 width: 100%;
-                height: 100px;
+                height: 140px;
                 margin-top: 1.25rem;
                 .custom-earnings-boxCard {
                   display: flex;
                   .custom-earnings-singleBox {
-                    height: 100px;
+                    height: 140px;
                   }
                 }
               }

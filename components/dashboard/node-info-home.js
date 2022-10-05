@@ -80,16 +80,22 @@ const NodeInfoHome = () => {
           {metrics?.delegators}
         </span>
       </div>
-      <div className="flex flex-col py-2">
+      <div className="flex flex-col pt-2">
         <div className="flex flex-row">
           <span className="text-lg">Uptime</span>
-          <img
-            className="pl-3"
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-          />
+          <Tooltips
+            placement="top"
+            title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
+            arrow
+          >
+            <img
+              width="10px"
+              height="10px"
+              src="/images/ic_feather_info.svg"
+              alt="Info"
+              style={{ marginLeft: '5px', display: 'inline-block' }}
+            />
+          </Tooltips>
         </div>
         <p className="text-sm text-gray mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
         <ProgressBar
@@ -98,7 +104,11 @@ const NodeInfoHome = () => {
           mask="x%"
         />
       </div>
-      <div className="flex flex-col py-2">
+      <div className="flex flex-col pb-2">
+        <p className="text-xs text-gray mb-1">ERAs Active: X</p>
+        <p className="text-xs text-gray mb-1">ERAs since Redmark: X</p>
+        <p className="text-xs text-gray mb-1">Total Redmarks: X</p>
+        {/*
         <div className="flex flex-row">
           <span className="text-lg">Block Height</span>
           <img
@@ -117,6 +127,7 @@ const NodeInfoHome = () => {
           total={metricConfig?.max?.block_height_average}
           mask="x/y"
         />
+        */}
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">

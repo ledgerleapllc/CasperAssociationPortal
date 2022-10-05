@@ -280,31 +280,43 @@ const DashboardMembership = () => {
             <div id="landing-page__membership_WidgetsRight">
               <div className="flex h-full gap-5">
                 <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
+                  className={`flex px-6 pt-6 h-full gap-5 metrics-card double ${
                     (!metrics.uptime ||
                       metrics.uptime <
                         metrics?.monitoring_criteria?.uptime?.warning_level) &&
                     'metrics-card-warning'
                   }`}
                 >
-                  <Tooltips
-                    disableTheme
-                    placement="top"
-                    title="Uptime measures the amount of rewards a given node collects out of the total possible rewards a node could collect over a period of 30 days"
-                    arrow
-                  >
-                    <div
-                      className="flex pb-1"
-                      style={{ alignItems: 'center', cursor: 'pointer' }}
+                  <div className="flex-1">
+                    <Tooltips
+                      disableTheme
+                      placement="top"
+                      title="This is the % of ERAs that you have been in the validation pool while your bid was high enough to be in the pool out of the last [admin setting] ERAs."
+                      arrow
                     >
-                      <p className="text-sm font-medium pr-1">Uptime</p>
-                      <InfoIcon style={{ fontSize: '20px' }} />
-                    </div>
-                  </Tooltips>
-                  <p className="text-xs desc">
-                    Average: {metrics.average_uptime}%
-                  </p>
-                  <div className="flex-1 min-h-0 mt-4">
+                      <div
+                        className="flex pb-1"
+                        style={{ alignItems: 'center', cursor: 'pointer' }}
+                      >
+                        <p className="text-sm font-medium pr-1">Uptime</p>
+                        <InfoIcon style={{ fontSize: '20px' }} />
+                      </div>
+                    </Tooltips>
+                    <p className="text-xs desc mb-5">
+                      Average: {metrics.average_uptime}%
+                    </p>
+                    <hr />
+                    <p className="text-xs mt-5">
+                      <b>Total ERAs:</b> X
+                    </p>
+                    <p className="text-xs mt-2">
+                      <b>ERAs since Redmark:</b> X
+                    </p>
+                    <p className="text-xs mt-2">
+                      <b>Total Redmarks:</b> X
+                    </p>
+                  </div>
+                  <div className="flex-1 min-h-0">
                     <ProgressBar
                       shape="circle"
                       value={
@@ -316,6 +328,7 @@ const DashboardMembership = () => {
                     />
                   </div>
                 </Card>
+                {/*
                 <Card
                   className={`flex flex-col px-6 pt-6 h-full metrics-card ${
                     (!metrics.block_height_average ||
@@ -351,6 +364,7 @@ const DashboardMembership = () => {
                     />
                   </div>
                 </Card>
+                */}
                 <Card
                   className={`flex flex-col px-6 pt-6 h-full metrics-card ${
                     (!metrics.update_responsiveness ||
