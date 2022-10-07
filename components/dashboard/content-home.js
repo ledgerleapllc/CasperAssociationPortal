@@ -140,11 +140,14 @@ const ContentHome = () => {
       )
     );
     dispatch(
-      getMemberCountInfo(res => {
-        const { total: totalRes, verified: verifiedRes } = res;
-        setTotal(totalRes);
-        setVerified(verifiedRes);
-      })
+      getMemberCountInfo(
+        res => {
+          const { total: totalRes, verified: verifiedRes } = res;
+          setTotal(totalRes);
+          setVerified(verifiedRes);
+        },
+        () => {}
+      )
     );
   }, []);
 

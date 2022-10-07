@@ -50,6 +50,12 @@ const mainUserNavs = [
     path: '/dashboard/nodes',
   },
   {
+    key: 'my-eras',
+    icon: ListIcon,
+    label: 'My ERAs',
+    path: '/dashboard/my-eras',
+  },
+  {
     key: 'chat',
     icon: ChatIcon,
     label: 'discussions',

@@ -96,6 +96,7 @@ const DashboardNodesView = lazy(() => import('../views/dashboard/nodes'));
 const DashboardNodesNewView = lazy(() =>
   import('../views/dashboard/nodes/new')
 );
+const DashboardMyERAsView = lazy(() => import('../views/dashboard/my-eras'));
 const DashboardDiscussionView = lazy(() =>
   import('../views/dashboard/discussion/index')
 );
@@ -281,6 +282,11 @@ const LandingPage = () => (
           component={DashboardNodesNewView}
         />
         <Route path="/dashboard/nodes" exact component={DashboardNodesView} />
+        <Route
+          path="/dashboard/my-eras"
+          exact
+          component={DashboardMyERAsView}
+        />
         <Route
           path="/dashboard/discussion"
           exact
