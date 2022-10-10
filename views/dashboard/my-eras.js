@@ -11,7 +11,7 @@ import { Card, Tooltips, Dropdown, Table } from '../../components/partials';
 import { useSnackBar } from '../../components/partials/snack-bar';
 import { getNodesByUser } from '../../shared/redux-saga/admin/actions';
 import { getMyERAs } from '../../shared/redux-saga/dashboard/dashboard-actions';
-import { getShortNodeAddress } from '../../shared/core/utils';
+import { getShortNodeAddress, formatDate } from '../../shared/core/utils';
 import { useTable } from '../../components/partials/table';
 import IconCopy from '../../public/images/ic_copy.svg';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
@@ -34,20 +34,20 @@ const ERAsTable = ({ addresses, eras }) => {
     Object.keys(eras).forEach(key => {
       const eraObject = eras[key];
       const singleItem = {
-        era_start_time: eraObject.era_start_time,
+        era_start_time: eraObject.era_start_time || '',
         addresses: [],
       };
       Object.keys(addresses).forEach(key2 => {
         if (eraObject.addresses && eraObject.addresses[key2]) {
           singleItem.addresses.push({
             address: key2,
-            in_pool: eraObject.addresses[key2].in_pool || '',
+            in_pool: parseInt(eraObject.addresses[key2].in_pool || 0, 10),
             rewards: eraObject.addresses[key2].rewards || '',
           });
         } else {
           singleItem.addresses.push({
             address: key2,
-            in_pool: '',
+            in_pool: 0,
             rewards: '',
           });
         }
@@ -59,7 +59,6 @@ const ERAsTable = ({ addresses, eras }) => {
   };
 
   useEffect(() => {
-    console.log('Table Calling');
     makeTableData();
   }, [addresses, eras]);
 
@@ -67,7 +66,7 @@ const ERAsTable = ({ addresses, eras }) => {
     const items = [];
     items.push(
       <Table.HeaderCell key="header_StartTime">
-        <p>ERA Start Time</p>
+        <p className="text-sm">ERA Start Time</p>
       </Table.HeaderCell>
     );
     const { length } = Object.keys(addresses);
@@ -77,7 +76,9 @@ const ERAsTable = ({ addresses, eras }) => {
           key={`header_${index + 1}`}
           customStyle={{ width: `${parseFloat(82 / length)}%` }}
         >
-          <p className="truncate pr-5">{key}</p>
+          <p className="truncate text-sm pr-5">
+            {getShortNodeAddress(key, 30)}
+          </p>
         </Table.HeaderCell>
       );
     });
@@ -88,7 +89,16 @@ const ERAsTable = ({ addresses, eras }) => {
     const items = [];
     items.push(
       <Table.BodyCell key="body_StartTime">
-        <p>{row.era_start_time}</p>
+        {row.era_start_time ? (
+          <>
+            <p className="text-sm">
+              {formatDate(row.era_start_time, 'dd/MM/yyyy')}
+            </p>
+            <p className="text-sm">
+              {formatDate(row.era_start_time, 'HH:mm aa')} UTC
+            </p>
+          </>
+        ) : null}
       </Table.BodyCell>
     );
     const { length } = row.addresses;
@@ -98,8 +108,14 @@ const ERAsTable = ({ addresses, eras }) => {
           key={`body_${index2 + 1}`}
           customStyle={{ width: `${parseFloat(82 / length)}%` }}
         >
-          <p>{item.in_pool}</p>
-          <p>{item.rewards}</p>
+          {item.in_pool ? (
+            <>
+              <p className="text-sm">In Pool</p>
+              <p className="text-sm">{item.rewards}% Rewards</p>
+            </>
+          ) : (
+            <p className="text-red text-sm">Rejected from Pool</p>
+          )}
         </Table.BodyCell>
       );
     });
@@ -107,23 +123,21 @@ const ERAsTable = ({ addresses, eras }) => {
   };
 
   return (
-    <Card className="w-full px-9 py-5">
-      <Styles>
-        <Table
-          {...register}
-          className="my-eras-table"
-          onLoadMore={() => {}}
-          hasMore={false}
-          dataLength={data.length}
-          noMargin
-        >
-          {renderTableHeaders()}
-          <Table.Body className="custom-padding-tracker">
-            {data.map((row, index) => renderTableBodyRow(row, index))}
-          </Table.Body>
-        </Table>
-      </Styles>
-    </Card>
+    <Styles>
+      <Table
+        {...register}
+        className="my-eras-table"
+        onLoadMore={() => {}}
+        hasMore={false}
+        dataLength={data.length}
+        noMargin
+      >
+        {renderTableHeaders()}
+        <Table.Body className="custom-padding-tracker">
+          {data.map((row, index) => renderTableBodyRow(row, index))}
+        </Table.Body>
+      </Table>
+    </Styles>
   );
 };
 
@@ -133,6 +147,7 @@ const MyERAs = () => {
   const [currentUserNode, setCurrentUserNode] = useState();
   const [addressList, setAddressList] = useState([]);
   const [erasData, setERAsData] = useState({});
+  const [cardsInfo, setCardsInfo] = useState({});
   const dispatch = useDispatch();
 
   const fetchUserNodes = () => {
@@ -158,11 +173,25 @@ const MyERAs = () => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log('Test Calling');
       fetchUserNodes();
       fetchMyERAs();
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (
+      currentUserNode &&
+      currentUserNode.public_address_node &&
+      erasData &&
+      erasData.addresses
+    ) {
+      setCardsInfo(
+        erasData.addresses[currentUserNode.public_address_node] || {}
+      );
+    } else {
+      setCardsInfo({});
+    }
+  }, [currentUserNode, erasData]);
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -179,10 +208,10 @@ const MyERAs = () => {
       </Head>
       <LayoutDashboard>
         <div id="landing-page__myEras">
-          <div className="flex gap-5">
-            <div className="w-1/2">
-              <Card className="lg:flex-grow">
-                <div className="flex flex-col px-9 justify-center">
+          <div className="flex flex-col lg:flex-row gap-5">
+            <div className="w-full lg:w-1/2">
+              <Card className="w-full h-24">
+                <div className="flex flex-col px-9 h-full justify-center">
                   <div className="flex justify-between">
                     <div className="flex gap-2">
                       <span className="text-lg font-normal">Public Key</span>
@@ -247,15 +276,6 @@ const MyERAs = () => {
                             className="p-2 hover:text-primary cursor-pointer"
                             onClick={() => {
                               setCurrentUserNode(address);
-                              /*
-                              sendHightlightNode(address);
-                              dispatch(
-                                setAuthUserNode({
-                                  authUserNode: address,
-                                })
-                              );
-                              refreshMetrics(address.public_address_node);
-                              */
                             }}
                             key={`node_${index}`}
                           >
@@ -275,18 +295,16 @@ const MyERAs = () => {
                 </div>
               </Card>
             </div>
-            <div className="w-1/2">
-              <div className="flex flex-wrap">
-                <Card className="w-1/2">
-                  <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-                    <div className="flex gap-2">
-                      <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
-                        Uptime
-                      </span>
-                    </div>
+            <div className="w-full lg:w-1/2">
+              <div className="grid grid-cols-2 gap-5">
+                <Card className="w-full h-24">
+                  <div className="flex flex-col px-5 h-full justify-center">
+                    <span className="text-base lg:text-lg font-normal text-black1">
+                      Uptime
+                    </span>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        X%
+                        {cardsInfo.uptime || 0}%
                       </span>
                       <img
                         width="18px"
@@ -297,15 +315,17 @@ const MyERAs = () => {
                     </div>
                   </div>
                 </Card>
-                <Card className="w-1/2">
-                  <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+                <Card className="w-full h-24">
+                  <div className="flex flex-col px-5 h-full justify-center">
                     <div className="flex gap-2">
-                      <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
+                      <span className="text-base lg:text-lg font-normal text-black1">
                         ERAs Active
                       </span>
                     </div>
                     <div className="flex flex-row gap-2">
-                      <span className="text-base text-black1 font-thin">X</span>
+                      <span className="text-base text-black1 font-thin">
+                        {cardsInfo.eras_active || 0}
+                      </span>
                       <img
                         width="18px"
                         height="18px"
@@ -315,15 +335,17 @@ const MyERAs = () => {
                     </div>
                   </div>
                 </Card>
-                <Card className="w-1/2">
-                  <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+                <Card className="w-full h-24">
+                  <div className="flex flex-col px-5 h-full justify-center">
                     <div className="flex gap-2">
-                      <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
+                      <span className="text-base lg:text-lg font-normal text-black1">
                         ERAs since Last Redmark
                       </span>
                     </div>
                     <div className="flex flex-row gap-2">
-                      <span className="text-base text-black1 font-thin">X</span>
+                      <span className="text-base text-black1 font-thin">
+                        {cardsInfo.eras_sinse_bad_mark || 0}
+                      </span>
                       <img
                         width="18px"
                         height="18px"
@@ -333,15 +355,17 @@ const MyERAs = () => {
                     </div>
                   </div>
                 </Card>
-                <Card className="w-1/2">
-                  <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+                <Card className="w-full h-24">
+                  <div className="flex flex-col px-5 h-full justify-center">
                     <div className="flex gap-2">
-                      <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
+                      <span className="text-base lg:text-lg font-normal text-black1">
                         Total Redmarks
                       </span>
                     </div>
                     <div className="flex flex-row gap-2">
-                      <span className="text-base text-black1 font-thin">X</span>
+                      <span className="text-base text-black1 font-thin">
+                        {cardsInfo.total_bad_marks || 0}
+                      </span>
                       <img
                         width="18px"
                         height="18px"
@@ -354,13 +378,15 @@ const MyERAs = () => {
               </div>
             </div>
           </div>
-          {erasData &&
-          erasData.addresses &&
-          erasData.eras &&
-          JSON.stringify(erasData.addresses) !== '{}' &&
-          JSON.stringify(erasData.eras) !== '{}' ? (
-            <ERAsTable addresses={erasData.addresses} eras={erasData.eras} />
-          ) : null}
+          <Card className="mt-5 my-eras-tableWrapper px-9 py-9">
+            {erasData &&
+            erasData.addresses &&
+            erasData.eras &&
+            JSON.stringify(erasData.addresses) !== '{}' &&
+            JSON.stringify(erasData.eras) !== '{}' ? (
+              <ERAsTable addresses={erasData.addresses} eras={erasData.eras} />
+            ) : null}
+          </Card>
         </div>
       </LayoutDashboard>
     </>
