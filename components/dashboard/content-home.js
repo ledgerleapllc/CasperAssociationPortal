@@ -33,18 +33,17 @@ const Styles = styled.div`
     .col-3 {
       width: 30%;
     }
+  }
 `;
 
 const VerifiedMembers = () => {
-  const { data, register, hasMore, appendData, setHasMore, page, setPage } =
-    useTable();
+  const { data, register, hasMore, appendData, setHasMore } = useTable();
   const dispatch = useDispatch();
-  const fetchMembers = (pageValue = page) => {
+  const fetchMembers = () => {
     dispatch(
-      getVerifiedMembers({ page: pageValue }, (results, isHasMore) => {
+      getVerifiedMembers(results => {
         appendData(results);
-        setHasMore(isHasMore);
-        setPage(prev => prev + 1);
+        setHasMore(false);
       })
     );
   };
@@ -78,7 +77,7 @@ const VerifiedMembers = () => {
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
               <Table.BodyCell key="body2">
-                <p className="truncate">{row.public_address_node}</p>
+                <p className="truncate">{row.public_key}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body1">
                 <div className="flex items-center">

@@ -4,20 +4,135 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Tooltips, Dropdown, Table } from '../../components/partials';
 import { useSnackBar } from '../../components/partials/snack-bar';
 import { getNodesByUser } from '../../shared/redux-saga/admin/actions';
+import { getMyERAs } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { getShortNodeAddress } from '../../shared/core/utils';
+import { useTable } from '../../components/partials/table';
 import IconCopy from '../../public/images/ic_copy.svg';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+
+const Styles = styled.div`
+  .my-eras-table {
+    display: flex;
+    flex-direction: column;
+    .col-1 {
+      width: 18%;
+    }
+  }
+`;
+
+const ERAsTable = ({ addresses, eras }) => {
+  const { data, register, appendData, setHasMore } = useTable();
+
+  const makeTableData = () => {
+    const items = [];
+    Object.keys(eras).forEach(key => {
+      const eraObject = eras[key];
+      const singleItem = {
+        era_start_time: eraObject.era_start_time,
+        addresses: [],
+      };
+      Object.keys(addresses).forEach(key2 => {
+        if (eraObject.addresses && eraObject.addresses[key2]) {
+          singleItem.addresses.push({
+            address: key2,
+            in_pool: eraObject.addresses[key2].in_pool || '',
+            rewards: eraObject.addresses[key2].rewards || '',
+          });
+        } else {
+          singleItem.addresses.push({
+            address: key2,
+            in_pool: '',
+            rewards: '',
+          });
+        }
+      });
+      items.push(singleItem);
+    });
+    appendData(items);
+    setHasMore(false);
+  };
+
+  useEffect(() => {
+    console.log('Table Calling');
+    makeTableData();
+  }, [addresses, eras]);
+
+  const renderTableHeaders = () => {
+    const items = [];
+    items.push(
+      <Table.HeaderCell key="header_StartTime">
+        <p>ERA Start Time</p>
+      </Table.HeaderCell>
+    );
+    const { length } = Object.keys(addresses);
+    Object.keys(addresses).forEach((key, index) => {
+      items.push(
+        <Table.HeaderCell
+          key={`header_${index + 1}`}
+          customStyle={{ width: `${parseFloat(82 / length)}%` }}
+        >
+          <p className="truncate pr-5">{key}</p>
+        </Table.HeaderCell>
+      );
+    });
+    return <Table.Header>{items}</Table.Header>;
+  };
+
+  const renderTableBodyRow = (row, index) => {
+    const items = [];
+    items.push(
+      <Table.BodyCell key="body_StartTime">
+        <p>{row.era_start_time}</p>
+      </Table.BodyCell>
+    );
+    const { length } = row.addresses;
+    row.addresses.forEach((item, index2) => {
+      items.push(
+        <Table.BodyCell
+          key={`body_${index2 + 1}`}
+          customStyle={{ width: `${parseFloat(82 / length)}%` }}
+        >
+          <p>{item.in_pool}</p>
+          <p>{item.rewards}</p>
+        </Table.BodyCell>
+      );
+    });
+    return <Table.BodyRow key={`b-${index}`}>{items}</Table.BodyRow>;
+  };
+
+  return (
+    <Card className="w-full px-9 py-5">
+      <Styles>
+        <Table
+          {...register}
+          className="my-eras-table"
+          onLoadMore={() => {}}
+          hasMore={false}
+          dataLength={data.length}
+          noMargin
+        >
+          {renderTableHeaders()}
+          <Table.Body className="custom-padding-tracker">
+            {data.map((row, index) => renderTableBodyRow(row, index))}
+          </Table.Body>
+        </Table>
+      </Styles>
+    </Card>
+  );
+};
 
 const MyERAs = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const { openSnack } = useSnackBar();
   const [currentUserNode, setCurrentUserNode] = useState();
   const [addressList, setAddressList] = useState([]);
+  const [erasData, setERAsData] = useState({});
   const dispatch = useDispatch();
 
   const fetchUserNodes = () => {
@@ -30,9 +145,22 @@ const MyERAs = () => {
     );
   };
 
+  const fetchMyERAs = () => {
+    dispatch(
+      getMyERAs(
+        res => {
+          setERAsData(res);
+        },
+        () => {}
+      )
+    );
+  };
+
   useEffect(() => {
     if (userInfo) {
+      console.log('Test Calling');
       fetchUserNodes();
+      fetchMyERAs();
     }
   }, [userInfo]);
 
@@ -226,26 +354,13 @@ const MyERAs = () => {
               </div>
             </div>
           </div>
-          <div>
-            <Card className="w-full px-9 py-5">
-              <Table
-                onLoadMore={() => {}}
-                hasMore={false}
-                dataLength={0}
-                noMargin
-              >
-                <Table.Header>
-                  <Table.HeaderCell key="header1">
-                    <p>ERA Start Time</p>
-                  </Table.HeaderCell>
-                  <Table.HeaderCell key="header2">
-                    <p>[Validator Address]</p>
-                  </Table.HeaderCell>
-                </Table.Header>
-                <Table.Body className="custom-padding-tracker"></Table.Body>
-              </Table>
-            </Card>
-          </div>
+          {erasData &&
+          erasData.addresses &&
+          erasData.eras &&
+          JSON.stringify(erasData.addresses) !== '{}' &&
+          JSON.stringify(erasData.eras) !== '{}' ? (
+            <ERAsTable addresses={erasData.addresses} eras={erasData.eras} />
+          ) : null}
         </div>
       </LayoutDashboard>
     </>

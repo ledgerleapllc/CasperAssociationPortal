@@ -55,9 +55,8 @@ export const recordVote = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getVerifiedMembers = (payload, successCb) => ({
+export const getVerifiedMembers = successCb => ({
   type: 'GET_VERIFIED_MEMBERS',
-  payload,
   successCb,
 });
 
@@ -84,6 +83,12 @@ export const getDraftDiscussions = (payload, resolve, reject) => ({
 export const deleteDraftDiscussion = (payload, resolve, reject) => ({
   type: 'DELETE_DRAFT_DISCUSSION',
   payload,
+  resolve,
+  reject,
+});
+
+export const getMyERAs = (resolve, reject) => ({
+  type: 'GET_MY_ERAS',
   resolve,
   reject,
 });

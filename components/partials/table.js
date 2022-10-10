@@ -110,12 +110,14 @@ Table.HeaderCell = props => {
         ${props.className || ''} 
         col col-${props.index} 
         text-sm`}
+      style={props.customStyle || {}}
     >
       <button
         type="button"
         className="text-left font-semibold focus:outline-none flex cursor-pointer disabled:cursor-not-allowed"
         onClick={triggerSort}
         disabled={pendingSort}
+        style={{ maxWidth: '100%' }}
       >
         {props.children}
         {props.sortKey && sortKey === props.sortKey && (
@@ -199,7 +201,12 @@ Table.BodyRow = props => {
 };
 
 Table.BodyCell = props => (
-  <div className={`col col-${props.index} pr-5`}>{props.children}</div>
+  <div
+    className={`col col-${props.index} pr-5`}
+    style={props.customStyle || {}}
+  >
+    {props.children}
+  </div>
 );
 
 Table.Body.Cell = Table.BodyCell;

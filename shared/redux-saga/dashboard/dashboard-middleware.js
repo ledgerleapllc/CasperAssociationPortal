@@ -83,14 +83,10 @@ export function* publishDiscussion({ payload, resolve, reject }) {
   }
 }
 
-export function* getVerifiedMembers({ payload, successCb }) {
+export function* getVerifiedMembers({ successCb }) {
   try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`verified-members/all?${query}`]);
-    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
+    const res = yield get([`verified-members/all`]);
+    successCb(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -144,6 +140,16 @@ export function* deleteDraftDiscussion({ payload, resolve, reject }) {
     const res = yield destroy([`discussions/${payload.id}/draft`], {});
     resolve(res.data);
   } catch (error) {
+    reject(error);
+  }
+}
+
+export function* getMyERAs({ resolve, reject }) {
+  try {
+    const res = yield get([`users/get-my-eras`]);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
     reject(error);
   }
 }
@@ -492,6 +498,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
   yield all([takeEvery('DELETE_DRAFT_DISCUSSION', deleteDraftDiscussion)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
+  yield all([takeEvery('GET_MY_ERAS', getMyERAs)]);
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
   yield all([takeEvery('SET_DISCUSSION_PIN', setDiscussionPin)]);
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);

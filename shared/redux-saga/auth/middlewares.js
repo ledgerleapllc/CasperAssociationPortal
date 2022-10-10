@@ -358,12 +358,11 @@ export function* getPopupNotifications() {
   }
 }
 
-export function* getNodesFromUser({ payload, resolve, reject }) {
+export function* getNodesFromUser({ resolve, reject }) {
   try {
-    const query = qs.stringify(payload);
-    const res = yield get([`users/list-node?${query}`]);
+    const res = yield get([`users/list-node`]);
     yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+    resolve(res.data);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));

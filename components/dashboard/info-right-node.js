@@ -70,12 +70,14 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
       );
     } else {
       dispatch(
-        getNodesFromUser({ page: pageValue, limit }, (result, isHasMore) => {
-          setHasMore(isHasMore);
-          appendData(result);
-          setPage(prev => prev + 1);
-          renderDone.current = true;
-        })
+        getNodesFromUser(
+          result => {
+            setHasMore(false);
+            appendData(result);
+            renderDone.current = true;
+          },
+          () => {}
+        )
       );
     }
   };
