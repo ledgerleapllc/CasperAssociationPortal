@@ -3,18 +3,14 @@ import { generateTextForEras, numberWithCommas } from '../../shared/core/utils';
 import useMetrics from '../hooks/useMetrics';
 import { ProgressBar, Tooltips } from '../partials';
 
-const NodeInfoHome = () => {
-  const { metrics, metricConfig } = useMetrics(true);
+const NodeInfoHome = ({ dashboardData }) => {
+  const { metricConfig } = useMetrics(true);
   return (
-    <div className="flex flex-col pt-5 lg:pb-3">
+    <div className="flex flex-col py-3">
       <span className="text-lg font-medium">Node Info</span>
       <div className="flex flex-col py-2">
         <div>
-          <span className="text-lg">
-            {metrics?.addresses && metrics?.addresses.length > 0
-              ? 'Top Registered Node Rankings'
-              : 'Registered Node Rankings'}
-          </span>
+          <span className="text-lg">Registered Node Rankings</span>
           <Tooltips
             placement="top"
             title="Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance."
@@ -30,8 +26,8 @@ const NodeInfoHome = () => {
           </Tooltips>
         </div>
         <span className="text-base text-black1 font-thin">
-          {metrics?.rank
-            ? `${metrics?.rank} out of ${metrics?.totalCount}`
+          {dashboardData?.node_rank
+            ? `${dashboardData?.node_rank} out of ${dashboardData?.node_rank_total}`
             : ''}
         </span>
       </div>
@@ -47,7 +43,7 @@ const NodeInfoHome = () => {
           />
         </div>
         <span className="text-base text-black1 font-thin">
-          {numberWithCommas(metrics?.stake_amount)}
+          {numberWithCommas(dashboardData?.total_stake)}
         </span>
       </div>
       <div className="flex flex-col py-2">
@@ -62,7 +58,7 @@ const NodeInfoHome = () => {
           />
         </div>
         <span className="text-base text-black1 font-thin">
-          {numberWithCommas(metrics?.self_stake_amount)}
+          {numberWithCommas(dashboardData?.total_self_stake)}
         </span>
       </div>
       <div className="flex flex-col py-2">
@@ -77,7 +73,7 @@ const NodeInfoHome = () => {
           />
         </div>
         <span className="text-base text-black1 font-thin">
-          {metrics?.delegators}
+          {dashboardData?.total_delegators}
         </span>
       </div>
       <div className="flex flex-col pt-2">
@@ -97,37 +93,19 @@ const NodeInfoHome = () => {
             />
           </Tooltips>
         </div>
-        <p className="text-sm text-gray mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
-        <ProgressBar
-          value={metrics?.uptime}
-          total={metricConfig?.max?.uptime}
-          mask="x%"
-        />
+        <p className="text-sm text-gray mb-2">{`Average: ${dashboardData?.uptime}%`}</p>
+        <ProgressBar value={dashboardData?.uptime} total={100} mask="x%" />
       </div>
       <div className="flex flex-col pb-2">
-        <p className="text-xs text-gray mb-1">ERAs Active: X</p>
-        <p className="text-xs text-gray mb-1">ERAs since Redmark: X</p>
-        <p className="text-xs text-gray mb-1">Total Redmarks: X</p>
-        {/*
-        <div className="flex flex-row">
-          <span className="text-lg">Block Height</span>
-          <img
-            className="pl-3"
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-          />
-        </div>
-        <p className="text-sm text-gray mb-2">
-          Current: {metrics?.blocks_behind} blocks behind
+        <p className="text-xs text-gray mb-1">
+          ERAs Active: {dashboardData?.eras_active}
         </p>
-        <ProgressBar
-          value={metrics?.block_height_average}
-          total={metricConfig?.max?.block_height_average}
-          mask="x/y"
-        />
-        */}
+        <p className="text-xs text-gray mb-1">
+          ERAs since Redmark: {dashboardData?.eras_sinse_bad_mark}
+        </p>
+        <p className="text-xs text-gray mb-1">
+          Total Redmarks: {dashboardData?.total_bad_marks}
+        </p>
       </div>
       <div className="flex flex-col py-2">
         <div className="flex flex-row">
@@ -141,11 +119,11 @@ const NodeInfoHome = () => {
           />
         </div>
         <p className="text-sm text-gray mb-2">
-          Average: {generateTextForEras(metrics?.average_responsiveness)}
+          Average: {generateTextForEras(dashboardData?.update_responsiveness)}
         </p>
         <ProgressBar
-          value={metrics?.update_responsiveness}
-          total={metricConfig?.max?.update_responsiveness}
+          value={dashboardData?.update_responsiveness}
+          total={100}
           mask=""
           options={{
             startText: 'Needs Improvement',
@@ -158,10 +136,10 @@ const NodeInfoHome = () => {
           <span className="text-lg">Peers</span>
         </div>
         <p className="text-sm text-gray mb-2">
-          Average: {metrics?.average_peers}
+          Average: {dashboardData?.peers}
         </p>
         <ProgressBar
-          value={metrics?.peers}
+          value={dashboardData?.peers}
           total={metricConfig?.max?.peers}
           mask="x/y"
         />

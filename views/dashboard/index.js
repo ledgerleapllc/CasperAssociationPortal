@@ -13,12 +13,14 @@ import {
   setHideGuide,
 } from '../../shared/redux-saga/auth/actions';
 import IconX from '../../public/images/ic_x.svg';
+import { getUserFullDashboard } from '../../shared/redux-saga/dashboard/dashboard-actions';
 
 const Dashboard = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const guideStep = useSelector(state => state.authReducer.appInfo.guideStep);
   const hideGuide = useSelector(state => state.authReducer.appInfo.hideGuide);
   const [isAdmin, setIsAdmin] = useState(null);
+  const [dashboardData, setDashboardData] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,6 +34,17 @@ const Dashboard = () => {
       guideStepValue = parseInt(guideStepValue, 10);
     }
     dispatch(setGuideStep({ guideStep: guideStepValue }));
+
+    if (!isAdminTemp) {
+      dispatch(
+        getUserFullDashboard(
+          res => {
+            setDashboardData(res);
+          },
+          () => {}
+        )
+      );
+    }
   }, []);
 
   const clickNext = () => {
@@ -122,15 +135,15 @@ const Dashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div id="landing-page__dashboardInner3">
-          <div id="landing-page__dashboardInner3_left">
-            <ContentHome />
+        <div className="flex flex-col xl:flex-row gap-5 w-full layout-dashboard-inner">
+          <div className="w-full xl:w-4/5 h-auto xl:h-full relative">
+            <ContentHome dashboardData={dashboardData} />
           </div>
-          <div id="landing-page__dashboardInner3_right">
+          <div className="w-full xl:w-1/5 h-auto xl:h-full relative">
             {renderGuideIn()}
             <Card className="w-full h-full">
               <div className="overflow-y-scroll w-full h-full">
-                <InfoRightHome />
+                <InfoRightHome dashboardData={dashboardData} />
               </div>
             </Card>
           </div>

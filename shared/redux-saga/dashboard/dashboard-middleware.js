@@ -324,11 +324,32 @@ export function* uploadVerificationDocuments({ payload, resolve, reject }) {
   }
 }
 
+export function* getUserMembershipInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-membership-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getUserFullDashboard({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-dashboard';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getMyInfo({ resolve, reject }) {
   try {
     const endpoint = 'users/profile';
     const res = yield get([endpoint]);
-
     resolve(res.data);
   } catch (error) {
     reject();
@@ -508,6 +529,8 @@ export function* watchDemoData() {
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
+  yield all([takeEvery('GET_USER_FULL_DASHBOARD', getUserFullDashboard)]);
+  yield all([takeEvery('GET_USER_MEMBERSHIP_INFO', getUserMembershipInfo)]);
   yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
   yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);
   yield all([takeEvery('CHECK_PASSWORD', checkPassword)]);

@@ -1,8 +1,8 @@
 import NodeInfoHome from './node-info-home';
 
-const InfoRightHome = () => (
+const InfoRightHome = ({ dashboardData }) => (
   <div className="flex flex-col mx-9 my-3 bg-white">
-    <NodeInfoHome />
+    <NodeInfoHome dashboardData={dashboardData} />
   </div>
 );
 

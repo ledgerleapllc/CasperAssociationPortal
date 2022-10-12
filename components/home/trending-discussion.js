@@ -47,7 +47,6 @@ const Styles = styled.div`
 
 const TrendingDiscussion = () => {
   const dispatch = useDispatch();
-
   const { data, hasMore, appendData, setHasMore, page, setPage } = useTable();
 
   const getTrendingList = (pageValue = page) => {
@@ -65,12 +64,12 @@ const TrendingDiscussion = () => {
   }, []);
 
   return (
-    <div className="flex flex-col pl-8 py-7 h-full">
-      <p className="text-lg font-medium">Trending Discussions</p>
-      <div className="flex flex-col pt-6 h-8.5/10">
-        <Styles className="h-full w-full">
+    <div className="flex flex-col px-8 py-7 h-full">
+      <p className="text-lg font-medium mb-3">Trending Discussions</p>
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <Styles className="w-full h-full">
           <Table
-            className="trending-table w-full h-full min-w-full"
+            className="trending-table"
             onLoadMore={getTrendingList}
             hasMore={hasMore}
             dataLength={data.length}

@@ -4,13 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Card, Table } from '../partials';
-import OpenVotes from '../home/open-votes';
 import TrendingDiscussion from '../home/trending-discussion';
 import Alert from '../home/alert';
 import {
   dismissNotification,
-  getMemberCountInfo,
-  getVerifiedMembers,
   updateClickCTANotification,
   updateViewNotification,
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
@@ -36,37 +33,36 @@ const Styles = styled.div`
   }
 `;
 
-const VerifiedMembers = () => {
-  const { data, register, hasMore, appendData, setHasMore } = useTable();
-  const dispatch = useDispatch();
-  const fetchMembers = () => {
-    dispatch(
-      getVerifiedMembers(results => {
-        appendData(results);
-        setHasMore(false);
-      })
-    );
-  };
+const VerifiedMembers = ({ dashboardData }) => {
+  const { data, register, hasMore, appendData, setHasMore, setData } =
+    useTable();
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    setData([]);
+    setHasMore(false);
+    if (
+      dashboardData.association_members &&
+      dashboardData.association_members.length > 0
+    ) {
+      appendData(dashboardData.association_members);
+    }
+  }, [dashboardData]);
 
   return (
-    <Styles className="h-full">
+    <Styles className="w-full h-full">
       <Table
         {...register}
-        className="verified-members-table h-full"
-        onLoadMore={fetchMembers}
+        className="verified-members-table"
+        onLoadMore={() => {}}
         hasMore={hasMore}
         dataLength={data.length}
         noMargin
       >
         <Table.Header>
-          <Table.HeaderCell key="header2">
+          <Table.HeaderCell key="header1">
             <p>Validator</p>
           </Table.HeaderCell>
-          <Table.HeaderCell key="header1">
+          <Table.HeaderCell key="header2">
             <p>Name</p>
           </Table.HeaderCell>
           <Table.HeaderCell key="header3">
@@ -76,10 +72,10 @@ const VerifiedMembers = () => {
         <Table.Body className="custom-padding-tracker">
           {data.map((row, index) => (
             <Table.BodyRow key={`b-${index}`}>
-              <Table.BodyCell key="body2">
+              <Table.BodyCell key="body1">
                 <p className="truncate">{row.public_key}</p>
               </Table.BodyCell>
-              <Table.BodyCell key="body1">
+              <Table.BodyCell key="body2">
                 <div className="flex items-center">
                   <p className="mr-1">
                     <a href={`/dashboard/profile/${row.id}`}>{row.pseudonym}</a>
@@ -113,9 +109,8 @@ const VerifiedMembers = () => {
   );
 };
 
-const ContentHome = () => {
+const ContentHome = ({ dashboardData }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [showOpenVotes, setShowOpenVotes] = useState(false);
   const [isAlertLoading, setIsAlertLoading] = useState(true);
   const [alerts, setAlerts] = useState();
   const [bannerAlerts, setBannerAlerts] = useState();
@@ -138,17 +133,12 @@ const ContentHome = () => {
         () => {}
       )
     );
-    dispatch(
-      getMemberCountInfo(
-        res => {
-          const { total: totalRes, verified: verifiedRes } = res;
-          setTotal(totalRes);
-          setVerified(verifiedRes);
-        },
-        () => {}
-      )
-    );
   }, []);
+
+  useEffect(() => {
+    setTotal(dashboardData.total_members || 0);
+    setVerified(dashboardData.verified_members || 0);
+  }, [dashboardData]);
 
   useEffect(() => {
     if (alerts) {
@@ -285,87 +275,59 @@ const ContentHome = () => {
       })
     );
   };
-
   return (
-    <div className="flex flex-col w-full h-full">
-      <div id="dashboard-content-node3__widgets" className="gap-5">
-        {(isAlertLoading || !!alerts.length) && (
-          <div className="custom-alert-box">
-            <Alert
-              isLoading={isAlertLoading}
-              alerts={alerts}
-              doDismiss={doDismiss}
-              doUpdateClickCTA={doUpdateClickCTA}
-              doUpdateView={doUpdateViewNotifications}
-            />
+    <div className="flex flex-col w-full h-full gap-5">
+      {(isAlertLoading || !!alerts.length) && (
+        <div className="w-3/5">
+          <Alert
+            isLoading={isAlertLoading}
+            alerts={alerts}
+            doDismiss={doDismiss}
+            doUpdateClickCTA={doUpdateClickCTA}
+            doUpdateView={doUpdateViewNotifications}
+          />
+        </div>
+      )}
+      <div className="flex flex-col md:flex-row gap-5">
+        <Card className="xl:flex-1 w-full h-32">
+          <div className="w-full h-full flex flex-col px-9 justify-center">
+            <span className="text-lg font-medium text-black1">
+              Pinned {(isAlertLoading || !!alerts.length) && <br />} Discussions
+            </span>
+            <span className="text-4xl text-black1 font-thin">
+              {stats?.totalPinDiscusstion}
+            </span>
           </div>
-        )}
-        <div className="custom-pinned-d-box">
-          <Card className="w-full h-full py-3">
-            <div className="w-full h-full flex flex-col px-9 justify-center">
-              <span className="text-lg font-medium text-black1">
-                Pinned {(isAlertLoading || !!alerts.length) && <br />}{' '}
-                Discussions
-              </span>
-              <span className="text-4xl text-black1 font-thin">
-                {stats?.totalPinDiscusstion}
-              </span>
-            </div>
-          </Card>
-        </div>
-        <div className="custom-new-d-box">
-          <Card className="w-full h-full py-3">
-            <div className="w-full h-full flex flex-col px-9 justify-center">
-              <span className="text-lg font-medium text-black1">
-                New {(isAlertLoading || !!alerts.length) && <br />} Discussions
-              </span>
-              <span className="text-4xl text-black1 font-thin">
-                {stats?.totalNewDiscusstion}
-              </span>
-            </div>
-          </Card>
-        </div>
+        </Card>
+        <Card className="xl:flex-1 w-full h-32">
+          <div className="w-full h-full flex flex-col px-9 justify-center">
+            <span className="text-lg font-medium text-black1">
+              New {(isAlertLoading || !!alerts.length) && <br />} Discussions
+            </span>
+            <span className="text-4xl text-black1 font-thin">
+              {stats?.totalNewDiscusstion}
+            </span>
+          </div>
+        </Card>
       </div>
-      <div id="dashboard-content-node3__Detail">
-        <div id="custom-validator-rewards-box3">
-          <Card className="w-full h-full px-9 py-5">
-            <div
-              className="flex items-center"
-              style={{
-                marginBottom: '1rem',
-              }}
-            >
-              <p className="text-lg font-medium">Association Members</p>
-              <div
-                className="flex items-center"
-                style={{ marginLeft: 'auto', marginRight: '0px' }}
-              >
-                <p className="text-sm">Total Members: {total}</p>
-                <div className="ml-5 flex items-center">
-                  <VerifiedIcon />
-                  <p className="ml-1 text-sm">Verified Members: {verified}</p>
-                </div>
-              </div>
+      <Card className="w-full flex flex-col px-9 py-5 association-members-tableWrapper">
+        <div className="flex items-center mb-3">
+          <p className="text-lg font-medium">Association Members</p>
+          <div className="flex items-center ml-auto mr-0">
+            <p className="text-sm">Total Members: {total}</p>
+            <div className="ml-5 flex items-center">
+              <VerifiedIcon />
+              <p className="ml-1 text-sm">Verified Members: {verified}</p>
             </div>
-            <VerifiedMembers />
-          </Card>
-        </div>
-        <div id="dashboard-content-node3__SubDetail" className="gap-5">
-          <div id="dashboard-content-node3__SubDetailLeft">
-            <Card className="z-40 w-full h-full overflow-y-auto">
-              <TrendingDiscussion />
-            </Card>
-          </div>
-          <div
-            className={`${showOpenVotes ? '' : 'hidden'}`}
-            id="dashboard-content-node3__SubDetailRight"
-          >
-            <Card className="z-30 w-full h-full overflow-y-auto">
-              <OpenVotes toggleOpenVotes={setShowOpenVotes} />
-            </Card>
           </div>
         </div>
-      </div>
+        <div className="flex-1 overflow-hidden">
+          <VerifiedMembers dashboardData={dashboardData} />
+        </div>
+      </Card>
+      <Card className="z-40 w-full xl:flex-1 trending-discussions-tableWrapper">
+        <TrendingDiscussion />
+      </Card>
     </div>
   );
 };

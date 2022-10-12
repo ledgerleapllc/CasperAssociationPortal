@@ -177,17 +177,6 @@ const Tab1 = () => {
           <Table.HeaderCell key="header3">
             <p>Votes</p>
           </Table.HeaderCell>
-          {/*
-          <Table.HeaderCell key="header4">
-            <Tooltips
-              placement="top"
-              title="Displays the current vote split. FOR / AGAINST"
-              arrow
-            >
-              <p>Current Split</p>
-            </Tooltips>
-          </Table.HeaderCell>
-          */}
           <Table.HeaderCell key="header5">
             <p>Start Date &amp; Time</p>
           </Table.HeaderCell>
@@ -207,14 +196,6 @@ const Tab1 = () => {
               <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              {/*
-              <Table.BodyCell key="body4">
-                <ForAgainst
-                  splitFor={row.vote?.for_value}
-                  splitAgainst={row.vote?.against_value}
-                />
-              </Table.BodyCell>
-              */}
               <Table.BodyCell key="body5">
                 {renderStartDate(row)}
               </Table.BodyCell>

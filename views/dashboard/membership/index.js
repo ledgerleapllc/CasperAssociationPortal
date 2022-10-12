@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Head from 'next/head';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';
@@ -12,6 +12,7 @@ import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, ProgressBar, Tooltips } from '../../../components/partials';
 import { formatDate } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
+import { getUserMembershipInfo } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 
 const settings = {
   arrows: false,
@@ -27,7 +28,6 @@ const WarningCards = ({ warnings, isLoading }) => {
   const next = () => {
     sliderRef.current.slickNext();
   };
-
   const prev = () => {
     sliderRef.current.slickPrev();
   };
@@ -129,9 +129,19 @@ const DashboardMembership = () => {
   const [kycStatus, setKYCStatus] = useState(null);
   const [nodeStatus, setNodeStatus] = useState(null);
   const [warningMetrics, setWarningMetrics] = useState([]);
+  const [membershipData, setMembershipData] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     refreshMetrics();
+    dispatch(
+      getUserMembershipInfo(
+        res => {
+          setMembershipData(res);
+        },
+        () => {}
+      )
+    );
   }, []);
 
   useEffect(() => {
@@ -222,14 +232,14 @@ const DashboardMembership = () => {
     }
     return parseFloat(value);
   };
-
+  console.log(membershipData);
   return (
     <>
       <Head>
         <title>Membership - Casper Association Portal</title>
       </Head>
       <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
-        <div id="landing-page__membership" className="membership gap-5">
+        <div className="w-full 2xl:w-4/5 flex flex-col membership gap-5">
           {warningMetrics?.length > 0 && (
             <WarningCards warnings={warningMetrics} />
           )}
@@ -246,9 +256,9 @@ const DashboardMembership = () => {
               your average is restored.`}
             </p>
           </Card>
-          <div id="landing-page__membership_Widgets">
-            <div id="landing-page__membership_WidgetsLeft" className="gap-5">
-              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
+          <div className="flex gap-5">
+            <div className="w-1/2 gap-5 flex flex-col">
+              <Card className="flex px-9 py-6 gap-6">
                 <div className="w-60">
                   <span className="text-lg font-medium">Node Status:</span>
                 </div>
@@ -261,7 +271,7 @@ const DashboardMembership = () => {
                   </span>
                 </div>
               </Card>
-              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
+              <Card className="flex px-9 py-6 gap-6">
                 <div className="w-60">
                   <span className="text-lg font-medium">
                     Identity Verification Status:
@@ -277,10 +287,10 @@ const DashboardMembership = () => {
                 </div>
               </Card>
             </div>
-            <div id="landing-page__membership_WidgetsRight">
+            <div className="w-1/2">
               <div className="flex h-full gap-5">
                 <Card
-                  className={`flex px-6 pt-6 h-full gap-5 metrics-card double ${
+                  className={`w-1/2 flex px-6 pt-6 h-full metrics-card ${
                     (!metrics.uptime ||
                       metrics.uptime <
                         metrics?.monitoring_criteria?.uptime?.warning_level) &&
@@ -303,14 +313,14 @@ const DashboardMembership = () => {
                       </div>
                     </Tooltips>
                     <p className="text-xs desc mb-5">
-                      Average: {metrics.average_uptime}%
+                      Average: {membershipData?.avg_uptime}%
                     </p>
                     <hr />
                     <p className="text-xs mt-5">
-                      <b>Total ERAs:</b> X
+                      <b>Total ERAs:</b> {membershipData?.total_eras || 0}
                     </p>
                     <p className="text-xs mt-2">
-                      <b>ERAs since Redmark:</b> X
+                      <b>ERAs since Redmark:</b> {membershipData?.total_bad_marks}
                     </p>
                     <p className="text-xs mt-2">
                       <b>Total Redmarks:</b> X
@@ -319,54 +329,13 @@ const DashboardMembership = () => {
                   <div className="flex-1 min-h-0">
                     <ProgressBar
                       shape="circle"
-                      value={
-                        metrics.uptime
-                          ? parseFloat(metrics.uptime.toFixed(2))
-                          : 0
-                      }
+                      value={membershipData?.avg_uptime || 0}
                       mask="x%"
                     />
                   </div>
                 </Card>
-                {/*
                 <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                    (!metrics.block_height_average ||
-                      metrics.block_height_average <
-                        metrics?.monitoring_criteria?.block_height_average
-                          ?.warning_level) &&
-                    'metrics-card-warning'
-                  }`}
-                >
-                  <Tooltips
-                    disableTheme
-                    placement="top"
-                    title="Blockheight measures what block you are on from the last 10 blocks"
-                    arrow
-                  >
-                    <div
-                      className="flex pb-1"
-                      style={{ alignItems: 'center', cursor: 'pointer' }}
-                    >
-                      <p className="text-sm font-medium pr-1">Block Height</p>
-                      <InfoIcon style={{ fontSize: '20px' }} />
-                    </div>
-                  </Tooltips>
-                  <p className="text-xs desc">
-                    {metrics?.blocks_behind} blocks behind
-                  </p>
-                  <div className="flex-1 min-h-0 mt-4">
-                    <ProgressBar
-                      shape="circle"
-                      value={metrics.block_height_average}
-                      total={metricConfig?.max?.block_height_average}
-                      mask="x/y"
-                    />
-                  </div>
-                </Card>
-                */}
-                <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
+                  className={`w-1/4 flex flex-col px-6 pt-6 h-full metrics-card ${
                     (!metrics.update_responsiveness ||
                       metrics.update_responsiveness <
                         metrics?.monitoring_criteria?.update_responsiveness
@@ -384,7 +353,7 @@ const DashboardMembership = () => {
                     />
                   </div>
                 </Card>
-                <Card className="flex flex-col px-6 pt-6 h-full metrics-card">
+                <Card className="w-1/4 flex flex-col px-6 pt-6 h-full metrics-card">
                   <p className="text-sm font-medium pb-1">Peers</p>
                   <p className="text-xs desc">
                     Average: {metrics?.average_peers}

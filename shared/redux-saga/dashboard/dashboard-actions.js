@@ -183,6 +183,18 @@ export const uploadVerificationDocs = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getUserFullDashboard = (resolve, reject) => ({
+  type: 'GET_USER_FULL_DASHBOARD',
+  resolve,
+  reject,
+});
+
+export const getUserMembershipInfo = (resolve, reject) => ({
+  type: 'GET_USER_MEMBERSHIP_INFO',
+  resolve,
+  reject,
+});
+
 export const getMyInfo = (resolve, reject) => ({
   type: 'GET_MY_INFO',
   resolve,

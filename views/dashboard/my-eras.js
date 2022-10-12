@@ -123,10 +123,10 @@ const ERAsTable = ({ addresses, eras }) => {
   };
 
   return (
-    <Styles>
+    <Styles className="h-full">
       <Table
         {...register}
-        className="my-eras-table"
+        className="my-eras-table h-full"
         onLoadMore={() => {}}
         hasMore={false}
         dataLength={data.length}

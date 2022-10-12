@@ -334,7 +334,6 @@ const NodeExplorer = () => {
             </div>
             <div className="pl-8 w-1/5 font-medium">
               <h3 className="text-base mb-5">Remaining Weight</h3>
-              {/* <h2 className="text-6xl mb-2">{getMax('all')}</h2> */}
               <h2 className="text-4xl mb-2">{getTotal()} / 100</h2>
               <p className="mt-5 mb-3 text-xs text-gray">
                 Drag the sliders to customize the facets that are most important

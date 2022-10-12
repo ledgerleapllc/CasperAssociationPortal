@@ -327,11 +327,6 @@ const ContentNode = ({ sendHightlightNode }) => {
                         ))}
                       </ul>
                     </Dropdown>
-                    {/*
-                    <span className="text-base font-thin">
-                      {getShortNodeAddress(userInfo?.public_address_node, 30)}
-                    </span>
-                    */}
                   </>
                 )}
               </div>
@@ -609,38 +604,6 @@ const ContentNode = ({ sendHightlightNode }) => {
                       </p>
                     </div>
                   </div>
-                  {/*
-                  <div className="flex flex-col">
-                    <div className="flex gap-3 flex-row py-1">
-                      <span className="text-lg">Block Height</span>
-                      <Tooltips
-                        placement="right"
-                        title="Block height for the selected node."
-                        arrow
-                      >
-                        <img
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </Tooltips>
-                    </div>
-                    <ProgressBar
-                      value={
-                        isAdmin
-                          ? +nodeDetail?.block_height_average
-                          : metrics?.block_height_average
-                      }
-                      total={
-                        isAdmin
-                          ? DEFAULT_BASE_BLOCKS
-                          : metricConfig?.max?.block_height_average
-                      }
-                      mask="x/y"
-                    />
-                  </div>
-                  */}
                   <div className="flex flex-col">
                     <div className="flex gap-3 flex-row py-1">
                       <span className="text-lg">Update Responsiveness</span>

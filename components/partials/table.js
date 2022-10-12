@@ -66,8 +66,10 @@ const Table = props => {
     <TableContext.Provider
       value={{ sortKey, setSortKey, sortDirection, setSortDirection, randomId }}
     >
-      <div style={{ width: '100%', overflowX: 'auto' }} className="h-full">
-        <div className={`${props.className} min-w-250 text-sm`}>
+      <div className="w-full h-full overflow-x-auto overflow-y-hidden">
+        <div
+          className={`${props.className} min-w-250 text-sm w-full h-full overflow-hidden`}
+        >
           {props.children[0]}
           {cloneElement(props.children[1], {
             onLoadMore: props.onLoadMore,
