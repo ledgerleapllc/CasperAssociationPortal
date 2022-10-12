@@ -11,7 +11,6 @@ import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
 import {
   getNodesFromAdmin,
-  getNodesByUser,
   getNodeDetail,
 } from '../../shared/redux-saga/admin/actions';
 import {
@@ -21,18 +20,14 @@ import {
 } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../pages/_app';
 import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
-// import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
-import { setAuthUserNode } from '../../shared/redux-saga/auth/actions';
 
 const LineMemo = memo(({ type, name, data }) => (
   <ValidatorChart type={type} name={name} data={data} />
 ));
 
-const ContentNode = ({ sendHightlightNode }) => {
-  const { metrics, refreshMetrics, metricConfig } = useMetrics();
-  const authUser = useSelector(state => state.authReducer.userInfo);
+const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const [isAdmin, setIsAdmin] = useState(null);
   const [nodesList, setNodesList] = useState([]);
@@ -49,23 +44,6 @@ const ContentNode = ({ sendHightlightNode }) => {
   const [optionPriceChart, setOptionPriceChart] = useState('day');
   const { openSnack } = useSnackBar();
   const [loadingDataChart, setLoadingDataChart] = useState(false);
-
-  const fetchUserNodes = () => {
-    dispatch(
-      getNodesByUser({}, result => {
-        const addresses = result.addresses || [];
-        setAddressList(addresses);
-        setCurrentUserNode(addresses[0]);
-        sendHightlightNode(addresses[0]);
-        dispatch(
-          setAuthUserNode({
-            authUserNode: addresses[0],
-          })
-        );
-        refreshMetrics(addresses[0].public_address_node);
-      })
-    );
-  };
 
   const fetchNodes = () => {
     dispatch(
@@ -143,23 +121,61 @@ const ContentNode = ({ sendHightlightNode }) => {
       } else {
         // fetchNodeChart(userInfo.public_address_node);
         // fetchNodeEarning(userInfo.public_address_node);
-        fetchUserNodes();
       }
     }
   }, [userInfo]);
 
   useEffect(() => {
+    if (isAdmin !== null && nodesInfo && Object.keys(nodesInfo).length > 0) {
+      console.log('NodesInfo:', nodesInfo);
+      if (isAdmin) {
+        //
+      } else if (
+        nodesInfo.addresses &&
+        Object.keys(nodesInfo.addresses).length > 0
+      ) {
+        const addresses = [];
+        let activeAddressRecord = null;
+        Object.keys(nodesInfo.addresses).forEach(address => {
+          const addressRecord = {
+            ...nodesInfo.addresses[address],
+            public_address_node: address,
+          };
+          if (
+            userInfo.public_address_node === addressRecord.public_address_node
+          ) {
+            activeAddressRecord = addressRecord;
+          }
+          addresses.push(addressRecord);
+        });
+        if (addresses.length > 0 && activeAddressRecord) {
+          setAddressList(addresses);
+          setCurrentUserNode(activeAddressRecord);
+        }
+      }
+    }
+  }, [isAdmin, nodesInfo]);
+
+  useEffect(() => {
     if (currentUserNode) {
-      fetchNodeChart(currentUserNode.public_address_node);
-      fetchNodeEarning(currentUserNode.public_address_node);
+      // fetchNodeChart(currentUserNode.public_address_node);
+      // fetchNodeEarning(currentUserNode.public_address_node);
+      sendHightlightNode(currentUserNode);
+      if (
+        currentUserNode.validator_rewards &&
+        Object.keys(currentUserNode.validator_rewards).length > 0
+      ) {
+        setEarningChart(currentUserNode.validator_rewards);
+        setLoadingDataChart(false);
+      }
     }
   }, [currentUserNode]);
 
   useEffect(() => {
     if (currentNode) {
       fetchNodeDetail(currentNode.public_address_node);
-      fetchNodeEarning(currentNode.public_address_node);
-      fetchNodeChart(currentNode.public_address_node);
+      // fetchNodeEarning(currentNode.public_address_node);
+      // fetchNodeChart(currentNode.public_address_node);
     }
   }, [currentNode]);
 
@@ -171,30 +187,373 @@ const ContentNode = ({ sendHightlightNode }) => {
     openSnack('primary', 'Copied Public Address!');
   };
 
-  const renderMaxPeers = () => {
-    const maxPeers = metricConfig?.max?.peers;
-    const peers =
-      authUser?.role === 'admin' ? metrics?.peers_setting : metrics?.peers;
-    if (maxPeers && peers) {
-      if (maxPeers > peers) return maxPeers;
-      return peers;
-    }
-    if (maxPeers) return maxPeers;
-    return peers;
-  };
-
   return (
-    <div className="flex flex-col w-full h-full">
-      <div id="dashboard-content-node2__widgets" className="gap-5">
-        <div className="custom-public-key-box h-full">
-          <Card className="h-full lg:flex-grow">
-            <div className="flex flex-col px-9 h-full justify-center">
-              <div className="flex justify-between">
-                <div className="flex gap-2">
-                  <span className="text-lg font-normal">Public Key</span>
+    <div className="flex flex-col w-full h-full gap-5">
+      <div className="w-full flex gap-5">
+        <Card className="w-1/2 h-24">
+          <div className="flex flex-col px-9 h-full justify-center">
+            <div className="flex justify-between">
+              <div className="flex gap-2">
+                <span className="text-lg font-normal">Public Key</span>
+                <Tooltips
+                  placement="top"
+                  title="Displays the selected node address"
+                  arrow
+                >
+                  <img
+                    width="10px"
+                    height="10px"
+                    src="/images/ic_feather_info.svg"
+                    alt="Info"
+                  />
+                </Tooltips>
+              </div>
+              <button
+                className="ml-6"
+                type="button"
+                onClick={() => copyClipboard()}
+              >
+                <IconCopy />
+              </button>
+              <input
+                id="public-address"
+                value={
+                  isAdmin
+                    ? currentNode?.public_address_node ?? ''
+                    : currentUserNode?.public_address_node ?? ''
+                }
+                readOnly
+                hidden
+              />
+            </div>
+            <div className="flex w-full">
+              {isAdmin && (
+                <Dropdown
+                  className="mt-2 w-full"
+                  trigger={
+                    <div className="flex items-center gap-2">
+                      <p className="w-full relative h-6">
+                        <Tooltips
+                          placement="bottom"
+                          title={currentNode?.public_address_node}
+                          arrow
+                        >
+                          <span className="text-base font-thin truncate absolute inset-0">
+                            {getShortNodeAddress(
+                              currentNode?.public_address_node,
+                              30
+                            )}
+                          </span>
+                        </Tooltips>
+                      </p>
+                      <ArrowIcon />
+                    </div>
+                  }
+                >
+                  <ul>
+                    {nodesList.map((node, index) => (
+                      <li
+                        className="p-2 hover:text-primary cursor-pointer"
+                        onClick={() => {
+                          setCurrentNode(node);
+                          sendHightlightNode(node);
+                        }}
+                        key={`node_${index}`}
+                      >
+                        <p className="w-full relative h-6">
+                          <span className="text-center text-base font-thin truncate absolute inset-0">
+                            {getShortNodeAddress(node?.public_address_node, 30)}
+                          </span>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </Dropdown>
+              )}
+              {!isAdmin && (
+                <>
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <Tooltips
+                            placement="bottom"
+                            title={currentUserNode?.public_address_node}
+                            arrow
+                          >
+                            <span className="text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                currentUserNode?.public_address_node,
+                                30
+                              )}
+                            </span>
+                          </Tooltips>
+                        </p>
+                        <ArrowIcon />
+                      </div>
+                    }
+                  >
+                    <Link to="/dashboard/nodes/new">
+                      <span className="text-primary w-full flex items-center justify-center">
+                        Add a new node
+                      </span>
+                    </Link>
+                    <ul>
+                      {addressList.map((address, index) => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() => {
+                            setCurrentUserNode(address);
+                          }}
+                          key={`node_${index}`}
+                        >
+                          <p className="w-full relative h-6">
+                            <span className="text-center text-base font-thin truncate absolute inset-0">
+                              {getShortNodeAddress(
+                                address?.public_address_node,
+                                30
+                              )}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
+                </>
+              )}
+            </div>
+          </div>
+        </Card>
+        <Card className="w-1/4 h-24">
+          <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+            <div className="flex gap-2">
+              <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
+                Stake Amount
+              </span>
+              <Tooltips
+                placement="top"
+                title="Amount staked to the selected node"
+                arrow
+              >
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/images/ic_feather_info.svg"
+                  alt="Info"
+                />
+              </Tooltips>
+            </div>
+            <div className="flex flex-row gap-2">
+              <span className="text-base text-black1 font-thin">
+                {numberWithCommas(
+                  isAdmin
+                    ? nodeDetail?.stake_amount
+                    : currentUserNode?.stake_amount
+                )}
+              </span>
+              <img
+                width="18px"
+                height="18px"
+                src="/images/ic_logo_home.svg"
+                alt="Info"
+              />
+            </div>
+          </div>
+        </Card>
+        <Card className="w-1/4 h-24">
+          <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
+            <div className="flex gap-2">
+              <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
+                Delegators
+              </span>
+              <Tooltips
+                placement="top"
+                title="Number of delegators to the selected node."
+                arrow
+              >
+                <img
+                  width="10px"
+                  height="10px"
+                  src="/images/ic_feather_info.svg"
+                  alt="Info"
+                />
+              </Tooltips>
+            </div>
+            <div className="flex flex-row gap-2">
+              <span className="text-base text-black1 font-thin">
+                {isAdmin ? nodeDetail?.delegators : currentUserNode?.delegators}
+              </span>
+              <img
+                width="18px"
+                height="18px"
+                src="/images/delegators.svg"
+                alt="Info"
+              />
+            </div>
+          </div>
+        </Card>
+      </div>
+      <Card className="validator-rewards-tableWrapper w-full px-9 py-5">
+        <div className="flex flex-col h-full justify-between">
+          <div className="flex flex-col lg:flex-row lg:justify-between">
+            <p className="text-lg">Validator Rewards</p>
+            <div>
+              <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                <li className="text-sm w-16">
+                  <button
+                    className={classNames(
+                      'w-full',
+                      optionChart === 'day' &&
+                        'rounded-lg text-primary text-sm shadow-activeLink'
+                    )}
+                    type="button"
+                    onClick={() => setOptionChart('day')}
+                  >
+                    Day
+                  </button>
+                </li>
+                <li className="text-sm w-16">
+                  <button
+                    className={classNames(
+                      'w-full',
+                      optionChart === 'week' &&
+                        'rounded-lg text-primary text-sm shadow-activeLink'
+                    )}
+                    type="button"
+                    onClick={() => setOptionChart('week')}
+                  >
+                    Week
+                  </button>
+                </li>
+                <li className="text-sm w-16">
+                  <button
+                    className={classNames(
+                      'w-full',
+                      optionChart === 'month' &&
+                        'rounded-lg text-primary text-sm shadow-activeLink'
+                    )}
+                    type="button"
+                    onClick={() => setOptionChart('month')}
+                  >
+                    Month
+                  </button>
+                </li>
+                <li className="text-sm w-16">
+                  <button
+                    className={classNames(
+                      'w-full',
+                      optionChart === 'year' &&
+                        'rounded-lg text-primary text-sm shadow-activeLink'
+                    )}
+                    type="button"
+                    onClick={() => setOptionChart('year')}
+                  >
+                    Year
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="h-full pt-2">
+            {loadingDataChart && (
+              <div className="h-full flex items-center">
+                <ReactLoading
+                  className="mx-auto"
+                  type="spinningBubbles"
+                  color="#FF473E"
+                  width={30}
+                  height={30}
+                />
+              </div>
+            )}
+            {!loadingDataChart && earningChart && (
+              <LineMemo name="Self stake" data={earningChart[optionChart]} />
+            )}
+          </div>
+        </div>
+      </Card>
+      <div className="flex flex-1 gap-5">
+        <Card className="w-3/5 min-h-300px">
+          <div className="w-full py-5 flex flex-col h-full justify-between">
+            <div className="flex flex-col lg:flex-row lg:justify-between px-9">
+              <p className="text-lg">Price</p>
+              <div>
+                <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
+                  <li className="text-sm w-16">
+                    <button
+                      className={classNames(
+                        'w-full',
+                        optionPriceChart === 'day' &&
+                          'rounded-lg text-primary text-sm shadow-activeLink'
+                      )}
+                      type="button"
+                      onClick={() => setOptionPriceChart('day')}
+                    >
+                      Day
+                    </button>
+                  </li>
+                  <li className="text-sm w-16">
+                    <button
+                      className={classNames(
+                        'w-full',
+                        optionPriceChart === 'week' &&
+                          'rounded-lg text-primary text-sm shadow-activeLink'
+                      )}
+                      type="button"
+                      onClick={() => setOptionPriceChart('week')}
+                    >
+                      Week
+                    </button>
+                  </li>
+                  <li className="text-sm w-16">
+                    <button
+                      className={classNames(
+                        'w-full',
+                        optionPriceChart === 'month' &&
+                          'rounded-lg text-primary text-sm shadow-activeLink'
+                      )}
+                      type="button"
+                      onClick={() => setOptionPriceChart('month')}
+                    >
+                      Month
+                    </button>
+                  </li>
+                  <li className="text-sm w-16">
+                    <button
+                      className={classNames(
+                        'w-full',
+                        optionPriceChart === 'year' &&
+                          'rounded-lg text-primary text-sm shadow-activeLink'
+                      )}
+                      type="button"
+                      onClick={() => setOptionPriceChart('year')}
+                    >
+                      Year
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="w-full relative pr-9 h-8.5/10">
+              <LineMemo
+                type="decimals"
+                name="Price"
+                data={priceTokenGraphInfo[optionPriceChart]}
+              />
+            </div>
+          </div>
+        </Card>
+        <div className="w-2/5 flex flex-col gap-5">
+          <Card className="flex flex-1 px-5 w-full">
+            <div className="flex flex-col w-full">
+              <p className="text-lg pt-5 pb-3">Node Metrics</p>
+              <div className="flex flex-col">
+                <div className="flex gap-3 flex-row py-1">
+                  <span className="text-lg">Uptime</span>
                   <Tooltips
-                    placement="top"
-                    title="Displays the selected node address"
+                    placement="right"
+                    title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
                     arrow
                   >
                     <img
@@ -205,517 +564,120 @@ const ContentNode = ({ sendHightlightNode }) => {
                     />
                   </Tooltips>
                 </div>
-                <button
-                  className="ml-6"
-                  type="button"
-                  onClick={() => copyClipboard()}
-                >
-                  <IconCopy />
-                </button>
-                <input
-                  id="public-address"
+                <ProgressBar
+                  value={
+                    isAdmin ? +nodeDetail?.uptime : currentUserNode?.uptime
+                  }
+                  total={100}
+                  mask="x%"
+                />
+                <div className="flex justify-between mb-3">
+                  <p className="text-xs">
+                    <b>Total ERAs:</b> {currentUserNode?.total_eras}
+                  </p>
+                  <p className="text-xs">
+                    <b>ERAs since Redmark:</b>{' '}
+                    {currentUserNode?.eras_since_bad_mark}
+                  </p>
+                  <p className="text-xs">
+                    <b>Total Redmarks:</b> {currentUserNode?.total_bad_marks}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex gap-3 flex-row py-1">
+                  <span className="text-lg">Update Responsiveness</span>
+                  <Tooltips
+                    placement="right"
+                    title="Update responsiveness for the selected node."
+                    arrow
+                  >
+                    <img
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
+                      alt="Info"
+                    />
+                  </Tooltips>
+                </div>
+                <ProgressBar
                   value={
                     isAdmin
-                      ? currentNode?.public_address_node ?? ''
-                      : currentUserNode?.public_address_node ?? ''
+                      ? +nodeDetail?.update_responsiveness
+                      : currentUserNode?.update_responsiveness
                   }
-                  readOnly
-                  hidden
+                  total={100}
+                  mask=""
+                  options={{
+                    startText: 'Needs Improvement',
+                    endText: 'Great',
+                  }}
                 />
               </div>
-              <div className="flex w-full">
-                {isAdmin && (
-                  <Dropdown
-                    className="mt-2 w-full"
-                    trigger={
-                      <div className="flex items-center gap-2">
-                        <p className="w-full relative h-6">
-                          <Tooltips
-                            placement="bottom"
-                            title={currentNode?.public_address_node}
-                            arrow
-                          >
-                            <span className="text-base font-thin truncate absolute inset-0">
-                              {getShortNodeAddress(
-                                currentNode?.public_address_node,
-                                30
-                              )}
-                            </span>
-                          </Tooltips>
-                        </p>
-                        <ArrowIcon />
-                      </div>
-                    }
+            </div>
+          </Card>
+          <Card className="w-full">
+            <div className="flex">
+              <div className="flex flex-col w-1/2 h-24 px-5 lg:px-9 border-r border-gray justify-center">
+                <div className="flex gap-3 flex-row">
+                  <span className="text-lg">Daily Earnings</span>
+                  <Tooltips
+                    placement="top"
+                    title="Displays today's earnings."
+                    arrow
                   >
-                    <ul>
-                      {nodesList.map((node, index) => (
-                        <li
-                          className="p-2 hover:text-primary cursor-pointer"
-                          onClick={() => {
-                            setCurrentNode(node);
-                            sendHightlightNode(node);
-                          }}
-                          key={`node_${index}`}
-                        >
-                          <p className="w-full relative h-6">
-                            <span className="text-center text-base font-thin truncate absolute inset-0">
-                              {getShortNodeAddress(
-                                node?.public_address_node,
-                                30
-                              )}
-                            </span>
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </Dropdown>
-                )}
-                {!isAdmin && (
-                  <>
-                    <Dropdown
-                      className="mt-2 w-full"
-                      trigger={
-                        <div className="flex items-center gap-2">
-                          <p className="w-full relative h-6">
-                            <Tooltips
-                              placement="bottom"
-                              title={currentUserNode?.public_address_node}
-                              arrow
-                            >
-                              <span className="text-base font-thin truncate absolute inset-0">
-                                {getShortNodeAddress(
-                                  currentUserNode?.public_address_node,
-                                  30
-                                )}
-                              </span>
-                            </Tooltips>
-                          </p>
-                          <ArrowIcon />
-                        </div>
-                      }
-                    >
-                      <Link to="/dashboard/nodes/new">
-                        <span className="text-primary w-full flex items-center justify-center">
-                          Add a new node
-                        </span>
-                      </Link>
-                      <ul>
-                        {addressList.map((address, index) => (
-                          <li
-                            className="p-2 hover:text-primary cursor-pointer"
-                            onClick={() => {
-                              setCurrentUserNode(address);
-                              sendHightlightNode(address);
-                              dispatch(
-                                setAuthUserNode({
-                                  authUserNode: address,
-                                })
-                              );
-                              refreshMetrics(address.public_address_node);
-                            }}
-                            key={`node_${index}`}
-                          >
-                            <p className="w-full relative h-6">
-                              <span className="text-center text-base font-thin truncate absolute inset-0">
-                                {getShortNodeAddress(
-                                  address?.public_address_node,
-                                  30
-                                )}
-                              </span>
-                            </p>
-                          </li>
-                        ))}
-                      </ul>
-                    </Dropdown>
-                  </>
-                )}
-              </div>
-            </div>
-          </Card>
-        </div>
-        <div className="custom-stake-amount-box h-full">
-          <Card className="h-full lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-              <div className="flex gap-2">
-                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
-                  Stake Amount
-                </span>
-                <Tooltips
-                  placement="top"
-                  title="Amount staked to the selected node"
-                  arrow
-                >
-                  <img
-                    width="10px"
-                    height="10px"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </Tooltips>
-              </div>
-              <div className="flex flex-row gap-2">
-                <span className="text-base text-black1 font-thin">
-                  {numberWithCommas(
-                    isAdmin ? nodeDetail?.stake_amount : metrics?.stake_amount
-                  )}
-                </span>
-                <img
-                  width="18px"
-                  height="18px"
-                  src="/images/ic_logo_home.svg"
-                  alt="Info"
-                />
-              </div>
-            </div>
-          </Card>
-        </div>
-        <div className="custom-deletagors-box h-full">
-          <Card className="h-full lg:flex-none">
-            <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-              <div className="flex gap-2">
-                <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
-                  Delegators
-                </span>
-                <Tooltips
-                  placement="top"
-                  title="Number of delegators to the selected node."
-                  arrow
-                >
-                  <img
-                    width="10px"
-                    height="10px"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
-                </Tooltips>
-              </div>
-              <div className="flex flex-row gap-2">
-                <span className="text-base text-black1 font-thin">
-                  {isAdmin ? nodeDetail?.delegators : metrics?.delegators}
-                </span>
-                <img
-                  width="18px"
-                  height="18px"
-                  src="/images/delegators.svg"
-                  alt="Info"
-                />
-              </div>
-            </div>
-          </Card>
-        </div>
-      </div>
-      <div id="dashboard-content-node2__Detail">
-        <div id="custom-validator-rewards-box">
-          <Card className="h-full w-full px-9 py-5">
-            <div className="flex flex-col h-full justify-between">
-              <div className="flex flex-col lg:flex-row lg:justify-between">
-                <div className="flex">
-                  <p className="text-lg">Validator Rewards</p>
-                </div>
-                <div>
-                  <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'day' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('day')}
-                      >
-                        Day
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'week' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('week')}
-                      >
-                        Week
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'month' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('month')}
-                      >
-                        Month
-                      </button>
-                    </li>
-                    <li className="text-sm w-16">
-                      <button
-                        className={classNames(
-                          'w-full',
-                          optionChart === 'year' &&
-                            'rounded-lg text-primary text-sm shadow-activeLink'
-                        )}
-                        type="button"
-                        onClick={() => setOptionChart('year')}
-                      >
-                        Year
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="h-full pt-2">
-                {loadingDataChart && (
-                  <div className="h-full flex items-center">
-                    <ReactLoading
-                      className="mx-auto"
-                      type="spinningBubbles"
-                      color="#FF473E"
-                      width={30}
-                      height={30}
-                    />
-                  </div>
-                )}
-                {!loadingDataChart && earningChart && (
-                  <LineMemo
-                    name="Self stake"
-                    data={earningChart[optionChart]}
-                  />
-                )}
-              </div>
-            </div>
-          </Card>
-        </div>
-        <div id="dashboard-content-node2__SubDetail" className="gap-5">
-          <div id="dashboard-content-node2__SubDetailLeft">
-            <Card className="w-full h-full">
-              <div className="w-full py-5 flex flex-col h-full justify-between">
-                <div className="flex flex-col lg:flex-row lg:justify-between px-9">
-                  <div className="flex">
-                    <p className="text-lg">Price</p>
-                  </div>
-                  <div>
-                    <ul className="mt-4 gap-4 lg:mt-0 flex items-center">
-                      <li className="text-sm w-16">
-                        <button
-                          className={classNames(
-                            'w-full',
-                            optionPriceChart === 'day' &&
-                              'rounded-lg text-primary text-sm shadow-activeLink'
-                          )}
-                          type="button"
-                          onClick={() => setOptionPriceChart('day')}
-                        >
-                          Day
-                        </button>
-                      </li>
-                      <li className="text-sm w-16">
-                        <button
-                          className={classNames(
-                            'w-full',
-                            optionPriceChart === 'week' &&
-                              'rounded-lg text-primary text-sm shadow-activeLink'
-                          )}
-                          type="button"
-                          onClick={() => setOptionPriceChart('week')}
-                        >
-                          Week
-                        </button>
-                      </li>
-                      <li className="text-sm w-16">
-                        <button
-                          className={classNames(
-                            'w-full',
-                            optionPriceChart === 'month' &&
-                              'rounded-lg text-primary text-sm shadow-activeLink'
-                          )}
-                          type="button"
-                          onClick={() => setOptionPriceChart('month')}
-                        >
-                          Month
-                        </button>
-                      </li>
-                      <li className="text-sm w-16">
-                        <button
-                          className={classNames(
-                            'w-full',
-                            optionPriceChart === 'year' &&
-                              'rounded-lg text-primary text-sm shadow-activeLink'
-                          )}
-                          type="button"
-                          onClick={() => setOptionPriceChart('year')}
-                        >
-                          Year
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="w-full relative pr-9 h-8.5/10">
-                  <LineMemo
-                    type="decimals"
-                    name="Price"
-                    data={priceTokenGraphInfo[optionPriceChart]}
-                  />
-                </div>
-              </div>
-            </Card>
-          </div>
-          <div id="dashboard-content-node2__SubDetailRight">
-            <div id="custom-uptime-box">
-              <Card className="flex items-start px-5 w-full h-full">
-                <div className="h-8/10 flex flex-col justify-between w-full">
-                  <p className="text-lg pt-5 pb-3">Node Metrics</p>
-                  <div className="flex flex-col">
-                    <div className="flex gap-3 flex-row py-1">
-                      <span className="text-lg">Uptime</span>
-                      <Tooltips
-                        placement="right"
-                        title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
-                        arrow
-                      >
-                        <img
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </Tooltips>
-                    </div>
-                    <ProgressBar
-                      value={isAdmin ? +nodeDetail?.uptime : metrics?.uptime}
-                      total={metricConfig?.max?.uptime}
-                      mask="x%"
-                    />
-                    <div className="flex justify-between mb-3">
-                      <p className="text-xs">
-                        <b>Total ERAs:</b> X
-                      </p>
-                      <p className="text-xs">
-                        <b>ERAs since Redmark:</b> X
-                      </p>
-                      <p className="text-xs">
-                        <b>Total Redmarks:</b> X
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex gap-3 flex-row py-1">
-                      <span className="text-lg">Update Responsiveness</span>
-                      <Tooltips
-                        placement="right"
-                        title="Update responsiveness for the selected node."
-                        arrow
-                      >
-                        <img
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </Tooltips>
-                    </div>
-                    <ProgressBar
-                      value={
-                        isAdmin
-                          ? +nodeDetail?.update_responsiveness
-                          : metrics?.update_responsiveness
-                      }
-                      total={
-                        isAdmin
-                          ? nodeDetail?.max_update_responsiveness
-                          : metricConfig?.max?.update_responsiveness
-                      }
-                      mask=""
-                      options={{
-                        startText: 'Needs Improvement',
-                        endText: 'Great',
-                      }}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex gap-3 flex-row py-1">
-                      <span className="text-lg">Peers</span>
-                    </div>
-                    <ProgressBar
-                      value={
-                        authUser?.role === 'admin'
-                          ? metrics?.peers_setting
-                          : metrics?.peers
-                      }
-                      total={renderMaxPeers()}
-                      mask="x/y"
-                    />
-                  </div>
-                </div>
-              </Card>
-            </div>
-            <div id="custom-earnings-box">
-              <Card className="custom-earnings-boxCard">
-                <div className="custom-earnings-singleBox flex flex-col w-1/2 px-5 lg:px-9 border-r border-gray justify-center">
-                  <div className="flex gap-3 flex-row">
-                    <span className="text-lg">Daily Earnings</span>
-                    <Tooltips
-                      placement="top"
-                      title="Displays today's earnings."
-                      arrow
-                    >
-                      <img
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </Tooltips>
-                  </div>
-                  <div className="flex flex-row mt-3">
-                    <span className="text-base font-thin pr-3">
-                      {numberWithCommas(Math.round(earning?.daily_earning))}
-                    </span>
                     <img
-                      width="18px"
-                      height="18px"
-                      src="/images/ic_logo_home.svg"
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
                       alt="Info"
                     />
-                  </div>
+                  </Tooltips>
                 </div>
-                <div className="custom-earnings-singleBox flex flex-col px-5 lg:px-9 w-1/2 justify-center">
-                  <div className="flex gap-3 flex-row">
-                    <span className="text-lg">Min Bid Slot</span>
-                    <Tooltips
-                      placement="top"
-                      title="Displays the minimum bidding amount to win a slot in the validator pool"
-                      arrow
-                    >
-                      <img
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </Tooltips>
-                  </div>
-                  <div className="flex flex-row mt-3">
-                    <span className="text-base font-thin pr-3">
-                      {numberWithCommas(Math.round(earning?.mbs))}
-                    </span>
+                <div className="flex flex-row mt-3">
+                  <span className="text-base font-thin pr-3">
+                    {numberWithCommas(
+                      Math.round(currentUserNode?.daily_earning)
+                    )}
+                  </span>
+                  <img
+                    width="18px"
+                    height="18px"
+                    src="/images/ic_logo_home.svg"
+                    alt="Info"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col w-1/2 h-24 px-5 lg:px-9 justify-center">
+                <div className="flex gap-3 flex-row">
+                  <span className="text-lg">Min Bid Slot</span>
+                  <Tooltips
+                    placement="top"
+                    title="Displays the minimum bidding amount to win a slot in the validator pool"
+                    arrow
+                  >
                     <img
-                      width="18px"
-                      height="18px"
-                      src="/images/ic_logo_home.svg"
+                      width="10px"
+                      height="10px"
+                      src="/images/ic_feather_info.svg"
                       alt="Info"
                     />
-                  </div>
+                  </Tooltips>
                 </div>
-              </Card>
+                <div className="flex flex-row mt-3">
+                  <span className="text-base font-thin pr-3">
+                    {numberWithCommas(Math.round(nodesInfo?.mbs))}
+                  </span>
+                  <img
+                    width="18px"
+                    height="18px"
+                    src="/images/ic_logo_home.svg"
+                    alt="Info"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </div>

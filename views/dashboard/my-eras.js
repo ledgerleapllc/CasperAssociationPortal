@@ -344,7 +344,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.eras_sinse_bad_mark || 0}
+                        {cardsInfo.eras_since_bad_mark || 0}
                       </span>
                       <img
                         width="18px"

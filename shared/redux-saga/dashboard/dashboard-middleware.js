@@ -346,6 +346,17 @@ export function* getUserFullDashboard({ resolve, reject }) {
   }
 }
 
+export function* getUserNodesInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-nodes-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getMyInfo({ resolve, reject }) {
   try {
     const endpoint = 'users/profile';
@@ -530,6 +541,7 @@ export function* watchDemoData() {
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
   yield all([takeEvery('GET_USER_FULL_DASHBOARD', getUserFullDashboard)]);
+  yield all([takeEvery('GET_USER_NODES_INFO', getUserNodesInfo)]);
   yield all([takeEvery('GET_USER_MEMBERSHIP_INFO', getUserMembershipInfo)]);
   yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
   yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);

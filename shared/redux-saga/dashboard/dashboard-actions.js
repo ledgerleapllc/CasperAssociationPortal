@@ -189,6 +189,12 @@ export const getUserFullDashboard = (resolve, reject) => ({
   reject,
 });
 
+export const getUserNodesInfo = (resolve, reject) => ({
+  type: 'GET_USER_NODES_INFO',
+  resolve,
+  reject,
+});
+
 export const getUserMembershipInfo = (resolve, reject) => ({
   type: 'GET_USER_MEMBERSHIP_INFO',
   resolve,
