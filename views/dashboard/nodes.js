@@ -31,14 +31,14 @@ const DashboardNode = () => {
         <title>Nodes - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="w-full flex gap-5 layout-dashboard-inner">
-          <div className="w-4/5 h-full relative">
+        <div className="w-full flex flex-col 2xl:flex-row gap-5 layout-dashboard-inner">
+          <div className="w-full 2xl:w-4/5 h-full relative">
             <ContentNode
               nodesInfo={nodesInfo}
               sendHightlightNode={node => setCurrentNode(node)}
             />
           </div>
-          <div className="w-1/5 h-full relative">
+          <div className="w-full 2xl:w-1/5 h-auto lg:h-full relative">
             <Card className="py-5 w-full h-full">
               <div className="overflow-y-scroll w-full h-full">
                 <InfoRightNode

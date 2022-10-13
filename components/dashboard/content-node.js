@@ -189,8 +189,8 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
 
   return (
     <div className="flex flex-col w-full h-full gap-5">
-      <div className="w-full flex gap-5">
-        <Card className="w-1/2 h-24">
+      <div className="w-full flex flex-col lg:flex-row gap-5">
+        <Card className="w-full lg:w-1/2 h-24">
           <div className="flex flex-col px-9 h-full justify-center">
             <div className="flex justify-between">
               <div className="flex gap-2">
@@ -325,7 +325,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             </div>
           </div>
         </Card>
-        <Card className="w-1/4 h-24">
+        <Card className="w-full lg:w-1/4 h-24">
           <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
             <div className="flex gap-2">
               <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
@@ -361,7 +361,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             </div>
           </div>
         </Card>
-        <Card className="w-1/4 h-24">
+        <Card className="w-full lg:w-1/4 h-24">
           <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
             <div className="flex gap-2">
               <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
@@ -473,8 +473,8 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
           </div>
         </div>
       </Card>
-      <div className="flex flex-1 gap-5">
-        <Card className="w-3/5 min-h-300px">
+      <div className="flex flex-col lg:flex-row lg:flex-1 gap-5">
+        <Card className="w-full lg:w-3/5 min-h-300px">
           <div className="w-full py-5 flex flex-col h-full justify-between">
             <div className="flex flex-col lg:flex-row lg:justify-between px-9">
               <p className="text-lg">Price</p>
@@ -544,7 +544,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             </div>
           </div>
         </Card>
-        <div className="w-2/5 flex flex-col gap-5">
+        <div className="w-full lg:w-2/5 flex flex-col gap-5">
           <Card className="flex flex-1 px-5 w-full">
             <div className="flex flex-col w-full">
               <p className="text-lg pt-5 pb-3">Node Metrics</p>
