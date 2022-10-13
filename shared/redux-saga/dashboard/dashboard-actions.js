@@ -189,6 +189,12 @@ export const getUserFullDashboard = (resolve, reject) => ({
   reject,
 });
 
+export const getAdminNodesInfo = (resolve, reject) => ({
+  type: 'GET_ADMIN_NODES_INFO',
+  resolve,
+  reject,
+});
+
 export const getUserNodesInfo = (resolve, reject) => ({
   type: 'GET_USER_NODES_INFO',
   resolve,

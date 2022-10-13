@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, memo } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
 import Table, { useTable } from '../partials/table';
 import { getShortNodeAddress } from '../../shared/core/utils';
 import { Tooltips } from '../partials';
-import useMetrics from '../hooks/useMetrics';
 
 const Styles = styled.div`
   .nodes-table {
@@ -37,32 +35,9 @@ const Styles = styled.div`
 `;
 
 const NodesList = ({ userInfo, nodesInfo, isAdmin, hightlightNode }) => {
-  // const dispatch = useDispatch();
   const { data, setData, hasMore, appendData, setHasMore, register } =
     useTable();
   const renderDone = useRef();
-
-  /*
-  const getNodes = (pageValue = page, limit = 20) => {
-    if (isAdmin) {
-      dispatch(
-        getNodesFromAdmin({ page: pageValue, limit }, (result, isHasMore) => {
-          setHasMore(isHasMore);
-          appendData(result);
-          setPage(prev => prev + 1);
-          renderDone.current = true;
-        })
-      );
-    }
-  };
-  */
-
-  /*
-  useEffect(() => {
-    resetData();
-    getNodes(1);
-  }, []);
-  */
 
   useEffect(() => {
     if (nodesInfo && Object.keys(nodesInfo).length > 0) {
@@ -124,17 +99,27 @@ const NodesList = ({ userInfo, nodesInfo, isAdmin, hightlightNode }) => {
   );
 };
 
-const InfoRightNode = memo(({ nodesInfo, currentNode }) => {
+const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [isAdmin, setIsAdmin] = useState(null);
-  const { metrics } = useMetrics();
 
-  useEffect(() => {
-    if (userInfo) {
-      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
-      setIsAdmin(isAdminTemp);
+  const getCurrentRanking = () => {
+    if (
+      currentNode &&
+      currentNode.public_address_node &&
+      nodesInfo &&
+      nodesInfo.ranking
+    ) {
+      return nodesInfo.ranking[currentNode.public_address_node] || 0;
     }
-  }, [userInfo]);
+    return 5;
+  };
+
+  const getTotalRanking = () => {
+    if (nodesInfo && nodesInfo.ranking) {
+      return Object.keys(nodesInfo.ranking).length;
+    }
+    return 0;
+  };
 
   return (
     <div className="bg-white">
@@ -151,9 +136,8 @@ const InfoRightNode = memo(({ nodesInfo, currentNode }) => {
                   equally weighted importance.
                 </p>
                 <p>
-                  {!isAdmin && metrics?.rank
-                    ? `Your Registered Node Ranking: ${metrics?.rank} out of ${metrics?.totalCount}`
-                    : ''}
+                  Registered Node Ranking: {getCurrentRanking()} out of{' '}
+                  {getTotalRanking()}
                 </p>
               </>
             }

@@ -37,13 +37,13 @@ const AdminDashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div id="landing-page__dashboardInner">
-          <div id="landing-page__dashboardInner_left">
+        <div className="flex gap-5 layout-dashboard-inner">
+          <div className="w-4/5 h-full">
             <ContentAdminHome stats={stats} changeFrame={fetchStats} />
           </div>
-          <div id="landing-page__dashboardInner_right">
-            <Card>
-              <div className="overflow-y-scroll h-full">
+          <div className="w-1/5 h-full">
+            <Card className="w-full h-full">
+              <div className="w-full overflow-y-scroll h-full">
                 <InfoRightAdminHome stats={stats} />
               </div>
             </Card>

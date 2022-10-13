@@ -2,23 +2,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import classNames from 'classnames';
 import ReactLoading from 'react-loading';
-import { useState, useEffect, useContext, memo } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import useMetrics from '../hooks/useMetrics';
 import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
-import {
-  getNodesFromAdmin,
-  getNodeDetail,
-} from '../../shared/redux-saga/admin/actions';
-import {
-  getPriceTokenGraphInfo,
-  getEarningChart,
-  getEarningData,
-} from '../../shared/redux-saga/dashboard/dashboard-actions';
-import { AppContext } from '../../pages/_app';
+import { getPriceTokenGraphInfo } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { numberWithCommas, getShortNodeAddress } from '../../shared/core/utils';
 import { useSnackBar } from '../partials/snack-bar';
 import { ValidatorChart } from '../charts/validator-chart';
@@ -27,33 +17,17 @@ const LineMemo = memo(({ type, name, data }) => (
   <ValidatorChart type={type} name={name} data={data} />
 ));
 
-const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
+const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [isAdmin, setIsAdmin] = useState(null);
-  const [nodesList, setNodesList] = useState([]);
   const [addressList, setAddressList] = useState([]);
-  const [currentNode, setCurrentNode] = useState();
   const [currentUserNode, setCurrentUserNode] = useState();
   const [priceTokenGraphInfo, setPriceTokenGraphInfo] = useState([]);
-  const [nodeDetail, setNodeDetail] = useState(null);
   const dispatch = useDispatch();
-  const { setLoading } = useContext(AppContext);
-  const [earning, setEarning] = useState();
   const [earningChart, setEarningChart] = useState();
   const [optionChart, setOptionChart] = useState('day');
   const [optionPriceChart, setOptionPriceChart] = useState('day');
   const { openSnack } = useSnackBar();
   const [loadingDataChart, setLoadingDataChart] = useState(false);
-
-  const fetchNodes = () => {
-    dispatch(
-      getNodesFromAdmin({ page: 1, limit: 9999 }, result => {
-        setNodesList(result);
-        setCurrentNode(result[0]);
-        sendHightlightNode(result[0]);
-      })
-    );
-  };
 
   const fetchPriceToken = () => {
     dispatch(
@@ -66,74 +40,13 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
     );
   };
 
-  const fetchNodeDetail = nodeName => {
-    setLoading(true);
-    dispatch(
-      getNodeDetail(
-        nodeName,
-        res => {
-          setLoading(false);
-          setNodeDetail(res);
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-
   useEffect(() => {
     fetchPriceToken();
   }, []);
 
-  const fetchNodeEarning = address => {
-    dispatch(
-      getEarningData(
-        { node: address },
-        res => {
-          setEarning(res);
-        },
-        () => {}
-      )
-    );
-  };
-
-  const fetchNodeChart = address => {
-    setLoadingDataChart(true);
-    dispatch(
-      getEarningChart(
-        { node: address },
-        res => {
-          setEarningChart(res);
-          setLoadingDataChart(false);
-        },
-        () => {}
-      )
-    );
-  };
-
-  useEffect(() => {
-    if (userInfo) {
-      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
-      setIsAdmin(isAdminTemp);
-      if (isAdminTemp) {
-        fetchNodes();
-      } else {
-        // fetchNodeChart(userInfo.public_address_node);
-        // fetchNodeEarning(userInfo.public_address_node);
-      }
-    }
-  }, [userInfo]);
-
   useEffect(() => {
     if (isAdmin !== null && nodesInfo && Object.keys(nodesInfo).length > 0) {
-      console.log('NodesInfo:', nodesInfo);
-      if (isAdmin) {
-        //
-      } else if (
-        nodesInfo.addresses &&
-        Object.keys(nodesInfo.addresses).length > 0
-      ) {
+      if (nodesInfo.addresses && Object.keys(nodesInfo.addresses).length > 0) {
         const addresses = [];
         let activeAddressRecord = null;
         Object.keys(nodesInfo.addresses).forEach(address => {
@@ -142,15 +55,20 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             public_address_node: address,
           };
           if (
+            !isAdmin &&
             userInfo.public_address_node === addressRecord.public_address_node
           ) {
             activeAddressRecord = addressRecord;
           }
           addresses.push(addressRecord);
         });
-        if (addresses.length > 0 && activeAddressRecord) {
+        if (addresses.length > 0) {
           setAddressList(addresses);
-          setCurrentUserNode(activeAddressRecord);
+          if (!isAdmin && activeAddressRecord) {
+            setCurrentUserNode(activeAddressRecord);
+          } else if (isAdmin) {
+            setCurrentUserNode(addresses[0]);
+          }
         }
       }
     }
@@ -158,8 +76,6 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
 
   useEffect(() => {
     if (currentUserNode) {
-      // fetchNodeChart(currentUserNode.public_address_node);
-      // fetchNodeEarning(currentUserNode.public_address_node);
       sendHightlightNode(currentUserNode);
       if (
         currentUserNode.validator_rewards &&
@@ -170,14 +86,6 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
       }
     }
   }, [currentUserNode]);
-
-  useEffect(() => {
-    if (currentNode) {
-      fetchNodeDetail(currentNode.public_address_node);
-      // fetchNodeEarning(currentNode.public_address_node);
-      // fetchNodeChart(currentNode.public_address_node);
-    }
-  }, [currentNode]);
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -217,11 +125,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
               </button>
               <input
                 id="public-address"
-                value={
-                  isAdmin
-                    ? currentNode?.public_address_node ?? ''
-                    : currentUserNode?.public_address_node ?? ''
-                }
+                value={currentUserNode?.public_address_node ?? ''}
                 readOnly
                 hidden
               />
@@ -235,12 +139,12 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
                       <p className="w-full relative h-6">
                         <Tooltips
                           placement="bottom"
-                          title={currentNode?.public_address_node}
+                          title={currentUserNode?.public_address_node}
                           arrow
                         >
                           <span className="text-base font-thin truncate absolute inset-0">
                             {getShortNodeAddress(
-                              currentNode?.public_address_node,
+                              currentUserNode?.public_address_node,
                               30
                             )}
                           </span>
@@ -251,12 +155,11 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
                   }
                 >
                   <ul>
-                    {nodesList.map((node, index) => (
+                    {addressList.map((node, index) => (
                       <li
                         className="p-2 hover:text-primary cursor-pointer"
                         onClick={() => {
-                          setCurrentNode(node);
-                          sendHightlightNode(node);
+                          setCurrentUserNode(node);
                         }}
                         key={`node_${index}`}
                       >
@@ -346,11 +249,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             </div>
             <div className="flex flex-row gap-2">
               <span className="text-base text-black1 font-thin">
-                {numberWithCommas(
-                  isAdmin
-                    ? nodeDetail?.stake_amount
-                    : currentUserNode?.stake_amount
-                )}
+                {numberWithCommas(currentUserNode?.stake_amount)}
               </span>
               <img
                 width="18px"
@@ -382,7 +281,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
             </div>
             <div className="flex flex-row gap-2">
               <span className="text-base text-black1 font-thin">
-                {isAdmin ? nodeDetail?.delegators : currentUserNode?.delegators}
+                {currentUserNode?.delegators}
               </span>
               <img
                 width="18px"
@@ -565,9 +464,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
                   </Tooltips>
                 </div>
                 <ProgressBar
-                  value={
-                    isAdmin ? +nodeDetail?.uptime : currentUserNode?.uptime
-                  }
+                  value={currentUserNode?.uptime}
                   total={100}
                   mask="x%"
                 />
@@ -601,11 +498,7 @@ const ContentNode = ({ nodesInfo, sendHightlightNode }) => {
                   </Tooltips>
                 </div>
                 <ProgressBar
-                  value={
-                    isAdmin
-                      ? +nodeDetail?.update_responsiveness
-                      : currentUserNode?.update_responsiveness
-                  }
+                  value={currentUserNode?.update_responsiveness}
                   total={100}
                   mask=""
                   options={{
