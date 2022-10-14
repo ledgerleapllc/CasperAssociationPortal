@@ -1,30 +1,16 @@
-import SettingMetricForm from './setting-metric-form';
+import VotingLockForm from './voting-lock-form';
+import UptimeForm from './uptime-form';
+import RedmarkForm from './redmark-form';
+import ResponsivenessForm from './responsiveness-form';
 
-const MonitoringCriteria = ({ metrics, fetchWarningMetrics }) => (
+const MonitoringCriteria = ({ isOverride, globalSettings }) => (
   <>
-    <SettingMetricForm
-      metrics={metrics?.uptime}
-      title="Uptime"
-      type="uptime"
-      doReloadData={fetchWarningMetrics}
-      warningTooltip="Sets the level that the node operator will be alerted at."
-      probationTooltip="Sets the level that the node operator will be placed on probation."
-    />
-    <SettingMetricForm
-      metrics={metrics?.['block-height']}
-      title="Block Height"
-      type="block-height"
-      doReloadData={fetchWarningMetrics}
-      warningTooltip="Sets the level that the node operator will be alerted at."
-      probationTooltip="Sets the level that the node operator will be placed on probation."
-    />
-    <SettingMetricForm
-      metrics={metrics?.['update-responsiveness']}
-      title="Update Responsiveness"
-      type="update-responsiveness"
-      doReloadData={fetchWarningMetrics}
-      warningTooltip="Sets the level that the node operator will be alerted at."
-      probationTooltip="Sets the level that the node operator will be placed on probation."
+    <VotingLockForm isOverride={isOverride} globalSettings={globalSettings} />
+    <UptimeForm isOverride={isOverride} globalSettings={globalSettings} />
+    <RedmarkForm isOverride={isOverride} globalSettings={globalSettings} />
+    <ResponsivenessForm
+      isOverride={isOverride}
+      globalSettings={globalSettings}
     />
   </>
 );

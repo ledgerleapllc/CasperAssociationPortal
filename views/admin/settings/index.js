@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,13 +13,13 @@ import { AppContext } from '../../../pages/_app';
 import MonitoringCriteria from '../../../components/admin/settings/monitoring-criteria';
 import SettingLockPage from '../../../components/admin/settings/setting-lock-page';
 import {
-  getWarningMetrics,
   getLockPageRules,
   addRecipient,
   removeRecipient,
   listRecipients,
   getMembershipFile,
   changeMembershipFile,
+  getGlobalSettings,
 } from '../../../shared/redux-saga/admin/actions';
 import { useDialog } from '../../../components/partials/dialog';
 import { AddRecipientDialog } from '../../../components/dashboard/contact/dialogs/add-recipient';
@@ -47,7 +49,7 @@ const Styles = styled.div`
 `;
 
 const Settings = () => {
-  const [metrics, setMetrics] = useState(null);
+  const [isOverride, setIsOverride] = useState(false);
   const [rules, setRules] = useState(null);
   const dispatch = useDispatch();
   const { setDialog, onClosed } = useDialog();
@@ -55,6 +57,8 @@ const Settings = () => {
   const { openSnack } = useSnackBar();
   const [agreement, setAgreement] = useState();
   const [replaceAgreement, setReplaceAgreement] = useState();
+  const [globalSettings, setGlobalSettings] = useState({});
+
   const {
     data,
     setData,
@@ -67,19 +71,12 @@ const Settings = () => {
     setPage,
   } = useTable();
 
-  const fetchWarningMetrics = () => {
+  const fetchGlobalSettings = () => {
     dispatch(
-      getWarningMetrics(
+      getGlobalSettings(
         res => {
-          const obj = res?.reduce((result, item) => {
-            const params = {
-              ...result,
-              [item.type]: item,
-            };
-            return params;
-          }, {});
+          setGlobalSettings(res);
           setLoading(false);
-          setMetrics(obj);
         },
         () => {
           setLoading(false);
@@ -139,11 +136,15 @@ const Settings = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetchWarningMetrics();
+    fetchGlobalSettings();
     fetchLockPageRules();
     fetchRecipients();
     getMembership();
   }, []);
+
+  const clickOverride = () => {
+    setIsOverride(pre => !pre);
+  };
 
   const saveFile = () => {
     setLoading(true);
@@ -301,24 +302,32 @@ const Settings = () => {
                 </Link>
               </section>
               <section className="mt-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
-                  Monitoring Criteria
-                  <Tooltips
-                    placement="top"
-                    title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
-                    arrow
+                <div className="flex mb-7 items-center gap-5">
+                  <h4 className="flex gap-2 text-lg font-medium">
+                    Monitoring Criteria
+                    <Tooltips
+                      placement="top"
+                      title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
+                      arrow
+                    >
+                      <img
+                        width="10px"
+                        height="10px"
+                        src="/images/ic_feather_info.svg"
+                        alt="Info"
+                      />
+                    </Tooltips>
+                  </h4>
+                  <p
+                    className="text-primary underline cursor-pointer"
+                    onClick={clickOverride}
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
-                  </Tooltips>
-                </h4>
+                    {isOverride ? 'Cancel' : 'Edit'}
+                  </p>
+                </div>
                 <MonitoringCriteria
-                  metrics={metrics}
-                  fetchWarningMetrics={fetchWarningMetrics}
+                  isOverride={isOverride}
+                  globalSettings={globalSettings}
                 />
               </section>
               <section className="my-20">

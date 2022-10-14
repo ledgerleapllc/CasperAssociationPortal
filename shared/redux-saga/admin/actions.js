@@ -373,6 +373,13 @@ export const getActivePerkDetail = (payload, resolve, reject) => ({
   reject,
 });
 
+export const updateGlobalSettings = (payload, resolve, reject) => ({
+  type: 'UPDATE_GLOBAL_SETTINGS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const updateWarningMetrics = (payload, resolve, reject) => ({
   type: 'UPDATE_WARNING_METRICS',
   payload,
@@ -437,6 +444,12 @@ export const getNodesByUser = (payload, resolve, reject) => ({
 export const getNodesFromAdmin = (payload, resolve, reject) => ({
   type: 'GET_NODES_FROM_ADMIN',
   payload,
+  resolve,
+  reject,
+});
+
+export const getGlobalSettings = (resolve, reject) => ({
+  type: 'GET_GLOBAL_SETTINGS',
   resolve,
   reject,
 });

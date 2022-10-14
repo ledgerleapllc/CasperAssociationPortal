@@ -671,6 +671,16 @@ export function* updateWarningMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* updateGlobalSettings({ payload, resolve, reject }) {
+  try {
+    yield _put([`admin/global-settings`], payload);
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* updateBlockAccess({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/block-access`], payload);
@@ -834,6 +844,16 @@ export function* getNodesFromAdmin({ payload, resolve, reject }) {
 export function* registerSubAdmin({ payload, resolve, reject }) {
   try {
     const res = yield post([`auth/register-sub-admin`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getGlobalSettings({ resolve, reject }) {
+  try {
+    const res = yield get(['admin/global-settings']);
     resolve(res.data);
   } catch (error) {
     reject(error);
@@ -1009,6 +1029,7 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
   yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
+  yield all([takeLatest('UPDATE_GLOBAL_SETTINGS', updateGlobalSettings)]);
   yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
@@ -1023,6 +1044,7 @@ export function* watchAdmin() {
   yield all([
     takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
   ]);
+  yield all([takeLatest('GET_GLOBAL_SETTINGS', getGlobalSettings)]);
   yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
   yield all([takeLatest('GET_NODE_DETAIL', getNodeDetail)]);
