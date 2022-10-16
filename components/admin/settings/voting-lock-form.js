@@ -57,7 +57,7 @@ const VotingLockForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="voting_eras_to_vote"
                 {...register('voting_eras_to_vote', {
                   required: 'This value is required',
@@ -87,7 +87,7 @@ const VotingLockForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="voting_eras_since_redmark"
                 {...register('voting_eras_since_redmark', {
                   required: 'This value is required',

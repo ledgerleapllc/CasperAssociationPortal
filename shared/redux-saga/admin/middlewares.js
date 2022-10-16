@@ -528,6 +528,28 @@ export function* updateUserMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* getAdminERAsByUser({ userId, resolve, reject }) {
+  try {
+    const res = yield get([`admin/users/all-eras-user/${userId}`]);
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getAllAdminERAs({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/users/all-eras`]);
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getListPerks({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
@@ -943,7 +965,7 @@ export function* listRecipients({ payload, resolve, reject }) {
     const query = qs.stringify(payload);
     const res = yield get([`admin/contact-recipients?${query}`]);
     yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+    resolve(res.data);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));
@@ -1018,6 +1040,8 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
   yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([takeEvery('GEt_ADMIN_ERAS_BY_USER', getAdminERAsByUser)]);
+  yield all([takeEvery('GET_ALL_ADMIN_ERAS', getAllAdminERAs)]);
   yield all([takeEvery('GET_LIST_PERKS', getListPerks)]);
   yield all([takeEvery('GET_ACTIVE_PERKS', getActivePerks)]);
   yield all([takeEvery('GET_LIST_PERK_ENGAGEMENT', getListPerkEngagements)]);

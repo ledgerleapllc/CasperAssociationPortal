@@ -68,6 +68,7 @@ const AdminAddPerksView = lazy(() => import('../views/admin/perks/add'));
 const AdminPerksDetailView = lazy(() =>
   import('../views/admin/perks/detail/[id]/index')
 );
+const AdminAllERAsView = lazy(() => import('../views/admin/all-eras'));
 const AdminSettingsView = lazy(() => import('../views/admin/settings/index'));
 const AdminSettingsEmailerView = lazy(() =>
   import('../views/admin/settings/emailer')
@@ -231,6 +232,7 @@ const LandingPage = () => (
           exact
           component={AdminBallotsDetailCurrentVotesView}
         />
+        <Route path="/admin/all-eras" exact component={AdminAllERAsView} />
         <Route path="/admin/perks" exact component={AdminPerksView} />
         <Route path="/admin/perks/add" exact component={AdminAddPerksView} />
         <Route

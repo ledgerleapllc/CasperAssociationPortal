@@ -140,6 +140,12 @@ const adminNavs = [
     path: '/admin/perks',
   },
   {
+    key: 'all-eras',
+    icon: ListIcon,
+    label: 'All ERAs',
+    path: '/admin/all-eras',
+  },
+  {
     key: 'teams',
     icon: AddUserIcon,
     label: 'teams',

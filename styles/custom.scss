@@ -680,7 +680,6 @@
       }
       
       .layout-dashboard-inner {
-        height: calc(100vh - 7.625rem);
         min-height: calc(100vh - 7.625rem);
         @media all and (max-width: 1535px) {
           height: auto;

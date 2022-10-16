@@ -57,7 +57,7 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="redmarks_revoke"
                 {...register('redmarks_revoke', {
                   required: 'This value is required',
@@ -87,7 +87,7 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="redmarks_revoke_calc_size"
                 {...register('redmarks_revoke_calc_size', {
                   required: 'This value is required',

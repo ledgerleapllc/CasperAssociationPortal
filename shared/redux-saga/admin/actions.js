@@ -332,6 +332,19 @@ export const updateEmailerTriggerAdmin = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getAdminERAsByUser = (userId, resolve, reject) => ({
+  type: 'GEt_ADMIN_ERAS_BY_USER',
+  userId,
+  resolve,
+  reject,
+});
+
+export const getAllAdminERAs = (resolve, reject) => ({
+  type: 'GET_ALL_ADMIN_ERAS',
+  resolve,
+  reject,
+});
+
 export const getListPerks = (payload, resolve, reject) => ({
   type: 'GET_LIST_PERKS',
   payload,

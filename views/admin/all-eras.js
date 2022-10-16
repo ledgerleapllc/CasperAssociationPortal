@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Tooltips, Dropdown, Table } from '../../components/partials';
 import { useSnackBar } from '../../components/partials/snack-bar';
-import { getNodesByUser } from '../../shared/redux-saga/admin/actions';
-import { getMyERAs } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import {
+  getAdminERAsByUser,
+  getAllAdminERAs,
+} from '../../shared/redux-saga/admin/actions';
 import { getShortNodeAddress, formatDate } from '../../shared/core/utils';
 import { useTable } from '../../components/partials/table';
 import IconCopy from '../../public/images/ic_copy.svg';
@@ -26,41 +27,69 @@ const Styles = styled.div`
   }
 `;
 
-const ERAsTable = ({ addresses, eras }) => {
-  const { data, register, appendData, setHasMore } = useTable();
-
-  const makeTableData = () => {
-    const items = [];
-    Object.keys(eras).forEach(key => {
-      const eraObject = eras[key];
-      const singleItem = {
-        era_start_time: eraObject.era_start_time || '',
-        addresses: [],
-      };
-      Object.keys(addresses).forEach(key2 => {
-        if (eraObject.addresses && eraObject.addresses[key2]) {
-          singleItem.addresses.push({
-            address: key2,
-            in_pool: parseInt(eraObject.addresses[key2].in_pool || 0, 10),
-            rewards: eraObject.addresses[key2].rewards || '',
-          });
-        } else {
-          singleItem.addresses.push({
-            address: key2,
-            in_pool: 0,
-            rewards: '',
-          });
-        }
-      });
-      items.push(singleItem);
-    });
-    appendData(items);
-    setHasMore(false);
-  };
+const ERAsTable = ({ users }) => {
+  const { data, register, hasMore, resetData, appendData, setHasMore } =
+    useTable();
+  const [currentUser, setCurrentUser] = useState({});
+  const [addresses, setAddresses] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    makeTableData();
-  }, [addresses, eras]);
+    resetData();
+    setHasMore(false);
+  }, []);
+
+  useEffect(() => {
+    if (currentUser && currentUser.user_id) {
+      resetData();
+      setHasMore(true);
+      setAddresses([]);
+      dispatch(
+        getAdminERAsByUser(
+          currentUser.user_id,
+          results => {
+            setHasMore(false);
+            if (
+              results &&
+              results.addresses &&
+              results.addresses.length > 0 &&
+              results.eras &&
+              Object.keys(results.eras).length > 0
+            ) {
+              const items = [];
+              Object.keys(results.eras).forEach(eraId => {
+                const singleERA = results.eras[eraId];
+                const singleItem = {
+                  era_start_time: singleERA.era_start_time,
+                  addresses: [],
+                };
+                if (singleERA.addresses) {
+                  results.addresses.forEach(singleAddress => {
+                    if (singleERA.addresses[singleAddress]) {
+                      singleItem.addresses.push({
+                        ...singleERA.addresses[singleAddress],
+                        public_key: singleAddress,
+                      });
+                    } else {
+                      singleItem.addresses.push({
+                        public_key: singleAddress,
+                        in_pool: 0,
+                        rewards: 0,
+                      });
+                    }
+                  });
+                }
+                items.push(singleItem);
+              });
+              setAddresses(results.addresses);
+              appendData(items);
+            }
+          },
+          () => {}
+        )
+      );
+    }
+  }, [currentUser]);
 
   const renderTableHeaders = () => {
     const items = [];
@@ -69,19 +98,18 @@ const ERAsTable = ({ addresses, eras }) => {
         <p className="text-sm">ERA Start Time</p>
       </Table.HeaderCell>
     );
-    const { length } = Object.keys(addresses);
-    Object.keys(addresses).forEach((key, index) => {
-      items.push(
-        <Table.HeaderCell
-          key={`header_${index + 1}`}
-          customStyle={{ width: `${parseFloat(82 / length)}%` }}
-        >
-          <p className="truncate text-sm pr-5">
-            {getShortNodeAddress(key, 30)}
-          </p>
-        </Table.HeaderCell>
-      );
-    });
+    if (addresses && addresses.length > 0) {
+      addresses.forEach((key, index) => {
+        items.push(
+          <Table.HeaderCell
+            key={`header_${index + 1}`}
+            customStyle={{ width: `${parseFloat(82 / addresses.length)}%` }}
+          >
+            <p className="truncate text-sm pr-5">{key}</p>
+          </Table.HeaderCell>
+        );
+      });
+    }
     return <Table.Header>{items}</Table.Header>;
   };
 
@@ -123,77 +151,91 @@ const ERAsTable = ({ addresses, eras }) => {
   };
 
   return (
-    <Styles className="h-full">
-      <Table
-        {...register}
-        className="my-eras-table h-full"
-        onLoadMore={() => {}}
-        hasMore={false}
-        dataLength={data.length}
-        noMargin
-      >
-        {renderTableHeaders()}
-        <Table.Body className="custom-padding-tracker">
-          {data.map((row, index) => renderTableBodyRow(row, index))}
-        </Table.Body>
-      </Table>
-    </Styles>
+    <div className="flex flex-col w-full h-full">
+      <div className="flex mb-3 items-center justify-between">
+        <p className="text-lg font-medium">All ERAs</p>
+        <Dropdown
+          className="w-200px px-3 py-3 border border-gray1 shadow-md focus:outline-none"
+          trigger={
+            <div className="flex items-center justify-between">
+              {currentUser && currentUser.user_id ? (
+                <p className="relative">{currentUser.name}</p>
+              ) : (
+                <p className="text-gray relative">Filter by User</p>
+              )}
+              <ArrowIcon />
+            </div>
+          }
+        >
+          <ul>
+            {users.map((singleUser, index) => (
+              <li
+                className="p-2 hover:text-primary cursor-pointer"
+                onClick={() => {
+                  setCurrentUser(singleUser);
+                }}
+                key={`node_${index}`}
+              >
+                <p className="w-full relative h-6">
+                  <span className="text-center text-base font-thin truncate absolute inset-0">
+                    {singleUser.name}
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Dropdown>
+      </div>
+      <div className="w-full h-full overflow-hidden">
+        <Styles className="h-full overflow-hidden">
+          <Table
+            {...register}
+            className="my-eras-table h-full"
+            onLoadMore={() => {}}
+            hasMore={hasMore}
+            dataLength={data.length}
+            noMargin
+          >
+            {renderTableHeaders()}
+            <Table.Body className="custom-padding-tracker">
+              {data.map((row, index) => renderTableBodyRow(row, index))}
+            </Table.Body>
+          </Table>
+        </Styles>
+      </div>
+    </div>
   );
 };
 
-const MyERAs = () => {
-  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+const AllERAs = () => {
   const { openSnack } = useSnackBar();
-  const [currentUserNode, setCurrentUserNode] = useState();
+  const [currentUserNode, setCurrentUserNode] = useState({});
   const [addressList, setAddressList] = useState([]);
-  const [erasData, setERAsData] = useState({});
-  const [cardsInfo, setCardsInfo] = useState({});
+  const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-  const fetchUserNodes = () => {
+  useEffect(() => {
     dispatch(
-      getNodesByUser({}, result => {
-        const addresses = result.addresses || [];
-        if (addresses.length > 0) {
-          setCurrentUserNode(addresses[0]);
-        }
-        setAddressList(addresses);
-      })
-    );
-  };
-
-  const fetchMyERAs = () => {
-    dispatch(
-      getMyERAs(
-        res => {
-          setERAsData(res);
+      getAllAdminERAs(
+        results => {
+          const addresses = results.addresses || {};
+          const addressItems = [];
+          Object.keys(addresses).forEach(key => {
+            addressItems.push({
+              ...addresses[key],
+              public_address_node: key,
+            });
+          });
+          setAddressList(addressItems);
+          if (addressItems.length > 0) {
+            setCurrentUserNode(addressItems[0]);
+          }
+          setUsers(results.users || []);
         },
         () => {}
       )
     );
-  };
-
-  useEffect(() => {
-    if (userInfo) {
-      fetchUserNodes();
-      fetchMyERAs();
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
-    if (
-      currentUserNode &&
-      currentUserNode.public_address_node &&
-      erasData &&
-      erasData.addresses
-    ) {
-      setCardsInfo(
-        erasData.addresses[currentUserNode.public_address_node] || {}
-      );
-    } else {
-      setCardsInfo({});
-    }
-  }, [currentUserNode, erasData]);
+  }, []);
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -206,10 +248,10 @@ const MyERAs = () => {
   return (
     <>
       <Head>
-        <title>My ERAs - Casper Association Portal</title>
+        <title>All ERAs - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div id="landing-page__myEras">
+        <div className="w-full h-full layout-dashboard-inner flex flex-col gap-5">
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="w-full lg:w-1/2">
               <Card className="w-full h-24">
@@ -267,11 +309,6 @@ const MyERAs = () => {
                         </div>
                       }
                     >
-                      <Link to="/dashboard/nodes/new">
-                        <span className="text-primary w-full flex items-center justify-center">
-                          Add a new node
-                        </span>
-                      </Link>
                       <ul>
                         {addressList.map((address, index) => (
                           <li
@@ -306,7 +343,7 @@ const MyERAs = () => {
                     </span>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.uptime || 0}%
+                        {currentUserNode.uptime || 0}%
                       </span>
                       <img
                         width="18px"
@@ -326,7 +363,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.eras_active || 0}
+                        {currentUserNode.eras_active || 0}
                       </span>
                       <img
                         width="18px"
@@ -346,7 +383,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.eras_since_bad_mark || 0}
+                        {currentUserNode.eras_since_bad_mark || 0}
                       </span>
                       <img
                         width="18px"
@@ -366,7 +403,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.total_bad_marks || 0}
+                        {currentUserNode.total_bad_marks || 0}
                       </span>
                       <img
                         width="18px"
@@ -380,14 +417,8 @@ const MyERAs = () => {
               </div>
             </div>
           </div>
-          <Card className="mt-5 my-eras-tableWrapper px-9 py-9">
-            {erasData &&
-            erasData.addresses &&
-            erasData.eras &&
-            JSON.stringify(erasData.addresses) !== '{}' &&
-            JSON.stringify(erasData.eras) !== '{}' ? (
-              <ERAsTable addresses={erasData.addresses} eras={erasData.eras} />
-            ) : null}
+          <Card className="w-full flex-1 flex flex-col px-9 py-9 overflow-hidden min-h-300px">
+            <ERAsTable users={users} />
           </Card>
         </div>
       </LayoutDashboard>
@@ -395,4 +426,4 @@ const MyERAs = () => {
   );
 };
 
-export default LoadingScreen(MyERAs, 'final-all');
+export default LoadingScreen(AllERAs, 'final-all');

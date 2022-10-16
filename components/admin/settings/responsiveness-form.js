@@ -57,7 +57,7 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="responsiveness_warning"
                 {...register('responsiveness_warning', {
                   required: 'This value is required',
@@ -87,7 +87,7 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="responsiveness_probation"
                 {...register('responsiveness_probation', {
                   required: 'This value is required',

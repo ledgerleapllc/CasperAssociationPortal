@@ -70,7 +70,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="uptime_calc_size"
                 {...register('uptime_calc_size', {
                   required: 'This value is required',
@@ -103,7 +103,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="uptime_warning"
                 {...register('uptime_warning', {
                   required: 'This value is required',
@@ -133,7 +133,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
             <div className="w-full">
               <input
                 type="text"
-                className="w-full h-14 px-7 shadow-md focus:outline-none border border-gray1"
+                className="w-full h-12 px-7 shadow-md focus:outline-none border border-gray1"
                 name="uptime_probation"
                 {...register('uptime_probation', {
                   required: 'This value is required',
