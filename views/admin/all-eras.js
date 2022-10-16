@@ -187,7 +187,7 @@ const ERAsTable = ({ users }) => {
         </Dropdown>
       </div>
       <div className="w-full h-full overflow-hidden">
-        <Styles className="h-full overflow-hidden">
+        <Styles className="h-full">
           <Table
             {...register}
             className="my-eras-table h-full"
@@ -251,7 +251,7 @@ const AllERAs = () => {
         <title>All ERAs - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="w-full h-full layout-dashboard-inner flex flex-col gap-5">
+        <div className="w-full h-full flex flex-col gap-5">
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="w-full lg:w-1/2">
               <Card className="w-full h-24">
@@ -417,7 +417,7 @@ const AllERAs = () => {
               </div>
             </div>
           </div>
-          <Card className="w-full flex-1 flex flex-col px-9 py-9 overflow-hidden min-h-300px">
+          <Card className="w-full h-full flex flex-col px-9 py-9 min-h-300px">
             <ERAsTable users={users} />
           </Card>
         </div>

@@ -29,7 +29,7 @@ export function* getListMembers({ payload, callback }) {
       headers,
     });
     yield delay(500);
-    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
+    callback(res.data);
     yield put(getListMembersSuccess(res.data));
   } catch (error) {
     yield put(saveApiResponseError(error));

@@ -51,7 +51,7 @@ const DashboardNode = () => {
         <title>Nodes - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="w-full flex flex-col 2xl:flex-row gap-5 layout-dashboard-inner">
+        <div className="w-full h-full flex flex-col 2xl:flex-row gap-5 layout-dashboard-inner">
           <div className="w-full 2xl:w-4/5 h-full relative">
             <ContentNode
               nodesInfo={nodesInfo}

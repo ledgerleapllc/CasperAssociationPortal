@@ -37,7 +37,7 @@ const AdminDashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="flex gap-5 layout-dashboard-inner">
+        <div className="w-full h-full flex gap-5 layout-dashboard-inner">
           <div className="w-4/5 h-full">
             <ContentAdminHome stats={stats} changeFrame={fetchStats} />
           </div>

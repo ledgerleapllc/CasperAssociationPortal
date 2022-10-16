@@ -70,24 +70,20 @@ const AdminUserList = () => {
     appendData,
     resetData,
     setHasMore,
-    page,
-    setPage,
     params,
     setParams,
   } = useTable();
   const dispatch = useDispatch();
 
-  const getMembers = (pageValue = page, paramsValue = params) => {
+  const getMembers = (paramsValue = params) => {
     dispatch(
       getListMembers(
         {
-          page: pageValue,
           ...paramsValue,
         },
-        (results, isHasMore) => {
-          setHasMore(isHasMore);
+        results => {
+          setHasMore(false);
           appendData(results);
-          setPage(prev => prev + 1);
         }
       )
     );
@@ -104,7 +100,7 @@ const AdminUserList = () => {
     };
     setParams(newParams);
     resetData();
-    getMembers(1, newParams);
+    getMembers(newParams);
   };
 
   return (
@@ -129,7 +125,7 @@ const AdminUserList = () => {
                 <Table
                   {...register}
                   className="users-table h-full"
-                  onLoadMore={getMembers}
+                  onLoadMore={() => {}}
                   hasMore={hasMore}
                   dataLength={data?.length}
                   onSort={handleSort}
