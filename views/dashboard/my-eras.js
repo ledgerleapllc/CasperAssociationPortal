@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,6 +15,7 @@ import { getShortNodeAddress, formatDate } from '../../shared/core/utils';
 import { useTable } from '../../components/partials/table';
 import IconCopy from '../../public/images/ic_copy.svg';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+import { AppContext } from '../../pages/_app';
 
 const Styles = styled.div`
   .my-eras-table {
@@ -76,9 +77,7 @@ const ERAsTable = ({ addresses, eras }) => {
           key={`header_${index + 1}`}
           customStyle={{ width: `${parseFloat(82 / length)}%` }}
         >
-          <p className="truncate text-sm pr-5">
-            {getShortNodeAddress(key, 30)}
-          </p>
+          <p className="truncate text-sm pr-5">{key}</p>
         </Table.HeaderCell>
       );
     });
@@ -149,6 +148,7 @@ const MyERAs = () => {
   const [erasData, setERAsData] = useState({});
   const [cardsInfo, setCardsInfo] = useState({});
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   const fetchUserNodes = () => {
     dispatch(
@@ -163,12 +163,16 @@ const MyERAs = () => {
   };
 
   const fetchMyERAs = () => {
+    setLoading(true);
     dispatch(
       getMyERAs(
         res => {
+          setLoading(false);
           setERAsData(res);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   };
@@ -209,7 +213,7 @@ const MyERAs = () => {
         <title>My ERAs - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div id="landing-page__myEras">
+        <div className="w-full 2xl:w-4/5 h-full flex flex-col gap-5">
           <div className="flex flex-col lg:flex-row gap-5">
             <div className="w-full lg:w-1/2">
               <Card className="w-full h-24">
@@ -380,7 +384,7 @@ const MyERAs = () => {
               </div>
             </div>
           </div>
-          <Card className="mt-5 my-eras-tableWrapper px-9 py-9">
+          <Card className="w-full h-full min-h-300px px-9 py-9">
             {erasData &&
             erasData.addresses &&
             erasData.eras &&

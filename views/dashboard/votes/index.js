@@ -558,8 +558,8 @@ const StatusBar = ({ voteStatus }) => (
         </p>
         <p className="font-medium text-primary text-sm">
           Uh oh. You cannot vote until you have been active for{' '}
-          {voteStatus.voting_eras} ERAs AND in good status for{' '}
-          {voteStatus.voting_eras} ERAs.
+          {voteStatus.setting_voting_eras} ERAs AND in good status for{' '}
+          {voteStatus.setting_good_standing_eras} ERAs.
         </p>
       </>
     )}
