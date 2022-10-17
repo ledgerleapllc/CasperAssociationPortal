@@ -169,14 +169,10 @@ export function* getMyDiscussions({ payload, resolve, reject }) {
   }
 }
 
-export function* getTrendingDiscussions({ payload, resolve }) {
+export function* getTrendingDiscussions({ resolve }) {
   try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`discussions/trending?${query}`]);
-    resolve(res.data.data, res.data?.current_page < res.data?.last_page);
+    const res = yield get([`discussions/trending`]);
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }

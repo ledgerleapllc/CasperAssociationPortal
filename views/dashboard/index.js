@@ -135,7 +135,7 @@ const Dashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="flex flex-col xl:flex-row gap-5 w-full h-full layout-dashboard-inner">
+        <div className="flex flex-col xl:flex-row gap-5 w-full h-full">
           <div className="w-full xl:w-4/5 h-auto xl:h-full relative">
             <ContentHome dashboardData={dashboardData} />
           </div>

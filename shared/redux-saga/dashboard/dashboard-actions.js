@@ -100,9 +100,8 @@ export const getMyDiscussions = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getTrendingDiscussions = (payload, resolve) => ({
+export const getTrendingDiscussions = resolve => ({
   type: 'GET_TRENDING_DISCUSSIONS',
-  payload,
   resolve,
 });
 

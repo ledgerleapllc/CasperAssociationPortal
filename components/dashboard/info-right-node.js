@@ -64,7 +64,7 @@ const NodesList = ({ userInfo, nodesInfo, isAdmin, hightlightNode }) => {
   };
 
   return (
-    <Styles className="w-full h-full text-base font-thin">
+    <Styles className="w-full text-base font-thin">
       <Table
         {...register}
         className="nodes-table pl-7px"
@@ -123,7 +123,7 @@ const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
 
   return (
     <div className="bg-white">
-      <div className="flex flex-col w-full h-full">
+      <div className="flex flex-col w-full">
         <div className="pl-3 flex gap-2">
           <span className="text-lg font-normal">Registered Node Rankings</span>
           <Tooltips

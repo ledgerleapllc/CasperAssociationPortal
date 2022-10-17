@@ -511,7 +511,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
           </Card>
           <Card className="w-full">
             <div className="flex">
-              <div className="flex flex-col w-1/2 h-24 px-5 lg:px-9 border-r border-gray justify-center">
+              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-9 border-r border-gray justify-center">
                 <div className="flex gap-3 flex-row">
                   <span className="text-lg">Daily Earnings</span>
                   <Tooltips
@@ -541,7 +541,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col w-1/2 h-24 px-5 lg:px-9 justify-center">
+              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-9 justify-center">
                 <div className="flex gap-3 flex-row">
                   <span className="text-lg">Min Bid Slot</span>
                   <Tooltips

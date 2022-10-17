@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
@@ -16,6 +16,7 @@ import { getShortNodeAddress, formatDate } from '../../shared/core/utils';
 import { useTable } from '../../components/partials/table';
 import IconCopy from '../../public/images/ic_copy.svg';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
+import { AppContext } from '../../pages/_app';
 
 const Styles = styled.div`
   .my-eras-table {
@@ -213,11 +214,14 @@ const AllERAs = () => {
   const [addressList, setAddressList] = useState([]);
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(
       getAllAdminERAs(
         results => {
+          setLoading(false);
           const addresses = results.addresses || {};
           const addressItems = [];
           Object.keys(addresses).forEach(key => {
@@ -232,7 +236,9 @@ const AllERAs = () => {
           }
           setUsers(results.users || []);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   }, []);

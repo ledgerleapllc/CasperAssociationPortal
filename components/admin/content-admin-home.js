@@ -49,8 +49,8 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
 
   return (
     <div className="w-full h-full flex flex-col gap-5">
-      <div className="w-full flex gap-5">
-        <Card className="w-1/4">
+      <div className="w-full flex flex-col xl:flex-row gap-5">
+        <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <Tooltips
               placement="top"
@@ -72,7 +72,7 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             </Link>
           </div>
         </Card>
-        <Card className="w-1/4">
+        <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <Tooltips
               placement="top"
@@ -117,12 +117,11 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             </Dropdown>
           </div>
         </Card>
-        <Card className="w-1/4">
+        <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <p className="text-lg font-medium">New Comments</p>
             <p className="text-5xl font-thin">{stats?.new_comments}</p>
             <Dropdown
-              customInnerStyle={{ width: '180px' }}
               trigger={
                 <div
                   className="flex justify-center items-center w-full relative h-14"
@@ -157,12 +156,11 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
             </Dropdown>
           </div>
         </Card>
-        <Card className="w-1/4">
+        <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <p className="text-lg font-medium">New Threads</p>
             <p className="text-5xl font-thin">{stats?.new_threads}</p>
             <Dropdown
-              customInnerStyle={{ width: '180px' }}
               trigger={
                 <div
                   className="flex justify-center items-center w-full relative h-14"
@@ -198,11 +196,9 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
           </div>
         </Card>
       </div>
-      <div className="w-full flex flex-1 gap-5">
-        <Card className="w-full h-full">
-          <TrendingDiscussion />
-        </Card>
-      </div>
+      <Card className="w-full h-full overflow-hidden min-h-300px">
+        <TrendingDiscussion />
+      </Card>
     </div>
   );
 };

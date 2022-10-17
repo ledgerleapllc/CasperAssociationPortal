@@ -11,9 +11,6 @@ const Styles = styled.div`
   .trending-table {
     display: flex;
     flex-direction: column;
-    .infinite-scroll-component__outerdiv {
-      margin-right: 0;
-    }
     .col-1 {
       width: 30%;
       padding-right: 0 !important;
@@ -47,14 +44,15 @@ const Styles = styled.div`
 
 const TrendingDiscussion = () => {
   const dispatch = useDispatch();
-  const { data, hasMore, appendData, setHasMore, page, setPage } = useTable();
+  const { data, hasMore, appendData, setHasMore, resetData } = useTable();
 
-  const getTrendingList = (pageValue = page) => {
+  const getTrendingList = () => {
+    resetData();
+    setHasMore(true);
     dispatch(
-      getTrendingDiscussions({ page: pageValue }, (result, isHasMore) => {
-        setHasMore(isHasMore);
+      getTrendingDiscussions(result => {
+        setHasMore(false);
         appendData(result);
-        setPage(prev => prev + 1);
       })
     );
   };
@@ -64,13 +62,13 @@ const TrendingDiscussion = () => {
   }, []);
 
   return (
-    <div className="flex flex-col px-8 py-7 h-full">
+    <div className="flex flex-col px-8 py-7 w-full h-full">
       <p className="text-lg font-medium mb-3">Trending Discussions</p>
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Styles className="w-full h-full">
+      <div className="w-full h-full overflow-hidden">
+        <Styles className="h-full">
           <Table
-            className="trending-table"
-            onLoadMore={getTrendingList}
+            className="trending-table h-full"
+            onLoadMore={() => {}}
             hasMore={hasMore}
             dataLength={data.length}
           >
