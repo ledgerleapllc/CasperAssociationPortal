@@ -24,6 +24,12 @@ export const getMyVotes = (payload, successCb) => ({
   successCb,
 });
 
+export const getVoteStatus = (resolve, reject) => ({
+  type: 'GET_VOTE_STATUS',
+  resolve,
+  reject,
+});
+
 export const getVoteDetail = (payload, resolve, reject) => ({
   type: 'GET_VOTE_DETAIL',
   payload,

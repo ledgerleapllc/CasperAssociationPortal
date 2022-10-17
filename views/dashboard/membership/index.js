@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useRef, useEffect, useState } from 'react';
+import { useContext, useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Slider from 'react-slick';
@@ -13,6 +13,7 @@ import { Card, ProgressBar, Tooltips } from '../../../components/partials';
 import { formatDateEST } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
 import { getUserMembershipInfo } from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../../pages/_app';
 
 const settings = {
   arrows: false,
@@ -128,15 +129,20 @@ const DashboardMembership = () => {
   const [warningMetrics, setWarningMetrics] = useState([]);
   const [membershipData, setMembershipData] = useState({});
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
     refreshMetrics();
+    setLoading(true);
     dispatch(
       getUserMembershipInfo(
         res => {
+          setLoading(false);
           setMembershipData(res);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   }, []);
@@ -226,7 +232,7 @@ const DashboardMembership = () => {
         <title>Membership - Casper Association Portal</title>
       </Head>
       <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
-        <div className="w-full 2xl:w-4/5 flex flex-col membership gap-5">
+        <div className="w-full 2xl:w-4/5 h-auto 2xl:h-full flex flex-col membership gap-5">
           {warningMetrics?.length > 0 && (
             <WarningCards warnings={warningMetrics} />
           )}
@@ -245,11 +251,11 @@ const DashboardMembership = () => {
           </Card>
           <div className="flex flex-col 2xl:flex-row gap-5">
             <div className="w-full 2xl:w-1/2 gap-5 flex flex-col lg:flex-row 2xl:flex-col">
-              <Card className="w-full lg:w-1/2 2xl:w-full flex px-9 py-6 gap-6">
-                <div className="w-60">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+                <div className="w-full md:w-60">
                   <span className="text-lg font-medium">Node Status:</span>
                 </div>
-                <div className="flex flex-1 flex-col gap-1.25">
+                <div className="flex md:flex-1 flex-col gap-1.25">
                   <p className="text-lg font-medium text-primary">
                     {getNodeData()?.label}
                   </p>
@@ -258,13 +264,13 @@ const DashboardMembership = () => {
                   </span>
                 </div>
               </Card>
-              <Card className="w-full lg:w-1/2 2xl:w-full flex px-9 py-6 gap-6">
-                <div className="w-60">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+                <div className="w-full md:w-60">
                   <span className="text-lg font-medium">
                     Identity Verification Status:
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col gap-1.25">
+                <div className="flex md:flex-1 flex-col gap-1.25">
                   <p className="text-lg font-medium text-primary">
                     {getKYCVerifiedData()?.label}
                   </p>
@@ -275,9 +281,9 @@ const DashboardMembership = () => {
               </Card>
             </div>
             <div className="w-full 2xl:w-1/2">
-              <div className="flex w-full h-full gap-5">
+              <div className="flex flex-col sm:flex-row w-full h-full gap-5">
                 <Card
-                  className={`w-1/2 lg:w-1/3 2xl:w-2/3 flex flex-col 2xl:flex-row px-6 pt-6 metrics-card ${
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex flex-col 2xl:flex-row px-6 pt-6 metrics-card ${
                     (!membershipData.avg_uptime ||
                       membershipData.avg_uptime <
                         metrics?.monitoring_criteria?.uptime?.warning_level) &&
@@ -324,7 +330,7 @@ const DashboardMembership = () => {
                   </div>
                 </Card>
                 <Card
-                  className={`w-1/2 lg:w-1/3 2xl:w-1/3 flex flex-col px-6 pt-6 metrics-card ${
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-1/3 flex flex-col px-6 pt-6 metrics-card ${
                     (!membershipData.update_responsiveness ||
                       membershipData.update_responsiveness <
                         metrics?.monitoring_criteria?.update_responsiveness

@@ -254,7 +254,7 @@ const DashboardNodesNew = () => {
           </form>
           <div
             style={{ marginTop: '60px' }}
-            className="lg:flex justify-between border-b border-gray pb-2"
+            className="flex justify-between border-b border-gray pb-2"
           >
             <Link
               to="/dashboard/nodes"
@@ -474,7 +474,7 @@ const DashboardNodesNew = () => {
 
   return (
     <LayoutDashboard>
-      <div id="landing-page__dashboardInner4">{getStepContent()}</div>
+      <div className="w-full xl:w-4/5 px-8 py-5">{getStepContent()}</div>
     </LayoutDashboard>
   );
 };

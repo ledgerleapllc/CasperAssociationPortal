@@ -120,7 +120,6 @@ const ContentHome = ({ dashboardData }) => {
   const [total, setTotal] = useState(0);
   const [verified, setVerified] = useState(0);
   const router = useHistory();
-
   const dispatch = useDispatch();
   const { setDialog } = useDialog();
 
@@ -289,7 +288,7 @@ const ContentHome = ({ dashboardData }) => {
         </div>
       )}
       <div className="flex flex-col md:flex-row gap-5">
-        <Card className="xl:flex-1 w-full h-32">
+        <Card className="w-full md:w-1/2 h-32">
           <div className="w-full h-full flex flex-col px-9 justify-center">
             <span className="text-lg font-medium text-black1">
               Pinned {(isAlertLoading || !!alerts.length) && <br />} Discussions
@@ -299,7 +298,7 @@ const ContentHome = ({ dashboardData }) => {
             </span>
           </div>
         </Card>
-        <Card className="xl:flex-1 w-full h-32">
+        <Card className="w-full md:w-1/2 h-32">
           <div className="w-full h-full flex flex-col px-9 justify-center">
             <span className="text-lg font-medium text-black1">
               New {(isAlertLoading || !!alerts.length) && <br />} Discussions
@@ -310,7 +309,7 @@ const ContentHome = ({ dashboardData }) => {
           </div>
         </Card>
       </div>
-      <Card className="w-full flex flex-col px-9 py-5 association-members-tableWrapper">
+      <Card className="w-full flex flex-col px-9 py-5 h-300px min-h-300px">
         <div className="flex items-center mb-3">
           <p className="text-lg font-medium">Association Members</p>
           <div className="flex items-center ml-auto mr-0">
@@ -321,11 +320,11 @@ const ContentHome = ({ dashboardData }) => {
             </div>
           </div>
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div className="w-full h-full overflow-hidden">
           <VerifiedMembers dashboardData={dashboardData} />
         </div>
       </Card>
-      <Card className="z-40 w-full xl:flex-1 trending-discussions-tableWrapper">
+      <Card className="z-40 w-full h-full min-h-300px">
         <TrendingDiscussion />
       </Card>
     </div>

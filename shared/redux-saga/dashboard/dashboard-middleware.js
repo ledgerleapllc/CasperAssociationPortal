@@ -46,6 +46,17 @@ export function* getMyVotes({ payload, successCb }) {
   }
 }
 
+export function* getVoteStatus({ resolve, reject }) {
+  try {
+    const endpoint = 'users/can-vote';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVoteDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -526,6 +537,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
+  yield all([takeEvery('GET_VOTE_STATUS', getVoteStatus)]);
   yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
   yield all([takeEvery('GET_VERIFIED_MEMBERS', getVerifiedMembers)]);

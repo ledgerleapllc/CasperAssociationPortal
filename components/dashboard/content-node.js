@@ -293,7 +293,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
           </div>
         </Card>
       </div>
-      <Card className="validator-rewards-tableWrapper w-full px-9 py-5">
+      <Card className="w-full h-300px min-h-300px px-9 py-5">
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col lg:flex-row lg:justify-between">
             <p className="text-lg">Validator Rewards</p>

@@ -3,10 +3,10 @@ import { generateTextForEras, numberWithCommas } from '../../shared/core/utils';
 import { ProgressBar, Tooltips } from '../partials';
 
 const NodeInfoHome = ({ dashboardData }) => (
-  <div className="flex flex-col py-3">
+  <div className="flex flex-col">
     <span className="text-lg font-medium">Node Info</span>
     <div className="flex flex-col py-2">
-      <div>
+      <div className="flex gap-2">
         <span className="text-lg">Registered Node Rankings</span>
         <Tooltips
           placement="top"
@@ -18,7 +18,6 @@ const NodeInfoHome = ({ dashboardData }) => (
             height="10px"
             src="/images/ic_feather_info.svg"
             alt="Info"
-            style={{ marginLeft: '5px', display: 'inline-block' }}
           />
         </Tooltips>
       </div>
