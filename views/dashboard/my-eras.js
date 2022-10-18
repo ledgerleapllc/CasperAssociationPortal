@@ -78,7 +78,9 @@ const ERAsTable = ({ addresses, eras }) => {
           key={`header_${index + 1}`}
           customStyle={{ width: `${parseFloat(82 / length)}%` }}
         >
-          <p className="truncate text-sm pr-5">{key}</p>
+          <p className="truncate text-sm pr-5">
+            {getShortNodeAddress(key, 30)}
+          </p>
         </Table.HeaderCell>
       );
     });
