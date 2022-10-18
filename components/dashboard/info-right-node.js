@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import InfoIcon from '@material-ui/icons/Info';
 import Table, { useTable } from '../partials/table';
 import { getShortNodeAddress } from '../../shared/core/utils';
 import { Tooltips } from '../partials';
@@ -124,7 +125,7 @@ const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
   return (
     <div className="bg-white">
       <div className="flex flex-col w-full">
-        <div className="pl-3 flex gap-2">
+        <div className="pl-3 flex items-center gap-2">
           <span className="text-lg font-normal">Registered Node Rankings</span>
           <Tooltips
             placement="top"
@@ -143,12 +144,7 @@ const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
             }
             arrow
           >
-            <img
-              width="10px"
-              height="10px"
-              src="/images/ic_feather_info.svg"
-              alt="Info"
-            />
+            <InfoIcon style={{ color: 'black' }} fontSize="small" />
           </Tooltips>
         </div>
         {isAdmin !== null && (

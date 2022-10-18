@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
+import InfoIcon from '@material-ui/icons/Info';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Tooltips, Dropdown, Table } from '../../components/partials';
@@ -263,18 +264,15 @@ const AllERAs = () => {
               <Card className="w-full h-24">
                 <div className="flex flex-col px-9 h-full justify-center">
                   <div className="flex justify-between">
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 items-center">
                       <span className="text-lg font-normal">Public Key</span>
                       <Tooltips
                         placement="top"
                         title="Displays the selected node address"
                         arrow
                       >
-                        <img
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
+                        <InfoIcon
+                          style={{ color: 'black', fontSize: '16px' }}
                         />
                       </Tooltips>
                     </div>

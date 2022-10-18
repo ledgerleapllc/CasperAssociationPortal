@@ -1,4 +1,5 @@
 import 'react-circular-progressbar/dist/styles.css';
+import InfoIcon from '@material-ui/icons/Info';
 import { generateTextForEras, numberWithCommas } from '../../shared/core/utils';
 import { ProgressBar, Tooltips } from '../partials';
 
@@ -6,19 +7,14 @@ const NodeInfoHome = ({ dashboardData }) => (
   <div className="flex flex-col">
     <span className="text-lg font-medium">Node Info</span>
     <div className="flex flex-col py-2">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
         <span className="text-lg">Registered Node Rankings</span>
         <Tooltips
           placement="top"
           title="Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance."
           arrow
         >
-          <img
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-          />
+          <InfoIcon style={{ color: 'black' }} fontSize="small" />
         </Tooltips>
       </div>
       <span className="text-base text-black1 font-thin">
@@ -73,20 +69,14 @@ const NodeInfoHome = ({ dashboardData }) => (
       </span>
     </div>
     <div className="flex flex-col pt-2">
-      <div className="flex flex-row">
+      <div className="flex gap-2 items-center">
         <span className="text-lg">Uptime</span>
         <Tooltips
           placement="top"
           title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
           arrow
         >
-          <img
-            width="10px"
-            height="10px"
-            src="/images/ic_feather_info.svg"
-            alt="Info"
-            style={{ marginLeft: '5px', display: 'inline-block' }}
-          />
+          <InfoIcon style={{ color: 'black' }} fontSize="small" />
         </Tooltips>
       </div>
       <p className="text-sm text-gray mb-2">{`Average: ${dashboardData?.uptime}%`}</p>

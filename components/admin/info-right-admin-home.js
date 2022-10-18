@@ -59,7 +59,7 @@ const InfoRightAdminHome = ({ stats }) => (
       <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
     </div>
     <div className="flex flex-col py-2 2xl:py-3">
-      <div className="flex gap-2 mb-2 items-end">
+      <div className="flex gap-2 mb-2 items-center">
         <span className="text-lg" style={{ lineHeight: 1.3 }}>
           Average
           <br />
@@ -79,7 +79,7 @@ const InfoRightAdminHome = ({ stats }) => (
       />
     </div>
     <div className="flex flex-col py-2 2xl:py-3">
-      <div className="flex gap-2 mb-2 items-end">
+      <div className="flex gap-2 mb-2 items-center">
         <span className="text-lg" style={{ lineHeight: 1.3 }}>
           Average
           <br />

@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import styled from 'styled-components';
+import InfoIcon from '@material-ui/icons/Info';
 import PlusIcon from '../../../public/images/ic_plus.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -220,19 +221,14 @@ const Settings = () => {
             </div>
             <div className="flex flex-col flex-1 overflow-y-auto pr-card">
               <section className="pt-8">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Mailer Settings
                   <Tooltips
                     placement="top"
                     title="Adjust settings for the automatic email system."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <Link to="/admin/settings/emailer">
@@ -245,19 +241,14 @@ const Settings = () => {
                 </Link>
               </section>
               <section className="mt-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Notification Settings
                   <Tooltips
                     placement="top"
                     title="Adjust settings for the notifications to node operators."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <Link to="/admin/settings/notifications">
@@ -271,19 +262,14 @@ const Settings = () => {
               </section>
               <section className="mt-20">
                 <div className="flex mb-7 items-center gap-5">
-                  <h4 className="flex gap-2 text-lg font-medium">
+                  <h4 className="flex items-center gap-2 text-lg font-medium">
                     Monitoring Criteria
                     <Tooltips
                       placement="top"
                       title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
                       arrow
                     >
-                      <img
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
+                      <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                     </Tooltips>
                   </h4>
                   <p
@@ -299,19 +285,14 @@ const Settings = () => {
                 />
               </section>
               <section className="mt-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Status page lock rules
                   <Tooltips
                     placement="top"
                     title="Locks users out of specified areas of the dashboard."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <SettingLockPage
