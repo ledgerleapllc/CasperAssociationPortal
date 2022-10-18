@@ -307,7 +307,7 @@ const NodeExplorerDetail = () => {
                     </tbody>
                   </table>
                 </StylesAdvanced>
-                <div className="flex gap-24 w-4/5">
+                <div className="flex gap-24 w-3/5">
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
                     <div className="flex flex-row">
                       <span className="text-lg">Uptime</span>
@@ -323,26 +323,6 @@ const NodeExplorerDetail = () => {
                       metrics?.avg_uptime || 0
                     }%`}</p>
                     <ProgressBar value={metrics?.uptime} mask="x%" />
-                  </div>
-                  <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
-                      <span className="text-lg">Block Height</span>
-                      <img
-                        className="pl-3"
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: {metrics?.blocks_behind} block behind
-                    </p>
-                    <ProgressBar
-                      value={metrics?.block_height}
-                      total={DEFAULT_BASE_BLOCKS}
-                      mask="x/y"
-                    />
                   </div>
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
                     <div className="flex flex-row">
