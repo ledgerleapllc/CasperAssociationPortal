@@ -15,8 +15,8 @@ const SettingLockPage = ({ rules, fetchRules }) => {
       updateLockPageRules(
         { id, data: { is_lock: isLocked } },
         () => {
-          fetchRules();
           setLoading(false);
+          fetchRules();
         },
         () => {
           setLoading(false);

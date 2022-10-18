@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Head from 'next/head';
+import InfoIcon from '@material-ui/icons/Info';
 import { Button, Slider, Tooltips } from '../../components/partials';
 import Table, { useTable } from '../../components/partials/table';
 import { formatDate, numberWithCommas } from '../../shared/core/utils';
@@ -73,8 +74,6 @@ const NodeExplorer = () => {
     resetData,
     appendData,
     setHasMore,
-    page,
-    setPage,
   } = useTable();
   const dispatch = useDispatch();
   const [sliderValues, setSliderValues] = useState({
@@ -87,16 +86,12 @@ const NodeExplorer = () => {
   const router = useHistory();
   const [search, setSearch] = useState('');
 
-  const fetchMembers = (pageValue = page, paramsValue = params) => {
+  const fetchMembers = (paramsValue = params) => {
     dispatch(
-      getPublicMembers(
-        { ...paramsValue, page: pageValue },
-        (results, isHasMore) => {
-          setHasMore(isHasMore);
-          appendData(results);
-          setPage(prev => prev + 1);
-        }
-      )
+      getPublicMembers({ ...paramsValue }, results => {
+        setHasMore(false);
+        appendData(results);
+      })
     );
   };
 
@@ -132,7 +127,7 @@ const NodeExplorer = () => {
     const newParams = {};
     setParams(newParams);
     resetData();
-    fetchMembers(1, newParams);
+    fetchMembers(newParams);
   };
 
   const applySlider = () => {
@@ -148,7 +143,7 @@ const NodeExplorer = () => {
     }
     setParams(newParams);
     resetData();
-    fetchMembers(1, newParams);
+    fetchMembers(newParams);
   };
 
   const handleSearch = value => {
@@ -163,7 +158,7 @@ const NodeExplorer = () => {
     }
     setParams(newParams);
     resetData();
-    fetchMembers(1, newParams);
+    fetchMembers(newParams);
   };
 
   return (
@@ -184,19 +179,17 @@ const NodeExplorer = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <p className="flex flex-row text-xs text-gray">
-                        Uptime&nbsp;&nbsp;
+                      <p className="flex gap-2 items-center text-xs text-gray">
+                        <span>Uptime</span>
                         <Tooltips
+                          disableTheme
                           placement="top"
                           title="30 day rolling uptime percentage of a validator"
                           arrow
                           className="cursor-pointer"
                         >
-                          <img
-                            width="10px"
-                            height="10px"
-                            src="/images/ic_feather_info.svg"
-                            alt="Info"
+                          <InfoIcon
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -211,19 +204,17 @@ const NodeExplorer = () => {
                   </tr>
                   <tr>
                     <td>
-                      <p className="flex flex-row text-xs text-gray">
-                        Validator Fee&nbsp;&nbsp;
+                      <p className="flex gap-2 items-center text-xs text-gray">
+                        <span>Validator Fee</span>
                         <Tooltips
+                          disableTheme
                           placement="top"
                           title="The percentage a particular validator's take from the rewards pool"
                           arrow
                           className="cursor-pointer"
                         >
-                          <img
-                            width="10px"
-                            height="10px"
-                            src="/images/ic_feather_info.svg"
-                            alt="Info"
+                          <InfoIcon
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -238,19 +229,17 @@ const NodeExplorer = () => {
                   </tr>
                   <tr>
                     <td>
-                      <p className="flex flex-row text-xs text-gray">
-                        Update Responsiveness&nbsp;&nbsp;
+                      <p className="flex gap-2 items-center text-xs text-gray">
+                        <span>Update Responsiveness</span>
                         <Tooltips
+                          disableTheme
                           placement="top"
                           title="Hint of a validator's promptness to mandatory protocol upgrades"
                           arrow
                           className="cursor-pointer"
                         >
-                          <img
-                            width="10px"
-                            height="10px"
-                            src="/images/ic_feather_info.svg"
-                            alt="Info"
+                          <InfoIcon
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -267,19 +256,17 @@ const NodeExplorer = () => {
                   </tr>
                   <tr>
                     <td>
-                      <p className="flex flex-row text-xs text-gray">
-                        Delegators&nbsp;&nbsp;
+                      <p className="flex gap-2 items-center text-xs text-gray">
+                        <span>Delegators</span>
                         <Tooltips
+                          disableTheme
                           placement="top"
                           title="Total count of delegators to a particular validator"
                           arrow
                           className="cursor-pointer"
                         >
-                          <img
-                            width="10px"
-                            height="10px"
-                            src="/images/ic_feather_info.svg"
-                            alt="Info"
+                          <InfoIcon
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -294,19 +281,17 @@ const NodeExplorer = () => {
                   </tr>
                   <tr>
                     <td>
-                      <p className="flex flex-row text-xs text-gray">
-                        Stake Amount&nbsp;&nbsp;
+                      <p className="flex gap-2 items-center text-xs text-gray">
+                        <span>Stake Amount</span>
                         <Tooltips
+                          disableTheme
                           placement="top"
                           title="Total amount staked to a particular validator. Self stake + third party stake"
                           arrow
                           className="cursor-pointer"
                         >
-                          <img
-                            width="10px"
-                            height="10px"
-                            src="/images/ic_feather_info.svg"
-                            alt="Info"
+                          <InfoIcon
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -334,7 +319,6 @@ const NodeExplorer = () => {
             </div>
             <div className="pl-8 w-1/5 font-medium">
               <h3 className="text-base mb-5">Remaining Weight</h3>
-              {/* <h2 className="text-6xl mb-2">{getMax('all')}</h2> */}
               <h2 className="text-4xl mb-2">{getTotal()} / 100</h2>
               <p className="mt-5 mb-3 text-xs text-gray">
                 Drag the sliders to customize the facets that are most important
@@ -373,7 +357,7 @@ const NodeExplorer = () => {
                 <Table
                   {...register}
                   className="members-table pt-5 h-full w-full"
-                  onLoadMore={fetchMembers}
+                  onLoadMore={() => {}}
                   hasMore={hasMore}
                   dataLength={data.length}
                 >

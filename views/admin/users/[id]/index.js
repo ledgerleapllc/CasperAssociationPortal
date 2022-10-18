@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-prototype-builtins */
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -9,34 +11,20 @@ import {
   updateBlockAccess,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { BackButton, Card } from '../../../../components/partials';
+import { BackButton, Card, Dropdown } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
-import IconCopy from '../../../../public/images/ic_copy.svg';
-import { useSnackBar } from '../../../../components/partials/snack-bar';
+import ArrowIcon from '../../../../public/images/ic_arrow_down.svg';
+import { numberWithCommas } from '../../../../shared/core/utils';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const routerParams = useParams();
   const { id } = routerParams;
   const userDetail = useSelector(state => state.userDetailReducer.data);
-  const { openSnack } = useSnackBar();
-
-  const [, setOverrideValue] = useState({
-    uptime: '',
-    block_height_average: '',
-    update_responsiveness: '',
-    peers: '',
-  });
-
-  const [metrics, setMetrics] = useState({
-    uptime: '0',
-    block_height_average: '0',
-    update_responsiveness: '0',
-    peers: '0',
-  });
-
   const [blockAccess, setBlockAccess] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState({});
 
   useEffect(() => {
     if (id) {
@@ -45,24 +33,11 @@ const AdminUserDetail = () => {
         getUserMetrics(
           { id },
           res => {
-            setMetrics(
-              res || {
-                uptime: '0',
-                block_height_average: '0',
-                update_responsiveness: '0',
-                peers: '0',
-              }
-            );
-            setOverrideValue({
-              uptime: +res.uptime ? +res.uptime : '',
-              block_height_average: +res.block_height_average
-                ? +res.block_height_average
-                : '',
-              update_responsiveness: +res.update_responsiveness
-                ? +res.update_responsiveness
-                : '',
-              peers: +res.peers ? +res.peers : '',
-            });
+            const addressesTemp = res.addresses || [];
+            setAddresses(addressesTemp);
+            if (addressesTemp.length > 0) {
+              setCurrentAddress(addressesTemp[0]);
+            }
           },
           () => {}
         )
@@ -119,14 +94,6 @@ const AdminUserDetail = () => {
         </>
       );
     return 'Not Submitted';
-  };
-
-  const copyClipboard = () => {
-    const copyText = document.getElementById('public-address');
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(copyText.value);
-    openSnack('primary', 'Copied Public Address!');
   };
 
   const updateBlockAccessState = key => {
@@ -320,46 +287,69 @@ const AdminUserDetail = () => {
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
-                <p className="pb-4 text-sm font-medium w-full flex">
-                  <span
-                    style={{
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                    }}
+                <div style={{ maxWidth: '500px' }}>
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <span className="text-sm truncate absolute inset-0">
+                            {currentAddress?.public_key}
+                          </span>
+                        </p>
+                        <ArrowIcon />
+                      </div>
+                    }
                   >
-                    {userDetail?.public_address_node}
-                  </span>
-                  <button
-                    className="ml-3"
-                    type="button"
-                    onClick={() => copyClipboard()}
-                  >
-                    <IconCopy />
-                  </button>
-                </p>
-                <input
-                  id="public-address"
-                  value={userDetail?.public_address_node || ''}
-                  readOnly
-                  hidden
-                />
+                    <ul>
+                      {addresses.map((address, index) => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() => {
+                            setCurrentAddress(address);
+                          }}
+                          key={`node_${index}`}
+                        >
+                          <p className="w-full relative h-6">
+                            <span className="text-center text-base font-thin truncate absolute inset-0">
+                              {address?.public_key}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
+                </div>
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
                   <p className="text-sm w-5/6">
-                    {userDetail?.metric?.stake_amount || 0}
+                    {numberWithCommas(
+                      currentAddress.bid_total_staked_amount || 0
+                    )}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>
-                  <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
+                  <p className="text-sm w-1/6">{currentAddress.uptime || 0}%</p>
+                </div>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">ERAs Active:</p>
+                  <p className="text-sm w-1/6">
+                    {currentAddress.eras_active || 0}
+                  </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
-                    Block height average:
+                    ERAs since Redmark:
                   </p>
                   <p className="text-sm w-1/6">
-                    {metrics?.current_block_height || 0} behind
+                    {currentAddress.eras_since_bad_mark || 0}
+                  </p>
+                </div>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">Total Redmarks:</p>
+                  <p className="text-sm w-1/6">
+                    {currentAddress.total_bad_marks || 0}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
@@ -367,12 +357,8 @@ const AdminUserDetail = () => {
                     Update responsiveness:
                   </p>
                   <p className="text-sm w-1/6">
-                    {metrics?.update_responsiveness || 0} days early
+                    {currentAddress.update_responsiveness || 0}%
                   </p>
-                </div>
-                <div className="flex items-center flex-row mt-1 h-11">
-                  <p className="text-sm font-medium w-1/6">Peers:</p>
-                  <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
                 </div>
               </div>
             </div>

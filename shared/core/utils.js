@@ -10,7 +10,8 @@ export const formatDate = (time, formatType = 'dd/MM/yyyy') => {
 };
 
 export const formatDateEST = (time, formatType = 'dd/MM/yyyy') => {
-  return format(zonedTimeToUtc(time, 'UTC'), formatType);
+  if (time) return format(zonedTimeToUtc(time, 'UTC'), formatType);
+  return format(new Date(), formatType);
 };
 
 export const getShortNodeAddress = (address, length = 10) => {

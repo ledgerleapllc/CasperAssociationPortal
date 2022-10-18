@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Switch from 'react-switch';
+import React, { useEffect, useRef, memo } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
-import { getNodesFromAdmin } from '../../shared/redux-saga/admin/actions';
-import { getNodesFromUser } from '../../shared/redux-saga/auth/actions';
+import InfoIcon from '@material-ui/icons/Info';
 import Table, { useTable } from '../partials/table';
 import { getShortNodeAddress } from '../../shared/core/utils';
 import { Tooltips } from '../partials';
-import useMetrics from '../hooks/useMetrics';
 
 const Styles = styled.div`
   .nodes-table {
@@ -39,75 +35,29 @@ const Styles = styled.div`
   }
 `;
 
-const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
-  const dispatch = useDispatch();
-  const {
-    data,
-    setParams,
-    resetData,
-    hasMore,
-    appendData,
-    setHasMore,
-    page,
-    register,
-    params,
-    setPage,
-  } = useTable();
+const NodesList = ({ userInfo, nodesInfo, isAdmin, hightlightNode }) => {
+  const { data, setData, hasMore, appendData, setHasMore, register } =
+    useTable();
   const renderDone = useRef();
 
-  const getNodes = (pageValue = page, paramsValue = params, limit = 20) => {
-    if (isAdmin) {
-      dispatch(
-        getNodesFromAdmin(
-          { page: pageValue, ...paramsValue, limit },
-          (result, isHasMore) => {
-            setHasMore(isHasMore);
-            appendData(result);
-            setPage(prev => prev + 1);
-            renderDone.current = true;
-          }
-        )
-      );
-    } else {
-      dispatch(
-        getNodesFromUser({ page: pageValue, limit }, (result, isHasMore) => {
-          setHasMore(isHasMore);
-          appendData(result);
-          setPage(prev => prev + 1);
-          renderDone.current = true;
-        })
-      );
-    }
-  };
-
   useEffect(() => {
-    const newParams = filter.node_failing ? filter : {};
-    getNodes(1, newParams);
-  }, []);
-
-  useEffect(() => {
-    if (renderDone.current) {
-      const newParams = filter.node_failing ? filter : {};
-      setParams(newParams);
-      resetData();
-      getNodes(1, newParams);
+    if (nodesInfo && Object.keys(nodesInfo).length > 0) {
+      setData([]);
+      const items = Object.keys(nodesInfo.ranking || {}) || [];
+      setHasMore(false);
+      appendData(items);
+      renderDone.current = true;
     }
-  }, [filter.node_failing]);
+  }, [nodesInfo]);
 
   const renderClass = row => {
-    if (isAdmin && row.is_fail_node) {
-      return 'fail-node';
-    }
-    if (
-      hightlightNode &&
-      hightlightNode?.public_address_node === row.public_address_node
-    ) {
+    if (hightlightNode && hightlightNode?.public_address_node === row) {
       return 'custom-highlight';
     }
     if (
       !isAdmin &&
       (!hightlightNode || !hightlightNode.public_address_node) &&
-      userInfo.public_address_node === row.public_address_node
+      userInfo.public_address_node === row
     ) {
       return 'custom-highlight';
     }
@@ -115,67 +65,32 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   };
 
   return (
-    <Styles className="w-full h-full text-base font-thin">
+    <Styles className="w-full text-base font-thin">
       <Table
         {...register}
-        className="nodes-table w-full h-full min-w-full pl-7px"
-        onLoadMore={getNodes}
+        className="nodes-table pl-7px"
+        onLoadMore={() => {}}
         hasMore={hasMore}
         dataLength={data.length}
+        noMargin
       >
         <Table.Header>
           <Table.HeaderCell key="emptyHeader1" />
           <Table.HeaderCell key="emptyHeader2" />
         </Table.Header>
-        <Table.Body>
+        <Table.Body className="custom-padding-tracker">
           {data.map((row, ind) => (
             <Table.BodyRow
               key={ind}
-              className={`pl-5 custom-row ${renderClass(row)}`}
+              className={`px-3 custom-row ${renderClass(row)}`}
             >
               <Table.BodyCell key="index">
                 <p>{ind + 1}</p>
               </Table.BodyCell>
               <Table.BodyCell key="tooltips">
-                {isAdmin && (
-                  <Link to={`/admin/users/${row.user_id}`}>
-                    <span>
-                      <Tooltips
-                        placement="left"
-                        title={row.public_address_node}
-                        arrow
-                      >
-                        <p className="relative h-full">
-                          <span className="truncate absolute inset-0">
-                            {getShortNodeAddress(row.public_address_node, 20)}
-                          </span>
-                        </p>
-                      </Tooltips>
-                    </span>
-                  </Link>
-                )}
-                {!isAdmin && (
-                  <Link to={`/dashboard/profile/${row.user_id}`}>
-                    <span>
-                      <Tooltips
-                        placement="left"
-                        title={
-                          row?.blockchain_name
-                            ? `${row?.blockchain_name} - ${row?.blockchain_desc}`
-                            : row?.pseudonym
-                        }
-                        arrow
-                        key="public_address"
-                      >
-                        <p className="relative h-full">
-                          <span className="truncate absolute inset-0">
-                            {getShortNodeAddress(row.public_address_node, 20)}
-                          </span>
-                        </p>
-                      </Tooltips>
-                    </span>
-                  </Link>
-                )}
+                <p className="truncate inset-0">
+                  {getShortNodeAddress(row, 20)}
+                </p>
               </Table.BodyCell>
             </Table.BodyRow>
           ))}
@@ -185,90 +100,59 @@ const NodesList = ({ userInfo, isAdmin, filter, hightlightNode }) => {
   );
 };
 
-const useQuery = () => {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-};
-
-const InfoRightNode = memo(({ currentNode }) => {
+const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
-  const [isAdmin, setIsAdmin] = useState(null);
-  const [filterFailedNodes, setFilterFailedNodes] = useState(null);
-  const { metrics } = useMetrics();
-  const query = useQuery();
 
-  useEffect(() => {
-    if (userInfo) {
-      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
-      setIsAdmin(isAdminTemp);
-      if (isAdminTemp && +query.get('node_failing') === 1) {
-        setFilterFailedNodes(1);
-      } else {
-        setFilterFailedNodes(0);
-      }
+  const getCurrentRanking = () => {
+    if (
+      currentNode &&
+      currentNode.public_address_node &&
+      nodesInfo &&
+      nodesInfo.ranking
+    ) {
+      return nodesInfo.ranking[currentNode.public_address_node] || 0;
     }
-  }, [userInfo]);
+    return 5;
+  };
+
+  const getTotalRanking = () => {
+    if (nodesInfo && nodesInfo.ranking) {
+      return Object.keys(nodesInfo.ranking).length;
+    }
+    return 0;
+  };
 
   return (
-    <div id="dashboard-content-node1" className="bg-white">
-      <div className="flex flex-col w-full h-full">
-        <div id="dashboard-content-node1__header" className="pl-3">
-          <div id="dashboard-content-node1__title">
-            <span className="text-lg font-normal pr-1">
-              Registered Node Rankings&nbsp;
-            </span>
-            <Tooltips
-              placement="top"
-              title={
-                <>
-                  <p>
-                    Ranks all nodes in the platform - based on uptime, fee,
-                    responsiveness, delegator count, and stake amount, all
-                    sharing equally weighted importance.
-                  </p>
-                  <p>
-                    {!isAdmin && metrics?.rank
-                      ? `Your Registered Node Ranking: ${metrics?.rank} out of ${metrics?.totalCount}`
-                      : ''}
-                  </p>
-                </>
-              }
-              arrow
-            >
-              <img
-                width="10px"
-                height="10px"
-                src="/images/ic_feather_info.svg"
-                alt="Info"
-              />
-            </Tooltips>
-          </div>
-          {!!isAdmin && (
-            <div
-              id="dashboard-content-node1__switch"
-              className="flex items-center px-4"
-            >
-              <span className="pr-2 text-sm">Only Failing</span>
-              <Switch
-                id="status"
-                checked={!!filterFailedNodes}
-                onChange={_check => setFilterFailedNodes(_check ? 1 : 0)}
-                checkedIcon={null}
-                uncheckedIcon={null}
-                offColor="#bbb"
-                onColor="#ff474e"
-                width={30}
-                height={18}
-              />
-            </div>
-          )}
+    <div className="bg-white">
+      <div className="flex flex-col w-full">
+        <div className="pl-3 flex items-center gap-2">
+          <span className="text-lg font-normal">Registered Node Rankings</span>
+          <Tooltips
+            placement="top"
+            title={
+              <>
+                <p>
+                  Ranks all nodes in the platform - based on uptime, fee,
+                  responsiveness, delegator count, and stake amount, all sharing
+                  equally weighted importance.
+                </p>
+                <p>
+                  Registered Node Ranking: {getCurrentRanking()} out of{' '}
+                  {getTotalRanking()}
+                </p>
+              </>
+            }
+            arrow
+          >
+            <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
+          </Tooltips>
         </div>
-        {isAdmin !== null && filterFailedNodes !== null && (
+        {isAdmin !== null && (
           <NodesList
             hightlightNode={currentNode}
             userInfo={userInfo}
+            nodesInfo={nodesInfo}
             isAdmin={isAdmin}
-            filter={{ node_failing: filterFailedNodes }}
           />
         )}
       </div>

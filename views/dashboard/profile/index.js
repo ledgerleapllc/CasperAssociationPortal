@@ -77,11 +77,28 @@ const UserProfile = () => {
   const [myInfo, setMyInfo] = useState({});
   const [addressList, setAddressList] = useState([]);
   const [currentUserNode, setCurrentUserNode] = useState();
+  const [currentMetricNode, setCurrentMetricNode] = useState({});
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const { metrics, refreshMetrics, metricConfig } = useMetrics();
+  const { metrics, refreshMetrics } = useMetrics();
   const user = useSelector(state => state.authReducer.userInfo);
   const { openSnack } = useSnackBar();
   const router = useHistory();
+
+  useEffect(() => {
+    if (
+      currentUserNode &&
+      Object.keys(currentUserNode).length > 0 &&
+      metrics &&
+      metrics.addresses &&
+      metrics.addresses.length > 0
+    ) {
+      metrics.addresses.forEach(address => {
+        if (address.public_key === currentUserNode.public_address_node) {
+          setCurrentMetricNode(address);
+        }
+      });
+    }
+  }, [metrics, currentUserNode]);
 
   useEffect(() => {
     dispatch(
@@ -413,6 +430,7 @@ const UserProfile = () => {
                                     <div className="flex items-center gap-2">
                                       <p className="w-full relative h-6">
                                         <Tooltips
+                                          disableTheme
                                           placement="bottom"
                                           title={
                                             currentUserNode?.public_address_node
@@ -489,7 +507,9 @@ const UserProfile = () => {
                           </td>
                           <td>
                             <span>
-                              {numberWithCommas(metrics?.stake_amount)}
+                              {numberWithCommas(
+                                currentMetricNode?.bid_total_staked_amount
+                              )}
                             </span>
                           </td>
                         </tr>
@@ -499,7 +519,9 @@ const UserProfile = () => {
                           </td>
                           <td>
                             <span>
-                              {numberWithCommas(metrics?.self_stake_amount)}
+                              {numberWithCommas(
+                                currentMetricNode?.bid_self_staked_amount
+                              )}
                             </span>
                           </td>
                         </tr>
@@ -521,27 +543,10 @@ const UserProfile = () => {
                           alt="Info"
                         />
                       </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
-                      <ProgressBar mask="x%" value={metrics?.uptime} />
-                    </div>
-                    <div className="flex flex-col py-1">
-                      <div className="flex flex-row">
-                        <span className="text-lg">Block Height</span>
-                        <img
-                          className="pl-3"
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                        Current: {metrics?.blocks_behind} block behind
-                      </p>
+                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${currentMetricNode?.uptime}%`}</p>
                       <ProgressBar
-                        value={metrics?.block_height_average}
-                        total={metricConfig?.max?.block_height_average}
-                        mask="x/y"
+                        mask="x%"
+                        value={currentMetricNode?.uptime}
                       />
                     </div>
                     <div className="flex flex-col lg:py-1 2xl:py-2">
@@ -557,36 +562,16 @@ const UserProfile = () => {
                       </div>
                       <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
                         Average:
-                        {generateTextForEras(metrics?.average_responsiveness)}
+                        {generateTextForEras(100)}
                       </p>
                       <ProgressBar
-                        value={metrics?.update_responsiveness}
-                        total={metricConfig?.max?.update_responsiveness}
+                        value={100}
+                        total={100}
                         mask=""
                         options={{
                           startText: 'Needs Improvement',
                           endText: 'Great',
                         }}
-                      />
-                    </div>
-                    <div className="flex flex-col lg:py-1 2xl:py-2">
-                      <div className="flex flex-row">
-                        <span className="text-lg">Peers</span>
-                        <img
-                          className="pl-3"
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                        Average: {metrics?.average_peers}
-                      </p>
-                      <ProgressBar
-                        value={metrics?.peers}
-                        total={metricConfig?.max?.peers}
-                        mask="x/y"
                       />
                     </div>
                   </div>

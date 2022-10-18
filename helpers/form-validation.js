@@ -7,7 +7,8 @@ export const EMAIL_PATTERN =
 export const SPECIAL_CHARACTER_PATTERN =
   /(?=.*?[\!\"\-\@\#\$\%\&\*\(\)\'\^\`\.\,\/\:\;\_\+\=\<\>\?\{\}\[\\\]])/;
 export const DIGITIZED_PATTERN = /(?=.*?[0-9])/;
-export const NUMBER_PATTERN = /(^[0-9])/;
+// export const NUMBER_PATTERN = /(^[0-9])/;
+export const NUMBER_PATTERN = /^\d+$/;
 export const NEGATIVE_NUMBER_PATTERN = /^-?[1-9]/;
 export const CHARACTER_PATTERN = /(?=.*?[a-zA-Z])/;
 export const FORUM_PATTERN = /^[A-Za-z0-9-]*$/;

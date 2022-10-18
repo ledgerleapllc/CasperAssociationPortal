@@ -332,6 +332,19 @@ export const updateEmailerTriggerAdmin = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getAdminERAsByUser = (userId, resolve, reject) => ({
+  type: 'GEt_ADMIN_ERAS_BY_USER',
+  userId,
+  resolve,
+  reject,
+});
+
+export const getAllAdminERAs = (resolve, reject) => ({
+  type: 'GET_ALL_ADMIN_ERAS',
+  resolve,
+  reject,
+});
+
 export const getListPerks = (payload, resolve, reject) => ({
   type: 'GET_LIST_PERKS',
   payload,
@@ -368,6 +381,13 @@ export const getWarningMetrics = (resolve, reject) => ({
 
 export const getActivePerkDetail = (payload, resolve, reject) => ({
   type: 'GET_ACTIVE_PERK_DETAIL',
+  payload,
+  resolve,
+  reject,
+});
+
+export const updateGlobalSettings = (payload, resolve, reject) => ({
+  type: 'UPDATE_GLOBAL_SETTINGS',
   payload,
   resolve,
   reject,
@@ -437,6 +457,12 @@ export const getNodesByUser = (payload, resolve, reject) => ({
 export const getNodesFromAdmin = (payload, resolve, reject) => ({
   type: 'GET_NODES_FROM_ADMIN',
   payload,
+  resolve,
+  reject,
+});
+
+export const getGlobalSettings = (resolve, reject) => ({
+  type: 'GET_GLOBAL_SETTINGS',
   resolve,
   reject,
 });

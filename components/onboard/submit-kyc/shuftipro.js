@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { sha256 } from 'js-sha256';
-import { SHUFTI_CONST, SHUFTI_API_URL } from '../../../shared/core/constants';
+import { SHUFTI_API_URL } from '../../../shared/core/constants';
 import { saveShuftiproTemp } from '../../../shared/redux-saga/onboard/actions';
 
-const { clientId, clientSecret } = SHUFTI_CONST[process.env.NODE_ENV];
+const clientId = process.env.NEXT_PUBLIC_SHUFTI_CLIENT_ID;
+const clientSecret = process.env.NEXT_PUBLIC_SHUFTI_CLIENT_SECRET;
 
 export const Shuftipro = () => {
   const token = btoa(`${clientId}:${clientSecret}`);

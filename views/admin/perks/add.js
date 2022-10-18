@@ -21,10 +21,7 @@ const AdminAddPerk = () => {
       </Head>
       <LayoutDashboard>
         <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-          <div
-            id="dashboard-page__perks"
-            className="flex flex-col w-full h-full"
-          >
+          <div className="flex flex-col w-full h-full">
             <div className="card-header lg:mr-card border-primary border-b-2">
               <div className="h-11 mt-4 mb-3">
                 <BackButton href="/admin/perks" text="Cancel" force />

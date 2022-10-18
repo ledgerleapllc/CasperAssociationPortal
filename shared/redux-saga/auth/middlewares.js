@@ -14,7 +14,6 @@ import {
   updateUser,
   setNotifications,
   clearNotifications,
-  setMetricConfig,
   setPermissions,
   setPagePermissions,
   clearPermissions,
@@ -265,7 +264,6 @@ export function* resend2FACode({ resolve, reject }) {
 }
 
 export function* getMyMetrics({ public_address_node, isTotal }) {
-  const DEFAULT_BASE_BLOCKS = 10;
   try {
     let url = public_address_node
       ? `users/metrics?public_address_node=${public_address_node}`
@@ -294,41 +292,10 @@ export function* getMyMetrics({ public_address_node, isTotal }) {
         {}
       );
     }
-
-    let blocks_behind =
-      res.data?.max_block_height_average - res.data?.block_height_average;
-    if (blocks_behind < 0) {
-      blocks_behind = 0;
-    }
-    if (blocks_behind > DEFAULT_BASE_BLOCKS) {
-      blocks_behind = DEFAULT_BASE_BLOCKS;
-    }
-
-    const block_height_average = DEFAULT_BASE_BLOCKS - blocks_behind;
-
     const temp = {
       ...res.data,
-      uptime: res.data?.uptime || 0,
-      block_height_average,
-      peers: res.data?.peers || 0,
-      update_responsiveness: res.data?.update_responsiveness || 0,
-      monitoring_criteria: res.data?.monitoring_criteria || null,
-      average_uptime: res.data?.avg_uptime || 0,
-      current_block_height: 100 - blocks_behind * 10,
-      blocks_behind,
-      average_responsiveness: res.data?.avg_update_responsiveness || 0,
-      average_peers: res.data?.avg_peers || 0,
     };
     yield put(setMetrics(temp));
-    yield put(
-      setMetricConfig({
-        max: {
-          block_height_average: DEFAULT_BASE_BLOCKS,
-          update_responsiveness: +temp.max_update_responsiveness || 0,
-          peers: +temp.max_peers || 0,
-        },
-      })
-    );
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -358,12 +325,11 @@ export function* getPopupNotifications() {
   }
 }
 
-export function* getNodesFromUser({ payload, resolve, reject }) {
+export function* getNodesFromUser({ resolve, reject }) {
   try {
-    const query = qs.stringify(payload);
-    const res = yield get([`users/list-node?${query}`]);
+    const res = yield get([`users/list-node`]);
     yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+    resolve(res.data);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));

@@ -1,6 +1,7 @@
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
+// import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 
+/*
 const theme = createTheme({
   overrides: {
     MuiTooltip: {
@@ -14,12 +15,13 @@ const theme = createTheme({
     },
   },
 });
+*/
 
 const Tooltips = props => {
   const { children, disableTheme, ...otherProps } = props;
   const finalProps = otherProps;
   if (!finalProps.title) finalProps.title = '';
-
+  /*
   if (!disableTheme) {
     return (
       <MuiThemeProvider theme={theme}>
@@ -27,7 +29,7 @@ const Tooltips = props => {
       </MuiThemeProvider>
     );
   }
-
+  */
   return <Tooltip {...finalProps}>{children}</Tooltip>;
 };
 

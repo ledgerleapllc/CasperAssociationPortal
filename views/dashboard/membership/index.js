@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useRef, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useContext, useRef, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';
@@ -10,8 +10,10 @@ import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, ProgressBar, Tooltips } from '../../../components/partials';
-import { formatDate } from '../../../shared/core/utils';
+import { formatDateEST } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
+import { getUserMembershipInfo } from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../../pages/_app';
 
 const settings = {
   arrows: false,
@@ -27,7 +29,6 @@ const WarningCards = ({ warnings, isLoading }) => {
   const next = () => {
     sliderRef.current.slickNext();
   };
-
   const prev = () => {
     sliderRef.current.slickPrev();
   };
@@ -74,10 +75,10 @@ const WarningCards = ({ warnings, isLoading }) => {
                       <span className="pt-1.25 text-xs text-white">
                         Your {warnMetric?.label} has fallen outside the minimum
                         acceptable range on
-                        {`${formatDate(
+                        {`${formatDateEST(
                           warnMetric?.time_start,
                           'dd/MM/yyyy HH:mm aa'
-                        )} EST`}
+                        )} EST`}{' '}
                         and you have been placed on probation. Don’t panic,
                         there is still time to correct this.
                       </span>
@@ -112,59 +113,72 @@ const aspects = [
   {
     aspect: 'uptime',
     label: 'Uptime',
-  },
-  {
-    aspect: 'block_height_average',
-    label: 'Block Height Average',
+    key: 'avg_uptime',
   },
   {
     aspect: 'update_responsiveness',
     label: 'Update Responsiveness',
+    key: 'update_responsiveness',
   },
 ];
 
 const DashboardMembership = () => {
-  const { metrics, refreshMetrics, metricConfig } = useMetrics();
-  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const { metrics, refreshMetrics } = useMetrics();
   const [kycStatus, setKYCStatus] = useState(null);
   const [nodeStatus, setNodeStatus] = useState(null);
   const [warningMetrics, setWarningMetrics] = useState([]);
+  const [membershipData, setMembershipData] = useState({});
+  const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
     refreshMetrics();
+    setLoading(true);
+    dispatch(
+      getUserMembershipInfo(
+        res => {
+          setLoading(false);
+          setMembershipData(res);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
   }, []);
 
   useEffect(() => {
-    if (userInfo) {
-      setKYCStatus(
-        userInfo?.profile && userInfo?.profile?.status === 'approved' ? 1 : 0
-      );
+    if (membershipData && Object.keys(membershipData).length > 0) {
+      setNodeStatus(membershipData?.node_status);
+      setKYCStatus(membershipData.kyc_status === 'Not Verified' ? 0 : 1);
     }
-  }, [userInfo]);
+  }, [membershipData]);
 
   useEffect(() => {
-    if (metrics && Object.keys(metrics).length > 0) {
-      setNodeStatus(metrics?.node_status);
+    if (
+      membershipData &&
+      Object.keys(membershipData).length > 0 &&
+      metrics &&
+      Object.keys(metrics).length > 0
+    ) {
       const warnings = [];
       aspects.forEach(x => {
         if (
-          metrics[x.aspect] <
+          membershipData[x.key] <
             metrics?.monitoring_criteria[x.aspect].warning_level ||
-          metrics[x.aspect] <
+          membershipData[x.key] <
             metrics?.monitoring_criteria[x.aspect].probation_start
         ) {
           warnings.push({
             ...x,
             ...metrics?.monitoring_criteria[x.aspect],
-            time_start:
-              metrics[`${x.aspect}_time_start`] ||
-              metrics?.monitoring_criteria[x.aspect].updated_at,
+            time_start: metrics?.monitoring_criteria[x.aspect].updated_at,
           });
         }
       });
       setWarningMetrics(warnings);
     }
-  }, [metrics]);
+  }, [metrics, membershipData]);
 
   const getKYCVerifiedData = () => {
     const data = {
@@ -212,24 +226,13 @@ const DashboardMembership = () => {
     };
   };
 
-  const formatValue = () => {
-    let value = '';
-    if (metricConfig?.max?.update_responsiveness) {
-      value =
-        (100 * metrics.update_responsiveness || 0) /
-        metricConfig?.max?.update_responsiveness;
-      value = value.toFixed(2);
-    }
-    return parseFloat(value);
-  };
-
   return (
     <>
       <Head>
         <title>Membership - Casper Association Portal</title>
       </Head>
       <LayoutDashboard bg="bg-gradient-to-tl from-gray2 to-white1">
-        <div id="landing-page__membership" className="membership gap-5">
+        <div className="w-full 2xl:w-4/5 h-auto 2xl:h-full flex flex-col membership gap-5">
           {warningMetrics?.length > 0 && (
             <WarningCards warnings={warningMetrics} />
           )}
@@ -246,13 +249,13 @@ const DashboardMembership = () => {
               your average is restored.`}
             </p>
           </Card>
-          <div id="landing-page__membership_Widgets">
-            <div id="landing-page__membership_WidgetsLeft" className="gap-5">
-              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
-                <div className="w-60">
+          <div className="flex flex-col 2xl:flex-row gap-5">
+            <div className="w-full 2xl:w-1/2 gap-5 flex flex-col lg:flex-row 2xl:flex-col">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+                <div className="w-full md:w-60">
                   <span className="text-lg font-medium">Node Status:</span>
                 </div>
-                <div className="flex flex-1 flex-col gap-1.25">
+                <div className="flex md:flex-1 flex-col gap-1.25">
                   <p className="text-lg font-medium text-primary">
                     {getNodeData()?.label}
                   </p>
@@ -261,13 +264,13 @@ const DashboardMembership = () => {
                   </span>
                 </div>
               </Card>
-              <Card className="custom-membership-widget flex px-9 py-6 gap-6">
-                <div className="w-60">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+                <div className="w-full md:w-60">
                   <span className="text-lg font-medium">
                     Identity Verification Status:
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col gap-1.25">
+                <div className="flex md:flex-1 flex-col gap-1.25">
                   <p className="text-lg font-medium text-primary">
                     {getKYCVerifiedData()?.label}
                   </p>
@@ -277,84 +280,61 @@ const DashboardMembership = () => {
                 </div>
               </Card>
             </div>
-            <div id="landing-page__membership_WidgetsRight">
-              <div className="flex h-full gap-5">
+            <div className="w-full 2xl:w-1/2">
+              <div className="flex flex-col sm:flex-row w-full h-full gap-5">
                 <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                    (!metrics.uptime ||
-                      metrics.uptime <
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex flex-col 2xl:flex-row px-6 pt-6 metrics-card ${
+                    (!membershipData.avg_uptime ||
+                      membershipData.avg_uptime <
                         metrics?.monitoring_criteria?.uptime?.warning_level) &&
                     'metrics-card-warning'
                   }`}
                 >
-                  <Tooltips
-                    disableTheme
-                    placement="top"
-                    title="Uptime measures the amount of rewards a given node collects out of the total possible rewards a node could collect over a period of 30 days"
-                    arrow
-                  >
-                    <div
-                      className="flex pb-1"
-                      style={{ alignItems: 'center', cursor: 'pointer' }}
+                  <div className="w-full 2xl:w-1/2">
+                    <Tooltips
+                      disableTheme
+                      placement="top"
+                      title="This is the % of ERAs that you have been in the validation pool while your bid was high enough to be in the pool out of the last [admin setting] ERAs."
+                      arrow
                     >
-                      <p className="text-sm font-medium pr-1">Uptime</p>
-                      <InfoIcon style={{ fontSize: '20px' }} />
-                    </div>
-                  </Tooltips>
-                  <p className="text-xs desc">
-                    Average: {metrics.average_uptime}%
-                  </p>
-                  <div className="flex-1 min-h-0 mt-4">
+                      <div
+                        className="flex pb-1"
+                        style={{ alignItems: 'center', cursor: 'pointer' }}
+                      >
+                        <p className="text-sm font-medium pr-1">Uptime</p>
+                        <InfoIcon
+                          style={{ color: 'black', fontSize: '16px' }}
+                        />
+                      </div>
+                    </Tooltips>
+                    <p className="text-xs desc mb-5">
+                      Average: {membershipData?.avg_uptime}%
+                    </p>
+                    <hr />
+                    <p className="text-xs mt-5">
+                      <b>Total ERAs:</b> {membershipData?.total_eras || 0}
+                    </p>
+                    <p className="text-xs mt-2">
+                      <b>ERAs since Redmark:</b>{' '}
+                      {membershipData?.eras_since_bad_mark || 0}
+                    </p>
+                    <p className="text-xs mt-2">
+                      <b>Total Redmarks:</b>{' '}
+                      {membershipData?.total_bad_marks || 0}
+                    </p>
+                  </div>
+                  <div className="w-full 2xl:w-1/2 min-h-0">
                     <ProgressBar
                       shape="circle"
-                      value={
-                        metrics.uptime
-                          ? parseFloat(metrics.uptime.toFixed(2))
-                          : 0
-                      }
+                      value={membershipData?.avg_uptime || 0}
                       mask="x%"
                     />
                   </div>
                 </Card>
                 <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                    (!metrics.block_height_average ||
-                      metrics.block_height_average <
-                        metrics?.monitoring_criteria?.block_height_average
-                          ?.warning_level) &&
-                    'metrics-card-warning'
-                  }`}
-                >
-                  <Tooltips
-                    disableTheme
-                    placement="top"
-                    title="Blockheight measures what block you are on from the last 10 blocks"
-                    arrow
-                  >
-                    <div
-                      className="flex pb-1"
-                      style={{ alignItems: 'center', cursor: 'pointer' }}
-                    >
-                      <p className="text-sm font-medium pr-1">Block Height</p>
-                      <InfoIcon style={{ fontSize: '20px' }} />
-                    </div>
-                  </Tooltips>
-                  <p className="text-xs desc">
-                    {metrics?.blocks_behind} blocks behind
-                  </p>
-                  <div className="flex-1 min-h-0 mt-4">
-                    <ProgressBar
-                      shape="circle"
-                      value={metrics.block_height_average}
-                      total={metricConfig?.max?.block_height_average}
-                      mask="x/y"
-                    />
-                  </div>
-                </Card>
-                <Card
-                  className={`flex flex-col px-6 pt-6 h-full metrics-card ${
-                    (!metrics.update_responsiveness ||
-                      metrics.update_responsiveness <
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-1/3 flex flex-col px-6 pt-6 metrics-card ${
+                    (!membershipData.update_responsiveness ||
+                      membershipData.update_responsiveness <
                         metrics?.monitoring_criteria?.update_responsiveness
                           ?.warning_level) &&
                     'metrics-card-warning'
@@ -365,22 +345,8 @@ const DashboardMembership = () => {
                   <div className="flex-1 min-h-0 mt-4">
                     <ProgressBar
                       shape="circle"
-                      value={formatValue()}
+                      value={membershipData?.update_responsiveness || 0}
                       mask="x%"
-                    />
-                  </div>
-                </Card>
-                <Card className="flex flex-col px-6 pt-6 h-full metrics-card">
-                  <p className="text-sm font-medium pb-1">Peers</p>
-                  <p className="text-xs desc">
-                    Average: {metrics?.average_peers}
-                  </p>
-                  <div className="flex-1 min-h-0 mt-4">
-                    <ProgressBar
-                      shape="circle"
-                      value={metrics?.peers}
-                      total={metricConfig?.max?.peers}
-                      mask="x/y"
                     />
                   </div>
                 </Card>

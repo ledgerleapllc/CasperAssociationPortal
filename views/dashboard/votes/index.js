@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Head from 'next/head';
@@ -12,15 +12,16 @@ import {
   ForAgainst,
   Table,
   ClockBar,
-  // Tooltips,
   StatusText,
 } from '../../../components/partials';
 import {
   getMyVotes,
   getVotes,
+  getVoteStatus,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { formatDate } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
+import { AppContext } from '../../../pages/_app';
 
 const Styles = styled.div`
   .active-vote-table {
@@ -177,17 +178,6 @@ const Tab1 = () => {
           <Table.HeaderCell key="header3">
             <p>Votes</p>
           </Table.HeaderCell>
-          {/*
-          <Table.HeaderCell key="header4">
-            <Tooltips
-              placement="top"
-              title="Displays the current vote split. FOR / AGAINST"
-              arrow
-            >
-              <p>Current Split</p>
-            </Tooltips>
-          </Table.HeaderCell>
-          */}
           <Table.HeaderCell key="header5">
             <p>Start Date &amp; Time</p>
           </Table.HeaderCell>
@@ -207,14 +197,6 @@ const Tab1 = () => {
               <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
-              {/*
-              <Table.BodyCell key="body4">
-                <ForAgainst
-                  splitFor={row.vote?.for_value}
-                  splitAgainst={row.vote?.against_value}
-                />
-              </Table.BodyCell>
-              */}
               <Table.BodyCell key="body5">
                 {renderStartDate(row)}
               </Table.BodyCell>
@@ -556,12 +538,59 @@ const Tab3 = () => {
   );
 };
 
+const StatusBar = ({ voteStatus }) => (
+  <Card className="w-full px-8 py-5 shadow-2xl" noShadow>
+    {voteStatus.can_vote === true ? (
+      <>
+        <p className="font-medium text-sm">
+          Your node has been in good status for {voteStatus.good_standing_eras}{' '}
+          ERAs out of a total of {voteStatus.total_active_eras} active ERAs.
+        </p>
+        <p className="font-medium text-primary text-sm">
+          Good Work! You ARE eligible to vote!
+        </p>
+      </>
+    ) : (
+      <>
+        <p className="font-medium text-sm">
+          Your node has been in good status for {voteStatus.good_standing_eras}{' '}
+          ERAs out of a total of {voteStatus.total_active_eras} active ERAs.
+        </p>
+        <p className="font-medium text-primary text-sm">
+          Uh oh. You cannot vote until you have been active for{' '}
+          {voteStatus.setting_voting_eras} ERAs AND in good status for{' '}
+          {voteStatus.setting_good_standing_eras} ERAs.
+        </p>
+      </>
+    )}
+  </Card>
+);
+
 const DashboardVote = () => {
   const [tabsData, setTabsData] = useState([]);
+  const [voteStatus, setVoteStatus] = useState({});
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
+  const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
+
+  const fetchVoteStatus = () => {
+    setLoading(true);
+    dispatch(
+      getVoteStatus(
+        res => {
+          setLoading(false);
+          setVoteStatus(res);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
 
   useEffect(() => {
     if (userInfo && !['admin', 'sub-admin'].includes(userInfo.role)) {
+      fetchVoteStatus();
       setTabsData([
         {
           content: Tab1,
@@ -606,17 +635,22 @@ const DashboardVote = () => {
         <title>Votes - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-          <div className="w-full h-full">
-            {tabsData.length > 0 && (
-              <Tab
-                className="w-full h-full pt-12 lg:pt-4"
-                data={tabsData}
-                lazy
-              />
-            )}
-          </div>
-        </Card>
+        <div className="flex flex-col w-full h-full gap-5">
+          {voteStatus && Object.keys(voteStatus).length > 0 ? (
+            <StatusBar voteStatus={voteStatus} />
+          ) : null}
+          <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
+            <div className="w-full h-full">
+              {tabsData.length > 0 && (
+                <Tab
+                  className="w-full h-full pt-12 lg:pt-4"
+                  data={tabsData}
+                  lazy
+                />
+              )}
+            </div>
+          </Card>
+        </div>
       </LayoutDashboard>
     </>
   );

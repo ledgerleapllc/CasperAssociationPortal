@@ -46,6 +46,17 @@ export function* getMyVotes({ payload, successCb }) {
   }
 }
 
+export function* getVoteStatus({ resolve, reject }) {
+  try {
+    const endpoint = 'users/can-vote';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVoteDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -83,14 +94,10 @@ export function* publishDiscussion({ payload, resolve, reject }) {
   }
 }
 
-export function* getVerifiedMembers({ payload, successCb }) {
+export function* getVerifiedMembers({ successCb }) {
   try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`verified-members/all?${query}`]);
-    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
+    const res = yield get([`verified-members/all`]);
+    successCb(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -148,6 +155,16 @@ export function* deleteDraftDiscussion({ payload, resolve, reject }) {
   }
 }
 
+export function* getMyERAs({ resolve, reject }) {
+  try {
+    const res = yield get([`users/get-my-eras`]);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* getMyDiscussions({ payload, resolve, reject }) {
   try {
     const query = qs.stringify({
@@ -163,14 +180,10 @@ export function* getMyDiscussions({ payload, resolve, reject }) {
   }
 }
 
-export function* getTrendingDiscussions({ payload, resolve }) {
+export function* getTrendingDiscussions({ resolve }) {
   try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`discussions/trending?${query}`]);
-    resolve(res.data.data, res.data?.current_page < res.data?.last_page);
+    const res = yield get([`discussions/trending`]);
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -318,11 +331,54 @@ export function* uploadVerificationDocuments({ payload, resolve, reject }) {
   }
 }
 
+export function* getUserMembershipInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-membership-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getUserFullDashboard({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-dashboard';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getAdminNodesInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'admin/users/get-nodes-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getUserNodesInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-nodes-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getMyInfo({ resolve, reject }) {
   try {
     const endpoint = 'users/profile';
     const res = yield get([endpoint]);
-
     resolve(res.data);
   } catch (error) {
     reject();
@@ -481,6 +537,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
+  yield all([takeEvery('GET_VOTE_STATUS', getVoteStatus)]);
   yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
   yield all([takeEvery('GET_VERIFIED_MEMBERS', getVerifiedMembers)]);
@@ -492,6 +549,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
   yield all([takeEvery('DELETE_DRAFT_DISCUSSION', deleteDraftDiscussion)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
+  yield all([takeEvery('GET_MY_ERAS', getMyERAs)]);
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
   yield all([takeEvery('SET_DISCUSSION_PIN', setDiscussionPin)]);
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);
@@ -501,6 +559,10 @@ export function* watchDemoData() {
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
+  yield all([takeEvery('GET_USER_FULL_DASHBOARD', getUserFullDashboard)]);
+  yield all([takeEvery('GET_USER_NODES_INFO', getUserNodesInfo)]);
+  yield all([takeEvery('GET_ADMIN_NODES_INFO', getAdminNodesInfo)]);
+  yield all([takeEvery('GET_USER_MEMBERSHIP_INFO', getUserMembershipInfo)]);
   yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
   yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);
   yield all([takeEvery('CHECK_PASSWORD', checkPassword)]);

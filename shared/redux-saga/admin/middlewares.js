@@ -29,7 +29,7 @@ export function* getListMembers({ payload, callback }) {
       headers,
     });
     yield delay(500);
-    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
+    callback(res.data);
     yield put(getListMembersSuccess(res.data));
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -528,6 +528,28 @@ export function* updateUserMetrics({ payload, resolve, reject }) {
   }
 }
 
+export function* getAdminERAsByUser({ userId, resolve, reject }) {
+  try {
+    const res = yield get([`admin/users/all-eras-user/${userId}`]);
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getAllAdminERAs({ resolve, reject }) {
+  try {
+    const res = yield get([`admin/users/all-eras`]);
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getListPerks({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
@@ -664,6 +686,16 @@ export function* getWarningMetrics({ resolve, reject }) {
 export function* updateWarningMetrics({ payload, resolve, reject }) {
   try {
     yield _put([`admin/monitoring-criteria/${payload.type}`], payload.data);
+    resolve();
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* updateGlobalSettings({ payload, resolve, reject }) {
+  try {
+    yield _put([`admin/global-settings`], payload);
     resolve();
   } catch (error) {
     reject();
@@ -841,6 +873,16 @@ export function* registerSubAdmin({ payload, resolve, reject }) {
   }
 }
 
+export function* getGlobalSettings({ resolve, reject }) {
+  try {
+    const res = yield get(['admin/global-settings']);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getLockPageRules({ resolve, reject }) {
   try {
     const res = yield get(['admin/lock-rules']);
@@ -923,7 +965,7 @@ export function* listRecipients({ payload, resolve, reject }) {
     const query = qs.stringify(payload);
     const res = yield get([`admin/contact-recipients?${query}`]);
     yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+    resolve(res.data);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));
@@ -998,6 +1040,8 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
   yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([takeEvery('GEt_ADMIN_ERAS_BY_USER', getAdminERAsByUser)]);
+  yield all([takeEvery('GET_ALL_ADMIN_ERAS', getAllAdminERAs)]);
   yield all([takeEvery('GET_LIST_PERKS', getListPerks)]);
   yield all([takeEvery('GET_ACTIVE_PERKS', getActivePerks)]);
   yield all([takeEvery('GET_LIST_PERK_ENGAGEMENT', getListPerkEngagements)]);
@@ -1009,6 +1053,7 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
   yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
+  yield all([takeLatest('UPDATE_GLOBAL_SETTINGS', updateGlobalSettings)]);
   yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
@@ -1023,6 +1068,7 @@ export function* watchAdmin() {
   yield all([
     takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
   ]);
+  yield all([takeLatest('GET_GLOBAL_SETTINGS', getGlobalSettings)]);
   yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
   yield all([takeLatest('GET_NODE_DETAIL', getNodeDetail)]);

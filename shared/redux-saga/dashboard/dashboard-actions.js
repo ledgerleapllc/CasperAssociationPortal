@@ -24,6 +24,12 @@ export const getMyVotes = (payload, successCb) => ({
   successCb,
 });
 
+export const getVoteStatus = (resolve, reject) => ({
+  type: 'GET_VOTE_STATUS',
+  resolve,
+  reject,
+});
+
 export const getVoteDetail = (payload, resolve, reject) => ({
   type: 'GET_VOTE_DETAIL',
   payload,
@@ -55,9 +61,8 @@ export const recordVote = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getVerifiedMembers = (payload, successCb) => ({
+export const getVerifiedMembers = successCb => ({
   type: 'GET_VERIFIED_MEMBERS',
-  payload,
   successCb,
 });
 
@@ -88,6 +93,12 @@ export const deleteDraftDiscussion = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getMyERAs = (resolve, reject) => ({
+  type: 'GET_MY_ERAS',
+  resolve,
+  reject,
+});
+
 export const getMyDiscussions = (payload, resolve, reject) => ({
   type: 'GET_MY_DISCUSSIONS',
   payload,
@@ -95,9 +106,8 @@ export const getMyDiscussions = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getTrendingDiscussions = (payload, resolve) => ({
+export const getTrendingDiscussions = resolve => ({
   type: 'GET_TRENDING_DISCUSSIONS',
-  payload,
   resolve,
 });
 
@@ -174,6 +184,30 @@ export const submitDetail = (payload, resolve, reject) => ({
 export const uploadVerificationDocs = (payload, resolve, reject) => ({
   type: 'UPDATE_VERIFICATION_DOCUMENTS',
   payload,
+  resolve,
+  reject,
+});
+
+export const getUserFullDashboard = (resolve, reject) => ({
+  type: 'GET_USER_FULL_DASHBOARD',
+  resolve,
+  reject,
+});
+
+export const getAdminNodesInfo = (resolve, reject) => ({
+  type: 'GET_ADMIN_NODES_INFO',
+  resolve,
+  reject,
+});
+
+export const getUserNodesInfo = (resolve, reject) => ({
+  type: 'GET_USER_NODES_INFO',
+  resolve,
+  reject,
+});
+
+export const getUserMembershipInfo = (resolve, reject) => ({
+  type: 'GET_USER_MEMBERSHIP_INFO',
   resolve,
   reject,
 });

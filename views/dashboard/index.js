@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Head from 'next/head';
 import LayoutDashboard from '../../components/layouts/layout-dashboard';
@@ -13,13 +13,17 @@ import {
   setHideGuide,
 } from '../../shared/redux-saga/auth/actions';
 import IconX from '../../public/images/ic_x.svg';
+import { getUserFullDashboard } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../pages/_app';
 
 const Dashboard = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const guideStep = useSelector(state => state.authReducer.appInfo.guideStep);
   const hideGuide = useSelector(state => state.authReducer.appInfo.hideGuide);
   const [isAdmin, setIsAdmin] = useState(null);
+  const [dashboardData, setDashboardData] = useState({});
   const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
     const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
@@ -32,6 +36,21 @@ const Dashboard = () => {
       guideStepValue = parseInt(guideStepValue, 10);
     }
     dispatch(setGuideStep({ guideStep: guideStepValue }));
+
+    if (!isAdminTemp) {
+      setLoading(true);
+      dispatch(
+        getUserFullDashboard(
+          res => {
+            setLoading(false);
+            setDashboardData(res);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
+    }
   }, []);
 
   const clickNext = () => {
@@ -122,15 +141,15 @@ const Dashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div id="landing-page__dashboardInner3">
-          <div id="landing-page__dashboardInner3_left">
-            <ContentHome />
+        <div className="flex flex-col 2xl:flex-row gap-5 w-full h-auto 2xl:h-full">
+          <div className="w-full 2xl:w-4/5 h-auto 2xl:h-full relative">
+            <ContentHome dashboardData={dashboardData} />
           </div>
-          <div id="landing-page__dashboardInner3_right">
+          <div className="w-full 2xl:w-1/5 h-auto 2xl:h-full relative">
             {renderGuideIn()}
             <Card className="w-full h-full">
               <div className="overflow-y-scroll w-full h-full">
-                <InfoRightHome />
+                <InfoRightHome dashboardData={dashboardData} />
               </div>
             </Card>
           </div>
