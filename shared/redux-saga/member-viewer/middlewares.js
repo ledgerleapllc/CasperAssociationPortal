@@ -8,7 +8,7 @@ export function* getPublicMembers({ payload, resolve }) {
     const query = qs.stringify({ ...payload, limit: 100 });
     const res = yield get([`members?${query}`]);
     yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }

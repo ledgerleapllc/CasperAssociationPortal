@@ -471,7 +471,6 @@
     top: 380px;
     left: 230px;
   }
-
   @media all and (max-width: 1535px) {
     &#dashboard-guide-1 {
       top: 70px;
@@ -519,13 +518,11 @@
     display: none;
   }
 }
-
 #dashboard-layout {
   width: 100%;
   height: 100vh;
   overflow: hidden;
   position: relative;
-
   #dashboard-layoutSidebar {
     width: 250px;
     height: 100vh;
@@ -536,7 +533,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: all 0.3s;
-
     #dashboard-layoutSidebar__inner {
       width: 100%;
       height: 100vh;
@@ -566,7 +562,6 @@
         }
       }
     }
-
     &.collapsed {
       width: 60px;
       #dashboard-layoutSidebar__inner {
@@ -597,7 +592,6 @@
       }
     }
   }
-
   #dashboard-layoutContent {
     width: 100%;
     height: 100vh;
@@ -627,7 +621,6 @@
       }
     }
   }
-
   @media all and (max-width: 991px) {
     #dashboard-layoutContent {
       padding-left: 60px;

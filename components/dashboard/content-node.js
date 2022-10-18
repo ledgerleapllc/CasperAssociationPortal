@@ -5,6 +5,7 @@ import ReactLoading from 'react-loading';
 import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import InfoIcon from '@material-ui/icons/Info';
 import { Card, Dropdown, ProgressBar, Tooltips } from '../partials';
 import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import IconCopy from '../../public/images/ic_copy.svg';
@@ -101,19 +102,14 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
         <Card className="w-full lg:w-1/2 h-24">
           <div className="flex flex-col px-9 h-full justify-center">
             <div className="flex justify-between">
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <span className="text-lg font-normal">Public Key</span>
                 <Tooltips
                   placement="top"
                   title="Displays the selected node address"
                   arrow
                 >
-                  <img
-                    width="10px"
-                    height="10px"
-                    src="/images/ic_feather_info.svg"
-                    alt="Info"
-                  />
+                  <InfoIcon style={{ color: 'black' }} fontSize="small" />
                 </Tooltips>
               </div>
               <button
@@ -230,7 +226,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
         </Card>
         <Card className="w-full lg:w-1/4 h-24">
           <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                 Stake Amount
               </span>
@@ -239,12 +235,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 title="Amount staked to the selected node"
                 arrow
               >
-                <img
-                  width="10px"
-                  height="10px"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
-                />
+                <InfoIcon style={{ color: 'black' }} fontSize="small" />
               </Tooltips>
             </div>
             <div className="flex flex-row gap-2">
@@ -262,7 +253,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
         </Card>
         <Card className="w-full lg:w-1/4 h-24">
           <div className="flex flex-col px-5 lg:px-9 h-full justify-center">
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <span className="text-base lg:text-lg lg:text-lg font-normal text-black1">
                 Delegators
               </span>
@@ -271,12 +262,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 title="Number of delegators to the selected node."
                 arrow
               >
-                <img
-                  width="10px"
-                  height="10px"
-                  src="/images/ic_feather_info.svg"
-                  alt="Info"
-                />
+                <InfoIcon style={{ color: 'black' }} fontSize="small" />
               </Tooltips>
             </div>
             <div className="flex flex-row gap-2">
@@ -448,19 +434,14 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
             <div className="flex flex-col w-full">
               <p className="text-lg pt-5 pb-3">Node Metrics</p>
               <div className="flex flex-col">
-                <div className="flex gap-3 flex-row py-1">
+                <div className="flex gap-2 items-center py-1">
                   <span className="text-lg">Uptime</span>
                   <Tooltips
                     placement="right"
                     title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
                   </Tooltips>
                 </div>
                 <ProgressBar
@@ -482,19 +463,14 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <div className="flex gap-3 flex-row py-1">
+                <div className="flex gap-2 py-1 items-center">
                   <span className="text-lg">Update Responsiveness</span>
                   <Tooltips
                     placement="right"
                     title="Update responsiveness for the selected node."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
                   </Tooltips>
                 </div>
                 <ProgressBar
@@ -511,23 +487,18 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
           </Card>
           <Card className="w-full">
             <div className="flex">
-              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-9 border-r border-gray justify-center">
-                <div className="flex gap-3 flex-row">
+              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-8 border-r border-gray justify-center">
+                <div className="flex gap-2 items-center">
                   <span className="text-lg">Daily Earnings</span>
                   <Tooltips
                     placement="top"
                     title="Displays today's earnings."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
                   </Tooltips>
                 </div>
-                <div className="flex flex-row mt-3">
+                <div className="flex mt-3">
                   <span className="text-base font-thin pr-3">
                     {numberWithCommas(
                       Math.round(currentUserNode?.daily_earning)
@@ -541,23 +512,18 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-9 justify-center">
-                <div className="flex gap-3 flex-row">
+              <div className="flex flex-col w-1/2 h-28 px-5 lg:px-8 justify-center">
+                <div className="flex gap-2 items-center">
                   <span className="text-lg">Min Bid Slot</span>
                   <Tooltips
                     placement="top"
                     title="Displays the minimum bidding amount to win a slot in the validator pool"
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
                   </Tooltips>
                 </div>
-                <div className="flex flex-row mt-3">
+                <div className="flex mt-3">
                   <span className="text-base font-thin pr-3">
                     {numberWithCommas(Math.round(nodesInfo?.mbs))}
                   </span>

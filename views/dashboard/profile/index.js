@@ -413,6 +413,7 @@ const UserProfile = () => {
                                     <div className="flex items-center gap-2">
                                       <p className="w-full relative h-6">
                                         <Tooltips
+                                          disableTheme
                                           placement="bottom"
                                           title={
                                             currentUserNode?.public_address_node

@@ -53,6 +53,7 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
         <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <Tooltips
+              disableTheme
               placement="top"
               title="Users that are new to the platform or existing users that wish to be verified. usually requires admin approval."
               arrow
@@ -75,6 +76,7 @@ const ContentAdminHome = ({ stats, changeFrame }) => {
         <Card className="w-full xl:w-1/4">
           <div className="flex flex-col justify-between p-6 h-full text-center">
             <Tooltips
+              disableTheme
               placement="top"
               title="Tracks the number of user clicks on the perks."
               arrow
