@@ -227,7 +227,9 @@ const MyERAs = () => {
                         title="Displays the selected node address"
                         arrow
                       >
-                        <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                        <InfoIcon
+                          style={{ color: 'black', fontSize: '16px' }}
+                        />
                       </Tooltips>
                     </div>
                     <button

@@ -189,8 +189,7 @@ const NodeExplorer = () => {
                           className="cursor-pointer"
                         >
                           <InfoIcon
-                            style={{ color: 'black' }}
-                            fontSize="small"
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -215,8 +214,7 @@ const NodeExplorer = () => {
                           className="cursor-pointer"
                         >
                           <InfoIcon
-                            style={{ color: 'black' }}
-                            fontSize="small"
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -241,8 +239,7 @@ const NodeExplorer = () => {
                           className="cursor-pointer"
                         >
                           <InfoIcon
-                            style={{ color: 'black' }}
-                            fontSize="small"
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -269,8 +266,7 @@ const NodeExplorer = () => {
                           className="cursor-pointer"
                         >
                           <InfoIcon
-                            style={{ color: 'black' }}
-                            fontSize="small"
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>
@@ -295,8 +291,7 @@ const NodeExplorer = () => {
                           className="cursor-pointer"
                         >
                           <InfoIcon
-                            style={{ color: 'black' }}
-                            fontSize="small"
+                            style={{ color: 'black', fontSize: '16px' }}
                           />
                         </Tooltips>
                       </p>

@@ -144,7 +144,7 @@ const InfoRightNode = memo(({ isAdmin, nodesInfo, currentNode }) => {
             }
             arrow
           >
-            <InfoIcon style={{ color: 'black' }} fontSize="small" />
+            <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
           </Tooltips>
         </div>
         {isAdmin !== null && (

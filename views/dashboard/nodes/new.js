@@ -213,11 +213,7 @@ const DashboardNodesNew = () => {
                   </div>
                 }
               >
-                <InfoIcon
-                  style={{ cursor: 'pointer' }}
-                  color="secondary"
-                  fontSize="small"
-                />
+                <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
               </HtmlTooltip>{' '}
               of your validator node and press submit
             </p>

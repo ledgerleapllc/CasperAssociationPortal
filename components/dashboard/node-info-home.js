@@ -14,7 +14,7 @@ const NodeInfoHome = ({ dashboardData }) => (
           title="Ranks all nodes in the platform - based on uptime, fee, responsiveness, delegator count, and stake amount, all sharing equally weighted importance."
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <span className="text-base text-black1 font-thin">
@@ -76,7 +76,7 @@ const NodeInfoHome = ({ dashboardData }) => (
           title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <p className="text-sm text-gray mb-2">{`Average: ${dashboardData?.uptime}%`}</p>

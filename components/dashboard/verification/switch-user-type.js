@@ -282,7 +282,7 @@ export const SwitchUserType = ({ goNext }) => {
                     title="VAT Number: A Value Added Tax Identification Number or VAT Identification Number (VATIN) is an identifier used in many countries for value added tax purposes. You will be asked to upload proof of your VAT Number in the next step of the verification process."
                     arrow
                   >
-                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <input

@@ -302,7 +302,9 @@ const DashboardMembership = () => {
                         style={{ alignItems: 'center', cursor: 'pointer' }}
                       >
                         <p className="text-sm font-medium pr-1">Uptime</p>
-                        <InfoIcon style={{ fontSize: '20px' }} />
+                        <InfoIcon
+                          style={{ color: 'black', fontSize: '16px' }}
+                        />
                       </div>
                     </Tooltips>
                     <p className="text-xs desc mb-5">

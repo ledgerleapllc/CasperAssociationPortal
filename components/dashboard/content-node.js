@@ -109,7 +109,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                   title="Displays the selected node address"
                   arrow
                 >
-                  <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                  <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                 </Tooltips>
               </div>
               <button
@@ -235,7 +235,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 title="Amount staked to the selected node"
                 arrow
               >
-                <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
               </Tooltips>
             </div>
             <div className="flex flex-row gap-2">
@@ -262,7 +262,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 title="Number of delegators to the selected node."
                 arrow
               >
-                <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
               </Tooltips>
             </div>
             <div className="flex flex-row gap-2">
@@ -441,7 +441,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                     title="Uptime is calculated from the percentage of ERAs you have joined multiplied by the rewards offered per area minus any ERAs you missed while your bid was high enough to be in the validation pool."
                     arrow
                   >
-                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <ProgressBar
@@ -470,7 +470,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                     title="Update responsiveness for the selected node."
                     arrow
                   >
-                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <ProgressBar
@@ -495,7 +495,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                     title="Displays today's earnings."
                     arrow
                   >
-                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <div className="flex mt-3">
@@ -520,7 +520,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                     title="Displays the minimum bidding amount to win a slot in the validator pool"
                     arrow
                   >
-                    <InfoIcon style={{ color: 'black' }} fontSize="small" />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <div className="flex mt-3">

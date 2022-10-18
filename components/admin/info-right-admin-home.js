@@ -14,7 +14,7 @@ const InfoRightAdminHome = ({ stats }) => (
           title="Total number of users on the platform"
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <span className="text-base text-black1 font-thin">
@@ -29,7 +29,7 @@ const InfoRightAdminHome = ({ stats }) => (
           title="Total amount staked by all members"
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <span className="text-base text-black1 font-thin">
@@ -40,7 +40,7 @@ const InfoRightAdminHome = ({ stats }) => (
       <div className="flex flex-row gap-2 items-center">
         <span className="text-lg">Total Delegators</span>
         <Tooltips placement="top" title="Total number of delegators" arrow>
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <span className="text-base text-black1 font-thin">
@@ -53,7 +53,7 @@ const InfoRightAdminHome = ({ stats }) => (
           Average Uptime
         </span>
         <Tooltips placement="top" title="Average Uptime across all nodes" arrow>
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
@@ -70,7 +70,7 @@ const InfoRightAdminHome = ({ stats }) => (
           title="Average block height across all nodes"
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <ProgressBar
@@ -90,7 +90,7 @@ const InfoRightAdminHome = ({ stats }) => (
           title="Average responsiveness across all nodes"
           arrow
         >
-          <InfoIcon style={{ color: 'black' }} fontSize="small" />
+          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
       <ProgressBar
