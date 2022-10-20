@@ -42,10 +42,9 @@ const LineProgressBar = ({ text, progress, options }) => {
 const CircleProgressBar = ({ text, progress }) => {
   let progressValue = 0;
   if (progress && !Number.isNaN(progress)) progressValue = parseFloat(progress);
-
   return (
-    <div className="progress-bar progress-bar-circle h-0 aspect-w-1 aspect-h-1 relative w-full inline-flex items-center justify-center overflow-hidden rounded-full">
-      <div>
+    <div className="progress-bar progress-bar-circle w-full flex justify-center overflow-hidden">
+      <div className="relative" style={{ width: '112px', height: '112px' }}>
         <svg width="100%" height="100%">
           <circle
             className="progress-tracker shadow-light"
@@ -72,7 +71,7 @@ const CircleProgressBar = ({ text, progress }) => {
           />
         </svg>
         <div className="absolute top-1/2 left-1/2 transform -translate-y-2/4 -translate-x-2/4 h-4/5 w-4/5 shadow-normal rounded-full" />
-        <span className="progress-label font-thin absolute text-2xl top-1/2 left-1/2 transform -translate-y-2/4 -translate-x-2/4">
+        <span className="progress-label font-thin absolute text-lg top-1/2 left-1/2 transform -translate-y-2/4 -translate-x-2/4">
           {text}
         </span>
       </div>
