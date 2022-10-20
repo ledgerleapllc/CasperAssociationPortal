@@ -362,6 +362,7 @@
   left: 0;
   background-color: white;
   border: 1px solid #efefef;
+  box-shadow: -1px 3px 6px rgba(0, 0, 0, 0.15);
   border-radius: 7px;
   width: 450px;
   > section {
@@ -438,7 +439,7 @@
     left: 230px;
   }
   &#dashboard-guide-2 {
-    top: 10px;
+    top: 0px;
     left: -460px;
     #dashboard-guide-left {
       display: none;
@@ -452,23 +453,23 @@
     left: 230px;
   }
   &#dashboard-guide-4 {
-    top: 230px;
+    top: 235px;
     left: 230px;
   }
   &#dashboard-guide-5 {
-    top: 280px;
-    left: 230px;
-  }
-  &#dashboard-guide-6 {
     top: 330px;
     left: 230px;
   }
+  &#dashboard-guide-6 {
+    top: 375px;
+    left: 230px;
+  }
   &#dashboard-guide-7 {
-    top: 380px;
+    top: 425px;
     left: 230px;
   }
   &#dashboard-guide-8 {
-    top: 380px;
+    top: 520px;
     left: 230px;
   }
   @media all and (max-width: 1535px) {
@@ -476,7 +477,7 @@
       top: 70px;
     }
     &#dashboard-guide-2 {
-      top: 0px;
+      top: -5px;
     }
     &#dashboard-guide-3 {
       top: 110px;
@@ -485,21 +486,24 @@
       top: 190px;
     }
     &#dashboard-guide-5 {
-      top: 225px;
-    }
-    &#dashboard-guide-6 {
       top: 265px;
     }
-    &#dashboard-guide-7 {
+    &#dashboard-guide-6 {
       top: 300px;
     }
+    &#dashboard-guide-7 {
+      top: 340px;
+    }
     &#dashboard-guide-8 {
-      top: 300px;
+      top: 415px;
     }
   }
   @media all and (max-width: 1280px) {
+    &#dashboard-guide-1 {
+      top: 67px;
+    }
     &#dashboard-guide-2 {
-      top: 0px;
+      top: -10px;
       left: 170px;
       #dashboard-guide-left {
         display: block;
@@ -508,10 +512,49 @@
         display: none;
       }
     }
+    &#dashboard-guide-3 {
+      top: 102px;
+    }
+    &#dashboard-guide-4 {
+      top: 175px;
+    }
+    &#dashboard-guide-5 {
+      top: 250px;
+    }
+    &#dashboard-guide-6 {
+      top: 283px;
+    }
+    &#dashboard-guide-7 {
+      top: 320px;
+    }
+    &#dashboard-guide-8 {
+      top: 390px;
+    }
   }
   @media all and (max-width: 1023px) {
     &#dashboard-guide-1 {
       top: 90px;
+    }
+    &#dashboard-guide-2 {
+      top: 0px;
+    }
+    &#dashboard-guide-3 {
+      top: 135px;
+    }
+    &#dashboard-guide-4 {
+      top: 233px;
+    }
+    &#dashboard-guide-5 {
+      top: 330px;
+    }
+    &#dashboard-guide-6 {
+      top: 380px;
+    }
+    &#dashboard-guide-7 {
+      top: 425px;
+    }
+    &#dashboard-guide-8 {
+      top: 520px;
     }
   }
   @media all and (max-width: 991px) {

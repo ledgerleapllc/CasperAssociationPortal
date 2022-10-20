@@ -59,7 +59,14 @@ const Dashboard = () => {
   };
 
   const renderGuideIn = () => {
-    if (isAdmin || hideGuide || !guideStep || guideStep > 8 || guideStep !== 2)
+    if (
+      userInfo?.profile?.status === 'approved' ||
+      isAdmin ||
+      hideGuide ||
+      !guideStep ||
+      guideStep > 8 ||
+      guideStep !== 2
+    )
       return null;
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
@@ -141,11 +148,11 @@ const Dashboard = () => {
         <title>Dashboard - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <div className="flex flex-col 2xl:flex-row gap-5 w-full h-auto 2xl:h-full">
-          <div className="w-full 2xl:w-4/5 h-auto 2xl:h-full relative">
+        <div className="flex flex-col xl:flex-row gap-5 w-full h-auto xl:h-full">
+          <div className="w-full xl:w-4/5 h-auto xl:h-full relative">
             <ContentHome dashboardData={dashboardData} />
           </div>
-          <div className="w-full 2xl:w-1/5 h-auto 2xl:h-full relative">
+          <div className="w-full xl:w-1/5 h-auto xl:h-full relative">
             {renderGuideIn()}
             <Card className="w-full h-full">
               <div className="overflow-y-scroll w-full h-full">

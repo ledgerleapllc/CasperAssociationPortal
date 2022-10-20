@@ -40,7 +40,14 @@ export default function LayoutDashboard({ children, bg }) {
   };
 
   const renderGuideOut = () => {
-    if (isAdmin || hideGuide || !guideStep || guideStep > 8 || guideStep === 2)
+    if (
+      userInfo?.profile?.status === 'approved' ||
+      isAdmin ||
+      hideGuide ||
+      !guideStep ||
+      guideStep > 8 ||
+      guideStep === 2
+    )
       return null;
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
