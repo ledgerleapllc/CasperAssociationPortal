@@ -109,7 +109,7 @@ const RegisterIndividual = () => {
   };
 
   const validateFields = () => {
-    if (!agreeChecked || !understandChecked || !newsletterChecked) {
+    if (!agreeChecked || !understandChecked) {
       return false;
     }
     return true;
