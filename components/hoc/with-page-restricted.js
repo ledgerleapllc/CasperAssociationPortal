@@ -81,6 +81,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Get Verified
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
             {condition.kyc_not_verify && !condition.node_poor && (
@@ -97,6 +105,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Get Verified
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
             {!condition.kyc_not_verify && condition.node_poor && (
@@ -112,6 +128,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Go to Membership page
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
           </>
@@ -145,6 +169,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
             >
               Get Verified
             </a>
+            <div className="text-center mt-3">
+              <a
+                href="/dashboard"
+                className="text-primary underline hover:opacity-40"
+              >
+                Go back to Dashboard
+              </a>
+            </div>
           </>
         );
       }
@@ -174,6 +206,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
             >
               Go to Membership page
             </a>
+            <div className="text-center mt-3">
+              <a
+                href="/dashboard"
+                className="text-primary underline hover:opacity-40"
+              >
+                Go back to Dashboard
+              </a>
+            </div>
           </>
         );
       }
