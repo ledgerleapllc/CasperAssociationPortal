@@ -137,6 +137,13 @@ export const deletePerk = (payload, resolve, reject) => ({
   reject,
 });
 
+export const bypassKYC = (userId, resolve, reject) => ({
+  type: 'BYPASS_KYC',
+  userId,
+  resolve,
+  reject,
+});
+
 export const submitPerk = (payload, resolve, reject) => ({
   type: 'SUBMIT_PERK',
   payload,

@@ -2,10 +2,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-prototype-builtins */
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Switch from 'react-switch';
 import {
+  bypassKYC,
   getUserDetail,
   getUserMetrics,
   updateBlockAccess,
@@ -16,6 +17,7 @@ import Countries from '../../../../public/json/country.json';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import ArrowIcon from '../../../../public/images/ic_arrow_down.svg';
 import { numberWithCommas } from '../../../../shared/core/utils';
+import { AppContext } from '../../../../pages/_app';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const AdminUserDetail = () => {
   const [blockAccess, setBlockAccess] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [currentAddress, setCurrentAddress] = useState({});
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
     if (id) {
@@ -110,6 +113,22 @@ const AdminUserDetail = () => {
         },
         () => {},
         () => {}
+      )
+    );
+  };
+
+  const clickManualApprove = () => {
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      bypassKYC(
+        userDetail.id,
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
       )
     );
   };
@@ -370,6 +389,20 @@ const AdminUserDetail = () => {
                 </p>
                 <p className="text-sm w-5/6">{renderShuftiproStatus()}</p>
               </div>
+              {userDetail?.shuftipro?.status !== 'approved' ? (
+                <div className="flex flex-row mt-3 items-center">
+                  <p className="text-sm font-medium w-1/6">Manual KYC:</p>
+                  <div className="w-5/6">
+                    <button
+                      type="button"
+                      className="px-5 py-2 text-sm text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                      onClick={clickManualApprove}
+                    >
+                      Admin Approve
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { BackButton, Card, Button } from '../../../../../components/partials';
 import { AppContext } from '../../../../../pages/_app';
 import {
   approveDocuments,
+  bypassKYC,
   getVerificationDetail,
   resetUserKYC,
 } from '../../../../../shared/redux-saga/admin/actions';
@@ -133,6 +134,22 @@ const AdminIntakeVerificationDetail = () => {
     window.open('https://backoffice.shuftipro.com/reports', '_blank');
   };
 
+  const clickAdminApprove = () => {
+    if (!intakeDetail || !intakeDetail.id) return;
+    setLoading(true);
+    dispatch(
+      bypassKYC(
+        intakeDetail.id,
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   const clickReset = () => {
     setDialog({
       type: 'DialogCustom',
@@ -210,6 +227,9 @@ const AdminIntakeVerificationDetail = () => {
             disabled={!readUploadDocs}
           >
             Reset
+          </Button>
+          <Button primary className="mr-5" onClick={() => clickAdminApprove()}>
+            Admin Approve
           </Button>
         </div>
       )}
@@ -314,6 +334,13 @@ const AdminIntakeVerificationDetail = () => {
             </Button>
             <Button primary className="mr-5" onClick={() => clickReset()}>
               Reset KYC
+            </Button>
+            <Button
+              primary
+              className="mr-5"
+              onClick={() => clickAdminApprove()}
+            >
+              Admin Approve
             </Button>
             {intakeDetail?.profile?.type === 'entity' ? (
               <Button

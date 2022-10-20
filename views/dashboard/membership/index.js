@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useContext, useRef, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Head from 'next/head';
 import Slider from 'react-slick';
 import ReactLoading from 'react-loading';
 import classNames from 'classnames';
 import InfoIcon from '@material-ui/icons/Info';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import useMetrics from '../../../components/hooks/useMetrics';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, ProgressBar, Tooltips } from '../../../components/partials';
-import { formatDateEST } from '../../../shared/core/utils';
 import ArrowIcon from '../../../public/images/ic_arrow.svg';
 import { getUserMembershipInfo } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../pages/_app';
@@ -74,21 +72,20 @@ const WarningCards = ({ warnings, isLoading }) => {
                       </span>
                       <span className="pt-1.25 text-xs text-white">
                         Your {warnMetric?.label} has fallen outside the minimum
-                        acceptable range on
-                        {`${formatDateEST(
-                          warnMetric?.time_start,
-                          'dd/MM/yyyy HH:mm aa'
-                        )} EST`}{' '}
-                        and you have been placed on probation. Don’t panic,
-                        there is still time to correct this.
+                        acceptable range on and you have been placed on
+                        probation. Don’t panic, there is still time to correct
+                        this.
                       </span>
-                      <span className="pt-1.25 text-xs text-white">
-                        You have {warnMetric?.given_to_correct_value}{' '}
-                        {warnMetric?.given_to_correct_unit} to correct this
-                        problem before your membership status is revoked. Bring
-                        your {warnMetric?.label} {warnMetric?.probation_start}%{' '}
-                        to correct this issue.
-                      </span>
+                      {warnMetric?.correction_value &&
+                      warnMetric?.correction_unit ? (
+                        <span className="pt-1.25 text-xs text-white">
+                          You have {warnMetric?.correction_value}{' '}
+                          {warnMetric?.correction_unit} to correct this problem
+                          before your membership status is revoked. Bring your{' '}
+                          {warnMetric?.label} {warnMetric?.probation}% to
+                          correct this issue.
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 ))}
@@ -109,30 +106,16 @@ const WarningCards = ({ warnings, isLoading }) => {
   );
 };
 
-const aspects = [
-  {
-    aspect: 'uptime',
-    label: 'Uptime',
-    key: 'avg_uptime',
-  },
-  {
-    aspect: 'update_responsiveness',
-    label: 'Update Responsiveness',
-    key: 'update_responsiveness',
-  },
-];
-
 const DashboardMembership = () => {
-  const { metrics, refreshMetrics } = useMetrics();
   const [kycStatus, setKYCStatus] = useState(null);
   const [nodeStatus, setNodeStatus] = useState(null);
   const [warningMetrics, setWarningMetrics] = useState([]);
   const [membershipData, setMembershipData] = useState({});
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
 
   useEffect(() => {
-    refreshMetrics();
     setLoading(true);
     dispatch(
       getUserMembershipInfo(
@@ -158,27 +141,41 @@ const DashboardMembership = () => {
     if (
       membershipData &&
       Object.keys(membershipData).length > 0 &&
-      metrics &&
-      Object.keys(metrics).length > 0
+      userInfo &&
+      userInfo.globalSettings
     ) {
       const warnings = [];
-      aspects.forEach(x => {
-        if (
-          membershipData[x.key] <
-            metrics?.monitoring_criteria[x.aspect].warning_level ||
-          membershipData[x.key] <
-            metrics?.monitoring_criteria[x.aspect].probation_start
-        ) {
-          warnings.push({
-            ...x,
-            ...metrics?.monitoring_criteria[x.aspect],
-            time_start: metrics?.monitoring_criteria[x.aspect].updated_at,
-          });
-        }
-      });
+      if (
+        membershipData.avg_uptime &&
+        (membershipData.avg_uptime < userInfo.globalSettings?.uptime_warning ||
+          membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation)
+      ) {
+        warnings.push({
+          aspect: 'uptime',
+          label: 'Uptime',
+          probation: userInfo.globalSettings?.uptime_probation,
+          warning: userInfo.globalSettings?.uptime_warning,
+          correction_unit: userInfo.globalSettings?.uptime_correction_unit,
+          correction_value: userInfo.globalSettings?.uptime_correction_value,
+        });
+      }
+      if (
+        membershipData.update_responsiveness &&
+        (membershipData.update_responsiveness <
+          userInfo.globalSettings?.responsiveness_warning ||
+          membershipData.update_responsiveness <
+            userInfo.globalSettings?.responsiveness_probation)
+      ) {
+        warnings.push({
+          aspect: 'update_responsiveness',
+          label: 'Update Responsiveness',
+          probation: userInfo.globalSettings?.responsiveness_probation,
+          warning: userInfo.globalSettings?.responsiveness_warning,
+        });
+      }
       setWarningMetrics(warnings);
     }
-  }, [metrics, membershipData]);
+  }, [membershipData, userInfo]);
 
   const getKYCVerifiedData = () => {
     const data = {
@@ -225,7 +222,6 @@ const DashboardMembership = () => {
       desc: '',
     };
   };
-
   return (
     <>
       <Head>
@@ -286,7 +282,7 @@ const DashboardMembership = () => {
                   className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex flex-col 2xl:flex-row px-6 pt-6 metrics-card ${
                     (!membershipData.avg_uptime ||
                       membershipData.avg_uptime <
-                        metrics?.monitoring_criteria?.uptime?.warning_level) &&
+                        userInfo?.globalSettings?.uptime_warning) &&
                     'metrics-card-warning'
                   }`}
                 >
@@ -335,8 +331,7 @@ const DashboardMembership = () => {
                   className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-1/3 flex flex-col px-6 pt-6 metrics-card ${
                     (!membershipData.update_responsiveness ||
                       membershipData.update_responsiveness <
-                        metrics?.monitoring_criteria?.update_responsiveness
-                          ?.warning_level) &&
+                        userInfo?.globalSettings?.responsiveness_warning) &&
                     'metrics-card-warning'
                   }`}
                 >

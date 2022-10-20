@@ -703,6 +703,16 @@ export function* updateGlobalSettings({ payload, resolve, reject }) {
   }
 }
 
+export function* bypassKYC({ userId, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/bypass-approve-kyc/${userId}`], {});
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* updateBlockAccess({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/block-access`], payload);
@@ -1055,6 +1065,7 @@ export function* watchAdmin() {
   yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
   yield all([takeLatest('UPDATE_GLOBAL_SETTINGS', updateGlobalSettings)]);
   yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
+  yield all([takeLatest('BYPASS_KYC', bypassKYC)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
   yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);
