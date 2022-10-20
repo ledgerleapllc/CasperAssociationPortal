@@ -51,7 +51,7 @@ const UploadLetter = () => {
   }, [user]);
 
   const handlePrev = () => {
-    router.back();
+    router.goBack();
   };
 
   const handleNext = () => {

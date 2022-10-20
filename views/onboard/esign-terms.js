@@ -35,7 +35,7 @@ const EsignTerms = () => {
 
   const handlePrev = () => {
     if (currentStep === 1) {
-      router.back();
+      router.goBack();
     } else {
       setCurrentStep(currentStep - 1);
     }
