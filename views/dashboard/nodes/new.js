@@ -215,7 +215,7 @@ const DashboardNodesNew = () => {
               >
                 <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
               </HtmlTooltip>{' '}
-              of your validator node and press submit
+              of your validator node and press verify
             </p>
             <div className="lg:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
               <input
