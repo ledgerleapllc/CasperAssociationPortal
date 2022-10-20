@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
@@ -7,11 +7,50 @@ import AppHeader from '../../components/layouts/app-header';
 import AppFooter from '../../components/layouts/app-footer';
 import OnboardItem from '../../components/onboard/onboard-item';
 import { LoadingScreen } from '../../components/hoc/loading-screen';
+import { useDialog } from '../../components/partials/dialog';
 
 const Onboard = () => {
   const router = useHistory();
   const user = useSelector(state => state.authReducer.userInfo);
   const [isBypassing, setIsBypassing] = useState(false);
+  const { setDialog, onClosed } = useDialog();
+
+  useEffect(() => {
+    if (
+      user &&
+      Object.keys(user).length > 0 &&
+      user.signature_request_id &&
+      user.node_verified_at &&
+      user.letter_file &&
+      !user.letter_verified_at
+    ) {
+      setDialog({
+        type: 'DialogCustom',
+        data: {
+          content: (
+            <div className="text-center mx-auto px-10 py-10">
+              <h3 className="text-xl font-bold text-center mb-5">Well done!</h3>
+              <p className="text-sm text-center">
+                We are waiting for an admin to review your letter of motivation.
+                Once complete, you will have access to your dashboard. Please
+                look out for an email within the next 2 business days to confirm
+                your access to the portal.
+              </p>
+              <div className="mt-7 flex justify-center gap-5 items-center">
+                <button
+                  type="button"
+                  className="px-8 py-3 font-normal rounded-full bg-primary hover:opacity-40 text-white"
+                  onClick={() => onClosed()}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          ),
+        },
+      });
+    }
+  }, [user]);
 
   const getValue = () => {
     let flag = 0;
@@ -33,7 +72,7 @@ const Onboard = () => {
   return (
     <>
       <Head>
-        <title>Onbard - Casper Association Portal</title>
+        <title>Onboard - Casper Association Portal</title>
       </Head>
       <div
         className="flex justify-center min-h-screen"
