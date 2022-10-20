@@ -192,28 +192,6 @@ const ContentHome = ({ dashboardData }) => {
         });
       }
 
-      if (!['admin', 'sub-admin'].includes(userInfo?.role)) {
-        if (
-          userInfo?.pending_node &&
-          userInfo?.public_address_node &&
-          userInfo?.node_verified_at
-        ) {
-          _alerts.push({
-            id: 'pending_node',
-            title: 'We are retrieving your node metrics.',
-            body: 'Please allow up to 1 hour for this info to populate.',
-            handler: () => {},
-          });
-        } else if (userInfo?.metric && !userInfo?.metric?.is_open_port) {
-          _alerts.push({
-            id: 'open_port',
-            title: 'We’re having a problem getting your metrics.',
-            body: 'Make sure port 8888 is open on your node and try again.',
-            handler: () => {},
-          });
-        }
-      }
-
       setAlerts([..._alerts]);
     }
   }, [userInfo, bannerAlerts]);
