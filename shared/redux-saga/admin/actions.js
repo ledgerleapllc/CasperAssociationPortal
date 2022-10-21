@@ -14,9 +14,11 @@ export const getListMembersError = error => ({
   payload: error,
 });
 
-export const getUserDetail = data => ({
+export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
-  payload: data,
+  payload,
+  resolve,
+  reject,
 });
 
 export const getUserMetrics = (payload, resolve, reject) => ({

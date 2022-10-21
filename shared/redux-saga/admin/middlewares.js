@@ -36,18 +36,20 @@ export function* getListMembers({ payload, callback }) {
   }
 }
 
-export function* getUserDetail(data) {
+export function* getUserDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get([`admin/users/${data.payload}`], {
+    const res = yield get([`admin/users/${payload}`], {
       headers,
     });
     yield put(getUserDetailSuccess(res.data));
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
