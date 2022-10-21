@@ -416,7 +416,7 @@ const UserProfile = () => {
                 </StylesAdvanced>
                 <div className="flex gap-24 w-4/5">
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Uptime</span>
                       <img
                         className="pl-3"
@@ -429,7 +429,7 @@ const UserProfile = () => {
                     <ProgressBar value={currentUserNode?.uptime} mask="x%" />
                   </div>
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Update Responsiveness</span>
                       <img
                         className="pl-3"
