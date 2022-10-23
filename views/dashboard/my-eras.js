@@ -36,7 +36,7 @@ const ERAsTable = ({ addresses, eras }) => {
     Object.keys(eras).forEach(key => {
       const eraObject = eras[key];
       const singleItem = {
-        era_start_time: eraObject.era_start_time || '',
+        era_start_time: eraObject?.era_start_time || '',
         addresses: [],
       };
       Object.keys(addresses).forEach(key2 => {
@@ -44,7 +44,7 @@ const ERAsTable = ({ addresses, eras }) => {
           singleItem.addresses.push({
             address: key2,
             in_pool: parseInt(eraObject.addresses[key2].in_pool || 0, 10),
-            rewards: eraObject.addresses[key2].rewards || '',
+            rewards: eraObject.addresses[key2]?.rewards || '',
           });
         } else {
           singleItem.addresses.push({
@@ -310,7 +310,7 @@ const MyERAs = () => {
                     </span>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.uptime || 0}%
+                        {cardsInfo?.uptime}%
                       </span>
                       <img
                         width="18px"
@@ -330,7 +330,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.eras_active || 0}
+                        {cardsInfo?.eras_active}
                       </span>
                       <img
                         width="18px"
@@ -350,7 +350,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.eras_since_bad_mark || 0}
+                        {cardsInfo?.eras_since_bad_mark}
                       </span>
                       <img
                         width="18px"
@@ -370,7 +370,7 @@ const MyERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {cardsInfo.total_bad_marks || 0}
+                        {cardsInfo?.total_bad_marks}
                       </span>
                       <img
                         width="18px"

@@ -15,8 +15,8 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('responsiveness_warning', data.responsiveness_warning || '');
-    setValue('responsiveness_probation', data.responsiveness_probation || '');
+    setValue('responsiveness_warning', data?.responsiveness_warning);
+    setValue('responsiveness_probation', data?.responsiveness_probation);
   };
 
   useEffect(() => {

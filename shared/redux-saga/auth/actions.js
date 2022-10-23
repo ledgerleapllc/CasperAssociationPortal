@@ -113,21 +113,6 @@ export const resend2FACode = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getMyMetrics = (public_address_node = null, isTotal = false) => ({
-  type: 'GET_MY_METRICS',
-  public_address_node,
-  isTotal,
-});
-
-export const setMetrics = payload => ({
-  type: 'SET_METRICS',
-  payload,
-});
-
-export const clearMetrics = () => ({
-  type: 'CLEAR_METRICS',
-});
-
 export const getBannerNotifications = () => ({
   type: 'GET_BANNER_NOTIFICATIONS',
 });
@@ -162,11 +147,6 @@ export const getUserDashboard = (resolve, reject) => ({
   type: 'GET_USER_DASHBOARD',
   resolve,
   reject,
-});
-
-export const setMetricConfig = payload => ({
-  type: 'SET_METRIC_CONFIG',
-  payload,
 });
 
 export const setPagePermissions = payload => ({

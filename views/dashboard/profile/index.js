@@ -458,9 +458,7 @@ const UserProfile = () => {
                               </button>
                               <input
                                 id="public-address"
-                                value={
-                                  currentUserNode?.public_address_node || ''
-                                }
+                                value={currentUserNode?.public_address_node}
                                 readOnly
                                 hidden
                               />

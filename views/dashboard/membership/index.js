@@ -308,21 +308,20 @@ const DashboardMembership = () => {
                     </p>
                     <hr />
                     <p className="text-xs mt-5">
-                      <b>Total ERAs:</b> {membershipData?.total_eras || 0}
+                      <b>Total ERAs:</b> {membershipData?.total_eras}
                     </p>
                     <p className="text-xs mt-2">
                       <b>ERAs since Redmark:</b>{' '}
-                      {membershipData?.eras_since_bad_mark || 0}
+                      {membershipData?.eras_since_bad_mark}
                     </p>
                     <p className="text-xs mt-2">
-                      <b>Total Redmarks:</b>{' '}
-                      {membershipData?.total_bad_marks || 0}
+                      <b>Total Redmarks:</b> {membershipData?.total_bad_marks}
                     </p>
                   </div>
                   <div className="w-full 2xl:w-1/2 min-h-0">
                     <ProgressBar
                       shape="circle"
-                      value={membershipData?.avg_uptime || 0}
+                      value={membershipData?.avg_uptime}
                       mask="x%"
                     />
                   </div>
@@ -340,7 +339,7 @@ const DashboardMembership = () => {
                   <div className="flex-1 min-h-0 mt-4">
                     <ProgressBar
                       shape="circle"
-                      value={membershipData?.update_responsiveness || 0}
+                      value={membershipData?.update_responsiveness}
                       mask="x%"
                     />
                   </div>

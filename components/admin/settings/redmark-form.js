@@ -15,8 +15,8 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('redmarks_revoke', data.redmarks_revoke || '');
-    setValue('redmarks_revoke_calc_size', data.redmarks_revoke_calc_size || '');
+    setValue('redmarks_revoke', data?.redmarks_revoke);
+    setValue('redmarks_revoke_calc_size', data?.redmarks_revoke_calc_size);
   };
 
   useEffect(() => {

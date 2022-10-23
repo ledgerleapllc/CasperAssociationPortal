@@ -15,8 +15,8 @@ const VotingLockForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('voting_eras_to_vote', data.voting_eras_to_vote || '');
-    setValue('voting_eras_since_redmark', data.voting_eras_since_redmark || '');
+    setValue('voting_eras_to_vote', data?.voting_eras_to_vote);
+    setValue('voting_eras_since_redmark', data?.voting_eras_since_redmark);
   };
 
   useEffect(() => {

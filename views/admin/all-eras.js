@@ -349,7 +349,7 @@ const AllERAs = () => {
                     </span>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {currentUserNode.uptime || 0}%
+                        {currentUserNode?.uptime}%
                       </span>
                       <img
                         width="18px"
@@ -369,7 +369,7 @@ const AllERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {currentUserNode.eras_active || 0}
+                        {currentUserNode?.eras_active}
                       </span>
                       <img
                         width="18px"
@@ -389,7 +389,7 @@ const AllERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {currentUserNode.eras_since_bad_mark || 0}
+                        {currentUserNode?.eras_since_bad_mark}
                       </span>
                       <img
                         width="18px"
@@ -409,7 +409,7 @@ const AllERAs = () => {
                     </div>
                     <div className="flex flex-row gap-2">
                       <span className="text-base text-black1 font-thin">
-                        {currentUserNode.total_bad_marks || 0}
+                        {currentUserNode?.total_bad_marks}
                       </span>
                       <img
                         width="18px"

@@ -135,8 +135,8 @@ const ContentHome = ({ dashboardData }) => {
   }, []);
 
   useEffect(() => {
-    setTotal(dashboardData.total_members || 0);
-    setVerified(dashboardData.verified_members || 0);
+    setTotal(dashboardData?.total_members);
+    setVerified(dashboardData?.verified_members);
   }, [dashboardData]);
 
   useEffect(() => {

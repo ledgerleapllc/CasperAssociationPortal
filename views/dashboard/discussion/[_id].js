@@ -269,7 +269,7 @@ const DashboardDiscusionDetail = () => {
         ) : (
           <IconLike />
         )}
-        <span className="pl-2.5">{discussion.likes || 0}</span>
+        <span className="pl-2.5">{discussion?.likes}</span>
       </button>
       <button
         type="button"
@@ -281,7 +281,7 @@ const DashboardDiscusionDetail = () => {
         ) : (
           <IconDislike />
         )}
-        <span className="pl-2.5">{discussion.dislikes || 0}</span>
+        <span className="pl-2.5">{discussion?.dislikes}</span>
       </button>
     </div>
   );

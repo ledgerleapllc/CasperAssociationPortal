@@ -16,11 +16,11 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('uptime_calc_size', data.uptime_calc_size || '');
-    setValue('uptime_warning', data.uptime_warning || '');
-    setValue('uptime_probation', data.uptime_probation || '');
-    setValue('uptime_correction_unit', data.uptime_correction_unit || '');
-    setWatchCorrect(data.uptime_correction_unit || '');
+    setValue('uptime_calc_size', data?.uptime_calc_size);
+    setValue('uptime_warning', data?.uptime_warning);
+    setValue('uptime_probation', data?.uptime_probation);
+    setValue('uptime_correction_unit', data?.uptime_correction_unit);
+    setWatchCorrect(data?.uptime_correction_unit);
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
     if (watchCorrect) {
       setValue(
         'uptime_correction_value',
-        globalSettings.uptime_correction_value || ''
+        globalSettings?.uptime_correction_value
       );
     }
   }, [watchCorrect]);
