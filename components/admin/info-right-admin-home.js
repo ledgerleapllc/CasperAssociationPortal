@@ -56,27 +56,7 @@ const InfoRightAdminHome = ({ stats }) => (
           <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
-      <ProgressBar value={(+stats?.avgUptime).toFixed(2)} mask="x%" />
-    </div>
-    <div className="flex flex-col py-2 2xl:py-3">
-      <div className="flex gap-2 mb-2 items-center">
-        <span className="text-lg" style={{ lineHeight: 1.3 }}>
-          Average
-          <br />
-          Block Height
-        </span>
-        <Tooltips
-          placement="top"
-          title="Average block height across all nodes"
-          arrow
-        >
-          <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
-        </Tooltips>
-      </div>
-      <ProgressBar
-        value={(+stats?.avgBlockHeightAverage).toFixed(2)}
-        mask="x%"
-      />
+      <ProgressBar value={(+stats?.avg_uptime).toFixed(2)} mask="x%" />
     </div>
     <div className="flex flex-col py-2 2xl:py-3">
       <div className="flex gap-2 mb-2 items-center">
@@ -95,8 +75,8 @@ const InfoRightAdminHome = ({ stats }) => (
       </div>
       <ProgressBar
         value={
-          +stats?.avgUpdateResponsiveness
-            ? (+stats?.avgUpdateResponsiveness).toFixed(2)
+          +stats?.avg_responsiveness
+            ? (+stats?.avg_responsiveness).toFixed(2)
             : 100
         }
         mask="x%"
