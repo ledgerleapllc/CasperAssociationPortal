@@ -462,13 +462,6 @@ export const updateLockPageRules = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getNodeDetail = (payload, resolve, reject) => ({
-  type: 'GET_NODE_DETAIL',
-  payload,
-  resolve,
-  reject,
-});
-
 export const addRecipient = (payload, resolve, reject) => ({
   type: 'ADD_RECIPIENT',
   payload,
