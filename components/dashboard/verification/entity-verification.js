@@ -103,7 +103,7 @@ export const EntityVerification = () => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop,
-    accept: '.pdf, .doc, .docx, .txt, .rtf',
+    accept: '.pdf, .jpeg, .jpg, .png, .txt, .rtf',
   });
 
   const removeFile = (_uploadFiles, index) => {
