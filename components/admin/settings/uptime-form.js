@@ -16,11 +16,11 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('uptime_calc_size', data.uptime_calc_size || '');
-    setValue('uptime_warning', data.uptime_warning || '');
-    setValue('uptime_probation', data.uptime_probation || '');
-    setValue('uptime_correction_unit', data.uptime_correction_unit || '');
-    setWatchCorrect(data.uptime_correction_unit || '');
+    setValue('uptime_calc_size', data?.uptime_calc_size);
+    setValue('uptime_warning', data?.uptime_warning);
+    setValue('uptime_probation', data?.uptime_probation);
+    setValue('uptime_correction_unit', data?.uptime_correction_unit);
+    setWatchCorrect(data?.uptime_correction_unit);
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
     if (watchCorrect) {
       setValue(
         'uptime_correction_value',
-        globalSettings.uptime_correction_value || ''
+        globalSettings?.uptime_correction_value
       );
     }
   }, [watchCorrect]);
@@ -64,7 +64,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
       >
         <div className="mb-5 w-full lg:w-7/12 flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               How many ERAs to include in calculation
             </label>
             <div className="w-full">
@@ -97,7 +97,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
         </div>
         <div className="mb-5 w-full lg:w-7/12 flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               Set Warning Level
             </label>
             <div className="w-full">
@@ -127,7 +127,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
             </div>
           </div>
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               Set Probation Level
             </label>
             <div className="w-full">
@@ -157,7 +157,7 @@ const UptimeForm = ({ isOverride, globalSettings }) => {
             </div>
           </div>
         </div>
-        <p className="text-gray font-thin mb-3">
+        <p className="text-black font-light mb-3">
           How much time should the user be given to correct this?
         </p>
         <div className="w-full lg:w-7/12 flex gap-5">

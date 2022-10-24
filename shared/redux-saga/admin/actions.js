@@ -14,13 +14,8 @@ export const getListMembersError = error => ({
   payload: error,
 });
 
-export const getUserDetail = data => ({
+export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
-  payload: data,
-});
-
-export const getUserMetrics = (payload, resolve, reject) => ({
-  type: 'GET_USER_METRICS',
   payload,
   resolve,
   reject,
@@ -28,13 +23,6 @@ export const getUserMetrics = (payload, resolve, reject) => ({
 
 export const updateBlockAccess = (payload, resolve, reject) => ({
   type: 'UPDATE_BLOCK_ACCESS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const updateUserMetrics = (payload, resolve, reject) => ({
-  type: 'UPDATE_USER_METRICS',
   payload,
   resolve,
   reject,
@@ -380,12 +368,6 @@ export const getPerkDetail = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getWarningMetrics = (resolve, reject) => ({
-  type: 'GET_WARNING_METRICS',
-  resolve,
-  reject,
-});
-
 export const getActivePerkDetail = (payload, resolve, reject) => ({
   type: 'GET_ACTIVE_PERK_DETAIL',
   payload,
@@ -395,13 +377,6 @@ export const getActivePerkDetail = (payload, resolve, reject) => ({
 
 export const updateGlobalSettings = (payload, resolve, reject) => ({
   type: 'UPDATE_GLOBAL_SETTINGS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const updateWarningMetrics = (payload, resolve, reject) => ({
-  type: 'UPDATE_WARNING_METRICS',
   payload,
   resolve,
   reject,
@@ -482,13 +457,6 @@ export const getLockPageRules = (resolve, reject) => ({
 
 export const updateLockPageRules = (payload, resolve, reject) => ({
   type: 'UPDATE_LOCK_PAGE_RULES',
-  payload,
-  resolve,
-  reject,
-});
-
-export const getNodeDetail = (payload, resolve, reject) => ({
-  type: 'GET_NODE_DETAIL',
   payload,
   resolve,
   reject,

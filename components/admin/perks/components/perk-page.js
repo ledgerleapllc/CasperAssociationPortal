@@ -6,7 +6,7 @@ export const PerkPage = ({ perk, hideTime }) => (
       {perk?.image?.url ? (
         <img
           className="object-cover w-full h-full bg-gray1"
-          src={perk?.image?.url || ''}
+          src={perk?.image?.url}
           alt=""
         />
       ) : (

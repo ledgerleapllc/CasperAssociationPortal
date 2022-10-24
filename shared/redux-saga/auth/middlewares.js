@@ -6,10 +6,8 @@ import { saveApiResponseError } from '../api-controller/actions';
 import { removeToken, setToken } from '../../../helpers/api/auth.service';
 import {
   clearUser,
-  clearMetrics,
   fetchUserInfoError,
   fetchUserInfoSuccess,
-  setMetrics,
   setUser,
   updateUser,
   setNotifications,
@@ -44,7 +42,6 @@ export function* logoutApp() {
   yield put(clearLetter());
   yield put(clearOwnerNodes());
   yield put(clearUser());
-  yield put(clearMetrics());
   yield put(clearNotifications());
   yield put(clearPermissions());
   yield put(clearPagePermissions());
@@ -263,44 +260,6 @@ export function* resend2FACode({ resolve, reject }) {
   }
 }
 
-export function* getMyMetrics({ public_address_node, isTotal }) {
-  try {
-    let url = public_address_node
-      ? `users/metrics?public_address_node=${public_address_node}`
-      : 'users/metrics?v=1';
-    if (isTotal) {
-      url += '&isTotal=1';
-    } else {
-      url += '&isTotal=0';
-    }
-    const res = yield get([url]);
-    if (res.data?.monitoring_criteria) {
-      const key = {
-        uptime: 'uptime',
-        'block-height': 'block_height_average',
-        'update-responsiveness': 'update_responsiveness',
-      };
-      res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
-        (result, item) => {
-          const itemKey = key[item.type];
-          const params = {
-            ...result,
-            [itemKey]: item,
-          };
-          return params;
-        },
-        {}
-      );
-    }
-    const temp = {
-      ...res.data,
-    };
-    yield put(setMetrics(temp));
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* getBannerNotifications() {
   try {
     const query = qs.stringify({
@@ -388,7 +347,6 @@ export function* watchAuth() {
   yield all([takeLatest('VERIFY_EMAIL', verifyEmail)]);
   yield all([takeLatest('RESEND_VERIFICATION_CODE', resendVerificationCode)]);
   yield all([takeLatest('RESEND_2FA_CODE', resend2FACode)]);
-  yield all([takeLatest('GET_MY_METRICS', getMyMetrics)]);
   yield all([takeLatest('GET_BANNER_NOTIFICATIONS', getBannerNotifications)]);
   yield all([takeLatest('GET_POPUP_NOTIFICATIONS', getPopupNotifications)]);
   yield all([takeLatest('FETCH_USER_INFO', fetchUserInfo)]);

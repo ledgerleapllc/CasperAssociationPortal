@@ -184,7 +184,7 @@ const KycAmlDetail = () => {
                   <p className="text-sm font-medium w-1/6">Reference Number:</p>
                   <div className="text-sm w-5/6">
                     <div className="flex">
-                      <span>{userKYC?.shuftipro?.reference_id || ''}</span>
+                      <span>{userKYC?.shuftipro?.reference_id}</span>
                       <button
                         className="ml-6"
                         type="button"
@@ -195,7 +195,7 @@ const KycAmlDetail = () => {
                     </div>
                     <input
                       id="public-address"
-                      value={userKYC?.shuftipro?.reference_id || ''}
+                      value={userKYC?.shuftipro?.reference_id}
                       readOnly
                       hidden
                     />

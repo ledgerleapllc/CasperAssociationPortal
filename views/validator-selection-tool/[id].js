@@ -1,22 +1,28 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Head from 'next/head';
 import PublicHeader from '../../components/layouts/public-header';
-import { BackButton, ProgressBar } from '../../components/partials';
+import {
+  BackButton,
+  ProgressBar,
+  Dropdown,
+  Tooltips,
+} from '../../components/partials';
 import {
   formatDate,
-  generateTextForEras,
   numberWithCommas,
   getShortNodeAddress,
 } from '../../shared/core/utils';
 import { AppContext } from '../../pages/_app';
 import { getPublicMemberDetail } from '../../shared/redux-saga/member-viewer/actions';
-import { DEFAULT_BASE_BLOCKS } from '../../shared/core/constants';
 import IconCopy from '../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../components/partials/snack-bar';
-import IconVerified from '../../public/images/ic_check_mark.svg';
+import VerifiedIcon from '../../public/images/ic_check_mark.svg';
+import ArrowIcon from '../../public/images/ic_arrow_down.svg';
 import AppFooter from '../../components/layouts/app-footer';
 
 const StylesBasic = styled.div`
@@ -63,7 +69,8 @@ const NodeExplorerDetail = () => {
   const { id } = routerParams;
   const dispatch = useDispatch();
   const [memberInfo, setMemberInfo] = useState(null);
-  const [metrics, setMetrics] = useState(null);
+  const [addressList, setAddressList] = useState([]);
+  const [currentUserNode, setCurrentUserNode] = useState();
   const { openSnack } = useSnackBar();
 
   useEffect(() => {
@@ -76,28 +83,11 @@ const NodeExplorerDetail = () => {
           res => {
             setLoading(false);
             setMemberInfo(res);
-            const temp = res.metric;
-            let block_height =
-              DEFAULT_BASE_BLOCKS -
-              (temp.max_block_height_average - temp.block_height_average);
-            if (block_height < 0) {
-              block_height = 0;
+            const addresses = res.addresses || [];
+            setAddressList(addresses);
+            if (addresses && addresses.length > 0) {
+              setCurrentUserNode(addresses[0]);
             }
-            const metricTemp = {
-              ...temp,
-              uptim: temp.uptime || 0,
-              block_height,
-              peers: temp.peers || 0,
-              update_responsiveness: temp.update_responsiveness || 0,
-              monitoring_criteria: temp.monitoring_criteria || null,
-              average_uptime: temp.avg_uptime || 0,
-              avg_update_responsiveness: temp.avg_update_responsiveness || 0,
-              current_block_height:
-                DEFAULT_BASE_BLOCKS - block_height > 0
-                  ? DEFAULT_BASE_BLOCKS - block_height
-                  : 0,
-            };
-            setMetrics(metricTemp);
           },
           () => {
             setLoading(false);
@@ -115,15 +105,19 @@ const NodeExplorerDetail = () => {
     openSnack('primary', 'Copied Public Address!');
   };
 
+  const capitalize = s => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
   const renderLabel = () => {
     if (
       memberInfo &&
       memberInfo.profile &&
       memberInfo.profile.status === 'approved'
     ) {
-      if (memberInfo.profile.extra_status) {
+      if (memberInfo.profile.extra_status)
         return memberInfo.profile.extra_status;
-      }
       return 'VERIFIED';
     }
     return 'Not Verified';
@@ -171,11 +165,38 @@ const NodeExplorerDetail = () => {
                             </td>
                             <td>
                               <div className="flex items-center gap-2">
-                                <span>{memberInfo?.full_name} </span>
+                                {capitalize(memberInfo?.full_name)}
+                                {', '}
+                                {memberInfo?.profile?.blockchain_name}{' '}
                                 {memberInfo?.profile?.status === 'approved' && (
-                                  <IconVerified className="text-primary" />
+                                  <VerifiedIcon className="text-primary" />
                                 )}
                               </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span>&ensp;</span>
+                            </td>
+                            <td>
+                              {memberInfo?.profile?.blockchain_name ? (
+                                <span>
+                                  {memberInfo?.profile?.blockchain_desc}
+                                </span>
+                              ) : (
+                                <span className="text-sm text-gray">
+                                  Owner of this validator node has not verified
+                                  their details using the{' '}
+                                  <a
+                                    href="https://github.com/make-software/casper-account-info-standard"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-sm text-primary"
+                                  >
+                                    Casper Account Info Standard
+                                  </a>
+                                </span>
+                              )}
                             </td>
                           </tr>
                           <tr>
@@ -245,25 +266,69 @@ const NodeExplorerDetail = () => {
                     <tbody>
                       <tr>
                         <td>
-                          <span>Public Node Address:</span>
+                          <span>Node Address:</span>
                         </td>
                         <td>
                           <div className="flex items-center">
-                            <span>
-                              {getShortNodeAddress(
-                                memberInfo?.public_address_node
-                              )}
-                            </span>
+                            <div style={{ width: '300px' }}>
+                              <Dropdown
+                                className="w-full"
+                                trigger={
+                                  <div className="flex items-center gap-2">
+                                    <p className="w-full relative h-6">
+                                      <Tooltips
+                                        disableTheme
+                                        placement="bottom"
+                                        title={
+                                          currentUserNode?.public_address_node
+                                        }
+                                        arrow
+                                      >
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            currentUserNode?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </Tooltips>
+                                    </p>
+                                    <ArrowIcon />
+                                  </div>
+                                }
+                              >
+                                <ul>
+                                  {addressList.map((address, index) => (
+                                    <li
+                                      className="p-2 hover:text-primary cursor-pointer"
+                                      onClick={() => {
+                                        setCurrentUserNode(address);
+                                      }}
+                                      key={`node_${index}`}
+                                    >
+                                      <p className="w-full relative h-6">
+                                        <span className="text-base font-thin truncate absolute inset-0">
+                                          {getShortNodeAddress(
+                                            address?.public_address_node,
+                                            30
+                                          )}
+                                        </span>
+                                      </p>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </Dropdown>
+                            </div>
                             <button
                               className="ml-6"
                               type="button"
                               onClick={() => copyClipboard()}
+                              style={{ marginBottom: '5px' }}
                             >
                               <IconCopy />
                             </button>
                             <input
                               id="public-address"
-                              value={memberInfo?.public_address_node || ''}
+                              value={currentUserNode?.public_address_node}
                               readOnly
                               hidden
                             />
@@ -275,7 +340,7 @@ const NodeExplorerDetail = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>{memberInfo?.validator_fee}%</span>
+                          <span>{currentUserNode?.bid_delegation_rate}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -283,7 +348,11 @@ const NodeExplorerDetail = () => {
                           <span>Delegators:</span>
                         </td>
                         <td>
-                          <span>{metrics?.delegators}</span>
+                          <span>
+                            {numberWithCommas(
+                              currentUserNode?.bid_delegators_count
+                            )}
+                          </span>
                         </td>
                       </tr>
                       <tr>
@@ -292,7 +361,9 @@ const NodeExplorerDetail = () => {
                         </td>
                         <td>
                           <span>
-                            {numberWithCommas(metrics?.self_staked_amount)}
+                            {numberWithCommas(
+                              currentUserNode?.bid_self_staked_amount
+                            )}
                           </span>
                         </td>
                       </tr>
@@ -301,7 +372,11 @@ const NodeExplorerDetail = () => {
                           <span>Total Stake:</span>
                         </td>
                         <td>
-                          <span>{numberWithCommas(metrics?.stake_amount)}</span>
+                          <span>
+                            {numberWithCommas(
+                              currentUserNode?.bid_total_staked_amount
+                            )}
+                          </span>
                         </td>
                       </tr>
                     </tbody>
@@ -309,7 +384,7 @@ const NodeExplorerDetail = () => {
                 </StylesAdvanced>
                 <div className="flex gap-24 w-3/5">
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Uptime</span>
                       <img
                         className="pl-3"
@@ -319,13 +394,10 @@ const NodeExplorerDetail = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${
-                      metrics?.avg_uptime || 0
-                    }%`}</p>
-                    <ProgressBar value={metrics?.uptime} mask="x%" />
+                    <ProgressBar value={currentUserNode?.uptime} mask="x%" />
                   </div>
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Update Responsiveness</span>
                       <img
                         className="pl-3"
@@ -335,14 +407,9 @@ const NodeExplorerDetail = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average:{' '}
-                      {generateTextForEras(metrics?.avg_update_responsiveness)}
-                    </p>
                     <ProgressBar
-                      value={metrics?.update_responsiveness}
-                      total={metrics?.max_update_responsiveness}
-                      mask=""
+                      value={currentUserNode?.update_responsiveness}
+                      mask="x%"
                       options={{
                         startText: 'Needs Improvement',
                         endText: 'Great',

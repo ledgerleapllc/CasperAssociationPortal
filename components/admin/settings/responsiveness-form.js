@@ -15,8 +15,8 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('responsiveness_warning', data.responsiveness_warning || '');
-    setValue('responsiveness_probation', data.responsiveness_probation || '');
+    setValue('responsiveness_warning', data?.responsiveness_warning);
+    setValue('responsiveness_probation', data?.responsiveness_probation);
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
       >
         <div className="w-full lg:w-7/12 flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               Set Warning Level
             </label>
             <div className="w-full">
@@ -81,7 +81,7 @@ const ResponsivenessForm = ({ isOverride, globalSettings }) => {
             </div>
           </div>
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               Set Probation Start
             </label>
             <div className="w-full">

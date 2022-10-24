@@ -1,14 +1,13 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-prototype-builtins */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Switch from 'react-switch';
 import {
   bypassKYC,
   getUserDetail,
-  getUserMetrics,
   updateBlockAccess,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
@@ -23,7 +22,7 @@ const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const routerParams = useParams();
   const { id } = routerParams;
-  const userDetail = useSelector(state => state.userDetailReducer.data);
+  const [userDetail, setUserDetail] = useState({});
   const [blockAccess, setBlockAccess] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [currentAddress, setCurrentAddress] = useState({});
@@ -31,40 +30,41 @@ const AdminUserDetail = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getUserDetail(id));
+      setLoading(true);
       dispatch(
-        getUserMetrics(
-          { id },
+        getUserDetail(
+          id,
           res => {
+            setLoading(false);
+            setUserDetail(res);
             const addressesTemp = res.addresses || [];
             setAddresses(addressesTemp);
             if (addressesTemp.length > 0) {
               setCurrentAddress(addressesTemp[0]);
             }
+            if (res.page_permissions) {
+              const permissions = res.page_permissions;
+              const blockAccessV = {
+                nodes: 0,
+                discussions: 0,
+                votes: 0,
+                perks: 0,
+              };
+              if (permissions && permissions.length > 0) {
+                permissions.forEach(permission => {
+                  blockAccessV[permission.name] = 1 - permission.is_permission;
+                });
+              }
+              setBlockAccess(blockAccessV);
+            }
           },
-          () => {}
+          () => {
+            setLoading(false);
+          }
         )
       );
     }
   }, [id]);
-
-  useEffect(() => {
-    if (userDetail && userDetail.id && userDetail.page_permissions) {
-      const permissions = userDetail.page_permissions;
-      const blockAccessV = {
-        nodes: 0,
-        discussions: 0,
-        votes: 0,
-        perks: 0,
-      };
-      if (permissions && permissions.length > 0) {
-        permissions.forEach(permission => {
-          blockAccessV[permission.name] = 1 - permission.is_permission;
-        });
-      }
-      setBlockAccess(blockAccessV);
-    }
-  }, [userDetail]);
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
@@ -313,7 +313,7 @@ const AdminUserDetail = () => {
                       <div className="flex items-center gap-2">
                         <p className="w-full relative h-6">
                           <span className="text-sm truncate absolute inset-0">
-                            {currentAddress?.public_key}
+                            {currentAddress?.public_address_node}
                           </span>
                         </p>
                         <ArrowIcon />
@@ -331,7 +331,7 @@ const AdminUserDetail = () => {
                         >
                           <p className="w-full relative h-6">
                             <span className="text-center text-base font-thin truncate absolute inset-0">
-                              {address?.public_key}
+                              {address?.public_address_node}
                             </span>
                           </p>
                         </li>
@@ -342,33 +342,29 @@ const AdminUserDetail = () => {
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
                   <p className="text-sm w-5/6">
-                    {numberWithCommas(
-                      currentAddress.bid_total_staked_amount || 0
-                    )}
+                    {numberWithCommas(currentAddress?.bid_total_staked_amount)}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>
-                  <p className="text-sm w-1/6">{currentAddress.uptime || 0}%</p>
+                  <p className="text-sm w-1/6">{currentAddress?.uptime}%</p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">ERAs Active:</p>
-                  <p className="text-sm w-1/6">
-                    {currentAddress.eras_active || 0}
-                  </p>
+                  <p className="text-sm w-1/6">{currentAddress?.eras_active}</p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
                     ERAs since Redmark:
                   </p>
                   <p className="text-sm w-1/6">
-                    {currentAddress.eras_since_bad_mark || 0}
+                    {currentAddress?.eras_since_bad_mark}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Total Redmarks:</p>
                   <p className="text-sm w-1/6">
-                    {currentAddress.total_bad_marks || 0}
+                    {currentAddress?.total_bad_marks}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
@@ -376,7 +372,7 @@ const AdminUserDetail = () => {
                     Update responsiveness:
                   </p>
                   <p className="text-sm w-1/6">
-                    {currentAddress.update_responsiveness || 0}%
+                    {currentAddress?.update_responsiveness}%
                   </p>
                 </div>
               </div>

@@ -103,6 +103,7 @@ const NodeExplorer = () => {
   };
 
   useEffect(() => {
+    resetData();
     fetchMembers();
   }, []);
 
@@ -194,7 +195,7 @@ const NodeExplorer = () => {
                         </Tooltips>
                       </p>
                     </td>
-                    <td>{sliderValues.uptime || 0}</td>
+                    <td>{sliderValues?.uptime}</td>
                     <td>
                       <Slider
                         onChange={val => handleSlider('uptime', val)}
@@ -219,7 +220,7 @@ const NodeExplorer = () => {
                         </Tooltips>
                       </p>
                     </td>
-                    <td>{sliderValues.delegation_rate || 0}</td>
+                    <td>{sliderValues?.delegation_rate}</td>
                     <td>
                       <Slider
                         onChange={val => handleSlider('delegation_rate', val)}
@@ -244,7 +245,7 @@ const NodeExplorer = () => {
                         </Tooltips>
                       </p>
                     </td>
-                    <td>{sliderValues.update_responsiveness || 0}</td>
+                    <td>{sliderValues?.update_responsiveness}</td>
                     <td>
                       <Slider
                         maxValue={getMax('update_responsiveness')}
@@ -271,7 +272,7 @@ const NodeExplorer = () => {
                         </Tooltips>
                       </p>
                     </td>
-                    <td>{sliderValues.delegators || 0}</td>
+                    <td>{sliderValues?.delegators}</td>
                     <td>
                       <Slider
                         maxValue={getMax('delegators')}
@@ -296,7 +297,7 @@ const NodeExplorer = () => {
                         </Tooltips>
                       </p>
                     </td>
-                    <td>{sliderValues.stake_amount || 0}</td>
+                    <td>{sliderValues?.stake_amount}</td>
                     <td>
                       <Slider
                         maxValue={getMax('stake_amount')}
@@ -409,17 +410,19 @@ const NodeExplorer = () => {
                         </Table.BodyCell>
                         <Table.BodyCell key="body4">
                           <p className="capitalize">
-                            {row.delegation_rate * 100 || 0}%
+                            {row.delegation_rate
+                              ? `${row.delegation_rate * 100}%`
+                              : ''}
                           </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body5">
-                          <p>{row.delegators_count || 0}</p>
+                          <p>{row?.delegators_count}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body6">
-                          <p>{numberWithCommas(row.total_staked_amount)}</p>
+                          <p>{numberWithCommas(row?.total_staked_amount)}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body7">
-                          <p>{row.uptime || 0}%</p>
+                          <p>{row?.uptime}%</p>
                         </Table.BodyCell>
                       </Table.BodyRow>
                     ))}

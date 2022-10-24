@@ -15,8 +15,8 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
   });
 
   const setData = data => {
-    setValue('redmarks_revoke', data.redmarks_revoke || '');
-    setValue('redmarks_revoke_calc_size', data.redmarks_revoke_calc_size || '');
+    setValue('redmarks_revoke', data?.redmarks_revoke);
+    setValue('redmarks_revoke_calc_size', data?.redmarks_revoke_calc_size);
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
       >
         <div className="w-full lg:w-7/12 flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               Set Revoke Level
             </label>
             <div className="w-full">
@@ -81,7 +81,7 @@ const RedmarkForm = ({ isOverride, globalSettings }) => {
             </div>
           </div>
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               How many ERAs to include in calculation
             </label>
             <div className="w-full">
