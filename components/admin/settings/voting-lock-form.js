@@ -51,7 +51,7 @@ const VotingLockForm = ({ isOverride, globalSettings }) => {
       >
         <div className="w-full lg:w-7/12 flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               ERAs required to be active
             </label>
             <div className="w-full">
@@ -81,7 +81,7 @@ const VotingLockForm = ({ isOverride, globalSettings }) => {
             </div>
           </div>
           <div className="w-full lg:w-6/12">
-            <label className="block text-gray font-thin mb-2">
+            <label className="block text-black font-light mb-2">
               ERAs since last redmark
             </label>
             <div className="w-full">
