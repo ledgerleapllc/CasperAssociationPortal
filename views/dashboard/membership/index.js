@@ -238,7 +238,7 @@ const DashboardMembership = () => {
             <p className="pb-5">
               {`All members of the Casper portal need to maintain minimum node
               metrics to have access to all parts of the portal including Node
-              Uptime, Block Height, and Update Responsiveness. If your node falls
+              Uptime, and Update Responsiveness. If your node falls
               short of the minimum criteria, you will be notified through email
               and given a grace period to fix your statistics. If you do not fix
               it in time, some areas of your portal access will be blocked until

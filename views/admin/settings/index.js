@@ -266,7 +266,7 @@ const Settings = () => {
                     Monitoring Criteria
                     <Tooltips
                       placement="top"
-                      title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
+                      title="Allows admin to adjust the settings for Uptime, and Update Responsiveness."
                       arrow
                     >
                       <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
