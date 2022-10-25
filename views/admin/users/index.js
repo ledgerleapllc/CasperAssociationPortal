@@ -6,11 +6,7 @@ import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Table } from '../../../components/partials';
 import { getListMembers } from '../../../shared/redux-saga/admin/actions';
-import {
-  formatDate,
-  getShortNodeAddress,
-  numberWithCommas,
-} from '../../../shared/core/utils';
+import { formatDate, numberWithCommas } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
@@ -160,13 +156,7 @@ const AdminUserList = () => {
                     <Table.HeaderCell key="full_name" sortKey="full_name">
                       <p>First/Last Name</p>
                     </Table.HeaderCell>
-                    <Table.HeaderCell key="node_address">
-                      <p>Node Address</p>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell
-                      key="self_staked_amount"
-                      sortKey="self_staked_amount"
-                    >
+                    <Table.HeaderCell key="self_staked_amount">
                       <p>
                         CSPR
                         <br /> Delegated
@@ -206,9 +196,6 @@ const AdminUserList = () => {
                           <p className="truncate">
                             {row?.first_name} {row?.last_name}
                           </p>
-                        </Table.BodyCell>
-                        <Table.BodyCell key="public_address">
-                          <p>{getShortNodeAddress(row?.public_address_node)}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="self_staked_amount">
                           <p>{numberWithCommas(row.self_staked_amount)}</p>
