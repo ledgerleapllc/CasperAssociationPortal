@@ -201,14 +201,6 @@ const Landing = () => {
                 </li>
                 <li>
                   <span />
-                  <p>Block Height</p>
-                </li>
-                <li>
-                  <span />
-                  <p>Peers</p>
-                </li>
-                <li>
-                  <span />
                   <p>Update Responsiveness</p>
                 </li>
               </ul>

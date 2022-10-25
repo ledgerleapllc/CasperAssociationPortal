@@ -103,7 +103,7 @@ export const EntityVerification = () => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop,
-    accept: '.pdf, .doc, .docx, .txt, .rtf',
+    accept: '.pdf, .jpeg, .jpg, .png, .txt, .rtf',
   });
 
   const removeFile = (_uploadFiles, index) => {
@@ -463,7 +463,7 @@ export const EntityVerification = () => {
                       Upload Docs
                     </button>
                     <span className="hidden lg:block text-black text-center">
-                      Only pdf, docx, doc, txt, rtf file types are accepted
+                      Only pdf, jpeg, png, txt, rtf file types are accepted
                     </span>
                   </div>
                 </div>
