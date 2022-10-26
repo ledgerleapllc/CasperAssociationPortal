@@ -801,6 +801,7 @@ export function* registerSubAdmin({ payload, resolve, reject }) {
 export function* getGlobalSettings({ resolve, reject }) {
   try {
     const res = yield get(['admin/global-settings']);
+    yield delay(500);
     resolve(res.data);
   } catch (error) {
     reject(error);

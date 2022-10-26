@@ -92,12 +92,16 @@ export const IDverifications = () => {
           </Table.HeaderCell>
           <Table.HeaderCell key="amlAPI">
             <p>
-              AML API <br /> Response
+              AML API
+              <br />
+              Response
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="kycAPI">
             <p>
-              KYC API <br /> Response
+              KYC API
+              <br />
+              Response
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="action">

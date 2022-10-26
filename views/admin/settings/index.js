@@ -62,12 +62,13 @@ const Settings = () => {
     setData,
     register,
     resetData,
-    hasMore,
     appendData,
+    hasMore,
     setHasMore,
   } = useTable();
 
   const fetchGlobalSettings = () => {
+    setLoading(true);
     resetData();
     dispatch(
       getGlobalSettings(
@@ -108,7 +109,6 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchGlobalSettings();
   }, []);
 
@@ -311,7 +311,7 @@ const Settings = () => {
                     <PlusIcon className="text-white" />
                   </button>
                 </h4>
-                <Styles className="h-full pt-4 w-full">
+                <Styles className="w-full h-full pt-4">
                   <Table
                     className="recipient-table h-full"
                     {...register}

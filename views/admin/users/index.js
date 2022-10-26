@@ -154,18 +154,20 @@ const AdminUserList = () => {
                       <p>Entity Name</p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="full_name" sortKey="full_name">
-                      <p>First/Last Name</p>
+                      <p>First / Last Name</p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="self_staked_amount">
                       <p>
                         CSPR
-                        <br /> Delegated
+                        <br />
+                        Delegated
                       </p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="created_at" sortKey="created_at">
                       <p>
                         Registration
-                        <br /> Date
+                        <br />
+                        Date
                       </p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="details">
