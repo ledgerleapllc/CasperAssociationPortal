@@ -53,11 +53,6 @@ export const getUserKYCInfoError = error => ({
   payload: error,
 });
 
-export const denyKYC = data => ({
-  type: 'DENY_KYC',
-  payload: data,
-});
-
 export const getListIntake = (payload, successCb) => ({
   type: 'GET_LIST_INTAKE',
   payload,
@@ -251,22 +246,8 @@ export const banUser = (payload, resolve, reject) => ({
   reject,
 });
 
-export const banVerifiedUser = (payload, resolve, reject) => ({
-  type: 'BAN_VERIFIED_USER',
-  payload,
-  resolve,
-  reject,
-});
-
 export const approveDocuments = (payload, resolve, reject) => ({
   type: 'APPROVED_DOCUMENTS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const refreshLinks = (payload, resolve, reject) => ({
-  type: 'REFRESH_LINKS',
   payload,
   resolve,
   reject,
@@ -281,13 +262,6 @@ export const getVerificationDetail = (payload, resolve, reject) => ({
 
 export const resetUserKYC = (payload, resolve, reject) => ({
   type: 'RESET_USER_KYC',
-  payload,
-  resolve,
-  reject,
-});
-
-export const activateVerifiedStatus = (payload, resolve, reject) => ({
-  type: 'ACTIVATE_VERIFIED_STATUS',
   payload,
   resolve,
   reject,
@@ -436,21 +410,8 @@ export const getNodesByUser = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getNodesFromAdmin = (payload, resolve, reject) => ({
-  type: 'GET_NODES_FROM_ADMIN',
-  payload,
-  resolve,
-  reject,
-});
-
 export const getGlobalSettings = (resolve, reject) => ({
   type: 'GET_GLOBAL_SETTINGS',
-  resolve,
-  reject,
-});
-
-export const getLockPageRules = (resolve, reject) => ({
-  type: 'GET_LOCK_PAGE_RULES',
   resolve,
   reject,
 });
@@ -471,20 +432,6 @@ export const addRecipient = (payload, resolve, reject) => ({
 
 export const removeRecipient = (payload, resolve, reject) => ({
   type: 'REMOVE_RECIPIENT',
-  payload,
-  resolve,
-  reject,
-});
-
-export const listRecipients = (payload, resolve, reject) => ({
-  type: 'LIST_RECIPIENTS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const getMembershipFile = (payload, resolve, reject) => ({
-  type: 'GET_MEMBERSHIP_FILE',
   payload,
   resolve,
   reject,

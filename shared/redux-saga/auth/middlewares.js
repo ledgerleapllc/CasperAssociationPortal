@@ -1,5 +1,5 @@
 /* eslint-disable node/callback-return */
-import { put, takeLatest, all, delay } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
@@ -284,17 +284,6 @@ export function* getPopupNotifications() {
   }
 }
 
-export function* getNodesFromUser({ resolve, reject }) {
-  try {
-    const res = yield get([`users/list-node`]);
-    yield delay(500);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* checkSessionId({ payload, resolve, reject }) {
   try {
     const query = qs.stringify(payload);
@@ -353,7 +342,6 @@ export function* watchAuth() {
   yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
   yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
-  yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
   yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
   yield all([takeLatest('CHECK_SESSION_ID', checkSessionId)]);
   yield all([takeLatest('DONATE', donate)]);

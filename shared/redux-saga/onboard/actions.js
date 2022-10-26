@@ -16,13 +16,6 @@ export const saveShuftiproTemp = payload => ({
   payload,
 });
 
-export const updateShuftiproTemp = (payload, resolve, reject) => ({
-  type: 'UPDATE_SHUFTI',
-  payload,
-  resolve,
-  reject,
-});
-
 export const deleteShuftiproTemp = (payload, resolve, reject) => ({
   type: 'DELETE_SHUFTI',
   payload,

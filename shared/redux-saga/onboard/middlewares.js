@@ -169,24 +169,6 @@ export function* deleteShuftiproTemp({ payload, resolve, reject }) {
   }
 }
 
-export function* updateShuftiproTemp({ payload, resolve, reject }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield putApi(['users/shuftipro-temp'], payload, { headers });
-    resolve();
-  } catch (error) {
-    if (error.data.code === 400) {
-      resolve();
-    } else {
-      yield put(saveApiResponseError(error));
-      reject();
-    }
-  }
-}
-
 export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -266,7 +248,6 @@ export function* watchOnboard() {
   yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
-  yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
   yield all([takeLatest('DELETE_SHUFTI', deleteShuftiproTemp)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
   yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);

@@ -67,18 +67,6 @@ export function* getUserKYCInfo(data) {
   }
 }
 
-export function* denyKYC(data) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post([`admin/users/${data.payload}/deny-kyc`], null, { headers });
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* getIntake({ payload, successCb }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -350,26 +338,6 @@ export function* banUser({ payload, resolve, reject }) {
   }
 }
 
-export function* banVerifiedUser({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`admin/users/${payload.id}/deny-ban`]);
-    resolve(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* refreshLinks({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`admin/users/${payload.userId}/refresh-links`]);
-    resolve(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
 export function* getVerificationDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
@@ -384,17 +352,6 @@ export function* resetUserKYC({ payload, resolve, reject }) {
   try {
     const { message, id } = payload;
     const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* activateVerifiedStatus({ payload, resolve, reject }) {
-  try {
-    const { id } = payload;
-    const res = yield post([`/admin/users/${id}/active`]);
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -776,18 +733,6 @@ export function* getNodesByUser({ payload, resolve, reject }) {
   }
 }
 
-export function* getNodesFromAdmin({ payload, resolve, reject }) {
-  try {
-    const query = qs.stringify(payload);
-    const res = yield get([`admin/list-node?${query}`]);
-    yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* registerSubAdmin({ payload, resolve, reject }) {
   try {
     const res = yield post([`auth/register-sub-admin`], payload);
@@ -802,16 +747,6 @@ export function* getGlobalSettings({ resolve, reject }) {
   try {
     const res = yield get(['admin/global-settings']);
     yield delay(500);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getLockPageRules({ resolve, reject }) {
-  try {
-    const res = yield get(['admin/lock-rules']);
     resolve(res.data);
   } catch (error) {
     reject(error);
@@ -859,28 +794,6 @@ export function* removeRecipient({ payload, resolve, reject }) {
   }
 }
 
-export function* listRecipients({ payload, resolve, reject }) {
-  try {
-    const query = qs.stringify(payload);
-    const res = yield get([`admin/contact-recipients?${query}`]);
-    yield delay(500);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getMembershipFile({ payload, resolve, reject }) {
-  try {
-    const res = yield get([`admin/membership-file`], payload);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* changeMembershipFile({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
@@ -898,7 +811,6 @@ export function* watchAdmin() {
   yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
   yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
-  yield all([takeLatest('DENY_KYC', denyKYC)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
@@ -924,15 +836,12 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
   yield all([takeLatest('BAN_USER', banUser)]);
-  yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
   yield all([takeLatest('RESET_USER', resetUser)]);
   yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
   yield all([
     takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
   ]);
-  yield all([takeLatest('REFRESH_LINKS', refreshLinks)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
-  yield all([takeLatest('ACTIVATE_VERIFIED_STATUS', activateVerifiedStatus)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
@@ -956,7 +865,6 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);
   yield all([takeLatest('GET_LIST_NOTIFICATIONS', getListNotifications)]);
   yield all([takeLatest('GET_ADMIN_DASHBOARD', getAdminDashboard)]);
-  yield all([takeEvery('GET_NODES_FROM_ADMIN', getNodesFromAdmin)]);
   yield all([takeEvery('GET_NODES_BY_USER', getNodesByUser)]);
   yield all([
     takeLatest('GET_NOTIFICATION_VIEW_LOGS', getNotificationViewLogs),
@@ -965,12 +873,9 @@ export function* watchAdmin() {
     takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
   ]);
   yield all([takeLatest('GET_GLOBAL_SETTINGS', getGlobalSettings)]);
-  yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
   yield all([takeLatest('ADD_RECIPIENT', addRecipient)]);
   yield all([takeLatest('REMOVE_RECIPIENT', removeRecipient)]);
-  yield all([takeLatest('LIST_RECIPIENTS', listRecipients)]);
-  yield all([takeLatest('GET_MEMBERSHIP_FILE', getMembershipFile)]);
   yield all([takeLatest('CHANGE_MEMBERSHIP_FILE', changeMembershipFile)]);
   yield all([takeLatest('UPDATE_BALLOT', updateBallot)]);
 }

@@ -61,11 +61,6 @@ export const recordVote = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getVerifiedMembers = successCb => ({
-  type: 'GET_VERIFIED_MEMBERS',
-  successCb,
-});
-
 export const getDiscussions = (payload, successCb) => ({
   type: 'GET_DISCUSSIONS',
   payload,
@@ -109,12 +104,6 @@ export const getMyDiscussions = (payload, resolve, reject) => ({
 export const getTrendingDiscussions = resolve => ({
   type: 'GET_TRENDING_DISCUSSIONS',
   resolve,
-});
-
-export const getMemberCountInfo = (resolve, reject) => ({
-  type: 'GET_MEMBER_COUNT_INFO',
-  resolve,
-  reject,
 });
 
 export const getDiscussionDetail = (id, resolve, reject) => ({
@@ -212,12 +201,6 @@ export const getUserMembershipInfo = (resolve, reject) => ({
   reject,
 });
 
-export const getMyInfo = (resolve, reject) => ({
-  type: 'GET_MY_INFO',
-  resolve,
-  reject,
-});
-
 export const uploadAvatar = (payload, resolve, reject) => ({
   type: 'UPLOAD_AVATAR',
   payload,
@@ -273,20 +256,6 @@ export const viewedAttachDocument = (payload, resolve) => ({
   type: 'VIEWED_ATTACH_DOCUMENT',
   payload,
   resolve,
-});
-
-export const getEarningData = (payload, resolve, reject) => ({
-  type: 'GET_EARNING_DATA',
-  payload,
-  resolve,
-  reject,
-});
-
-export const getEarningChart = (payload, resolve, reject) => ({
-  type: 'GET_EARNING_CHART',
-  payload,
-  resolve,
-  reject,
 });
 
 export const submitContactMessage = (payload, resolve, reject) => ({
