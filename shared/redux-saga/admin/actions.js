@@ -4,16 +4,6 @@ export const getListMembers = (payload, callback) => ({
   callback,
 });
 
-export const getListMembersSuccess = data => ({
-  type: 'GET_LIST_MEMBER_SUCCESS',
-  payload: data,
-});
-
-export const getListMembersError = error => ({
-  type: 'GET_LIST_MEMBER_ERROR',
-  payload: error,
-});
-
 export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
   payload,
@@ -26,36 +16,6 @@ export const updateBlockAccess = (payload, resolve, reject) => ({
   payload,
   resolve,
   reject,
-});
-
-export const getUserDetailSuccess = data => ({
-  type: 'GET_USER_DETAIL_SUCCESS',
-  payload: data,
-});
-
-export const getUserDetailError = error => ({
-  type: 'GET_USER_DETAIL_ERROR',
-  payload: error,
-});
-
-export const getUserKYCInfo = data => ({
-  type: 'GET_USER_KYC_INFO',
-  payload: data,
-});
-
-export const getUserKYCInfoSuccess = data => ({
-  type: 'GET_USER_KYC_INFO_SUCCESS',
-  payload: data,
-});
-
-export const getUserKYCInfoError = error => ({
-  type: 'GET_USER_KYC_INFO_ERROR',
-  payload: error,
-});
-
-export const denyKYC = data => ({
-  type: 'DENY_KYC',
-  payload: data,
 });
 
 export const getListIntake = (payload, successCb) => ({
@@ -74,16 +34,6 @@ export const removeIntake = (payload, resolve) => ({
   type: 'REMOVE_INTAKE',
   payload,
   resolve,
-});
-
-export const getListIntakeSuccess = data => ({
-  type: 'GET_LIST_INTAKE_SUCCESS',
-  payload: data,
-});
-
-export const getListIntakeError = error => ({
-  type: 'GET_LIST_INTAKE_ERROR',
-  payload: error,
 });
 
 export const getBallots = (payload, callback) => ({
@@ -151,16 +101,6 @@ export const cancelBallot = (payload, resolve, reject) => ({
   payload,
   resolve,
   reject,
-});
-
-export const cancelBallotSuccess = data => ({
-  type: 'CANCEL_BALLOT_SUCCESS',
-  payload: data,
-});
-
-export const cancelBallotError = error => ({
-  type: 'CANCEL_BALLOT_ERROR',
-  payload: error,
 });
 
 export const getSubadmins = (payload, callback) => ({
@@ -251,22 +191,8 @@ export const banUser = (payload, resolve, reject) => ({
   reject,
 });
 
-export const banVerifiedUser = (payload, resolve, reject) => ({
-  type: 'BAN_VERIFIED_USER',
-  payload,
-  resolve,
-  reject,
-});
-
 export const approveDocuments = (payload, resolve, reject) => ({
   type: 'APPROVED_DOCUMENTS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const refreshLinks = (payload, resolve, reject) => ({
-  type: 'REFRESH_LINKS',
   payload,
   resolve,
   reject,
@@ -281,13 +207,6 @@ export const getVerificationDetail = (payload, resolve, reject) => ({
 
 export const resetUserKYC = (payload, resolve, reject) => ({
   type: 'RESET_USER_KYC',
-  payload,
-  resolve,
-  reject,
-});
-
-export const activateVerifiedStatus = (payload, resolve, reject) => ({
-  type: 'ACTIVATE_VERIFIED_STATUS',
   payload,
   resolve,
   reject,
@@ -436,21 +355,8 @@ export const getNodesByUser = (payload, resolve, reject) => ({
   reject,
 });
 
-export const getNodesFromAdmin = (payload, resolve, reject) => ({
-  type: 'GET_NODES_FROM_ADMIN',
-  payload,
-  resolve,
-  reject,
-});
-
 export const getGlobalSettings = (resolve, reject) => ({
   type: 'GET_GLOBAL_SETTINGS',
-  resolve,
-  reject,
-});
-
-export const getLockPageRules = (resolve, reject) => ({
-  type: 'GET_LOCK_PAGE_RULES',
   resolve,
   reject,
 });
@@ -471,20 +377,6 @@ export const addRecipient = (payload, resolve, reject) => ({
 
 export const removeRecipient = (payload, resolve, reject) => ({
   type: 'REMOVE_RECIPIENT',
-  payload,
-  resolve,
-  reject,
-});
-
-export const listRecipients = (payload, resolve, reject) => ({
-  type: 'LIST_RECIPIENTS',
-  payload,
-  resolve,
-  reject,
-});
-
-export const getMembershipFile = (payload, resolve, reject) => ({
-  type: 'GET_MEMBERSHIP_FILE',
   payload,
   resolve,
   reject,

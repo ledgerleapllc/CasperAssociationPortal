@@ -130,12 +130,6 @@ export const clearNotifications = () => ({
   type: 'CLEAR_NOTIFICATIONS',
 });
 
-export const getNodesFromUser = (resolve, reject) => ({
-  type: 'GET_NODES_FROM_USER',
-  resolve,
-  reject,
-});
-
 export const checkSessionId = (payload, resolve, reject) => ({
   type: 'CHECK_SESSION_ID',
   payload,

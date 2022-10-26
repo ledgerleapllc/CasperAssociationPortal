@@ -56,7 +56,7 @@ const InfoRightAdminHome = ({ stats }) => (
           <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
-      <ProgressBar value={(+stats?.avg_uptime).toFixed(2)} mask="x%" />
+      <ProgressBar value={+stats?.avg_uptime} mask="x%" />
     </div>
     <div className="flex flex-col py-2 2xl:py-3">
       <div className="flex gap-2 mb-2 items-center">

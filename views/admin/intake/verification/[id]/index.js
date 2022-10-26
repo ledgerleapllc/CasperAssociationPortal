@@ -314,7 +314,7 @@ const AdminIntakeVerificationDetail = () => {
                 </div>
                 <input
                   id="public-address"
-                  value={intakeDetail?.shuftipro?.reference_id}
+                  value={intakeDetail?.shuftipro?.reference_id ?? ''}
                   readOnly
                   hidden
                 />
