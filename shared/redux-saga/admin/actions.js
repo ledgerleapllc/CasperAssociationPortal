@@ -4,16 +4,6 @@ export const getListMembers = (payload, callback) => ({
   callback,
 });
 
-export const getListMembersSuccess = data => ({
-  type: 'GET_LIST_MEMBER_SUCCESS',
-  payload: data,
-});
-
-export const getListMembersError = error => ({
-  type: 'GET_LIST_MEMBER_ERROR',
-  payload: error,
-});
-
 export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
   payload,
@@ -26,31 +16,6 @@ export const updateBlockAccess = (payload, resolve, reject) => ({
   payload,
   resolve,
   reject,
-});
-
-export const getUserDetailSuccess = data => ({
-  type: 'GET_USER_DETAIL_SUCCESS',
-  payload: data,
-});
-
-export const getUserDetailError = error => ({
-  type: 'GET_USER_DETAIL_ERROR',
-  payload: error,
-});
-
-export const getUserKYCInfo = data => ({
-  type: 'GET_USER_KYC_INFO',
-  payload: data,
-});
-
-export const getUserKYCInfoSuccess = data => ({
-  type: 'GET_USER_KYC_INFO_SUCCESS',
-  payload: data,
-});
-
-export const getUserKYCInfoError = error => ({
-  type: 'GET_USER_KYC_INFO_ERROR',
-  payload: error,
 });
 
 export const getListIntake = (payload, successCb) => ({
@@ -69,16 +34,6 @@ export const removeIntake = (payload, resolve) => ({
   type: 'REMOVE_INTAKE',
   payload,
   resolve,
-});
-
-export const getListIntakeSuccess = data => ({
-  type: 'GET_LIST_INTAKE_SUCCESS',
-  payload: data,
-});
-
-export const getListIntakeError = error => ({
-  type: 'GET_LIST_INTAKE_ERROR',
-  payload: error,
 });
 
 export const getBallots = (payload, callback) => ({
@@ -146,16 +101,6 @@ export const cancelBallot = (payload, resolve, reject) => ({
   payload,
   resolve,
   reject,
-});
-
-export const cancelBallotSuccess = data => ({
-  type: 'CANCEL_BALLOT_SUCCESS',
-  payload: data,
-});
-
-export const cancelBallotError = error => ({
-  type: 'CANCEL_BALLOT_ERROR',
-  payload: error,
 });
 
 export const getSubadmins = (payload, callback) => ({

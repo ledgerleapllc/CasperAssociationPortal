@@ -1,17 +1,3 @@
-export const getDashboardDataDemo = () => ({
-  type: 'GET_DASHBOARD_DATA_DEMO',
-});
-
-export const getListCategorySupportSuccess = data => ({
-  type: 'GET_DASHBOARD_DATA_DEMO_SUCCESS',
-  payload: data,
-});
-
-export const getListCategorySupportError = error => ({
-  type: 'GET_DASHBOARD_DATA_DEMO_SUCCESS_ERROR',
-  payload: error,
-});
-
 export const getVotes = (payload, successCb) => ({
   type: 'GET_VOTES',
   payload,
@@ -42,16 +28,6 @@ export const publishDiscussion = (payload, resolve, reject) => ({
   payload,
   resolve,
   reject,
-});
-
-export const getVoteDetailSuccess = data => ({
-  type: 'GET_VOTE_DETAIL_SUCCESS',
-  payload: data,
-});
-
-export const getVoteDetailError = error => ({
-  type: 'GET_VOTE_DETAIL_ERROR',
-  payload: error,
 });
 
 export const recordVote = (payload, resolve, reject) => ({

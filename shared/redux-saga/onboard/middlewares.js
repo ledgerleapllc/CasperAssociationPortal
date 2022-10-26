@@ -3,12 +3,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as putApi } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import {
-  uploadLetterSuccess,
-  uploadLetterError,
-  getOwnerNodesSuccess,
-  getOwnerNodesError,
-} from './actions';
+import { uploadLetterSuccess, uploadLetterError } from './actions';
 
 export function* helloSignRequest({ resolve, reject }) {
   try {
@@ -189,33 +184,6 @@ export function* uploadLetter({ payload, resolve, reject }) {
   }
 }
 
-export function* getOwnerNodes() {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const res = yield get(['users/owner-node'], { headers });
-    yield put(getOwnerNodesSuccess(res.data));
-  } catch (error) {
-    yield put(getOwnerNodesError(error));
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* resendEmailOwnerNodes({ payload }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/resend-invite-owner'], payload, { headers });
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* getMembershipFileForUser({ payload, resolve, reject }) {
   try {
     const res = yield get(['users/membership-file'], payload);
@@ -250,8 +218,6 @@ export function* watchOnboard() {
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
   yield all([takeLatest('DELETE_SHUFTI', deleteShuftiproTemp)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
-  yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
-  yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);
   yield all([
     takeLatest('GET_MEMBERSHIP_FILE_FOR_USER', getMembershipFileForUser),
   ]);

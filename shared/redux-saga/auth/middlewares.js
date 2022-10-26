@@ -17,7 +17,7 @@ import {
   clearPermissions,
   clearPagePermissions,
 } from './actions';
-import { clearLetter, clearOwnerNodes } from '../onboard/actions';
+import { clearLetter } from '../onboard/actions';
 
 export function* loginApp({ payload, callback, resetSubmitting }) {
   try {
@@ -40,7 +40,6 @@ export function* loginApp({ payload, callback, resetSubmitting }) {
 export function* logoutApp() {
   removeToken();
   yield put(clearLetter());
-  yield put(clearOwnerNodes());
   yield put(clearUser());
   yield put(clearNotifications());
   yield put(clearPermissions());

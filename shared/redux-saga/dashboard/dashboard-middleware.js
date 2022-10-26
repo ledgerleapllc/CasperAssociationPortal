@@ -1,22 +1,7 @@
 import { put, takeLatest, takeEvery, all, delay } from 'redux-saga/effects';
 import qs from 'qs';
-import {
-  getListCategorySupportSuccess,
-  getListCategorySupportError,
-  getVoteDetailSuccess,
-  getVoteDetailError,
-} from './dashboard-actions';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-
-export function* getListDataDemo() {
-  try {
-    const res = [{ a: 'a', b: 'b' }];
-    yield put(getListCategorySupportSuccess(res));
-  } catch (error) {
-    yield put(getListCategorySupportError(error));
-  }
-}
 
 export function* getVotes({ payload, successCb }) {
   try {
@@ -66,11 +51,9 @@ export function* getVoteDetail({ payload, resolve, reject }) {
     const res = yield get([`users/votes/${payload}`], {
       headers,
     });
-    yield put(getVoteDetailSuccess(res.data));
     resolve(res.data);
   } catch (error) {
     reject();
-    yield put(getVoteDetailError(error));
   }
 }
 
@@ -483,7 +466,6 @@ export function* submitContactMessage({ payload, resolve, reject }) {
 }
 
 export function* watchDemoData() {
-  yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);

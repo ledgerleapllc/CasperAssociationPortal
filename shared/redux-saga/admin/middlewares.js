@@ -3,15 +3,6 @@ import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import {
-  getListMembersSuccess,
-  getUserDetailSuccess,
-  getUserKYCInfoSuccess,
-  getListIntakeSuccess,
-  getListIntakeError,
-  cancelBallotSuccess,
-  cancelBallotError,
-} from './actions';
 import { ApiService } from '../../../helpers/api/api.service';
 import { formatDate } from '../../core/utils';
 
@@ -29,7 +20,6 @@ export function* getListMembers({ payload, callback }) {
     });
     yield delay(500);
     callback(res.data);
-    yield put(getListMembersSuccess(res.data));
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -44,26 +34,10 @@ export function* getUserDetail({ payload, resolve, reject }) {
     const res = yield get([`admin/users/${payload}`], {
       headers,
     });
-    yield put(getUserDetailSuccess(res.data));
     resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
     reject(error);
-  }
-}
-
-export function* getUserKYCInfo(data) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield get([`admin/users/${data.payload}/kyc`], {
-      headers,
-    });
-    yield put(getUserKYCInfoSuccess(res.data));
-  } catch (error) {
-    yield put(saveApiResponseError(error));
   }
 }
 
@@ -81,9 +55,7 @@ export function* getIntake({ payload, successCb }) {
     });
     yield delay(500);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
-    yield put(getListIntakeSuccess(res.data));
   } catch (error) {
-    yield put(getListIntakeError(error));
     yield put(saveApiResponseError(error));
   }
 }
@@ -97,7 +69,7 @@ export function* getVerifications({ payload, resolve }) {
     yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
-    yield put(getListIntakeError(error));
+    yield put(saveApiResponseError(error));
   }
 }
 
@@ -166,10 +138,8 @@ export function* cancelBallot({ payload, resolve, reject }) {
         headers,
       }
     );
-    yield put(cancelBallotSuccess(res));
     resolve(res);
   } catch (error) {
-    yield put(cancelBallotError(error));
     yield put(saveApiResponseError(error));
     reject(error);
   }
@@ -211,7 +181,6 @@ export function* getSubadmins({ payload, callback }) {
       xTemp.permissions = permissions;
       return xTemp;
     });
-
     yield delay(500);
     callback(temp, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -226,7 +195,6 @@ export function* getIpHistories({ payload, callback }) {
       page: payload.page,
     });
     const res = yield get([`admin/teams/${payload.id}/ip-histories?${query}`]);
-
     yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -810,7 +778,6 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
-  yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
