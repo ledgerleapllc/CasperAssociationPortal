@@ -259,10 +259,19 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const renderKYCStatus = () => {
-    if (intakeDetail?.shuftipro?.status === 'approved') return 'VERIFIED';
-    if (intakeDetail?.shuftipro?.status === 'pending')
+    if (intakeDetail?.shuftipro?.status === 'approved') {
+      return 'VERIFIED';
+    }
+
+    if (intakeDetail?.shuftipro?.status === 'pending') {
       return 'Submitted / Pending';
-    if (intakeDetail?.shuftipro?.status === 'denied') return 'Rejected';
+    }
+
+    if (intakeDetail?.shuftipro?.status === 'denied') {
+      let reason = intakeDetail?.declined_reason ?? '';
+      return 'Rejected' + (reason ? ' - ' + reason : '');
+    }
+
     return 'Not Submitted';
   };
 
