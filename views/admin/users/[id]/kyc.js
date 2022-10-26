@@ -195,7 +195,7 @@ const KycAmlDetail = () => {
                     </div>
                     <input
                       id="public-address"
-                      value={userKYC?.shuftipro?.reference_id}
+                      value={userKYC?.shuftipro?.reference_id ?? ''}
                       readOnly
                       hidden
                     />
