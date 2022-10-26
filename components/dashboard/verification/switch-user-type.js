@@ -81,7 +81,7 @@ export const SwitchUserType = ({ goNext }) => {
           shouldValidate: true,
         }
       );
-      setValue('vat_number', user?.fullInfo?.entity_tax, {
+      setValue('vat_number', user?.fullInfo?.profile?.vat_number, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -117,7 +117,6 @@ export const SwitchUserType = ({ goNext }) => {
         () => {
           dispatch(updateUser({ type: UserType.entity }));
           setIsSubmitting(false);
-
           goNext();
         },
         () => {
@@ -290,7 +289,6 @@ export const SwitchUserType = ({ goNext }) => {
                   className="w-full mt-2 h-14 px-7 rounded-full shadow-md focus:outline-none"
                   name="vat_number"
                   {...register('vat_number', {
-                    required: 'Entity VAT Number is require',
                     pattern: {
                       message: 'Entity VAT Number is invalid',
                       value: ENTITY_PATTERN,
