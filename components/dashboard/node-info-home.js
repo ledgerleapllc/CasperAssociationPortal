@@ -110,7 +110,7 @@ const NodeInfoHome = ({ dashboardData }) => (
       <ProgressBar
         value={dashboardData?.update_responsiveness}
         total={100}
-        mask=""
+        mask="x%"
         options={{
           startText: 'Needs Improvement',
           endText: 'Great',
