@@ -39,12 +39,27 @@ const LineProgressBar = ({ text, progress, options }) => {
   );
 };
 
-const CircleProgressBar = ({ text, progress }) => {
+const CircleProgressBar = ({ text, progress, size }) => {
   let progressValue = 0;
   if (progress && !Number.isNaN(progress)) progressValue = parseFloat(progress);
+  let width = 112;
+  let height = 112;
+  let radius = 45;
+  if (size === 'exlarge') {
+    width = 160;
+    height = 160;
+    radius = 64;
+  } else if (size === 'large') {
+    width = 120;
+    height = 120;
+    radius = 48;
+  }
   return (
     <div className="progress-bar progress-bar-circle w-full flex justify-center overflow-hidden">
-      <div className="relative" style={{ width: '112px', height: '112px' }}>
+      <div
+        className="relative"
+        style={{ width: `${width}px`, height: `${height}px` }}
+      >
         <svg width="100%" height="100%">
           <circle
             className="progress-tracker shadow-light"
@@ -57,10 +72,11 @@ const CircleProgressBar = ({ text, progress }) => {
           />
           <circle
             className="progress-tracking"
-            strokeWidth={progressValue ? '6' : '0'}
-            strokeDasharray={45 * 2 * Math.PI}
+            strokeWidth={progressValue ? '8' : '0'}
+            strokeDasharray={radius * 2 * Math.PI}
             strokeDashoffset={
-              45 * 2 * Math.PI - (progressValue / 100) * 45 * 2 * Math.PI
+              radius * 2 * Math.PI -
+              (progressValue / 100) * radius * 2 * Math.PI
             }
             stroke="currentColor"
             style={{ transform: 'rotate(-90deg)', transformOrigin: 'center' }}

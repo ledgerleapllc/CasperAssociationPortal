@@ -247,7 +247,7 @@ const DashboardMembership = () => {
           </Card>
           <div className="flex flex-col 2xl:flex-row gap-5">
             <div className="w-full 2xl:w-1/2 gap-5 flex flex-col lg:flex-row 2xl:flex-col">
-              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-6 py-5 gap-5">
                 <div className="w-full md:w-60">
                   <span className="text-lg font-medium">Node Status:</span>
                 </div>
@@ -260,7 +260,7 @@ const DashboardMembership = () => {
                   </span>
                 </div>
               </Card>
-              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-9 py-6 gap-5">
+              <Card className="w-full lg:w-1/2 2xl:w-full flex flex-col md:flex-row px-6 py-5 gap-5">
                 <div className="w-full md:w-60">
                   <span className="text-lg font-medium">
                     Identity Verification Status:
@@ -279,14 +279,14 @@ const DashboardMembership = () => {
             <div className="w-full 2xl:w-1/2">
               <div className="flex flex-col sm:flex-row w-full h-full gap-5">
                 <Card
-                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex flex-col 2xl:flex-row px-6 pt-6 metrics-card ${
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex px-6 py-6 metrics-card ${
                     (!membershipData.avg_uptime ||
                       membershipData.avg_uptime <
                         userInfo?.globalSettings?.uptime_warning) &&
                     'metrics-card-warning'
                   }`}
                 >
-                  <div className="w-full 2xl:w-1/2">
+                  <div className="w-1/2">
                     <Tooltips
                       disableTheme
                       placement="top"
@@ -318,16 +318,17 @@ const DashboardMembership = () => {
                       <b>Total Redmarks:</b> {membershipData?.total_bad_marks}
                     </p>
                   </div>
-                  <div className="w-full 2xl:w-1/2 min-h-0">
+                  <div className="w-1/2">
                     <ProgressBar
                       shape="circle"
                       value={membershipData?.avg_uptime}
                       mask="x%"
+                      size="exlarge"
                     />
                   </div>
                 </Card>
                 <Card
-                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-1/3 flex flex-col px-6 pt-6 metrics-card ${
+                  className={`w-full sm:w-1/2 lg:w-1/4 2xl:w-1/3 flex flex-col px-6 py-6 metrics-card ${
                     (!membershipData.update_responsiveness ||
                       membershipData.update_responsiveness <
                         userInfo?.globalSettings?.responsiveness_warning) &&
@@ -336,11 +337,12 @@ const DashboardMembership = () => {
                 >
                   <p className="text-sm font-medium pb-1">Updates</p>
                   <p className="text-xs desc">On Time</p>
-                  <div className="flex-1 min-h-0 mt-4">
+                  <div className="mt-2">
                     <ProgressBar
                       shape="circle"
                       value={membershipData?.update_responsiveness}
                       mask="x%"
+                      size="large"
                     />
                   </div>
                 </Card>
