@@ -476,7 +476,7 @@ const ContentNode = ({ isAdmin, nodesInfo, sendHightlightNode }) => {
                 <ProgressBar
                   value={currentUserNode?.update_responsiveness}
                   total={100}
-                  mask=""
+                  mask="x%"
                   options={{
                     startText: 'Needs Improvement',
                     endText: 'Great',
