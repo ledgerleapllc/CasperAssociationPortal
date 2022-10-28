@@ -8,6 +8,7 @@ import {
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const LandingView = lazy(() => import('../views/landing'));
+const FAQView = lazy(() => import('../views/faq'));
 const PrivacyPolicyView = lazy(() => import('../views/privacy-policy'));
 const HomeView = lazy(() => import('../views/home'));
 const LoginView = lazy(() => import('../views/login'));
@@ -136,6 +137,7 @@ const LandingPage = () => (
     <Suspense fallback={null}>
       <Switch>
         <Route path="/" exact component={LandingView} />
+        <Route path="/faq" exact component={FAQView} />
         <Route path="/privacy-policy" exact component={PrivacyPolicyView} />
         <Route
           path="/change-email/cancel-changes"
