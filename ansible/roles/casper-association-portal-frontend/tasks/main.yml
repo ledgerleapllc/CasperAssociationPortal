@@ -132,6 +132,20 @@
   - update
   - first_setup
 
+- name: Create .env file from .env.j2
+  template:
+    src: .env.j2
+    dest: "{{ app.home }}/env/.env.{{ deployment.env }}"
+    owner: "{{ security.app_user }}"
+    group: "{{ security.app_user }}"
+    mode: 0644
+  become: true
+  tags:
+  - config
+  - update
+  - first_setup
+  when: clone_repo.changed
+
 - name: Yarn install
   shell: sudo -u {{ security.app_user }} bash -ilc "cd {{ app.home }} && yarn install"
   args:
