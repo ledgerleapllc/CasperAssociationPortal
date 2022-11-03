@@ -268,8 +268,8 @@ const AdminIntakeVerificationDetail = () => {
     }
 
     if (intakeDetail?.shuftipro?.status === 'denied') {
-      let reason = intakeDetail?.declined_reason ?? '';
-      return 'Rejected' + (reason ? ' - ' + reason : '');
+      const reason = intakeDetail?.declined_reason ?? '';
+      return `Rejected${reason ? ` - ${reason}` : ''}`;
     }
 
     return 'Not Submitted';
