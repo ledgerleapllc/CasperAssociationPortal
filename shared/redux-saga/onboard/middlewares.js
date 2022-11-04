@@ -3,12 +3,7 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as putApi } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import {
-  uploadLetterSuccess,
-  uploadLetterError,
-  getOwnerNodesSuccess,
-  getOwnerNodesError,
-} from './actions';
+import { uploadLetterSuccess, uploadLetterError } from './actions';
 
 export function* helloSignRequest({ resolve, reject }) {
   try {
@@ -169,24 +164,6 @@ export function* deleteShuftiproTemp({ payload, resolve, reject }) {
   }
 }
 
-export function* updateShuftiproTemp({ payload, resolve, reject }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield putApi(['users/shuftipro-temp'], payload, { headers });
-    resolve();
-  } catch (error) {
-    if (error.data.code === 400) {
-      resolve();
-    } else {
-      yield put(saveApiResponseError(error));
-      reject();
-    }
-  }
-}
-
 export function* uploadLetter({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -203,33 +180,6 @@ export function* uploadLetter({ payload, resolve, reject }) {
   } catch (error) {
     reject();
     yield put(uploadLetterError(error));
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getOwnerNodes() {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const res = yield get(['users/owner-node'], { headers });
-    yield put(getOwnerNodesSuccess(res.data));
-  } catch (error) {
-    yield put(getOwnerNodesError(error));
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* resendEmailOwnerNodes({ payload }) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post(['users/resend-invite-owner'], payload, { headers });
-  } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
@@ -266,11 +216,8 @@ export function* watchOnboard() {
   yield all([takeLatest('DOWNLOAD_MESSAGE_CONTENT', downloadMessageContent)]);
   yield all([takeLatest('SUBMIT_KYC', submitKYC)]);
   yield all([takeLatest('SAVE_SHUFTI', saveShuftiproTemp)]);
-  yield all([takeLatest('UPDATE_SHUFTI', updateShuftiproTemp)]);
   yield all([takeLatest('DELETE_SHUFTI', deleteShuftiproTemp)]);
   yield all([takeLatest('UPLOAD_LETTER', uploadLetter)]);
-  yield all([takeLatest('GET_OWNER_NODES', getOwnerNodes)]);
-  yield all([takeLatest('RESEND_EMAIL_OWNER_NODES', resendEmailOwnerNodes)]);
   yield all([
     takeLatest('GET_MEMBERSHIP_FILE_FOR_USER', getMembershipFileForUser),
   ]);

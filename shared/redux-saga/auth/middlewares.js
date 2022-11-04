@@ -1,26 +1,23 @@
 /* eslint-disable node/callback-return */
-import { put, takeLatest, all, delay } from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import qs from 'qs';
 import { post, get } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
 import { removeToken, setToken } from '../../../helpers/api/auth.service';
 import {
   clearUser,
-  clearMetrics,
   fetchUserInfoError,
   fetchUserInfoSuccess,
-  setMetrics,
   setUser,
   updateUser,
   setNotifications,
   clearNotifications,
-  setMetricConfig,
   setPermissions,
   setPagePermissions,
   clearPermissions,
   clearPagePermissions,
 } from './actions';
-import { clearLetter, clearOwnerNodes } from '../onboard/actions';
+import { clearLetter } from '../onboard/actions';
 
 export function* loginApp({ payload, callback, resetSubmitting }) {
   try {
@@ -43,9 +40,7 @@ export function* loginApp({ payload, callback, resetSubmitting }) {
 export function* logoutApp() {
   removeToken();
   yield put(clearLetter());
-  yield put(clearOwnerNodes());
   yield put(clearUser());
-  yield put(clearMetrics());
   yield put(clearNotifications());
   yield put(clearPermissions());
   yield put(clearPagePermissions());
@@ -264,76 +259,6 @@ export function* resend2FACode({ resolve, reject }) {
   }
 }
 
-export function* getMyMetrics({ public_address_node, isTotal }) {
-  const DEFAULT_BASE_BLOCKS = 10;
-  try {
-    let url = public_address_node
-      ? `users/metrics?public_address_node=${public_address_node}`
-      : 'users/metrics?v=1';
-    if (isTotal) {
-      url += '&isTotal=1';
-    } else {
-      url += '&isTotal=0';
-    }
-    const res = yield get([url]);
-    if (res.data?.monitoring_criteria) {
-      const key = {
-        uptime: 'uptime',
-        'block-height': 'block_height_average',
-        'update-responsiveness': 'update_responsiveness',
-      };
-      res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
-        (result, item) => {
-          const itemKey = key[item.type];
-          const params = {
-            ...result,
-            [itemKey]: item,
-          };
-          return params;
-        },
-        {}
-      );
-    }
-
-    let blocks_behind =
-      res.data?.max_block_height_average - res.data?.block_height_average;
-    if (blocks_behind < 0) {
-      blocks_behind = 0;
-    }
-    if (blocks_behind > DEFAULT_BASE_BLOCKS) {
-      blocks_behind = DEFAULT_BASE_BLOCKS;
-    }
-
-    const block_height_average = DEFAULT_BASE_BLOCKS - blocks_behind;
-
-    const temp = {
-      ...res.data,
-      uptime: res.data?.uptime || 0,
-      block_height_average,
-      peers: res.data?.peers || 0,
-      update_responsiveness: res.data?.update_responsiveness || 0,
-      monitoring_criteria: res.data?.monitoring_criteria || null,
-      average_uptime: res.data?.avg_uptime || 0,
-      current_block_height: 100 - blocks_behind * 10,
-      blocks_behind,
-      average_responsiveness: res.data?.avg_update_responsiveness || 0,
-      average_peers: res.data?.avg_peers || 0,
-    };
-    yield put(setMetrics(temp));
-    yield put(
-      setMetricConfig({
-        max: {
-          block_height_average: DEFAULT_BASE_BLOCKS,
-          update_responsiveness: +temp.max_update_responsiveness || 0,
-          peers: +temp.max_peers || 0,
-        },
-      })
-    );
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* getBannerNotifications() {
   try {
     const query = qs.stringify({
@@ -354,18 +279,6 @@ export function* getPopupNotifications() {
     const res = yield get([`users/notification?${query}`]);
     yield put(setNotifications({ popup: res.data }));
   } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getNodesFromUser({ payload, resolve, reject }) {
-  try {
-    const query = qs.stringify(payload);
-    const res = yield get([`users/list-node?${query}`]);
-    yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
-  } catch (error) {
-    reject(error);
     yield put(saveApiResponseError(error));
   }
 }
@@ -422,14 +335,12 @@ export function* watchAuth() {
   yield all([takeLatest('VERIFY_EMAIL', verifyEmail)]);
   yield all([takeLatest('RESEND_VERIFICATION_CODE', resendVerificationCode)]);
   yield all([takeLatest('RESEND_2FA_CODE', resend2FACode)]);
-  yield all([takeLatest('GET_MY_METRICS', getMyMetrics)]);
   yield all([takeLatest('GET_BANNER_NOTIFICATIONS', getBannerNotifications)]);
   yield all([takeLatest('GET_POPUP_NOTIFICATIONS', getPopupNotifications)]);
   yield all([takeLatest('FETCH_USER_INFO', fetchUserInfo)]);
   yield all([takeLatest('CHANGE_EMAIL_CONFIRM', changeEmailConfirm)]);
   yield all([takeLatest('CHANGE_EMAIL_CANCEL', changeEmailCancel)]);
   yield all([takeLatest('VERIFY_2FA', verify2FA)]);
-  yield all([takeLatest('GET_NODES_FROM_USER', getNodesFromUser)]);
   yield all([takeLatest('GET_USER_DASHBOARD', getUserDashboard)]);
   yield all([takeLatest('CHECK_SESSION_ID', checkSessionId)]);
   yield all([takeLatest('DONATE', donate)]);

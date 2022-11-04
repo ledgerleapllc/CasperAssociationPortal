@@ -213,13 +213,9 @@ const DashboardNodesNew = () => {
                   </div>
                 }
               >
-                <InfoIcon
-                  style={{ cursor: 'pointer' }}
-                  color="secondary"
-                  fontSize="small"
-                />
+                <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
               </HtmlTooltip>{' '}
-              of your validator node and press submit
+              of your validator node and press verify
             </p>
             <div className="lg:relative mt-12 animate__animated animate__fadeInUp animate__delay-6s">
               <input
@@ -254,7 +250,7 @@ const DashboardNodesNew = () => {
           </form>
           <div
             style={{ marginTop: '60px' }}
-            className="lg:flex justify-between border-b border-gray pb-2"
+            className="flex justify-between border-b border-gray pb-2"
           >
             <Link
               to="/dashboard/nodes"
@@ -474,7 +470,7 @@ const DashboardNodesNew = () => {
 
   return (
     <LayoutDashboard>
-      <div id="landing-page__dashboardInner4">{getStepContent()}</div>
+      <div className="w-full xl:w-4/5 px-8 py-5">{getStepContent()}</div>
     </LayoutDashboard>
   );
 };

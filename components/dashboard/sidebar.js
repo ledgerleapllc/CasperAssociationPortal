@@ -50,6 +50,12 @@ const mainUserNavs = [
     path: '/dashboard/nodes',
   },
   {
+    key: 'my-eras',
+    icon: ListIcon,
+    label: 'My ERAs',
+    path: '/dashboard/my-eras',
+  },
+  {
     key: 'chat',
     icon: ChatIcon,
     label: 'discussions',
@@ -132,6 +138,12 @@ const adminNavs = [
     icon: PlusIcon,
     label: 'perks',
     path: '/admin/perks',
+  },
+  {
+    key: 'all-eras',
+    icon: ListIcon,
+    label: 'All ERAs',
+    path: '/admin/all-eras',
   },
   {
     key: 'teams',

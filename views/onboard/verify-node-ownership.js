@@ -74,7 +74,7 @@ const VerifyNodeOwnership = () => {
 
   const handlePrev = () => {
     if (currentStep === 1) {
-      router.back();
+      router.goBack();
     } else {
       setSignedFileUploaded(null);
       setCurrentStep(currentStep - 1);

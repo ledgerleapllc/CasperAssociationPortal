@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
@@ -15,24 +15,20 @@ import {
   Dropdown,
   Tooltips,
 } from '../../../components/partials';
-import {
-  getMyInfo,
-  uploadAvatar,
-} from '../../../shared/redux-saga/dashboard/dashboard-actions';
+import { uploadAvatar } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import IconCamera from '../../../public/images/ic_camera.svg';
 import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import {
   formatDate,
-  generateTextForEras,
   getShortNodeAddress,
   numberWithCommas,
 } from '../../../shared/core/utils';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
 import { logoutApp, updateUser } from '../../../shared/redux-saga/auth/actions';
 import { getNodesByUser } from '../../../shared/redux-saga/admin/actions';
-import useMetrics from '../../../components/hooks/useMetrics';
 import IconCopy from '../../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../../components/partials/snack-bar';
+import { AppContext } from '../../../pages/_app';
 
 const StylesBasic = styled.div`
   .basic-info-table {
@@ -74,31 +70,29 @@ const StylesAdvanced = styled.div`
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const [myInfo, setMyInfo] = useState({});
   const [addressList, setAddressList] = useState([]);
   const [currentUserNode, setCurrentUserNode] = useState();
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
-  const { metrics, refreshMetrics, metricConfig } = useMetrics();
-  const user = useSelector(state => state.authReducer.userInfo);
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const { openSnack } = useSnackBar();
   const router = useHistory();
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(
-      getMyInfo(
-        data => {
-          setMyInfo(data);
+      getNodesByUser(
+        {},
+        result => {
+          setLoading(false);
+          const addresses = result.addresses || [];
+          setAddressList(addresses);
+          setCurrentUserNode(addresses[0]);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
-    );
-    dispatch(
-      getNodesByUser({}, result => {
-        const addresses = result.addresses || [];
-        setAddressList(addresses);
-        setCurrentUserNode(addresses[0]);
-        refreshMetrics(addresses[0].public_address_node);
-      })
     );
   }, []);
 
@@ -112,14 +106,10 @@ const UserProfile = () => {
           setIsUploadingAvatar(false);
           const reader = new FileReader();
           reader.onloadend = () => {
-            setMyInfo({
-              ...myInfo,
-              avatar_url: reader.result,
-            });
             dispatch(
               updateUser({
                 fullInfo: {
-                  ...user.fullInfo,
+                  ...userInfo,
                   avatar_url: reader.result,
                 },
               })
@@ -140,9 +130,13 @@ const UserProfile = () => {
   };
 
   const renderLabel = () => {
-    if (myInfo && myInfo.profile && myInfo.profile.status === 'approved') {
-      if (myInfo.profile.extra_status) {
-        return myInfo.profile.extra_status;
+    if (
+      userInfo &&
+      userInfo.profile &&
+      userInfo.profile.status === 'approved'
+    ) {
+      if (userInfo.profile.extra_status) {
+        return userInfo.profile.extra_status;
       }
       return 'VERIFIED';
     }
@@ -151,16 +145,16 @@ const UserProfile = () => {
 
   const renderCaKycHash = () => {
     if (
-      myInfo &&
-      myInfo.profile &&
-      myInfo.profile.casper_association_kyc_hash &&
-      myInfo.profile.casper_association_kyc_hash.length > 12
+      userInfo &&
+      userInfo.profile &&
+      userInfo.profile.casper_association_kyc_hash &&
+      userInfo.profile.casper_association_kyc_hash.length > 12
     ) {
-      return ` ${myInfo.profile.casper_association_kyc_hash.slice(
+      return ` ${userInfo.profile.casper_association_kyc_hash.slice(
         0,
         6
-      )}...${myInfo.profile.casper_association_kyc_hash.slice(
-        myInfo.profile.casper_association_kyc_hash.length - 6
+      )}...${userInfo.profile.casper_association_kyc_hash.slice(
+        userInfo.profile.casper_association_kyc_hash.length - 6
       )}`;
     }
     return '';
@@ -168,11 +162,11 @@ const UserProfile = () => {
 
   const renderCaKycHashFull = () => {
     if (
-      myInfo &&
-      myInfo.profile &&
-      myInfo.profile.casper_association_kyc_hash
+      userInfo &&
+      userInfo.profile &&
+      userInfo.profile.casper_association_kyc_hash
     ) {
-      return myInfo.profile.casper_association_kyc_hash;
+      return userInfo.profile.casper_association_kyc_hash;
     }
     return '';
   };
@@ -208,7 +202,7 @@ const UserProfile = () => {
                   </h3>
                 </div>
                 <div className="flex items-center">
-                  {!myInfo?.approve_at && (
+                  {!userInfo?.approve_at && (
                     <Button
                       primaryOutline
                       className="mr-5 px-4 py-2"
@@ -244,12 +238,12 @@ const UserProfile = () => {
                         className="relative overflow-hidden cursor-pointer w-32 h-32 block border border-gray shadow-md rounded-md flex justify-center items-center"
                       >
                         <IconCamera className="text-2xl" />
-                        {!!myInfo?.avatar_url && (
+                        {!!userInfo?.avatar_url && (
                           <>
                             <div className="absolute inset-0">
                               <img
                                 className="w-full h-full object-cover"
-                                src={myInfo?.avatar_url}
+                                src={userInfo?.avatar_url}
                                 alt=""
                               />
                             </div>
@@ -294,10 +288,10 @@ const UserProfile = () => {
                               </td>
                               <td>
                                 <span className="flex gap-2 items-center">
-                                  {capitalize(myInfo?.full_name)}
+                                  {capitalize(userInfo?.full_name)}
                                   {', '}
-                                  {myInfo?.profile?.blockchain_name}{' '}
-                                  {myInfo?.profile?.status === 'approved' && (
+                                  {userInfo?.profile?.blockchain_name}{' '}
+                                  {userInfo?.profile?.status === 'approved' && (
                                     <VerifiedIcon className="text-primary" />
                                   )}
                                 </span>
@@ -308,9 +302,9 @@ const UserProfile = () => {
                                 <span>&ensp;</span>
                               </td>
                               <td>
-                                {myInfo?.profile?.blockchain_name ? (
+                                {userInfo?.profile?.blockchain_name ? (
                                   <span>
-                                    {myInfo?.profile?.blockchain_desc}
+                                    {userInfo?.profile?.blockchain_desc}
                                   </span>
                                 ) : (
                                   <span className="text-sm text-gray">
@@ -335,7 +329,7 @@ const UserProfile = () => {
                               <td>
                                 <span>
                                   {`${formatDate(
-                                    myInfo?.email_verified_at,
+                                    userInfo?.email_verified_at,
                                     'dd/MM/yyyy'
                                   )}`}
                                 </span>
@@ -347,7 +341,7 @@ const UserProfile = () => {
                               </td>
                               <td>
                                 <span className="text-primary uppercase font-medium">
-                                  {myInfo?.profile?.type}
+                                  {userInfo?.profile?.type || userInfo?.type}
                                 </span>
                               </td>
                             </tr>
@@ -356,7 +350,7 @@ const UserProfile = () => {
                                 <span>Membership Status:</span>
                               </td>
                               <td>
-                                <span className="text-primary">
+                                <span className="text-primary pr-2">
                                   {renderLabel()}
                                 </span>
                                 <span className="text-sm text-gray underline">
@@ -377,10 +371,10 @@ const UserProfile = () => {
                                 <span>Verified Since:</span>
                               </td>
                               <td>
-                                {myInfo?.approve_at ? (
+                                {userInfo?.approve_at ? (
                                   <span>
                                     {`${formatDate(
-                                      myInfo?.approve_at,
+                                      userInfo?.approve_at,
                                       'dd/MM/yyyy'
                                     )}`}
                                   </span>
@@ -413,6 +407,7 @@ const UserProfile = () => {
                                     <div className="flex items-center gap-2">
                                       <p className="w-full relative h-6">
                                         <Tooltips
+                                          disableTheme
                                           placement="bottom"
                                           title={
                                             currentUserNode?.public_address_node
@@ -437,9 +432,6 @@ const UserProfile = () => {
                                         className="p-2 hover:text-primary cursor-pointer"
                                         onClick={() => {
                                           setCurrentUserNode(address);
-                                          refreshMetrics(
-                                            address.public_address_node
-                                          );
                                         }}
                                         key={`node_${index}`}
                                       >
@@ -467,7 +459,7 @@ const UserProfile = () => {
                               <input
                                 id="public-address"
                                 value={
-                                  currentUserNode?.public_address_node || ''
+                                  currentUserNode?.public_address_node ?? ''
                                 }
                                 readOnly
                                 hidden
@@ -480,7 +472,7 @@ const UserProfile = () => {
                             <span>Validator Fee:</span>
                           </td>
                           <td>
-                            <span>{currentUserNode?.validator_fee}%</span>
+                            <span>{currentUserNode?.bid_delegation_rate}%</span>
                           </td>
                         </tr>
                         <tr>
@@ -489,7 +481,9 @@ const UserProfile = () => {
                           </td>
                           <td>
                             <span>
-                              {numberWithCommas(metrics?.stake_amount)}
+                              {numberWithCommas(
+                                currentUserNode?.bid_total_staked_amount
+                              )}
                             </span>
                           </td>
                         </tr>
@@ -499,7 +493,9 @@ const UserProfile = () => {
                           </td>
                           <td>
                             <span>
-                              {numberWithCommas(metrics?.self_stake_amount)}
+                              {numberWithCommas(
+                                currentUserNode?.bid_self_staked_amount
+                              )}
                             </span>
                           </td>
                         </tr>
@@ -511,7 +507,7 @@ const UserProfile = () => {
                     style={{ width: '40rem' }}
                   >
                     <div className="flex flex-col py-2">
-                      <div className="flex flex-row">
+                      <div className="flex flex-row mb-1">
                         <span className="text-lg">Uptime</span>
                         <img
                           className="pl-3"
@@ -521,31 +517,10 @@ const UserProfile = () => {
                           alt="Info"
                         />
                       </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${metrics?.average_uptime}%`}</p>
-                      <ProgressBar mask="x%" value={metrics?.uptime} />
-                    </div>
-                    <div className="flex flex-col py-1">
-                      <div className="flex flex-row">
-                        <span className="text-lg">Block Height</span>
-                        <img
-                          className="pl-3"
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                        Current: {metrics?.blocks_behind} block behind
-                      </p>
-                      <ProgressBar
-                        value={metrics?.block_height_average}
-                        total={metricConfig?.max?.block_height_average}
-                        mask="x/y"
-                      />
+                      <ProgressBar mask="x%" value={currentUserNode?.uptime} />
                     </div>
                     <div className="flex flex-col lg:py-1 2xl:py-2">
-                      <div className="flex flex-row">
+                      <div className="flex flex-row mb-1">
                         <span className="text-lg">Update Responsiveness</span>
                         <img
                           className="pl-3"
@@ -555,38 +530,13 @@ const UserProfile = () => {
                           alt="Info"
                         />
                       </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                        Average:
-                        {generateTextForEras(metrics?.average_responsiveness)}
-                      </p>
                       <ProgressBar
-                        value={metrics?.update_responsiveness}
-                        total={metricConfig?.max?.update_responsiveness}
-                        mask=""
+                        value={currentUserNode?.update_responsiveness}
+                        mask="x%"
                         options={{
                           startText: 'Needs Improvement',
                           endText: 'Great',
                         }}
-                      />
-                    </div>
-                    <div className="flex flex-col lg:py-1 2xl:py-2">
-                      <div className="flex flex-row">
-                        <span className="text-lg">Peers</span>
-                        <img
-                          className="pl-3"
-                          width="10px"
-                          height="10px"
-                          src="/images/ic_feather_info.svg"
-                          alt="Info"
-                        />
-                      </div>
-                      <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                        Average: {metrics?.average_peers}
-                      </p>
-                      <ProgressBar
-                        value={metrics?.peers}
-                        total={metricConfig?.max?.peers}
-                        mask="x/y"
                       />
                     </div>
                   </div>

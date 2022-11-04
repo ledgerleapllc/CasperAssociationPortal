@@ -3,18 +3,8 @@ import { put, takeLatest, all, takeEvery, delay } from 'redux-saga/effects';
 import qs from 'qs';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-import {
-  getListMembersSuccess,
-  getUserDetailSuccess,
-  getUserKYCInfoSuccess,
-  getListIntakeSuccess,
-  getListIntakeError,
-  cancelBallotSuccess,
-  cancelBallotError,
-} from './actions';
 import { ApiService } from '../../../helpers/api/api.service';
 import { formatDate } from '../../core/utils';
-import { DEFAULT_BASE_BLOCKS } from '../../core/constants';
 
 const http = new ApiService();
 
@@ -29,52 +19,25 @@ export function* getListMembers({ payload, callback }) {
       headers,
     });
     yield delay(500);
-    callback(res.data?.data, res.data?.current_page < res.data?.last_page);
-    yield put(getListMembersSuccess(res.data));
+    callback(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* getUserDetail(data) {
+export function* getUserDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const res = yield get([`admin/users/${data.payload}`], {
+    const res = yield get([`admin/users/${payload}`], {
       headers,
     });
-    yield put(getUserDetailSuccess(res.data));
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getUserKYCInfo(data) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const res = yield get([`admin/users/${data.payload}/kyc`], {
-      headers,
-    });
-    yield put(getUserKYCInfoSuccess(res.data));
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* denyKYC(data) {
-  try {
-    const token = localStorage.getItem('ACCESS-TOKEN');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    yield post([`admin/users/${data.payload}/deny-kyc`], null, { headers });
-  } catch (error) {
-    yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
@@ -92,9 +55,7 @@ export function* getIntake({ payload, successCb }) {
     });
     yield delay(500);
     successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
-    yield put(getListIntakeSuccess(res.data));
   } catch (error) {
-    yield put(getListIntakeError(error));
     yield put(saveApiResponseError(error));
   }
 }
@@ -108,7 +69,7 @@ export function* getVerifications({ payload, resolve }) {
     yield delay(500);
     resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
-    yield put(getListIntakeError(error));
+    yield put(saveApiResponseError(error));
   }
 }
 
@@ -177,10 +138,8 @@ export function* cancelBallot({ payload, resolve, reject }) {
         headers,
       }
     );
-    yield put(cancelBallotSuccess(res));
     resolve(res);
   } catch (error) {
-    yield put(cancelBallotError(error));
     yield put(saveApiResponseError(error));
     reject(error);
   }
@@ -222,7 +181,6 @@ export function* getSubadmins({ payload, callback }) {
       xTemp.permissions = permissions;
       return xTemp;
     });
-
     yield delay(500);
     callback(temp, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -237,7 +195,6 @@ export function* getIpHistories({ payload, callback }) {
       page: payload.page,
     });
     const res = yield get([`admin/teams/${payload.id}/ip-histories?${query}`]);
-
     yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
@@ -349,26 +306,6 @@ export function* banUser({ payload, resolve, reject }) {
   }
 }
 
-export function* banVerifiedUser({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`admin/users/${payload.id}/deny-ban`]);
-    resolve(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* refreshLinks({ payload, resolve, reject }) {
-  try {
-    const res = yield post([`admin/users/${payload.userId}/refresh-links`]);
-    resolve(res);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
 export function* getVerificationDetail({ payload, resolve, reject }) {
   try {
     const res = yield get([`admin/users/verification/${payload.id}`]);
@@ -383,17 +320,6 @@ export function* resetUserKYC({ payload, resolve, reject }) {
   try {
     const { message, id } = payload;
     const res = yield post([`/admin/users/${id}/reset-kyc`], { message });
-    resolve(res?.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* activateVerifiedStatus({ payload, resolve, reject }) {
-  try {
-    const { id } = payload;
-    const res = yield post([`/admin/users/${id}/active`]);
     resolve(res?.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -462,65 +388,21 @@ export function* updateEmailerTriggerAdmin({ payload, resolve, reject }) {
   }
 }
 
-export function* getUserMetrics({ payload, resolve, reject }) {
+export function* getAdminERAsByUser({ userId, resolve, reject }) {
   try {
-    const res = yield get([`admin/metrics/${payload.id}`]);
-    if (res.data?.monitoring_criteria) {
-      const key = {
-        uptime: 'uptime',
-        'block-height': 'block_height_average',
-        'update-responsiveness': 'update_responsiveness',
-      };
-      res.data.monitoring_criteria = res.data.monitoring_criteria?.reduce(
-        (result, item) => {
-          const itemKey = key[item.type];
-          const params = {
-            ...result,
-            [itemKey]: item,
-          };
-          return params;
-        },
-        {}
-      );
-    }
-    let block_height_average =
-      DEFAULT_BASE_BLOCKS -
-      (res.data?.max_block_height_average - res.data?.block_height_average);
-    if (block_height_average < 0) {
-      block_height_average = 0;
-    }
-    const temp = {
-      ...res.data,
-      uptime: res.data?.uptime || 0,
-      block_height_average,
-      peers: res.data?.peers || 0,
-      update_responsiveness: res.data?.update_responsiveness || 0,
-      monitoring_criteria: res.data?.monitoring_criteria || null,
-      average_uptime: res.data?.avg_uptime || 0,
-      current_block_height:
-        DEFAULT_BASE_BLOCKS - block_height_average > 0
-          ? DEFAULT_BASE_BLOCKS - block_height_average
-          : 0,
-      average_responsiveness: res.data?.avg_update_responsiveness || 0,
-      average_peers: res.data?.avg_peers || 0,
-    };
-    resolve(temp);
+    const res = yield get([`admin/users/all-eras-user/${userId}`]);
+    yield delay(500);
+    resolve(res.data);
   } catch (error) {
     reject(error);
     yield put(saveApiResponseError(error));
   }
 }
 
-export function* updateUserMetrics({ payload, resolve, reject }) {
+export function* getAllAdminERAs({ resolve, reject }) {
   try {
-    const body = {};
-    if (payload.uptime) body.uptime = payload.uptime;
-    if (payload.block_height_average)
-      body.block_height_average = payload.block_height_average;
-    if (payload.update_responsiveness)
-      body.update_responsiveness = payload.update_responsiveness;
-    if (payload.peers) body.peers = payload.peers;
-    const res = yield _put([`admin/metrics/${payload.id}`], body);
+    const res = yield get([`admin/users/all-eras`]);
+    yield delay(500);
     resolve(res.data);
   } catch (error) {
     reject(error);
@@ -651,23 +533,23 @@ export function* getActivePerkDetail({ payload, resolve, reject }) {
   }
 }
 
-export function* getWarningMetrics({ resolve, reject }) {
+export function* updateGlobalSettings({ payload, resolve, reject }) {
   try {
-    const res = yield get(['admin/monitoring-criteria']);
-    resolve(res.data);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
-    reject(error);
-  }
-}
-
-export function* updateWarningMetrics({ payload, resolve, reject }) {
-  try {
-    yield _put([`admin/monitoring-criteria/${payload.type}`], payload.data);
+    yield _put([`admin/global-settings`], payload);
     resolve();
   } catch (error) {
     reject();
     yield put(saveApiResponseError(error));
+  }
+}
+
+export function* bypassKYC({ userId, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/bypass-approve-kyc/${userId}`], {});
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
   }
 }
 
@@ -819,18 +701,6 @@ export function* getNodesByUser({ payload, resolve, reject }) {
   }
 }
 
-export function* getNodesFromAdmin({ payload, resolve, reject }) {
-  try {
-    const query = qs.stringify(payload);
-    const res = yield get([`admin/list-node?${query}`]);
-    yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* registerSubAdmin({ payload, resolve, reject }) {
   try {
     const res = yield post([`auth/register-sub-admin`], payload);
@@ -841,9 +711,10 @@ export function* registerSubAdmin({ payload, resolve, reject }) {
   }
 }
 
-export function* getLockPageRules({ resolve, reject }) {
+export function* getGlobalSettings({ resolve, reject }) {
   try {
-    const res = yield get(['admin/lock-rules']);
+    const res = yield get(['admin/global-settings']);
+    yield delay(500);
     resolve(res.data);
   } catch (error) {
     reject(error);
@@ -857,33 +728,6 @@ export function* updateLockPageRule({ payload, resolve, reject }) {
     resolve();
   } catch (error) {
     reject();
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getNodeDetail({ payload, resolve, reject }) {
-  try {
-    const res = yield get([`admin/node/${payload}`]);
-    let block_height_average =
-      DEFAULT_BASE_BLOCKS -
-      (res.data?.max_block_height_average - res.data?.block_height_average);
-    if (block_height_average < 0) {
-      block_height_average = 0;
-    }
-    const temp = {
-      ...res.data,
-      uptime: res.data?.uptime || 0,
-      block_height_average,
-      peers: res.data?.peers || 0,
-      update_responsiveness: res.data?.update_responsiveness || 0,
-      current_block_height:
-        DEFAULT_BASE_BLOCKS - block_height_average > 0
-          ? DEFAULT_BASE_BLOCKS - block_height_average
-          : 0,
-    };
-    resolve(temp);
-  } catch (error) {
-    reject(error);
     yield put(saveApiResponseError(error));
   }
 }
@@ -918,28 +762,6 @@ export function* removeRecipient({ payload, resolve, reject }) {
   }
 }
 
-export function* listRecipients({ payload, resolve, reject }) {
-  try {
-    const query = qs.stringify(payload);
-    const res = yield get([`admin/contact-recipients?${query}`]);
-    yield delay(500);
-    resolve(res.data?.data, res.data?.current_page < res.data?.last_page);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getMembershipFile({ payload, resolve, reject }) {
-  try {
-    const res = yield get([`admin/membership-file`], payload);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* changeMembershipFile({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
@@ -956,10 +778,6 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
   yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
-  yield all([takeLatest('GET_USER_METRICS', getUserMetrics)]);
-  yield all([takeLatest('UPDATE_USER_METRICS', updateUserMetrics)]);
-  yield all([takeLatest('GET_USER_KYC_INFO', getUserKYCInfo)]);
-  yield all([takeLatest('DENY_KYC', denyKYC)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
@@ -985,19 +803,18 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
   yield all([takeLatest('BAN_USER', banUser)]);
-  yield all([takeLatest('BAN_VERIFIED_USER', banVerifiedUser)]);
   yield all([takeLatest('RESET_USER', resetUser)]);
   yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
   yield all([
     takeLatest('GET_LIST_VERIFICATION_DETAIL', getVerificationDetail),
   ]);
-  yield all([takeLatest('REFRESH_LINKS', refreshLinks)]);
   yield all([takeLatest('RESET_USER_KYC', resetUserKYC)]);
-  yield all([takeLatest('ACTIVATE_VERIFIED_STATUS', activateVerifiedStatus)]);
   yield all([takeLatest('APPROVED_DOCUMENTS', approveDocuments)]);
   yield all([takeLatest('GET_EMAILER_DATA', getEmailerData)]);
   yield all([takeLatest('ADD_EMAILER_ADMIN', addEmailerAdmin)]);
   yield all([takeLatest('DELETE_EMAILER_ADMIN', deleteEmailerAdmin)]);
+  yield all([takeEvery('GEt_ADMIN_ERAS_BY_USER', getAdminERAsByUser)]);
+  yield all([takeEvery('GET_ALL_ADMIN_ERAS', getAllAdminERAs)]);
   yield all([takeEvery('GET_LIST_PERKS', getListPerks)]);
   yield all([takeEvery('GET_ACTIVE_PERKS', getActivePerks)]);
   yield all([takeEvery('GET_LIST_PERK_ENGAGEMENT', getListPerkEngagements)]);
@@ -1007,15 +824,14 @@ export function* watchAdmin() {
   yield all([
     takeLatest('UPDATE_EMAILER_TRIGGER_ADMIN', updateEmailerTriggerAdmin),
   ]);
-  yield all([takeLatest('GET_WARNING_METRICS', getWarningMetrics)]);
-  yield all([takeLatest('UPDATE_WARNING_METRICS', updateWarningMetrics)]);
+  yield all([takeLatest('UPDATE_GLOBAL_SETTINGS', updateGlobalSettings)]);
   yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
+  yield all([takeLatest('BYPASS_KYC', bypassKYC)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
   yield all([takeLatest('GET_NOTIFICATION_DETAIL', getNotificationDetail)]);
   yield all([takeLatest('GET_LIST_NOTIFICATIONS', getListNotifications)]);
   yield all([takeLatest('GET_ADMIN_DASHBOARD', getAdminDashboard)]);
-  yield all([takeEvery('GET_NODES_FROM_ADMIN', getNodesFromAdmin)]);
   yield all([takeEvery('GET_NODES_BY_USER', getNodesByUser)]);
   yield all([
     takeLatest('GET_NOTIFICATION_VIEW_LOGS', getNotificationViewLogs),
@@ -1023,13 +839,10 @@ export function* watchAdmin() {
   yield all([
     takeLatest('GET_HIGH_PRIORITY_NOTIFICATION', getHighPriorityNotification),
   ]);
-  yield all([takeLatest('GET_LOCK_PAGE_RULES', getLockPageRules)]);
+  yield all([takeLatest('GET_GLOBAL_SETTINGS', getGlobalSettings)]);
   yield all([takeLatest('UPDATE_LOCK_PAGE_RULES', updateLockPageRule)]);
-  yield all([takeLatest('GET_NODE_DETAIL', getNodeDetail)]);
   yield all([takeLatest('ADD_RECIPIENT', addRecipient)]);
   yield all([takeLatest('REMOVE_RECIPIENT', removeRecipient)]);
-  yield all([takeLatest('LIST_RECIPIENTS', listRecipients)]);
-  yield all([takeLatest('GET_MEMBERSHIP_FILE', getMembershipFile)]);
   yield all([takeLatest('CHANGE_MEMBERSHIP_FILE', changeMembershipFile)]);
   yield all([takeLatest('UPDATE_BALLOT', updateBallot)]);
 }

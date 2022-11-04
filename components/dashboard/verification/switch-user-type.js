@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import InfoIcon from '@material-ui/icons/Info';
 import { ENTITY_PATTERN } from '../../../helpers/form-validation';
 import { LoadingButton, Tooltips } from '../../partials';
 import Countries from '../../../public/json/country.json';
@@ -80,7 +81,7 @@ export const SwitchUserType = ({ goNext }) => {
           shouldValidate: true,
         }
       );
-      setValue('vat_number', user?.fullInfo?.entity_tax, {
+      setValue('vat_number', user?.fullInfo?.profile?.vat_number, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -116,7 +117,6 @@ export const SwitchUserType = ({ goNext }) => {
         () => {
           dispatch(updateUser({ type: UserType.entity }));
           setIsSubmitting(false);
-
           goNext();
         },
         () => {
@@ -274,19 +274,14 @@ export const SwitchUserType = ({ goNext }) => {
                 )}
               </div>
               <div className="w-full lg:w-2/12">
-                <div className="flex align-center">
+                <div className="flex align-center items-center">
                   <label className="mr-2">Enter VAT Number</label>
                   <Tooltips
                     placement="top"
                     title="VAT Number: A Value Added Tax Identification Number or VAT Identification Number (VATIN) is an identifier used in many countries for value added tax purposes. You will be asked to upload proof of your VAT Number in the next step of the verification process."
                     arrow
                   >
-                    <img
-                      width="15px"
-                      height="15px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </div>
                 <input
@@ -294,7 +289,6 @@ export const SwitchUserType = ({ goNext }) => {
                   className="w-full mt-2 h-14 px-7 rounded-full shadow-md focus:outline-none"
                   name="vat_number"
                   {...register('vat_number', {
-                    required: 'Entity VAT Number is require',
                     pattern: {
                       message: 'Entity VAT Number is invalid',
                       value: ENTITY_PATTERN,

@@ -10,6 +10,7 @@ import { BackButton, Card, Button } from '../../../../../components/partials';
 import { AppContext } from '../../../../../pages/_app';
 import {
   approveDocuments,
+  bypassKYC,
   getVerificationDetail,
   resetUserKYC,
 } from '../../../../../shared/redux-saga/admin/actions';
@@ -133,6 +134,22 @@ const AdminIntakeVerificationDetail = () => {
     window.open('https://backoffice.shuftipro.com/reports', '_blank');
   };
 
+  const clickAdminApprove = () => {
+    if (!intakeDetail || !intakeDetail.id) return;
+    setLoading(true);
+    dispatch(
+      bypassKYC(
+        intakeDetail.id,
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
   const clickReset = () => {
     setDialog({
       type: 'DialogCustom',
@@ -211,6 +228,9 @@ const AdminIntakeVerificationDetail = () => {
           >
             Reset
           </Button>
+          <Button primary className="mr-5" onClick={() => clickAdminApprove()}>
+            Admin Approve
+          </Button>
         </div>
       )}
       {confirmationInfoAt && (
@@ -239,10 +259,19 @@ const AdminIntakeVerificationDetail = () => {
   };
 
   const renderKYCStatus = () => {
-    if (intakeDetail?.shuftipro?.status === 'approved') return 'VERIFIED';
-    if (intakeDetail?.shuftipro?.status === 'pending')
+    if (intakeDetail?.shuftipro?.status === 'approved') {
+      return 'VERIFIED';
+    }
+
+    if (intakeDetail?.shuftipro?.status === 'pending') {
       return 'Submitted / Pending';
-    if (intakeDetail?.shuftipro?.status === 'denied') return 'Rejected';
+    }
+
+    if (intakeDetail?.shuftipro?.status === 'denied') {
+      const reason = intakeDetail?.declined_reason ?? '';
+      return `Rejected${reason ? ` - ${reason}` : ''}`;
+    }
+
     return 'Not Submitted';
   };
 
@@ -294,7 +323,7 @@ const AdminIntakeVerificationDetail = () => {
                 </div>
                 <input
                   id="public-address"
-                  value={intakeDetail?.shuftipro?.reference_id}
+                  value={intakeDetail?.shuftipro?.reference_id ?? ''}
                   readOnly
                   hidden
                 />
@@ -314,6 +343,13 @@ const AdminIntakeVerificationDetail = () => {
             </Button>
             <Button primary className="mr-5" onClick={() => clickReset()}>
               Reset KYC
+            </Button>
+            <Button
+              primary
+              className="mr-5"
+              onClick={() => clickAdminApprove()}
+            >
+              Admin Approve
             </Button>
             {intakeDetail?.profile?.type === 'entity' ? (
               <Button

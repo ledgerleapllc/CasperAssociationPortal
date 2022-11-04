@@ -202,7 +202,7 @@ const ChatBox = ({
                         <IconChatBox />
                       </p>
                     </Tooltips>
-                    <span className="pl-2.5">{discuss?.comments || 0}</span>
+                    <span className="pl-2.5">{discuss?.comments}</span>
                   </span>
                 </Link>
               </li>
@@ -217,7 +217,7 @@ const ChatBox = ({
                       />
                     </p>
                   </Tooltips>
-                  <span className="pl-0.5">{discuss?.total_pinned || 0}</span>
+                  <span className="pl-0.5">{discuss?.total_pinned}</span>
                 </a>
               </li>
               <li className="flex items-center">
@@ -228,7 +228,7 @@ const ChatBox = ({
                         <IconLike />
                       </p>
                     </Tooltips>
-                    <span className="pl-2.5">{discuss?.likes || 0}</span>
+                    <span className="pl-2.5">{discuss?.likes}</span>
                   </span>
                 </Link>
               </li>

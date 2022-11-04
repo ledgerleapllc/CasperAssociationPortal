@@ -198,12 +198,16 @@ export const GeneralIntakes = () => {
           </Table.HeaderCell>
           <Table.HeaderCell key="esignatureComplete">
             <p>
-              E-signature <br /> Complete
+              E-signature
+              <br />
+              Complete
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="nodeVerificationComplete">
             <p>
-              Node Verification <br /> Complete
+              Node Verification
+              <br />
+              Complete
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="letterMotivation">

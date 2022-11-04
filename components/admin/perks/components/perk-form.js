@@ -218,10 +218,7 @@ export const PerkForm = React.memo(
               </p>
             )}
           </div>
-          <div
-            id="custom-perk-upload"
-            className="max-w-200 flex justify-between items-end"
-          >
+          <div className="max-w-200 flex justify-between items-end">
             <div className="max-w-xl flex-grow relative pb-6">
               <label htmlFor="title">Call to action link*</label>
               <input

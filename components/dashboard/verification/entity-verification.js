@@ -103,7 +103,7 @@ export const EntityVerification = () => {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
     onDrop,
-    accept: '.pdf, .doc, .docx, .txt, .rtf',
+    accept: '.pdf, .jpeg, .jpg, .png, .txt, .rtf',
   });
 
   const removeFile = (_uploadFiles, index) => {
@@ -222,7 +222,7 @@ export const EntityVerification = () => {
                     </label>
                     <div className="relative w-10/12 lg:flex-1 flex items-center justify-between px-7 mt-2 h-14 rounded-full shadow-md">
                       <select
-                        className={`max-w-60 cursor-pointer focus:outline-none ${
+                        className={`w-full cursor-pointer focus:outline-none ${
                           watchPageIsRepresentative ? 'text-black' : 'text-gray'
                         }`}
                         placeholder="Select..."
@@ -241,7 +241,9 @@ export const EntityVerification = () => {
                           </option>
                         ))}
                       </select>
-                      <ArrowIcon className="absolute right-7" />
+                      <div className="absolute right-7 pointer-events-none">
+                        <ArrowIcon />
+                      </div>
                     </div>
                     {formState.errors?.page_is_representative && (
                       <p className="pl-7 mt-2 text-primary">
@@ -296,11 +298,15 @@ export const EntityVerification = () => {
                         type="button"
                         className="text-primary focus:outline-none"
                         onClick={() => {
-                          setIsReadOnlyFirstName(false);
-                          setFocus('first_name');
+                          if (isReadOnlyFirstName) {
+                            setIsReadOnlyFirstName(false);
+                            setFocus('first_name');
+                          } else {
+                            setIsReadOnlyFirstName(true);
+                          }
                         }}
                       >
-                        Edit
+                        {isReadOnlyFirstName ? 'Edit' : 'Save'}
                       </button>
                     </div>
                     {formState.errors?.first_name && (
@@ -328,11 +334,15 @@ export const EntityVerification = () => {
                         type="button"
                         className="text-primary focus:outline-none"
                         onClick={() => {
-                          setIsReadOnlyLastName(false);
-                          setFocus('last_name');
+                          if (isReadOnlyLastName) {
+                            setIsReadOnlyLastName(false);
+                            setFocus('last_name');
+                          } else {
+                            setIsReadOnlyLastName(true);
+                          }
                         }}
                       >
-                        Edit
+                        {isReadOnlyLastName ? 'Edit' : 'Save'}
                       </button>
                     </div>
                     {formState.errors?.last_name && (
@@ -347,7 +357,7 @@ export const EntityVerification = () => {
                     <label>Entity Registration Country</label>
                     <div className="relative w-10/12 lg:flex-1 flex items-center justify-between px-7 mt-2 h-14 rounded-full shadow-md">
                       <select
-                        className={`max-w-60 cursor-pointer focus:outline-none ${
+                        className={`w-full cursor-pointer focus:outline-none ${
                           watchRegisterCountry ? 'text-black' : 'text-gray'
                         }`}
                         placeholder="Select..."
@@ -365,7 +375,9 @@ export const EntityVerification = () => {
                           </option>
                         ))}
                       </select>
-                      <ArrowIcon className="absolute right-7" />
+                      <div className="absolute right-7 pointer-events-none">
+                        <ArrowIcon />
+                      </div>
                     </div>
                     {formState.errors?.country_citizenship && (
                       <p className="pl-7 mt-2 text-primary">
@@ -450,9 +462,8 @@ export const EntityVerification = () => {
                     >
                       Upload Docs
                     </button>
-                    <span className="hidden lg:block">Or Drop File Here</span>
-                    <span className="hidden lg:block text-primary">
-                      Accept jpeg, png, pdf, txt - Max File Size: 2MB
+                    <span className="hidden lg:block text-black text-center">
+                      Only pdf, jpeg, png, txt, rtf file types are accepted
                     </span>
                   </div>
                 </div>

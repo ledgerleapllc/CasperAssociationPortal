@@ -52,21 +52,18 @@ const AdminActiveBallot = ({ ballot }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="card-header lg:mr-card border-primary border-b-2">
-        <div
-          id="custom-ballot-listHeader"
-          className="flex justify-between items-center mb-3"
-        >
-          <div className="h-11 mt-4">
+        <div className="flex justify-between items-center mb-3">
+          <div>
             <BackButton href="/admin/ballots" text="Back" force />
             <h3 className="text-dark2 text-lg lg:pr-32 font-medium">
               Manage Active Ballot
             </h3>
           </div>
-          <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-end items-center">
             <Link to={`/admin/ballots/detail/${ballot?.id}/current-votes`}>
               <button
                 type="button"
-                className="px-5 py-2 mr-5 text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                className="px-5 py-3 mr-5 text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
               >
                 View Current Votes
               </button>

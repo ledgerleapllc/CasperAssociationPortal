@@ -9,6 +9,7 @@
     "build-staging": "ENVIRONMENT=./env/.env.staging next build && ENVIRONMENT=./env/.env.staging next export",
     "build-prod": "ENVIRONMENT=./env/.env.production next build && ENVIRONMENT=./env/.env.production next export",
     "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "start": "next start"
   },
   "engines": {
