@@ -58,6 +58,12 @@ const Dashboard = () => {
     dispatch(setGuideStep({ guideStep: guideStep + 1 }));
   };
 
+  const closeGuide = () => {
+    dispatch(setHideGuide({ hideGuide: true }))
+    localStorage.setItem('GUIDE_SHOW_STEP', 8);
+    dispatch(setGuideStep({ guideStep: 8 }))
+  };
+
   const renderGuideIn = () => {
     if (
       userInfo?.profile?.status === 'approved' ||
@@ -73,7 +79,7 @@ const Dashboard = () => {
         <section>
           <div
             id="dashboard-guide-close"
-            onClick={() => dispatch(setHideGuide({ hideGuide: true }))}
+            onClick={closeGuide}
           >
             <IconX className="text-xs" style={{ color: '#CCC' }} />
           </div>
