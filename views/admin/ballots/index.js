@@ -332,23 +332,6 @@ const Tab3 = () => {
     );
   };
 
-  const renderTimer = row => {
-    if (row.start_date && row.start_time && row.end_date && row.end_time) {
-      return (
-        <ClockBar
-          endTime={new Date(`${row.end_date} ${row.end_time}`)}
-          startTime={new Date(`${row.start_date} ${row.start_time}`)}
-        />
-      );
-    }
-    return (
-      <ClockBar
-        startTime={new Date(row.created_at)}
-        endTime={new Date(row.time_end)}
-      />
-    );
-  };
-
   const goToEdit = row => {
     router.push(`/admin/ballots/edit/${row.id}`);
   };
@@ -400,7 +383,9 @@ const Tab3 = () => {
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell key="createdAt1">
-                {renderTimer(row)}
+                <span className="text-gray text-xs font-semibold">
+                  Scheduled
+                </span>
               </Table.BodyCell>
               <Table.BodyCell key="resultCount">
                 <p>{row.vote?.result_count}</p>
