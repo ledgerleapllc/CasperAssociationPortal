@@ -257,23 +257,6 @@ const Tab4 = () => {
     router.push(`/dashboard/votes/${id}`);
   };
 
-  const renderTimer = row => {
-    if (row.start_date && row.start_time && row.end_date && row.end_time) {
-      return (
-        <ClockBar
-          endTime={new Date(`${row.end_date} ${row.end_time}`)}
-          startTime={new Date(`${row.start_date} ${row.start_time}`)}
-        />
-      );
-    }
-    return (
-      <ClockBar
-        endTime={new Date(row.time_end)}
-        startTime={new Date(row.created_at)}
-      />
-    );
-  };
-
   const renderStartDate = row => {
     if (row.start_date && row.start_time) {
       const date = `${row.start_date} ${row.start_time}`;
@@ -330,7 +313,11 @@ const Tab4 = () => {
               <Table.BodyCell key="body1">
                 <p className="truncate">{row.title}</p>
               </Table.BodyCell>
-              <Table.BodyCell key="body2">{renderTimer(row)}</Table.BodyCell>
+              <Table.BodyCell key="body2">
+                <span className="text-gray text-xs font-semibold">
+                  Scheduled
+                </span>
+              </Table.BodyCell>
               <Table.BodyCell key="body3">
                 <p>{row.vote?.result_count}</p>
               </Table.BodyCell>
