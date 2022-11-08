@@ -9,6 +9,7 @@ import { AppContext } from '../../../../pages/_app';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import IconCopy from '../../../../public/images/ic_copy.svg';
 import { useSnackBar } from '../../../../components/partials/snack-bar';
+import { formatDate } from '../../../../shared/core/utils';
 
 const KycAmlDetail = () => {
   const routerParams = useParams();
@@ -63,10 +64,23 @@ const KycAmlDetail = () => {
 
   const renderIDCheckStatus = () => {
     if (userKYC && userKYC?.shuftipro && userKYC?.shuftipro?.id) {
-      const { document_result, status } = userKYC?.shuftipro;
-
-      if (status === 'approved' && !document_result) {
-        return 'Manually approved';
+      const { manual_reviewer, manual_approved_at, document_result, status } =
+        userKYC?.shuftipro;
+      if (
+        status === 'approved' &&
+        !document_result &&
+        manual_reviewer &&
+        manual_approved_at
+      ) {
+        return (
+          <>
+            Manually approved&nbsp;&nbsp;
+            <span>
+              by: {manual_reviewer} -{' '}
+              {formatDate(manual_approved_at, 'dd/MM/yyyy HH:mm aa')}
+            </span>
+          </>
+        );
       }
 
       if (status === 'denied' && !document_result) {
