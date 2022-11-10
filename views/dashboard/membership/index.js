@@ -151,8 +151,7 @@ const DashboardMembership = () => {
       const warnings = [];
       if (
         membershipData.avg_uptime &&
-        (membershipData.avg_uptime < userInfo.globalSettings?.uptime_warning ||
-          membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation)
+        userInfo?.profile?.extra_status === 'On Probation'
       ) {
         if (
           membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation

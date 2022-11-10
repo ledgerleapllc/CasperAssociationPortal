@@ -33,7 +33,7 @@ const Dialog = ({ dialog, onClosed }) => {
 
   return createPortal(
     <div
-      className={`w-screen h-screen justify-center items-center flex fixed z-30 inset-0 ${
+      className={`w-screen h-screen justify-center items-center flex fixed z-30 z-100 inset-0 ${
         settings?.zIndex ? `z-${settings?.zIndex}` : ''
       }`}
     >

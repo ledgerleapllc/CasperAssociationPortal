@@ -31,6 +31,28 @@ export function* getMyVotes({ payload, successCb }) {
   }
 }
 
+export function* requestReactivation({ payload, resolve, reject }) {
+  try {
+    const endpoint = 'users/request-reactivation';
+    const res = yield post([endpoint], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* canRequestReactivation({ resolve, reject }) {
+  try {
+    const endpoint = 'users/can-request-reactivation';
+    const res = yield post([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVoteStatus({ resolve, reject }) {
   try {
     const endpoint = 'users/can-vote';
@@ -469,6 +491,8 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
+  yield all([takeEvery('REQUEST_REACTIVATION', requestReactivation)]);
+  yield all([takeEvery('CAN_REQUEST_REACTIVATION', canRequestReactivation)]);
   yield all([takeEvery('GET_VOTE_STATUS', getVoteStatus)]);
   yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
