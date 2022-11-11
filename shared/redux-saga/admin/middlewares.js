@@ -73,6 +73,40 @@ export function* getVerifications({ payload, resolve }) {
   }
 }
 
+export function* getActiveReinstatements({ resolve, reject }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const res = yield get([`admin/active-reinstatements`], {
+      headers,
+    });
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject();
+  }
+}
+
+export function* getHistoryReinstatements({ resolve, reject }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const res = yield get([`admin/history-reinstatements`], {
+      headers,
+    });
+    yield delay(500);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject();
+  }
+}
+
 export function* getBallots({ payload, callback }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -212,6 +246,26 @@ export function* getLogUsersViewdDoc({ payload, callback }) {
     yield delay(500);
     callback(res.data?.data, res.data?.current_page < res.data?.last_page);
   } catch (error) {
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* approveReinstatement({ profileId, resolve, reject }) {
+  try {
+    yield post(['admin/approve-reinstatement'], { profileId });
+    resolve();
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* rejectReinstatement({ profileId, resolve, reject }) {
+  try {
+    yield post(['admin/reject-reinstatement'], { profileId });
+    resolve();
+  } catch (error) {
+    reject(error);
     yield put(saveApiResponseError(error));
   }
 }
@@ -780,6 +834,10 @@ export function* watchAdmin() {
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
   yield all([takeEvery('GET_BALLOTS', getBallots)]);
+  yield all([takeEvery('GET_ACTIVE_REINSTATEMENTS', getActiveReinstatements)]);
+  yield all([
+    takeEvery('GET_HISTORY_REINSTATEMENTS', getHistoryReinstatements),
+  ]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('SUBMIT_PERK', submitPerk)]);
   yield all([takeLatest('EDIT_PERK', editPerk)]);
@@ -793,6 +851,8 @@ export function* watchAdmin() {
   yield all([takeLatest('REGISTER_SUB_ADMIN', registerSubAdmin)]);
   yield all([takeLatest('GET_IP_HISTORIES', getIpHistories)]);
   yield all([takeLatest('GET_LOG_USERS_VIEWED_DOC', getLogUsersViewdDoc)]);
+  yield all([takeLatest('APPROVE_REINSTATEMENT', approveReinstatement)]);
+  yield all([takeLatest('REJECT_REINSTATEMENT', rejectReinstatement)]);
   yield all([takeLatest('INVITE_SUBADMIN', inviteSubadmin)]);
   yield all([takeLatest('REVOKE_SUBADMIN', revokeSubadmin)]);
   yield all([takeLatest('UNDO_REVOKE_SUBADMIN', undoRevokeSubadmin)]);

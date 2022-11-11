@@ -43,6 +43,9 @@ const DonateView = lazy(() => import('../views/donate/index'));
 const AdminDashboardView = lazy(() => import('../views/admin/dashboard'));
 const AdminTeamsView = lazy(() => import('../views/admin/teams'));
 const AdminIntakeView = lazy(() => import('../views/admin/intake/index'));
+const AdminReinstatementView = lazy(() =>
+  import('../views/admin/reinstatement')
+);
 const AdminIntakeVerificationDetailView = lazy(() =>
   import('../views/admin/intake/verification/[id]/index')
 );
@@ -201,6 +204,11 @@ const LandingPage = () => (
         <Route path="/admin/dashboard" exact component={AdminDashboardView} />
         <Route path="/admin/teams" exact component={AdminTeamsView} />
         <Route path="/admin/intake" exact component={AdminIntakeView} />
+        <Route
+          path="/admin/reinstatement"
+          exact
+          component={AdminReinstatementView}
+        />
         <Route
           path="/admin/intake/verification/:id"
           exact

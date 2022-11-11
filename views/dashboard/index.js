@@ -59,9 +59,9 @@ const Dashboard = () => {
   };
 
   const closeGuide = () => {
-    dispatch(setHideGuide({ hideGuide: true }))
+    dispatch(setHideGuide({ hideGuide: true }));
     localStorage.setItem('GUIDE_SHOW_STEP', 8);
-    dispatch(setGuideStep({ guideStep: 8 }))
+    dispatch(setGuideStep({ guideStep: 8 }));
   };
 
   const renderGuideIn = () => {
@@ -77,10 +77,7 @@ const Dashboard = () => {
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
         <section>
-          <div
-            id="dashboard-guide-close"
-            onClick={closeGuide}
-          >
+          <div id="dashboard-guide-close" onClick={closeGuide}>
             <IconX className="text-xs" style={{ color: '#CCC' }} />
           </div>
           {[2].includes(guideStep) ? (
