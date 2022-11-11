@@ -1,14 +1,264 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setGuideStep,
   setHideGuide,
+  logoutApp,
 } from '../../shared/redux-saga/auth/actions';
 import Header from '../dashboard/header';
 import Sidebar from '../dashboard/sidebar';
 import IconX from '../../public/images/ic_x.svg';
+import { useDialog } from '../partials/dialog';
+import {
+  requestReactivation,
+  canRequestReactivation,
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
+import { AppContext } from '../../pages/_app';
+
+const ReactivationModal = ({ userInfo, onClosed }) => {
+  const dispatch = useDispatch();
+  const [processing, setProcessing] = useState(false);
+  const [canRequestData, setCanRequestData] = useState(null);
+  const [reactivationReason, setReactivationReason] = useState('');
+  const [showThanks, setShowThanks] = useState(false);
+  const { setLoading } = useContext(AppContext);
+
+  const globalSettings = userInfo?.globalSettings || {};
+
+  const clickLogout = e => {
+    e.preventDefault();
+    dispatch(logoutApp());
+    onClosed();
+  };
+
+  const submitReactivate = () => {
+    if (!reactivationReason || !reactivationReason.trim()) {
+      return;
+    }
+    const params = {
+      reactivationReason,
+    };
+    setLoading(true);
+    dispatch(
+      requestReactivation(
+        params,
+        () => {
+          setLoading(false);
+          setShowThanks(true);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        },
+        () => {
+          window.location.reload();
+        }
+      )
+    );
+  };
+
+  const clickReactivate = () => {
+    setProcessing(true);
+    dispatch(
+      canRequestReactivation(
+        res => {
+          setProcessing(false);
+          if (res) {
+            setCanRequestData(res);
+          }
+        },
+        () => {
+          setProcessing(false);
+        }
+      )
+    );
+  };
+
+  if (processing) {
+    return (
+      <>
+        <p className="text-2xl text-center text-primary mb-10">
+          Checking uptime and redmarks...
+        </p>
+        <ReactLoading
+          className="mx-auto"
+          type="spinningBubbles"
+          color="#FF473E"
+          width={100}
+          height={100}
+        />
+      </>
+    );
+  }
+
+  if (canRequestData) {
+    if (canRequestData.canRequest) {
+      if (showThanks) {
+        return (
+          <>
+            <p className="text-2xl text-center text-primary mb-10">Thanks!</p>
+            <div className="w-full h-full flex flex-col items-center border-gray">
+              <p className="text-center">{`
+                Please check back in 72 hours to allow the administrators time to review your account.
+              `}</p>
+            </div>
+          </>
+        );
+      }
+      return (
+        <>
+          <p className="text-2xl text-center text-primary mb-5">
+            You can request reactivation.
+          </p>
+          <div className="w-full h-full flex flex-col items-center border-gray">
+            <div className="mb-5">
+              <div className="flex flex-col text-center sm:text-left sm:flex-row items-center">
+                <label style={{ width: '90px' }}>Uptime:</label>
+                <span style={{ width: '80px' }}>
+                  {canRequestData.avg_uptime}%
+                </span>
+                <p>(minimum {globalSettings.uptime_probation || 0}%)</p>
+              </div>
+              <div className="mt-5 sm:mt-0 flex flex-col text-center sm:text-left sm:flex-row items-center">
+                <label style={{ width: '90px' }}>Redmarks:</label>
+                <span style={{ width: '80px' }}>
+                  {canRequestData.avg_redmarks}
+                </span>
+                <p>(maximum {globalSettings.redmarks_revoke || 0})</p>
+              </div>
+            </div>
+            <p>{`
+              Please share the reason you believe that reactivation should be granted in the box below
+            `}</p>
+            <textarea
+              value={reactivationReason}
+              onChange={e => setReactivationReason(e.target.value)}
+              rows="4"
+              className="mt-2 mb-5 p-4 resize-none w-full border border-gray focus:outline-none"
+            />
+            <button
+              type="button"
+              className="px-8 py-3 text-lg text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+              onClick={submitReactivate}
+            >
+              Request Activation
+            </button>
+            <a
+              onClick={clickLogout}
+              className="mt-3 font-bold underline text-primary"
+            >
+              Log out
+            </a>
+          </div>
+        </>
+      );
+    }
+    return (
+      <>
+        <p className="text-2xl text-center text-primary mb-5">
+          You cannot request reactivation yet.
+        </p>
+        <div className="w-full h-full text-center flex flex-col items-center border-gray">
+          <div className="mb-5">
+            <div className="flex flex-col text-center sm:text-left sm:flex-row items-center">
+              <label style={{ width: '90px' }}>Uptime:</label>
+              <span style={{ width: '80px' }}>
+                {canRequestData.avg_uptime}%
+              </span>
+              <p>(minimum {globalSettings.uptime_probation || 0}%)</p>
+            </div>
+            <div className="mt-5 sm:mt-0 flex flex-col text-center sm:text-left sm:flex-row items-center">
+              <label style={{ width: '90px' }}>Redmarks:</label>
+              <span style={{ width: '80px' }}>
+                {canRequestData.avg_redmarks}
+              </span>
+              <p>(maximum {globalSettings.redmarks_revoke || 0})</p>
+            </div>
+          </div>
+          <p className="text-center mb-5">{`
+            Please continue to operate your node effectively and check back later. You will be able to request reactivation once the numbers improve.
+          `}</p>
+          <button
+            type="button"
+            className="px-8 py-3 text-lg text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+            onClick={clickLogout}
+          >
+            Log out
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  if (
+    userInfo?.profile?.reactivation_requested &&
+    parseInt(userInfo?.profile?.reactivation_requested, 10) === 1
+  ) {
+    return (
+      <>
+        <p className="text-2xl text-center text-primary mb-5">
+          Reactivation application awaiting admin review
+        </p>
+        <div className="w-full h-full text-center flex flex-col items-center border-gray">
+          <p className="mb-5">{`
+            Please check back in 72 hours to allow the administrators time to review your account.
+          `}</p>
+          <button
+            type="button"
+            className="px-8 py-3 text-lg text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+            onClick={clickLogout}
+          >
+            Log out
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <p className="text-2xl text-center text-primary mb-5">Uh oh!</p>
+      <div className="w-full h-full text-center flex flex-col items-center border-gray">
+        <p className="mb-5">
+          {userInfo?.profile?.revoke_reason
+            ? `
+            Your membership has been revoked for ${userInfo?.profile?.revoke_reason}.
+          `
+            : `
+            Your membership has been revoked.
+          `}
+        </p>
+        <p className="mb-5">{`
+          You may be eligible to reactivate your membership if your uptime rises above ${
+            globalSettings.uptime_probation || 0
+          }% for the last ${
+          globalSettings.uptime_calc_size || 0
+        } ERAs and you have no more than ${
+          globalSettings.redmarks_revoke || 0
+        } redmark ERAs in the last ${
+          globalSettings.redmarks_revoke_calc_size || 0
+        } ERAs.
+        `}</p>
+        <button
+          type="button"
+          className="px-8 py-3 text-lg text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+          onClick={clickReactivate}
+        >
+          Check if I can Reactivate
+        </button>
+        <a
+          onClick={clickLogout}
+          className="mt-3 font-bold underline text-primary"
+        >
+          Log out
+        </a>
+      </div>
+    </>
+  );
+};
 
 export default function LayoutDashboard({ children, bg }) {
   const isCollapsed = useSelector(
@@ -18,12 +268,12 @@ export default function LayoutDashboard({ children, bg }) {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const hideGuide = useSelector(state => state.authReducer.appInfo.hideGuide);
 
-  const [isAdmin, setIsAdmin] = useState(null);
   const dispatch = useDispatch();
+  const { setDialog, onClosed } = useDialog();
+
+  const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {
-    const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
-    setIsAdmin(isAdminTemp);
     let guideStepValue = localStorage.getItem('GUIDE_SHOW_STEP');
     if (!guideStepValue) {
       localStorage.setItem('GUIDE_SHOW_STEP', 1);
@@ -33,6 +283,30 @@ export default function LayoutDashboard({ children, bg }) {
     }
     dispatch(setGuideStep({ guideStep: guideStepValue }));
   }, []);
+
+  useEffect(() => {
+    if (userInfo && Object.keys(userInfo).length > 0) {
+      const isAdminTemp = ['admin', 'sub-admin'].includes(userInfo?.role);
+      setIsAdmin(isAdminTemp);
+
+      if (!isAdminTemp && userInfo?.profile?.extra_status === 'Suspended') {
+        setDialog({
+          type: 'DialogCustom',
+          data: {
+            content: (
+              <div className="p-16" style={{ backgroundColor: 'white' }}>
+                <ReactivationModal userInfo={userInfo} onClosed={onClosed} />
+              </div>
+            ),
+          },
+          settings: {
+            noClose: true,
+            zIndex: 100,
+          },
+        });
+      }
+    }
+  }, [userInfo]);
 
   const clickNext = () => {
     localStorage.setItem('GUIDE_SHOW_STEP', guideStep + 1);

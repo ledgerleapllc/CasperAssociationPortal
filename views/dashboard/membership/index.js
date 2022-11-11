@@ -71,10 +71,14 @@ const WarningCards = ({ warnings, isLoading }) => {
                         {warnMetric?.label} Warning!
                       </span>
                       <span className="pt-1.25 text-xs text-white">
-                        Your {warnMetric?.label} has fallen outside the minimum
+                        {warnMetric.isWarning
+                          ? `Your ${warnMetric?.label} has fallen outside the minimum
+                        acceptable range. Don’t panic, there is still time to correct
+                        this.`
+                          : `Your ${warnMetric?.label} has fallen outside the minimum
                         acceptable range on and you have been placed on
                         probation. Don’t panic, there is still time to correct
-                        this.
+                        this.`}
                       </span>
                       {warnMetric?.correction_value &&
                       warnMetric?.correction_unit ? (
@@ -147,31 +151,33 @@ const DashboardMembership = () => {
       const warnings = [];
       if (
         membershipData.avg_uptime &&
-        (membershipData.avg_uptime < userInfo.globalSettings?.uptime_warning ||
-          membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation)
+        userInfo?.profile?.extra_status === 'On Probation'
       ) {
-        warnings.push({
-          aspect: 'uptime',
-          label: 'Uptime',
-          probation: userInfo.globalSettings?.uptime_probation,
-          warning: userInfo.globalSettings?.uptime_warning,
-          correction_unit: userInfo.globalSettings?.uptime_correction_unit,
-          correction_value: userInfo.globalSettings?.uptime_correction_value,
-        });
-      }
-      if (
-        membershipData.update_responsiveness &&
-        (membershipData.update_responsiveness <
-          userInfo.globalSettings?.responsiveness_warning ||
-          membershipData.update_responsiveness <
-            userInfo.globalSettings?.responsiveness_probation)
-      ) {
-        warnings.push({
-          aspect: 'update_responsiveness',
-          label: 'Update Responsiveness',
-          probation: userInfo.globalSettings?.responsiveness_probation,
-          warning: userInfo.globalSettings?.responsiveness_warning,
-        });
+        if (
+          membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation
+        ) {
+          warnings.push({
+            aspect: 'uptime',
+            label: 'Uptime',
+            probation: userInfo.globalSettings?.uptime_probation,
+            warning: userInfo.globalSettings?.uptime_warning,
+            correction_unit: userInfo.globalSettings?.uptime_correction_unit,
+            correction_value: userInfo.globalSettings?.uptime_correction_value,
+            isWarning: false,
+          });
+        } else if (
+          membershipData.avg_uptime < userInfo.globalSettings?.uptime_warning
+        ) {
+          warnings.push({
+            aspect: 'uptime',
+            label: 'Uptime',
+            probation: userInfo.globalSettings?.uptime_probation,
+            warning: userInfo.globalSettings?.uptime_warning,
+            correction_unit: userInfo.globalSettings?.uptime_correction_unit,
+            correction_value: userInfo.globalSettings?.uptime_correction_value,
+            isWarning: true,
+          });
+        }
       }
       setWarningMetrics(warnings);
     }

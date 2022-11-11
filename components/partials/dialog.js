@@ -33,7 +33,7 @@ const Dialog = ({ dialog, onClosed }) => {
 
   return createPortal(
     <div
-      className={`w-screen h-screen justify-center items-center flex fixed z-30 inset-0 ${
+      className={`w-screen h-screen justify-center items-center flex fixed z-30 z-100 inset-0 ${
         settings?.zIndex ? `z-${settings?.zIndex}` : ''
       }`}
     >
@@ -66,7 +66,11 @@ const Dialog = ({ dialog, onClosed }) => {
                   />
                 </a>
               )}
-              <div className="h-full w-full py-16 flex flex-col items-center justify-between border-gray">
+              <div
+                className={`h-full w-full ${
+                  settings.pyClass ? settings.pyClass : 'py-16'
+                } flex flex-col items-center justify-between border-gray`}
+              >
                 <div className="h-full w-full flex flex-col items-center justify-between">
                   {dialog.data.content}
                 </div>

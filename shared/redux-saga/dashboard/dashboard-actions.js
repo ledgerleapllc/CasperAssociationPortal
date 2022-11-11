@@ -10,6 +10,19 @@ export const getMyVotes = (payload, successCb) => ({
   successCb,
 });
 
+export const requestReactivation = (payload, resolve, reject) => ({
+  type: 'REQUEST_REACTIVATION',
+  payload,
+  resolve,
+  reject,
+});
+
+export const canRequestReactivation = (resolve, reject) => ({
+  type: 'CAN_REQUEST_REACTIVATION',
+  resolve,
+  reject,
+});
+
 export const getVoteStatus = (resolve, reject) => ({
   type: 'GET_VOTE_STATUS',
   resolve,
