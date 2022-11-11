@@ -36,6 +36,18 @@ export const removeIntake = (payload, resolve) => ({
   resolve,
 });
 
+export const getActiveReinstatements = (resolve, reject) => ({
+  type: 'GET_ACTIVE_REINSTATEMENTS',
+  resolve,
+  reject,
+});
+
+export const getHistoryReinstatements = (resolve, reject) => ({
+  type: 'GET_HISTORY_REINSTATEMENTS',
+  resolve,
+  reject,
+});
+
 export const getBallots = (payload, callback) => ({
   type: 'GET_BALLOTS',
   payload,
@@ -126,6 +138,20 @@ export const getLogUsersViewdDoc = (payload, callback) => ({
   type: 'GET_LOG_USERS_VIEWED_DOC',
   payload,
   callback,
+});
+
+export const approveReinstatement = (profileId, resolve, reject) => ({
+  type: 'APPROVE_REINSTATEMENT',
+  profileId,
+  resolve,
+  reject,
+});
+
+export const rejectReinstatement = (profileId, resolve, reject) => ({
+  type: 'REJECT_REINSTATEMENT',
+  profileId,
+  resolve,
+  reject,
 });
 
 export const inviteSubadmin = (email, resolve, reject) => ({

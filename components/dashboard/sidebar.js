@@ -19,6 +19,7 @@ import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ShuftiIcon from '../../public/images/shufti.svg';
 import ListIcon from '../../public/images/ic_list.svg';
 import QuestionMarkIcon from '../../public/images/question-circle.svg';
+import ReinstatementIcon from '../../public/images/ic_refresh.svg';
 import usePermissions from '../hooks/usePermissions';
 import { setCollapsed } from '../../shared/redux-saga/auth/actions';
 
@@ -120,6 +121,12 @@ const adminNavs = [
     icon: IntakeIcon,
     label: 'Intake',
     path: '/admin/intake',
+  },
+  {
+    key: 'reinstatement',
+    icon: ReinstatementIcon,
+    label: 'Reinstatement',
+    path: '/admin/reinstatement',
   },
   {
     key: 'users',
