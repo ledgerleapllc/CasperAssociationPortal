@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-prototype-builtins */
@@ -8,6 +9,8 @@ import Switch from 'react-switch';
 import {
   bypassKYC,
   getUserDetail,
+  reactivateUser,
+  revokeUser,
   updateBlockAccess,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
@@ -133,6 +136,62 @@ const AdminUserDetail = () => {
     );
   };
 
+  const clickRevoke = e => {
+    e.preventDefault();
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      revokeUser(
+        { id: userDetail.id },
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const clickReactivate = e => {
+    e.preventDefault();
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      reactivateUser(
+        { id: userDetail.id },
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const renderRevokeSection = () => {
+    if (
+      userDetail &&
+      userDetail.profile &&
+      userDetail.profile.status === 'approved'
+    ) {
+      if (userDetail.profile.extra_status !== 'Suspended') {
+        return (
+          <a className="text-sm underline text-primary" onClick={clickRevoke}>
+            Revoke
+          </a>
+        );
+      }
+      return (
+        <a className="text-sm underline text-primary" onClick={clickReactivate}>
+          Reactivate
+        </a>
+      );
+    }
+    return null;
+  };
+
   return (
     <LayoutDashboard>
       <Card className="h-full py-5 pl-card">
@@ -222,11 +281,12 @@ const AdminUserDetail = () => {
             </div>
           </div>
           <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll pr-card-tracker">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <p className="text-lg font-medium">Membership Status:</p>
-              <p className="text-lg font-medium pl-2">
+              <p className="text-lg font-medium pl-2 mr-5">
                 {userDetail?.membership_status}
               </p>
+              {renderRevokeSection()}
             </div>
             <div className="flex flex-row pb-7 border-b border-gray">
               <p className="text-lg font-medium">Node Status:</p>

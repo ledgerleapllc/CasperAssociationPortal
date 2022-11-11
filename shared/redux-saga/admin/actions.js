@@ -210,6 +210,20 @@ export const resetUser = (payload, resolve, reject) => ({
   reject,
 });
 
+export const reactivateUser = (payload, resolve, reject) => ({
+  type: 'REACTIVATE_USER',
+  payload,
+  resolve,
+  reject,
+});
+
+export const revokeUser = (payload, resolve, reject) => ({
+  type: 'REVOKE_USER',
+  payload,
+  resolve,
+  reject,
+});
+
 export const banUser = (payload, resolve, reject) => ({
   type: 'BAN_USER',
   payload,

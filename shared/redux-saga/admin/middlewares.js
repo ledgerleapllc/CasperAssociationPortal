@@ -350,6 +350,26 @@ export function* resetUser({ payload, resolve, reject }) {
   }
 }
 
+export function* reactivateUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/reactivate`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
+export function* revokeUser({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/users/${payload.id}/revoke`]);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* banUser({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/users/${payload.id}/ban`]);
@@ -862,6 +882,8 @@ export function* watchAdmin() {
     takeLatest('CHANGE_SUBADMIN_PERMISSIONS', changeSubadminPermissions),
   ]);
   yield all([takeLatest('APPROVE_USER', approveUser)]);
+  yield all([takeLatest('REACTIVATE_USER', reactivateUser)]);
+  yield all([takeLatest('REVOKE_USER', revokeUser)]);
   yield all([takeLatest('BAN_USER', banUser)]);
   yield all([takeLatest('RESET_USER', resetUser)]);
   yield all([takeLatest('GET_LIST_VERIFICATIONS', getVerifications)]);
