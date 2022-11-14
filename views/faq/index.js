@@ -26,6 +26,51 @@ const FAQ = () => {
 
 /* End Of Slide In From The Top Option */`;
 
+  /*
+            <div className="c-faq-item mb-5">
+              <div className="c-faq-itemQuestion">
+                <span />
+                <h3>Q.</h3>
+                <p>
+                  Onboarding video
+                </p>
+              </div>
+              <div className="c-faq-itemAnswer">
+                <span />
+                <h3>A.</h3>
+                <div className="c-faq-itemAnswerDetails">
+                  <p></p>
+                  <div className="c-video-wrap mt-5 mb-5">
+                    <div className="c-video">
+                      <iframe
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/2WB6RcY0MPc?controls=0&showinfo=0"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                  <p className="mb-5">What about a code snippet?</p>
+                  <pre>
+                    <code>{CODE}</code>
+                  </pre>
+                  <p className="mt-5">
+                    Vulputate mi sit amet mauris commodo. Nulla aliquet
+                    porttitor lacus luctus accumsan tortor. Leo vel fringilla
+                    est ullamcorper eget nulla facilisi etiam. Quam id leo in
+                    vitae turpis massa. Leo a diam sollicitudin tempor id eu.
+                    Erat imperdiet sed euismod nisi porta. In est ante in nibh.
+                    Semper viverra nam libero justo laoreet sit amet.
+                  </p>
+                </div>
+              </div>
+              <hr />
+            </div>
+  */
+
   return (
     <div
       id="landing-page__faq"
@@ -310,6 +355,7 @@ const FAQ = () => {
               </div>
               <hr />
             </div>
+
             <div className="c-faq-item mb-5">
               <div className="c-faq-itemQuestion">
                 <span />
@@ -330,48 +376,6 @@ const FAQ = () => {
               <hr />
             </div>
 
-            <div className="c-faq-item mb-5">
-              <div className="c-faq-itemQuestion">
-                <span />
-                <h3>Q.</h3>
-                <p>
-                  Onboarding video
-                </p>
-              </div>
-              <div className="c-faq-itemAnswer">
-                <span />
-                <h3>A.</h3>
-                <div className="c-faq-itemAnswerDetails">
-                  <p></p>
-                  <div className="c-video-wrap mt-5 mb-5">
-                    <div className="c-video">
-                      <iframe
-                        width="560"
-                        height="315"
-                        src="https://www.youtube.com/embed/2WB6RcY0MPc?controls=0&showinfo=0"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                  <p className="mb-5">What about a code snippet?</p>
-                  <pre>
-                    <code>{CODE}</code>
-                  </pre>
-                  <p className="mt-5">
-                    Vulputate mi sit amet mauris commodo. Nulla aliquet
-                    porttitor lacus luctus accumsan tortor. Leo vel fringilla
-                    est ullamcorper eget nulla facilisi etiam. Quam id leo in
-                    vitae turpis massa. Leo a diam sollicitudin tempor id eu.
-                    Erat imperdiet sed euismod nisi porta. In est ante in nibh.
-                    Semper viverra nam libero justo laoreet sit amet.
-                  </p>
-                </div>
-              </div>
-              <hr />
-            </div>
           </div>
         </div>
       </section>
