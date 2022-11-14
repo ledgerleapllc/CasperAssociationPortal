@@ -60,8 +60,8 @@ const Dashboard = () => {
 
   const closeGuide = () => {
     dispatch(setHideGuide({ hideGuide: true }));
-    localStorage.setItem('GUIDE_SHOW_STEP', 8);
-    dispatch(setGuideStep({ guideStep: 8 }));
+    localStorage.setItem('GUIDE_SHOW_STEP', 9);
+    dispatch(setGuideStep({ guideStep: 9 }));
   };
 
   const renderGuideIn = () => {

@@ -71,7 +71,7 @@ const WarningCards = ({ warnings, isLoading }) => {
                         {warnMetric?.label} Warning!
                       </span>
                       <span className="pt-1.25 text-xs text-white">
-                        {warnMetric.isWarning
+                        {warnMetric?.isWarning
                           ? `Your ${warnMetric?.label} has fallen outside the minimum
                         acceptable range. Don’t panic, there is still time to correct
                         this.`
@@ -86,8 +86,11 @@ const WarningCards = ({ warnings, isLoading }) => {
                           You have {warnMetric?.correction_value}{' '}
                           {warnMetric?.correction_unit} to correct this problem
                           before your membership status is revoked. Bring your{' '}
-                          {warnMetric?.label} {warnMetric?.probation}% to
-                          correct this issue.
+                          {warnMetric?.label}{' '}
+                          {warnMetric?.isWarning
+                            ? warnMetric?.warning
+                            : warnMetric?.probation}
+                          % to correct this issue.
                         </span>
                       ) : null}
                     </div>
@@ -149,11 +152,9 @@ const DashboardMembership = () => {
       userInfo.globalSettings
     ) {
       const warnings = [];
-      if (
-        membershipData.avg_uptime &&
-        userInfo?.profile?.extra_status === 'On Probation'
-      ) {
+      if (membershipData.avg_uptime) {
         if (
+          userInfo?.profile?.extra_status === 'On Probation' &&
           membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation
         ) {
           warnings.push({
@@ -208,6 +209,29 @@ const DashboardMembership = () => {
       },
     };
     return data[kycStatus];
+  };
+
+  const getExtraUptimeCardClass = () => {
+    if (
+      membershipData &&
+      Object.keys(membershipData).length > 0 &&
+      membershipData.avg_uptime &&
+      userInfo &&
+      userInfo.globalSettings
+    ) {
+      if (
+        userInfo?.profile?.extra_status === 'On Probation' &&
+        membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation
+      ) {
+        return 'metrics-card-warning';
+      }
+      if (
+        membershipData.avg_uptime < userInfo?.globalSettings?.uptime_warning
+      ) {
+        return 'metrics-card-warning';
+      }
+    }
+    return '';
   };
 
   const getNodeData = () => {
@@ -285,12 +309,7 @@ const DashboardMembership = () => {
             <div className="w-full 2xl:w-1/2">
               <div className="flex flex-col sm:flex-row w-full h-full gap-5">
                 <Card
-                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex px-6 py-6 metrics-card ${
-                    (!membershipData.avg_uptime ||
-                      membershipData.avg_uptime <
-                        userInfo?.globalSettings?.uptime_warning) &&
-                    'metrics-card-warning'
-                  }`}
+                  className={`w-full sm:w-1/2 lg:w-1/3 2xl:w-2/3 flex px-6 py-6 metrics-card ${getExtraUptimeCardClass()}`}
                 >
                   <div className="w-1/2">
                     <Tooltips
@@ -333,14 +352,7 @@ const DashboardMembership = () => {
                     />
                   </div>
                 </Card>
-                <Card
-                  className={`w-full sm:w-1/2 lg:w-1/4 2xl:w-1/3 flex flex-col px-6 py-6 metrics-card ${
-                    (!membershipData.update_responsiveness ||
-                      membershipData.update_responsiveness <
-                        userInfo?.globalSettings?.responsiveness_warning) &&
-                    'metrics-card-warning'
-                  }`}
-                >
+                <Card className="w-full sm:w-1/2 lg:w-1/4 2xl:w-1/3 flex flex-col px-6 py-6 metrics-card">
                   <p className="text-sm font-medium pb-1">Updates</p>
                   <p className="text-xs desc">On Time</p>
                   <div className="mt-2">
