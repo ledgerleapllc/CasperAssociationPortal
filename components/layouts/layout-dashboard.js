@@ -231,14 +231,18 @@ const ReactivationModal = ({ userInfo, onClosed }) => {
             Your membership has been revoked.
           `}
         </p>
-        <p className="mb-5">{`
-          You may be eligible to reactivate your membership if your uptime rises above ${
+        <p>{`
+          You may be able to reinstate your membership as long as:
+        `}</p>
+        <p>{`
+          1) Uptime remains above ${
             globalSettings.uptime_probation || 0
-          }% for the last ${
-          globalSettings.uptime_calc_size || 0
-        } ERAs and you have no more than ${
-          globalSettings.redmarks_revoke || 0
-        } redmark ERAs in the last ${
+          }% for the last ${globalSettings.uptime_calc_size || 0} ERAs.
+        `}</p>
+        <p className="mb-5">{`
+          2) You have less than ${
+            globalSettings.redmarks_revoke || 0
+          } redmarks within the last ${
           globalSettings.redmarks_revoke_calc_size || 0
         } ERAs.
         `}</p>
@@ -313,6 +317,12 @@ export default function LayoutDashboard({ children, bg }) {
     dispatch(setGuideStep({ guideStep: guideStep + 1 }));
   };
 
+  const closeGuide = () => {
+    dispatch(setHideGuide({ hideGuide: true }));
+    localStorage.setItem('GUIDE_SHOW_STEP', 9);
+    dispatch(setGuideStep({ guideStep: 9 }));
+  };
+
   const renderGuideOut = () => {
     if (
       userInfo?.profile?.status === 'approved' ||
@@ -326,10 +336,7 @@ export default function LayoutDashboard({ children, bg }) {
     return (
       <div className="dashboard-guide" id={`dashboard-guide-${guideStep}`}>
         <section>
-          <div
-            id="dashboard-guide-close"
-            onClick={() => dispatch(setHideGuide({ hideGuide: true }))}
-          >
+          <div id="dashboard-guide-close" onClick={() => closeGuide()}>
             <IconX className="text-xs" style={{ color: '#CCC' }} />
           </div>
           {[1, 3, 4, 5, 6, 7, 8].includes(guideStep) ? (
