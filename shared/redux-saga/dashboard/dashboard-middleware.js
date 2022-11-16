@@ -142,6 +142,16 @@ export function* getDraftDiscussions({ payload, resolve, reject }) {
   }
 }
 
+export function* deleteDiscussion({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy([`discussions/${payload.id}`], {});
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* deleteDraftDiscussion({ payload, resolve, reject }) {
   try {
     const res = yield destroy([`discussions/${payload.id}/draft`], {});
@@ -501,6 +511,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
+  yield all([takeEvery('DELETE_DISCUSSION', deleteDiscussion)]);
   yield all([takeEvery('DELETE_DRAFT_DISCUSSION', deleteDraftDiscussion)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
   yield all([takeEvery('GET_MY_ERAS', getMyERAs)]);

@@ -1,11 +1,13 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-danger */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { createContext, useContext, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Head from 'next/head';
 import styled from 'styled-components';
+import DeleteIcon from '@material-ui/icons/Delete';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import {
   Tab,
@@ -14,6 +16,7 @@ import {
   Button,
   Tooltips,
 } from '../../../components/partials';
+import { useDialog } from '../../../components/partials/dialog';
 import { useTable } from '../../../components/partials/table';
 import IconPin from '../../../public/images/ic_pin.svg';
 import IconChatBox from '../../../public/images/ic_chatbox.svg';
@@ -30,6 +33,7 @@ import {
   getDraftDiscussions,
   deleteDraftDiscussion,
   publishDiscussion,
+  deleteDiscussion,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
 
@@ -42,6 +46,10 @@ const ChatBox = ({
   onPublishDraft,
   onDeleteDraft,
 }) => {
+  const { setDialog } = useDialog();
+  const { setLoading } = useContext(AppContext);
+  const dispatch = useDispatch();
+  const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
   const { togglePinnedList, removeNewFromList } = useContext(
     DashboardDiscusionContext
   );
@@ -94,6 +102,43 @@ const ChatBox = ({
     if (onDeleteDraft) {
       onDeleteDraft(item);
     }
+  };
+
+  const canShowDelete = item => {
+    if (
+      (userInfo?.role === 'admin' || userInfo?.id === item?.user_id) &&
+      !item?.is_draft
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const clickDeleteDiscuss = item => {
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: `Are you sure you want to delete this discussion?`,
+        ok: 'Delete',
+        cancel: 'Cancel',
+      },
+      afterClosed: confirm => {
+        if (confirm) {
+          setLoading(true);
+          dispatch(
+            deleteDiscussion(
+              { id: item?.id },
+              () => {
+                window.location.reload();
+              },
+              () => {
+                setLoading(false);
+              }
+            )
+          );
+        }
+      },
+    });
   };
 
   return (
@@ -232,6 +277,17 @@ const ChatBox = ({
                   </span>
                 </Link>
               </li>
+              {canShowDelete(discuss) && (
+                <li className="flex items-center">
+                  <span className="cursor-pointer flex items-center">
+                    <Tooltips title="Delete" arrow>
+                      <p onClick={() => clickDeleteDiscuss(discuss)}>
+                        <DeleteIcon style={{ fontSize: 20 }} />
+                      </p>
+                    </Tooltips>
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
         </div>
