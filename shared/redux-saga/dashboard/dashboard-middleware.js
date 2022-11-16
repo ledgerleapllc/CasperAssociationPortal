@@ -268,7 +268,6 @@ export function* postDiscussionComment({ payload, resolve, reject }) {
         comment_id: payload.comment_id,
         description: payload.description,
       });
-
     resolve(res.data);
   } catch (error) {
     reject();
