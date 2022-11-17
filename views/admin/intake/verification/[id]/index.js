@@ -238,7 +238,7 @@ const AdminIntakeVerificationDetail = () => {
           <div className="pt-4 text-primary">
             <b>Confirmed in Document:</b>
             <span className="pl-7">
-              {`${formatDate(confirmationInfoAt, 'dd/MM/yyyy hh:mm aa')} EST`}
+              {formatDate(confirmationInfoAt, 'dd/MM/yyyy HH:mm aa')}
             </span>
           </div>
           <CommonDetail />

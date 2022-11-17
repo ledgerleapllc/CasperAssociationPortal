@@ -9,7 +9,7 @@ import LayoutDashboard from '../../components/layouts/layout-dashboard';
 import { Card, Tab, Table } from '../../components/partials';
 import { useDialog } from '../../components/partials/dialog';
 import { useTable } from '../../components/partials/table';
-import { formatDateEST } from '../../shared/core/utils';
+import { formatDate } from '../../shared/core/utils';
 import {
   approveReinstatement,
   getActiveReinstatements,
@@ -22,9 +22,6 @@ const Styles = styled.div`
   .active-reinstatement-table {
     display: flex;
     flex-direction: column;
-    .table-header {
-      padding-right: 8px;
-    }
     .col-1 {
       width: 10%;
       padding-right: 0 !important;
@@ -53,9 +50,6 @@ const Styles = styled.div`
   .history-reinstatement-table {
     display: flex;
     flex-direction: column;
-    .table-header {
-      padding-right: 8px;
-    }
     .col-1 {
       width: 10%;
       padding-right: 0 !important;
@@ -224,27 +218,21 @@ const Tab1 = () => {
                 <p className="truncate">{row.user_id}</p>
               </Table.BodyCell>
               <Table.BodyCell key="revoke_at">
-                <p className="truncate">{`${formatDateEST(
-                  row.revoke_at,
-                  'dd/MM/yyyy'
-                )}`}</p>
-                <p className="truncate">{`${formatDateEST(
-                  row.revoke_at,
-                  'HH:mm aa'
-                )} EST`}</p>
+                <p className="truncate">
+                  {formatDate(row.revoke_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.revoke_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="revoke_reason">
                 <p className="truncate">{row.revoke_reason}</p>
               </Table.BodyCell>
               <Table.BodyCell key="reactivation_requested_at">
-                <p className="truncate">{`${formatDateEST(
-                  row.reactivation_requested_at,
-                  'dd/MM/yyyy'
-                )}`}</p>
-                <p className="truncate">{`${formatDateEST(
-                  row.reactivation_requested_at,
-                  'HH:mm aa'
-                )} EST`}</p>
+                <p className="truncate">
+                  {formatDate(row.reactivation_requested_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.reactivation_requested_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.user?.email}</p>
@@ -350,40 +338,31 @@ const Tab2 = () => {
                 <p className="truncate">{row.user_id}</p>
               </Table.BodyCell>
               <Table.BodyCell key="revoke_at">
-                <p className="truncate">{`${formatDateEST(
-                  row.revoke_at,
-                  'dd/MM/yyyy'
-                )}`}</p>
-                <p className="truncate">{`${formatDateEST(
-                  row.revoke_at,
-                  'HH:mm aa'
-                )} EST`}</p>
+                <p className="truncate">
+                  {formatDate(row.revoke_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.revoke_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="revoke_reason">
                 <p className="truncate">{row.revoke_reason}</p>
               </Table.BodyCell>
               <Table.BodyCell key="reactivation_requested_at">
-                <p className="truncate">{`${formatDateEST(
-                  row.reactivation_requested_at,
-                  'dd/MM/yyyy'
-                )}`}</p>
-                <p className="truncate">{`${formatDateEST(
-                  row.reactivation_requested_at,
-                  'HH:mm aa'
-                )} EST`}</p>
+                <p className="truncate">
+                  {formatDate(row.reactivation_requested_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.reactivation_requested_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.user?.email}</p>
               </Table.BodyCell>
               <Table.BodyCell key="decision_time">
-                <p className="truncate">{`${formatDateEST(
-                  row.decision_at,
-                  'dd/MM/yyyy'
-                )}`}</p>
-                <p className="truncate">{`${formatDateEST(
-                  row.decision_at,
-                  'HH:mm aa'
-                )} EST`}</p>
+                <p className="truncate">
+                  {formatDate(row.decision_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.decision_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="decision">
                 <a

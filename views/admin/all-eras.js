@@ -122,14 +122,11 @@ const ERAsTable = ({ users }) => {
     items.push(
       <Table.BodyCell key="body_StartTime">
         {row.era_start_time ? (
-          <>
-            <p className="text-sm">
-              {formatDate(row.era_start_time, 'dd/MM/yyyy')}
-            </p>
-            <p className="text-sm">
-              {formatDate(row.era_start_time, 'HH:mm aa')} UTC
-            </p>
-          </>
+          <p className="text-sm">
+            {formatDate(row.era_start_time, 'dd/MM/yyyy')}
+            <br />
+            {formatDate(row.era_start_time, 'HH:mm aa')}
+          </p>
         ) : null}
       </Table.BodyCell>
     );

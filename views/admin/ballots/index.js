@@ -15,7 +15,7 @@ import {
   Button,
 } from '../../../components/partials';
 import { useTable } from '../../../components/partials/table';
-import { formatDate } from '../../../shared/core/utils';
+import { formatDate, getDateObject } from '../../../shared/core/utils';
 import { getBallots } from '../../../shared/redux-saga/admin/actions';
 
 const Styles = styled.div`
@@ -126,48 +126,35 @@ const Tab1 = () => {
   };
 
   const renderStartDate = row => {
-    if (row.start_date && row.start_time) {
+    if (row.time_begin) {
       return (
-        <>
-          <p>
-            {`${formatDate(
-              `${row.start_date} ${row.start_time}`,
-              'dd/MM/yyyy'
-            )}`}
-          </p>
-          <p>
-            {`${formatDate(
-              `${row.start_date} ${row.start_time}`,
-              'HH:mm aa'
-            )} EST`}
-          </p>
-        </>
+        <p className="truncate">
+          {formatDate(row.time_begin, 'dd/MM/yyyy')}
+          <br />
+          {formatDate(row.time_begin, 'HH:mm aa')}
+        </p>
       );
     }
 
     return (
-      <>
-        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
-        <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>
-      </>
+      <p className="truncate">
+        {formatDate(row.created_at, 'dd/MM/yyyy')}
+        <br />
+        {formatDate(row.created_at, 'HH:mm aa')}
+      </p>
     );
   };
 
   const renderTimer = row => {
-    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+    if (row.time_begin && row.time_end) {
       return (
         <ClockBar
-          endTime={new Date(`${row.end_date} ${row.end_time}`)}
-          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+          endTime={getDateObject(row.time_end)}
+          startTime={getDateObject(row.time_begin)}
         />
       );
     }
-    return (
-      <ClockBar
-        startTime={new Date(row.created_at)}
-        endTime={new Date(row.time_end)}
-      />
-    );
+    return null;
   };
 
   const goToEdit = row => {
@@ -305,30 +292,22 @@ const Tab3 = () => {
   };
 
   const renderStartDate = row => {
-    if (row.start_date && row.start_time) {
+    if (row.time_begin) {
       return (
-        <>
-          <p>
-            {`${formatDate(
-              `${row.start_date} ${row.start_time}`,
-              'dd/MM/yyyy'
-            )}`}
-          </p>
-          <p>
-            {`${formatDate(
-              `${row.start_date} ${row.start_time}`,
-              'HH:mm aa'
-            )} EST`}
-          </p>
-        </>
+        <p className="truncate">
+          {formatDate(row.time_begin, 'dd/MM/yyyy')}
+          <br />
+          {formatDate(row.time_begin, 'HH:mm aa')}
+        </p>
       );
     }
 
     return (
-      <>
-        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
-        <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>
-      </>
+      <p className="truncate">
+        {formatDate(row.created_at, 'dd/MM/yyyy')}
+        <br />
+        {formatDate(row.created_at, 'HH:mm aa')}
+      </p>
     );
   };
 
@@ -529,16 +508,18 @@ const Tab2 = () => {
                 />
               </Table.BodyCell>
               <Table.BodyCell key="createdAt3">
-                <>
-                  <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
-                  <p>{`${formatDate(row.created_at, 'hh:mm aa')} EST`}</p>
-                </>
+                <p className="truncate">
+                  {formatDate(row.created_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.created_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="timeEnd">
-                <>
-                  <p>{`${formatDate(row.time_end, 'dd/MM/yyyy')}`}</p>
-                  <p>{`${formatDate(row.time_end, 'hh:mm aa')} EST`}</p>
-                </>
+                <p className="truncate">
+                  {formatDate(row.time_end, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.time_end, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="actionButtons">
                 <button

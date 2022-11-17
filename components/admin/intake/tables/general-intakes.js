@@ -221,7 +221,11 @@ export const GeneralIntakes = () => {
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="createdData">
-                <p>{formatDate(new Date(row?.created_at))}</p>
+                <p className="truncate">
+                  {formatDate(row?.created_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row?.created_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>
