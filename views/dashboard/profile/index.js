@@ -328,10 +328,10 @@ const UserProfile = () => {
                               </td>
                               <td>
                                 <span>
-                                  {`${formatDate(
+                                  {formatDate(
                                     userInfo?.email_verified_at,
-                                    'dd/MM/yyyy'
-                                  )}`}
+                                    'dd/MM/yyyy HH:mm aa'
+                                  )}
                                 </span>
                               </td>
                             </tr>
@@ -373,10 +373,10 @@ const UserProfile = () => {
                               <td>
                                 {userInfo?.approve_at ? (
                                   <span>
-                                    {`${formatDate(
+                                    {formatDate(
                                       userInfo?.approve_at,
-                                      'dd/MM/yyyy'
-                                    )}`}
+                                      'dd/MM/yyyy HH:mm aa'
+                                    )}
                                   </span>
                                 ) : (
                                   <span>-</span>

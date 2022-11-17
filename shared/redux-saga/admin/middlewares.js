@@ -130,13 +130,14 @@ export function* submitBallot({ payload, resolve, reject }) {
     Array.from(payload.files).forEach((file, index) => {
       formData.append(`files[${index}]`, file);
     });
-    formData.append(`title`, payload.title);
-    formData.append(`description`, payload.description);
-    formData.append(`start_date`, payload.startDate);
-    formData.append(`start_time`, payload.startTime);
-    formData.append(`end_date`, payload.endDate);
-    formData.append(`end_time`, payload.endTime);
-    const res = yield post([`admin/ballots`], formData);
+    formData.append('title', payload.title);
+    formData.append('description', payload.description);
+    formData.append('start_date', payload.startDate);
+    formData.append('start_time', payload.startTime);
+    formData.append('end_date', payload.endDate);
+    formData.append('end_time', payload.endTime);
+    formData.append('timezone', payload.timezone);
+    const res = yield post(['admin/ballots'], formData);
     resolve(res);
   } catch (error) {
     yield put(saveApiResponseError(error));
@@ -525,15 +526,16 @@ export function* deletePerk({ payload, resolve, reject }) {
 export function* submitPerk({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
-    formData.append(`title`, payload.title);
-    formData.append(`content`, payload.content);
-    formData.append(`action_link`, payload.action_link);
-    formData.append(`image`, payload.image.file);
-    formData.append(`start_date`, payload.start_date);
-    formData.append(`end_date`, payload.end_date);
-    formData.append(`start_time`, payload.start_time);
-    formData.append(`end_time`, payload.end_time);
-    formData.append(`setting`, payload.setting ? 1 : 0);
+    formData.append('title', payload.title);
+    formData.append('content', payload.content);
+    formData.append('action_link', payload.action_link);
+    formData.append('image', payload.image.file);
+    formData.append('start_date', payload.start_date);
+    formData.append('end_date', payload.end_date);
+    formData.append('start_time', payload.start_time);
+    formData.append('end_time', payload.end_time);
+    formData.append('setting', payload.setting ? 1 : 0);
+    formData.append('timezone', payload.timezone);
     const res = yield post([`admin/perks`], formData);
     resolve(res);
   } catch (error) {
@@ -545,15 +547,16 @@ export function* submitPerk({ payload, resolve, reject }) {
 export function* editPerk({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
-    formData.append(`title`, payload.title);
-    formData.append(`content`, payload.content);
-    formData.append(`action_link`, payload.action_link);
-    if (payload.image.file) formData.append(`image`, payload.image.file);
-    formData.append(`start_date`, payload.start_date);
-    formData.append(`end_date`, payload.end_date);
-    formData.append(`start_time`, payload.start_time);
-    formData.append(`end_time`, payload.end_time);
-    formData.append(`setting`, payload.setting ? 1 : 0);
+    formData.append('title', payload.title);
+    formData.append('content', payload.content);
+    formData.append('action_link', payload.action_link);
+    if (payload.image.file) formData.append('image', payload.image.file);
+    formData.append('start_date', payload.start_date);
+    formData.append('end_date', payload.end_date);
+    formData.append('start_time', payload.start_time);
+    formData.append('end_time', payload.end_time);
+    formData.append('setting', payload.setting ? 1 : 0);
+    formData.append('timezone', payload.timezone);
     const res = yield post([`admin/perks/update/${payload.id}`], formData);
     resolve(res);
   } catch (error) {
@@ -662,12 +665,9 @@ export function* getNotificationDetail({ payload, resolve, reject }) {
     const res = yield get([`admin/notification`, payload.id]);
     res.data.setting = res.data.setting === 1;
     if (res.data.start_date)
-      res.data.start_date = formatDate(
-        new Date(res.data.start_date),
-        'dd/MM/yyyy'
-      );
+      res.data.start_date = formatDate(res.data.start_date, 'dd/MM/yyyy');
     if (res.data.end_date)
-      res.data.end_date = formatDate(new Date(res.data.end_date), 'dd/MM/yyyy');
+      res.data.end_date = formatDate(res.data.end_date, 'dd/MM/yyyy');
     resolve(res.data);
   } catch (error) {
     reject(error);
@@ -738,12 +738,13 @@ export function* updateBallot({ payload, resolve, reject }) {
     payload.file_ids_remove.forEach((id, index) => {
       formData.append(`file_ids_remove[${index}]`, id);
     });
-    formData.append(`title`, payload.title);
-    formData.append(`description`, payload.description);
-    formData.append(`start_date`, payload.startDate);
-    formData.append(`start_time`, payload.startTime);
-    formData.append(`end_date`, payload.endDate);
-    formData.append(`end_time`, payload.endTime);
+    formData.append('title', payload.title);
+    formData.append('description', payload.description);
+    formData.append('start_date', payload.startDate);
+    formData.append('start_time', payload.startTime);
+    formData.append('end_date', payload.endDate);
+    formData.append('end_time', payload.endTime);
+    formData.append('timezone', payload.timezone);
     const res = yield post([`admin/ballots/${payload.id}/edit`], formData);
     resolve(res.data);
   } catch (error) {

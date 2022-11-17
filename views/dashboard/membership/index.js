@@ -30,7 +30,24 @@ const WarningCards = ({ warnings, isLoading }) => {
   const prev = () => {
     sliderRef.current.slickPrev();
   };
-
+  const getTitleText = warnMetric => {
+    if (warnMetric?.aspect === 'uptime') {
+      if (warnMetric?.isWarning) {
+        return 'Uptime Warning!';
+      }
+      return 'You’re on Probation due to Uptime!';
+    }
+    return '';
+  };
+  const getBodyText = warnMetric => {
+    if (warnMetric?.aspect === 'uptime') {
+      if (warnMetric?.isWarning) {
+        return `Your UPTIME is close to the minimum acceptable criteria. To avoid going into probation and losing your membership privileges, you want to keep your Uptime above ${warnMetric?.warning}%.`;
+      }
+      return `Your UPTIME has fallen below the minimum acceptable criteria and you have been placed on probation as a result. Don’t worry, you can still fix your status within the membership portal. You have ${warnMetric?.correction_value} ${warnMetric?.correction_unit} to bring your uptime above ${warnMetric?.probation}%, otherwise your membership will be revoked.`;
+    }
+    return '';
+  };
   return (
     <Card
       className={classNames(
@@ -67,32 +84,12 @@ const WarningCards = ({ warnings, isLoading }) => {
                 {warnings.map((warnMetric, index) => (
                   <div key={`warning_${index}`}>
                     <div className="flex flex-col bg-primary">
-                      <span className="text-lg font-medium text-white">
-                        {warnMetric?.label} Warning!
+                      <span className="text-xl font-semibold text-white">
+                        {getTitleText(warnMetric)}
                       </span>
-                      <span className="pt-1.25 text-xs text-white">
-                        {warnMetric?.isWarning
-                          ? `Your ${warnMetric?.label} has fallen outside the minimum
-                        acceptable range. Don’t panic, there is still time to correct
-                        this.`
-                          : `Your ${warnMetric?.label} has fallen outside the minimum
-                        acceptable range on and you have been placed on
-                        probation. Don’t panic, there is still time to correct
-                        this.`}
+                      <span className="pt-1.5 text-white">
+                        {getBodyText(warnMetric)}
                       </span>
-                      {warnMetric?.correction_value &&
-                      warnMetric?.correction_unit ? (
-                        <span className="pt-1.25 text-xs text-white">
-                          You have {warnMetric?.correction_value}{' '}
-                          {warnMetric?.correction_unit} to correct this problem
-                          before your membership status is revoked. Bring your{' '}
-                          {warnMetric?.label}{' '}
-                          {warnMetric?.isWarning
-                            ? warnMetric?.warning
-                            : warnMetric?.probation}
-                          % to correct this issue.
-                        </span>
-                      ) : null}
                     </div>
                   </div>
                 ))}

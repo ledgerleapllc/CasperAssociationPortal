@@ -19,7 +19,7 @@ import {
   getVotes,
   getVoteStatus,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
-import { formatDate } from '../../../shared/core/utils';
+import { formatDate, getDateObject } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
 import { AppContext } from '../../../pages/_app';
 
@@ -121,39 +121,32 @@ const Tab1 = () => {
   };
 
   const renderTimer = row => {
-    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+    if (row.time_begin && row.time_end) {
       return (
         <ClockBar
-          endTime={new Date(`${row.end_date} ${row.end_time}`)}
-          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+          endTime={getDateObject(row.time_end)}
+          startTime={getDateObject(row.time_begin)}
         />
       );
     }
-    return (
-      <ClockBar
-        endTime={new Date(row.time_end)}
-        startTime={new Date(row.created_at)}
-      />
-    );
+    return null;
   };
 
   const renderStartDate = row => {
-    if (row.start_date && row.start_time) {
-      const date = `${row.start_date} ${row.start_time}`;
+    if (row.time_begin) {
       return (
-        <p>
-          {`${formatDate(date, 'dd/MM/yyyy')}`}
+        <p className="truncate">
+          {formatDate(row.time_begin, 'dd/MM/yyyy')}
           <br />
-          {`${formatDate(date, 'HH:mm aaa')} EST`}
+          {formatDate(row.time_begin, 'HH:mm aa')}
         </p>
       );
     }
-
     return (
-      <p>
-        {`${formatDate(row.created_at, 'dd/MM/yyyy')}`}
+      <p className="truncate">
+        {formatDate(row.created_at, 'dd/MM/yyyy')}
         <br />
-        {`${formatDate(row.created_at, 'HH:mm aaa')} EST`}
+        {formatDate(row.created_at, 'HH:mm aa')}
       </p>
     );
   };
@@ -258,22 +251,20 @@ const Tab4 = () => {
   };
 
   const renderStartDate = row => {
-    if (row.start_date && row.start_time) {
-      const date = `${row.start_date} ${row.start_time}`;
+    if (row.time_begin) {
       return (
-        <p>
-          {`${formatDate(date, 'dd/MM/yyyy')}`}
+        <p className="truncate">
+          {formatDate(row.time_begin, 'dd/MM/yyyy')}
           <br />
-          {`${formatDate(date, 'HH:mm aaa')} EST`}
+          {formatDate(row.time_begin, 'HH:mm aa')}
         </p>
       );
     }
-
     return (
-      <p>
-        {`${formatDate(row.created_at, 'dd/MM/yyyy')}`}
+      <p className="truncate">
+        {formatDate(row.created_at, 'dd/MM/yyyy')}
         <br />
-        {`${formatDate(row.created_at, 'HH:mm aaa')} EST`}
+        {formatDate(row.created_at, 'HH:mm aa')}
       </p>
     );
   };
@@ -362,12 +353,16 @@ const Tab2 = () => {
   };
 
   const renderEndTime = row => {
-    if (row.end_date && row.end_time) {
+    if (row.time_end) {
       return (
-        <p>{`${formatDate(new Date(`${row.end_date} ${row.end_time}`))}`}</p>
+        <p className="truncate">
+          {formatDate(row.time_end, 'dd/MM/yyyy')}
+          <br />
+          {formatDate(row.time_end, 'HH:mm aa')}
+        </p>
       );
     }
-    return <p>{`${formatDate(new Date(row?.time_end))}`}</p>;
+    return null;
   };
 
   return (
@@ -506,7 +501,11 @@ const Tab3 = () => {
                 <StatusText content={row.voteType} className="uppercase" />
               </Table.BodyCell>
               <Table.BodyCell key="body3">
-                <p>{`${formatDate(row.date_placed)}`}</p>
+                <p className="truncate">
+                  {formatDate(row.date_placed, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.date_placed, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="body4">
                 <p>{row.result_count}</p>

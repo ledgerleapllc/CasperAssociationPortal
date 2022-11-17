@@ -101,10 +101,10 @@ export const LogViewedDocsDialog = ({ id }) => {
                   </p>
                 </Table.BodyCell>
                 <Table.BodyCell>
-                  <p>{`${formatDate(row.created_at)}`}</p>
+                  <p>{formatDate(row.created_at, 'dd/MM/yyyy')}</p>
                 </Table.BodyCell>
                 <Table.BodyCell>
-                  <p>{`${formatDate(row.created_at, 'HH:mm aa')} EST`}</p>
+                  <p>{formatDate(row.created_at, 'HH:mm aa')}</p>
                 </Table.BodyCell>
               </Table.BodyRow>
             ))}

@@ -70,6 +70,13 @@ export const getDraftDiscussions = (payload, resolve, reject) => ({
   reject,
 });
 
+export const deleteDiscussion = (payload, resolve, reject) => ({
+  type: 'DELETE_DISCUSSION',
+  payload,
+  resolve,
+  reject,
+});
+
 export const deleteDraftDiscussion = (payload, resolve, reject) => ({
   type: 'DELETE_DRAFT_DISCUSSION',
   payload,
@@ -130,6 +137,13 @@ export const updateDiscussion = (payload, resolve, reject) => ({
 export const setRemoveNewMark = id => ({
   type: 'SET_REMOVE_NEW',
   id,
+});
+
+export const deleteDiscussionComment = (payload, resolve, reject) => ({
+  type: 'DELETE_DISCUSSION_COMMENT',
+  payload,
+  resolve,
+  reject,
 });
 
 export const postDiscussionComment = (payload, resolve, reject) => ({

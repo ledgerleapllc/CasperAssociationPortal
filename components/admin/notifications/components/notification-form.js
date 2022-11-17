@@ -73,9 +73,9 @@ export const NotificationForm = React.memo(
       const temp = data;
       setIsSubmit(true);
       if (temp.start_date)
-        temp.start_date = formatDate(new Date(data.start_date), 'yyyy-MM-dd');
+        temp.start_date = formatDate(data.start_date, 'yyyy-MM-dd');
       if (temp.end_date)
-        temp.end_date = formatDate(new Date(data.end_date), 'yyyy-MM-dd');
+        temp.end_date = formatDate(data.end_date, 'yyyy-MM-dd');
       temp.setting = temp.setting ? 1 : 0;
       if (!editMode) {
         if (highPriorityNoti) temp.high_priority = 0;
@@ -432,7 +432,7 @@ export const NotificationForm = React.memo(
                             type="radio"
                             className="text-primary"
                             value="1"
-                            checked={!!watchAllFields.have_action}
+                            checked={watchAllFields.have_action}
                             onChange={e => {
                               onChange(e);
                             }}

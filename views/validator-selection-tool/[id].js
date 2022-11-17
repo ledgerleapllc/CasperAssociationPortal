@@ -206,10 +206,10 @@ const NodeExplorerDetail = () => {
                             <td>
                               {memberInfo?.email_verified_at ? (
                                 <span>
-                                  {`${formatDate(
+                                  {formatDate(
                                     memberInfo?.email_verified_at,
-                                    'dd/MM/yyyy'
-                                  )}`}
+                                    'dd/MM/yyyy HH:mm aa'
+                                  )}
                                 </span>
                               ) : (
                                 <span>-</span>
@@ -243,10 +243,10 @@ const NodeExplorerDetail = () => {
                             <td>
                               {memberInfo?.approve_at ? (
                                 <span>
-                                  {`${formatDate(
+                                  {formatDate(
                                     memberInfo?.approve_at,
-                                    'dd/MM/yyyy'
-                                  )}`}
+                                    'dd/MM/yyyy HH:mm aa'
+                                  )}
                                 </span>
                               ) : (
                                 <span>-</span>
