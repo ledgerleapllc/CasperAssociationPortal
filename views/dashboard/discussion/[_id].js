@@ -24,7 +24,7 @@ import IconLikeSolid from '../../../public/images/ic_like_solid.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import IconDislikeSolid from '../../../public/images/ic_dislike_solid.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { formatDate, getShortNodeAddress } from '../../../shared/core/utils';
+import { formatDateEST, getShortNodeAddress } from '../../../shared/core/utils';
 import {
   getDiscussionDetail,
   postDiscussionComment,
@@ -32,6 +32,7 @@ import {
   getDiscussionComments,
   publishDiscussion,
   deleteDraftDiscussion,
+  deleteDiscussionComment,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../pages/_app';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
@@ -59,6 +60,7 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
   const { setLoading } = useContext(AppContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+  const { setDialog } = useDialog();
 
   const clickCommentEdit = e => {
     e.preventDefault();
@@ -66,8 +68,35 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
     setValue('description', data.description);
   };
 
-  const clickDelete = e => {
+  const clickCommentDelete = e => {
     e.preventDefault();
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: `Are you sure you want to delete this comment?`,
+        ok: 'Delete',
+        cancel: 'Cancel',
+      },
+      afterClosed: confirm => {
+        if (confirm) {
+          setLoading(true);
+          dispatch(
+            deleteDiscussionComment(
+              {
+                discussion_id: data.discussion_id,
+                comment_id: data.id,
+              },
+              () => {
+                window.location.reload();
+              },
+              () => {
+                setLoading(false);
+              }
+            )
+          );
+        }
+      },
+    });
   };
 
   const cancelEditing = e => {
@@ -96,6 +125,20 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
         }
       )
     );
+  };
+
+  const canShowCommentButtons = () => {
+    if (
+      userInfo &&
+      data &&
+      Object.keys(userInfo).length > 0 &&
+      Object.keys(data).length > 0 &&
+      !data.deleted_at &&
+      (userInfo.role === 'admin' || userInfo.id === data?.user?.id)
+    ) {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -146,22 +189,20 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
           ) : null}
           <div className="border-gray1 border-b" />
           <p className="text-xxs py-1">
-            {`${formatDate(
+            {`${formatDateEST(
               data?.user?.created_at,
               'dd/MM/yyyy - HH:mm aa'
             )} EST`}
           </p>
           <div className="border-gray1 border-b" />
-          {userInfo &&
-          Object.keys(userInfo).length > 0 &&
-          data &&
-          Object.keys(data).length > 0 &&
-          userInfo.id === data?.user?.id ? (
+          {canShowCommentButtons() ? (
             <div className="pt-2 flex items-center justify-between">
-              <a className="text-xs underline" onClick={clickCommentEdit}>
-                Edit
-              </a>
-              <a className="text-xs underline" onClick={clickDelete}>
+              {userInfo.id === data?.user?.id ? (
+                <a className="text-xs underline" onClick={clickCommentEdit}>
+                  Edit
+                </a>
+              ) : null}
+              <a className="text-xs underline" onClick={clickCommentDelete}>
                 Delete
               </a>
             </div>
@@ -209,10 +250,33 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
               </form>
             </div>
           ) : (
-            <p
-              className="text-sm mb-5"
-              dangerouslySetInnerHTML={{ __html: data.description }}
-            />
+            <>
+              {data.deleted_at ? (
+                <p className="text-gray italic">
+                  Deleted at{' '}
+                  {`${formatDateEST(
+                    data.deleted_at,
+                    'dd/MM/yyyy - HH:mm aa'
+                  )} EST`}
+                </p>
+              ) : (
+                <>
+                  <p
+                    className="text-sm mb-5"
+                    dangerouslySetInnerHTML={{ __html: data.description }}
+                  />
+                  {data.edited_at ? (
+                    <p className="text-gray italic">
+                      Edited at{' '}
+                      {`${formatDateEST(
+                        data.edited_at,
+                        'dd/MM/yyyy - HH:mm aa'
+                      )} EST`}
+                    </p>
+                  ) : null}
+                </>
+              )}
+            </>
           )}
         </div>
       </div>

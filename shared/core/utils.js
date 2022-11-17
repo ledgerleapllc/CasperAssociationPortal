@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 import { format } from 'date-fns';
 import { zonedTimeToUtc } from 'date-fns-tz';
 

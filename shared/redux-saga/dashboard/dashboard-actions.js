@@ -139,6 +139,13 @@ export const setRemoveNewMark = id => ({
   id,
 });
 
+export const deleteDiscussionComment = (payload, resolve, reject) => ({
+  type: 'DELETE_DISCUSSION_COMMENT',
+  payload,
+  resolve,
+  reject,
+});
+
 export const postDiscussionComment = (payload, resolve, reject) => ({
   type: 'POST_DISCUSSION_COMMENT',
   payload,

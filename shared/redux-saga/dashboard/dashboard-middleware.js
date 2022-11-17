@@ -255,6 +255,19 @@ export function* getDiscussionComments({ payload, resolve }) {
   }
 }
 
+export function* deleteDiscussionComment({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy(
+      [`discussions/${payload.discussion_id}/comment/${payload.comment_id}`],
+      {}
+    );
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* postDiscussionComment({ payload, resolve, reject }) {
   try {
     let res;
@@ -519,6 +532,7 @@ export function* watchDemoData() {
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);
   yield all([takeEvery('UPDATE_DISCUSSION', updateDiscussion)]);
   yield all([takeEvery('SET_REMOVE_NEW', setRemoveNewMark)]);
+  yield all([takeEvery('DELETE_DISCUSSION_COMMENT', deleteDiscussionComment)]);
   yield all([takeEvery('POST_DISCUSSION_COMMENT', postDiscussionComment)]);
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
