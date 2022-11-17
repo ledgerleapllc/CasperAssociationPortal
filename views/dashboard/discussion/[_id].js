@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/no-danger */
 import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +24,7 @@ import IconLikeSolid from '../../../public/images/ic_like_solid.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import IconDislikeSolid from '../../../public/images/ic_dislike_solid.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { formatDate, getShortNodeAddress } from '../../../shared/core/utils';
+import { formatDateEST, getShortNodeAddress } from '../../../shared/core/utils';
 import {
   getDiscussionDetail,
   postDiscussionComment,
@@ -30,6 +32,7 @@ import {
   getDiscussionComments,
   publishDiscussion,
   deleteDraftDiscussion,
+  deleteDiscussionComment,
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { AppContext } from '../../../pages/_app';
 import { withPageRestricted } from '../../../components/hoc/with-page-restricted';
@@ -48,59 +51,238 @@ const Styles = styled.div`
     }
 `;
 
-const ChatBox = ({ data, noBorder }) => (
-  <div
-    className={`flex py-8 border-gray1 flex-col lg:flex-row ${
-      noBorder ? '' : 'border-b'
-    }`}
-  >
-    <div className="flex-none flex flex-row lg:flex-col lg:w-44">
-      <div className="w-24 h-24 mr-5 lg:mr-12">
-        <img
-          className="h-full w-full object-cover rounded-lg shadow-lg"
-          src={data?.user?.avatar_url || '/images/img_signature.png'}
-          alt="avatar"
-        />
-      </div>
-      <div className="pt-2 pr-6 mt-auto lg:mt-0">
-        <Link to={`/dashboard/profile/${data?.user?.id}`}>
-          <span className="w-full text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
-            <span className="w-4/5 truncate">{data?.user?.pseudonym}</span>
-            {data?.user?.profile?.status === 'approved' && (
-              <VerifiedIcon className="text-primary" />
-            )}
-          </span>
-        </Link>
-        <div className="border-gray1 border-b" />
-        <p className="text-xxs py-1">
-          Public Key:{' '}
-          <Tooltips
-            placement="right"
-            title={data.user?.public_address_node}
-            arrow
-          >
-            <span>
-              {getShortNodeAddress(data.user?.public_address_node, 6)}
+const ChatBox = ({ userInfo, data, noBorder }) => {
+  const [editModeEnabled, setEditModeEnabled] = useState(false);
+  const { control, handleSubmit, setValue } = useForm({
+    mode: 'onChange',
+  });
+  const dispatch = useDispatch();
+  const { setLoading } = useContext(AppContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const { setDialog } = useDialog();
+
+  const clickCommentEdit = e => {
+    e.preventDefault();
+    setEditModeEnabled(true);
+    setValue('description', data.description);
+  };
+
+  const clickCommentDelete = e => {
+    e.preventDefault();
+    setDialog({
+      type: 'DialogConfirm',
+      data: {
+        title: `Are you sure you want to delete this comment?`,
+        ok: 'Delete',
+        cancel: 'Cancel',
+      },
+      afterClosed: confirm => {
+        if (confirm) {
+          setLoading(true);
+          dispatch(
+            deleteDiscussionComment(
+              {
+                discussion_id: data.discussion_id,
+                comment_id: data.id,
+              },
+              () => {
+                window.location.reload();
+              },
+              () => {
+                setLoading(false);
+              }
+            )
+          );
+        }
+      },
+    });
+  };
+
+  const cancelEditing = e => {
+    e.preventDefault();
+    setEditModeEnabled(false);
+    setValue('description', '');
+  };
+
+  const saveComment = params => {
+    setIsSubmitting(true);
+    setLoading(true);
+    const payload = {
+      discussion_id: data.discussion_id,
+      comment_id: data.id,
+      description: params.description,
+    };
+    dispatch(
+      postDiscussionComment(
+        payload,
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setIsSubmitting(false);
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const canShowCommentButtons = () => {
+    if (
+      userInfo &&
+      data &&
+      Object.keys(userInfo).length > 0 &&
+      Object.keys(data).length > 0 &&
+      !data.deleted_at &&
+      (userInfo.role === 'admin' || userInfo.id === data?.user?.id)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  return (
+    <div
+      className={`flex py-8 border-gray1 flex-col lg:flex-row ${
+        noBorder ? '' : 'border-b'
+      }`}
+    >
+      <div className="flex-none flex flex-row lg:flex-col lg:w-44">
+        <div className="w-24 h-24 mr-5 lg:mr-12">
+          <img
+            className="h-full w-full object-cover rounded-lg shadow-lg"
+            src={data?.user?.avatar_url || '/images/img_signature.png'}
+            alt="avatar"
+          />
+        </div>
+        <div className="pt-2 pr-6 mt-auto lg:mt-0">
+          {data?.user?.role !== 'admin' ? (
+            <Link to={`/dashboard/profile/${data?.user?.id}`}>
+              <span className="w-full text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
+                <span className="w-4/5 truncate">{data?.user?.pseudonym}</span>
+                {data?.user?.profile?.status === 'approved' && (
+                  <VerifiedIcon className="text-primary" />
+                )}
+              </span>
+            </Link>
+          ) : (
+            <span className="w-full text-sm font-bold py-1 inline-flex gap-2 items-center font-medium">
+              <span className="w-4/5 truncate">Administrator</span>
             </span>
-          </Tooltips>
-        </p>
-        <div className="border-gray1 border-b" />
-        <p className="text-xxs py-1">
-          {`${formatDate(data.user.created_at, 'dd/MM/yyyy - HH:mm aa')} EST`}
-        </p>
-        <div className="border-gray1 border-b" />
+          )}
+          {data?.user?.role !== 'admin' ? (
+            <>
+              <div className="border-gray1 border-b" />
+              <p className="text-xxs py-1">
+                Public Key:{' '}
+                <Tooltips
+                  placement="right"
+                  title={data?.user?.public_address_node}
+                  arrow
+                >
+                  <span>
+                    {getShortNodeAddress(data?.user?.public_address_node, 6)}
+                  </span>
+                </Tooltips>
+              </p>
+            </>
+          ) : null}
+          <div className="border-gray1 border-b" />
+          <p className="text-xxs py-1">
+            {`${formatDateEST(
+              data?.user?.created_at,
+              'dd/MM/yyyy - HH:mm aa'
+            )} EST`}
+          </p>
+          <div className="border-gray1 border-b" />
+          {canShowCommentButtons() ? (
+            <div className="pt-2 flex items-center justify-between">
+              {userInfo.id === data?.user?.id ? (
+                <a className="text-xs underline" onClick={clickCommentEdit}>
+                  Edit
+                </a>
+              ) : null}
+              <a className="text-xs underline" onClick={clickCommentDelete}>
+                Delete
+              </a>
+            </div>
+          ) : null}
+        </div>
+      </div>
+      <div className="flex-1 chat-content mt-5 lg:m-0">
+        <div className="chat-content-body">
+          {editModeEnabled ? (
+            <div className="relative ck-editor-reverse">
+              <form onSubmit={handleSubmit(saveComment)}>
+                <Controller
+                  name="description"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <Editor
+                      value={value}
+                      onChange={e => {
+                        setIsFormValid(() => !!e.length);
+                        onChange(e);
+                      }}
+                    />
+                  )}
+                  rules={{
+                    required: '',
+                  }}
+                />
+                <div className="mt-4 flex items-center">
+                  <LoadingButton
+                    type="submit"
+                    isDisabled={!isFormValid || isSubmitting}
+                    isLoading={isSubmitting}
+                    title="Save Comment"
+                    size={15}
+                    className="px-5 py-3 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                  />
+                  <button
+                    type="button"
+                    className="ml-3 px-5 py-3 text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    onClick={cancelEditing}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <>
+              {data.deleted_at ? (
+                <p className="text-gray italic">
+                  Deleted at{' '}
+                  {`${formatDateEST(
+                    data.deleted_at,
+                    'dd/MM/yyyy - HH:mm aa'
+                  )} EST`}
+                </p>
+              ) : (
+                <>
+                  <p
+                    className="text-sm mb-5"
+                    dangerouslySetInnerHTML={{ __html: data.description }}
+                  />
+                  {data.edited_at ? (
+                    <p className="text-gray italic">
+                      Edited at{' '}
+                      {`${formatDateEST(
+                        data.edited_at,
+                        'dd/MM/yyyy - HH:mm aa'
+                      )} EST`}
+                    </p>
+                  ) : null}
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
-    <div className="chat-content mt-5 lg:m-0">
-      <div className="chat-content-body">
-        <p
-          className="text-sm mb-5"
-          dangerouslySetInnerHTML={{ __html: data.description }}
-        />
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 const DashboardDiscusionDetail = () => {
   const userInfo = useSelector(state => state.authReducer.userInfo.fullInfo);
@@ -398,7 +580,11 @@ const DashboardDiscusionDetail = () => {
                           <Table.BodyRow key={`b-${index}`}>
                             <Table.BodyCell key="emptyBody1" />
                             <Table.BodyCell key="emptyBody2">
-                              <ChatBox data={row} noBorder />
+                              <ChatBox
+                                userInfo={userInfo}
+                                data={row}
+                                noBorder
+                              />
                             </Table.BodyCell>
                           </Table.BodyRow>
                         ))}

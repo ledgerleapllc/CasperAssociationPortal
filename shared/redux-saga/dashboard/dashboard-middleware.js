@@ -142,6 +142,16 @@ export function* getDraftDiscussions({ payload, resolve, reject }) {
   }
 }
 
+export function* deleteDiscussion({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy([`discussions/${payload.id}`], {});
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* deleteDraftDiscussion({ payload, resolve, reject }) {
   try {
     const res = yield destroy([`discussions/${payload.id}/draft`], {});
@@ -245,6 +255,19 @@ export function* getDiscussionComments({ payload, resolve }) {
   }
 }
 
+export function* deleteDiscussionComment({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy(
+      [`discussions/${payload.discussion_id}/comment/${payload.comment_id}`],
+      {}
+    );
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* postDiscussionComment({ payload, resolve, reject }) {
   try {
     let res;
@@ -258,7 +281,6 @@ export function* postDiscussionComment({ payload, resolve, reject }) {
         comment_id: payload.comment_id,
         description: payload.description,
       });
-
     resolve(res.data);
   } catch (error) {
     reject();
@@ -501,6 +523,7 @@ export function* watchDemoData() {
   yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
+  yield all([takeEvery('DELETE_DISCUSSION', deleteDiscussion)]);
   yield all([takeEvery('DELETE_DRAFT_DISCUSSION', deleteDraftDiscussion)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
   yield all([takeEvery('GET_MY_ERAS', getMyERAs)]);
@@ -509,6 +532,7 @@ export function* watchDemoData() {
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);
   yield all([takeEvery('UPDATE_DISCUSSION', updateDiscussion)]);
   yield all([takeEvery('SET_REMOVE_NEW', setRemoveNewMark)]);
+  yield all([takeEvery('DELETE_DISCUSSION_COMMENT', deleteDiscussionComment)]);
   yield all([takeEvery('POST_DISCUSSION_COMMENT', postDiscussionComment)]);
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
