@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { getDateObject } from '../../shared/core/utils';
 import { getVotes } from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { ClockBar, Table } from '../partials';
 import { useTable } from '../partials/table';
@@ -61,22 +62,16 @@ const OpenVotes = ({ toggleOpenVotes }) => {
   };
 
   const renderTimer = row => {
-    if (row.start_date && row.start_time && row.end_date && row.end_time) {
+    if (row.time_begin && row.time_end) {
       return (
         <ClockBar
-          endTime={new Date(`${row.end_date} ${row.end_time}`)}
-          startTime={new Date(`${row.start_date} ${row.start_time}`)}
+          endTime={getDateObject(row.time_end)}
+          startTime={getDateObject(row.time_begin)}
           hideProgressBar
         />
       );
     }
-    return (
-      <ClockBar
-        endTime={new Date(row.time_end)}
-        startTime={new Date(row.created_at)}
-        hideProgressBar
-      />
-    );
+    return null;
   };
 
   return (

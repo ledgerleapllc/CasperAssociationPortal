@@ -161,11 +161,13 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
                 <p>{row.title}</p>
               </Table.BodyCell>
               <Table.BodyCell key="created_at">
-                <p>
-                  {row.created_at
-                    ? `${formatDate(row.created_at, 'dd/MM/yyyy')}`
-                    : ''}
-                </p>
+                {row.created_at ? (
+                  <p className="truncate">
+                    {formatDate(row.created_at, 'dd/MM/yyyy')}
+                    <br />
+                    {formatDate(row.created_at, 'HH:mm aa')}
+                  </p>
+                ) : null}
               </Table.BodyCell>
               <Table.BodyCell key="status">
                 <StatusText content={row.status} />
@@ -181,14 +183,14 @@ export const NotificationsTable = ({ hideOff, onChangeValue }) => {
                 </p>
               </Table.BodyCell>
               <Table.BodyCell key="start_date">
-                <p>
+                <p className="truncate">
                   {row.start_date
                     ? `${formatDate(row.start_date, 'dd/MM/yyyy')}`
                     : ''}
                 </p>
               </Table.BodyCell>
               <Table.BodyCell key="end_date">
-                <p>
+                <p className="truncate">
                   {row.end_date
                     ? `${formatDate(row.end_date, 'dd/MM/yyyy')}`
                     : ''}

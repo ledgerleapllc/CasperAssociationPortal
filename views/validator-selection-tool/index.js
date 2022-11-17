@@ -397,7 +397,11 @@ const NodeExplorer = () => {
                           <p className="truncate">{row.pseudonym}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body2">
-                          <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+                          <p className="truncate">
+                            {formatDate(row.created_at, 'dd/MM/yyyy')}
+                            <br />
+                            {formatDate(row.created_at, 'HH:mm aa')}
+                          </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body3">
                           <p

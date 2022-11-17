@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { ClockBar } from '../../../partials';
 import { LogViewedDocsDialog } from '../dialogs/log-viewed-docs';
 import { useDialog } from '../../../partials/dialog';
+import { getDateObject } from '../../../../shared/core/utils';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -50,27 +51,16 @@ const ActiveBallot = React.memo(({ ballot, onViewedFile }) => {
   };
 
   const renderTimer = () => {
-    if (
-      ballot?.start_date &&
-      ballot?.start_time &&
-      ballot?.end_date &&
-      ballot?.end_time
-    ) {
+    if (ballot?.time_begin && ballot?.time_end) {
       return (
         <ClockBar
           className="w-40"
-          endTime={new Date(`${ballot?.end_date} ${ballot?.end_time}`)}
-          startTime={new Date(`${ballot?.start_date} ${ballot?.start_time}`)}
+          endTime={getDateObject(ballot?.time_end)}
+          startTime={getDateObject(ballot?.time_begin)}
         />
       );
     }
-    return (
-      <ClockBar
-        className="w-40"
-        endTime={new Date(ballot?.time_end)}
-        startTime={new Date(ballot?.created_at)}
-      />
-    );
+    return null;
   };
 
   return (

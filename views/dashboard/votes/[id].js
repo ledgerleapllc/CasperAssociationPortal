@@ -16,6 +16,7 @@ import {
 } from '../../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../../../components/partials/dialog';
 import { useSnackBar } from '../../../components/partials/snack-bar';
+import { getDateObject } from '../../../shared/core/utils';
 
 const UserActiveBallot = ({ ballot, userVote, onReload }) => {
   const { setDialog } = useDialog();
@@ -47,14 +48,13 @@ const UserActiveBallot = ({ ballot, userVote, onReload }) => {
   }, [userInfo]);
 
   const doVote = () => {
-    if (ballot.start_date && ballot.start_time) {
-      const date = new Date(`${ballot.start_date} ${ballot.start_time} EST`);
-      if (new Date().getTime() < date.getTime()) {
+    if (ballot.time_begin) {
+      const date = getDateObject(ballot.time_begin);
+      if (date && date.getTime() > new Date().getTime()) {
         openSnack('primary', 'You cannot vote before the vote start datetime');
         return;
       }
     }
-
     const checkViewed = files.every(x => x.is_viewed);
     if (!checkViewed) {
       openSnack(

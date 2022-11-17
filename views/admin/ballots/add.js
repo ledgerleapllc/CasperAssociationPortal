@@ -68,7 +68,6 @@ const AdminAddBallot = () => {
 
     const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
     const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
-
     if (start >= end) return;
 
     const params = {
@@ -77,6 +76,7 @@ const AdminAddBallot = () => {
       startTime: startTimeStr,
       endDate: endDateStr,
       endTime: endTimeStr,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     setIsSubmit(true);
@@ -223,9 +223,6 @@ const AdminAddBallot = () => {
                           required
                         />
                       </div>
-                      <p style={{ marginLeft: '15px', marginTop: '22px' }}>
-                        EST
-                      </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <div style={{ marginRight: '20px' }}>
@@ -249,9 +246,6 @@ const AdminAddBallot = () => {
                           required
                         />
                       </div>
-                      <p style={{ marginLeft: '15px', marginTop: '22px' }}>
-                        EST
-                      </p>
                     </div>
                   </MuiPickersUtilsProvider>
                   <div

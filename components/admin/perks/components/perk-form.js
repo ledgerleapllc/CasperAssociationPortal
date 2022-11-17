@@ -18,6 +18,7 @@ import {
   submitPerk,
   editPerk,
 } from '../../../../shared/redux-saga/admin/actions';
+import { getDateObject } from '../../../../shared/core/utils';
 
 const perkSchema = yup.object().shape({
   title: yup
@@ -78,19 +79,14 @@ export const PerkForm = React.memo(
         reset(value);
       }
 
-      if (value && value.start_date) {
-        setStartDate(new Date(`${value.start_date} 00:00:00`));
-        if (value.start_time) {
-          setStartTime(new Date(`${value.start_date} ${value.start_time}`));
-        }
+      if (value && value.time_begin) {
+        setStartDate(getDateObject(value.time_begin));
+        setStartTime(getDateObject(value.time_begin));
       }
 
-      if (value && value.end_date) {
-        setEndDate(new Date(`${value.end_date} 00:00:00`));
-
-        if (value.end_time) {
-          setEndTime(new Date(`${value.end_date} ${value.end_time}`));
-        }
+      if (value && value.time_end) {
+        setEndDate(getDateObject(value.time_end));
+        setEndTime(getDateObject(value.time_end));
       }
     }, [value]);
 
@@ -102,7 +98,6 @@ export const PerkForm = React.memo(
 
     const onSubmit = data => {
       const temp = data;
-      setIsSubmit(true);
 
       let startDateStr = '';
       let startTimeStr = '';
@@ -116,8 +111,9 @@ export const PerkForm = React.memo(
 
       const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
       const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
-
       if (start >= end) return;
+
+      setIsSubmit(true);
 
       const params = {
         ...temp,
@@ -125,6 +121,7 @@ export const PerkForm = React.memo(
         start_time: startTimeStr,
         end_date: endDateStr,
         end_time: endTimeStr,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       };
 
       if (!editMode) {

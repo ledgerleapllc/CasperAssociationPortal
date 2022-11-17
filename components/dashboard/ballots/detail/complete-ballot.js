@@ -45,39 +45,19 @@ const CompleteBallot = ({ ballot }) => {
   };
 
   const renderStartTime = () => {
-    if (ballot?.start_date && ballot?.start_time) {
+    if (ballot?.time_begin) {
       return (
-        <span>
-          {`${formatDate(
-            `${ballot?.start_date} ${ballot?.start_time}`,
-            'dd/MM/yyyy - hh:mm aaa'
-          )} EST`}
-        </span>
+        <span>{formatDate(ballot?.time_begin, 'dd/MM/yyyy HH:mm aa')}</span>
       );
     }
-    return (
-      <span>
-        {`${formatDate(ballot?.created_at, 'dd/MM/yyyy - hh:mm aaa')} EST`}
-      </span>
-    );
+    return <span>{formatDate(ballot?.created_at, 'dd/MM/yyyy HH:mm aa')}</span>;
   };
 
   const renderEndTime = () => {
-    if (ballot?.end_date && ballot?.end_time) {
-      return (
-        <span>
-          {`${formatDate(
-            `${ballot?.end_date} ${ballot?.end_time}`,
-            'dd/MM/yyyy - hh:mm aaa'
-          )} EST`}
-        </span>
-      );
+    if (ballot.time_end) {
+      return <span>{formatDate(ballot.time_end, 'dd/MM/yyyy HH:mm aa')}</span>;
     }
-    return (
-      <span>
-        {`${formatDate(ballot?.time_end, 'dd/MM/yyyy - hh:mm aaa')} EST`}
-      </span>
-    );
+    return null;
   };
 
   return (

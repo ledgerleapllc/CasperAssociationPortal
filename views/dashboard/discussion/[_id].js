@@ -24,7 +24,7 @@ import IconLikeSolid from '../../../public/images/ic_like_solid.svg';
 import IconDislike from '../../../public/images/ic_dislike.svg';
 import IconDislikeSolid from '../../../public/images/ic_dislike_solid.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import { formatDateEST, getShortNodeAddress } from '../../../shared/core/utils';
+import { formatDate, getShortNodeAddress } from '../../../shared/core/utils';
 import {
   getDiscussionDetail,
   postDiscussionComment,
@@ -189,10 +189,7 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
           ) : null}
           <div className="border-gray1 border-b" />
           <p className="text-xxs py-1">
-            {`${formatDateEST(
-              data?.user?.created_at,
-              'dd/MM/yyyy - HH:mm aa'
-            )} EST`}
+            {formatDate(data?.user?.created_at, 'dd/MM/yyyy HH:mm aa')}
           </p>
           <div className="border-gray1 border-b" />
           {canShowCommentButtons() ? (
@@ -254,10 +251,7 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
               {data.deleted_at ? (
                 <p className="text-gray italic">
                   Deleted at{' '}
-                  {`${formatDateEST(
-                    data.deleted_at,
-                    'dd/MM/yyyy - HH:mm aa'
-                  )} EST`}
+                  {formatDate(data.deleted_at, 'dd/MM/yyyy HH:mm aa')}
                 </p>
               ) : (
                 <>
@@ -268,10 +262,7 @@ const ChatBox = ({ userInfo, data, noBorder }) => {
                   {data.edited_at ? (
                     <p className="text-gray italic">
                       Edited at{' '}
-                      {`${formatDateEST(
-                        data.edited_at,
-                        'dd/MM/yyyy - HH:mm aa'
-                      )} EST`}
+                      {formatDate(data.edited_at, 'dd/MM/yyyy HH:mm aa')}
                     </p>
                   ) : null}
                 </>

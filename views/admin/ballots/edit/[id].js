@@ -25,6 +25,7 @@ import {
   getBallotDetail,
   updateBallot,
 } from '../../../../shared/redux-saga/admin/actions';
+import { getDateObject } from '../../../../shared/core/utils';
 
 const ballotSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
@@ -71,16 +72,9 @@ const AdminEditBallot = () => {
   useEffect(() => {
     dispatch(
       getBallotDetail(id, res => {
-        if (res.start_date && res.start_time && res.end_date && res.end_time) {
-          const start = new Date(`${res.start_date} ${res.start_time}`);
-          const end = new Date(`${res.end_date} ${res.end_time}`);
-          setStartDate(start);
-          setStartTime(start);
-          setEndDate(end);
-          setEndTime(end);
-        } else if (res.time_end) {
-          const start = new Date(res.created_at);
-          const end = new Date(res.time_end);
+        if (res.time_begin && res.time_end) {
+          const start = getDateObject(res.time_begin);
+          const end = getDateObject(res.time_end);
           setStartDate(start);
           setStartTime(start);
           setEndDate(end);
@@ -112,7 +106,6 @@ const AdminEditBallot = () => {
 
     const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
     const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
-
     if (start >= end) return;
 
     const params = {
@@ -121,6 +114,7 @@ const AdminEditBallot = () => {
       startTime: startTimeStr,
       endDate: endDateStr,
       endTime: endTimeStr,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     setIsSubmit(true);
