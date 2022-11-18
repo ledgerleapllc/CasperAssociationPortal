@@ -18,6 +18,7 @@ import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ShuftiIcon from '../../public/images/shufti.svg';
 import ListIcon from '../../public/images/ic_list.svg';
+import BallotsIcon from '../../public/images/ic_ballots.svg';
 import QuestionMarkIcon from '../../public/images/question-circle.svg';
 import ReinstatementIcon from '../../public/images/ic_refresh.svg';
 import usePermissions from '../hooks/usePermissions';
@@ -136,7 +137,7 @@ const adminNavs = [
   },
   {
     key: 'ballots',
-    icon: ListIcon,
+    icon: BallotsIcon,
     label: 'ballots',
     path: '/admin/ballots',
   },

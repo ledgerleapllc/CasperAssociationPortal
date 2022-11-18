@@ -42,7 +42,7 @@ const WarningCards = ({ warnings, isLoading }) => {
   const getBodyText = warnMetric => {
     if (warnMetric?.aspect === 'uptime') {
       if (warnMetric?.isWarning) {
-        return `Your UPTIME is close to the minimum acceptable criteria. To avoid going into probation and losing your membership privileges, you want to keep your Uptime above ${warnMetric?.warning}%.`;
+        return `Your UPTIME is close to the minimum acceptable criteria. To avoid going into probation and losing your membership privileges, you want to keep your Uptime above ${warnMetric?.probation}%.`;
       }
       return `Your UPTIME has fallen below the minimum acceptable criteria and you have been placed on probation as a result. Don’t worry, you can still fix your status within the membership portal. You have ${warnMetric?.correction_value} ${warnMetric?.correction_unit} to bring your uptime above ${warnMetric?.probation}%, otherwise your membership will be revoked.`;
     }

@@ -404,12 +404,8 @@ const NodeExplorer = () => {
                           </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body3">
-                          <p
-                            className={
-                              row.kyc_verified_at ? 'text-primary' : ''
-                            }
-                          >
-                            {row.kyc_verified_at ? 'Verified' : 'Not Verified'}
+                          <p className={row.approve_at ? 'text-primary' : ''}>
+                            {row.approve_at ? 'Verified' : 'Not Verified'}
                           </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body4">
