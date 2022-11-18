@@ -225,6 +225,7 @@ const AdminIntakeVerificationDetail = () => {
             primaryOutline
             onClick={() => doResetUser()}
             disabled={!readUploadDocs}
+            className="mr-5"
           >
             Reset
           </Button>
