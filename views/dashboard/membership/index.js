@@ -149,10 +149,12 @@ const DashboardMembership = () => {
       userInfo.globalSettings
     ) {
       const warnings = [];
-      if (membershipData.avg_uptime) {
+      let avg_uptime = membershipData.avg_uptime || 0;
+      if (!Number.isNaN(avg_uptime)) {
+        avg_uptime = parseFloat(avg_uptime);
         if (
           userInfo?.profile?.extra_status === 'On Probation' &&
-          membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation
+          avg_uptime < userInfo.globalSettings?.uptime_probation
         ) {
           warnings.push({
             aspect: 'uptime',
@@ -164,7 +166,8 @@ const DashboardMembership = () => {
             isWarning: false,
           });
         } else if (
-          membershipData.avg_uptime < userInfo.globalSettings?.uptime_warning
+          membershipData.kyc_status === 'Verified' &&
+          avg_uptime < userInfo.globalSettings?.uptime_warning
         ) {
           warnings.push({
             aspect: 'uptime',
@@ -212,20 +215,24 @@ const DashboardMembership = () => {
     if (
       membershipData &&
       Object.keys(membershipData).length > 0 &&
-      membershipData.avg_uptime &&
       userInfo &&
       userInfo.globalSettings
     ) {
-      if (
-        userInfo?.profile?.extra_status === 'On Probation' &&
-        membershipData.avg_uptime < userInfo.globalSettings?.uptime_probation
-      ) {
-        return 'metrics-card-warning';
-      }
-      if (
-        membershipData.avg_uptime < userInfo?.globalSettings?.uptime_warning
-      ) {
-        return 'metrics-card-warning';
+      let avg_uptime = membershipData.avg_uptime || 0;
+      if (!Number.isNaN(avg_uptime)) {
+        avg_uptime = parseFloat(avg_uptime);
+        if (
+          userInfo?.profile?.extra_status === 'On Probation' &&
+          avg_uptime < userInfo.globalSettings?.uptime_probation
+        ) {
+          return 'metrics-card-warning';
+        }
+        if (
+          membershipData.kyc_status === 'Verified' &&
+          avg_uptime < userInfo?.globalSettings?.uptime_warning
+        ) {
+          return 'metrics-card-warning';
+        }
       }
     }
     return '';
