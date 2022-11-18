@@ -87,7 +87,9 @@ const RegisterIndividual = () => {
     }
     let validatorAddress = data.validatorAddress || '';
     validatorAddress = validatorAddress.toLowerCase();
+    setIsSubmitting(true);
     const verifyResponse = await checkVAddress(validatorAddress);
+    setIsSubmitting(false);
     if (verifyResponse) {
       setIsSubmitting(true);
       dispatch(
