@@ -79,7 +79,11 @@ const NodeInfoHome = ({ dashboardData }) => (
           <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
         </Tooltips>
       </div>
-      <p className="text-sm text-gray mb-2">{`Average: ${dashboardData?.uptime}%`}</p>
+      <p className="text-sm text-gray mb-2">{`Average: ${
+        typeof dashboardData?.uptime !== 'undefined'
+          ? dashboardData?.uptime
+          : ''
+      }%`}</p>
       <ProgressBar value={dashboardData?.uptime} total={100} mask="x%" />
     </div>
     <div className="flex flex-col pb-2">
