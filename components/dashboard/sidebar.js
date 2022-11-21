@@ -85,7 +85,7 @@ const mainUserNavs = [
     key: 'question',
     icon: QuestionMarkIcon,
     label: 'get support',
-    path: '#',
+    path: process.env.NEXT_PUBLIC_SUPPORT_URL,
   },
 ];
 
@@ -232,19 +232,34 @@ const Sidebar = () => {
                 <></>
               ) : (
                 <li className="mb-6" key={index}>
-                  <ActiveLink
-                    activeClassName="text-primary active-link"
-                    to={nav.path}
-                  >
-                    <div className="relative flex text-base">
-                      <div
-                        className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
-                        style={{ left: '-1.5625rem' }}
-                      />
-                      <nav.icon width="1.5rem" height="1.5rem" />
-                      <span className="capitalize pl-5">{nav.label}</span>
-                    </div>
-                  </ActiveLink>
+                  {nav.path &&
+                  (nav.path.startsWith('https://') ||
+                    nav.path.startsWith('http://')) ? (
+                    <a href={nav.path} target="_blank" rel="noreferrer">
+                      <div className="relative flex text-base">
+                        <div
+                          className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                          style={{ left: '-1.5625rem' }}
+                        />
+                        <nav.icon width="1.5rem" height="1.5rem" />
+                        <span className="capitalize pl-5">{nav.label}</span>
+                      </div>
+                    </a>
+                  ) : (
+                    <ActiveLink
+                      activeClassName="text-primary active-link"
+                      to={nav.path}
+                    >
+                      <div className="relative flex text-base">
+                        <div
+                          className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                          style={{ left: '-1.5625rem' }}
+                        />
+                        <nav.icon width="1.5rem" height="1.5rem" />
+                        <span className="capitalize pl-5">{nav.label}</span>
+                      </div>
+                    </ActiveLink>
+                  )}
                 </li>
               )}
             </Fragment>
