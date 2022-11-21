@@ -44,13 +44,13 @@ const ERAsTable = ({ addresses, eras }) => {
           singleItem.addresses.push({
             address: key2,
             in_pool: parseInt(eraObject.addresses[key2].in_pool || 0, 10),
-            rewards: eraObject.addresses[key2]?.rewards || '',
+            rewards: eraObject.addresses[key2]?.rewards || 0,
           });
         } else {
           singleItem.addresses.push({
             address: key2,
             in_pool: 0,
-            rewards: '',
+            rewards: 0,
           });
         }
       });
