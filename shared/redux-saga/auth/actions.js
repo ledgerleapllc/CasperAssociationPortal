@@ -196,3 +196,10 @@ export const contactUsFromGuest = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const submitUpgradeList = (payload, resolve, reject) => ({
+  type: 'SUBMIT_UPGRADE_LIST',
+  payload,
+  resolve,
+  reject,
+});

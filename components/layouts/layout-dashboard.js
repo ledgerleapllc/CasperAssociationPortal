@@ -326,6 +326,7 @@ export default function LayoutDashboard({ children, bg }) {
   const renderGuideOut = () => {
     if (
       userInfo?.profile?.status === 'approved' ||
+      isAdmin === null ||
       isAdmin ||
       hideGuide ||
       !guideStep ||

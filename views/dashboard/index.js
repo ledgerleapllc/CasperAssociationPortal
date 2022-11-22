@@ -67,6 +67,7 @@ const Dashboard = () => {
   const renderGuideIn = () => {
     if (
       userInfo?.profile?.status === 'approved' ||
+      isAdmin === null ||
       isAdmin ||
       hideGuide ||
       !guideStep ||
