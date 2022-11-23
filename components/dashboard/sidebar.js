@@ -76,6 +76,12 @@ const mainUserNavs = [
     path: '/dashboard/perks',
   },
   {
+    key: 'upgrades',
+    icon: ReinstatementIcon,
+    label: 'Upgrades',
+    path: '/dashboard/upgrades',
+  },
+  {
     key: 'contact',
     icon: ContactIcon,
     label: 'contact us',
@@ -148,6 +154,12 @@ const adminNavs = [
     path: '/admin/perks',
   },
   {
+    key: 'upgrades',
+    icon: ReinstatementIcon,
+    label: 'Upgrades',
+    path: '/admin/upgrades',
+  },
+  {
     key: 'all-eras',
     icon: ListIcon,
     label: 'All ERAs',
@@ -216,6 +228,35 @@ const Sidebar = () => {
     window.open(path, '_blank');
   };
 
+  const renderExtra = nav => {
+    if (
+      !isAdmin &&
+      nav.key === 'upgrades' &&
+      userInfo &&
+      userInfo.lastUpgrade &&
+      !userInfo.lastUpgrade.time_passed &&
+      !userInfo.lastUpgradeReply
+    ) {
+      return (
+        <span
+          className="flex items-center justify-center font-bold bg-primary text-white absolute"
+          style={{
+            top: 0,
+            right: '-24px',
+            width: '14px',
+            height: '14px',
+            borderRadius: '500rem',
+            fontSize: '7px',
+            lineHeight: 1,
+          }}
+        >
+          1
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
     <div id="dashboard-layoutSidebar" className={getClassName()}>
       <div id="dashboard-layoutSidebar__inner" className="p-6.25 pr-3">
@@ -256,7 +297,9 @@ const Sidebar = () => {
                           style={{ left: '-1.5625rem' }}
                         />
                         <nav.icon width="1.5rem" height="1.5rem" />
-                        <span className="capitalize pl-5">{nav.label}</span>
+                        <span className="capitalize relative pl-5">
+                          {nav.label} {renderExtra(nav)}
+                        </span>
                       </div>
                     </ActiveLink>
                   )}

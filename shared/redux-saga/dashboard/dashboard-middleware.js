@@ -509,6 +509,16 @@ export function* submitContactMessage({ payload, resolve, reject }) {
   }
 }
 
+export function* completeUpgrade({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`/users/complete-upgrade`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
@@ -554,4 +564,5 @@ export function* watchDemoData() {
   yield all([takeLatest('GET_PRICE_TOKEN_GRAPH_INFO', getPriceTokenGraphInfo)]);
   yield all([takeLatest('VIEWED_ATTACH_DOCUMENT', viewedAttachDocument)]);
   yield all([takeLatest('SUBMIT_CONTACT_MESSAGE', submitContactMessage)]);
+  yield all([takeLatest('COMPLETE_UPGRADE', completeUpgrade)]);
 }

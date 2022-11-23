@@ -49,6 +49,8 @@ const AdminReinstatementView = lazy(() =>
 const AdminIntakeVerificationDetailView = lazy(() =>
   import('../views/admin/intake/verification/[id]/index')
 );
+const AdminUpgradesView = lazy(() => import('../views/admin/upgrades/index'));
+const AdminUpgradesAddView = lazy(() => import('../views/admin/upgrades/add'));
 const AdminUsersView = lazy(() => import('../views/admin/users/index'));
 const AdminUsersDetailView = lazy(() =>
   import('../views/admin/users/[id]/index')
@@ -114,6 +116,7 @@ const DashboardDiscussionDetailView = lazy(() =>
 const DashboardDiscussionEditView = lazy(() =>
   import('../views/dashboard/discussion/edit/[id]')
 );
+const DashboardUpgradesView = lazy(() => import('../views/dashboard/upgrades'));
 const DashboardContactUsView = lazy(() =>
   import('../views/dashboard/contact-us')
 );
@@ -213,6 +216,12 @@ const LandingPage = () => (
           path="/admin/intake/verification/:id"
           exact
           component={AdminIntakeVerificationDetailView}
+        />
+        <Route path="/admin/upgrades" exact component={AdminUpgradesView} />
+        <Route
+          path="/admin/upgrades/add"
+          exact
+          component={AdminUpgradesAddView}
         />
         <Route path="/admin/users" exact component={AdminUsersView} />
         <Route path="/admin/users/:id" exact component={AdminUsersDetailView} />
@@ -318,6 +327,11 @@ const LandingPage = () => (
           path="/dashboard/discussion/edit/:id"
           exact
           component={DashboardDiscussionEditView}
+        />
+        <Route
+          path="/dashboard/upgrades"
+          exact
+          component={DashboardUpgradesView}
         />
         <Route
           path="/dashboard/contact-us"

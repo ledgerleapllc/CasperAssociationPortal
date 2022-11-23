@@ -267,3 +267,10 @@ export const submitContactMessage = (payload, resolve, reject) => ({
   resolve,
   reject,
 });
+
+export const completeUpgrade = (payload, resolve, reject) => ({
+  type: 'COMPLETE_UPGRADE',
+  payload,
+  resolve,
+  reject,
+});
