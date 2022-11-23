@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -46,10 +46,6 @@ const AdminAddUpgrade = () => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(upgradeSchema),
   });
-
-  useEffect(() => {
-    //
-  }, []);
 
   const onSubmit = data => {
     if (!activationDate) {
