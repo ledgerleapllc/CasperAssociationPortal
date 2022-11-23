@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+/* eslint-disable react/button-has-type */
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LoadingScreen } from '../components/hoc/loading-screen';
-import { contactUsFromGuest } from '../shared/redux-saga/auth/actions';
+import {
+  contactUsFromGuest,
+  submitUpgradeList,
+} from '../shared/redux-saga/auth/actions';
 import { AppContext } from '../pages/_app';
 import { useSnackBar } from '../components/partials/snack-bar';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
@@ -16,12 +20,42 @@ const Landing = () => {
   });
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
+  const [emailAddress, setEmailAddress] = useState('');
+  const [processing, setProcessing] = useState(false);
   const { openSnack } = useSnackBar();
 
   const scrollToAnchor = id => {
     const element = document.getElementById(`c-section-${id}`);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const clickNotify = e => {
+    e.preventDefault();
+    if (!processing && EMAIL_PATTERN.test(emailAddress)) {
+      setLoading(true);
+      setProcessing(true);
+      dispatch(
+        submitUpgradeList(
+          {
+            email: emailAddress,
+          },
+          () => {
+            setLoading(false);
+            setProcessing(false);
+            setEmailAddress('');
+            openSnack(
+              'primary',
+              "You've been added to our upgrade list successfully!"
+            );
+          },
+          () => {
+            setLoading(false);
+            setProcessing(false);
+          }
+        )
+      );
     }
   };
 
@@ -95,6 +129,25 @@ const Landing = () => {
             className="absolute linear right-0 bottom-0 transform translate-x-1/3"
             style={{ width: '20rem', height: '20rem', filter: 'blur(5rem)' }}
           />
+        </div>
+      </section>
+      <section id="landing-page__upgradeSection">
+        <div className="flex flex-col justify-start items-center">
+          <h3 className="text-center">Never miss another upgrade</h3>
+          <p className="text-center">{`
+            Sign up and get notified when new upgrades for your node are available.
+          `}</p>
+          <div className="flex">
+            <input
+              className="bg-white border-0 text-gray"
+              placeholder="Email Address"
+              value={emailAddress}
+              onChange={e => setEmailAddress(e.target.value)}
+            />
+            <button className="bg-landing1" onClick={clickNotify}>
+              Notify Me
+            </button>
+          </div>
         </div>
       </section>
       <section

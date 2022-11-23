@@ -324,6 +324,16 @@ export function* contactUsFromGuest({ payload, resolve, reject }) {
   }
 }
 
+export function* submitUpgradeList({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`upgrade-list`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchAuth() {
   yield all([takeLatest('LOGIN_APP', loginApp)]);
   yield all([takeLatest('LOGOUT_APP', logoutApp)]);
@@ -345,4 +355,5 @@ export function* watchAuth() {
   yield all([takeLatest('CHECK_SESSION_ID', checkSessionId)]);
   yield all([takeLatest('DONATE', donate)]);
   yield all([takeLatest('CONTACT_US_FROM_GUEST', contactUsFromGuest)]);
+  yield all([takeLatest('SUBMIT_UPGRADE_LIST', submitUpgradeList)]);
 }
