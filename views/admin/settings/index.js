@@ -358,9 +358,7 @@ const Settings = () => {
                 </Styles>
               </section>
               <section className="my-20">
-                <h4 className="flex mb-7 text-lg font-medium">
-                  Membership Agreement
-                </h4>
+                <h4 className="flex mb-7 text-lg font-medium">Terms of Use</h4>
                 <div className="flex gap-4 items-center h-full pt-4 w-full lg:w-7/12">
                   <input
                     type="text"

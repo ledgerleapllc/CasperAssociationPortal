@@ -21,6 +21,7 @@ import ListIcon from '../../public/images/ic_list.svg';
 import BallotsIcon from '../../public/images/ic_ballots.svg';
 import QuestionMarkIcon from '../../public/images/question-circle.svg';
 import ReinstatementIcon from '../../public/images/ic_refresh.svg';
+import UpgradesIcon from '../../public/images/upgrades.svg';
 import usePermissions from '../hooks/usePermissions';
 import { setCollapsed } from '../../shared/redux-saga/auth/actions';
 
@@ -77,7 +78,7 @@ const mainUserNavs = [
   },
   {
     key: 'upgrades',
-    icon: ReinstatementIcon,
+    icon: UpgradesIcon,
     label: 'Upgrades',
     path: '/dashboard/upgrades',
   },
@@ -155,7 +156,7 @@ const adminNavs = [
   },
   {
     key: 'upgrades',
-    icon: ReinstatementIcon,
+    icon: UpgradesIcon,
     label: 'Upgrades',
     path: '/admin/upgrades',
   },
