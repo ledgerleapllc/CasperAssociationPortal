@@ -114,8 +114,6 @@ const Tab1 = () => {
       approveReinstatement(
         row.id,
         () => {
-          // fetchActiveRequests();
-          // onClosed();
           window.location.reload();
         },
         () => {
@@ -132,8 +130,6 @@ const Tab1 = () => {
       rejectReinstatement(
         row.id,
         () => {
-          // fetchActiveRequests();
-          // onClosed();
           window.location.reload();
         },
         () => {
