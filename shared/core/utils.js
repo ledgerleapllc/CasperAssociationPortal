@@ -1,4 +1,3 @@
-// import { format } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 
 export const getDateObject = (dateString = null) => {
@@ -21,7 +20,6 @@ export const formatDate = (
   if (fromNonUTC || (time && time.includes('T') && time.includes('Z'))) {
     return formatInTimeZone(zonedTimeToUtc(timeConvert), 'UTC', formatType);
   }
-  // return format(timeConvert, formatType);
   return formatInTimeZone(timeConvert, 'UTC', formatType);
 };
 

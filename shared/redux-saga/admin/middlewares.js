@@ -25,6 +25,23 @@ export function* getListMembers({ payload, callback }) {
   }
 }
 
+export function* getUpgrades({ payload, resolve, reject }) {
+  try {
+    const token = localStorage.getItem('ACCESS-TOKEN');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const query = qs.stringify(payload);
+    const res = yield get([`admin/upgrades?${query}`], {
+      headers,
+    });
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* getUserDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -523,6 +540,22 @@ export function* deletePerk({ payload, resolve, reject }) {
   }
 }
 
+export function* submitUpgrade({ payload, resolve, reject }) {
+  try {
+    const formData = new FormData();
+    formData.append('version', payload.version);
+    formData.append('activation_date', payload.activation_date);
+    formData.append('activation_era', payload.activation_era);
+    formData.append('link', payload.link);
+    formData.append('notes', payload.notes);
+    const res = yield post([`admin/upgrades`], formData);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* submitPerk({ payload, resolve, reject }) {
   try {
     const formData = new FormData();
@@ -851,6 +884,7 @@ export function* changeMembershipFile({ payload, resolve, reject }) {
 
 export function* watchAdmin() {
   yield all([takeLatest('GET_LIST_MEMBER', getListMembers)]);
+  yield all([takeLatest('GET_UPGRADES', getUpgrades)]);
   yield all([takeLatest('REMOVE_INTAKE', removeIntake)]);
   yield all([takeLatest('GET_USER_DETAIL', getUserDetail)]);
   yield all([takeEvery('GET_LIST_INTAKE', getIntake)]);
@@ -861,6 +895,7 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('SUBMIT_BALLOT', submitBallot)]);
   yield all([takeLatest('SUBMIT_PERK', submitPerk)]);
+  yield all([takeLatest('SUBMIT_UPGRADE', submitUpgrade)]);
   yield all([takeLatest('EDIT_PERK', editPerk)]);
   yield all([takeLatest('DELETE_PERK', deletePerk)]);
   yield all([takeLatest('GET_BALLOT_DETAIL', getBallotDetail)]);

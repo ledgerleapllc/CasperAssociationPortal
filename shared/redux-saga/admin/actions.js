@@ -4,6 +4,13 @@ export const getListMembers = (payload, callback) => ({
   callback,
 });
 
+export const getUpgrades = (payload, resolve, reject) => ({
+  type: 'GET_UPGRADES',
+  payload,
+  resolve,
+  reject,
+});
+
 export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
   payload,
@@ -90,6 +97,13 @@ export const deletePerk = (payload, resolve, reject) => ({
 export const bypassKYC = (userId, resolve, reject) => ({
   type: 'BYPASS_KYC',
   userId,
+  resolve,
+  reject,
+});
+
+export const submitUpgrade = (payload, resolve, reject) => ({
+  type: 'SUBMIT_UPGRADE',
+  payload,
   resolve,
   reject,
 });
