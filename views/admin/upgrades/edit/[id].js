@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Head from 'next/head';
@@ -10,11 +10,15 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { LoadingScreen } from '../../../components/hoc/loading-screen';
-import LayoutDashboard from '../../../components/layouts/layout-dashboard';
-import { Card, BackButton, Button } from '../../../components/partials';
-import { submitUpgrade } from '../../../shared/redux-saga/admin/actions';
-import { formatDate } from '../../../shared/core/utils';
+import { LoadingScreen } from '../../../../components/hoc/loading-screen';
+import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
+import { Card, BackButton, Button } from '../../../../components/partials';
+import {
+  getSingleUpgrade,
+  updateUpgrade,
+} from '../../../../shared/redux-saga/admin/actions';
+import { formatDate, getDateObject } from '../../../../shared/core/utils';
+import { AppContext } from '../../../../pages/_app';
 
 const upgradeSchema = yup.object().shape({
   version: yup
@@ -33,19 +37,49 @@ const upgradeSchema = yup.object().shape({
   notes: yup.string().required('Notes about Upgrade is required'),
 });
 
-const AdminAddUpgrade = () => {
+const AdminEditUpgrade = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [activationDate, setActivationDate] = useState(null);
+  const [upgradeDetail, setUpgradeDetail] = useState(null);
   const dispatch = useDispatch();
   const router = useHistory();
+  const { setLoading } = useContext(AppContext);
+  const routerParams = useParams();
+  const { id } = routerParams;
 
   const handleActivationDateChange = date => {
     setActivationDate(date);
   };
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, setValue } = useForm({
     resolver: yupResolver(upgradeSchema),
   });
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(
+      getSingleUpgrade(
+        id,
+        res => {
+          setLoading(false);
+          setUpgradeDetail(res);
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  }, []);
+
+  useEffect(() => {
+    if (upgradeDetail && Object.keys(upgradeDetail).length > 0) {
+      setValue('version', upgradeDetail.version);
+      setValue('activation_era', upgradeDetail.activation_era);
+      setValue('link', upgradeDetail.link);
+      setValue('notes', upgradeDetail.notes);
+      setActivationDate(getDateObject(upgradeDetail.activation_datetime));
+    }
+  }, [upgradeDetail]);
 
   const onSubmit = data => {
     if (!activationDate) {
@@ -57,11 +91,12 @@ const AdminAddUpgrade = () => {
     );
     const params = {
       ...data,
+      id,
       activation_date,
     };
     setIsSubmit(true);
     dispatch(
-      submitUpgrade(
+      updateUpgrade(
         params,
         () => {
           setIsSubmit(false);
@@ -77,7 +112,7 @@ const AdminAddUpgrade = () => {
   return (
     <>
       <Head>
-        <title>New Upgrade - Casper Association Portal</title>
+        <title>Edit Upgrade - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
         <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
@@ -86,7 +121,7 @@ const AdminAddUpgrade = () => {
               <div className="h-11 mt-4 mb-3">
                 <BackButton href="/admin/upgrades" text="Cancel" force />
                 <h3 className="text-dark2 text-lg font-medium">
-                  Add New Upgrade
+                  Edit Existing Upgrade
                 </h3>
               </div>
             </div>
@@ -165,15 +200,24 @@ const AdminAddUpgrade = () => {
                         </p>
                       )}
                     </div>
-                    <Button
-                      primary
-                      disabled={isSubmit}
-                      isLoading={isSubmit}
-                      type="submit"
-                      sizeSpinner={20}
-                    >
-                      Add Upgrade
-                    </Button>
+                    <div className="flex items-center justify-start">
+                      <Button
+                        primary
+                        className="mr-10 min-w-20"
+                        disabled={isSubmit}
+                        isLoading={isSubmit}
+                        type="submit"
+                        sizeSpinner={20}
+                      >
+                        Save
+                      </Button>
+                      <Link
+                        to="/admin/upgrades"
+                        className="text-sm underline font-bold"
+                      >
+                        Cancel
+                      </Link>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -185,4 +229,4 @@ const AdminAddUpgrade = () => {
   );
 };
 
-export default LoadingScreen(AdminAddUpgrade, 'final-all', 'upgrades');
+export default LoadingScreen(AdminEditUpgrade, 'final-all', 'upgrades');
