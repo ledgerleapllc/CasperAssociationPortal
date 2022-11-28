@@ -11,6 +11,13 @@ export const getUpgrades = (payload, resolve, reject) => ({
   reject,
 });
 
+export const getSingleUpgrade = (id, resolve, reject) => ({
+  type: 'GET_SINGLE_UPGRADE',
+  id,
+  resolve,
+  reject,
+});
+
 export const getUserDetail = (payload, resolve, reject) => ({
   type: 'GET_USER_DETAIL',
   payload,
@@ -104,6 +111,20 @@ export const bypassKYC = (userId, resolve, reject) => ({
 export const submitUpgrade = (payload, resolve, reject) => ({
   type: 'SUBMIT_UPGRADE',
   payload,
+  resolve,
+  reject,
+});
+
+export const updateUpgrade = (payload, resolve, reject) => ({
+  type: 'UPDATE_UPGRADE',
+  payload,
+  resolve,
+  reject,
+});
+
+export const deleteUpgrade = (id, resolve, reject) => ({
+  type: 'DELETE_UPGRADE',
+  id,
   resolve,
   reject,
 });

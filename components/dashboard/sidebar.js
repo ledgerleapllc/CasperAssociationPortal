@@ -92,7 +92,9 @@ const mainUserNavs = [
     key: 'question',
     icon: QuestionMarkIcon,
     label: 'get support',
-    path: process.env.NEXT_PUBLIC_SUPPORT_URL,
+    path:
+      process.env.NEXT_PUBLIC_SUPPORT_URL ||
+      'https://members-staging.casper.network/faq',
   },
 ];
 
