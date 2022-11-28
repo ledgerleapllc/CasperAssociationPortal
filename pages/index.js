@@ -51,6 +51,9 @@ const AdminIntakeVerificationDetailView = lazy(() =>
 );
 const AdminUpgradesView = lazy(() => import('../views/admin/upgrades/index'));
 const AdminUpgradesAddView = lazy(() => import('../views/admin/upgrades/add'));
+const AdminUpgradesEditView = lazy(() =>
+  import('../views/admin/upgrades/edit/[id]')
+);
 const AdminUsersView = lazy(() => import('../views/admin/users/index'));
 const AdminUsersDetailView = lazy(() =>
   import('../views/admin/users/[id]/index')
@@ -222,6 +225,11 @@ const LandingPage = () => (
           path="/admin/upgrades/add"
           exact
           component={AdminUpgradesAddView}
+        />
+        <Route
+          path="/admin/upgrades/edit/:id"
+          exact
+          component={AdminUpgradesEditView}
         />
         <Route path="/admin/users" exact component={AdminUsersView} />
         <Route path="/admin/users/:id" exact component={AdminUsersDetailView} />

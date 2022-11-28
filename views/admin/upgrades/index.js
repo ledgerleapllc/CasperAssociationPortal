@@ -1,14 +1,21 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-no-target-blank */
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Table, Button } from '../../../components/partials';
-import { getUpgrades } from '../../../shared/redux-saga/admin/actions';
+import {
+  deleteUpgrade,
+  getUpgrades,
+} from '../../../shared/redux-saga/admin/actions';
 import { useTable } from '../../../components/partials/table';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
+import { useDialog } from '../../../components/partials/dialog';
+import { AppContext } from '../../../pages/_app';
 
 const Styles = styled.div`
   .upgrades-table {
@@ -23,11 +30,15 @@ const Styles = styled.div`
       padding-right: 0 !important;
     }
     .col-3 {
-      width: 25%;
+      width: 22%;
       padding-right: 0 !important;
     }
     .col-4 {
-      width: 30%;
+      width: 25%;
+      padding-right: 0 !important;
+    }
+    .col-5 {
+      width: 8%;
       padding-right: 0 !important;
     }
   }
@@ -37,6 +48,8 @@ const AdminUpgradeList = () => {
   const { data, register, hasMore, appendData, resetData, setHasMore } =
     useTable();
   const dispatch = useDispatch();
+  const { setDialog, onClosed } = useDialog();
+  const { setLoading } = useContext(AppContext);
 
   const getAdminUpgrades = () => {
     resetData();
@@ -58,6 +71,57 @@ const AdminUpgradeList = () => {
   useEffect(() => {
     getAdminUpgrades();
   }, []);
+
+  const confirmDelete = id => {
+    setLoading(true);
+    dispatch(
+      deleteUpgrade(
+        id,
+        () => {
+          onClosed();
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+          onClosed();
+        }
+      )
+    );
+  };
+
+  const clickDelete = id => {
+    setDialog({
+      type: 'DialogCustom',
+      data: {
+        content: (
+          <div
+            className="text-center mx-auto py-20"
+            style={{ maxWidth: '26rem' }}
+          >
+            <h3 className="text-xl text-center mb-2.5">
+              Are you sure you are going to delete this upgrade?
+            </h3>
+            <div className="mt-8 flex justify-center gap-5 items-center">
+              <button
+                type="button"
+                className="outline-none rounded-full h-24 w-24 font-normal border-transparent hover:opacity-40 text-white bg-primary"
+                onClick={() => confirmDelete(id)}
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                className="px-5 outline-none rounded-full h-24 w-24 font-normal bg-transparent hover:opacity-40 text-primary border border-primary"
+                onClick={() => onClosed()}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ),
+      },
+    });
+  };
 
   return (
     <>
@@ -100,6 +164,9 @@ const AdminUpgradeList = () => {
                     <Table.HeaderCell key="link_H">
                       <p>Link</p>
                     </Table.HeaderCell>
+                    <Table.HeaderCell key="action_H">
+                      <p>&nbsp;</p>
+                    </Table.HeaderCell>
                   </Table.Header>
                   <Table.Body className="custom-padding-tracker">
                     {data.map((row, ind) => (
@@ -119,6 +186,22 @@ const AdminUpgradeList = () => {
                           <p className="truncate underline">
                             <a href={row.link} target="_blank">
                               {row.link}
+                            </a>
+                          </p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="action">
+                          <p className="flex items-center">
+                            <Link
+                              className="underline text-xs font-bold"
+                              to={`/admin/upgrades/edit/${row.id}`}
+                            >
+                              Edit
+                            </Link>
+                            <a
+                              className="ml-2 underline text-xs font-bold"
+                              onClick={() => clickDelete(row.id)}
+                            >
+                              Delete
                             </a>
                           </p>
                         </Table.BodyCell>
