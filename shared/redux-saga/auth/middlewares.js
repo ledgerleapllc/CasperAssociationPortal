@@ -108,10 +108,14 @@ export function* resetPassword({ payload, callback, resetSubmitting }) {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    yield post(['auth/send-reset-password'], qs.stringify(payload), {
-      headers,
-    });
-    callback();
+    const res = yield post(
+      ['auth/send-reset-password'],
+      qs.stringify(payload),
+      {
+        headers,
+      }
+    );
+    callback(res.data);
     resetSubmitting();
   } catch (error) {
     yield put(saveApiResponseError(error));

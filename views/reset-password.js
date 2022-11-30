@@ -6,18 +6,21 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
+import { useSnackBar } from '../components/partials/snack-bar';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { resetPassword } from '../shared/redux-saga/auth/actions';
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const ResetPassword = () => {
-  const { formState, register, handleSubmit } = useForm();
+  const { formState, register, handleSubmit, setFocus } = useForm();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const router = useHistory();
   const detectMobile = useMobileDetect();
-
+  const { openSnack } = useSnackBar();
+  const [border, setBorder] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = data => {
     setIsSubmitting(true);
     dispatch(
@@ -25,8 +28,16 @@ const ResetPassword = () => {
         {
           ...data,
         },
-        () => {
-          history.push('/login');
+        res => {
+          if (res.message) {
+            openSnack('primary', res.message);
+          }
+          if (res.success) {
+            router.push('/login');
+          } else {
+            setFocus('email');
+            setBorder(true);
+          }
         },
         () => {
           setIsSubmitting(false);
@@ -78,7 +89,11 @@ const ResetPassword = () => {
               <div className="w-full flex flex-col animate__animated animate__fadeInLeft animate__delay-0-5s">
                 <input
                   type="text"
-                  className="font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none"
+                  className={
+                    formState.errors?.email || border
+                      ? 'border border-primary font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none'
+                      : 'font-bold w-full h-16 text-xl mt-7 px-7 rounded-full shadow-md focus:outline-none'
+                  }
                   placeholder="Email"
                   name="email"
                   {...register('email', {
@@ -88,6 +103,7 @@ const ResetPassword = () => {
                       value: EMAIL_PATTERN,
                     },
                   })}
+                  onInput={() => setBorder(false)}
                 />
                 {formState.errors?.email && (
                   <p className="pl-7 mt-2 text-primary text-left">
