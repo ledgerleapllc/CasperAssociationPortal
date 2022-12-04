@@ -20,7 +20,7 @@ const RegisterIndividualView = lazy(() =>
 );
 const RegisterEntityView = lazy(() => import('../views/register-entity'));
 const VerifyEmailView = lazy(() => import('../views/verify-email'));
-const UpdateEmailView = lazy(() => import('../views/update-email'));
+// const UpdateEmailView = lazy(() => import('../views/update-email'));
 const UpdatePasswordView = lazy(() => import('../views/update-password'));
 const RegisterSubAdminView = lazy(() => import('../views/register-sub-admin'));
 const OnboardView = lazy(() => import('../views/onboard/index'));
@@ -134,12 +134,16 @@ const DashboardProfileView = lazy(() =>
 const DashboardProfileDetailView = lazy(() =>
   import('../views/dashboard/profile/[id]')
 );
+/*
 const ChangeEmailCancelView = lazy(() =>
   import('../views/change-email/cancel-changes')
 );
+*/
+/*
 const ChangeEmailConfirmView = lazy(() =>
   import('../views/change-email/confirm')
 );
+*/
 
 const LandingPage = () => (
   <Router>
@@ -148,16 +152,20 @@ const LandingPage = () => (
         <Route path="/" exact component={LandingView} />
         <Route path="/faq" exact component={FAQView} />
         <Route path="/privacy-policy" exact component={PrivacyPolicyView} />
+        {/*
         <Route
           path="/change-email/cancel-changes"
           exact
           component={ChangeEmailCancelView}
         />
+        */}
+        {/*
         <Route
           path="/change-email/confirm"
           exact
           component={ChangeEmailConfirmView}
         />
+        */}
         <Route path="/donate" exact component={DonateView} />
         <Route
           path="/validator-selection-tool"
@@ -180,7 +188,7 @@ const LandingPage = () => (
         <Route path="/register-entity" exact component={RegisterEntityView} />
         <Route path="/reset-password" exact component={ResetPasswordView} />
         <Route path="/verify-email" exact component={VerifyEmailView} />
-        <Route path="/update-email" exact component={UpdateEmailView} />
+        {/* <Route path="/update-email" exact component={UpdateEmailView} /> */}
         <Route path="/update-password" exact component={UpdatePasswordView} />
         <Route
           path="/register-sub-admin"
