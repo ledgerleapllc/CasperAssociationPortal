@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Link, useHistory } from 'react-router-dom';
+// import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Head from 'next/head';
 import useMobileDetect from 'use-mobile-detect-hook';
 import { useForm } from 'react-hook-form';
@@ -132,12 +133,14 @@ const VerifyEmail = () => {
             >
               Resend Verifcation Code
             </a>
+            {/*
             <br />
             <Link to="/update-email">
               <span className="text-primary underline font-medium cursor-pointer text-xs text-center animate__delay-1s">
                 Update Email Address
               </span>
             </Link>
+            */}
           </div>
         </>
       );
