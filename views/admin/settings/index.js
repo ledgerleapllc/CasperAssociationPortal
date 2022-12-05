@@ -417,4 +417,4 @@ const Settings = () => {
   );
 };
 
-export default LoadingScreen(Settings, 'final-admin');
+export default LoadingScreen(Settings, 'final-admin', 'globalsettings');
