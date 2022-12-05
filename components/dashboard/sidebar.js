@@ -175,11 +175,10 @@ const adminNavs = [
     path: '/admin/teams',
   },
   {
-    key: 'setting',
+    key: 'globalsettings',
     icon: SettingIcon,
     label: 'global settings',
     path: '/admin/settings',
-    public: true,
   },
 ];
 

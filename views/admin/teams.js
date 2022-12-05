@@ -36,11 +36,11 @@ const Styles = styled.div`
       padding-right: 0 !important;
     }
     .col-2 {
-      width: 8%;
+      width: 7%;
       padding-right: 0 !important;
     }
     .col-3 {
-      width: 18%;
+      width: 14%;
       padding-right: 0 !important;
     }
     .col-4 {
@@ -48,7 +48,7 @@ const Styles = styled.div`
       padding-right: 0 !important;
     }
     .col-5 {
-      width: 11%;
+      width: 8%;
       padding-right: 0 !important;
     }
     .col-6 {
@@ -72,7 +72,11 @@ const Styles = styled.div`
       padding-right: 0 !important;
     }
     .col-11 {
-      width: 22%;
+      width: 10%;
+      padding-right: 0 !important;
+    }
+    .col-12 {
+      width: 20%;
       padding-right: 0 !important;
     }
   }
@@ -294,6 +298,7 @@ const AdminTeams = () => {
       ballots: 0,
       perks: 0,
       teams: 0,
+      globalsettings: 0,
     };
     const ind = data.findIndex(admin => admin.id === id);
     if (!data[ind].permissions) {
@@ -431,6 +436,15 @@ const AdminTeams = () => {
                       </Tooltips>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="header11">
+                      <Tooltips
+                        placement="top"
+                        title="Toggles admin access to the global settings tab."
+                        arrow
+                      >
+                        <p>Global Settings</p>
+                      </Tooltips>
+                    </Table.HeaderCell>
+                    <Table.HeaderCell key="header12">
                       <p>Admin Action</p>
                     </Table.HeaderCell>
                   </Table.Header>
@@ -551,6 +565,20 @@ const AdminTeams = () => {
                           />
                         </Table.BodyCell>
                         <Table.BodyCell key="body11">
+                          <Switch
+                            onChange={_check =>
+                              setPermission(admin.id, 'globalsettings', _check)
+                            }
+                            checked={!!admin.permissions?.globalsettings}
+                            checkedIcon={null}
+                            uncheckedIcon={null}
+                            offColor="#bbb"
+                            onColor="#ff474e"
+                            height={18}
+                            width={40}
+                          />
+                        </Table.BodyCell>
+                        <Table.BodyCell key="body12">
                           <div className="flex gap-3 items-center">
                             <Button
                               className="px-6 py-1"
