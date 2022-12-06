@@ -137,6 +137,31 @@ historical_performance = raw_uptime * (window - missed) / window
                 <span />
                 <h3>Q.</h3>
                 <p>
+                  What are the qualifications to be a voting member in this portal?
+                </p>
+              </div>
+              <div className="c-faq-itemAnswer">
+                <span />
+                <h3>A.</h3>
+                <div className="c-faq-itemAnswerDetails">
+                  <p>
+                    This portal is open to registration applications from Casper blockchain validators with nodes that maintain the following criteria:
+                  </p>
+                  <ol>
+                    <li className="mt-5">Uptime of at least 97% as calculated from the last 180 ERAs. Uptime is defined in another FAQ question below.</li>
+                    <li className="mt-5">Be active for a minimum of 360 ERAs, with a maximum of 1 ERA since your last redmark. Redmarks are defined in another FAQ question below.</li>
+                    <li className="mt-5">Less than 48 total Redmarks in the last 360 ERAs.</li>
+                    <li className="mt-5">Registered users must pass KYC. If the user is an entity, documents for the entity should be uploaded to reflect the KYC user.</li>
+                  </ol>
+                </div>
+              </div>
+              <hr />
+            </div>
+            <div className="c-faq-item mb-5">
+              <div className="c-faq-itemQuestion">
+                <span />
+                <h3>Q.</h3>
+                <p>
                   How do I become a member?
                 </p>
               </div>
