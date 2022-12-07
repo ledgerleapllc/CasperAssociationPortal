@@ -147,12 +147,12 @@ historical_performance = raw_uptime * (window - missed) / window
                   <p>
                     This portal is open to registration applications from Casper blockchain validators with nodes that maintain the following criteria:
                   </p>
-                  <ol>
+                  <ul style={{ listStyleType: 'disc', marginLeft: '0.5em' }}>
                     <li className="mt-5">Uptime of at least 97% as calculated from the last 180 ERAs. Uptime is defined in another FAQ question below.</li>
                     <li className="mt-5">Be active for a minimum of 360 ERAs, with a maximum of 1 ERA since your last redmark. Redmarks are defined in another FAQ question below.</li>
                     <li className="mt-5">Less than 48 total Redmarks in the last 360 ERAs.</li>
                     <li className="mt-5">Registered users must pass KYC. If the user is an entity, documents for the entity should be uploaded to reflect the KYC user.</li>
-                  </ol>
+                  </ul>
                 </div>
               </div>
               <hr />
