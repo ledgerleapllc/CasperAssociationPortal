@@ -15,8 +15,8 @@ const SettingLockPage = ({ rules, fetchRules }) => {
       updateLockPageRules(
         { id, data: { is_lock: isLocked } },
         () => {
-          fetchRules();
           setLoading(false);
+          fetchRules();
         },
         () => {
           setLoading(false);
@@ -123,7 +123,7 @@ const SettingLockPage = ({ rules, fetchRules }) => {
       </div>
       <div className="w-full lg:flex mt-5">
         <div className="w-full lg:w-5/12">
-          Lock pages if user node status is poor
+          Lock pages if user is in Probation
         </div>
         <div className="w-full flex lg:hidden my-2">
           <p className="w-2/12">Nodes</p>

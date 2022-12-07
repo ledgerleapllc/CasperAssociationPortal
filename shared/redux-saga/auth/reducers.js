@@ -73,18 +73,6 @@ const fetchUserInfo = createReducer(fetchUserInfoStrategies, {
   ...initialState,
 });
 
-const setMetrics = (state, payload) => payload;
-
-const clearMetrics = () => ({});
-
-const metricsStrategies = {
-  SET_METRICS: setMetrics,
-  CLEAR_METRICS: clearMetrics,
-  __default__: state => state,
-};
-
-const metrics = createReducer(metricsStrategies, {});
-
 const setNotifications = (state, payload) => ({
   ...state,
   ...payload,
@@ -104,27 +92,6 @@ const notificationsStrategies = {
 const notifications = createReducer(notificationsStrategies, {
   banner: null,
   popup: null,
-});
-
-const setMetricConfig = (state, payload) => ({
-  ...state,
-  max: {
-    ...state.max,
-    ...payload.max,
-  },
-});
-
-const metricConfigStrategies = {
-  SET_METRIC_CONFIG: setMetricConfig,
-  __default__: state => state,
-};
-
-const metricConfig = createReducer(metricConfigStrategies, {
-  max: {
-    block_height_average: 0,
-    peers: 0,
-    update_responsiveness: 0,
-  },
 });
 
 const setPermissions = (state, payload) => ({
@@ -192,10 +159,8 @@ const appInfo = createReducer(appInfoStrategies, {
 export const authReducer = combineReducers({
   fetchUserInfo,
   userInfo,
-  metrics,
   permissions,
   pagePermissions,
   notifications,
-  metricConfig,
   appInfo,
 });

@@ -92,12 +92,16 @@ export const IDverifications = () => {
           </Table.HeaderCell>
           <Table.HeaderCell key="amlAPI">
             <p>
-              AML API <br /> Response
+              AML API
+              <br />
+              Response
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="kycAPI">
             <p>
-              KYC API <br /> Response
+              KYC API
+              <br />
+              Response
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="action">
@@ -108,7 +112,11 @@ export const IDverifications = () => {
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="createdAt">
-                <p>{formatDate(new Date(row?.created_at))}</p>
+                <p className="truncate">
+                  {formatDate(row?.created_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row?.created_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>

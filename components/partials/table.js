@@ -66,8 +66,10 @@ const Table = props => {
     <TableContext.Provider
       value={{ sortKey, setSortKey, sortDirection, setSortDirection, randomId }}
     >
-      <div style={{ width: '100%', overflowX: 'auto' }} className="h-full">
-        <div className={`${props.className} min-w-250 text-sm`}>
+      <div className="w-full h-full overflow-x-auto overflow-y-hidden">
+        <div
+          className={`${props.className} min-w-250 text-sm w-full h-full overflow-hidden`}
+        >
           {props.children[0]}
           {cloneElement(props.children[1], {
             onLoadMore: props.onLoadMore,
@@ -110,12 +112,14 @@ Table.HeaderCell = props => {
         ${props.className || ''} 
         col col-${props.index} 
         text-sm`}
+      style={props.customStyle || {}}
     >
       <button
         type="button"
         className="text-left font-semibold focus:outline-none flex cursor-pointer disabled:cursor-not-allowed"
         onClick={triggerSort}
         disabled={pendingSort}
+        style={{ maxWidth: '100%' }}
       >
         {props.children}
         {props.sortKey && sortKey === props.sortKey && (
@@ -183,7 +187,7 @@ Table.BodyRow = props => {
   return (
     <div
       className={`${
-        props.className
+        props.className || ''
       } flex items-center flex-row w-full py-2 border-b border-gray1 ${
         props.selectRowHandler ? 'cursor-pointer' : ''
       }`}
@@ -199,7 +203,12 @@ Table.BodyRow = props => {
 };
 
 Table.BodyCell = props => (
-  <div className={`col col-${props.index} pr-5`}>{props.children}</div>
+  <div
+    className={`col col-${props.index} pr-5`}
+    style={props.customStyle || {}}
+  >
+    {props.children}
+  </div>
 );
 
 Table.Body.Cell = Table.BodyCell;

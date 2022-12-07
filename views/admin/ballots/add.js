@@ -68,7 +68,6 @@ const AdminAddBallot = () => {
 
     const start = new Date(`${startDateStr} ${startTimeStr}`).getTime();
     const end = new Date(`${endDateStr} ${endTimeStr}`).getTime();
-
     if (start >= end) return;
 
     const params = {
@@ -77,6 +76,7 @@ const AdminAddBallot = () => {
       startTime: startTimeStr,
       endDate: endDateStr,
       endTime: endTimeStr,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     setIsSubmit(true);
@@ -113,10 +113,7 @@ const AdminAddBallot = () => {
       </Head>
       <LayoutDashboard>
         <Card className="h-full lg:pl-card lg:py-5 lg:shadow-2xl" noShadow>
-          <div
-            id="dashboard-page__ballots"
-            className="flex flex-col w-full h-full"
-          >
+          <div className="flex flex-col w-full h-full">
             <div className="card-header lg:mr-card border-primary border-b-2">
               <div className="h-11 mb-3">
                 <BackButton href="/admin/ballots" text="Cancel" force />
@@ -132,19 +129,14 @@ const AdminAddBallot = () => {
                     Posting as:{' '}
                     <a className="text-primary">{user?.fullInfo?.email}</a>
                   </p>
-                  <div
-                    id="custom-ballot-upload"
-                    className="mt-4 pb-8 relative flex flex-wrap items-center"
-                  >
+                  <div className="mt-4 pb-8 relative flex flex-wrap items-center">
                     <input
                       type="text"
-                      id="custom-ballot-uploadInput"
                       className="border border-gray1 flex-1 h-14 px-7 shadow-md focus:outline-none"
                       placeholder="Enter Ballot Title"
                       {...register('title')}
                     />
                     <label
-                      id="custom-ballot-uploadButton"
                       htmlFor="ballotFile"
                       className="px-5 py-3 flex justify-center items-center cursor-pointer ml-5 text-lg text-primary rounded-full bg-none border-2 border-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                     >
@@ -231,9 +223,6 @@ const AdminAddBallot = () => {
                           required
                         />
                       </div>
-                      <p style={{ marginLeft: '15px', marginTop: '22px' }}>
-                        EST
-                      </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <div style={{ marginRight: '20px' }}>
@@ -257,9 +246,6 @@ const AdminAddBallot = () => {
                           required
                         />
                       </div>
-                      <p style={{ marginLeft: '15px', marginTop: '22px' }}>
-                        EST
-                      </p>
                     </div>
                   </MuiPickersUtilsProvider>
                   <div

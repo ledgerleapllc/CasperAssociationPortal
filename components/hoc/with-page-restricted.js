@@ -81,6 +81,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Get Verified
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
             {condition.kyc_not_verify && !condition.node_poor && (
@@ -97,6 +105,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Get Verified
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
             {!condition.kyc_not_verify && condition.node_poor && (
@@ -112,6 +128,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
                 >
                   Go to Membership page
                 </a>
+                <div className="text-center mt-3">
+                  <a
+                    href="/dashboard"
+                    className="text-primary underline hover:opacity-40"
+                  >
+                    Go back to Dashboard
+                  </a>
+                </div>
               </>
             )}
           </>
@@ -145,6 +169,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
             >
               Get Verified
             </a>
+            <div className="text-center mt-3">
+              <a
+                href="/dashboard"
+                className="text-primary underline hover:opacity-40"
+              >
+                Go back to Dashboard
+              </a>
+            </div>
           </>
         );
       }
@@ -174,6 +206,14 @@ export const withPageRestricted = (Wrapper, page) => props => {
             >
               Go to Membership page
             </a>
+            <div className="text-center mt-3">
+              <a
+                href="/dashboard"
+                className="text-primary underline hover:opacity-40"
+              >
+                Go back to Dashboard
+              </a>
+            </div>
           </>
         );
       }
@@ -216,7 +256,8 @@ export const withPageRestricted = (Wrapper, page) => props => {
         userInfo.status === 'approved' &&
         userInfo.fullInfo &&
         userInfo.fullInfo.profile &&
-        userInfo.fullInfo.profile.extra_status !== 'Suspended'
+        userInfo.fullInfo.profile.extra_status !== 'On Probation'
+        // userInfo.fullInfo.profile.extra_status !== 'Suspended'
       ) {
         _condition.node_poor = false;
       } else {
@@ -248,7 +289,11 @@ export const withPageRestricted = (Wrapper, page) => props => {
           zIndex: 100,
         },
       });
-    } else if (
+      return () => {
+        onClosed();
+      };
+    }
+    if (
       pagePermissions &&
       pagePermissions.hasOwnProperty(page) &&
       !pagePermissions[page]
@@ -281,10 +326,11 @@ export const withPageRestricted = (Wrapper, page) => props => {
           zIndex: 100,
         },
       });
+      return () => {
+        onClosed();
+      };
     }
-    return () => {
-      onClosed();
-    };
+    return () => {};
   }, [alertCondition]);
 
   return <Wrapper {...props} />;

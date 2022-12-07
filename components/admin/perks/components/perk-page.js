@@ -1,3 +1,4 @@
+import { getDateObject } from '../../../../shared/core/utils';
 import { Button, ClockBar } from '../../../partials';
 
 export const PerkPage = ({ perk, hideTime }) => (
@@ -6,7 +7,7 @@ export const PerkPage = ({ perk, hideTime }) => (
       {perk?.image?.url ? (
         <img
           className="object-cover w-full h-full bg-gray1"
-          src={perk?.image?.url || ''}
+          src={perk?.image?.url}
           alt=""
         />
       ) : (
@@ -17,29 +18,29 @@ export const PerkPage = ({ perk, hideTime }) => (
       <div className="flex text-primary text-xs mb-6">
         {hideTime && (
           <>
-            {perk?.start_date &&
-              perk?.end_date &&
-              new Date(perk?.end_date) > new Date() && (
+            {perk?.time_begin &&
+              perk?.time_end &&
+              getDateObject(perk?.time_end) > new Date() && (
                 <>
                   <span className="pr-1">Time Remaining:</span>
                   <ClockBar
-                    startTime={new Date(perk?.start_date)}
-                    endTime={new Date(perk?.end_date)}
+                    startTime={getDateObject(perk?.time_begin)}
+                    endTime={getDateObject(perk?.time_end)}
                     hideProgressBar
                   />
                 </>
               )}
-            {perk?.end_date && new Date(perk?.end_date) <= new Date() && (
+            {perk?.time_end && getDateObject(perk?.time_end) <= new Date() && (
               <b>Ended</b>
             )}
           </>
         )}
-        {!hideTime && perk?.start_date && perk?.end_date && (
+        {!hideTime && perk?.time_begin && perk?.time_end && (
           <>
             <span className="pr-1">Time Remaining:</span>
             <ClockBar
-              startTime={new Date(perk?.start_date)}
-              endTime={new Date(perk?.end_date)}
+              startTime={getDateObject(perk?.time_begin)}
+              endTime={getDateObject(perk?.time_end)}
               hideProgressBar
             />
           </>
@@ -48,8 +49,8 @@ export const PerkPage = ({ perk, hideTime }) => (
       <h4 className="font-bold mb-4 line-clamp-2">{perk?.title}</h4>
       <p>{perk?.content}</p>
       {perk?.action_link &&
-      perk?.end_date &&
-      new Date(perk?.end_date) > new Date() ? (
+      perk?.time_end &&
+      getDateObject(perk?.time_end) > new Date() ? (
         <div style={{ marginTop: '20px' }}>
           <a href={perk?.action_link} target="_blank" rel="noreferrer">
             <Button primary>Click To View</Button>

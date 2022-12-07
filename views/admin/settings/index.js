@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import Head from 'next/head';
 import styled from 'styled-components';
+import InfoIcon from '@material-ui/icons/Info';
 import PlusIcon from '../../../public/images/ic_plus.svg';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
@@ -11,13 +14,10 @@ import { AppContext } from '../../../pages/_app';
 import MonitoringCriteria from '../../../components/admin/settings/monitoring-criteria';
 import SettingLockPage from '../../../components/admin/settings/setting-lock-page';
 import {
-  getWarningMetrics,
-  getLockPageRules,
   addRecipient,
   removeRecipient,
-  listRecipients,
-  getMembershipFile,
   changeMembershipFile,
+  getGlobalSettings,
 } from '../../../shared/redux-saga/admin/actions';
 import { useDialog } from '../../../components/partials/dialog';
 import { AddRecipientDialog } from '../../../components/dashboard/contact/dialogs/add-recipient';
@@ -47,7 +47,7 @@ const Styles = styled.div`
 `;
 
 const Settings = () => {
-  const [metrics, setMetrics] = useState(null);
+  const [isOverride, setIsOverride] = useState(false);
   const [rules, setRules] = useState(null);
   const dispatch = useDispatch();
   const { setDialog, onClosed } = useDialog();
@@ -55,31 +55,51 @@ const Settings = () => {
   const { openSnack } = useSnackBar();
   const [agreement, setAgreement] = useState();
   const [replaceAgreement, setReplaceAgreement] = useState();
+  const [globalSettings, setGlobalSettings] = useState({});
+
   const {
     data,
     setData,
     register,
     resetData,
-    hasMore,
     appendData,
+    hasMore,
     setHasMore,
-    page,
-    setPage,
   } = useTable();
 
-  const fetchWarningMetrics = () => {
+  const fetchGlobalSettings = () => {
+    setLoading(true);
+    resetData();
     dispatch(
-      getWarningMetrics(
+      getGlobalSettings(
         res => {
-          const obj = res?.reduce((result, item) => {
-            const params = {
-              ...result,
-              [item.type]: item,
-            };
-            return params;
-          }, {});
+          setGlobalSettings(res.globalSettings || {});
+          const lockRules = res.lockRules || {};
+          lockRules.kyc_not_verify = lockRules.kyc_not_verify?.reduce(
+            (result, item) => {
+              const params = {
+                ...result,
+                [item.screen]: item,
+              };
+              return params;
+            },
+            {}
+          );
+          lockRules.status_is_poor = lockRules.status_is_poor?.reduce(
+            (result, item) => {
+              const params = {
+                ...result,
+                [item.screen]: item,
+              };
+              return params;
+            },
+            {}
+          );
+          setRules(lockRules);
+          setAgreement(res.membershipAgreementFile);
+          setHasMore(false);
+          appendData(res.contactRecipients || []);
           setLoading(false);
-          setMetrics(obj);
         },
         () => {
           setLoading(false);
@@ -88,62 +108,13 @@ const Settings = () => {
     );
   };
 
-  const fetchLockPageRules = () => {
-    dispatch(
-      getLockPageRules(
-        res => {
-          if (res) {
-            res.kyc_not_verify = res.kyc_not_verify?.reduce((result, item) => {
-              const params = {
-                ...result,
-                [item.screen]: item,
-              };
-              return params;
-            }, {});
-            res.status_is_poor = res.status_is_poor?.reduce((result, item) => {
-              const params = {
-                ...result,
-                [item.screen]: item,
-              };
-              return params;
-            }, {});
-            setRules(res);
-          }
-        },
-        () => {}
-      )
-    );
-  };
-
-  const fetchRecipients = (pageValue = page) => {
-    dispatch(
-      listRecipients({ page: pageValue, limit: 999 }, (results, isHasMore) => {
-        setHasMore(isHasMore);
-        appendData(results);
-        setPage(prev => prev + 1);
-      })
-    );
-  };
-
-  const getMembership = () => {
-    dispatch(
-      getMembershipFile(
-        {},
-        res => {
-          setAgreement(res);
-        },
-        () => {}
-      )
-    );
-  };
-
   useEffect(() => {
-    setLoading(true);
-    fetchWarningMetrics();
-    fetchLockPageRules();
-    fetchRecipients();
-    getMembership();
+    fetchGlobalSettings();
   }, []);
+
+  const clickOverride = () => {
+    setIsOverride(pre => !pre);
+  };
 
   const saveFile = () => {
     setLoading(true);
@@ -185,8 +156,7 @@ const Settings = () => {
                   temp,
                   () => {
                     setLoading(false);
-                    resetData();
-                    fetchRecipients(1);
+                    fetchGlobalSettings();
                     openSnack('primary', 'Added new contact!');
                     onClosed();
                   },
@@ -241,109 +211,97 @@ const Settings = () => {
         <title>Global Settings - Casper Association Portal</title>
       </Head>
       <LayoutDashboard>
-        <Card className="h-full pl-card py-5">
+        <Card className="w-full h-full pl-card py-5">
           <div className="flex flex-col bg-transparent h-full">
             <div className="w-full pr-card">
-              <h3 className="text-dark2 text-lg font-medium h-11 flex items-end mb-3">
+              <h3 className="text-dark2 text-lg font-medium mb-3">
                 Global Settings
               </h3>
               <div className="border-primary border-b-2" />
             </div>
-            <div className="flex flex-col flex-1 min-h-0 overflow-y-auto pr-card">
+            <div className="flex flex-col flex-1 overflow-y-auto pr-card">
               <section className="pt-8">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Mailer Settings
                   <Tooltips
                     placement="top"
                     title="Adjust settings for the automatic email system."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <Link to="/admin/settings/emailer">
                   <button
                     type="button"
-                    className="mr-5 px-4 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    className="px-8 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
                     Access Mailer
                   </button>
                 </Link>
               </section>
               <section className="mt-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Notification Settings
                   <Tooltips
                     placement="top"
                     title="Adjust settings for the notifications to node operators."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <Link to="/admin/settings/notifications">
                   <button
                     type="button"
-                    className="px-4 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
+                    className="px-8 py-2 transition text-lg text-white rounded-full bg-primary hover:opacity-40 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none shadow-md"
                   >
                     Access Notifications
                   </button>
                 </Link>
               </section>
               <section className="mt-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
-                  Monitoring Criteria
-                  <Tooltips
-                    placement="top"
-                    title="Allows admin to adjust the settings for Uptime, Block Height, and Update Responsiveness."
-                    arrow
+                <div className="flex mb-7 items-center gap-5">
+                  <h4 className="flex items-center gap-2 text-lg font-medium">
+                    Monitoring Criteria
+                    <Tooltips
+                      placement="top"
+                      title="Allows admin to adjust the settings for Uptime, and Update Responsiveness."
+                      arrow
+                    >
+                      <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
+                    </Tooltips>
+                  </h4>
+                  <p
+                    className="text-primary underline cursor-pointer"
+                    onClick={clickOverride}
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
-                  </Tooltips>
-                </h4>
+                    {isOverride ? 'Cancel' : 'Edit'}
+                  </p>
+                </div>
                 <MonitoringCriteria
-                  metrics={metrics}
-                  fetchWarningMetrics={fetchWarningMetrics}
+                  isOverride={isOverride}
+                  globalSettings={globalSettings}
                 />
               </section>
-              <section className="my-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+              <section className="mt-20">
+                <h4 className="flex items-center gap-2 mb-7 text-lg font-medium">
                   Status page lock rules
                   <Tooltips
                     placement="top"
                     title="Locks users out of specified areas of the dashboard."
                     arrow
                   >
-                    <img
-                      width="10px"
-                      height="10px"
-                      src="/images/ic_feather_info.svg"
-                      alt="Info"
-                    />
+                    <InfoIcon style={{ color: 'black', fontSize: '16px' }} />
                   </Tooltips>
                 </h4>
                 <SettingLockPage
                   rules={rules}
-                  fetchRules={fetchLockPageRules}
+                  fetchRules={fetchGlobalSettings}
                 />
               </section>
-              <section className="my-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
+              <section className="mt-20">
+                <h4 className="flex gap-5 mb-7 text-lg font-medium">
                   Contact Form Recipients
                   <button
                     type="button"
@@ -353,11 +311,11 @@ const Settings = () => {
                     <PlusIcon className="text-white" />
                   </button>
                 </h4>
-                <Styles className="h-full pt-4 w-full">
+                <Styles className="w-full h-full pt-4">
                   <Table
                     className="recipient-table h-full"
                     {...register}
-                    onLoadMore={fetchRecipients}
+                    onLoadMore={() => {}}
                     hasMore={hasMore}
                     dataLength={data?.length}
                   >
@@ -376,7 +334,7 @@ const Settings = () => {
                       {data.map(recipient => (
                         <Table.BodyRow key={`recipient-${recipient.id}`}>
                           <Table.BodyCell key="body1">
-                            {`${formatDate(recipient.created_at)}`}
+                            {formatDate(recipient.created_at)}
                           </Table.BodyCell>
                           <Table.BodyCell key="body2">
                             <p className="break-words">{recipient.email}</p>
@@ -400,9 +358,7 @@ const Settings = () => {
                 </Styles>
               </section>
               <section className="my-20">
-                <h4 className="flex gap-2 mb-7 text-lg font-medium">
-                  Membership Agreement
-                </h4>
+                <h4 className="flex mb-7 text-lg font-medium">Terms of Use</h4>
                 <div className="flex gap-4 items-center h-full pt-4 w-full lg:w-7/12">
                   <input
                     type="text"
@@ -461,4 +417,4 @@ const Settings = () => {
   );
 };
 
-export default LoadingScreen(Settings, 'final-admin');
+export default LoadingScreen(Settings, 'final-admin', 'globalsettings');

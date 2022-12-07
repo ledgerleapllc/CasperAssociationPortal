@@ -198,12 +198,16 @@ export const GeneralIntakes = () => {
           </Table.HeaderCell>
           <Table.HeaderCell key="esignatureComplete">
             <p>
-              E-signature <br /> Complete
+              E-signature
+              <br />
+              Complete
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="nodeVerificationComplete">
             <p>
-              Node Verification <br /> Complete
+              Node Verification
+              <br />
+              Complete
             </p>
           </Table.HeaderCell>
           <Table.HeaderCell key="letterMotivation">
@@ -217,7 +221,11 @@ export const GeneralIntakes = () => {
           {data.map((row, ind) => (
             <Table.BodyRow key={ind}>
               <Table.BodyCell key="createdData">
-                <p>{formatDate(new Date(row?.created_at))}</p>
+                <p className="truncate">
+                  {formatDate(row?.created_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row?.created_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="email">
                 <p className="truncate">{row.email}</p>

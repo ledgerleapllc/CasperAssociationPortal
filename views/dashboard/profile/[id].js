@@ -17,12 +17,10 @@ import IconCamera from '../../../public/images/ic_camera.svg';
 import ArrowIcon from '../../../public/images/ic_arrow_down.svg';
 import {
   formatDate,
-  generateTextForEras,
   getShortNodeAddress,
   numberWithCommas,
 } from '../../../shared/core/utils';
 import VerifiedIcon from '../../../public/images/ic_check_mark.svg';
-import { DEFAULT_BASE_BLOCKS } from '../../../shared/core/constants';
 import { getPublicMemberDetail } from '../../../shared/redux-saga/member-viewer/actions';
 import { useSnackBar } from '../../../components/partials/snack-bar';
 import { AppContext } from '../../../pages/_app';
@@ -71,34 +69,9 @@ const UserProfile = () => {
   const { id } = routerParams;
   const dispatch = useDispatch();
   const [memberInfo, setMemberInfo] = useState(null);
-  const [metrics, setMetrics] = useState(null);
   const [addressList, setAddressList] = useState([]);
   const [currentUserNode, setCurrentUserNode] = useState();
   const { openSnack } = useSnackBar();
-
-  const refreshMetrics = temp => {
-    let block_height =
-      DEFAULT_BASE_BLOCKS -
-      (temp.max_block_height_average - temp.block_height_average);
-    if (block_height < 0) {
-      block_height = 0;
-    }
-    const metricTemp = {
-      ...temp,
-      uptime: temp.uptime || 0,
-      block_height,
-      peers: temp.peers || 0,
-      update_responsiveness: temp.update_responsiveness || 0,
-      monitoring_criteria: temp.monitoring_criteria || null,
-      average_uptime: temp.avg_uptime || 0,
-      avg_update_responsiveness: temp.avg_update_responsiveness || 0,
-      current_block_height:
-        DEFAULT_BASE_BLOCKS - block_height > 0
-          ? DEFAULT_BASE_BLOCKS - block_height
-          : 0,
-    };
-    setMetrics(metricTemp);
-  };
 
   useEffect(() => {
     if (id) {
@@ -115,7 +88,6 @@ const UserProfile = () => {
             if (addresses && addresses.length > 0) {
               setCurrentUserNode(addresses[0]);
             }
-            refreshMetrics(res.metric);
           },
           () => {
             setLoading(false);
@@ -124,23 +96,6 @@ const UserProfile = () => {
       );
     }
   }, [id]);
-
-  const refreshUserInfo = address => {
-    setLoading(true);
-    dispatch(
-      getPublicMemberDetail(
-        id,
-        address?.public_address_node || null,
-        res => {
-          setLoading(false);
-          refreshMetrics(res.metric);
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
 
   const copyClipboard = () => {
     const copyText = document.getElementById('public-address');
@@ -287,10 +242,10 @@ const UserProfile = () => {
                             </td>
                             <td>
                               <span>
-                                {`${formatDate(
+                                {formatDate(
                                   memberInfo?.email_verified_at,
-                                  'dd/MM/yyyy'
-                                )}`}
+                                  'dd/MM/yyyy HH:mm aa'
+                                )}
                               </span>
                             </td>
                           </tr>
@@ -309,7 +264,7 @@ const UserProfile = () => {
                               <span>Membership Status:</span>
                             </td>
                             <td>
-                              <span className="text-primary">
+                              <span className="text-primary pr-2">
                                 {renderLabel()}
                               </span>
                               <span className="text-sm text-gray underline">
@@ -332,10 +287,10 @@ const UserProfile = () => {
                             <td>
                               {memberInfo?.approve_at ? (
                                 <span>
-                                  {`${formatDate(
+                                  {formatDate(
                                     memberInfo?.approve_at,
-                                    'dd/MM/yyyy'
-                                  )}`}
+                                    'dd/MM/yyyy HH:mm aa'
+                                  )}
                                 </span>
                               ) : (
                                 <span>-</span>
@@ -366,6 +321,7 @@ const UserProfile = () => {
                                   <div className="flex items-center gap-2">
                                     <p className="w-full relative h-6">
                                       <Tooltips
+                                        disableTheme
                                         placement="bottom"
                                         title={
                                           currentUserNode?.public_address_node
@@ -390,7 +346,6 @@ const UserProfile = () => {
                                       className="p-2 hover:text-primary cursor-pointer"
                                       onClick={() => {
                                         setCurrentUserNode(address);
-                                        refreshUserInfo(address);
                                       }}
                                       key={`node_${index}`}
                                     >
@@ -417,7 +372,7 @@ const UserProfile = () => {
                             </button>
                             <input
                               id="public-address"
-                              value={currentUserNode?.public_address_node || ''}
+                              value={currentUserNode?.public_address_node ?? ''}
                               readOnly
                               hidden
                             />
@@ -429,7 +384,7 @@ const UserProfile = () => {
                           <span>Validator Fee:</span>
                         </td>
                         <td>
-                          <span>{currentUserNode?.validator_fee}%</span>
+                          <span>{currentUserNode?.bid_delegation_rate}%</span>
                         </td>
                       </tr>
                       <tr>
@@ -437,7 +392,11 @@ const UserProfile = () => {
                           <span>Total Stake:</span>
                         </td>
                         <td>
-                          <span>{numberWithCommas(metrics?.stake_amount)}</span>
+                          <span>
+                            {numberWithCommas(
+                              currentUserNode?.bid_total_staked_amount
+                            )}
+                          </span>
                         </td>
                       </tr>
                       <tr>
@@ -446,7 +405,9 @@ const UserProfile = () => {
                         </td>
                         <td>
                           <span>
-                            {numberWithCommas(metrics?.self_staked_amount)}
+                            {numberWithCommas(
+                              currentUserNode?.bid_self_staked_amount
+                            )}
                           </span>
                         </td>
                       </tr>
@@ -455,7 +416,7 @@ const UserProfile = () => {
                 </StylesAdvanced>
                 <div className="flex gap-24 w-4/5">
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Uptime</span>
                       <img
                         className="pl-3"
@@ -465,33 +426,10 @@ const UserProfile = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">{`Average: ${
-                      metrics?.avg_uptime || 0
-                    }%`}</p>
-                    <ProgressBar value={metrics?.uptime} mask="x%" />
+                    <ProgressBar value={currentUserNode?.uptime} mask="x%" />
                   </div>
                   <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
-                      <span className="text-lg">Block Height</span>
-                      <img
-                        className="pl-3"
-                        width="10px"
-                        height="10px"
-                        src="/images/ic_feather_info.svg"
-                        alt="Info"
-                      />
-                    </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Current: {metrics?.blocks_behind} block behind
-                    </p>
-                    <ProgressBar
-                      value={metrics?.block_height}
-                      total={DEFAULT_BASE_BLOCKS}
-                      mask="x/y"
-                    />
-                  </div>
-                  <div className="flex-1 flex flex-col lg:py-1 2xl:py-2">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row mb-1">
                       <span className="text-lg">Update Responsiveness</span>
                       <img
                         className="pl-3"
@@ -501,14 +439,9 @@ const UserProfile = () => {
                         alt="Info"
                       />
                     </div>
-                    <p className="text-sm text-gray lg:mb-1 2xl:mb-2">
-                      Average:{' '}
-                      {generateTextForEras(metrics?.avg_update_responsiveness)}
-                    </p>
                     <ProgressBar
-                      value={metrics?.update_responsiveness}
-                      total={metrics?.max_update_responsiveness}
-                      mask=""
+                      value={currentUserNode?.update_responsiveness}
+                      mask="x%"
                       options={{
                         startText: 'Needs Improvement',
                         endText: 'Great',

@@ -104,43 +104,27 @@ export const PerksTable = ({ hideOff }) => {
   }, [hideOff]);
 
   const renderStartDate = row => {
-    if (row.start_date && row.start_time) {
+    if (row.time_begin) {
       return (
-        <>
-          <p>{`${formatDate(
-            `${row.start_date} ${row.start_time}`,
-            'dd/MM/yyyy'
-          )}`}</p>
-          <p>{`${formatDate(
-            `${row.start_date} ${row.start_time}`,
-            'HH:mm aa'
-          )} EST`}</p>
-        </>
+        <p className="truncate">
+          {formatDate(row.time_begin, 'dd/MM/yyyy')}
+          <br />
+          {formatDate(row.time_begin, 'HH:mm aa')}
+        </p>
       );
-    }
-    if (row.start_date) {
-      return `${formatDate(row.start_date, 'dd/MM/yyyy')}`;
     }
     return '';
   };
 
   const renderEndDate = row => {
-    if (row.end_date && row.end_time) {
+    if (row.time_end) {
       return (
-        <>
-          <p>{`${formatDate(
-            `${row.end_date} ${row.end_time}`,
-            'dd/MM/yyyy'
-          )}`}</p>
-          <p>{`${formatDate(
-            `${row.end_date} ${row.end_time}`,
-            'HH:mm aa'
-          )} EST`}</p>
-        </>
+        <p className="truncate">
+          {formatDate(row.time_end, 'dd/MM/yyyy')}
+          <br />
+          {formatDate(row.time_end, 'HH:mm aa')}
+        </p>
       );
-    }
-    if (row.end_date) {
-      return `${formatDate(row.end_date, 'dd/MM/yyyy')}`;
     }
     return '';
   };
@@ -249,7 +233,11 @@ export const PerksTable = ({ hideOff }) => {
                 <p>{row.id}</p>
               </Table.BodyCell>
               <Table.BodyCell key="body2">
-                <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+                <p className="truncate">
+                  {formatDate(row.created_at, 'dd/MM/yyyy')}
+                  <br />
+                  {formatDate(row.created_at, 'HH:mm aa')}
+                </p>
               </Table.BodyCell>
               <Table.BodyCell key="body3">
                 <p>{row.title}</p>

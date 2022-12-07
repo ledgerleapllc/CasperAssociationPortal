@@ -6,11 +6,7 @@ import styled from 'styled-components';
 import LayoutDashboard from '../../../components/layouts/layout-dashboard';
 import { Card, Table } from '../../../components/partials';
 import { getListMembers } from '../../../shared/redux-saga/admin/actions';
-import {
-  formatDate,
-  getShortNodeAddress,
-  numberWithCommas,
-} from '../../../shared/core/utils';
+import { formatDate, numberWithCommas } from '../../../shared/core/utils';
 import { useTable } from '../../../components/partials/table';
 import { LoadingScreen } from '../../../components/hoc/loading-screen';
 
@@ -70,24 +66,20 @@ const AdminUserList = () => {
     appendData,
     resetData,
     setHasMore,
-    page,
-    setPage,
     params,
     setParams,
   } = useTable();
   const dispatch = useDispatch();
 
-  const getMembers = (pageValue = page, paramsValue = params) => {
+  const getMembers = (paramsValue = params) => {
     dispatch(
       getListMembers(
         {
-          page: pageValue,
           ...paramsValue,
         },
-        (results, isHasMore) => {
-          setHasMore(isHasMore);
+        results => {
+          setHasMore(false);
           appendData(results);
-          setPage(prev => prev + 1);
         }
       )
     );
@@ -104,7 +96,7 @@ const AdminUserList = () => {
     };
     setParams(newParams);
     resetData();
-    getMembers(1, newParams);
+    getMembers(newParams);
   };
 
   return (
@@ -129,7 +121,7 @@ const AdminUserList = () => {
                 <Table
                   {...register}
                   className="users-table h-full"
-                  onLoadMore={getMembers}
+                  onLoadMore={() => {}}
                   hasMore={hasMore}
                   dataLength={data?.length}
                   onSort={handleSort}
@@ -162,24 +154,20 @@ const AdminUserList = () => {
                       <p>Entity Name</p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="full_name" sortKey="full_name">
-                      <p>First/Last Name</p>
+                      <p>First / Last Name</p>
                     </Table.HeaderCell>
-                    <Table.HeaderCell key="node_address">
-                      <p>Node Address</p>
-                    </Table.HeaderCell>
-                    <Table.HeaderCell
-                      key="self_staked_amount"
-                      sortKey="self_staked_amount"
-                    >
+                    <Table.HeaderCell key="self_staked_amount">
                       <p>
                         CSPR
-                        <br /> Delegated
+                        <br />
+                        Delegated
                       </p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="created_at" sortKey="created_at">
                       <p>
                         Registration
-                        <br /> Date
+                        <br />
+                        Date
                       </p>
                     </Table.HeaderCell>
                     <Table.HeaderCell key="details">
@@ -211,14 +199,11 @@ const AdminUserList = () => {
                             {row?.first_name} {row?.last_name}
                           </p>
                         </Table.BodyCell>
-                        <Table.BodyCell key="public_address">
-                          <p>{getShortNodeAddress(row?.public_address_node)}</p>
-                        </Table.BodyCell>
                         <Table.BodyCell key="self_staked_amount">
                           <p>{numberWithCommas(row.self_staked_amount)}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="created_at">
-                          <p>{`${formatDate(row?.created_at)}`}</p>
+                          <p>{formatDate(row?.created_at)}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="action_button">
                           <button

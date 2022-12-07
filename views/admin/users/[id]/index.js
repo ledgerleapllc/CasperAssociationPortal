@@ -1,92 +1,73 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-prototype-builtins */
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Switch from 'react-switch';
 import {
+  bypassKYC,
   getUserDetail,
-  getUserMetrics,
+  reactivateUser,
+  revokeUser,
   updateBlockAccess,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
-import { BackButton, Card } from '../../../../components/partials';
+import { BackButton, Card, Dropdown } from '../../../../components/partials';
 import Countries from '../../../../public/json/country.json';
 import { LoadingScreen } from '../../../../components/hoc/loading-screen';
-import IconCopy from '../../../../public/images/ic_copy.svg';
-import { useSnackBar } from '../../../../components/partials/snack-bar';
+import ArrowIcon from '../../../../public/images/ic_arrow_down.svg';
+import { numberWithCommas } from '../../../../shared/core/utils';
+import { AppContext } from '../../../../pages/_app';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
   const routerParams = useParams();
   const { id } = routerParams;
-  const userDetail = useSelector(state => state.userDetailReducer.data);
-  const { openSnack } = useSnackBar();
-
-  const [, setOverrideValue] = useState({
-    uptime: '',
-    block_height_average: '',
-    update_responsiveness: '',
-    peers: '',
-  });
-
-  const [metrics, setMetrics] = useState({
-    uptime: '0',
-    block_height_average: '0',
-    update_responsiveness: '0',
-    peers: '0',
-  });
-
+  const [userDetail, setUserDetail] = useState({});
   const [blockAccess, setBlockAccess] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [currentAddress, setCurrentAddress] = useState({});
+  const { setLoading } = useContext(AppContext);
 
   useEffect(() => {
     if (id) {
-      dispatch(getUserDetail(id));
+      setLoading(true);
       dispatch(
-        getUserMetrics(
-          { id },
+        getUserDetail(
+          id,
           res => {
-            setMetrics(
-              res || {
-                uptime: '0',
-                block_height_average: '0',
-                update_responsiveness: '0',
-                peers: '0',
+            setLoading(false);
+            setUserDetail(res);
+            const addressesTemp = res.addresses || [];
+            setAddresses(addressesTemp);
+            if (addressesTemp.length > 0) {
+              setCurrentAddress(addressesTemp[0]);
+            }
+            if (res.page_permissions) {
+              const permissions = res.page_permissions;
+              const blockAccessV = {
+                nodes: 0,
+                discussions: 0,
+                votes: 0,
+                perks: 0,
+              };
+              if (permissions && permissions.length > 0) {
+                permissions.forEach(permission => {
+                  blockAccessV[permission.name] = 1 - permission.is_permission;
+                });
               }
-            );
-            setOverrideValue({
-              uptime: +res.uptime ? +res.uptime : '',
-              block_height_average: +res.block_height_average
-                ? +res.block_height_average
-                : '',
-              update_responsiveness: +res.update_responsiveness
-                ? +res.update_responsiveness
-                : '',
-              peers: +res.peers ? +res.peers : '',
-            });
+              setBlockAccess(blockAccessV);
+            }
           },
-          () => {}
+          () => {
+            setLoading(false);
+          }
         )
       );
     }
   }, [id]);
-
-  useEffect(() => {
-    if (userDetail && userDetail.id && userDetail.page_permissions) {
-      const permissions = userDetail.page_permissions;
-      const blockAccessV = {
-        nodes: 0,
-        discussions: 0,
-        votes: 0,
-        perks: 0,
-      };
-      if (permissions && permissions.length > 0) {
-        permissions.forEach(permission => {
-          blockAccessV[permission.name] = 1 - permission.is_permission;
-        });
-      }
-      setBlockAccess(blockAccessV);
-    }
-  }, [userDetail]);
 
   const renderShuftiproStatus = () => {
     if (userDetail?.shuftipro && userDetail?.shuftipro?.id) {
@@ -121,14 +102,6 @@ const AdminUserDetail = () => {
     return 'Not Submitted';
   };
 
-  const copyClipboard = () => {
-    const copyText = document.getElementById('public-address');
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(copyText.value);
-    openSnack('primary', 'Copied Public Address!');
-  };
-
   const updateBlockAccessState = key => {
     if (!blockAccess || !blockAccess.hasOwnProperty(key)) return;
     const blockAccessV = JSON.parse(JSON.stringify(blockAccess));
@@ -145,6 +118,78 @@ const AdminUserDetail = () => {
         () => {}
       )
     );
+  };
+
+  const clickManualApprove = () => {
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      bypassKYC(
+        userDetail.id,
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const clickRevoke = e => {
+    e.preventDefault();
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      revokeUser(
+        { id: userDetail.id },
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const clickReactivate = e => {
+    e.preventDefault();
+    if (!userDetail || !userDetail.id) return;
+    setLoading(true);
+    dispatch(
+      reactivateUser(
+        { id: userDetail.id },
+        () => {
+          window.location.reload();
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const renderRevokeSection = () => {
+    if (
+      userDetail &&
+      userDetail.profile &&
+      userDetail.profile.status === 'approved'
+    ) {
+      if (userDetail.profile.extra_status !== 'Suspended') {
+        return (
+          <a className="text-sm underline text-primary" onClick={clickRevoke}>
+            Revoke
+          </a>
+        );
+      }
+      return (
+        <a className="text-sm underline text-primary" onClick={clickReactivate}>
+          Reactivate
+        </a>
+      );
+    }
+    return null;
   };
 
   return (
@@ -236,11 +281,12 @@ const AdminUserDetail = () => {
             </div>
           </div>
           <div className="flex-1 min-h-0 flex flex-col pt-8 overflow-y-scroll pr-card-tracker">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <p className="text-lg font-medium">Membership Status:</p>
-              <p className="text-lg font-medium pl-2">
+              <p className="text-lg font-medium pl-2 mr-5">
                 {userDetail?.membership_status}
               </p>
+              {renderRevokeSection()}
             </div>
             <div className="flex flex-row pb-7 border-b border-gray">
               <p className="text-lg font-medium">Node Status:</p>
@@ -320,46 +366,65 @@ const AdminUserDetail = () => {
             <div className="flex flex-col py-7 border-b border-gray">
               <p className="text-lg font-medium pb-5">Node Info</p>
               <div className="flex flex-col pb-5">
-                <p className="pb-4 text-sm font-medium w-full flex">
-                  <span
-                    style={{
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      textOverflow: 'ellipsis',
-                    }}
+                <div style={{ maxWidth: '500px' }}>
+                  <Dropdown
+                    className="mt-2 w-full"
+                    trigger={
+                      <div className="flex items-center gap-2">
+                        <p className="w-full relative h-6">
+                          <span className="text-sm truncate absolute inset-0">
+                            {currentAddress?.public_address_node}
+                          </span>
+                        </p>
+                        <ArrowIcon />
+                      </div>
+                    }
                   >
-                    {userDetail?.public_address_node}
-                  </span>
-                  <button
-                    className="ml-3"
-                    type="button"
-                    onClick={() => copyClipboard()}
-                  >
-                    <IconCopy />
-                  </button>
-                </p>
-                <input
-                  id="public-address"
-                  value={userDetail?.public_address_node || ''}
-                  readOnly
-                  hidden
-                />
+                    <ul>
+                      {addresses.map((address, index) => (
+                        <li
+                          className="p-2 hover:text-primary cursor-pointer"
+                          onClick={() => {
+                            setCurrentAddress(address);
+                          }}
+                          key={`node_${index}`}
+                        >
+                          <p className="w-full relative h-6">
+                            <span className="text-center text-base font-thin truncate absolute inset-0">
+                              {address?.public_address_node}
+                            </span>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Dropdown>
+                </div>
                 <div className="flex flex-row py-1 h-11 items-center">
                   <p className="text-sm font-medium w-1/6">Member Stake:</p>
                   <p className="text-sm w-5/6">
-                    {userDetail?.metric?.stake_amount || 0}
+                    {numberWithCommas(currentAddress?.bid_total_staked_amount)}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">Uptime:</p>
-                  <p className="text-sm w-1/6">{metrics?.uptime || 0}%</p>
+                  <p className="text-sm w-1/6">{currentAddress?.uptime}%</p>
+                </div>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">ERAs Active:</p>
+                  <p className="text-sm w-1/6">{currentAddress?.eras_active}</p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
                   <p className="text-sm font-medium w-1/6">
-                    Block height average:
+                    ERAs since Redmark:
                   </p>
                   <p className="text-sm w-1/6">
-                    {metrics?.current_block_height || 0} behind
+                    {currentAddress?.eras_since_bad_mark}
+                  </p>
+                </div>
+                <div className="flex items-center flex-row my-1 h-11">
+                  <p className="text-sm font-medium w-1/6">Total Redmarks:</p>
+                  <p className="text-sm w-1/6">
+                    {currentAddress?.total_bad_marks}
                   </p>
                 </div>
                 <div className="flex items-center flex-row my-1 h-11">
@@ -367,12 +432,8 @@ const AdminUserDetail = () => {
                     Update responsiveness:
                   </p>
                   <p className="text-sm w-1/6">
-                    {metrics?.update_responsiveness || 0} days early
+                    {currentAddress?.update_responsiveness}%
                   </p>
-                </div>
-                <div className="flex items-center flex-row mt-1 h-11">
-                  <p className="text-sm font-medium w-1/6">Peers:</p>
-                  <p className="text-sm w-1/6">{metrics?.peers || 0}</p>
                 </div>
               </div>
             </div>
@@ -384,6 +445,20 @@ const AdminUserDetail = () => {
                 </p>
                 <p className="text-sm w-5/6">{renderShuftiproStatus()}</p>
               </div>
+              {userDetail?.shuftipro?.status !== 'approved' ? (
+                <div className="flex flex-row mt-3 items-center">
+                  <p className="text-sm font-medium w-1/6">Manual KYC:</p>
+                  <div className="w-5/6">
+                    <button
+                      type="button"
+                      className="px-5 py-2 text-sm text-white rounded-full bg-primary shadow-md focus:outline-none hover:opacity-40"
+                      onClick={clickManualApprove}
+                    >
+                      Admin Approve
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

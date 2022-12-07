@@ -1,22 +1,7 @@
 import { put, takeLatest, takeEvery, all, delay } from 'redux-saga/effects';
 import qs from 'qs';
-import {
-  getListCategorySupportSuccess,
-  getListCategorySupportError,
-  getVoteDetailSuccess,
-  getVoteDetailError,
-} from './dashboard-actions';
 import { get, post, put as _put, destroy } from '../../core/saga-api';
 import { saveApiResponseError } from '../api-controller/actions';
-
-export function* getListDataDemo() {
-  try {
-    const res = [{ a: 'a', b: 'b' }];
-    yield put(getListCategorySupportSuccess(res));
-  } catch (error) {
-    yield put(getListCategorySupportError(error));
-  }
-}
 
 export function* getVotes({ payload, successCb }) {
   try {
@@ -46,6 +31,39 @@ export function* getMyVotes({ payload, successCb }) {
   }
 }
 
+export function* requestReactivation({ payload, resolve, reject }) {
+  try {
+    const endpoint = 'users/request-reactivation';
+    const res = yield post([endpoint], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* canRequestReactivation({ resolve, reject }) {
+  try {
+    const endpoint = 'users/can-request-reactivation';
+    const res = yield post([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getVoteStatus({ resolve, reject }) {
+  try {
+    const endpoint = 'users/can-vote';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* getVoteDetail({ payload, resolve, reject }) {
   try {
     const token = localStorage.getItem('ACCESS-TOKEN');
@@ -55,11 +73,9 @@ export function* getVoteDetail({ payload, resolve, reject }) {
     const res = yield get([`users/votes/${payload}`], {
       headers,
     });
-    yield put(getVoteDetailSuccess(res.data));
     resolve(res.data);
   } catch (error) {
     reject();
-    yield put(getVoteDetailError(error));
   }
 }
 
@@ -80,19 +96,6 @@ export function* publishDiscussion({ payload, resolve, reject }) {
     resolve(res.data);
   } catch (error) {
     reject(error);
-  }
-}
-
-export function* getVerifiedMembers({ payload, successCb }) {
-  try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`verified-members/all?${query}`]);
-    successCb(res.data?.data, res.data?.current_page < res.data?.last_page);
-  } catch (error) {
-    yield put(saveApiResponseError(error));
   }
 }
 
@@ -139,11 +142,31 @@ export function* getDraftDiscussions({ payload, resolve, reject }) {
   }
 }
 
+export function* deleteDiscussion({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy([`discussions/${payload.id}`], {});
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* deleteDraftDiscussion({ payload, resolve, reject }) {
   try {
     const res = yield destroy([`discussions/${payload.id}/draft`], {});
     resolve(res.data);
   } catch (error) {
+    reject(error);
+  }
+}
+
+export function* getMyERAs({ resolve, reject }) {
+  try {
+    const res = yield get([`users/get-my-eras`]);
+    resolve(res.data);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
     reject(error);
   }
 }
@@ -163,14 +186,10 @@ export function* getMyDiscussions({ payload, resolve, reject }) {
   }
 }
 
-export function* getTrendingDiscussions({ payload, resolve }) {
+export function* getTrendingDiscussions({ resolve }) {
   try {
-    const query = qs.stringify({
-      limit: payload.limit || 50,
-      page: payload.page,
-    });
-    const res = yield get([`discussions/trending?${query}`]);
-    resolve(res.data.data, res.data?.current_page < res.data?.last_page);
+    const res = yield get([`discussions/trending`]);
+    resolve(res.data);
   } catch (error) {
     yield put(saveApiResponseError(error));
   }
@@ -212,16 +231,6 @@ export function* setRemoveNewMark({ id }) {
   }
 }
 
-export function* getMemberCountInfo({ resolve, reject }) {
-  try {
-    const res = yield get([`member-count-info`]);
-    resolve(res.data);
-  } catch (error) {
-    reject();
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* getDiscussionDetail({ id, resolve, reject }) {
   try {
     const res = yield get([`discussions/detail/${id}`]);
@@ -246,6 +255,19 @@ export function* getDiscussionComments({ payload, resolve }) {
   }
 }
 
+export function* deleteDiscussionComment({ payload, resolve, reject }) {
+  try {
+    const res = yield destroy(
+      [`discussions/${payload.discussion_id}/comment/${payload.comment_id}`],
+      {}
+    );
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* postDiscussionComment({ payload, resolve, reject }) {
   try {
     let res;
@@ -259,7 +281,6 @@ export function* postDiscussionComment({ payload, resolve, reject }) {
         comment_id: payload.comment_id,
         description: payload.description,
       });
-
     resolve(res.data);
   } catch (error) {
     reject();
@@ -318,11 +339,43 @@ export function* uploadVerificationDocuments({ payload, resolve, reject }) {
   }
 }
 
-export function* getMyInfo({ resolve, reject }) {
+export function* getUserMembershipInfo({ resolve, reject }) {
   try {
-    const endpoint = 'users/profile';
+    const endpoint = 'users/get-membership-page';
     const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
 
+export function* getUserFullDashboard({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-dashboard';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getAdminNodesInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'admin/users/get-nodes-page';
+    const res = yield get([endpoint]);
+    resolve(res.data);
+  } catch (error) {
+    reject();
+    yield put(saveApiResponseError(error));
+  }
+}
+
+export function* getUserNodesInfo({ resolve, reject }) {
+  try {
+    const endpoint = 'users/get-nodes-page';
+    const res = yield get([endpoint]);
     resolve(res.data);
   } catch (error) {
     reject();
@@ -446,26 +499,6 @@ export function* viewedAttachDocument({ payload, resolve }) {
   }
 }
 
-export function* getEarningData({ payload, resolve, reject }) {
-  try {
-    const res = yield get([`/nodes/${payload.node}/earning`]);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
-export function* getEarningChart({ payload, resolve, reject }) {
-  try {
-    const res = yield get([`/nodes/${payload.node}/chart`]);
-    resolve(res.data);
-  } catch (error) {
-    reject(error);
-    yield put(saveApiResponseError(error));
-  }
-}
-
 export function* submitContactMessage({ payload, resolve, reject }) {
   try {
     const res = yield post([`/users/contact-us`], payload);
@@ -476,32 +509,48 @@ export function* submitContactMessage({ payload, resolve, reject }) {
   }
 }
 
+export function* completeUpgrade({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`/users/complete-upgrade`], payload);
+    resolve(res.data);
+  } catch (error) {
+    reject(error);
+    yield put(saveApiResponseError(error));
+  }
+}
+
 export function* watchDemoData() {
-  yield all([takeLatest('GET_DASHBOARD_DATA_DEMO', getListDataDemo)]);
   yield all([takeEvery('GET_VOTES', getVotes)]);
   yield all([takeEvery('GET_MY_VOTES', getMyVotes)]);
   yield all([takeLatest('GET_VOTE_DETAIL', getVoteDetail)]);
+  yield all([takeEvery('REQUEST_REACTIVATION', requestReactivation)]);
+  yield all([takeEvery('CAN_REQUEST_REACTIVATION', canRequestReactivation)]);
+  yield all([takeEvery('GET_VOTE_STATUS', getVoteStatus)]);
   yield all([takeLatest('PUBLISH_DISCUSSION', publishDiscussion)]);
   yield all([takeLatest('RECORD_VOTE', recordVote)]);
-  yield all([takeEvery('GET_VERIFIED_MEMBERS', getVerifiedMembers)]);
   yield all([takeEvery('GET_DISCUSSIONS', getDiscussions)]);
   yield all([takeEvery('GET_DISCUSSION_DETAIL', getDiscussionDetail)]);
-  yield all([takeEvery('GET_MEMBER_COUNT_INFO', getMemberCountInfo)]);
   yield all([takeEvery('GET_DISCUSSION_COMMENTS', getDiscussionComments)]);
   yield all([takeEvery('GET_PINNED_DISCUSSIONS', getPinnedDiscussions)]);
   yield all([takeEvery('GET_DRAFT_DISCUSSIONS', getDraftDiscussions)]);
+  yield all([takeEvery('DELETE_DISCUSSION', deleteDiscussion)]);
   yield all([takeEvery('DELETE_DRAFT_DISCUSSION', deleteDraftDiscussion)]);
   yield all([takeEvery('GET_MY_DISCUSSIONS', getMyDiscussions)]);
+  yield all([takeEvery('GET_MY_ERAS', getMyERAs)]);
   yield all([takeEvery('GET_TRENDING_DISCUSSIONS', getTrendingDiscussions)]);
   yield all([takeEvery('SET_DISCUSSION_PIN', setDiscussionPin)]);
   yield all([takeEvery('CREATE_DISCUSSION', createDiscussion)]);
   yield all([takeEvery('UPDATE_DISCUSSION', updateDiscussion)]);
   yield all([takeEvery('SET_REMOVE_NEW', setRemoveNewMark)]);
+  yield all([takeEvery('DELETE_DISCUSSION_COMMENT', deleteDiscussionComment)]);
   yield all([takeEvery('POST_DISCUSSION_COMMENT', postDiscussionComment)]);
   yield all([takeEvery('VOTE_DISCUSSION', voteDiscussion)]);
   yield all([takeEvery('SUBMIT_NODE', submitNode)]);
   yield all([takeEvery('SUBMIT_DETAIL', submitDetail)]);
-  yield all([takeEvery('GET_MY_INFO', getMyInfo)]);
+  yield all([takeEvery('GET_USER_FULL_DASHBOARD', getUserFullDashboard)]);
+  yield all([takeEvery('GET_USER_NODES_INFO', getUserNodesInfo)]);
+  yield all([takeEvery('GET_ADMIN_NODES_INFO', getAdminNodesInfo)]);
+  yield all([takeEvery('GET_USER_MEMBERSHIP_INFO', getUserMembershipInfo)]);
   yield all([takeEvery('UPLOAD_AVATAR', uploadAvatar)]);
   yield all([takeEvery('CHECK_PASSWORD', checkPassword)]);
   yield all([takeEvery('UPDATE_USER_SETTINGS', updateUserSettings)]);
@@ -514,7 +563,6 @@ export function* watchDemoData() {
   yield all([takeLatest('GET_LOCK_PAGE_CONDITIONS', getLockPageConditions)]);
   yield all([takeLatest('GET_PRICE_TOKEN_GRAPH_INFO', getPriceTokenGraphInfo)]);
   yield all([takeLatest('VIEWED_ATTACH_DOCUMENT', viewedAttachDocument)]);
-  yield all([takeLatest('GET_EARNING_DATA', getEarningData)]);
-  yield all([takeLatest('GET_EARNING_CHART', getEarningChart)]);
   yield all([takeLatest('SUBMIT_CONTACT_MESSAGE', submitContactMessage)]);
+  yield all([takeLatest('COMPLETE_UPGRADE', completeUpgrade)]);
 }

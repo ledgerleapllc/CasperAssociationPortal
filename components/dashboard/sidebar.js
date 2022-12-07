@@ -18,7 +18,10 @@ import ContactIcon from '../../public/images/ic_contact.svg';
 import VerificationIcon from '../../public/images/ic_check_mark.svg';
 import ShuftiIcon from '../../public/images/shufti.svg';
 import ListIcon from '../../public/images/ic_list.svg';
+import BallotsIcon from '../../public/images/ic_ballots.svg';
 import QuestionMarkIcon from '../../public/images/question-circle.svg';
+import ReinstatementIcon from '../../public/images/ic_refresh.svg';
+import UpgradesIcon from '../../public/images/upgrades.svg';
 import usePermissions from '../hooks/usePermissions';
 import { setCollapsed } from '../../shared/redux-saga/auth/actions';
 
@@ -50,6 +53,12 @@ const mainUserNavs = [
     path: '/dashboard/nodes',
   },
   {
+    key: 'my-eras',
+    icon: ListIcon,
+    label: 'My ERAs',
+    path: '/dashboard/my-eras',
+  },
+  {
     key: 'chat',
     icon: ChatIcon,
     label: 'discussions',
@@ -68,6 +77,12 @@ const mainUserNavs = [
     path: '/dashboard/perks',
   },
   {
+    key: 'upgrades',
+    icon: UpgradesIcon,
+    label: 'Upgrades',
+    path: '/dashboard/upgrades',
+  },
+  {
     key: 'contact',
     icon: ContactIcon,
     label: 'contact us',
@@ -77,7 +92,9 @@ const mainUserNavs = [
     key: 'question',
     icon: QuestionMarkIcon,
     label: 'get support',
-    path: '#',
+    path:
+      process.env.NEXT_PUBLIC_SUPPORT_URL ||
+      'https://members-staging.casper.network/faq',
   },
 ];
 
@@ -116,6 +133,12 @@ const adminNavs = [
     path: '/admin/intake',
   },
   {
+    key: 'reinstatement',
+    icon: ReinstatementIcon,
+    label: 'Reinstatement',
+    path: '/admin/reinstatement',
+  },
+  {
     key: 'users',
     icon: UserIcon,
     label: 'users',
@@ -123,7 +146,7 @@ const adminNavs = [
   },
   {
     key: 'ballots',
-    icon: ListIcon,
+    icon: BallotsIcon,
     label: 'ballots',
     path: '/admin/ballots',
   },
@@ -134,17 +157,28 @@ const adminNavs = [
     path: '/admin/perks',
   },
   {
+    key: 'upgrades',
+    icon: UpgradesIcon,
+    label: 'Upgrades',
+    path: '/admin/upgrades',
+  },
+  {
+    key: 'all-eras',
+    icon: ListIcon,
+    label: 'All ERAs',
+    path: '/admin/all-eras',
+  },
+  {
     key: 'teams',
     icon: AddUserIcon,
     label: 'teams',
     path: '/admin/teams',
   },
   {
-    key: 'setting',
+    key: 'globalsettings',
     icon: SettingIcon,
     label: 'global settings',
     path: '/admin/settings',
-    public: true,
   },
 ];
 
@@ -196,6 +230,35 @@ const Sidebar = () => {
     window.open(path, '_blank');
   };
 
+  const renderExtra = nav => {
+    if (
+      !isAdmin &&
+      nav.key === 'upgrades' &&
+      userInfo &&
+      userInfo.lastUpgrade &&
+      !userInfo.lastUpgrade.time_passed &&
+      !userInfo.lastUpgradeReply
+    ) {
+      return (
+        <span
+          className="flex items-center justify-center font-bold bg-primary text-white absolute"
+          style={{
+            top: 0,
+            right: '-24px',
+            width: '14px',
+            height: '14px',
+            borderRadius: '500rem',
+            fontSize: '7px',
+            lineHeight: 1,
+          }}
+        >
+          1
+        </span>
+      );
+    }
+    return null;
+  };
+
   return (
     <div id="dashboard-layoutSidebar" className={getClassName()}>
       <div id="dashboard-layoutSidebar__inner" className="p-6.25 pr-3">
@@ -212,19 +275,36 @@ const Sidebar = () => {
                 <></>
               ) : (
                 <li className="mb-6" key={index}>
-                  <ActiveLink
-                    activeClassName="text-primary active-link"
-                    to={nav.path}
-                  >
-                    <div className="relative flex text-base">
-                      <div
-                        className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
-                        style={{ left: '-1.5625rem' }}
-                      />
-                      <nav.icon width="1.5rem" height="1.5rem" />
-                      <span className="capitalize pl-5">{nav.label}</span>
-                    </div>
-                  </ActiveLink>
+                  {nav.path &&
+                  (nav.path.startsWith('https://') ||
+                    nav.path.startsWith('http://')) ? (
+                    <a href={nav.path} target="_blank" rel="noreferrer">
+                      <div className="relative flex text-base">
+                        <div
+                          className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                          style={{ left: '-1.5625rem' }}
+                        />
+                        <nav.icon width="1.5rem" height="1.5rem" />
+                        <span className="capitalize pl-5">{nav.label}</span>
+                      </div>
+                    </a>
+                  ) : (
+                    <ActiveLink
+                      activeClassName="text-primary active-link"
+                      to={nav.path}
+                    >
+                      <div className="relative flex text-base">
+                        <div
+                          className="line-hr hidden absolute w-1 -top-1 -bottom-1 bg-primary"
+                          style={{ left: '-1.5625rem' }}
+                        />
+                        <nav.icon width="1.5rem" height="1.5rem" />
+                        <span className="capitalize relative pl-5">
+                          {nav.label} {renderExtra(nav)}
+                        </span>
+                      </div>
+                    </ActiveLink>
+                  )}
                 </li>
               )}
             </Fragment>

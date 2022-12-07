@@ -8,6 +8,7 @@ import {
 import { LoadingScreen } from '../components/hoc/loading-screen';
 
 const LandingView = lazy(() => import('../views/landing'));
+const FAQView = lazy(() => import('../views/faq'));
 const PrivacyPolicyView = lazy(() => import('../views/privacy-policy'));
 const HomeView = lazy(() => import('../views/home'));
 const LoginView = lazy(() => import('../views/login'));
@@ -19,7 +20,7 @@ const RegisterIndividualView = lazy(() =>
 );
 const RegisterEntityView = lazy(() => import('../views/register-entity'));
 const VerifyEmailView = lazy(() => import('../views/verify-email'));
-const UpdateEmailView = lazy(() => import('../views/update-email'));
+// const UpdateEmailView = lazy(() => import('../views/update-email'));
 const UpdatePasswordView = lazy(() => import('../views/update-password'));
 const RegisterSubAdminView = lazy(() => import('../views/register-sub-admin'));
 const OnboardView = lazy(() => import('../views/onboard/index'));
@@ -42,8 +43,16 @@ const DonateView = lazy(() => import('../views/donate/index'));
 const AdminDashboardView = lazy(() => import('../views/admin/dashboard'));
 const AdminTeamsView = lazy(() => import('../views/admin/teams'));
 const AdminIntakeView = lazy(() => import('../views/admin/intake/index'));
+const AdminReinstatementView = lazy(() =>
+  import('../views/admin/reinstatement')
+);
 const AdminIntakeVerificationDetailView = lazy(() =>
   import('../views/admin/intake/verification/[id]/index')
+);
+const AdminUpgradesView = lazy(() => import('../views/admin/upgrades/index'));
+const AdminUpgradesAddView = lazy(() => import('../views/admin/upgrades/add'));
+const AdminUpgradesEditView = lazy(() =>
+  import('../views/admin/upgrades/edit/[id]')
 );
 const AdminUsersView = lazy(() => import('../views/admin/users/index'));
 const AdminUsersDetailView = lazy(() =>
@@ -68,6 +77,7 @@ const AdminAddPerksView = lazy(() => import('../views/admin/perks/add'));
 const AdminPerksDetailView = lazy(() =>
   import('../views/admin/perks/detail/[id]/index')
 );
+const AdminAllERAsView = lazy(() => import('../views/admin/all-eras'));
 const AdminSettingsView = lazy(() => import('../views/admin/settings/index'));
 const AdminSettingsEmailerView = lazy(() =>
   import('../views/admin/settings/emailer')
@@ -96,6 +106,7 @@ const DashboardNodesView = lazy(() => import('../views/dashboard/nodes'));
 const DashboardNodesNewView = lazy(() =>
   import('../views/dashboard/nodes/new')
 );
+const DashboardMyERAsView = lazy(() => import('../views/dashboard/my-eras'));
 const DashboardDiscussionView = lazy(() =>
   import('../views/dashboard/discussion/index')
 );
@@ -108,6 +119,7 @@ const DashboardDiscussionDetailView = lazy(() =>
 const DashboardDiscussionEditView = lazy(() =>
   import('../views/dashboard/discussion/edit/[id]')
 );
+const DashboardUpgradesView = lazy(() => import('../views/dashboard/upgrades'));
 const DashboardContactUsView = lazy(() =>
   import('../views/dashboard/contact-us')
 );
@@ -122,29 +134,38 @@ const DashboardProfileView = lazy(() =>
 const DashboardProfileDetailView = lazy(() =>
   import('../views/dashboard/profile/[id]')
 );
+/*
 const ChangeEmailCancelView = lazy(() =>
   import('../views/change-email/cancel-changes')
 );
+*/
+/*
 const ChangeEmailConfirmView = lazy(() =>
   import('../views/change-email/confirm')
 );
+*/
 
 const LandingPage = () => (
   <Router>
     <Suspense fallback={null}>
       <Switch>
         <Route path="/" exact component={LandingView} />
+        <Route path="/faq" exact component={FAQView} />
         <Route path="/privacy-policy" exact component={PrivacyPolicyView} />
+        {/*
         <Route
           path="/change-email/cancel-changes"
           exact
           component={ChangeEmailCancelView}
         />
+        */}
+        {/*
         <Route
           path="/change-email/confirm"
           exact
           component={ChangeEmailConfirmView}
         />
+        */}
         <Route path="/donate" exact component={DonateView} />
         <Route
           path="/validator-selection-tool"
@@ -167,7 +188,7 @@ const LandingPage = () => (
         <Route path="/register-entity" exact component={RegisterEntityView} />
         <Route path="/reset-password" exact component={ResetPasswordView} />
         <Route path="/verify-email" exact component={VerifyEmailView} />
-        <Route path="/update-email" exact component={UpdateEmailView} />
+        {/* <Route path="/update-email" exact component={UpdateEmailView} /> */}
         <Route path="/update-password" exact component={UpdatePasswordView} />
         <Route
           path="/register-sub-admin"
@@ -198,9 +219,25 @@ const LandingPage = () => (
         <Route path="/admin/teams" exact component={AdminTeamsView} />
         <Route path="/admin/intake" exact component={AdminIntakeView} />
         <Route
+          path="/admin/reinstatement"
+          exact
+          component={AdminReinstatementView}
+        />
+        <Route
           path="/admin/intake/verification/:id"
           exact
           component={AdminIntakeVerificationDetailView}
+        />
+        <Route path="/admin/upgrades" exact component={AdminUpgradesView} />
+        <Route
+          path="/admin/upgrades/add"
+          exact
+          component={AdminUpgradesAddView}
+        />
+        <Route
+          path="/admin/upgrades/edit/:id"
+          exact
+          component={AdminUpgradesEditView}
         />
         <Route path="/admin/users" exact component={AdminUsersView} />
         <Route path="/admin/users/:id" exact component={AdminUsersDetailView} />
@@ -230,6 +267,7 @@ const LandingPage = () => (
           exact
           component={AdminBallotsDetailCurrentVotesView}
         />
+        <Route path="/admin/all-eras" exact component={AdminAllERAsView} />
         <Route path="/admin/perks" exact component={AdminPerksView} />
         <Route path="/admin/perks/add" exact component={AdminAddPerksView} />
         <Route
@@ -282,6 +320,11 @@ const LandingPage = () => (
         />
         <Route path="/dashboard/nodes" exact component={DashboardNodesView} />
         <Route
+          path="/dashboard/my-eras"
+          exact
+          component={DashboardMyERAsView}
+        />
+        <Route
           path="/dashboard/discussion"
           exact
           component={DashboardDiscussionView}
@@ -300,6 +343,11 @@ const LandingPage = () => (
           path="/dashboard/discussion/edit/:id"
           exact
           component={DashboardDiscussionEditView}
+        />
+        <Route
+          path="/dashboard/upgrades"
+          exact
+          component={DashboardUpgradesView}
         />
         <Route
           path="/dashboard/contact-us"

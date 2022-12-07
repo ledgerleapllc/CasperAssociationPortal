@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
+import { getDateObject } from '../../../../shared/core/utils';
 import { Button, ClockBar } from '../../../partials';
 
 export const PerkCard = ({ perk }) => {
   const renderTimeRemaining = () => {
-    const end_date = new Date(perk?.end_date);
+    const end_date = getDateObject(perk?.time_end);
     if (end_date.getTime() > new Date().getTime()) {
       return (
         <div className="flex text-primary text-xs pb-6">
           <span className="pr-1">Time Remaining:</span>
           <ClockBar
-            startTime={new Date(perk?.start_date)}
-            endTime={new Date(perk?.end_date)}
+            startTime={getDateObject(perk?.time_begin)}
+            endTime={getDateObject(perk?.time_end)}
             hideProgressBar
           />
         </div>
@@ -30,7 +31,7 @@ export const PerkCard = ({ perk }) => {
         {perk?.image?.url ? (
           <img
             className="object-cover w-full h-full bg-gray1"
-            src={perk?.image?.url || ''}
+            src={perk?.image?.url}
             alt=""
           />
         ) : (
@@ -42,7 +43,7 @@ export const PerkCard = ({ perk }) => {
           <h4 className="text-base font-bold pt-4 line-clamp-2">
             {perk?.title}
           </h4>
-          {perk?.start_date && perk?.end_date && renderTimeRemaining()}
+          {perk?.time_begin && perk?.time_end && renderTimeRemaining()}
         </div>
         <div className="h-1/3">
           <Link to={`${perk?.id ? `/dashboard/perks/${perk.id}` : ''}`}>

@@ -1,50 +1,62 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useContext, useEffect, useRef, useState } from 'react';
+/* eslint-disable react/button-has-type */
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import MenuIcon from '@material-ui/icons/Menu';
 import { LoadingScreen } from '../components/hoc/loading-screen';
-import { contactUsFromGuest } from '../shared/redux-saga/auth/actions';
+import {
+  contactUsFromGuest,
+  submitUpgradeList,
+} from '../shared/redux-saga/auth/actions';
 import { AppContext } from '../pages/_app';
 import { useSnackBar } from '../components/partials/snack-bar';
 import { EMAIL_PATTERN } from '../helpers/form-validation';
+import LandingHeader from '../components/layouts/landing-header';
+import LandingFooter from '../components/layouts/landing-footer';
 
 const Landing = () => {
-  const aboutRef = useRef();
-  const toolsRef = useRef();
   const { formState, register, handleSubmit, reset } = useForm({
     mode: 'onBlur',
   });
   const dispatch = useDispatch();
   const { setLoading } = useContext(AppContext);
+  const [emailAddress, setEmailAddress] = useState('');
+  const [processing, setProcessing] = useState(false);
   const { openSnack } = useSnackBar();
-  const [showMenu, setShowMenu] = useState(false);
-  const [isStickyMenu, setMenuSticky] = useState(false);
 
-  const manageNav = () => {
-    const $elem = document.documentElement;
-    const limit = $elem.scrollTop;
-    if (limit > 90) {
-      setMenuSticky(true);
-    } else {
-      setMenuSticky(false);
+  const scrollToAnchor = id => {
+    const element = document.getElementById(`c-section-${id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', manageNav, false);
-    document.body.classList.add('bg-landing');
-    return () => {
-      document.body.classList.remove('bg-landing');
-      return window.removeEventListener('scroll', manageNav);
-    };
-  }, []);
-
-  const scrollToAnchor = ref => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
+  const clickNotify = e => {
+    e.preventDefault();
+    if (!processing && EMAIL_PATTERN.test(emailAddress)) {
+      setLoading(true);
+      setProcessing(true);
+      dispatch(
+        submitUpgradeList(
+          {
+            email: emailAddress,
+          },
+          () => {
+            setLoading(false);
+            setProcessing(false);
+            setEmailAddress('');
+            openSnack(
+              'primary',
+              "You've been added to our upgrade list successfully!"
+            );
+          },
+          () => {
+            setLoading(false);
+            setProcessing(false);
+          }
+        )
+      );
+    }
   };
 
   const onSubmit = data => {
@@ -64,58 +76,15 @@ const Landing = () => {
     );
   };
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
   return (
     <div
       id="landing-page__home"
       className="text-white min-h-screen overflow-x-hidden landing-page"
     >
-      <div id="custom-nav-wrap">
-        <div id="custom-nav-burger">
-          <div onClick={toggleMenu}>
-            <MenuIcon />
-          </div>
-        </div>
-        <nav
-          className={`relative w-full flex justify-center text-white text-center ${
-            showMenu ? 'active' : ''
-          } ${isStickyMenu ? 'sticky' : ''}`}
-          id="custom-nav-bar"
-        >
-          <ul
-            className="flex gap-24"
-            style={{ position: 'relative', zIndex: 1 }}
-          >
-            <li onClick={() => scrollToAnchor(aboutRef)}>
-              <a>About</a>
-            </li>
-            <li onClick={() => scrollToAnchor(toolsRef)}>
-              <a>Tools</a>
-            </li>
-            <li>
-              <Link to="/validator-selection-tool">Validator Tool</Link>
-            </li>
-            <li>
-              <Link to="/login">Login / Register</Link>
-            </li>
-          </ul>
-          <div
-            className="absolute linear right-0 top-0 transform translate-x-1/2 -translate-y-1/2"
-            style={{ width: '40rem', height: '40rem', filter: 'blur(10rem)' }}
-          />
-        </nav>
-      </div>
+      <LandingHeader isHome />
       <section className="pt-52 flex flex-col justify-center">
         <div id="landing-page__hero" className="mb-32">
           <h1 className="text-center">Casper Association Portal</h1>
-          {/* <p className="text-center">
-            Keep track of the status of your validator node(s) in one place. See
-            rewards, uptime, stake amount, delegator count and much more.
-            Available to all node operators.
-          </p> */}
           <p className="text-center">
             Trusted members of the Association will be able to participate in
             perks as a part of the Association Membership. By verifying your
@@ -128,7 +97,7 @@ const Landing = () => {
             <button
               type="button"
               className="w-52 h-16 border-2 border-landing1"
-              onClick={() => scrollToAnchor(aboutRef)}
+              onClick={() => scrollToAnchor('about')}
             >
               Learn More
             </button>
@@ -143,7 +112,7 @@ const Landing = () => {
           </div>
         </div>
         <div
-          ref={aboutRef}
+          id="c-section-about"
           className="relative pb-20 custom-container text-center"
         >
           <div
@@ -162,6 +131,25 @@ const Landing = () => {
           />
         </div>
       </section>
+      <section id="landing-page__upgradeSection">
+        <div className="flex flex-col justify-start items-center">
+          <h3 className="text-center">Never miss another upgrade</h3>
+          <p className="text-center">{`
+            Sign up and get notified when new upgrades for your node are available.
+          `}</p>
+          <div className="flex">
+            <input
+              className="bg-white border-0 text-gray"
+              placeholder="Email Address"
+              value={emailAddress}
+              onChange={e => setEmailAddress(e.target.value)}
+            />
+            <button className="bg-landing1" onClick={clickNotify}>
+              Notify Me
+            </button>
+          </div>
+        </div>
+      </section>
       <section
         className="custom-container flex flex-col items-center text-center"
         id="landing-page__home__h3Section"
@@ -178,9 +166,8 @@ const Landing = () => {
         </p>
       </section>
       <section
-        ref={toolsRef}
         className="custom-container flex flex-col items-center"
-        id="landing-page__section"
+        id="c-section-tools"
       >
         <div className="flex flex-col" style={{ width: '100%' }}>
           <div
@@ -203,14 +190,6 @@ const Landing = () => {
                 <li>
                   <span />
                   <p>Uptime</p>
-                </li>
-                <li>
-                  <span />
-                  <p>Block Height</p>
-                </li>
-                <li>
-                  <span />
-                  <p>Peers</p>
                 </li>
                 <li>
                   <span />
@@ -348,22 +327,7 @@ const Landing = () => {
           </button>
         </form>
       </section>
-      <footer className="bg-landing2 relative w-full flex justify-center text-white text-center h-24">
-        <ul className="flex items-center gap-24">
-          <li onClick={() => scrollToAnchor(aboutRef)}>
-            <a>About</a>
-          </li>
-          <li onClick={() => scrollToAnchor(toolsRef)}>
-            <a>Tools</a>
-          </li>
-          <li>
-            <Link to="/validator-selection-tool">Validator Tool</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-        </ul>
-      </footer>
+      <LandingFooter isHome />
     </div>
   );
 };

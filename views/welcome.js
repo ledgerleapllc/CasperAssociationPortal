@@ -85,6 +85,17 @@ const Welcome = () => {
             </div>
             <div className="flex mt-5 w-full">
               <img
+                src="/images/letter.png"
+                alt="letter"
+                width={16}
+                height={20}
+              />
+              <p className="text-xs lg:text-sm text-dark1 ml-5">
+                Upload a letter of motivation.
+              </p>
+            </div>
+            <div className="flex mt-5 w-full">
+              <img
                 src="/images/ic_user.svg"
                 alt="user"
                 width={16}

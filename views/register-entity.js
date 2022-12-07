@@ -10,7 +10,7 @@ import AppHeader from '../components/layouts/app-header';
 import AppFooter from '../components/layouts/app-footer';
 import Countries from '../public/json/country.json';
 import {
-  NAME_PATTERN,
+  // NAME_PATTERN,
   EMAIL_PATTERN,
   PASSWORD_PATTERN,
   FORUM_PATTERN,
@@ -120,7 +120,9 @@ const RegisterEntity = () => {
     }
     let validatorAddress = data.validatorAddress || '';
     validatorAddress = validatorAddress.toLowerCase();
+    setIsSubmitting(true);
     const verifyResponse = await checkVAddress(validatorAddress);
+    setIsSubmitting(false);
     if (verifyResponse) {
       setIsSubmitting(true);
       dispatch(
@@ -145,7 +147,7 @@ const RegisterEntity = () => {
   const watchEntityType = watch('entityType');
 
   const validateFields = () => {
-    if (!agreeChecked || !understandChecked || !newsletterChecked) {
+    if (!agreeChecked || !understandChecked) {
       return false;
     }
     return true;
@@ -213,10 +215,12 @@ const RegisterEntity = () => {
                       name="entityName"
                       {...register('entityName', {
                         required: 'Entity name is required',
+                        /*
                         pattern: {
                           message: 'Entity name is invalid',
                           value: ENTITY_PATTERN,
                         },
+                        */
                       })}
                     />
                     {formState.errors?.entityName && (
@@ -338,10 +342,12 @@ const RegisterEntity = () => {
                       name="firstName"
                       {...register('firstName', {
                         required: 'First name is required',
+                        /*
                         pattern: {
                           message: 'First name is invalid',
                           value: NAME_PATTERN,
                         },
+                        */
                       })}
                     />
                     {formState.errors?.firstName && (
@@ -358,10 +364,12 @@ const RegisterEntity = () => {
                       name="lastName"
                       {...register('lastName', {
                         required: 'Last name is required',
+                        /*
                         pattern: {
                           message: 'Last name is invalid',
                           value: NAME_PATTERN,
                         },
+                        */
                       })}
                     />
                     {formState.errors?.lastName && (

@@ -16,13 +16,6 @@ export const saveShuftiproTemp = payload => ({
   payload,
 });
 
-export const updateShuftiproTemp = (payload, resolve, reject) => ({
-  type: 'UPDATE_SHUFTI',
-  payload,
-  resolve,
-  reject,
-});
-
 export const deleteShuftiproTemp = (payload, resolve, reject) => ({
   type: 'DELETE_SHUFTI',
   payload,
@@ -85,29 +78,6 @@ export const uploadLetterSuccess = payload => ({
 export const uploadLetterError = payload => ({
   type: 'UPLOAD_LETTER_ERROR',
   payload,
-});
-
-export const getOwnerNodes = () => ({
-  type: 'GET_OWNER_NODES',
-});
-
-export const getOwnerNodesSuccess = payload => ({
-  type: 'GET_OWNER_NODES_SUCCESS',
-  payload,
-});
-
-export const getOwnerNodesError = payload => ({
-  type: 'GET_OWNER_NODES_ERROR',
-  payload,
-});
-
-export const resendEmailOwnerNodes = payload => ({
-  type: 'RESEND_EMAIL_OWNER_NODES',
-  payload,
-});
-
-export const clearOwnerNodes = () => ({
-  type: 'CLEAR_OWNER_NODES',
 });
 
 export const clearLetter = () => ({

@@ -9,14 +9,14 @@ import ReactLoading from 'react-loading';
 import AppFooter from '../components/layouts/app-footer';
 import AppHeader from '../components/layouts/app-header';
 import {
-  NAME_PATTERN,
+  // NAME_PATTERN,
   EMAIL_PATTERN,
   PASSWORD_PATTERN,
   FORUM_PATTERN,
   TELEGRAM_PATTERN,
   DIGITIZED_PATTERN,
   SPECIAL_CHARACTER_PATTERN,
-  FIRSTNAME_PATTERN,
+  // FIRSTNAME_PATTERN,
 } from '../helpers/form-validation';
 import { LoadingButton } from '../components/partials';
 import { registerIndividual } from '../shared/redux-saga/auth/actions';
@@ -87,7 +87,9 @@ const RegisterIndividual = () => {
     }
     let validatorAddress = data.validatorAddress || '';
     validatorAddress = validatorAddress.toLowerCase();
+    setIsSubmitting(true);
     const verifyResponse = await checkVAddress(validatorAddress);
+    setIsSubmitting(false);
     if (verifyResponse) {
       setIsSubmitting(true);
       dispatch(
@@ -109,7 +111,7 @@ const RegisterIndividual = () => {
   };
 
   const validateFields = () => {
-    if (!agreeChecked || !understandChecked || !newsletterChecked) {
+    if (!agreeChecked || !understandChecked) {
       return false;
     }
     return true;
@@ -177,11 +179,13 @@ const RegisterIndividual = () => {
                       name="firstName"
                       {...register('firstName', {
                         required: 'First name is required',
+                        /*
                         pattern: {
                           message:
                             'First name cannot contain numbers or special characters',
                           value: FIRSTNAME_PATTERN,
                         },
+                        */
                       })}
                     />
                     {formState.errors?.firstName && (
@@ -198,11 +202,13 @@ const RegisterIndividual = () => {
                       name="lastName"
                       {...register('lastName', {
                         required: 'Last name is required',
+                        /*
                         pattern: {
                           message:
                             'Last name cannot contain numbers or special characters',
                           value: NAME_PATTERN,
                         },
+                        */
                       })}
                     />
                     {formState.errors?.lastName && (

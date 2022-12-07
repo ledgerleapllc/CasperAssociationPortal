@@ -17,7 +17,7 @@ import {
   getBallotDetail,
   getBallotVotes,
 } from '../../../../../shared/redux-saga/admin/actions';
-import { formatDate } from '../../../../../shared/core/utils';
+import { formatDate, getDateObject } from '../../../../../shared/core/utils';
 
 const Styles = styled.div`
   .active-ballot-table {
@@ -95,27 +95,16 @@ const AdminActiveBallotCurrentVotes = () => {
   }, [id]);
 
   const renderTimer = () => {
-    if (
-      ballot?.start_date &&
-      ballot?.start_time &&
-      ballot?.end_date &&
-      ballot?.end_time
-    ) {
+    if (ballot?.time_begin && ballot?.time_end) {
       return (
         <ClockBar
           className="w-40"
-          endTime={new Date(`${ballot?.end_date} ${ballot?.end_time}`)}
-          startTime={new Date(`${ballot?.start_date} ${ballot?.start_time}`)}
+          endTime={getDateObject(ballot.time_end)}
+          startTime={getDateObject(ballot.time_begin)}
         />
       );
     }
-    return (
-      <ClockBar
-        className="w-40"
-        endTime={new Date(ballot?.time_end)}
-        startTime={new Date(ballot?.created_at)}
-      />
-    );
+    return null;
   };
 
   return (
@@ -154,11 +143,7 @@ const AdminActiveBallotCurrentVotes = () => {
                     </td>
                     <td valign="top">
                       <span>
-                        {formatDate(
-                          ballot?.created_at,
-                          'dd/MM/yyyy - hh:mm aaa'
-                        )}
-                        {' EST'}
+                        {formatDate(ballot?.created_at, 'dd/MM/yyyy HH:mm aa')}
                       </span>
                     </td>
                   </tr>
@@ -260,8 +245,11 @@ const AdminActiveBallotCurrentVotes = () => {
                         </p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body3">
-                        <p>{`${formatDate(row.created_at, 'hh:mmaaa')}`}</p>
-                        <p>{`${formatDate(row.created_at, 'dd/MM/yyyy')}`}</p>
+                        <p className="truncate">
+                          {formatDate(row.created_at, 'dd/MM/yyyy')}
+                          <br />
+                          {formatDate(row.created_at, 'HH:mm aa')}
+                        </p>
                       </Table.BodyCell>
                       <Table.BodyCell key="body4">
                         <StatusText className="capitalize" content={row.type} />

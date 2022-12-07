@@ -146,16 +146,16 @@ export const ViewLogsTable = ({ idList }) => {
                   <p className="truncate">{row.user?.email}</p>
                 </Table.BodyCell>
                 <Table.BodyCell key="first_view_at">
-                  <p>{row.first_view_at || ''}</p>
+                  <p>{row?.first_view_at}</p>
                 </Table.BodyCell>
                 <Table.BodyCell key="dismissed_at">
-                  <p>{row.dismissed_at || ''}</p>
+                  <p>{row?.dismissed_at}</p>
                 </Table.BodyCell>
                 <Table.BodyCell key="cta_click_at">
-                  <p>{row.cta_click_at || ''}</p>
+                  <p>{row?.cta_click_at}</p>
                 </Table.BodyCell>
                 <Table.BodyCell key="cta_click_count">
-                  <p>{row.cta_click_count || 0}</p>
+                  <p>{row?.cta_click_count}</p>
                 </Table.BodyCell>
               </Table.BodyRow>
             ))}
