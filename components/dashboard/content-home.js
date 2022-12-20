@@ -180,6 +180,7 @@ const ContentHome = ({ dashboardData }) => {
 
       if (
         userInfo?.reset_kyc &&
+        !userInfo?.approve_at &&
         !['admin', 'sub-admin'].includes(userInfo?.role)
       ) {
         _alerts.push({
