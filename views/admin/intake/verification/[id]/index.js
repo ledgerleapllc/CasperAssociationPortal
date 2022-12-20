@@ -91,7 +91,7 @@ const AdminIntakeVerificationDetail = () => {
       approveDocuments(
         { id },
         () => {
-          setConfirmationInfoAt(new Date());
+          setConfirmationInfoAt(new Date().toISOString());
           setLoadingConfirmDocs(false);
         },
         () => {
