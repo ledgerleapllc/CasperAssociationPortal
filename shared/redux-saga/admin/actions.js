@@ -25,6 +25,13 @@ export const getUserDetail = (payload, resolve, reject) => ({
   reject,
 });
 
+export const updateCMPStatus = (payload, resolve, reject) => ({
+  type: 'UPDATE_CMP_STATUS',
+  payload,
+  resolve,
+  reject,
+});
+
 export const updateBlockAccess = (payload, resolve, reject) => ({
   type: 'UPDATE_BLOCK_ACCESS',
   payload,

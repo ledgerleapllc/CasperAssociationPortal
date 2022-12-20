@@ -12,6 +12,7 @@ import {
   reactivateUser,
   revokeUser,
   updateBlockAccess,
+  updateCMPStatus,
 } from '../../../../shared/redux-saga/admin/actions';
 import LayoutDashboard from '../../../../components/layouts/layout-dashboard';
 import { BackButton, Card, Dropdown } from '../../../../components/partials';
@@ -20,6 +21,7 @@ import { LoadingScreen } from '../../../../components/hoc/loading-screen';
 import ArrowIcon from '../../../../public/images/ic_arrow_down.svg';
 import { numberWithCommas } from '../../../../shared/core/utils';
 import { AppContext } from '../../../../pages/_app';
+import { useDialog } from '../../../../components/partials/dialog';
 
 const AdminUserDetail = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const AdminUserDetail = () => {
   const [addresses, setAddresses] = useState([]);
   const [currentAddress, setCurrentAddress] = useState({});
   const { setLoading } = useContext(AppContext);
+  const { setDialog } = useDialog();
 
   useEffect(() => {
     if (id) {
@@ -190,6 +193,48 @@ const AdminUserDetail = () => {
       );
     }
     return null;
+  };
+
+  const handleUpdateCMPStatus = status => {
+    setLoading(true);
+    dispatch(
+      updateCMPStatus(
+        {
+          userId: userDetail.id,
+          value: status ? 1 : 0,
+        },
+        () => {
+          setLoading(false);
+          setUserDetail({
+            ...userDetail,
+            cmp_check: status ? 1 : 0,
+          });
+        },
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
+
+  const changeCMPSwitch = status => {
+    if (!status) {
+      setDialog({
+        type: 'DialogConfirm',
+        data: {
+          title: `Are you sure you want to uncheck this user's CMP validation?`,
+          ok: 'Confirm',
+          cancel: 'Cancel',
+        },
+        afterClosed: confirm => {
+          if (confirm) {
+            handleUpdateCMPStatus(status);
+          }
+        },
+      });
+    } else {
+      handleUpdateCMPStatus(status);
+    }
   };
 
   return (
@@ -444,6 +489,22 @@ const AdminUserDetail = () => {
                   User KYC/AML Status:
                 </p>
                 <p className="text-sm w-5/6">{renderShuftiproStatus()}</p>
+              </div>
+              <div className="flex flex-row mt-3">
+                <p className="text-sm font-medium w-1/6">Checked by CMP:</p>
+                <div className="text-sm w-5/6">
+                  <Switch
+                    id="cmp_status"
+                    checked={!!(userDetail.cmp_check || 0)}
+                    onChange={changeCMPSwitch}
+                    checkedIcon={null}
+                    uncheckedIcon={null}
+                    offColor="#bbb"
+                    onColor="#ff474e"
+                    height={18}
+                    width={40}
+                  />
+                </div>
               </div>
               {userDetail?.shuftipro?.status !== 'approved' ? (
                 <div className="flex flex-row mt-3 items-center">
