@@ -699,6 +699,16 @@ export function* bypassKYC({ userId, resolve, reject }) {
   }
 }
 
+export function* updateCMPStatus({ payload, resolve, reject }) {
+  try {
+    const res = yield post([`admin/cmp-status`], payload);
+    resolve(res);
+  } catch (error) {
+    yield put(saveApiResponseError(error));
+    reject(error);
+  }
+}
+
 export function* updateBlockAccess({ payload, resolve, reject }) {
   try {
     const res = yield post([`admin/block-access`], payload);
@@ -983,6 +993,7 @@ export function* watchAdmin() {
   ]);
   yield all([takeLatest('UPDATE_GLOBAL_SETTINGS', updateGlobalSettings)]);
   yield all([takeLatest('UPDATE_BLOCK_ACCESS', updateBlockAccess)]);
+  yield all([takeLatest('UPDATE_CMP_STATUS', updateCMPStatus)]);
   yield all([takeLatest('BYPASS_KYC', bypassKYC)]);
   yield all([takeLatest('ADD_NOTIFICATION', addNotification)]);
   yield all([takeLatest('EDIT_NOTIFICATION', editNotification)]);
