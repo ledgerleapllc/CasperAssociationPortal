@@ -411,7 +411,7 @@ const NodeExplorer = () => {
                         <Table.BodyCell key="body4">
                           <p className="capitalize">
                             {row.bid_delegation_rate
-                              ? `${row.bid_delegation_rate * 100}%`
+                              ? `${row.bid_delegation_rate}%`
                               : ''}
                           </p>
                         </Table.BodyCell>
