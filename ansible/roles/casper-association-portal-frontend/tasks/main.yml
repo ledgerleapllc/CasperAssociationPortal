@@ -132,7 +132,7 @@
   - update
   - first_setup
 
-- name: Create .env file from .env.j2
+- name: Create .env file from .env.j2 (non-prod)
   template:
     src: .env.j2
     dest: "{{ app.home }}/env/.env.{{ deployment.env }}"
@@ -144,7 +144,21 @@
   - config
   - update
   - first_setup
-  when: clone_repo.changed
+  when: clone_repo.changed and deployment.env != 'prod'
+
+- name: Create .env file from .env.j2 (prod)
+  template:
+    src: .env.j2
+    dest: "{{ app.home }}/env/.env.production"
+    owner: "{{ security.app_user }}"
+    group: "{{ security.app_user }}"
+    mode: 0644
+  become: true
+  tags:
+  - config
+  - update
+  - first_setup
+  when: clone_repo.changed and deployment.env == 'prod'
 
 - name: Yarn install
   shell: sudo -u {{ security.app_user }} bash -ilc "cd {{ app.home }} && yarn install"
