@@ -581,7 +581,7 @@ const DashboardVote = () => {
         {
           content: Tab1,
           id: 'active-votes',
-          title: 'Active Votes',
+          title: 'Active Ballots',
         },
         {
           content: Tab2,
@@ -599,12 +599,12 @@ const DashboardVote = () => {
         {
           content: Tab1,
           id: 'active-votes',
-          title: 'Active Votes',
+          title: 'Active Ballots',
         },
         {
           content: Tab4,
           id: 'scheduled-votes',
-          title: 'Scheduled Votes',
+          title: 'Scheduled Ballots',
         },
         {
           content: Tab2,
