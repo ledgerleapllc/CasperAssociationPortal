@@ -44,7 +44,7 @@ const Welcome = () => {
             }}
           >
             <p className="text-2xl lg:text-3xl text-center">
-              Welcome to the Casper
+              Welcome to the Casper Portal
             </p>
             <p className="text-sm text-dark1 mt-4">
               Dear Casper Blockchain Validator,
