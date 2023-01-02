@@ -410,16 +410,18 @@ const NodeExplorer = () => {
                         </Table.BodyCell>
                         <Table.BodyCell key="body4">
                           <p className="capitalize">
-                            {row.delegation_rate
-                              ? `${row.delegation_rate * 100}%`
+                            {row.bid_delegation_rate
+                              ? `${row.bid_delegation_rate}%`
                               : ''}
                           </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body5">
-                          <p>{row?.delegators_count}</p>
+                          <p>{row?.bid_delegators_count}</p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body6">
-                          <p>{numberWithCommas(row?.total_staked_amount)}</p>
+                          <p>
+                            {numberWithCommas(row?.bid_total_staked_amount)}
+                          </p>
                         </Table.BodyCell>
                         <Table.BodyCell key="body7">
                           <p>{row?.uptime}%</p>

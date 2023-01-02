@@ -1,7 +1,10 @@
 /* eslint-disable no-prototype-builtins */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getLockPageConditions } from '../../shared/redux-saga/dashboard/dashboard-actions';
+import {
+  getLockPageConditions,
+  getUserMembershipInfo,
+} from '../../shared/redux-saga/dashboard/dashboard-actions';
 import { useDialog } from '../partials/dialog';
 import IconCheck from '../../public/images/ic-feather-check.svg';
 import IconX from '../../public/images/ic_x.svg';
@@ -12,6 +15,7 @@ export const withPageRestricted = (Wrapper, page) => props => {
   const userInfo = useSelector(state => state.authReducer.userInfo);
   const { pagePermissions } = usePermissions();
   const [conditions, setConditions] = useState(null);
+  const [membershipData, setMembershipData] = useState({});
   const [alertCondition, setAlertCondition] = useState({});
 
   const { setDialog, onClosed } = useDialog();
@@ -231,11 +235,23 @@ export const withPageRestricted = (Wrapper, page) => props => {
           () => {}
         )
       );
+      dispatch(
+        getUserMembershipInfo(
+          res => {
+            setMembershipData(res);
+          },
+          () => {}
+        )
+      );
     }
   }, [userInfo]);
 
   useEffect(() => {
-    if (conditions) {
+    if (
+      conditions &&
+      membershipData &&
+      Object.keys(membershipData).length > 0
+    ) {
       const _condition = {};
       if (conditions.kyc_not_verify.includes(page)) {
         _condition.kyc_not_verify_lock = true;
@@ -251,22 +267,30 @@ export const withPageRestricted = (Wrapper, page) => props => {
         _condition.node_poor_lock = true;
       }
 
-      if (
-        userInfo &&
-        userInfo.status === 'approved' &&
-        userInfo.fullInfo &&
-        userInfo.fullInfo.profile &&
-        userInfo.fullInfo.profile.extra_status !== 'On Probation'
-        // userInfo.fullInfo.profile.extra_status !== 'Suspended'
-      ) {
-        _condition.node_poor = false;
-      } else {
-        _condition.node_poor = true;
+      let avg_uptime = membershipData.avg_uptime || 0;
+      if (!Number.isNaN(avg_uptime)) {
+        avg_uptime = parseFloat(avg_uptime);
+        if (
+          userInfo.fullInfo &&
+          userInfo.fullInfo.profile &&
+          userInfo.fullInfo.profile.extra_status === 'On Probation' &&
+          avg_uptime < userInfo.fullInfo?.globalSettings?.uptime_probation
+        ) {
+          _condition.node_poor = true;
+        } else if (
+          userInfo &&
+          userInfo.status === 'approved' &&
+          avg_uptime < userInfo.fullInfo?.globalSettings?.uptime_warning
+        ) {
+          _condition.node_poor = true;
+        } else {
+          _condition.node_poor = false;
+        }
       }
 
       setAlertCondition(pre => ({ ...pre, ..._condition }));
     }
-  }, [userInfo, conditions]);
+  }, [userInfo, conditions, membershipData]);
 
   useEffect(() => {
     if (getRestrictedPageAlert(alertCondition)) {

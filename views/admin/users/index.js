@@ -170,6 +170,13 @@ const AdminUserList = () => {
                         Date
                       </p>
                     </Table.HeaderCell>
+                    <Table.HeaderCell key="cmp_check" sortKey="cmp_check">
+                      <p>
+                        Checked By
+                        <br />
+                        CMP
+                      </p>
+                    </Table.HeaderCell>
                     <Table.HeaderCell key="details">
                       <p>Further Details</p>
                     </Table.HeaderCell>
@@ -204,6 +211,15 @@ const AdminUserList = () => {
                         </Table.BodyCell>
                         <Table.BodyCell key="created_at">
                           <p>{formatDate(row?.created_at)}</p>
+                        </Table.BodyCell>
+                        <Table.BodyCell key="cmp_check">
+                          {row?.cmp_check ? (
+                            <p>
+                              <b>Yes</b>
+                            </p>
+                          ) : (
+                            <p>No</p>
+                          )}
                         </Table.BodyCell>
                         <Table.BodyCell key="action_button">
                           <button
