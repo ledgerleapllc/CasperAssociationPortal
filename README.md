@@ -96,3 +96,12 @@ yarn install
 yarn build
 ```
 
+### Testing
+
+Instead of building to production, you can opt to spin up a development app instance using:
+
+```bash
+yarn dev
+```
+
+This mode will push real time code updates to the browser. Defaults to localhost, port 5174.
