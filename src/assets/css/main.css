@@ -1,0 +1,47 @@
+@import "./base.css";
+
+body {
+  font-family: 'CasperSans';
+  overflow-x: hidden;
+  position: relative;
+  letter-spacing: 0.03em;
+}
+
+#app {
+  width: 100%;
+  margin: 0 auto;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: #ff2d2e;
+  transition: 0.2s;
+}
+
+.blue {
+  color: #0094FF;
+  transition: 0.2s;
+}
+
+a:hover,
+a:visted,
+a:active {
+  text-decoration: none;
+  color: #ff2d2e;
+  transition: 0.2s;
+}
+
+.btn-success {
+  background-color: #ff2d2e;
+  transition: 0.2s;
+  border-color: #ff2d2e;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: #ff2d2e;
+  border-color: #ff2d2e;
+  transition: 0.2s;
+  opacity: 0.9;
+}

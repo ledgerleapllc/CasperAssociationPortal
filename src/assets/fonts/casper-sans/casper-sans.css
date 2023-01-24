@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'CasperSans';
+  font-style: normal;
+  font-weight: normal;
+  src: url(CasperSans-Regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'CasperSans';
+  font-style: normal;
+  font-weight: lighter;
+  src: url(CasperSans-Light.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'CasperSans';
+  font-style: normal;
+  font-weight: bold;
+  src: url(CasperSans-Medium.woff2) format('woff2');
+}

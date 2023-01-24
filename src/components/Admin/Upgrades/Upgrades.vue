@@ -1,0 +1,317 @@
+<script>
+
+import App from '../../../App.vue';
+import { api } from '../../api.js';
+import $ from 'jquery';
+import iziToast from 'izitoast';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
+import Popper from 'vue3-popper';
+import { copyText } from 'vue3-clipboard';
+import Available from './Available/Available.vue';
+import Previous from './Previous/Previous.vue';
+import { Modal } from 'vue-neat-modal';
+import Datepicker from '@vuepic/vue-datepicker';
+
+import 'vue-neat-modal/dist/vue-neat-modal.css';
+
+import '@vuepic/vue-datepicker/dist/main.css'
+
+export default {
+	components: {
+		Popper,
+		ClipLoader,
+		Available,
+		Previous,
+		Modal,
+		Datepicker
+	},
+
+	data() {
+		return {
+			uri_page:      this.$route.params.page,
+			loaded:        false,
+			upgrades:      [],
+			upgrade:       {},
+			users:         [],
+
+			upgrade_modal: false
+		}
+	},
+
+	created() {
+	},
+
+	mounted() {
+		let that = this;
+
+		if (
+			this.uri_page != 'available' &&
+			this.uri_page != 'previous'
+		) {
+			this.uri_page = 'available';
+			this.$root.routeTo(`/a/upgrades/available`);
+		}
+	},
+
+	methods: {
+		async getAvailableUpgrade() {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.loaded  = false;
+			this.upgrade = {};
+
+			const response = await api(
+				'GET',
+				'admin/get-available-upgrade',
+				{},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.upgrade         = response.detail;
+				this.upgrade.visible = Boolean(parseInt(this.upgrade.visible));
+				this.loaded          = true;
+
+				if (this.upgrade.version) {
+					this.getUpgradedUsers(this.upgrade.version)
+				}
+			}
+		},
+
+		async getUpgrades() {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.loaded   = false;
+			this.upgrades = [];
+
+			const response = await api(
+				'GET',
+				'admin/get-upgrades',
+				{},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.upgrades = response.detail;
+				this.loaded   = true;
+			}
+		},
+
+		async getUpgradedUsers(version) {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.users = [];
+
+			const response = await api(
+				'GET',
+				'admin/get-upgraded-users',
+				{
+					version: version
+				},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.users = response.detail;
+			}
+		},
+
+		async saveUpgrade() {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.upgrade_modal = false;
+			this.loaded        = false;
+			this.upgrade.id    = parseInt(this.upgrade.id);
+
+			if (isNaN(this.upgrade.id)) {
+				this.upgrade.id = 0;
+			}
+
+			if (!this.$root.inputIsNumberFormat(this.upgrade.activate_era)) {
+				this.$root.toast(
+					'',
+					'Activation era must be a whole number',
+					'warning'
+				);
+
+				this.upgrade_modal = true;
+				this.loaded        = true;
+				return;
+			}
+
+			if (!this.upgrade.activate_at) {
+				this.upgrade.activate_at = '';
+			} else if (typeof this.upgrade.activate_at.toISOString == 'function') {
+				this.upgrade.activate_at = this.$root.formatDateWithZone(this.upgrade.activate_at)
+			} else if (this.upgrade.activate_at.includes("Z")) {
+				this.upgrade.activate_at = this.$root.formatZDate(this.upgrade.activate_at)
+			}
+
+			const response = await api(
+				'POST',
+				'admin/save-upgrade',
+				{
+					id:           this.upgrade.id,
+					version:      this.upgrade.version,
+					visible:      this.upgrade.visible,
+					activate_era: this.upgrade.activate_era,
+					activate_at:  this.upgrade.activate_at,
+					link:         this.upgrade.link,
+					notes:        this.upgrade.notes
+				},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.getAvailableUpgrade();
+				this.loaded   = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'success'
+				);
+			} else {
+				this.upgrade_modal = true;
+				this.loaded        = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'error'
+				);
+			}
+		},
+
+		editUpgrade() {
+			this.upgrade_modal = true;
+		}
+	},
+
+	watch: {
+		'$route' (to, from) {
+			this.uri_page = this.$route.params.page;
+		}
+	}
+};
+
+</script>
+
+<template>
+	<div class="top-banner mt20">
+		<div
+			@click="
+				this.$root.routeTo(`/a/upgrades/available`);
+				this.uri_page = 'available';
+			"
+			v-bind:class="
+				'spa-tab ' +
+				(this.uri_page == 'available' ? 'spa-tab-active' : '')
+			"
+		>
+			Available
+		</div>
+
+		<div
+			@click="
+				this.$root.routeTo(`/a/upgrades/previous`);
+				this.uri_page = 'previous';
+			"
+			v-bind:class="
+				'spa-tab ' +
+				(this.uri_page == 'previous' ? 'spa-tab-active' : '')
+			"
+		>
+			Past Upgrades
+		</div>
+
+	</div>
+
+	<Available v-if="this.uri_page == 'available'"></Available>
+	<Previous v-else-if="this.uri_page == 'previous'"></Previous>
+
+	<Modal
+		v-model="upgrade_modal"
+		max-width="800px"
+		:click-out="false"
+	>
+		<div class="modal-container" style="max-width: 800px; height: 600px; overflow-y: scroll;">
+			<h5 v-if="!upgrade.id || upgrade.id == 0" class="pb15">
+				New Protocol Upgrade
+				<button @click="upgrade_modal = false; getAvailableUpgrade()" class="btn btn-success btn-sm fs13 float-right">
+					Cancel
+				</button>
+			</h5>
+			<h5 v-else class="pb15">
+				Edit Protocol Upgrade
+				<button @click="upgrade_modal = false; getAvailableUpgrade()" class="btn btn-success btn-sm fs13 float-right">
+					Cancel
+				</button>
+			</h5>
+
+			<p class="mt20 bold">
+				Version
+				<input type="text" class="form-control mt10" v-model="upgrade.version">
+			</p>
+
+			<p class="mt20 bold">
+				Activation Era
+				<input type="number" class="form-control mt10" v-model="upgrade.activate_era">
+			</p>
+
+			<p class="mt20 mb10 bold">
+				Approximate Activation Date/Time
+			</p>
+			<Datepicker 
+				v-model="upgrade.activate_at" 
+				class="width-200 inline"
+				:format="'yyyy/MM/dd HH:mm'"
+				:preview-format="'yyyy/MM/dd HH:mm'"
+				utc
+			></Datepicker>
+
+			<p class="mt20 bold">
+				Software Link
+				<input type="text" class="form-control mt10" v-model="upgrade.link">
+			</p>
+
+			<p class="mt20 bold">
+				Notes
+				<textarea v-model="upgrade.notes" class="form-control height-200 p15 mt10">{{ upgrade.notes }}</textarea>
+			</p>
+
+			<p class="mt20 bold">
+				Visible
+			</p>
+
+			<p class="fs13 mb10">
+				<input id="visible" type="checkbox" class="form-check-input pointer" v-model="upgrade.visible">
+				<label class="fs14 pointer" for="visible">&ensp;Protocol upgrade will be visible for all members in the system.</label>
+			</p>
+
+			<button class="btn btn-success form-control btn-inline ml0 mt20 mb10" @click="saveUpgrade()">
+				<i class="fa fa-check bold"></i>
+				Save
+			</button>
+
+			<button class="btn btn-success form-control btn-inline mt20 mb10" @click="upgrade_modal = false; getAvailableUpgrade()">
+				Cancel
+			</button>
+		</div>
+	</Modal>
+</template>
+
+<style>
+
+
+</style>

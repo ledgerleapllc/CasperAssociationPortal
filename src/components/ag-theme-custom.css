@@ -1,0 +1,9 @@
+.ag-theme-alpine {
+	--ag-border-radius: 5px;
+	--ag-borders-row: solid 1px;
+	--ag-row-border-color: #e5e6e7;
+	--ag-row-hover-color: #fafbfc;
+	--ag-odd-row-background-color: #fff;
+	--ag-header-background-color: #fafbfc;
+	--ag-border-color: #e5e6e7;
+}
