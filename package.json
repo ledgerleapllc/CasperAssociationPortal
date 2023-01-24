@@ -2,7 +2,17 @@
   "name": "casper-association-portal",
   "version": "0.0.1",
   "description": "Casper Association Portal WebApp",
-  "authors": "thomas@ledgerleap.com",
+  "author": "thomas@ledgerleap.com",
+  "contributors": [
+    {
+      "name": "Thomas Spangler",
+      "email": "thomas@ledgerleap.com"
+    },
+    {
+      "name": "Sam Mihal",
+      "email": "sam@ledgerleap.com"
+    }
+  ],
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite --port 5174",
