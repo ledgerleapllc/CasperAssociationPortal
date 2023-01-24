@@ -1,8 +1,8 @@
 <p align="center">
-	<img src="https://caspermember.com/images/logo.png" width="400">
+	<img src="https://docs.casperlabs.io/icon/Casper_Wordmark_Red_RGB.png" width="400">
 </p>
 
-# Casper Association Member Portal
+# Casper Association Portal WebApp
 
 The Casper Association's member portal.
 
@@ -10,19 +10,29 @@ This is the frontend repo of the portal. To see the frontend repo, visit https:/
 
 ## Prerequisites
 
- - NextJS/Vercel, and NodeJS version 14+ v16.6.2+
+ - Vue3/Vite v3.0.1+
+ - NodeJS version v18+
  - NPM 7.20.3+
  - Yarn 1.22.15+
  - Git Version 2+
 
-You can find documentation on NextJS here https://github.com/vercel/next.js/
+You can find documentation on Vue3 here https://vuejs.org/guide/introduction.html
 
 You can find documentation on NodeJS here https://github.com/nodejs/help
 
+Frontend tooling documentation for Vite can be found here https://vitejs.dev/guide/
+
 ## Setup
 
-First we need a server to use. Apache/Nginx
+Testing done on AWS EC2 medium instance running Ubuntu 20.
 
+Always a good idea to update fresh servers.
+
+```bash
+sudo apt-get update
+```
+
+### Apache
 ```bash
 sudo apt -y install apache2
 sudo a2enmod rewrite
@@ -31,76 +41,51 @@ sudo a2enmod ssl
 sudo apt-get update
 ```
 
-Setup the repo according to our VHOST path. Note, the actual VHOST path in this case should be set to **/var/www/CasperAssociationPortalfrontend/out**
-
-```bash
-cd /var/www/
-git clone https://github.com/ledgerleapllc/CasperAssociationPortalfrontend
-cd CasperAssociationPortalfrontend
-```
-
-You will need to add the following code to your server configuration under the VHOST path.
-
-```
-RewriteEngine On
-RewriteRule ^index\.html$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule . /index.html [L]
-```
-
-Install packages and setup environment. You will need to modify **.env.production** variables to fit the server on which you're deploying.
-
+### Nodejs
 ```bash
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 sudo apt install nodejs -y
-curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
-yarn install
 ```
 
-Build command depends on environment. If you are running a custom environment, you'll need to modify env/.env.*
-
-```
-yarn build-dev
-yarn build-staging
-yarn build-prod
-```
-
-The above commands will build **out/** on site using the variables from your .env.production file.
-
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
+### Yarn
 ```bash
-npm run dev
-# or
-yarn dev
+curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup vhosts
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+**Note:** Using example drectory **/var/www/CasperAssociationPortal/** to point Apache servers.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Updated frontend vhost
+```
+<VirtualHost *:80>
+    ServerName members.casper.network
+    DocumentRoot /var/www/CasperAssociationPortal/dist
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    <Directory /var/www/CasperAssociationPortal/dist>
+        Options -MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
 
-## Learn More
+    <Directory /var/www/CasperAssociationPortal/dist/>
+        RewriteEngine On
+        RewriteBase /
+        RewriteRule ^index\.html$ - [L]
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-l
+        RewriteRule . /index.html [L]
+    </Directory>
 
-To learn more about Next.js, take a look at the following resources:
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Build
+```bash
+yarn install
+yarn build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

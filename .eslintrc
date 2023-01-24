@@ -1,8 +1,0 @@
-{
-  "extends": "@ijsto",
-  "rules": {
-    "react-hooks/exhaustive-deps": "off",
-    "sort-keys": 0,
-    "react-hooks/rules-of-hooks": "off"
-  }
-}
