@@ -10,17 +10,17 @@ export default {
 		return {
 			inputNewPassword1: '',
 			inputNewPassword2: '',
-			email: '',
-			hash: '',
-			loading: false,
-			min8chars: false,
-			onenumber: false,
-			specialchar: false,
+			email:             '',
+			hash:              '',
+			loading:           false,
+			min8chars:         false,
+			onenumber:         false,
+			specialchar:       false,
 		}
 	},
 
 	mounted() {
-		this.hash = this.$route.params.hash;
+		this.hash  = this.$route.params.hash;
 		this.email = decodeURIComponent(this.$route.query.email);
 
 		if (
@@ -33,7 +33,7 @@ export default {
 			)
 		) {
 			console.log('invalid params - reroute to login');
-			// this.$root.routeTo('login');
+			this.$root.routeTo('login');
 		}
 	},
 

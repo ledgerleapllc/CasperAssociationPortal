@@ -228,6 +228,7 @@ export default {
 				window.location.pathname.startsWith('/login') ||
 				window.location.pathname.startsWith('/forgot-password') ||
 				window.location.pathname.startsWith('/reset-password') ||
+				window.location.pathname.startsWith('/set-password') ||
 				window.location.pathname.startsWith('/confirm-account') ||
 				window.location.pathname.startsWith('/accept-team-invite')
 			) {
@@ -441,8 +442,17 @@ export default {
 				this.toast('Oops', response.message, 'error');
 			}
 
+			if (
+				response.detail.hasOwnProperty('redirect') &&
+				response.detail.redirect == 'set-password'
+			) {
+				this.routeTo('/set-password');
+
+				return true;
+			}
+
 			if (response.status == 200) {
-				this.bearer_token = response.detail.bearer;
+				this.bearer_token   = response.detail.bearer;
 				this.session_cookie = response.detail.cookie;
 
 				this.$cookies.set('bearer_token', this.bearer_token);

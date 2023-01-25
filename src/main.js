@@ -15,6 +15,7 @@ import Signup from '@/components/Signup/Signup.vue';
 import Login from '@/components/Login/Login.vue';
 import ForgotPassword from '@/components/Login/ForgotPassword.vue';
 import ResetPassword from '@/components/Login/ResetPassword.vue';
+import SetPassword from '@/components/Login/SetPassword.vue';
 import ConfirmAccount from '@/components/ConfirmAccount/ConfirmAccount.vue';
 import Welcome from '@/components/Welcome/Welcome.vue';
 import Terms from '@/components/Terms/Terms.vue';
@@ -200,6 +201,15 @@ const router = createRouter({
 			meta: {
 				title: `${app_name} - Reset Password`,
 				display_name: 'Reset Password'
+			}
+		},
+		{
+			path: '/set-password/:hash?',
+			name: 'SetPassword',
+			component: SetPassword,
+			meta: {
+				title: `${app_name} - Set New Password`,
+				display_name: 'Set New Password'
 			}
 		},
 		{
