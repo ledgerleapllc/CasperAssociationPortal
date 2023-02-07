@@ -1,0 +1,3 @@
+# For staging
+User-Agent: *
+Disallow: /
