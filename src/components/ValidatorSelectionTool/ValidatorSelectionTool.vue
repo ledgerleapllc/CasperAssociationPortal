@@ -353,8 +353,10 @@ export default {
 		</div>
 
 		<div class="container-fluid bg-white mt100 pl25 pr25">
-			<div class="container max-1200 bg-white box-shadow nmt50" style="min-height: 100vh;">
-				<iframe :src="this.$root.frontend_url+'/validator-selection-frame'" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:100vh;width:100%;border:none;overflow:hidden;"></iframe>
+			<div class="container max-1200 bg-white" style="min-height: 100vh;">
+				<div class="container max-1200 bg-white box-shadow nmt50">
+					<iframe :src="this.$root.frontend_url+'/validator-selection-frame'" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:100vh;width:100%;border:none;overflow:hidden;"></iframe>
+				</div>
 			</div>
 		</div>
 
