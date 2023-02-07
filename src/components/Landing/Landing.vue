@@ -95,7 +95,7 @@ export default {
 						The Casper Association Portal
 					</h1>
 					<p class="mt40 text-center fs18">
-						Trusted members of the Association will be able to participate in perks as a part of the Association Membership. By verifying your information, you help make the Casper Network more transparent and trustworthy. Get more tools to better manage and track your node. Once a member, validators can participate in votes and the governance of the Casper Association.
+						Trusted members of the Association will be able to participate in rewards as a part of their Association Membership. By verifying your information, you help make the Casper Network more transparent and trustworthy. Get more tools to better manage and track your node. Once a member, validators can participate in the path towards decentralization of the Casper Network.
 					</p>
 
 					<div class="flex-row mt30">
@@ -140,7 +140,7 @@ export default {
 					</h2>
 					<hr class="divider">
 					<p class="mt30 mb100 text-center fs18">
-						The Casper Association is a Swiss Association based in Zug responsible for the development of the Casper Ecosystem and the open source development of the Casper Network.
+						The Casper Association is a Swiss association based in Zug, responsible for the development of the Casper Ecosystem and the open source development of the Casper Network.
 					</p>
 				</div>
 			</div>
@@ -174,10 +174,10 @@ export default {
 			<div class="row">
 				<div class="col-md-6">
 					<h2 class="mt100 mb30">
-						Trusted members receive special perks
+						Trusted members receive special rewards
 					</h2>
 					<p class="mt30 mb100 fs18">
-						By verifying your information, you help make the Casper Network more transparent and trustworthy. Getting verified unlocks access to an assortment of different privileges and rewards. Get more tools to better manage your node and track earnings. Participate in votes and unlock perks that only verified members can get.
+						By verifying your information, you help make the Casper Network more transparent and trustworthy. Getting verified unlocks access to an assortment of different rewards. Get more tools to better manage your node and track earnings. Participate in votes and unlock rewards that only verified members can get.
 					</p>
 				</div>
 				<div class="col-md-6">
@@ -196,7 +196,7 @@ export default {
 						Create interesting discussions
 					</h2>
 					<p class="mt30 mb100 fs18">
-						Have something to say? Connect with other node operators by starting a forum discussion thread. Discussions are public and viewable by all members. Get verified to gain access and read through hundreds of different discussions created by node operators like yourself.
+						Have something to say? Connect with other node operators by starting a forum discussion thread. Discussions are public and viewable by all members. Get verified to gain access and read through different discussions created by node operators like yourself.
 					</p>
 				</div>
 			</div>

@@ -61,7 +61,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								This is Casper Association's official portal that offers Casper network Validators to become trusted members by verifying their node, submitting a letter of intent, and completing KYC. Once inside the portal, members participate in the Casper Association Governance by partaking in votes and strengthening the Association governance. They will be able to participate in forums and access exclusive perks programs that come with the Membership.
+								This is Casper Association’s official portal that offers Casper network Validators to become trusted members by verifying their node, submitting a letter of intent, and completing KYC. Once inside the portal, members can access tools to allow them to enhance the management and operation of their node. They will be able to participate in forums and access exclusive rewards programs that come with the Membership. Over time members will contribute to the growth in decentralization of the Casper network and governance of the Casper Association.
 							</div>
 						</div>
 
@@ -227,7 +227,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								Voting is reserved for members operating nodes in good standing. Members must complete KYC, have their node active for a substantial number of ERAs, and have no Redmarks for a substantial number of ERAs prior to the vote. The number of ERAs required for a node to be active and have no Redmarks can be found on the voting page in the portal. 
+								Voting will be reserved for members operating nodes in good standing. Members must complete KYC, have their node active for a substantial number of ERAs, and have no Redmarks for a substantial number of ERAs prior to the vote. The number of ERAs required for a node to be active and have no Redmarks can be found on the voting page in the portal.
 							</div>
 						</div>
 
@@ -359,7 +359,7 @@ historical_performance = raw_uptime * (window - missed) / window
 								A.
 							</div>
 							<div class="right">
-								Every member gets 1 vote. There is no wieghted voting at this time. 
+								Every member gets 1 vote. There will be no weighted voting.
 							</div>
 						</div>
 

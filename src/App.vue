@@ -213,6 +213,8 @@ export default {
 				window.location.pathname == '/' ||
 				window.location.pathname.startsWith('/faq') ||
 				window.location.pathname.startsWith('/validator') ||
+				window.location.pathname.startsWith('/validator-selection') ||
+				window.location.pathname.startsWith('/validator-selection-frame') ||
 				window.location.pathname.startsWith('/terms-of-service') ||
 				window.location.pathname.startsWith('/privacy-policy')
 			) {
