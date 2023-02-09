@@ -556,6 +556,8 @@ export default {
 
 	.slider-box {
 		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
 	}
 
 	.slider-weight {
@@ -563,11 +565,15 @@ export default {
 	}
 
 	.slider-element-1 {
-		width: 140px;
+		width: 120px;
+	}
+
+	.slider-element-2 {
+		width: 30px;
 	}
 
 	.slider-element-3 {
-		width: calc(100% - 190px);
+		width: calc(100% - 150px);
 	}
 
 	.fs16 {
