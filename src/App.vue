@@ -964,15 +964,13 @@ export default {
 				We value your privacy
 			</p>
 
-			<p class="mt10 fs16">
+			<p class="mt10 fs16 max-width-lg">
 				This site uses cookies for essential functionality and core features needed to support website navigation. Clicking "Accept" indicates that you agree to the use of these technologies on your device. Please close this website if your do not agree.
 			</p>
 
-			<div>
-				<button class="btn btn-sm btn-success width-150 mt20 float-right" @click="acceptCookie">
-					Accept All
-				</button>
-			</div>
+			<button class="btn btn-sm btn-success width-150 mt20" @click="acceptCookie">
+				Accept All
+			</button>
 		</div>
 	</Transition>
 
@@ -1319,7 +1317,7 @@ i {
 	justify-content: center; 
 	background-color: #191919; 
 	color: #f0f0f0; 
-	padding: 25px;
+	padding: 25px 45px;
 	transition: .3s ease;
 }
 
@@ -2396,6 +2394,11 @@ select {
 @media all and (max-width: 767px) {
 	.fs40 {
 		font-size: 30px;
+	}
+
+	#cookie_banner {
+		height: 300px;
+		padding: 25px 25px;
 	}
 }
 
