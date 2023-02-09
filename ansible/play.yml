@@ -1,5 +1,0 @@
----
-- hosts: casper-mem-port-frontend
-  tasks:
-    - import_role:
-        name: casper-association-portal-frontend
