@@ -63,6 +63,7 @@ export default {
 		notifications:       [],
 		alert_notification:  false,
 		menu_open:           false,
+		cookie_cookie:       false,
 
 		// permissions
 		permissions: {
@@ -158,6 +159,7 @@ export default {
 			that.global_izimodal.iziModal('close');
 		});
 
+		// sidebar cookie logic
 		let sidebar_cookie = this.$cookies.get('sidebar_cookie');
 
 		if (
@@ -176,6 +178,18 @@ export default {
 		if (this.sidebar_cookie == 'in') {
 			this.sidebarWidth = 61 + 'px';
 		}
+
+		// cookie disclosure banner
+		setTimeout(function() {
+			let cookie_cookie = that.$cookies.get('cookie_cookie');
+
+			if (
+				!cookie_cookie ||
+				cookie_cookie == 'undefined'
+			) {
+				that.cookie_cookie = true;
+			}
+		},2000);
 	},
 
 	watch: {
@@ -206,6 +220,11 @@ export default {
 			this.$cookies.set('sidebar_cookie', 'in');
 			this.sidebar_cookie = this.$cookies.get('sidebar_cookie');
 			this.sidebarWidth = 61 + 'px';
+		},
+
+		acceptCookie() {
+			this.$cookies.set('cookie_cookie', 'dismissed');
+			this.cookie_cookie = false;
 		},
 
 		in_outer_zone() {
@@ -939,6 +958,24 @@ export default {
 </script>
 
 <template>
+	<Transition name="slide-fade">
+		<div v-if="cookie_cookie" id="cookie_banner">
+			<p class="fs20 bold">
+				We value your privacy
+			</p>
+
+			<p class="mt10 fs16">
+				This site uses cookies for essential functionality and core features needed to support website navigation. Clicking "Accept" indicates that you agree to the use of these technologies on your device. Please close this website if your do not agree.
+			</p>
+
+			<div>
+				<button class="btn btn-sm btn-success width-150 mt20 float-right" @click="acceptCookie">
+					Accept All
+				</button>
+			</div>
+		</div>
+	</Transition>
+
 	<div
 		v-if="
 			this.$root.bearer_token && 
@@ -1268,6 +1305,22 @@ h1,h2,h3,h4,h5,h6,p {
 
 i {
 	margin-right: 7px;
+}
+
+#cookie_banner {
+	z-index: 11;
+	position: fixed;
+	width: 100%;
+	height: 200px; 
+	left: 0; 
+	bottom: 0; 
+	display: flex; 
+	flex-direction: column; 
+	justify-content: center; 
+	background-color: #191919; 
+	color: #f0f0f0; 
+	padding: 25px;
+	transition: .3s ease;
 }
 
 .clip-loader-inline {
