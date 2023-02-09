@@ -1,6 +1,6 @@
 <script>
 
-import FaviconWhite from '@/assets/images/favicon-white.png';
+import FaviconWhite from '@/assets/images/logo-white-2.png';
 
 export default {
 	data() {
@@ -171,8 +171,8 @@ export default {
 }
 
 .nav-icon {
-	width: 37px;
-	height: 37px;
+	width: auto;
+	height: 43px;
 	position: absolute;
 	left: 25px;
 	cursor: pointer;

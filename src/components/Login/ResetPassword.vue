@@ -63,7 +63,11 @@ export default {
 			}
 
 			this.loading = true;
-			const result = await this.$root.resetPassword(this.email, this.hash, this.inputNewPassword1);
+			const result = await this.$root.resetPassword(
+				this.email, 
+				this.hash, 
+				this.inputNewPassword1
+			);
 
 			if (result) {
 				this.loading = false;

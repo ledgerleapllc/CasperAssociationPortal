@@ -1,5 +1,7 @@
 <script>
 
+import { api } from './api.js';
+
 export default {
 	data() {
 		return {
@@ -14,11 +16,24 @@ export default {
 
 	mounted() {
 		let that = this;
+		this.getYear();
 	},
 
 	methods: {
 		gotoLink(link) {
 			window.open(`${this.$root.frontend_url}/${link}`);
+		},
+
+		async getYear() {
+			const response = await api(
+				'GET',
+				'public/get-year',
+				{}
+			);
+
+			if (response.status == 200) {
+				this.$refs['year'].innerHTML = response.message;
+			}
 		}
 	}
 };
@@ -27,9 +42,6 @@ export default {
 
 <template>
 	<div class="footer">
-		<p class="text-white fs14 text-center">
-			&copy; <span ref="year"></span> Casper Association
-		</p>
 		<div class="signup-footer">
 			<span @click="this.$root.routeTo('/privacy-policy')">Privacy Policy</span>
 			|
@@ -37,6 +49,9 @@ export default {
 			|
 			<span @click="this.$root.routeTo('/?section=contact')">Contact</span>
 		</div>
+		<p class="text-white fs14 text-center mt10">
+			&copy; <span ref="year"></span> Casper Association
+		</p>
 	</div>
 </template>
 

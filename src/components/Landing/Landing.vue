@@ -291,13 +291,13 @@ export default {
 }
 
 .landing-input {
-	background-color: #771d1d;
-	border: 2px solid #ff473d;
-	color: white;
+	background-color: #f1f1f1;
+	border: 2px solid #bcbcbc;
+	color: #111;
 }
 
 .landing-input::placeholder {
-	color: white;
+	color: #777;
 	font-size: 18px;
 }
 
