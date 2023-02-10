@@ -16,9 +16,8 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite --port 5174",
-    "build": "vite build",
-    "preview": "vite preview --port 4174",
-    "robots": "if [ -d \"dist\" ]; then cp robots.txt dist/robots.txt; fi"
+    "build": "vite build && ./robots.sh",
+    "preview": "vite preview --port 4174"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
