@@ -411,7 +411,7 @@ export default {
 							{{ weight_total }} / 100
 						</p>
 
-						<p class="mt20 fs12 op6">
+						<p class="mt20 fs13">
 							Drag the sliders to customize the facets that are most important to you in selecting a validator. As you assign points, the validators in the Casper network will be ranked according to the weights you give to each.
 						</p>
 
