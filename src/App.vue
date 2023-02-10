@@ -232,7 +232,7 @@ export default {
 				window.location.pathname == '/' ||
 				window.location.pathname.startsWith('/faq') ||
 				window.location.pathname.startsWith('/validator') ||
-				window.location.pathname.startsWith('/terms-of-service') ||
+				window.location.pathname.startsWith('/terms-of-use') ||
 				window.location.pathname.startsWith('/privacy-policy')
 			) {
 				return true;

@@ -31,15 +31,15 @@ export default {
 </script>
 
 <template>
-	<div class="landing-container">
-		<OuterNav></OuterNav>
+	<OuterNav></OuterNav>
 
+	<div class="landing-container">
 		<div class="container max-1200 white pt50">
 			<div class="row">
 				<div class="col-md-12 mt100">
-					<h1 class="fs40 text-center" :class="this.$root.isMobile ? '' : 'mt100'">
-						Privacy Policy
-					</h1>
+					<p class="fs60 squashed">
+						<span class="black">Privacy</span> Policy
+					</p>
 				</div>
 			</div>
 		</div>
@@ -255,14 +255,21 @@ export default {
 	-webkit-transform: translateY(-50px);
 }
 
+.fs60 {
+	font-size: 60px;
+}
+
+.squashed {
+	line-height: 73px;
+}
+
 .landing-container {
-	background-image: url('@/assets/images/bg2.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
 	width: 100%;
 	height: auto;
-	min-height: 100vh;
-	background-attachment: fixed;
+	height: 85vh;
+	min-height: 800px;
+	background-color: #FF2D2E;
+	position: relative;
 }
 
 .max-1200 {

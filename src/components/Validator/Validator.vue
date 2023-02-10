@@ -181,241 +181,225 @@ export default {
 </script>
 
 <template>
-	<div class="landing-container">
-		<OuterNav></OuterNav>
 
-		<div class="container max-1200 white pt50">
-			<div class="row">
-				<div class="col-md-12 pt50">
-					<p class="mt40 fs22 text-center">
-						Validator Tools / Profile
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="container max-1200 pt20 min-calc">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 mt20">
-					<div class="go-back2 mb10" @click="this.$router.back()">
+					<div class="go-back2 text-black mb10" @click="this.$router.back()">
 						<i class="fa fa-arrow-left"></i>
 						Back
 					</div>
 
-					<div class="card">
-						<div class="card-title">
-							Validator Profile
+					<div class="card-title">
+						Validator Profile
+					</div>
+					<div class="card-body">
+						<div class="profile-row border-bottom">
+							<div class="profile-icon">
+								<AvatarBadgeProfile 
+									:url="avatar_url" 
+									:role="role" 
+									:kyc="kyc_status"
+								></AvatarBadgeProfile>
+							</div>
+
+							<table class="table profile-table mt10">
+								<tr>
+									<td class="bold tr-left">
+										Name:
+									</td>
+									<td class="tr-right">
+										<div v-if="pseudonym === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{
+												pseudonym + (
+													blockchain_name ?
+													`, ${blockchain_name}` :
+													''
+												)
+											}}
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="tr-left">
+										&ensp;
+									</td>
+									<td class="tr-right">
+										<div v-if="blockchain_desc === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ blockchain_desc }}
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Registered:
+									</td>
+									<td class="tr-right">
+										<div v-if="registered_at === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ registered_at }}
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Member Type:
+									</td>
+									<td class="tr-right">
+										<div v-if="profile_type === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ profile_type }}
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Membership Status:
+									</td>
+									<td class="tr-right">
+										<div v-if="kyc_status === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											<span v-if="kyc_status == 'approved'" class="text-green bold">
+												Verified
+											</span>
+											<span class="text-red bold" v-else-if="kyc_status == 'denied'">
+												Under review
+											</span>
+											<span v-else class="op5 bold">
+												Pending
+											</span>
+
+											<span v-if="kyc_hash" class="op5 pointer fs12" @click="gotoKycHash">
+												&ensp;
+												<u>{{ this.$root.formatHash(kyc_hash, 15) }}</u>
+											</span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Verified Since:
+									</td>
+									<td class="tr-right">
+										<div v-if="verified_at === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											<div v-if="!verified_at">
+												Not Verified
+											</div>
+											<div v-else>
+												{{ verified_at }}
+											</div>
+										</div>
+									</td>
+								</tr>
+							</table>
 						</div>
-						<div class="card-body">
-							<div class="profile-row border-bottom">
-								<div class="profile-icon">
-									<AvatarBadgeProfile 
-										:url="avatar_url" 
-										:role="role" 
-										:kyc="kyc_status"
-									></AvatarBadgeProfile>
-								</div>
 
-								<table class="table profile-table mt10">
-									<tr>
-										<td class="bold tr-left">
-											Name:
-										</td>
-										<td class="tr-right">
-											<div v-if="pseudonym === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{
-													pseudonym + (
-														blockchain_name ?
-														`, ${blockchain_name}` :
-														''
-													)
-												}}
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="tr-left">
-											&ensp;
-										</td>
-										<td class="tr-right">
-											<div v-if="blockchain_desc === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ blockchain_desc }}
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Registered:
-										</td>
-										<td class="tr-right">
-											<div v-if="registered_at === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ registered_at }}
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Member Type:
-										</td>
-										<td class="tr-right">
-											<div v-if="profile_type === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ profile_type }}
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Membership Status:
-										</td>
-										<td class="tr-right">
-											<div v-if="kyc_status === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												<span v-if="kyc_status == 'approved'" class="text-green bold">
-													Verified
-												</span>
-												<span class="text-red bold" v-else-if="kyc_status == 'denied'">
-													Under review
-												</span>
-												<span v-else class="op5 bold">
-													Pending
-												</span>
-
-												<span v-if="kyc_hash" class="op5 pointer fs12" @click="gotoKycHash">
-													&ensp;
-													<u>{{ this.$root.formatHash(kyc_hash, 15) }}</u>
-												</span>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Verified Since:
-										</td>
-										<td class="tr-right">
-											<div v-if="verified_at === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												<div v-if="!verified_at">
-													Not Verified
-												</div>
-												<div v-else>
-													{{ verified_at }}
-												</div>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-
-							<div v-if="role == 'admin'" class="profile-row mt20">
-								Admin: {{ pseudonym }}
-							</div>
-
-							<div v-else-if="role == 'sub-admin'" class="profile-row mt20">
-								Moderator: {{ pseudonym }}
-							</div>
-
-							<div v-else class="profile-row">
-								<table class="table profile-table mt20">
-									<tr>
-										<td class="bold tr-left">
-											Node Address:
-										</td>
-										<td>
-											<div v-if="selected_validator === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												<select class="form-select select-with-copy inline" ref="selected_validator" v-model="selected_validator">
-													<option v-for="(value, index) in nodes" :value="value.public_key" :selected="index == 0">{{ value.public_key }}</option>
-												</select>
-												<i class="fa fa-clipboard fs16 inline pointer ml10" @click="copyValidatorId"></i>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Validator Fee:
-										</td>
-										<td>
-											<div v-if="validator_fee === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ validator_fee }}%
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Total Stake:
-										</td>
-										<td>
-											<div v-if="total_stake === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ total_stake.toLocaleString('en-US') }}
-												<img src="@/assets/images/favicon.png" class="tiny-img">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="bold tr-left">
-											Self Stake:
-										</td>
-										<td>
-											<div v-if="self_stake === null">
-												<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
-											</div>
-											<div v-else>
-												{{ self_stake.toLocaleString('en-US') }}
-												<img src="@/assets/images/favicon.png" class="tiny-img">
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-
-							<div v-if="role != 'admin' && role != 'sub-admin'">
-								<p class="bold">
-									Uptime
-								</p>
-								<div v-if="uptime === null">
-									<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
-								</div>
-								<div v-else class="progress-bar-wrap">
-									<div class="progress-bar" :style="{ '--progressBarWidth': progressBarWidth }"></div>
-									<span class="progress-bar-center">
-										{{ uptime }}%
-									</span>
-								</div>
-							</div>
-
-							<p class="mt20"></p>
+						<div v-if="role == 'admin'" class="profile-row mt20">
+							Admin: {{ pseudonym }}
 						</div>
+
+						<div v-else-if="role == 'sub-admin'" class="profile-row mt20">
+							Moderator: {{ pseudonym }}
+						</div>
+
+						<div v-else class="profile-row">
+							<table class="table profile-table mt20">
+								<tr>
+									<td class="bold tr-left">
+										Node Address:
+									</td>
+									<td>
+										<div v-if="selected_validator === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											<select class="form-select select-with-copy inline" ref="selected_validator" v-model="selected_validator">
+												<option v-for="(value, index) in nodes" :value="value.public_key" :selected="index == 0">{{ value.public_key }}</option>
+											</select>
+											<i class="fa fa-clipboard fs16 inline pointer ml10" @click="copyValidatorId"></i>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Validator Fee:
+									</td>
+									<td>
+										<div v-if="validator_fee === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ validator_fee }}%
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Total Stake:
+									</td>
+									<td>
+										<div v-if="total_stake === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ total_stake.toLocaleString('en-US') }}
+											<img src="@/assets/images/favicon.png" class="tiny-img">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="bold tr-left">
+										Self Stake:
+									</td>
+									<td>
+										<div v-if="self_stake === null">
+											<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+										</div>
+										<div v-else>
+											{{ self_stake.toLocaleString('en-US') }}
+											<img src="@/assets/images/favicon.png" class="tiny-img">
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div v-if="role != 'admin' && role != 'sub-admin'">
+							<p class="bold">
+								Uptime
+							</p>
+							<div v-if="uptime === null">
+								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
+							</div>
+							<div v-else class="progress-bar-wrap">
+								<div class="progress-bar" :style="{ '--progressBarWidth': progressBarWidth }"></div>
+								<span class="progress-bar-center">
+									{{ uptime }}%
+								</span>
+							</div>
+						</div>
+
+						<p class="mt20"></p>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<OuterFooter></OuterFooter>
-	</div>
 </template>
 
 <style scoped>

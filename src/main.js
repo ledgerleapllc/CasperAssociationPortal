@@ -141,8 +141,7 @@ const router = createRouter({
 			component: Validator,
 			meta: {
 				title: `${app_name} - Public Validator View`,
-				display_name: 'Public Validator View',
-				protected: true
+				display_name: 'Public Validator View'
 			}
 		},
 		{

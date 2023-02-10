@@ -71,87 +71,91 @@ export default {
 		id="nav1" 
 		:class="'nav-'+nav_class"
 	>
-		<img 
-			:src="favicon_white" 
-			class="nav-icon"
-			:class="'nav-icon-'+nav_class"
-			@click="this.$root.routeTo('/')"
-		>
-
-		<div v-if="!this.$root.isMobile" class="nav1-inner">
-			<div class="nav-item" @click="this.$root.routeTo('/')">
-				About
-			</div>
-
-			<div class="nav-item" @click="this.$root.routeTo('/validator-selection-tool')">
-				Validator Tools
-			</div>
-
-			<div class="nav-item" @click="this.$root.routeTo('/faq')">
-				FAQ
-			</div>
+		<div class="container-fluid nav-flex-container pl30 pr30">
+			<img 
+				:src="favicon_white" 
+				class="nav-icon"
+				:class="'nav-icon-'+nav_class"
+				@click="this.$root.routeTo('/')"
+			>
 
 			<div
-				v-if="!bear || bear == 'undefined'"
-				class="nav-item" 
-				@click="this.$root.routeTo('/login')"
+				v-if="this.$root.isMobile"
+				class="hamburger"
+				:class="'hamburger-'+nav_class"
+				id="outer-mobile-trigger-wrap"
 			>
-				Login/Register
-			</div>
-
-			<div
-				v-else
-				class="nav-item" 
-				@click="this.$root.routeTo('/login')"
-			>
-				<i class="fa fa-home mr5"></i>
-				My Portal
-			</div>
-		</div>
-
-		<div
-			v-if="this.$root.isMobile"
-			class="hamburger"
-			:class="'hamburger-'+nav_class"
-			id="outer-mobile-trigger-wrap"
-		>
-			<i v-if="mobile_open" class="fa fa-times fs26"></i>
-			<i v-else class="fa fa-bars fs26" id="outer-mobile-trigger"></i>
-		</div>
-
-		<div 
-			v-if="this.$root.isMobile"
-			class="mobile-menu"
-			:class="
-				'mobile-menu-'+nav_class+
-				' mobile-menu-'+(mobile_open ? 'open' : 'closed')
-			"
-		>
-			<div @click="this.$root.routeTo('/')">
-				About
-			</div>
-
-			<div @click="this.$root.routeTo('/validator-selection-tool')">
-				Validator Tools
-			</div>
-
-			<div @click="this.$root.routeTo('/faq')">
-				FAQ
+				<i v-if="mobile_open" class="fa fa-times fs26"></i>
+				<i v-else class="fa fa-bars fs26" id="outer-mobile-trigger"></i>
 			</div>
 
 			<div 
-				v-if="!bear || bear == 'undefined'"
-				@click="this.$root.routeTo('/login')"
+				v-if="this.$root.isMobile"
+				class="mobile-menu"
+				:class="
+					'mobile-menu-'+nav_class+
+					' mobile-menu-'+(mobile_open ? 'open' : 'closed')
+				"
 			>
-				Login/Register
+				<div @click="this.$root.routeTo('/')">
+					About
+				</div>
+
+				<div @click="this.$root.routeTo('/validator-selection-tool')">
+					Validator Tools
+				</div>
+
+				<div @click="this.$root.routeTo('/faq')">
+					FAQ
+				</div>
+
+				<div 
+					v-if="!bear || bear == 'undefined'"
+					@click="this.$root.routeTo('/login')"
+				>
+					Login/Register
+				</div>
+
+				<div 
+					v-else
+					@click="this.$root.routeTo('/login')"
+				>
+					<i class="fa fa-home mr5"></i>
+					My Portal
+				</div>
 			</div>
 
-			<div 
-				v-else
-				@click="this.$root.routeTo('/login')"
-			>
-				<i class="fa fa-home mr5"></i>
-				My Portal
+			<div v-else class="nav1-inner">
+				<div class="nav-item" @click="this.$root.routeTo('/')">
+					About
+				</div>
+
+				<div class="nav-item" @click="this.$root.routeTo('/validator-selection-tool')">
+					Validator Tools
+				</div>
+
+				<div class="nav-item" @click="this.$root.routeTo('/faq')">
+					FAQ
+				</div>
+
+				<div
+					v-if="!bear || bear == 'undefined'"
+					class="mt15" 
+					@click="this.$root.routeTo('/login')"
+				>
+					<button class="btn btn-lime">
+						Login/Register
+					</button>
+				</div>
+
+				<div
+					v-else
+					class="nav-item" 
+					@click="this.$root.routeTo('/login')"
+				>
+					<i class="fa fa-home mr5"></i>
+					My Portal
+				</div>
 			</div>
 		</div>
 	</div>
@@ -163,18 +167,33 @@ export default {
 	width: 100%;
 	color: white;
 	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	z-index: 2;
 	transition: .2s ease;
 }
 
+.nav-flex-container {
+	max-width: 1250px;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.btn-lime {
+	background-color: #BCFC07;
+}
+
+.btn-lime:hover,
+.btn-lime:focus {
+	color: #111;
+	border: 1px solid #BCFC07;
+	background-color: #BCFC07;
+}
+
 .nav-icon {
 	width: auto;
-	height: 43px;
-	position: absolute;
-	left: 25px;
+	height: 58px;
 	cursor: pointer;
 	transition: .2s ease;
 }
@@ -188,14 +207,14 @@ export default {
 }
 
 .nav-top {
-	height: 100px;
-	background: rgba(139,14,14,0.4);
+	height: 120px;
+	background: transparent;
 	transition: .2s ease;
 }
 
 .nav-nottop {
-	height: 80px;
-	background: rgba(139,14,14,1);
+	height: 100px;
+	background: #FF2D2E;
 	box-shadow: 0px 2px 6px rgba(0,0,0,0.29);
 	transition: .2s ease;
 }
@@ -203,8 +222,6 @@ export default {
 .nav1-inner {
 	display: flex;
 	flex-direction: row;
-	text-align: center;
-	justify-content: center;
 	position: relative;
 }
 
@@ -213,6 +230,7 @@ export default {
 	margin-right: 5px;
 	cursor: pointer;
 	font-size: 18px;
+	font-weight: bold;
 	padding: 20px;
 	border-bottom: 2px solid transparent;
 	transition: .2s ease;

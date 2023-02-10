@@ -336,16 +336,17 @@ export default {
 </script>
 
 <template>
-	<div class="landing-container">
-		<OuterNav></OuterNav>
+	<OuterNav></OuterNav>
 
+	<div class="landing-container">
 		<div class="container max-1200 white pt50">
 			<div class="row">
-				<div class="col-md-12 mt100">
-					<h1 class="fs40 text-center" :class="this.$root.isMobile ? '' : 'mt100'">
-						Validator Selection Tool
-					</h1>
-					<p class="mt40 fs18 text-center">
+				<div class="col-md-12 mt100 text-center">
+					<p class="fs60 squashed">
+						<span class="black">Validator</span> Selection <span class="black">Tool</span>
+					</p>
+
+					<p class="fs20 text-center">
 						Drag the sliders to adjust the weighted score for each category.
 					</p>
 				</div>
@@ -455,6 +456,14 @@ export default {
 	padding: 20px;
 }
 
+.fs60 {
+	font-size: 60px;
+}
+
+.squashed {
+	line-height: 73px;
+}
+
 @media all and (max-width: 767px) {
 	.slider-wrap {
 		flex-direction: column;
@@ -494,13 +503,12 @@ export default {
 }
 
 .landing-container {
-	background-image: url('@/assets/images/bg2.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
 	width: 100%;
 	height: auto;
-	min-height: 100vh;
-	background-attachment: fixed;
+	height: 85vh;
+	min-height: 800px;
+	background-color: #FF2D2E;
+	position: relative;
 }
 
 .flex-row {

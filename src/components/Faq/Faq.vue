@@ -31,15 +31,15 @@ export default {
 </script>
 
 <template>
-	<div class="landing-container">
-		<OuterNav></OuterNav>
+	<OuterNav></OuterNav>
 
+	<div class="landing-container">
 		<div class="container max-1200 white pt50">
 			<div class="row">
-				<div class="col-md-12 mt100">
-					<h1 class="fs40 text-center" :class="this.$root.isMobile ? '' : 'mt100'">
-						Frequently Asked Questions (FAQ)
-					</h1>
+				<div class="col-md-12 mt100 text-center">
+					<p class="fs60 squashed">
+						<span class="black">Frequently</span> Asked Questions <span class="black">(FAQ)</span>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -413,73 +413,13 @@ historical_performance = raw_uptime * (window - missed) / window
 
 <style scoped>
 
-#nav1 {
-	width: 100%;
-	color: white;
-	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 2;
-	transition: .2s ease;
-}
-
-.nav-top {
-	height: 100px;
-	background: rgba(139,14,14,0.4);
-	transition: .2s ease;
-}
-
-.nav-nottop {
-	height: 80px;
-	background: rgba(139,14,14,1);
-	box-shadow: 0px 2px 6px rgba(0,0,0,0.29);
-	transition: .2s ease;
-}
-
-.box-shadow {
-	box-shadow: 0px 2px 6px rgba(0,0,0,0.29);
-}
-
-.nmt50 {
-	transform: translateY(-50px);
-	-o-transform: translateY(-50px);
-	-ms-transform: translateY(-50px);
-	-moz-transform: translateY(-50px);
-	-webkit-transform: translateY(-50px);
-}
-
-.nav1-inner {
-	display: flex;
-	flex-direction: row;
-	text-align: center;
-	justify-content: center;
-}
-
-.nav-item {
-	margin-left: 5px;
-	margin-right: 5px;
-	cursor: pointer;
-	font-size: 18px;
-	padding: 20px;
-	border-bottom: 2px solid transparent;
-	transition: .2s ease;
-}
-
-.nav-item:hover,
-.nav-item:active {
-	border-bottom: 2px solid rgba(255,255,255,0.3);
-	transition: .2s ease;
-}
-
 .landing-container {
-	background-image: url('@/assets/images/bg2.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
 	width: 100%;
 	height: auto;
-	min-height: 100vh;
-	background-attachment: fixed;
+	height: 85vh;
+	min-height: 800px;
+	background-color: #FF2D2E;
+	position: relative;
 }
 
 .flex-row {
@@ -488,8 +428,12 @@ historical_performance = raw_uptime * (window - missed) / window
 	justify-content: center;
 }
 
-.laptop {
-	width: 100%;
+.fs60 {
+	font-size: 60px;
+}
+
+.squashed {
+	line-height: 73px;
 }
 
 .red-bar {

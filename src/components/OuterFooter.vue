@@ -42,23 +42,26 @@ export default {
 
 <template>
 	<div class="footer">
-		<div class="signup-footer">
-			<span @click="this.$root.routeTo('/privacy-policy')">
-				Privacy Policy
-			</span>
-			|
-			<span @click="this.$root.routeTo('/terms-of-use')">
-				Terms of Use
-			</span>
-			|
-			<span @click="this.$root.routeTo('/?section=contact')">
-				Contact
-			</span>
+		<div class="container footer-flex">
+			<div>
+				&copy; <span ref="year"></span> 
+				Casper Association
+			</div>
+
+			<div>
+				<span class="ml30 pointer" @click="this.$root.routeTo('/privacy-policy')">
+					Privacy Policy
+				</span>
+
+				<span class="ml30 pointer" @click="this.$root.routeTo('/terms-of-use')">
+					Terms of Use
+				</span>
+
+				<span class="ml30 pointer" @click="this.$root.routeTo('/?section=contact')">
+					Contact
+				</span>
+			</div>
 		</div>
-		<p class="text-white fs14 text-center mt10">
-			&copy; <span ref="year"></span> 
-			Casper Association
-		</p>
 	</div>
 </template>
 
@@ -66,13 +69,16 @@ export default {
 
 .footer {
 	width: 100%;
-	color: white;
+	color: #fff;
+	height: 115px;
+	background: #000;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	height: 90px;
-	background: rgba(139,14,14,0.4);
+}
+
+.footer-flex {
+	display: flex;
+	justify-content: space-between;
 }
 
 </style>
