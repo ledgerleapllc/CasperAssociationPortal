@@ -35,6 +35,45 @@ export default {
 	},
 
 	methods: {
+		gotoNotify() {
+			document.getElementById('notify-me').scrollIntoView();
+		},
+
+		async notifyMe() {
+			let notify_email   = this.$refs['notify_email'].value   ?? '';
+
+			if (notify_email != '') {
+				this.loading = true;
+
+				const response = await api(
+					'POST',
+					'public/subscribe',
+					{
+						email: notify_email
+					}
+				);
+
+				if (response.status == 200) {
+					this.loading = false;
+					// console.log(response);
+					this.$refs['notify_email'].value = '';
+
+					this.$root.toast(
+						'',
+						response.message,
+						'success'
+					);
+				} else {
+					this.loading = false;
+					this.$root.toast(
+						'',
+						response.message,
+						'error'
+					);
+				}
+			}
+		},
+
 		async contactUs() {
 			let contact_name    = this.$refs['contact_name'].value    ?? '';
 			let contact_email   = this.$refs['contact_email'].value   ?? '';
@@ -98,7 +137,7 @@ export default {
 						Keep track of the status of your validator node(s) in one place. See rewards, uptime, stake amount, delegator count and much more. Available to all node operators.
 					</p>
 
-					<button class="btn btn-lg btn-lime fs20 p15 pl40 pr40 mt30">
+					<button class="btn btn-lg btn-lime fs20 p15 pl40 pr40 mt30" @click="gotoNotify">
 						Get Started
 					</button>
 
@@ -111,7 +150,7 @@ export default {
 		</div>
 	</div>
 
-	<div class="container-fluid bg-black flex-container" style="height: 540px">
+	<div class="container-fluid bg-black flex-container" style="height: 540px" id="notify-me">
 		<div class="container white max-780">
 			<p class="fs60 text-center">
 				Never miss another upgrade
@@ -122,8 +161,9 @@ export default {
 			</p>
 
 			<div class="form-group mt30">
-				<input class="form-control p15 landing-input" type="email" placeholder="Email Address" ref="email_address">
-				<button class="btn btn-lg btn-lime fs18" style="position: absolute; top: 1px; right: 0; padding: 14px 30px;">
+				<input class="form-control p15 landing-input" type="email" placeholder="Email Address" ref="notify_email">
+				<ClipLoader v-if="loading" class="clip-loader-inline" size="35px" color="#FF2D2E" style="position: absolute; top: -2px; right: 0; padding: 14px 30px;"></ClipLoader>
+				<button v-else class="btn btn-lg btn-lime fs18" style="position: absolute; top: 1px; right: 0; padding: 14px 30px;" @click="notifyMe">
 					Notify Me
 				</button>
 			</div>
@@ -142,7 +182,7 @@ export default {
 						Keep track of the status of your validator node(s) in one place. See rewards, uptime, stake amount, delegator count and much more. Available to all node operators.
 					</p>
 
-					<button class="btn btn-lg btn-lime fs20 p15 pl40 pr40 mt30">
+					<button class="btn btn-lg btn-lime fs20 p15 pl40 pr40 mt30" @click="this.$root.routeTo('/signup')">
 						Register Now
 					</button>
 				</div>
@@ -210,7 +250,7 @@ export default {
 		</div>
 	</div>
 
-	<div class="landing-container">
+	<div class="landing-container" id="contact">
 		<div class="container hero-container max-1250 white pl30 pr30">
 			<div class="row">
 				<div class="col-md-12">
@@ -231,7 +271,7 @@ export default {
 				</div>
 
 				<div class="col-sm-12 mt30 text-center">
-					<ClipLoader v-if="loading" class="clip-loader-inline" size="35px" color="#ff2d2e"></ClipLoader>
+					<ClipLoader v-if="loading" class="clip-loader-inline" size="35px" color="#000"></ClipLoader>
 					<button v-else class="btn btn-lg btn-lime fs20 p15 pl40 pr40" @click="contactUs">
 						Contact Us
 					</button>
