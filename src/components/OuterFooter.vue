@@ -43,14 +43,21 @@ export default {
 <template>
 	<div class="footer">
 		<div class="signup-footer">
-			<span @click="this.$root.routeTo('/privacy-policy')">Privacy Policy</span>
+			<span @click="this.$root.routeTo('/privacy-policy')">
+				Privacy Policy
+			</span>
 			|
-			<span @click="this.$root.routeTo('/terms-of-service')">Terms & Conditions</span>
+			<span @click="this.$root.routeTo('/terms-of-use')">
+				Terms of Use
+			</span>
 			|
-			<span @click="this.$root.routeTo('/?section=contact')">Contact</span>
+			<span @click="this.$root.routeTo('/?section=contact')">
+				Contact
+			</span>
 		</div>
 		<p class="text-white fs14 text-center mt10">
-			&copy; <span ref="year"></span> Casper Association
+			&copy; <span ref="year"></span> 
+			Casper Association
 		</p>
 	</div>
 </template>

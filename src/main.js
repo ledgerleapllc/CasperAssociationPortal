@@ -100,12 +100,12 @@ const router = createRouter({
 			}
 		},
 		{
-			path: '/terms-of-service',
+			path: '/terms-of-use',
 			name: 'Terms',
 			component: Terms,
 			meta: {
-				title: `${app_name} - Terms of Service`,
-				display_name: 'Terms of Service'
+				title: `${app_name} - Terms of Use`,
+				display_name: 'Terms of Use'
 			}
 		},
 		{

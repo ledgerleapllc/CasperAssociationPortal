@@ -69,7 +69,7 @@ export default {
 			<div class="row">
 				<div class="col-md-12 mt100">
 					<h1 class="fs40 text-center" :class="this.$root.isMobile ? '' : 'mt100'">
-						Terms of Service
+						Terms of Use
 					</h1>
 				</div>
 			</div>
