@@ -32,7 +32,13 @@ export default {
 			);
 
 			if (response.status == 200) {
-				this.$refs['year'].innerHTML = response.message;
+				if (this.$refs['year1']) {
+					this.$refs['year1'].innerHTML = response.message;
+				}
+
+				if (this.$refs['year2']) {
+					this.$refs['year2'].innerHTML = response.message;
+				}
 			}
 		}
 	}
@@ -42,9 +48,9 @@ export default {
 
 <template>
 	<div class="footer">
-		<div class="container footer-flex">
+		<div class="container footer-flex" id="f-regular">
 			<div>
-				&copy; <span ref="year"></span> 
+				&copy; <span ref="year1"></span> 
 				Casper Association
 			</div>
 
@@ -62,10 +68,31 @@ export default {
 				</span>
 			</div>
 		</div>
+
+		<div class="ml30" id="f-mobile">
+			&copy; <span ref="year2"></span> 
+			Casper Association
+			<br>
+			<span class="pointer" @click="this.$root.routeTo('/privacy-policy')">
+				Privacy Policy
+			</span>
+
+			<span class="ml20 pointer" @click="this.$root.routeTo('/terms-of-use')">
+				Terms of Use
+			</span>
+
+			<span class="ml20 pointer" @click="this.$root.routeTo('/?section=contact')">
+				Contact
+			</span>
+		</div>
 	</div>
 </template>
 
 <style scoped>
+
+#f-mobile {
+	display: none;
+}
 
 .footer {
 	width: 100%;
@@ -79,6 +106,16 @@ export default {
 .footer-flex {
 	display: flex;
 	justify-content: space-between;
+}
+
+@media all and (max-width: 767px) {
+	#f-regular {
+		display: none;
+	}
+
+	#f-mobile {
+		display: block;
+	}
 }
 
 </style>

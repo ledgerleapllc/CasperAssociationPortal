@@ -576,6 +576,18 @@ hr {
 		font-size: 16px;
 		width: calc(100% - 70px);
 	}
+
+	.squashed {
+		line-height: 63px;
+	}
+
+	.fs60 {
+		font-size: 50px;
+	}
+
+	.landing-container {
+		height: auto;
+	}
 }
 
 </style>

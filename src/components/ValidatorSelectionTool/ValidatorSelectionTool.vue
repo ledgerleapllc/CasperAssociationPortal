@@ -637,4 +637,26 @@ hr {
 	margin-bottom: 20px;
 }
 
+@media all and (max-width: 767px) {
+	.squashed {
+		line-height: 63px;
+	}
+
+	.fs60 {
+		font-size: 50px;
+	}
+
+	.landing-container {
+		height: auto;
+	}
+
+	.pl25 {
+		padding-left: 15px;
+	}
+
+	.pr25 {
+		padding-right: 15px;
+	}
+}
+
 </style>

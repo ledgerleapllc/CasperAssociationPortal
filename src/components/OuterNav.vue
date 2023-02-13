@@ -39,7 +39,7 @@ export default {
 			}
 		);
 
-		if (window.scrollY > 150) {
+		if (window.scrollY > 50) {
 			this.nav_class = 'nottop';
 		} else {
 			this.nav_class = 'top';
@@ -48,7 +48,7 @@ export default {
 
 	methods: {
 		updateNav(event) {
-			if (window.scrollY > 150) {
+			if (window.scrollY > 50) {
 				this.nav_class = 'nottop';
 			} else {
 				this.nav_class = 'top';
@@ -254,12 +254,12 @@ export default {
 }
 
 .hamburger-top {
-	height: 100px;
+	height: 120px;
 	width: 80px;
 }
 
 .hamburger-nottop {
-	height: 80px;
+	height: 100px;
 	width: 80px;
 }
 

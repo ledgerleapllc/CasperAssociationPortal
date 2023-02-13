@@ -287,7 +287,6 @@ export default {
 
 .landing-container {
 	width: 100%;
-	height: auto;
 	height: 85vh;
 	min-height: 800px;
 	background-color: #FF2D2E;
@@ -388,6 +387,25 @@ export default {
 
 .height-250 {
 	height: 250px;
+}
+
+@media all and (max-width: 991px) {
+
+}
+
+@media all and (max-width: 767px) {
+	.squashed {
+		margin-top: 150px;
+		line-height: 63px;
+	}
+
+	.fs60 {
+		font-size: 50px;
+	}
+
+	.landing-container {
+		height: auto;
+	}
 }
 
 </style>
