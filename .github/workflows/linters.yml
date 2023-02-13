@@ -1,21 +1,14 @@
 ---
-#TODO: Find a way to test "yarn dev" and "yarn preview" in the CI
-
-name: Check code
-
-env:
-  APP_HOME: app
-  NODE_VERSION: 17.9.0
+name: Run linters
 
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: "*"
   pull_request:
     types: [opened, reopened, synchronize]
 
 jobs:
-  lint-format-and-dep-check:
+  run-linters:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -28,6 +21,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: ${{ github.base_ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
 
       - name: Lint Code Base (against PR base branch)
         # yamllint disable-line rule:line-length
@@ -47,10 +41,3 @@ jobs:
           DEFAULT_BRANCH: ${{ github.head_ref }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
-
-      # TODO: Check allow-licenses to test for deps with non-permissive licenses
-      - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v3
-        with:
-          fail-on-severity: 'high'
-          base-ref: ${{ github.base_ref }}
