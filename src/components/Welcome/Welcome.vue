@@ -32,6 +32,9 @@ export default {
 
 <template>
 	<div class="signup-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="signup-box-wrap">
 			<div class="container">
 				<div class="row">
@@ -90,7 +93,7 @@ export default {
 						<div class="login-form-wrap text-center">
 							<div class="form-group login-form text-center">
 								<form @submit.prevent>
-									<button @click="gotoOnboard" class="btn btn-success mt10 width-200 ml5 mr5 bold">Begin</button>
+									<button @click="gotoOnboard" class="btn btn-lime mt10 width-200 ml5 mr5 bold">Begin</button>
 								</form>
 							</div>
 						</div>

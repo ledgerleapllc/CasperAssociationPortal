@@ -96,6 +96,9 @@ export default {
 
 <template>
 	<div class="login-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="reset-box-wrap">
 			<div v-if="loading" class="ajax-box">
 				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
@@ -115,8 +118,8 @@ export default {
 								{{ able_to_resend >= delay ? 'Resend Code' : delay - able_to_resend }}
 							</button>
 
-							<button @click="this.confirmAccount()" class="btn btn-success mt10 full-width bold">Confirm and Continue</button>
-							<button @click="this.$root.logout()" class="btn btn-success mt10 full-width bold">Logout</button>
+							<button @click="this.confirmAccount()" class="btn btn-lime mt10 full-width bold">Confirm and Continue</button>
+							<button @click="this.$root.logout()" class="btn btn-lime mt10 full-width bold">Logout</button>
 						</form>
 					</div>
 				</div>

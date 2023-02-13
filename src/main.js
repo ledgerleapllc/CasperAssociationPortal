@@ -747,7 +747,7 @@ let cookie_config = {
 	path: '/'
 }
 
-if (window.location.protocol == 'https:') {
+if (window.location.protocol.startsWith('https')) {
 	cookie_config = {
 		path: '/',
 		secure: true,
