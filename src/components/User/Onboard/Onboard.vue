@@ -798,18 +798,6 @@ export default {
 	padding: 15px;
 }
 
-.onboard-section-left-1 {
-	background-image: url('@/assets/images/esign-terms.jpg');
-}
-
-.onboard-section-left-2 {
-	background-image: url('@/assets/images/node-ownership.jpg');
-}
-
-.onboard-section-left-3 {
-	background-image: url('@/assets/images/letter-of-motivation.jpg');
-}
-
 .onboard-section-right {
 	width: calc(100% - 270px);
 	padding: 15px;
