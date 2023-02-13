@@ -88,6 +88,9 @@ export default {
 
 <template>
 	<div class="login-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="login-box-wrap">
 			<div v-if="loading" class="ajax-box">
 				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
@@ -110,15 +113,9 @@ export default {
 					<div class="form-group pt10 login-form">
 						<form @submit.prevent>
 							<input class="form-control mb5" v-model="this.$root.inputEmail" type="email" placeholder="Email Address" ref="email_ref" autofocus autosave="" autocomplete="">
-							<button @click="this.gotoStep2" class="btn btn-success mt10 full-width bold">Next</button>
+							<button @click="this.gotoStep2" class="btn btn-lime mt10 full-width bold">Next</button>
 						</form>
 					</div>
-					<!-- <div class="pt15">
-						<p class="float-right">
-							Don't have an account? 
-							<span @click="this.$root.routeTo('signup')" class="pointer green">Sign Up</span>
-						</p>
-					</div> -->
 				</div>
 
 				<div v-show="step == 2" class="login-form-wrap">
@@ -126,7 +123,7 @@ export default {
 					<div class="form-group pt10 login-form">
 						<form @submit.prevent>
 							<input class="form-control mb5" v-model="inputPassword" type="password" placeholder="Password" ref="password_ref">
-							<button class="btn btn-success mt10 full-width bold" @click="this.do_login">Login</button>
+							<button class="btn btn-lime mt10 full-width bold" @click="this.do_login">Login</button>
 						</form>
 					</div>
 					<div class="pt15">
@@ -144,7 +141,7 @@ export default {
 					<div class="form-group pt10 login-form">
 						<form @submit.prevent>
 							<input class="form-control mb5" :value="inputMfa.toUpperCase()" @input="inputMfa = $event.target.value.toUpperCase()" type="text" placeholder="Enter Verification Code" ref="mfa_ref">
-							<button class="btn btn-success mt10 full-width bold">Verify</button>
+							<button class="btn btn-lime mt10 full-width bold">Verify</button>
 						</form>
 					</div>
 					<div class="pt15">

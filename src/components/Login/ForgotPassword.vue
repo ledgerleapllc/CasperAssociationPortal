@@ -63,6 +63,9 @@ export default {
 
 <template>
 	<div class="login-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="login-box-wrap">
 			<div v-if="loading" class="ajax-box">
 				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
@@ -78,7 +81,7 @@ export default {
 					<div class="form-group pt10 login-form">
 						<form @submit.prevent>
 							<input class="form-control mb5" v-model="this.$root.inputEmail" type="email" placeholder="Email Address" ref="email_ref" autofocus autosave="" autocomplete="">
-							<button @click="this.gotoStep2" class="btn btn-success mt10 full-width bold">Get Reset Link</button>
+							<button @click="this.gotoStep2" class="btn btn-lime mt10 full-width bold">Get Reset Link</button>
 						</form>
 					</div>
 					<div class="pt15">

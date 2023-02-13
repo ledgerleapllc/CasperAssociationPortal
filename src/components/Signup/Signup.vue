@@ -270,6 +270,9 @@ export default {
 
 <template>
 	<div class="signup-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="signup-box-wrap">
 			<div v-if="loading" class="ajax-box">
 				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
@@ -285,8 +288,8 @@ export default {
 
 					<div class="form-group login-form text-center">
 						<form @submit.prevent>
-							<button @click="this.account_type_selection = 'individual'" class="btn btn-success mt10 width-200 ml5 mr5 bold">Individual</button>
-							<button @click="this.account_type_selection = 'entity'" class="btn btn-success mt10 width-200 ml5 mr5 bold">Entity</button>
+							<button @click="this.account_type_selection = 'individual'" class="btn btn-lime mt10 width-200 ml5 mr5 bold">Individual</button>
+							<button @click="this.account_type_selection = 'entity'" class="btn btn-lime mt10 width-200 ml5 mr5 bold">Entity</button>
 						</form>
 					</div>
 				</div>
@@ -444,7 +447,7 @@ export default {
 										) ? '' : 'div-disabled'
 									"
 								>
-									<button class="btn btn-success btn-lg float-right width-200" @click="submitForm">
+									<button class="btn btn-lime btn-lg float-right width-200" @click="submitForm">
 										Submit
 									</button>
 								</div>
@@ -643,7 +646,7 @@ export default {
 										) ? '' : 'div-disabled'
 									"
 								>
-									<button class="btn btn-success btn-lg float-right width-200" @click="submitForm">
+									<button class="btn btn-lime btn-lg float-right width-200" @click="submitForm">
 										Submit
 									</button>
 								</div>

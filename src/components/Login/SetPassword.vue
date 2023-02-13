@@ -145,6 +145,9 @@ export default {
 
 <template>
 	<div class="signup-container">
+		<div class="checker-top"></div>
+		<div class="checker-bottom"></div>
+
 		<div class="signup-box-wrap">
 			<div v-if="loading" class="ajax-box">
 				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
@@ -176,7 +179,7 @@ export default {
 						<form @submit.prevent>
 							<input class="form-control mb5" v-model="inputNewPassword1" type="password" placeholder="New Password" autofocus>
 							<input class="form-control mb5 mt20" v-model="inputNewPassword2" type="password" placeholder="Confirm Password">
-							<button @click="this.submitReset()" class="btn btn-success mt10 full-width bold">Set New Password</button>
+							<button @click="this.submitReset()" class="btn btn-lime mt10 full-width bold">Set New Password</button>
 						</form>
 					</div>
 				</div>
@@ -204,7 +207,7 @@ export default {
 						<div class="login-form-wrap text-center">
 							<div class="form-group login-form text-center">
 								<form @submit.prevent>
-									<button @click="gotoLogin" class="btn btn-success mt10 width-200 ml5 mr5 bold">Back to login</button>
+									<button @click="gotoLogin" class="btn btn-lime mt10 width-200 ml5 mr5 bold">Back to login</button>
 								</form>
 							</div>
 						</div>
