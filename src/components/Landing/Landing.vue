@@ -179,7 +179,7 @@ export default {
 					</p>
 
 					<p class="mt20 fs20">
-						Keep track of the status of your validator node(s) in one place. See rewards, uptime, stake amount, delegator count and much more. Available to all node operators.
+						Become a member of the Casper Association, an Association according to Swiss Law. Membership is granted to qualified validators after completing KYC and an application process. Casper Association Members can participate in the business of the Association itself. Members can add all the nodes they operate and see where they rank against other operators.
 					</p>
 
 					<button class="btn btn-lg btn-lime fs20 p15 pl40 pr40 mt30" @click="this.$root.routeTo('/signup')">
