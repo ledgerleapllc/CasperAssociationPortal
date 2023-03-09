@@ -100,12 +100,10 @@ export default {
 						'col-12 sidebar-row selected-nav' : 
 						'col-12 sidebar-row'
 					"
-					class="div-disabled"
 				>
 					<h6 class="p7 pl20 m0" @click="this.$root.routeTo('/u/discussions')">
 						<i class="fa fa-wechat fs18 width-22"></i>
 						<span class="fs15 bold">Discussions</span>
-						<p class="fs10 ml30">Coming soon!</p>
 					</h6>
 				</div>
 

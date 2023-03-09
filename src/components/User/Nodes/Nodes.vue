@@ -401,8 +401,8 @@ export default {
 
 				<div class="card mt20">
 					<div class="card-title mb0">
-						Daily Earnings
-						<Popper hover arrow placement="right" class="fs11" content="Displays today's earnings for the selected node.">
+						Daily Rewards
+						<Popper hover arrow placement="right" class="fs11" content="Displays today's rewards for the selected node.">
 							<i class="fa fa-info-circle pointer ml5 fs16"></i>
 						</Popper>
 

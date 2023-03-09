@@ -95,12 +95,10 @@ export default {
 						'col-12 sidebar-row selected-nav' : 
 						'col-12 sidebar-row'
 					"
-					class="div-disabled"
 					style="position: relative;" 
 				>
 					<h6 class="p7 m0 pl2" @click="this.$root.routeTo('/u/discussions')">
 						<i class="fa fa-wechat fs20"></i>
-						<i class="fa fa-exclamation fs14 op7" style="position: absolute; left: 7px; top: 5px;"></i>
 					</h6>
 				</div>
 

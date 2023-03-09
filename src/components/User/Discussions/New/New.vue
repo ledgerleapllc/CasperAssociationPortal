@@ -29,6 +29,10 @@ export default {
 	mounted() {
 		let that = this;
 
+		//// rm
+		this.$root.routeTo('/u/discussions');
+		////
+
 		if (this.draft_id > 0) {
 			this.pickupDraft();
 		}

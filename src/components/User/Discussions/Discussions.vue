@@ -37,10 +37,6 @@ export default {
 	mounted() {
 		let that = this;
 
-		//// todo: rm
-		this.$root.routeTo(`/u/dashboard`);
-		////
-
 		if (
 			this.uri_category != 'all' &&
 			this.uri_category != 'my' &&
@@ -331,7 +327,7 @@ export default {
 </script>
 
 <template>
-	<button 
+	<!-- <button 
 		class="btn btn-success btn float-right mt10 ml5" 
 		@click="
 			this.$root.routeTo('/u/discussions/new');
@@ -339,7 +335,7 @@ export default {
 		"
 	>
 		<b>&plus;</b>&ensp;New Discussion
-	</button>
+	</button> -->
 
 	<div class="top-banner mt20">
 		<div
@@ -381,7 +377,7 @@ export default {
 			Pinned Discussions
 		</div>
 
-		<div
+		<!-- <div
 			@click="
 				this.$root.routeTo(`/u/discussions/draft`);
 				this.uri_category = 'draft';
@@ -392,7 +388,7 @@ export default {
 			"
 		>
 			Draft
-		</div>
+		</div> -->
 
 	</div>
 

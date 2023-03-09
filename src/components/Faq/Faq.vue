@@ -208,7 +208,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								Yes, sometimes KYC verification will take the exception route where manual review by KYC experts are required. Therefore it may take upto 72 hours to complete the process. 
+								Yes, the membership application process takes 72 hours and review should typically take 5 to 10 business days. At times of high numbers of applications or when clarifications on KYC documents are necessary, longer review processes may be expected.
 							</div>
 						</div>
 

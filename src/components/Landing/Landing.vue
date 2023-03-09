@@ -221,7 +221,7 @@ export default {
 					</p>
 
 					<p class="mt20 fs20">
-						By verifying your information, you help make the Casper Network more transparent and trustworthy. Getting verified unlocks access to an assortment of different privileges and rewards. Get more tools to better manage your node and track earnings. Participate in votes and unlock perks that only verified members can get.
+						By verifying your information, you help make the Casper Network more transparent and trustworthy. Getting verified unlocks access to an assortment of different privileges and rewards. Get more tools to better manage your node and track performance. Participate in votes and unlock perks that only verified members can get.
 					</p>
 				</div>
 				<div class="col-md-6">
@@ -231,7 +231,7 @@ export default {
 		</div>
 	</div>
 
-	<div class="container-fluid bg-lime flex-container" style="height: 650px">
+	<!-- <div class="container-fluid bg-lime flex-container" style="height: 650px">
 		<div class="container hero-container max-1250 pl30 pr30">
 			<div class="row">
 				<div class="col-md-6">
@@ -248,7 +248,7 @@ export default {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="landing-container" id="contact">
 		<div class="container hero-container max-1250 white pl30 pr30">
