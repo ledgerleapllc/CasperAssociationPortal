@@ -66,7 +66,20 @@ export default {
 						if (!params) return '';
 						if (!params.value) return '';
 						return `<i class="fa fa-calendar fs12"></i>${params.value} UTC`
-					},
+					}
+				},
+				{
+					field: '',
+					headerName: '',
+					sortable: false,
+					cellRenderer: (params) => {
+						if (!params) return '';
+						if (!params.data) return '';
+
+						if (!params.data.my_vote) {
+							return `<button class="btn btn-success btn-sm fs12">Vote Now</button>`;
+						}
+					}
 				}
 			],
 
