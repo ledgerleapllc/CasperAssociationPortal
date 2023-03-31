@@ -1958,6 +1958,7 @@ i {
 .mb100 { margin-bottom: 100px; }
 
 .ml0 { margin-left: 0; }
+.ml2 { margin-left: 2px; }
 .ml5 { margin-left: 5px; }
 .ml10 { margin-left: 10px; }
 .ml15 { margin-left: 15px; }
@@ -1971,6 +1972,7 @@ i {
 .ml100 { margin-left: 100px; }
 
 .mr0 { margin-right: 0; }
+.mr2 { margin-right: 2px; }
 .mr5 { margin-right: 5px; }
 .mr10 { margin-right: 10px; }
 .mr15 { margin-right: 15px; }

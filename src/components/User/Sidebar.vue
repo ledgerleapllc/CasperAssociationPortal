@@ -25,7 +25,7 @@ export default {
 					class="retract-sidebar" 
 					@click="this.$root.retractSidebar()"
 				>
-					<i class="fa fa-caret-left m0 fs20"></i>
+					<i class="fa fa-caret-left ml0 mr2 fs20"></i>
 				</div>
 
 				<div class="mt20"></div>

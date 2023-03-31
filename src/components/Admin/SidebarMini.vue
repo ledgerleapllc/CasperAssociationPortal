@@ -26,7 +26,7 @@ export default {
 					class="expand-sidebar" 
 					@click="this.$root.expandSidebar()"
 				>
-					<i class="fa fa-caret-right m0 fs20"></i>
+					<i class="fa fa-caret-right ml2 mr0 fs20"></i>
 				</div>
 
 				<div class="mt20"></div>
