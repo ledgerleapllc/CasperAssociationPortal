@@ -21,7 +21,12 @@ export default {
 			</div>
 
 			<div class="row" style="position: relative;">
-				<div class="retract-sidebar" @click="this.$root.retractSidebar()">&lt;</div>
+				<div 
+					class="retract-sidebar" 
+					@click="this.$root.retractSidebar()"
+				>
+					<i class="fa fa-caret-left m0 fs20"></i>
+				</div>
 
 				<div class="mt20"></div>
 

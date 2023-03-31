@@ -21,7 +21,13 @@ export default {
 			</div>
 
 			<div class="row" style="position: relative;">
-				<div v-if="!this.$root.isMobile" class="expand-sidebar" @click="this.$root.expandSidebar()">&gt;</div>
+				<div 
+					v-if="!this.$root.isMobile" 
+					class="expand-sidebar" 
+					@click="this.$root.expandSidebar()"
+				>
+					<i class="fa fa-caret-right m0 fs20"></i>
+				</div>
 
 				<div class="mt20"></div>
 
