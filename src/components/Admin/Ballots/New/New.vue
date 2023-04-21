@@ -23,7 +23,7 @@ export default {
 	data() {
 		return {
 			uri_category:  this.$route.params.category,
-			start_time:    new Date(),
+			start_time:    null,
 			end_time:      null,
 			show_dropzone: true,
 			file_url:      ''

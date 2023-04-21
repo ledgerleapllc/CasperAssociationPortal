@@ -463,12 +463,17 @@ export default {
 						<div v-if="step == 0">
 							<div v-if="this.$root.kyc_status == 'pending'">
 								<p>
-									Your KYC is pending
+									Your KYC is pending. Please don't restart KYC unless your KYC has remained pending for more than 72 hours.
 								</p>
 
-								<button class="btn btn-success mt20" @click="step = 1">
-									Restart Verification
-								</button>
+								<p class="mt10">
+									<span 
+										class="text-red bold pointer underline fs14"
+										@click="step = 1"
+									>
+										Restart Verification
+									</span>
+								</p>
 							</div>
 
 							<p v-else-if="this.$root.kyc_status == 'approved'">

@@ -9,6 +9,7 @@ import Popper from 'vue3-popper';
 import { copyText } from 'vue3-clipboard';
 import Available from './Available/Available.vue';
 import Previous from './Previous/Previous.vue';
+import moment from 'moment';
 
 export default {
 	components: {
@@ -23,7 +24,19 @@ export default {
 			uri_page: this.$route.params.page,
 			loaded:   false,
 			upgrades: [],
-			upgrade:  {},
+			upgrade:  {
+				id:                  null,
+				version:             null,
+				created_at:          null,
+				updated_at:          null,
+				visible:             null,
+				activate_at:         null,
+				activate_era:        null,
+				link:                null,
+				notes:               null,
+				time_remaining:      null,
+				time_remaining_perc: null
+			},
 			users:    [],
 
 			upgrade_complete: false,
@@ -65,8 +78,12 @@ export default {
 				this.upgrade = response.detail;
 				this.loaded  = true;
 
-				if (this.upgrade.version) {
-					this.getUpgradedUsers(this.upgrade.version)
+				if (this.upgrade?.version) {
+					this.getUpgradedUsers(this.upgrade.version);
+				}
+
+				if (this.upgrade?.time_remaining_perc > 0) {
+					this.startCountdown();
 				}
 			}
 		},
@@ -109,7 +126,7 @@ export default {
 			this.$root.catch401(response);
 
 			if (response.status == 200) {
-				console.log(response.detail);
+				// console.log(response.detail);
 				this.users = response.detail;
 				let that   = this;
 
@@ -124,6 +141,96 @@ export default {
 						that.upgrade_complete = true;
 					}
 				});
+			}
+		},
+
+		startCountdown() {
+			let that = this;
+			setInterval(function() {
+				that.countdownTick();
+			}, 1000);
+		},
+
+		countdownTick() {
+			if (this.upgrade?.time_remaining == "00:00:00:00") {
+				return;
+			}
+
+			let split  = this.upgrade?.time_remaining.split(':');
+			let day    = parseInt(split[0] ?? 0);
+			let hour   = parseInt(split[1] ?? 0);
+			let minute = parseInt(split[2] ?? 0);
+			let second = parseInt(split[3] ?? 0);
+
+			if (second > 0) {
+				second -= 1;
+			} else {
+				second = 59;
+
+				if (minute > 0) {
+					minute -= 1;
+				} else {
+					minute = 59;
+
+					if (hour > 0) {
+						hour -= 1;
+					} else {
+						hour = 23;
+
+						if (day > 0) {
+							day -= 1;
+						}
+					}
+				}
+			}
+
+			day = (
+				day.toString().length == 1 ? 
+				`0${day}` : 
+				`${day}`
+			);
+
+			hour = (
+				hour.toString().length == 1 ? 
+				`0${hour}` : 
+				`${hour}`
+			);
+
+			minute = (
+				minute.toString().length == 1 ? 
+				`0${minute}` : 
+				`${minute}`
+			);
+
+			second = (
+				second.toString().length == 1 ? 
+				`0${second}` : 
+				`${second}`
+			);
+
+			this.upgrade.time_remaining = `${day}:${hour}:${minute}:${second}`;
+
+			let numerator = (
+				moment.utc(this.upgrade?.activate_at).unix() - 
+				moment().unix()
+			);
+
+			let denominator = (
+				moment.utc(this.upgrade?.activate_at).unix() - 
+				moment.utc(this.upgrade?.created_at).unix()
+			);
+
+			numerator   = numerator   <= 0 ? 1 : numerator;
+			denominator = denominator <= 0 ? 1 : denominator;
+
+			this.upgrade.time_remaining_perc = (
+				numerator / 
+				denominator *
+				100
+			).toFixed(4);
+
+			if (this.upgrade?.time_remaining_perc < 0) {
+				this.upgrade.time_remaining_perc = 0;
 			}
 		},
 	},

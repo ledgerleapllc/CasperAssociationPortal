@@ -613,6 +613,12 @@ export default {
 									</button>
 								</div>
 
+								<div v-if="comment.deleted == 1" class="deleted-comment">
+									<p class="fs13 mt10">
+										This comment has been deleted by an admin as inappropriate.
+									</p>
+								</div>
+
 								<div class="discussion-row-content">
 									{{ this.$root.formatComment(comment.content) }}
 								</div>
@@ -781,6 +787,20 @@ export default {
 
 .uncensored-comment button {
 	display: none;
+}
+
+.deleted-comment {
+	position: absolute;
+	top: 0;
+	left: 160px;
+	width: calc(100% - 160px);
+	height: 100%;
+	background-color: #e1e3e6;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 .btn-uncensor {

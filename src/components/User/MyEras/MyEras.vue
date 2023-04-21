@@ -48,7 +48,7 @@ export default {
 			this.$root.catch401(response);
 
 			if (response.status == 200) {
-				// console.log(response.detail);
+				console.log(response.detail);
 				this.public_keys        = response.detail.public_keys;
 				this.eras               = response.detail.eras;
 				this.selected_validator = this.public_keys[0];
@@ -216,7 +216,7 @@ export default {
 							class="eras-row mt20 pb30 border-bottom"
 						>
 							<div class="eras-cell-left fs11">
-								<p class="fs12"><b>#{{ index }}</b></p>
+								<p class="fs12"><b>{{ index }}</b></p>
 								<p>
 									{{ era.era_start_time1 }}
 									&nbsp;

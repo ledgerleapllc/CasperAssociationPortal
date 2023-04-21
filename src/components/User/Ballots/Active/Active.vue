@@ -8,6 +8,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import Popper from 'vue3-popper';
 import { copyText } from 'vue3-clipboard';
 import { AgGridVue } from "ag-grid-vue3";
+import CountDownWidget from './CountDownWidget.vue';
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -17,7 +18,8 @@ export default {
 	components: {
 		Popper,
 		ClipLoader,
-		AgGridVue
+		AgGridVue,
+		CountDownWidget
 	},
 
 	data() {
@@ -40,6 +42,8 @@ export default {
 					field: 'time_remaining',
 					headerName: 'Time Remaining',
 					sortable: true,
+					cellRenderer: 'CountDownWidget',
+					/*
 					cellRenderer: (params) => {
 						if (!params) return '';
 						if (!params.value) return '';
@@ -57,6 +61,7 @@ export default {
 
 						return bar;
 					},
+					*/
 				},
 				{
 					field: 'start_time',

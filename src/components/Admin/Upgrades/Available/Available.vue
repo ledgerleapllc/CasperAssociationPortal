@@ -114,9 +114,15 @@ export default {
 		<div class="row">
 			<div class="col-12 mt20">
 				<div class="card">
-					<div v-if="this.$parent.upgrade.version == null" class="card-title">
+					<div 
+						v-if="this.$parent.upgrade.version == null" 
+						class="card-title"
+					>
 						Available Protocol Upgrade
-						<button class="btn btn-success btn-sm fs14 float-right" @click="this.$parent.editUpgrade">
+						<button 
+							class="btn btn-success btn-sm fs14 float-right" 
+							@click="this.$parent.editUpgrade"
+						>
 							New Upgrade
 						</button>
 					</div>
@@ -125,21 +131,34 @@ export default {
 							<i class="fa fa-exclamation-circle green"></i>
 						</span>
 						Available Protocol Upgrade
-						<button class="btn btn-success btn-sm fs14 float-right" @click="this.$parent.editUpgrade">
+						<button 
+							class="btn btn-success btn-sm fs14 float-right" 
+							@click="this.$parent.editUpgrade"
+						>
 							Edit Upgrade
 						</button>
 					</div>
 					<div class="card-body">
 						<div v-if="this.$parent.loaded === false">
-							<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+							<ClipLoader 
+								class="clip-loader-inline" 
+								size="15px" 
+								color="#ff2d2e"
+							></ClipLoader>
 						</div>
 						<div v-else>
-							<div v-if="this.$parent.upgrade.version == null" class="op5 fs14">
+							<div 
+								v-if="this.$parent.upgrade.version == null" 
+								class="op5 fs14"
+							>
 								There is no available protocol upgrade at this time.
 							</div>
 
 							<div v-else>
-								<p v-if="this.$parent.upgrade.visible == 1" class="fs14 op7 text-red">
+								<p 
+									v-if="this.$parent.upgrade.visible == 1" 
+									class="fs14 op7 text-red"
+								>
 									Visible
 								</p>
 								<p v-else class="fs14 op7 text-blue">
@@ -153,7 +172,10 @@ export default {
 									<p class="">
 										{{ this.$parent.upgrade.time_remaining }}
 									</p>
-									<div class="progress-bar" :style="'width:'+this.$parent.upgrade.time_remaining_perc+'%;'"></div>
+									<div 
+										class="progress-bar" 
+										:style="'width:'+this.$parent.upgrade.time_remaining_perc+'%;'"
+									></div>
 								</div>
 
 								<table class="table mt20 mb5">
@@ -186,7 +208,11 @@ export default {
 											Software Link:
 										</td>
 										<td>
-											<a :href="this.$parent.upgrade.link" target="_blank" style="padding: 0;">
+											<a 
+												:href="this.$parent.upgrade.link" 
+												target="_blank" 
+												style="padding: 0;"
+											>
 												{{ this.$parent.upgrade.link }}
 											</a>
 										</td>
@@ -198,7 +224,14 @@ export default {
 									</tr>
 								</table>
 
-								<p v-if="this.$parent.upgrade.notes && this.$parent.upgrade.notes != ''" class="fs14" style="white-space: pre-line;">
+								<p 
+									v-if="
+										this.$parent.upgrade.notes && 
+										this.$parent.upgrade.notes != ''
+									" 
+									class="fs14" 
+									style="white-space: pre-line;"
+								>
 									{{ this.$parent.upgrade.notes }}
 								</p>
 								<p v-else class="fs14 op7">

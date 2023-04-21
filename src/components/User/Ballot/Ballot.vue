@@ -8,6 +8,7 @@ import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import Popper from 'vue3-popper';
 import { copyText } from 'vue3-clipboard';
 import { Modal } from 'vue-neat-modal';
+import moment from 'moment';
 
 export default {
 	components: {
@@ -74,21 +75,26 @@ export default {
 			this.$root.catch401(response);
 
 			if (response.status == 200) {
-				this.status              = response.detail.status;
-				this.title               = response.detail.title;
-				this.time_remaining      = response.detail.time_remaining;
-				this.time_remaining_perc = response.detail.time_remaining_perc;
-				this.description         = response.detail.description;
-				this.files_attached      = response.detail.files_attached;
-				this.votes_for           = response.detail.votes_for;
-				this.votes_against       = response.detail.votes_against;
-				this.my_vote             = response.detail.my_vote;
-				this.end_time            = response.detail.end_time;
+				this.status              = response.detail?.status;
+				this.title               = response.detail?.title;
+				this.time_remaining      = response.detail?.time_remaining;
+				this.time_remaining_perc = response.detail?.time_remaining_perc;
+				this.description         = response.detail?.description;
+				this.files_attached      = response.detail?.files_attached;
+				this.votes_for           = response.detail?.votes_for;
+				this.votes_against       = response.detail?.votes_against;
+				this.my_vote             = response.detail?.my_vote;
+				this.end_time            = response.detail?.end_time;
+				this.start_time          = response.detail?.start_time;
 
 				if (this.my_vote == 'for') {
 					this.anti_my_vote = 'against';
 				} else {
 					this.anti_my_vote = 'for';
+				}
+
+				if (this.time_remaining_perc > 0) {
+					this.startCountdown();
 				}
 			}
 
@@ -110,6 +116,96 @@ export default {
 						'warning'
 					);
 				}
+			}
+		},
+
+		startCountdown() {
+			let that = this;
+			setInterval(function() {
+				that.countdownTick();
+			}, 1000);
+		},
+
+		countdownTick() {
+			if (this.time_remaining == "00:00:00:00") {
+				return;
+			}
+
+			let split  = this.time_remaining.split(':');
+			let day    = parseInt(split[0] ?? 0);
+			let hour   = parseInt(split[1] ?? 0);
+			let minute = parseInt(split[2] ?? 0);
+			let second = parseInt(split[3] ?? 0);
+
+			if (second > 0) {
+				second -= 1;
+			} else {
+				second = 59;
+
+				if (minute > 0) {
+					minute -= 1;
+				} else {
+					minute = 59;
+
+					if (hour > 0) {
+						hour -= 1;
+					} else {
+						hour = 23;
+
+						if (day > 0) {
+							day -= 1;
+						}
+					}
+				}
+			}
+
+			day = (
+				day.toString().length == 1 ? 
+				`0${day}` : 
+				`${day}`
+			);
+
+			hour = (
+				hour.toString().length == 1 ? 
+				`0${hour}` : 
+				`${hour}`
+			);
+
+			minute = (
+				minute.toString().length == 1 ? 
+				`0${minute}` : 
+				`${minute}`
+			);
+
+			second = (
+				second.toString().length == 1 ? 
+				`0${second}` : 
+				`${second}`
+			);
+
+			this.time_remaining = `${day}:${hour}:${minute}:${second}`;
+
+			let numerator = (
+				moment.utc(this.end_time).unix() - 
+				moment().unix()
+			);
+
+			let denominator = (
+				moment.utc(this.end_time).unix() - 
+				moment.utc(this.start_time).unix()
+			);
+
+			numerator   = numerator   <= 0 ? 1 : numerator;
+			denominator = denominator <= 0 ? 1 : denominator;
+
+			this.time_remaining_perc = (
+				numerator / 
+				denominator *
+				100
+			).toFixed(4);
+
+			if (this.time_remaining_perc < 0) {
+				this.time_remaining_perc = 0;
 			}
 		},
 

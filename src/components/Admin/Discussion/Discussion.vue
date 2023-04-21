@@ -468,11 +468,11 @@ export default {
 
 								&emsp;&ensp;
 
-								<Popper v-if="parseInt(discussion.pinned_by_me) > 0" hover arrow placement="top" class="fs11" content="Unpin this discussion">
+								<Popper v-if="parseInt(discussion.pinned_by_me) > 0" hover placement="top" class="fs11" content="Unpin this discussion">
 									<img src="@/assets/images/pinned.png" class="tiny-img2 pointer" @click="this.unpinDiscussion(this.discussion_id)">
 								</Popper>
 
-								<Popper v-else hover arrow placement="top" class="fs11" content="Pin this discussion">
+								<Popper v-else hover placement="top" class="fs11" content="Pin this discussion">
 									<img src="@/assets/images/pin.png" class="tiny-img2 pointer" @click="this.pinDiscussion(this.discussion_id)">
 								</Popper>
 
@@ -480,11 +480,11 @@ export default {
 
 								&emsp;&ensp;
 
-								<Popper v-if="parseInt(discussion.liked_by_me) > 0" hover arrow placement="top" class="fs11" content="Unlike this discussion">
+								<Popper v-if="parseInt(discussion.liked_by_me) > 0" hover placement="top" class="fs11" content="Unlike this discussion">
 									<img src="@/assets/images/thumbs-up-like.png" class="pointer" @click="this.unlikeDiscussion(this.discussion_id)">
 								</Popper>
 
-								<Popper v-else hover arrow placement="top" class="fs11" content="Like this discussion">
+								<Popper v-else hover placement="top" class="fs11" content="Like this discussion">
 									<img src="@/assets/images/thumbs-up.png" class=" pointer" @click="this.likeDiscussion(this.discussion_id)">
 								</Popper>
 
@@ -566,13 +566,13 @@ export default {
 						</div>
 
 						<div v-if="discussion.locked == 1">
-							<Popper hover arrow placement="right" class="fs11" content="This discussion is partially locked">
+							<Popper hover placement="right" class="fs11" content="This discussion is partially locked">
 								<i class="fa fa-unlock-alt"></i>
 							</Popper>
 						</div>
 
 						<div v-else-if="discussion.locked == 2">
-							<Popper hover arrow placement="right" class="fs11" content="This discussion is locked and archived">
+							<Popper hover placement="right" class="fs11" content="This discussion is locked and archived">
 								<i class="fa fa-lock"></i>
 							</Popper>
 						</div>
@@ -602,11 +602,11 @@ export default {
 									>
 									</AvatarBadgeDiscussion>
 
-									<Popper v-if="comment.guid == this.$root.guid" hover arrow placement="bottom" class="fs11" content="Delete my comment">
+									<Popper v-if="comment.guid == this.$root.guid" hover placement="bottom" class="fs11" content="Delete my comment">
 										<i class="fa fa-trash text-red fs16 ml5 pointer" @click="deleteComment(comment.id)"></i>
 									</Popper>
 
-									<Popper v-if="comment.guid == this.$root.guid" hover arrow placement="bottom" class="fs11" content="Edit my comment">
+									<Popper v-if="comment.guid == this.$root.guid" hover placement="bottom" class="fs11" content="Edit my comment">
 										<i class="fa fa-pencil text-red fs16 pointer" v-on:click="editComment(comment.id, comment.content)"></i>
 									</Popper>
 
@@ -623,15 +623,20 @@ export default {
 											comment.flagged == 0 && (
 												this.$root.role == 'admin' ||
 												this.$root.role == 'sub-admin'
-											)
+											) &&
+											comment.deleted == 0
 										" 
 										hover 
-										arrow 
 										placement="bottom" 
 										class="fs11" 
 										content="Censor this comment"
 									>
-										<i class="fa fa-flag text-yellow fs16 pointer" v-on:click="flagComment(comment.id)"></i>
+										<span 
+											class="fs10 pointer op7"
+											@click="flagComment(comment.id)"
+										>
+											<i class="fa fa-flag"></i>
+										</span>
 									</Popper>
 
 									<Popper 
@@ -639,25 +644,56 @@ export default {
 											comment.flagged == 1 && (
 												this.$root.role == 'admin' ||
 												this.$root.role == 'sub-admin'
-											)
+											) &&
+											comment.deleted == 0
 										" 
 										hover 
-										arrow 
 										placement="bottom" 
 										class="fs11" 
 										content="Uncensor this comment"
 									>
-										<i class="fa fa-flag-o fs16 pointer" v-on:click="unflagComment(comment.id)"></i>
+										<span 
+											class="fs10 pointer text-yellow bold"
+											@click="unflagComment(comment.id)"
+										>
+											<i class="fa fa-flag text-yellow"></i>
+										</span>
+									</Popper>
+
+									<Popper 
+										v-if="
+											comment.deleted == 0 && (
+												this.$root.role == 'admin' ||
+												this.$root.role == 'sub-admin'
+											)
+										" 
+										hover 
+										placement="bottom" 
+										class="fs11" 
+										content="Delete this comment"
+									>
+										<span 
+											class="fs10 pointer text-yellow bold"
+											@click="deleteComment(comment.id)"
+										>
+											<i class="fa fa-trash text-red"></i>
+										</span>
 									</Popper>
 								</div>
 
 								<div v-if="comment.flagged == 1" class="censored-comment">
 									<p class="fs13 mt10">
-										This comment has been flagged by an admin as inappropriate.
+										This comment has been censored by an admin.
 									</p>
 									<button class="btn btn-sm btn-uncensor" v-on:click="uncensorComment">
 										Show Comment
 									</button>
+								</div>
+
+								<div v-if="comment.deleted == 1" class="deleted-comment">
+									<p class="fs13 mt10">
+										This comment has been deleted by an admin.
+									</p>
 								</div>
 
 								<div class="discussion-row-content">
@@ -756,7 +792,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	min-height: 175px;
+	min-height: 200px;
 	height: auto;
 	position: relative;
 	border-bottom: 1px solid #d0d0d0;
@@ -828,6 +864,20 @@ export default {
 
 .uncensored-comment button {
 	display: none;
+}
+
+.deleted-comment {
+	position: absolute;
+	top: 0;
+	left: 160px;
+	width: calc(100% - 160px);
+	height: 100%;
+	background-color: #e1e3e6;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 .btn-uncensor {

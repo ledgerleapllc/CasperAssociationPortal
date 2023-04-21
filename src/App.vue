@@ -78,6 +78,15 @@ export default {
 			teams:           false,
 			global_settings: false
 		},
+
+		// page locks
+		page_locks: {
+			nodes: false,
+			votes: false,
+			discs: false,
+			perks: false
+		},
+
 		kyc_status:          '',
 		kyc_denied_reason:   '',
 		warning:             null,
@@ -303,6 +312,7 @@ export default {
 				this.letter             = response.detail.letter;
 				this.esigned            = parseInt(response.detail.esigned);
 				this.permissions        = response.detail.permissions;
+				this.page_locks         = response.detail.page_locks;
 				this.kyc_status         = response.detail.kyc_status;
 				this.kyc_denied_reason  = response.detail.kyc_denied_reason;
 				this.warning            = response.detail.warning;
@@ -1262,6 +1272,9 @@ export default {
 			</p>
 			<hr>
 			<h5>Enter Your MFA Code</h5>
+			<p class="op7 fs14">
+				This code may occasionally take 1 to 2 minutes to arrive.
+			</p>
 			<div class="form-group pt10">
 				<label for="usr">Code</label>
 				<input id="input-mfaModal" type="text" class="form-control form-control-sm transform-uppercase">
@@ -1277,7 +1290,12 @@ export default {
 				<span> Device not recognized. Multi-factor Authentication Requested</span>
 			</p>
 			<hr>
-			<h6>An authentication code has been sent to your email address. Please enter it here.</h6>
+			<h6>
+				An authentication code has been sent to your email address. Please enter it here.
+			</h6>
+			<p class="op7 fs14">
+				This code may occasionally take 1 to 2 minutes to arrive.
+			</p>
 			<div class="form-group pt10">
 				<label for="">Code</label>
 				<input id="input-newdeviceModal" type="text" class="form-control form-control-sm transform-uppercase">

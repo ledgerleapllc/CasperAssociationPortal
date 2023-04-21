@@ -125,7 +125,7 @@ export default {
 
 							<div v-if="perk.cta" class="mt20">
 								<button class="btn btn-success" @click="ctaClick(perk.cta)">
-									Call to Action
+									Get Started
 								</button>
 							</div>
 						</p>

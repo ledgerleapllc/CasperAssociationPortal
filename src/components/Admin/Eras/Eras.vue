@@ -264,7 +264,7 @@ export default {
 							class="eras-row mt20 pb30 border-bottom"
 						>
 							<div class="eras-cell-left fs11">
-								<p class="fs12"><b>#{{ index }}</b></p>
+								<p class="fs12"><b>{{ index }}</b></p>
 								<p>
 									{{ era.era_start_time1 }}
 									&nbsp;

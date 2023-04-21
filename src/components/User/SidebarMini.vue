@@ -1,14 +1,23 @@
 <script>
 
+import Popper from 'vue3-popper';
+
 export default {
 	data: () => ({
 		//
-	})
+	}),
+
+	components: {
+		Popper
+	},
 };
 
 </script>
 <template>
-	<div id="sidebar" :class="this.$root.suspension ? 'div-disabled' : ''">
+	<div 
+		id="sidebar" 
+		:class="this.$root.suspension ? 'div-disabled' : ''"
+	>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 pl8 pt10 white">
@@ -64,7 +73,30 @@ export default {
 						'col-12 sidebar-row'
 					"
 				>
-					<h6 class="p7 m0 pl2" @click="this.$root.routeTo('/u/nodes')">
+					<Popper 
+						v-if="this.$root.page_locks.nodes"
+						hover 
+						placement="bottom" 
+						class="fs11" 
+						:content="
+							this.$root.page_locks.nodes == 'kyc-lock' ? 
+							'Nodes page is locked at this time because your KYC is not approved' :
+							'Nodes page is locked at this time due to probation of one of your nodes'
+						"
+					>
+						<h6 
+							class="p7 m0 pl2"
+							style="position: relative"
+						>
+							<i class="fa fa-connectdevelop fs20"></i>
+							<i class="fa fa-lock text-red fs11 op7" style="position: absolute; top: 5px;"></i>
+						</h6>
+					</Popper>
+					<h6 
+						v-else
+						class="p7 m0 pl2" 
+						@click="this.$root.routeTo('/u/nodes')"
+					>
 						<i class="fa fa-connectdevelop fs20"></i>
 					</h6>
 				</div>
@@ -103,7 +135,30 @@ export default {
 					"
 					style="position: relative;" 
 				>
-					<h6 class="p7 m0 pl2" @click="this.$root.routeTo('/u/discussions')">
+					<Popper 
+						v-if="this.$root.page_locks.discs"
+						hover 
+						placement="bottom" 
+						class="fs11" 
+						:content="
+							this.$root.page_locks.discs == 'kyc-lock' ? 
+							'Discussions page is locked at this time because your KYC is not approved' :
+							'Discussions page is locked at this time due to probation of one of your nodes'
+						"
+					>
+						<h6 
+							class="p7 m0 pl2"
+							style="position: relative"
+						>
+							<i class="fa fa-wechat fs20"></i>
+							<i class="fa fa-lock text-red fs11 op7" style="position: absolute; top: 5px;"></i>
+						</h6>
+					</Popper>
+					<h6 
+						v-else
+						class="p7 m0 pl2" 
+						@click="this.$root.routeTo('/u/discussions')"
+					>
 						<i class="fa fa-wechat fs20"></i>
 					</h6>
 				</div>
@@ -116,7 +171,30 @@ export default {
 						'col-12 sidebar-row'
 					"
 				>
-					<h6 class="p7 m0 pl2" @click="this.$root.routeTo('/u/ballots/active')">
+					<Popper 
+						v-if="this.$root.page_locks.votes"
+						hover 
+						placement="bottom" 
+						class="fs11" 
+						:content="
+							this.$root.page_locks.votes == 'kyc-lock' ? 
+							'Votes page is locked at this time because your KYC is not approved' :
+							'Votes page is locked at this time due to probation of one of your nodes'
+						"
+					>
+						<h6 
+							class="p7 m0 pl2"
+							style="position: relative"
+						>
+							<i class="fa fa-check-square fs20"></i>
+							<i class="fa fa-lock text-red fs11 op7" style="position: absolute; top: 5px;"></i>
+						</h6>
+					</Popper>
+					<h6 
+						v-else
+						class="p7 m0 pl2" 
+						@click="this.$root.routeTo('/u/ballots/active')"
+					>
 						<i class="fa fa-check-square fs20"></i>
 					</h6>
 				</div>
@@ -129,7 +207,30 @@ export default {
 						'col-12 sidebar-row'
 					"
 				>
-					<h6 class="p7 m0 pl2" @click="this.$root.routeTo('/u/perks')">
+					<Popper 
+						v-if="this.$root.page_locks.perks"
+						hover 
+						placement="bottom" 
+						class="fs11" 
+						:content="
+							this.$root.page_locks.perks == 'kyc-lock' ? 
+							'Perks page is locked at this time because your KYC is not approved' :
+							'Perks page is locked at this time due to probation of one of your nodes'
+						"
+					>
+						<h6 
+							class="p7 m0 pl2"
+							style="position: relative"
+						>
+							<i class="fa fa-plus fs20"></i>
+							<i class="fa fa-lock text-red fs11 op7" style="position: absolute; top: 5px;"></i>
+						</h6>
+					</Popper>
+					<h6 
+						v-else
+						class="p7 m0 pl2" 
+						@click="this.$root.routeTo('/u/perks')"
+					>
 						<i class="fa fa-plus fs20"></i>
 					</h6>
 				</div>
