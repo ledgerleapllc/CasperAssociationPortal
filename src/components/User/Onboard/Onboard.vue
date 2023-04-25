@@ -338,6 +338,11 @@ export default {
 				'error'
 			);
 		},
+
+		downloadSampleLetter() {
+			let url = `${import.meta.env.VITE_FRONTEND_URL}/sample-letter.pdf`;
+			window.open(url);
+		}
 	},
 };
 
@@ -473,10 +478,6 @@ export default {
 						<div class="card-body float-vertical height-170">
 							<p class="mb20">
 								Write and upload a short letter of motivation outlining why you would like to sign up.
-								&emsp;
-								<span>
-									////
-								</span>
 							</p>
 
 							<p 
@@ -783,6 +784,13 @@ export default {
 						<div class="card-body">
 							<p class="fs16 mt10">
 								Write and upload a short letter of motivation outlining why you would like to sign up.
+								&emsp;
+								<span
+									class="text-red pointer"
+									@click="downloadSampleLetter"
+								>
+									To view a sample letter, click here.
+								</span>
 							</p>
 
 							<p class="fs16 mt20">
