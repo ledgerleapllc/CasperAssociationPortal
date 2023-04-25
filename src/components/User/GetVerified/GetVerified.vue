@@ -201,6 +201,10 @@ export default {
 				this.pii.dob = this.$root.formatZDate(this.pii.dob)
 			}
 
+			else {
+				this.pii.dob = this.pii.dob.replace('/', '-');
+			}
+
 			let temp     = this.pii.dob.split(' ');
 			this.pii.dob = temp[0];
 
@@ -440,14 +444,41 @@ export default {
 					<div class="card-body">
 						<p class="pb20">
 							All members of the Casper Association need to complete KYC/AML to participate. You are currently
-							<div v-if="this.$root.kyc_status === null" class="inline">
-								<ClipLoader class="clip-loader-inline" size="15px" color="#ff2d2e"></ClipLoader>
+							<div 
+								v-if="this.$root.kyc_status === null" 
+								class="inline"
+							>
+								<ClipLoader 
+									class="clip-loader-inline" 
+									size="15px" 
+									color="#ff2d2e"
+								></ClipLoader>
 							</div>
+
 							<div v-else class="inline"> 
-								<span v-if="this.$root.kyc_status == 'approved'" class="text-green bold">approved.</span> 
-								<span v-else-if="this.$root.kyc_status == 'pending'" class="op6 bold">pending.</span> 
-								<span v-else-if="this.$root.kyc_status == 'denied'" class="text-red bold">under review.</span> 
-								<span v-else class="text-yellow bold">not verified.</span>
+								<span 
+									v-if="this.$root.kyc_status == 'approved'" 
+									class="text-green bold"
+								>
+									approved.
+								</span> 
+								<span 
+									v-else-if="this.$root.kyc_status == 'pending'" 
+									class="op6 bold"
+								>
+									pending.
+								</span> 
+								<span 
+									v-else-if="this.$root.kyc_status == 'denied'" 
+									class="text-red bold"
+								>
+									under review.
+								</span> 
+								<span 
+									v-else class="text-yellow bold"
+								>
+									not verified.
+								</span>
 							</div>
 						</p>
 
@@ -493,7 +524,10 @@ export default {
 									{{ this.$root.kyc_denied_reason }}
 								</p>
 
-								<button class="btn btn-success mt20" @click="step = 1">
+								<button 
+									class="btn btn-success mt20" 
+									@click="step = 1"
+								>
 									Begin Verification
 								</button>
 							</div>
@@ -504,7 +538,10 @@ export default {
 								<b>Before we begin</b> - Do you represent an entity, such as a company, trust, LLC, non-profit, or another type of organization that controls your node?
 							</p>
 
-							<ul class="mt10" style="list-style-type: none;">
+							<ul 
+								class="mt10" 
+								style="list-style-type: none;"
+							>
 								<li>
 									<input 
 										v-model="this.account_type"
@@ -581,13 +618,22 @@ export default {
 									<p class="mt20 op7">
 										Date of Birth
 									</p>
-									<input 
+									<Datepicker
+										v-model="pii.dob"
+										:format="'yyyy/MM/dd'"
+										:preview-format="'yyyy/MM/dd'"
+										text-input
+										utc
+										placeholder="yyyy/mm/dd"
+										:onkeydown="this.$root.inputIsDateFormat"
+									></Datepicker>
+									<!-- <input 
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									>
+									> -->
 
 									<p class="mt20 op7">
 										Country of Citizenship
@@ -597,7 +643,10 @@ export default {
 										v-model="pii.country"
 									>
 										<option value="">Select Country</option>
-										<option v-for="(val, key, index) in countries" :value="key">
+										<option 
+											v-for="(val, key, index) in countries" 
+											:value="key"
+										>
 											{{ val }}
 										</option>
 									</select>
@@ -629,11 +678,21 @@ export default {
 									<p class="mt20 op7">
 										Entity Type
 									</p>
-									<select class="form-select pointer" v-model="pii.entity_type">
-										<option value="" selected>
+									<select 
+										class="form-select pointer" 
+										v-model="pii.entity_type"
+									>
+										<option 
+											value="" 
+											selected
+										>
 											Select Entity Type
 										</option>
-										<option v-for="entity_type in entity_types" :value="entity_type">
+
+										<option 
+											v-for="entity_type in entity_types" 
+											:value="entity_type"
+										>
 											{{ entity_type }}
 										</option>
 									</select>
@@ -684,11 +743,20 @@ export default {
 									<p class="mt20 op7">
 										On what Document is the representative listed?
 									</p>
-									<select class="form-select pointer" v-model="pii.entity_document_name">
-										<option value="" selected>
+									<select 
+										class="form-select pointer" 
+										v-model="pii.entity_document_name"
+									>
+										<option 
+											value="" 
+											selected
+										>
 											Select
 										</option>
-										<option v-for="doc in entity_docs" :value="doc.file_url">
+										<option 
+											v-for="doc in entity_docs" 
+											:value="doc.file_url"
+										>
 											{{ doc.file_name }}
 										</option>
 									</select>
@@ -725,7 +793,10 @@ export default {
 										v-model="pii.country"
 									>
 										<option value="">Select Country</option>
-										<option v-for="(val, key, index) in countries" :value="key">
+										<option 
+											v-for="(val, key, index) in countries" 
+											:value="key"
+										>
 											{{ val }}
 										</option>
 									</select>
@@ -733,7 +804,7 @@ export default {
 									<p class="mt20 op7">
 										Representative Date of Birth
 									</p>
-									<!-- <Datepicker
+									<Datepicker
 										v-model="pii.dob"
 										:format="'yyyy/MM/dd'"
 										:preview-format="'yyyy/MM/dd'"
@@ -741,26 +812,41 @@ export default {
 										utc
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									></Datepicker> -->
-									<input 
+									></Datepicker>
+									<!-- <input 
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									>
+									> -->
 								</div>
 							</div>
 
 							<div class="form-group max-width-400 mt20">
-								<label class="fs13 pointer" style="font-weight: normal;" for="affirm_checkbox">
-									<input type="checkbox" id="affirm_checkbox" v-model="affirm">
+								<label 
+									class="fs13 pointer" 
+									style="font-weight: normal;" 
+									for="affirm_checkbox"
+								>
+									<input 
+										type="checkbox" 
+										id="affirm_checkbox" 
+										v-model="affirm"
+									>
 									&ensp;I affirm the above information is correct.
 								</label>
 							</div>
 
-							<div v-if="loading" class="inline mt30">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
+							<div 
+								v-if="loading" 
+								class="inline mt30"
+							>
+								<ClipLoader 
+									class="clip-loader-inline" 
+									size="25px" 
+									color="#ff2d2e"
+								></ClipLoader>
 							</div>
 							<button 
 								v-else
