@@ -654,18 +654,6 @@ export default {
 							</div>
 
 							<div v-else>
-								<p class="mt20">
-									Please upload the entity's operating documents. Examples of operating documents include:
-								</p>
-								<ul class="mt10">
-									<li>Certification of incorporation</li>
-									<li>Business license</li>
-									<li>Government issued business registration document</li>
-								</ul>
-								<p class="mt20">
-									<b>NOTE:</b>&ensp;The document you upload must contain the name of one of the owners, executives or directors of the company. In the next step, you'll be required to upload this person's government issued photo ID (such as a passport) to complete the verification process. You can upload multiple documents if necessary.
-								</p>
-
 								<div class="form-group max-width-400">
 									<p class="mt20 op7">
 										Entity Name
@@ -734,6 +722,18 @@ export default {
 									ondragleave="this.style.border='3px dotted #ff2d2e';"
 									@errorAdd="this.$root.dropzone_error"
 								></DropZone>
+
+								<p class="mt20">
+									Please upload the entity's operating documents. Examples of operating documents include:
+								</p>
+								<ul class="mt10">
+									<li>Certification of incorporation</li>
+									<li>Business license</li>
+									<li>Government issued business registration document</li>
+								</ul>
+								<p class="mt20">
+									<b>NOTE:</b>&ensp;The document you upload must contain the name of one of the owners, executives or directors of the company. In the next step, you'll be required to upload this person's government issued photo ID (such as a passport) to complete the verification process. You can upload multiple documents if necessary.
+								</p>
 
 								<p class="mt20">
 									Enter the name and information for the person verifying their ID in the next step. This person must be listed in the document(s) above.

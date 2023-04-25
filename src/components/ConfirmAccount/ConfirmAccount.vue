@@ -100,26 +100,59 @@ export default {
 		<div class="checker-bottom"></div>
 
 		<div class="reset-box-wrap">
-			<div v-if="loading" class="ajax-box">
-				<ClipLoader size="45px" color="#ff2d2e"></ClipLoader>
+			<div 
+				v-if="loading" 
+				class="ajax-box"
+			>
+				<ClipLoader 
+					size="45px" 
+					color="#ff2d2e"
+				></ClipLoader>
 			</div>
 
 			<div class="login-box">
-				<img src="@/assets/images/logo2.png" class="login-img">
+				<img 
+					src="@/assets/images/logo2.png" 
+					class="login-img"
+				>
 
 				<div class="login-form-wrap">
 					<label>Welcome to Casper Association's Member Portal</label>
-					<p>Please enter the confirmation code from your email to verify your account.</p>
+
+					<p>
+						Please enter the confirmation code from your email to verify your account. Codes may take up to 2 minutes to arrive.
+					</p>
 
 					<div class="form-group pt10 login-form">
 						<form @submit.prevent>
-							<input ref="main_input" class="form-control mb5 width-minus-150" v-model="confirmation_code" type="text" placeholder="Enter verification code" autofocus>
-							<button @click="this.resendCode()" class="btn btn-success btn-inline bold" :class="able_to_resend < delay ? 'div-disabled' : ''">
+							<input 
+								ref="main_input" 
+								class="form-control mb5 width-minus-150" 
+								v-model="confirmation_code" 
+								type="text" 
+								placeholder="Enter verification code" 
+								autofocus
+							>
+							<button 
+								@click="this.resendCode()" 
+								class="btn btn-success btn-inline bold" 
+								:class="able_to_resend < delay ? 'div-disabled' : ''"
+							>
 								{{ able_to_resend >= delay ? 'Resend Code' : delay - able_to_resend }}
 							</button>
 
-							<button @click="this.confirmAccount()" class="btn btn-lime mt10 full-width bold">Confirm and Continue</button>
-							<button @click="this.$root.logout()" class="btn btn-lime mt10 full-width bold">Logout</button>
+							<button 
+								@click="this.confirmAccount()" 
+								class="btn btn-lime mt10 full-width bold"
+							>
+								Confirm and Continue
+							</button>
+							<button 
+								@click="this.$root.logout()" 
+								class="btn btn-lime mt10 full-width bold"
+							>
+								Logout
+							</button>
 						</form>
 					</div>
 				</div>

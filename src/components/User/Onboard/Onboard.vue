@@ -344,8 +344,15 @@ export default {
 </script>
 
 <template>
-	<div class="checker-top" style="position: fixed;"></div>
-	<div class="checker-bottom" style="position: fixed;"></div>
+	<div 
+		class="checker-top" 
+		style="position: fixed;"
+	></div>
+
+	<div 
+		class="checker-bottom" 
+		style="position: fixed;"
+	></div>
 
 	<div class="signup-container">
 		<img 
@@ -361,7 +368,10 @@ export default {
 			Logout
 		</button>
 
-		<div v-if="action == ''" class="container">
+		<div 
+			v-if="action == ''" 
+			class="container"
+		>
 			<div class="crown">
 				<div
 					class="crown-progress"
@@ -390,18 +400,28 @@ export default {
 								You must agree to the terms of service before you can access your portal.
 							</p>
 
-							<p v-if="this.$root.esigned" class="text-red fs16 bold">
+							<p 
+								v-if="this.$root.esigned" 
+								class="text-red fs16 bold"
+							>
 								Complete
 							</p>
 
-							<button v-else class="btn btn-lime" @click="this.action = 'terms'">
+							<button 
+								v-else 
+								class="btn btn-lime" 
+								@click="this.action = 'terms'"
+							>
 								Start
 							</button>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4 mt20">
-					<div class="card" :class="!this.$root.esigned ? 'div-disabled2' : ''">
+					<div 
+						class="card" 
+						:class="!this.$root.esigned ? 'div-disabled2' : ''"
+					>
 						<div class="card-image">
 							<img src="@/assets/images/node-ownership.png">
 						</div>
@@ -416,11 +436,18 @@ export default {
 								If you are a node operator, you must verify the ownership of your node.
 							</p>
 
-							<p v-if="!this.$root.unverified_node" class="text-red fs16 bold">
+							<p 
+								v-if="!this.$root.unverified_node" 
+								class="text-red fs16 bold"
+							>
 								Complete
 							</p>
 
-							<button v-else class="btn btn-lime" @click="this.action = 'node'">
+							<button 
+								v-else 
+								class="btn btn-lime" 
+								@click="this.action = 'node'"
+							>
 								Start
 							</button>
 						</div>
@@ -430,7 +457,10 @@ export default {
 					class="col-md-4 mt20" 
 					:class="this.$root.isMobile ? 'mb40' : ''"
 				>
-					<div class="card" :class="this.$root.unverified_node ? 'div-disabled2' : ''">
+					<div 
+						class="card" 
+						:class="this.$root.unverified_node ? 'div-disabled2' : ''"
+					>
 						<div class="card-image">
 							<img src="@/assets/images/letter-of-motivation.png">
 						</div>
@@ -445,11 +475,17 @@ export default {
 								Write and upload a short letter of motivation outlining why you would like to sign up.
 							</p>
 
-							<p v-if="this.$root.letter" class="text-red fs16 bold">
+							<p 
+								v-if="this.$root.letter" 
+								class="text-red fs16 bold"
+							>
 								Complete
 							</p>
 
-							<button v-else class="btn btn-lime" @click="this.action = 'letter'">
+							<button 
+								v-else class="btn btn-lime" 
+								@click="this.action = 'letter'"
+							>
 								Start
 							</button>
 						</div>
@@ -457,16 +493,25 @@ export default {
 				</div>
 			</div>
 
-			<div class="row" v-if="progressWidth == '100%'">
+			<div 
+				class="row" 
+				v-if="progressWidth == '100%'"
+			>
 				<div class="col-md-12">
-					<p class="mt30 text-white fs18 bold mb60" style="position: relative;">
+					<p 
+						class="mt30 text-white fs18 bold mb60" 
+						style="position: relative;"
+					>
 						Finished! We sent you a follow up email. Please wait for an admin to review your account. This could take 24 hours.
 					</p>
 				</div>
 			</div>
 		</div>
 
-		<div v-else-if="action == 'terms'" class="container onboard-max-width">
+		<div 
+			v-else-if="action == 'terms'" 
+			class="container onboard-max-width"
+		>
 			<div class="row">
 				<div class="col-md-12 mt20">
 					<div class="card">
@@ -481,31 +526,59 @@ export default {
 								Clicking the icons below will open them up on a new tab for viewing before you sign. On the next screen, you will electronically sign these documents. Please click next to proceed after your are done reviewing.
 							</p>
 
-							<div class="mt40 pointer inline" @click="open_document">
-								<img class="doc-img" src="@/assets/images/letter.png">
+							<div 
+								class="mt40 pointer inline" 
+								@click="open_document"
+							>
+								<img 
+									class="doc-img" 
+									src="@/assets/images/letter.png"
+								>
 
 								<p>
 									{{ this.$root.formatHash(esign_doc_name, 16) }}
 								</p>
 							</div>
 
-							<div v-if="this.$root.esigned" class="pt50">
-								<button class="btn btn-lime float-right" @click="this.action = ''">
+							<div 
+								v-if="this.$root.esigned" 
+								class="pt50"
+							>
+								<button 
+									class="btn btn-lime float-right" 
+									@click="this.action = ''"
+								>
 									<i class="fa fa-check fs18 mr5"></i>
 									Complete
 								</button>
 							</div>
 
 							<div v-else class="pt50">
-								<button class="btn btn-lime" @click="this.action = ''">
+								<button 
+									class="btn btn-lime" 
+									@click="this.action = ''"
+								>
 									Back
 								</button>
 
 								<div class="float-right">
-									<ClipLoader v-if="this.thinking" size="25px" color="#ff2d2e" class="clip-loader-inline"></ClipLoader>
+									<ClipLoader 
+										v-if="this.thinking" 
+										size="25px" 
+										color="#ff2d2e" 
+										class="clip-loader-inline"
+									></ClipLoader>
 
-									<button v-else class="btn btn-lime" :class="clicked_doc ? '' : 'div-disabled'" @click="begin_hello_sign">
-										<i v-if="clicked_doc" class="fa fa-pencil fs18 mr5"></i>
+									<button 
+										v-else 
+										class="btn btn-lime" 
+										:class="clicked_doc ? '' : 'div-disabled'" 
+										@click="begin_hello_sign"
+									>
+										<i 
+											v-if="clicked_doc" 
+											class="fa fa-pencil fs18 mr5"
+										></i>
 										Go to E-Sign
 									</button>
 								</div>
@@ -516,7 +589,10 @@ export default {
 			</div>
 		</div>
 
-		<div v-else-if="action == 'node'" class="container onboard-max-width">
+		<div 
+			v-else-if="action == 'node'" 
+			class="container onboard-max-width"
+		>
 			<div class="row">
 				<div class="col-md-12 mt20">
 					<div class="card">
@@ -530,11 +606,27 @@ export default {
 
 							<div class="form-group pt40">
 								<form @submit.prevent>
-									<input class="form-control mb5" type="text" placeholder="Validator Public Key" :value="this.$root.unverified_node">
-									<button @click="verify_node" class="btn btn-lime mt10">Verify</button>
+									<input 
+										class="form-control mb5" 
+										type="text" 
+										placeholder="Validator Public Key" 
+										:value="this.$root.unverified_node"
+									>
+									<button 
+										@click="verify_node" 
+										class="btn btn-lime mt10"
+									>Verify</button>
 
-									<i v-if="verified_node" class="fa fa-check fs18 text-green ml10"></i>
-									<ClipLoader v-if="this.thinking" size="25px" color="#ff2d2e" class="clip-loader-inline"></ClipLoader>
+									<i 
+										v-if="verified_node" 
+										class="fa fa-check fs18 text-green ml10"
+									></i>
+									<ClipLoader 
+										v-if="this.thinking" 
+										size="25px" 
+										color="#ff2d2e" 
+										class="clip-loader-inline"
+									></ClipLoader>
 								</form>
 							</div>
 
@@ -552,7 +644,12 @@ export default {
 											Download this message file for signing
 										</td>
 										<td>
-											<button class="btn btn-sm width-150 fs12 btn-lime bold" @click="downloadMessage()">Download</button>
+											<button 
+												class="btn btn-sm width-150 fs12 btn-lime bold" 
+												@click="downloadMessage()"
+											>
+												Download
+											</button>
 										</td>
 									</tr>
 
@@ -564,7 +661,12 @@ export default {
 											Sign the message with your node key
 										</td>
 										<td>
-											<button class="btn btn-sm width-150 fs12 btn-lime bold" @click="gotoGithub()">Go to Github</button>
+											<button 
+												class="btn btn-sm width-150 fs12 btn-lime bold" 
+												@click="gotoGithub()"
+											>
+												Go to Github
+											</button>
 										</td>
 									</tr>
 									<tr v-else class="div-disabled">
@@ -626,11 +728,21 @@ export default {
 							</div>
 
 							<div class="mt50">
-								<button class="btn btn-lime" @click="this.action = ''">
+								<button 
+									class="btn btn-lime" 
+									@click="this.action = ''"
+								>
 									Back
 								</button>
-								<button class="btn btn-lime float-right" :class="verified_signature ? '' : 'div-disabled'" @click="this.action = ''">
-									<i v-if="verified_signature" class="fa fa-check fs18 mr5"></i>
+								<button 
+									class="btn btn-lime float-right" 
+									:class="verified_signature ? '' : 'div-disabled'" 
+									@click="this.action = ''"
+								>
+									<i 
+										v-if="verified_signature" 
+										class="fa fa-check fs18 mr5"
+									></i>
 									Complete
 								</button>
 							</div>
@@ -640,7 +752,10 @@ export default {
 			</div>
 		</div>
 
-		<div v-else-if="action == 'letter'" class="container onboard-max-width">
+		<div 
+			v-else-if="action == 'letter'" 
+			class="container onboard-max-width"
+		>
 			<div class="row">
 				<div class="col-md-12 mt20">
 					<div class="card">
