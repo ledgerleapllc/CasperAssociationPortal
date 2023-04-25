@@ -86,7 +86,7 @@ export default {
 				(this.uri_category == 'active' ? 'spa-tab-active' : '')
 			"
 		>
-			Active Ballots
+			Active & Upcoming
 		</div>
 
 		<div

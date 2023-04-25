@@ -31,6 +31,7 @@ export default {
 			my_vote:             null,
 			anti_my_vote:        null,
 			end_time:            null,
+			total_votes:         null,
 
 			flipVoteModalIsOpen: false,
 			isClickOut: false,
@@ -86,6 +87,7 @@ export default {
 				this.my_vote             = response.detail?.my_vote;
 				this.end_time            = response.detail?.end_time;
 				this.start_time          = response.detail?.start_time;
+				this.total_votes         = response.detail?.total_votes;
 
 				if (this.my_vote == 'for') {
 					this.anti_my_vote = 'against';
@@ -296,148 +298,264 @@ export default {
 </script>
 
 <template>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12 mt20">
-				<div class="go-back" @click="this.$router.back()">
-					<i class="fa fa-arrow-left"></i>
-					Votes
+	<div class="container-fluid mt20">
+		<div 
+			class="go-back" 
+			@click="this.$router.back()"
+		>
+			<i class="fa fa-arrow-left"></i>
+			Votes
+		</div>
+
+		<div class="card mt20">
+			<div class="card-body">
+				<div 
+					class="row" 
+					style="min-height: 64px; max-width: 900px;"
+				>
+					<div class="col-lg-3 col-md-12">
+						<p class="italic bold fs13">
+							Status:
+						</p>
+
+						<p
+							v-if="status == 'pending'"
+							class="op7 bold"
+						>
+							Scheduled
+						</p>
+
+						<p
+							v-if="status == 'active'"
+							class="text-red bold"
+						>
+							Voting is Live!
+						</p>
+
+						<p
+							v-else-if="status == 'done'"
+							class="bold"
+						>
+							Voting has ended
+							<i class="fa fa-lock"></i>
+
+							<span class="fs13">
+								{{ end_time }} UTC
+							</span>
+						</p>
+					</div>
+
+					<div class="col-lg-3 col-md-12 mt20">
+						<p class="italic bold fs13">
+							Vote Result:
+						</p>
+
+						<p v-if="votes_for === null">
+							<ClipLoader 
+								class="clip-loader-inline" 
+								size="15px" 
+								color="#ff2d2e"
+							></ClipLoader>
+						</p>
+
+						<p 
+							v-else-if="status == 'done'" 
+							class="bold"
+						>
+							<span 
+								v-if="votes_for > votes_against" 
+								class="fs16 text-blue"
+							>
+								Passed
+							</span>
+							<span 
+								v-if="votes_for < votes_against" 
+								class="fs16 text-red"
+							>
+								Failed
+							</span>
+							<span 
+								v-if="votes_for == votes_against" 
+								class="fs16 text-yellow bold"
+							>
+								Tied
+							</span>
+
+							<br/>
+
+							<p class="fs12">
+								<span class="text-blue bold">
+									{{ votes_for }}
+								</span>
+								/
+								<span class="text-red bold">
+									{{ votes_against }}
+								</span>
+							</p>
+						</p>
+
+						<p 
+							v-else
+							class="bold"
+						>
+							-
+						</p>
+
+					</div>
+
+					<div class="col-lg-3 col-md-12 mt20">
+						<p class="italic bold fs13">
+							Total Votes:
+						</p>
+
+						<p class="bold">
+							{{ total_votes }}
+						</p>
+					</div>
+
+					<div class="col-lg-3 col-md-12 mt20">
+						<p class="italic bold fs13">
+							Time Remaining:
+						</p>
+
+						<div 
+							v-if="time_remaining === null"
+							class=""
+						>
+							<ClipLoader 
+								class="clip-loader-inline" 
+								size="15px" 
+								color="#ff2d2e"
+							></ClipLoader>
+						</div>
+
+						<p 
+							v-if="status == 'pending'"
+							class="bold op7"
+						>
+							Voting not yet started
+						</p>
+
+						<div v-else>
+							<div class="progress-bar-wrap max-width-400">
+								<p>{{ time_remaining }}</p>
+								<div 
+									class="progress-bar" 
+									:style="`width:${time_remaining_perc}%`"
+								></div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="card mt20">
-					<div class="card-body">
-						<div class="b-result-row">
-							<div class="b-result-row-left fs16">
-								Result:
-							</div>
-							<div v-if="this.votes_for === null" class="b-result-row-right">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
-							</div>
-							<div v-else class="b-result-row-right">
-								<p class="fs16">
-									For
-									<Popper hover arrow placement="top" class="fs11" content="Amount of votes 'for' this ballot">
-										<i class="fa fa-info-circle text-red fs14"></i>
-									</Popper>
-								</p>
-								<div class="progress-bar-wrap max-width-400">
-									<p>{{ votes_for }}%</p>
-									<div class="progress-bar" :style="`width:${votes_for}%`"></div>
-								</div>
 
-								<p class="fs16 pt10">
-									Against
-									<Popper hover arrow placement="top" class="fs11" content="Amount of votes 'against' this ballot">
-										<i class="fa fa-info-circle text-red fs14"></i>
-									</Popper>
-								</p>
-								<div class="progress-bar-wrap max-width-400">
-									<p>{{ votes_against }}%</p>
-									<div class="progress-bar" :style="`width:${votes_against}%`"></div>
-								</div>
-							</div>
-						</div>
+				<hr style="max-width: 900px;">
 
-						<div class="b-result-row mt30">
-							<div class="b-result-row-left fs16">
-								Ballot Title:
-							</div>
-							<div v-if="this.title === null" class="b-result-row-right">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
-							</div>
-							<div v-else class="b-result-row-right">
-								<p class="fs16">
-									{{ title }}
-								</p>
-							</div>
-						</div>
+				<div class="row mt30">
+					<div class="col-12">
+						<p class="fs13 bold italic">
+							Ballot Title:
+						</p>
 
-						<div class="b-result-row mt30">
-							<div class="b-result-row-left fs16">
-								Time Remaining:
-							</div>
-							<div v-if="this.time_remaining === null" class="b-result-row-right">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
-							</div>
-							<div v-else class="b-result-row-right">
-								<div v-if="status == 'active'">
-									<div class="progress-bar-wrap max-width-400">
-										<p>{{ time_remaining }}</p>
-										<div class="progress-bar" :style="`width:${time_remaining_perc}%`"></div>
-									</div>
+						<p class="fs17 bold">
+							{{ title }}
+						</p>
 
-									<div class="mt20" v-if="my_vote != ''">
-										You voted <b>{{ my_vote }}</b> this ballot
-										<div v-if="status == 'active'">
-											<p class="fs12 op7 mt10">
-												You still have time to change your mind and flip your vote.
-											</p>
-											<button class="btn btn-sm btn-success fs12 mt5" @click="flipVote()">
-												Flip My Vote
-											</button>
-										</div>
-									</div>
-
-									<div v-else>
-										<form @submit.prevent>
-											<div class="form-group mt20">
-												<button class="btn btn-success width-150 mr5" @click="voteFor()">
-													Vote For
-												</button>
-												<button class="btn btn-black width-150" @click="voteAgainst()">
-													Vote Against
-												</button>
-											</div>
-										</form>
-									</div>
-								</div>
-
-								<div v-else-if="status == 'pending'" class="fs16">
-									Voting not yet started
-								</div>
-
-								<div v-else-if="status == 'done'" class="fs16">
-									<span v-if="votes_for > votes_against" class="fs16 text-green">
-										Passed
-									</span>
-									<span v-if="votes_for < votes_against" class="fs16 text-red">
-										Failed
-									</span>
-									<span v-if="votes_for == votes_against" class="fs16 text-yellow">
-										Tied
-									</span>
-
-									<span class="fs14">
-										&ensp;{{ end_time }} UTC
-									</span>
-								</div>
-							</div>
-						</div>
-
-						<p class="fs16 mt30 bold">
+						<p class="fs13 bold italic mt30">
 							Description:
 						</p>
 
-						<p class="fs16 mt10">
-							<div v-if="this.description === null" class="b-result-row-right">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
-							</div>
-							<div v-else>
-								{{ description }}
-							</div>
+						<p class="fs16">
+							{{ description }}
 						</p>
 
-						<p class="fs16 mt30 bold">
-							Files Attached:
+						<p class="fs13 bold italic mt30">
+							Attached Files:
 						</p>
 
 						<p class="fs16 mt10">
-							<div v-if="this.files_attached === null" class="b-result-row-right">
-								<ClipLoader class="clip-loader-inline" size="25px" color="#ff2d2e"></ClipLoader>
+							<div v-if="files_attached === null" >
+								<ClipLoader 
+									class="clip-loader-inline" 
+									size="25px" 
+									color="#ff2d2e"
+								></ClipLoader>
 							</div>
 							<div v-else>
-								{{ files_attached }}
+								<a
+									v-if="
+										files_attached?.includes('.png') ||
+										files_attached?.includes('.jpg') ||
+										files_attached?.includes('.jpeg')
+									"
+									:href="files_attached" 
+									target="_blank">
+									<img 
+										:src="files_attached" 
+										class="ballot-file"
+									>
+								</a>
+								<span v-else>
+									<a 
+										:href="files_attached" 
+										target="_blank"
+									>
+										{{ this.$root.formatHash(files_attached, 64) }}
+									</a>
+								</span>
 							</div>
 						</p>
+
+						<div v-if="status != 'pending'">
+							<p class="fs13 bold italic mt30">
+								My Vote:
+							</p>
+
+							<div v-if="status == 'active'">
+								<div v-if="my_vote != ''">
+									You voted <span class="bold text-red underline">{{ my_vote }}</span> this ballot
+
+									<p class="fs12 op7 mt10">
+										You still have time to change your mind and flip your vote.
+									</p>
+
+									<button 
+										class="btn btn-sm btn-success fs12 mt5" 
+										@click="flipVote()"
+									>
+										Flip My Vote
+									</button>
+								</div>
+
+								<div v-else>
+									<form @submit.prevent>
+										<div class="form-group mt20">
+											<button 
+												class="btn btn-success width-150 mr5" 
+												@click="voteFor()"
+											>
+												Vote For
+											</button>
+											<button 
+												class="btn btn-black width-150" 
+												@click="voteAgainst()"
+											>
+												Vote Against
+											</button>
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div v-else>
+								<div v-if="my_vote">
+									You voted <span class="bold text-red underline">{{ my_vote }}</span> this ballot
+								</div>
+
+								<div v-else>
+									You did not vote on this ballot.
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -451,14 +569,24 @@ export default {
 		:clickOut="true"
 	>
 		<div class="modal-container">
-			<p class="pb15 bold fs17 border-bottom">Flip Vote</p>
+			<p class="pb15 bold fs17 border-bottom">
+				Flip Vote
+			</p>
 
-			<p class="pt15 pb15">You are currently voting <b>{{ my_vote }}</b> this ballot. Flip your decision to <b>{{ anti_my_vote }}</b>?</p>
+			<p class="pt15 pb15">
+				You are currently voting <b>{{ my_vote }}</b> this ballot. Flip your decision to <b>{{ anti_my_vote }}</b>?
+			</p>
 
-			<button class="btn btn-success btn-sm mt15" @click="_flipVote()">
+			<button 
+				class="btn btn-success btn-sm mt15" 
+				@click="_flipVote()"
+			>
 				Flip My Vote
 			</button>
-			<button class="btn btn-black btn-sm mt15 ml5" @click="cancelflipVote">
+			<button 
+				class="btn btn-black btn-sm mt15 ml5" 
+				@click="cancelflipVote"
+			>
 				Cancel
 			</button>
 		</div>

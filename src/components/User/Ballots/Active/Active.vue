@@ -34,8 +34,22 @@ export default {
 					sortable: true,
 				},
 				{
+					field: 'status',
+					headerName: 'Status',
+					sortable: true,
+					cellRenderer: (params) => {
+						if (params?.value == 'pending') {
+							return `<span class="op7">Upcoming vote</span>`;
+						}
+
+						else {
+							return `<span class="text-red bold pointer">Voting LIVE</span>`;
+						}
+					},
+				},
+				{
 					field: 'total_votes',
-					headerName: 'Votes',
+					headerName: 'Total Votes',
 					sortable: true,
 				},
 				{
@@ -71,19 +85,6 @@ export default {
 						if (!params) return '';
 						if (!params.value) return '';
 						return `<i class="fa fa-calendar fs12"></i>${params.value} UTC`
-					}
-				},
-				{
-					field: '',
-					headerName: '',
-					sortable: false,
-					cellRenderer: (params) => {
-						if (!params) return '';
-						if (!params.data) return '';
-
-						if (!params.data.my_vote) {
-							return `<button class="btn btn-success btn-sm fs12">Vote Now</button>`;
-						}
 					}
 				}
 			],

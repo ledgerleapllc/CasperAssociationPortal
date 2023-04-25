@@ -34,8 +34,22 @@ export default {
 					sortable: true,
 				},
 				{
+					field: 'status',
+					headerName: 'Status',
+					sortable: true,
+					cellRenderer: (params) => {
+						if (params?.value == 'pending') {
+							return `<span class="op7">Upcoming vote</span>`;
+						}
+
+						else {
+							return `<span class="text-red bold pointer">Voting LIVE</span>`;
+						}
+					},
+				},
+				{
 					field: 'total_votes',
-					headerName: 'Votes',
+					headerName: 'Total Votes',
 					sortable: true,
 				},
 				{

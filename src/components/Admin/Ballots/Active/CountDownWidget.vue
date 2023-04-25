@@ -5,8 +5,9 @@ import moment from 'moment';
 export default {
 	data() {
 		return {
-			time: '',
-			perc: 0,
+			status: 'pending',
+			time:   '',
+			perc:   0,
 
 			start_time: 0,
 			end_time:   0
@@ -17,10 +18,11 @@ export default {
 	},
 
 	mounted() {
-		let params = this.$props?.params;
+		let params  = this.$props?.params;
+		this.status = params?.data?.status
 
-		if (params?.data?.status == 'pending') {
-			return '<span class="op7">Voting not yet started</span>';
+		if (this.status == 'pending') {
+			return '';
 		}
 
 		this.time = params?.value;
@@ -129,7 +131,16 @@ export default {
 
 </script>
 <template>
-	<div class="progress-bar-wrap">
+	<div v-if="status == 'pending'">
+		<span class="op7">
+			Scheduled
+		</span>
+	</div>
+
+	<div 
+		v-else
+		class="progress-bar-wrap"
+	>
 		<p>
 			{{ time }}
 		</p>
