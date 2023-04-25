@@ -519,7 +519,18 @@ export default {
 
 							<div v-if="status == 'active'">
 								<div v-if="my_vote != ''">
-									You voted <span class="bold text-red underline">{{ my_vote }}</span> this ballot
+									You voted
+									<span 
+										class="bold underline"
+										:class="
+											my_vote == 'for' ? 
+											'text-blue' :
+											'text-red'
+										"
+									>
+										{{ my_vote }}
+									</span>
+									this ballot
 
 									<p class="fs12 op7 mt10">
 										You still have time to change your mind and flip your vote.
