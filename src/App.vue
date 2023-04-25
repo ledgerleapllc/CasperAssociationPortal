@@ -1886,7 +1886,7 @@ i {
 
 .btn-black {
 	border: 1px solid #b4b4b4;
-	margin: 3px;
+	/*margin: 3px;*/
 	color: #f1f3f6;
 	background-color: #333;
 }
