@@ -615,7 +615,7 @@ export default {
 
 								<div v-if="comment.deleted == 1" class="deleted-comment">
 									<p class="fs13 mt10">
-										This comment has been deleted by an admin as inappropriate.
+										This comment has been deleted by an admin.
 									</p>
 								</div>
 
