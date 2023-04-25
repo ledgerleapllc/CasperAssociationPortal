@@ -32,6 +32,24 @@ export default {
 					sortable: true,
 				},
 				{
+					field: 'my_vote',
+					headerName: 'My Vote',
+					sortable: true,
+					cellRenderer: (params) => {
+						if (params?.value == 'for') {
+							return `<span class="text-blue bold">For</span>`;
+						}
+
+						else if (params?.value == 'against'){
+							return `<span class="text-red bold">Against</span>`;
+						}
+
+						else {
+							return `<span class="op5 fs12">No Vote</span>`;
+						}
+					},
+				},
+				{
 					field: 'total_votes',
 					headerName: 'Total Votes',
 					sortable: true,
