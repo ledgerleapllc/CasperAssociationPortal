@@ -191,9 +191,13 @@ export default {
 				);
 				this.loading = false;
 				return false;
-			} else if (typeof this.pii.dob.toISOString == 'function') {
+			}
+
+			else if (typeof this.pii.dob.toISOString == 'function') {
 				this.pii.dob = this.$root.formatDateWithZone(this.pii.dob)
-			} else if (this.pii.dob.includes("Z")) {
+			}
+
+			else if (this.pii.dob.includes("Z")) {
 				this.pii.dob = this.$root.formatZDate(this.pii.dob)
 			}
 
@@ -577,15 +581,13 @@ export default {
 									<p class="mt20 op7">
 										Date of Birth
 									</p>
-									<Datepicker
+									<input 
+										type="text"
+										class="form-control" 
 										v-model="pii.dob"
-										:format="'yyyy/MM/dd'"
-										:preview-format="'yyyy/MM/dd'"
-										text-input
-										utc
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									></Datepicker>
+									>
 
 									<p class="mt20 op7">
 										Country of Citizenship
@@ -731,7 +733,7 @@ export default {
 									<p class="mt20 op7">
 										Representative Date of Birth
 									</p>
-									<Datepicker
+									<!-- <Datepicker
 										v-model="pii.dob"
 										:format="'yyyy/MM/dd'"
 										:preview-format="'yyyy/MM/dd'"
@@ -739,7 +741,14 @@ export default {
 										utc
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									></Datepicker>
+									></Datepicker> -->
+									<input 
+										type="text"
+										class="form-control" 
+										v-model="pii.dob"
+										placeholder="yyyy/mm/dd"
+										:onkeydown="this.$root.inputIsDateFormat"
+									>
 								</div>
 							</div>
 
