@@ -959,6 +959,87 @@ export default {
 			}
 		},
 
+		inputIsDateFormatHyphens(element) {
+			let key    = element.key ?? '';
+			let target = element.target ?? '';
+			let value  = target.value ?? '';
+			let newval = value + key;
+
+			if (
+				key == 'Backspace' ||
+				key == 'Delete'    ||
+				key == 'Tab'
+			) {
+				return true;
+			}
+
+			if (!/^[0-9]+$/.test(key)) {
+				return false;
+			}
+
+			if (newval.length == 4) {
+				let year = parseInt(newval.slice(0, 4));
+
+				if (year > 2100) {
+					element.target.value = '2100-';
+				} else {
+					element.target.value = newval + '-';
+				}
+
+				return false;
+			}
+
+			if (value.length == 4) {
+				let year = parseInt(value.slice(0, 4));
+
+				if (year > 2100) {
+					element.target.value = '2100-' + key;
+				} else {
+					element.target.value = value + '-' + key;
+				}
+
+				return false;
+			}
+
+			if (
+				newval.length == 6 &&
+				parseInt(key) > 1
+			) {
+				element.target.value = value + '0' + key + '-';
+				return false;
+			}
+
+			if (newval.length == 7) {
+				let month = parseInt(newval.slice(5, 7));
+
+				if (month > 12) {
+					element.target.value = value.slice(0, 5) + '12-';
+				} else {
+					element.target.value = newval + '-';
+				}
+
+				return false;
+			}
+
+			if (value.length == 7) {
+				element.target.value = value + '-' + key;
+				return false;
+			}
+
+			if (newval.length == 10) {
+				let day = parseInt(newval.slice(8, 10));
+
+				if (day > 31) {
+					element.target.value = value.slice(0, 8) + '31';
+					return false;
+				}
+			}
+
+			if (newval.length > 10) {
+				return false;
+			}
+		},
+
 		gotoBackOffice() {
 			window.open('https://backoffice.shuftipro.com/reports');
 		}

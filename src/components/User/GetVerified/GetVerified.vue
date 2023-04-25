@@ -193,6 +193,7 @@ export default {
 				return false;
 			}
 
+			/*
 			else if (typeof this.pii.dob.toISOString == 'function') {
 				this.pii.dob = this.$root.formatDateWithZone(this.pii.dob)
 			}
@@ -207,6 +208,7 @@ export default {
 
 			let temp     = this.pii.dob.split(' ');
 			this.pii.dob = temp[0];
+			*/
 
 			// check country
 			if (!this.pii.country) {
@@ -631,8 +633,8 @@ export default {
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
-										placeholder="yyyy/mm/dd"
-										:onkeydown="this.$root.inputIsDateFormat"
+										placeholder="yyyy-mm-dd"
+										:onkeydown="this.$root.inputIsDateFormatHyphens"
 									>
 
 									<p class="mt20 op7">
@@ -817,8 +819,8 @@ export default {
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
-										placeholder="yyyy/mm/dd"
-										:onkeydown="this.$root.inputIsDateFormat"
+										placeholder="yyyy-mm-dd"
+										:onkeydown="this.$root.inputIsDateFormatHyphens"
 									>
 								</div>
 							</div>
