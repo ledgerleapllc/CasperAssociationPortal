@@ -303,7 +303,7 @@ export default {
 				>
 					<h6 
 						class="p7 pl20 m0" 
-						@click="this.$root.routeTo('/u/membership')"
+						@click="this.$root.routeTo('/u/get-verified')"
 					>
 						<span class="fs12 bold text-red">
 							<span class="underline bold">Completed KYC</span> to unlock
