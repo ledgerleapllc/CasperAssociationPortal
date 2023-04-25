@@ -292,24 +292,28 @@ export default {
 
 <template>
 	<button 
+		v-if="uri_category != 'new'"
 		class="btn btn-success btn float-right mt10 ml5" 
 		@click="
 			this.$root.routeTo('/a/discussions/new');
-			this.uri_category = 'new';
+			uri_category = 'new';
 		"
 	>
 		<b>&plus;</b>&ensp;New Discussion
 	</button>
 
-	<div class="top-banner mt20">
+	<div 
+		v-if="uri_category != 'new'"
+		class="top-banner mt20"
+	>
 		<div
 			@click="
 				this.$root.routeTo(`/a/discussions/all`);
-				this.uri_category = 'all';
+				uri_category = 'all';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'all' ? 'spa-tab-active' : '')
+				(uri_category == 'all' ? 'spa-tab-active' : '')
 			"
 		>
 			All Discussions
@@ -318,11 +322,11 @@ export default {
 		<div
 			@click="
 				this.$root.routeTo(`/a/discussions/my`);
-				this.uri_category = 'my';
+				uri_category = 'my';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'my' ? 'spa-tab-active' : '')
+				(uri_category == 'my' ? 'spa-tab-active' : '')
 			"
 		>
 			My Discussions
@@ -331,11 +335,11 @@ export default {
 		<div
 			@click="
 				this.$root.routeTo(`/a/discussions/pinned`);
-				this.uri_category = 'pinned';
+				uri_category = 'pinned';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'pinned' ? 'spa-tab-active' : '')
+				(uri_category == 'pinned' ? 'spa-tab-active' : '')
 			"
 		>
 			Pinned Discussions
@@ -344,11 +348,11 @@ export default {
 		<div
 			@click="
 				this.$root.routeTo(`/a/discussions/draft`);
-				this.uri_category = 'draft';
+				uri_category = 'draft';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'draft' ? 'spa-tab-active' : '')
+				(uri_category == 'draft' ? 'spa-tab-active' : '')
 			"
 		>
 			Draft
@@ -356,11 +360,11 @@ export default {
 
 	</div>
 
-	<All v-if="this.uri_category == 'all'"></All>
-	<My v-else-if="this.uri_category == 'my'"></My>
-	<Pinned v-else-if="this.uri_category == 'pinned'"></Pinned>
-	<Draft v-else-if="this.uri_category == 'draft'"></Draft>
-	<New v-else-if="this.uri_category == 'new'"></New>
+	<All v-if="uri_category == 'all'"></All>
+	<My v-else-if="uri_category == 'my'"></My>
+	<Pinned v-else-if="uri_category == 'pinned'"></Pinned>
+	<Draft v-else-if="uri_category == 'draft'"></Draft>
+	<New v-else-if="uri_category == 'new'"></New>
 
 
 </template>

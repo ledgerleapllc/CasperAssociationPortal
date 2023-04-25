@@ -66,24 +66,28 @@ export default {
 
 <template>
 	<button 
+		v-if="uri_category != 'new'"
 		class="btn btn-success btn float-right mt10 ml5" 
 		@click="
 			this.$root.routeTo('/a/ballots/new');
-			this.uri_category = 'new';
+			uri_category = 'new';
 		"
 	>
 		<b>&plus;</b>&ensp;New Ballot
 	</button>
 
-	<div class="top-banner mt20">
+	<div 
+		v-if="uri_category != 'new'"
+		class="top-banner mt20"
+	>
 		<div
 			@click="
 				this.$root.routeTo(`/a/ballots/active`);
-				this.uri_category = 'active';
+				uri_category = 'active';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'active' ? 'spa-tab-active' : '')
+				(uri_category == 'active' ? 'spa-tab-active' : '')
 			"
 		>
 			Active & Upcoming
@@ -92,11 +96,11 @@ export default {
 		<div
 			@click="
 				this.$root.routeTo(`/a/ballots/finished`);
-				this.uri_category = 'finished';
+				uri_category = 'finished';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'finished' ? 'spa-tab-active' : '')
+				(uri_category == 'finished' ? 'spa-tab-active' : '')
 			"
 		>
 			Finished Ballots
@@ -105,26 +109,22 @@ export default {
 		<div
 			@click="
 				this.$root.routeTo(`/a/ballots/all`);
-				this.uri_category = 'all';
+				uri_category = 'all';
 			"
 			v-bind:class="
 				'spa-tab ' +
-				(this.uri_category == 'all' ? 'spa-tab-active' : '')
+				(uri_category == 'all' ? 'spa-tab-active' : '')
 			"
 		>
 			All Votes
 		</div>
-
-
 	</div>
 
-	<Active v-if="this.uri_category == 'active'"></Active>
-	<Finished v-else-if="this.uri_category == 'finished'"></Finished>
-	<All v-else-if="this.uri_category == 'all'"></All>
-	<New v-else-if="this.uri_category == 'new'"></New>
-	<GeneralAssembly v-else-if="this.uri_category == 'general-assembly'"></GeneralAssembly>
-
-
+	<Active v-if="uri_category == 'active'"></Active>
+	<Finished v-else-if="uri_category == 'finished'"></Finished>
+	<All v-else-if="uri_category == 'all'"></All>
+	<New v-else-if="uri_category == 'new'"></New>
+	<GeneralAssembly v-else-if="uri_category == 'general-assembly'"></GeneralAssembly>
 </template>
 
 <style>

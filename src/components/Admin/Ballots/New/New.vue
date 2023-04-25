@@ -211,7 +211,7 @@ export default {
 
 							<div class="max-width-300">
 								<p class="mt20">
-									Start Time
+									Start Date/Time
 								</p>
 								<Datepicker 
 									v-model="start_time" 
@@ -224,7 +224,7 @@ export default {
 
 							<div class="max-width-300">
 								<p class="mt20">
-									End Time
+									End Date/Time
 								</p>
 								<Datepicker 
 									v-model="end_time" 
