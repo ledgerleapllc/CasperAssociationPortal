@@ -40,7 +40,7 @@ export default {
 						if (!params.value) return '';
 
 						if (params.value == 'for') {
-							return `<span class="text-green bold">For</span>`;
+							return `<span class="text-blue bold">For</span>`;
 						}
 
 						if (params.value == 'against') {
