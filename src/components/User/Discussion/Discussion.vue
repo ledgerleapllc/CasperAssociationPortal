@@ -561,7 +561,7 @@ export default {
 								<ClipLoader 
 									size="25px" 
 									color="#ff2d2e"
-								]></ClipLoader>
+								></ClipLoader>
 							</div>
 							<div 
 								v-else 
@@ -812,9 +812,13 @@ export default {
 		:clickOut="true"
 	>
 		<div class="modal-container">
-			<p class="pb15 bold fs17 border-bottom">Lock Discussion</p>
+			<p class="pb15 bold fs17 border-bottom">
+				Lock Discussion
+			</p>
 
-			<p class="pt15 pb15">Lock this discussion? The discussion will no longer be able to be modified or deleted once this action is done. People will still be able to comment/like/pin the post.</p>
+			<p class="pt15 pb15">
+				Lock this discussion? The discussion will no longer be able to be modified or deleted once this action is done. People will still be able to comment/like/pin the post.
+			</p>
 
 			<button 
 				class="btn btn-success btn-sm mt15" 

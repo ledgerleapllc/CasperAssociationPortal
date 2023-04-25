@@ -473,6 +473,10 @@ export default {
 						<div class="card-body float-vertical height-170">
 							<p class="mb20">
 								Write and upload a short letter of motivation outlining why you would like to sign up.
+								&emsp;
+								<span>
+									////
+								</span>
 							</p>
 
 							<p 
@@ -615,7 +619,9 @@ export default {
 									<button 
 										@click="verify_node" 
 										class="btn btn-lime mt10"
-									>Verify</button>
+									>
+										Verify
+									</button>
 
 									<i 
 										v-if="verified_node" 
@@ -669,7 +675,10 @@ export default {
 											</button>
 										</td>
 									</tr>
-									<tr v-else class="div-disabled">
+									<tr 
+										v-else 
+										class="div-disabled"
+									>
 										<td class="bold">
 											2.
 										</td>
@@ -677,7 +686,12 @@ export default {
 											Sign the message with your node key
 										</td>
 										<td>
-											<button class="btn btn-sm fs12 btn-lime bold">Go to Github</button>
+											<button 
+												class="btn btn-sm fs12 btn-lime bold"
+												@click="gotoGithub()"
+											>
+												Go to Github
+											</button>
 										</td>
 									</tr>
 
@@ -704,7 +718,10 @@ export default {
 											></DropZone>
 										</td>
 									</tr>
-									<tr v-else class="div-disabled">
+									<tr 
+										v-else 
+										class="div-disabled"
+									>
 										<td class="bold">
 											3.
 										</td>
@@ -789,11 +806,21 @@ export default {
 							</div>
 
 							<div class="mt50">
-								<button class="btn btn-lime" @click="this.action = ''">
+								<button 
+									class="btn btn-lime" 
+									@click="this.action = ''"
+								>
 									Back
 								</button>
-								<button class="btn btn-lime float-right" :class="letter_uploaded ? '' : 'div-disabled'" @click="this.action = ''">
-									<i v-if="letter_uploaded" class="fa fa-check fs18 mr5"></i>
+								<button 
+									class="btn btn-lime float-right" 
+									:class="letter_uploaded ? '' : 'div-disabled'" 
+									@click="this.action = ''"
+								>
+									<i 
+										v-if="letter_uploaded" 
+										class="fa fa-check fs18 mr5"
+									></i>
 									Complete
 								</button>
 							</div>
