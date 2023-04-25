@@ -47,7 +47,8 @@ export default {
 			},
 			users:         [],
 
-			upgrade_modal: false
+			upgrade_modal: false,
+			delete_modal:  false
 		}
 	},
 
@@ -210,6 +211,42 @@ export default {
 			}
 		},
 
+		async deleteUpgrade() {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.upgrade.id = parseInt(this.upgrade.id);
+			this.loaded     = false;
+
+			const response = await api(
+				'POST',
+				'admin/delete-upgrade',
+				{
+					upgrade_id: this.upgrade.id
+				},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.delete_modal = false;
+				this.loaded = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'success'
+				);
+			} else {
+				this.loaded = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'error'
+				);
+			}
+		},
+
 		editUpgrade() {
 			this.upgrade_modal = true;
 		},
@@ -352,28 +389,51 @@ export default {
 		max-width="800px"
 		:click-out="false"
 	>
-		<div class="modal-container" style="max-width: 800px; height: 600px; overflow-y: scroll;">
-			<h5 v-if="!upgrade.id || upgrade.id == 0" class="pb15">
+		<div 
+			class="modal-container" 
+			style="max-width: 800px; height: 600px; overflow-y: scroll;"
+		>
+			<h5 
+				v-if="
+					!upgrade.id || 
+					upgrade.id == 0
+				" 
+				class="pb15"
+			>
 				New Protocol Upgrade
-				<button @click="upgrade_modal = false; getAvailableUpgrade()" class="btn btn-success btn-sm fs13 float-right">
+				<button 
+					@click="upgrade_modal = false; getAvailableUpgrade()" 
+					class="btn btn-success btn-sm fs13 float-right"
+				>
 					Cancel
 				</button>
 			</h5>
 			<h5 v-else class="pb15">
 				Edit Protocol Upgrade
-				<button @click="upgrade_modal = false; getAvailableUpgrade()" class="btn btn-success btn-sm fs13 float-right">
+				<button 
+					@click="upgrade_modal = false; getAvailableUpgrade()" 
+					class="btn btn-success btn-sm fs13 float-right"
+				>
 					Cancel
 				</button>
 			</h5>
 
 			<p class="mt20 bold">
 				Version
-				<input type="text" class="form-control mt10" v-model="upgrade.version">
+				<input 
+					type="text" 
+					class="form-control mt10" 
+					v-model="upgrade.version"
+				>
 			</p>
 
 			<p class="mt20 bold">
 				Activation Era
-				<input type="number" class="form-control mt10" v-model="upgrade.activate_era">
+				<input 
+					type="number" 
+					class="form-control mt10" 
+					v-model="upgrade.activate_era"
+				>
 			</p>
 
 			<p class="mt20 mb10 bold">
@@ -389,12 +449,19 @@ export default {
 
 			<p class="mt20 bold">
 				Software Link
-				<input type="text" class="form-control mt10" v-model="upgrade.link">
+				<input 
+					type="text" 
+					class="form-control mt10" 
+					v-model="upgrade.link"
+				>
 			</p>
 
 			<p class="mt20 bold">
 				Notes
-				<textarea v-model="upgrade.notes" class="form-control height-200 p15 mt10">{{ upgrade.notes }}</textarea>
+				<textarea 
+					v-model="upgrade.notes" 
+					class="form-control height-200 p15 mt10"
+				>{{ upgrade.notes }}</textarea>
 			</p>
 
 			<p class="mt20 bold">
@@ -402,23 +469,80 @@ export default {
 			</p>
 
 			<p class="fs13 mb10">
-				<input id="visible" type="checkbox" class="form-check-input pointer" v-model="upgrade.visible">
-				<label class="fs14 pointer" for="visible">&ensp;Protocol upgrade will be visible for all members in the system.</label>
+				<input 
+					id="visible" 
+					type="checkbox" 
+					class="form-check-input pointer" 
+					v-model="upgrade.visible"
+				>
+				<label 
+					class="fs14 pointer" 
+					for="visible"
+				>&ensp;Protocol upgrade will be visible for all members in the system.</label>
 			</p>
 
-			<button class="btn btn-success form-control btn-inline ml0 mt20 mb10" @click="saveUpgrade()">
+			<button 
+				class="btn btn-success form-control btn-inline ml0 mt20 mb10" 
+				@click="saveUpgrade()"
+			>
 				<i class="fa fa-check bold"></i>
 				Save
 			</button>
 
-			<button class="btn btn-success form-control btn-inline mt20 mb10" @click="upgrade_modal = false; getAvailableUpgrade()">
+			<button 
+				class="btn btn-success form-control btn-inline mt20 mb10" 
+				@click="upgrade_modal = false; getAvailableUpgrade()"
+			>
+				Cancel
+			</button>
+
+			<hr>
+
+			<button
+				class="btn btn-black form-control max-width-200 mt10"
+				@click="upgrade_modal = false; delete_modal = true;"
+			>
+				Delete Forever
+			</button>
+		</div>
+	</Modal>
+
+	<Modal
+		v-model="delete_modal"
+		max-width="600px"
+		:click-out="false"
+	>
+		<div 
+			class="modal-container"
+			style="max-width: 600px" 
+		>
+			<h5 class="pb15">
+				Delete Protocol Upgrade
+			</h5>
+
+			<p class="mt20 bold">
+				Version
+				<input 
+					type="text" 
+					class="form-control mt10" 
+					v-model="upgrade.version"
+					disabled 
+				>
+			</p>
+
+			<button 
+				class="btn btn-black form-control btn-inline ml0 mt20 mb10" 
+				@click="deleteUpgrade()"
+			>
+				Delete
+			</button>
+
+			<button 
+				class="btn btn-success form-control btn-inline mt20 mb10" 
+				@click="delete_modal = false; upgrade_modal = true;"
+			>
 				Cancel
 			</button>
 		</div>
 	</Modal>
 </template>
-
-<style>
-
-
-</style>

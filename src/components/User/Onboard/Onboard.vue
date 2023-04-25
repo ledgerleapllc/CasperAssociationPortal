@@ -487,7 +487,8 @@ export default {
 							</p>
 
 							<button 
-								v-else class="btn btn-lime" 
+								v-else 
+								class="btn btn-lime" 
 								@click="this.action = 'letter'"
 							>
 								Start
