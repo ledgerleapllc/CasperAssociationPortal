@@ -24,7 +24,8 @@ export default {
 			time_remaining:      null,
 			time_remaining_perc: null,
 			description:         null,
-			files_attached:      null,
+			file_url:            null,
+			file_name:           null,
 			votes_for:           null,
 			votes_against:       null,
 			status:              null,
@@ -81,7 +82,8 @@ export default {
 				this.time_remaining      = response.detail?.time_remaining;
 				this.time_remaining_perc = response.detail?.time_remaining_perc;
 				this.description         = response.detail?.description;
-				this.files_attached      = response.detail?.files_attached;
+				this.file_url            = response.detail?.file_url;
+				this.file_name           = response.detail?.file_name;
 				this.votes_for           = response.detail?.votes_for;
 				this.votes_against       = response.detail?.votes_against;
 				this.my_vote             = response.detail?.my_vote;
@@ -345,7 +347,7 @@ export default {
 						</p>
 					</div>
 
-					<div class="col-lg-3 col-md-12 mt20">
+					<div class="col-lg-3 col-md-12 mt20-m">
 						<p class="italic bold fs13">
 							Vote Result:
 						</p>
@@ -403,7 +405,7 @@ export default {
 
 					</div>
 
-					<div class="col-lg-3 col-md-12 mt20">
+					<div class="col-lg-3 col-md-12 mt20-m">
 						<p class="italic bold fs13">
 							Total Votes:
 						</p>
@@ -413,7 +415,7 @@ export default {
 						</p>
 					</div>
 
-					<div class="col-lg-3 col-md-12 mt20">
+					<div class="col-lg-3 col-md-12 mt20-m">
 						<p class="italic bold fs13">
 							Time Remaining:
 						</p>
@@ -429,20 +431,22 @@ export default {
 							></ClipLoader>
 						</div>
 
-						<p 
-							v-if="status == 'pending'"
-							class="bold op7"
-						>
-							Voting not yet started
-						</p>
-
 						<div v-else>
-							<div class="progress-bar-wrap max-width-400">
-								<p>{{ time_remaining }}</p>
-								<div 
-									class="progress-bar" 
-									:style="`width:${time_remaining_perc}%`"
-								></div>
+							<p 
+								v-if="status == 'pending'"
+								class="bold op7"
+							>
+								Voting not yet started
+							</p>
+
+							<div v-else>
+								<div class="progress-bar-wrap max-width-400">
+									<p>{{ time_remaining }}</p>
+									<div 
+										class="progress-bar" 
+										:style="`width:${time_remaining_perc}%`"
+									></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -464,7 +468,10 @@ export default {
 							Description:
 						</p>
 
-						<p class="fs16">
+						<p 
+							class="fs16"
+							style="white-space: pre;"
+						>
 							{{ description }}
 						</p>
 
@@ -473,7 +480,7 @@ export default {
 						</p>
 
 						<p class="fs16 mt10">
-							<div v-if="files_attached === null" >
+							<div v-if="file_url === null" >
 								<ClipLoader 
 									class="clip-loader-inline" 
 									size="25px" 
@@ -483,23 +490,23 @@ export default {
 							<div v-else>
 								<a
 									v-if="
-										files_attached?.includes('.png') ||
-										files_attached?.includes('.jpg') ||
-										files_attached?.includes('.jpeg')
+										file_url?.includes('.png') ||
+										file_url?.includes('.jpg') ||
+										file_url?.includes('.jpeg')
 									"
-									:href="files_attached" 
+									:href="file_url" 
 									target="_blank">
 									<img 
-										:src="files_attached" 
+										:src="file_url" 
 										class="ballot-file"
 									>
 								</a>
 								<span v-else>
 									<a 
-										:href="files_attached" 
+										:href="file_url" 
 										target="_blank"
 									>
-										{{ this.$root.formatHash(files_attached, 64) }}
+										{{ this.$root.formatHash(file_name, 64) }}
 									</a>
 								</span>
 							</div>
@@ -607,6 +614,20 @@ export default {
 
 .b-result-row-right {
 	width: calc(100% - 200px);
+}
+
+.ballot-file {
+	width: auto;
+	height: 148px;
+	border-radius: 5px;
+	box-shadow: 0px 2px 6px rgba(0,0,0,0.29);
+	position: relative;
+}
+
+@media all and (max-width: 991px) {
+	.mt20-m {
+		margin-top: 20px;
+	}
 }
 
 </style>

@@ -410,17 +410,27 @@ export default {
 	<div class="container-fluid" style="z-index: 0;">
 		<div class="row">
 			<div class="col-12 mt20">
-				<div class="go-back" @click="this.$router.back()">
+				<div 
+					class="go-back" 
+					@click="this.$router.back()"
+				>
 					<i class="fa fa-arrow-left"></i>
 					Discussions
 				</div>
 				<div class="card mt20">
 					<div class="card-title mb0">
 						<div v-if="discussion.title === null">
-							<ClipLoader class="clip-loader-inline" size="20px" color="#ff2d2e"></ClipLoader>
+							<ClipLoader 
+								class="clip-loader-inline" 
+								size="20px" 
+								color="#ff2d2e"
+							></ClipLoader>
 						</div>
 						<div v-else>
-							<span v-if="discussion.for_upgrade == 1" class="bold">
+							<span 
+								v-if="discussion.for_upgrade == 1" 
+								class="bold"
+							>
 								{{ this.$root.formatString(discussion.title, 256) }}
 								<span class="text-red">(Protocol Upgrade)</span>
 							</span>
@@ -429,29 +439,76 @@ export default {
 							</span>
 
 							<div class="float-right">
-								<i class="fs16 fa fa-wechat" @click="this.gotoDiscussion(discussion_id)"></i>
+								<i 
+									class="fs16 fa fa-wechat" 
+									@click="this.gotoDiscussion(discussion_id)"
+								></i>
 								<span class="fs13">{{ discussion.comments.length }}</span>
 
 								&emsp;&ensp;
 
-								<Popper v-if="parseInt(discussion.pinned_by_me) > 0" hover arrow placement="top" class="fs11" content="Unpin this discussion">
-									<img src="@/assets/images/pinned.png" class="tiny-img2 pointer" @click="this.unpinDiscussion(this.discussion_id)">
+								<Popper 
+									v-if="parseInt(discussion.pinned_by_me) > 0" 
+									hover 
+									arrow 
+									placement="top" 
+									class="fs11" 
+									content="Unpin this discussion"
+								>
+									<img 
+										src="@/assets/images/pinned.png" 
+										class="tiny-img2 pointer" 
+										@click="this.unpinDiscussion(this.discussion_id)"
+									>
 								</Popper>
 
-								<Popper v-else hover arrow placement="top" class="fs11" content="Pin this discussion">
-									<img src="@/assets/images/pin.png" class="tiny-img2 pointer" @click="this.pinDiscussion(this.discussion_id)">
+								<Popper 
+									v-else 
+									hover 
+									arrow 
+									placement="top" 
+									class="fs11" 
+									content="Pin this discussion"
+								>
+									<img 
+										src="@/assets/images/pin.png" 
+										class="tiny-img2 pointer" 
+										@click="this.pinDiscussion(this.discussion_id)"
+									>
 								</Popper>
 
 								<span class="fs13">{{ discussion.pins }}</span>
 
 								&emsp;&ensp;
 
-								<Popper v-if="parseInt(discussion.liked_by_me) > 0" hover arrow placement="top" class="fs11" content="Unlike this discussion">
-									<img src="@/assets/images/thumbs-up-like.png" class="pointer" @click="this.unlikeDiscussion(this.discussion_id)">
+								<Popper 
+									v-if="parseInt(discussion.liked_by_me) > 0" 
+									hover 
+									arrow 
+									placement="top" 
+									class="fs11" 
+									content="Unlike this discussion"
+								>
+									<img 
+										src="@/assets/images/thumbs-up-like.png" 
+										class="pointer" 
+										@click="this.unlikeDiscussion(this.discussion_id)"
+									>
 								</Popper>
 
-								<Popper v-else hover arrow placement="top" class="fs11" content="Like this discussion">
-									<img src="@/assets/images/thumbs-up.png" class=" pointer" @click="this.likeDiscussion(this.discussion_id)">
+								<Popper 
+									v-else 
+									hover 
+									arrow 
+									placement="top" 
+									class="fs11" 
+									content="Like this discussion"
+								>
+									<img 
+										src="@/assets/images/thumbs-up.png" 
+										class="pointer" 
+										@click="this.likeDiscussion(this.discussion_id)"
+									>
 								</Popper>
 
 								<span class="fs13 ml5">{{ discussion.likes }}</span>
@@ -470,10 +527,17 @@ export default {
 								</AvatarBadgeDiscussion>
 
 								<div v-if="this.discussion.title === null">
-									<ClipLoader class="clip-loader-inline" size="12px" color="#ff2d2e"></ClipLoader>
+									<ClipLoader 
+										class="clip-loader-inline" 
+										size="12px" 
+										color="#ff2d2e"
+									></ClipLoader>
 								</div>
 								<div v-else>
-									<p class="fs11 mt5 bold pointer" @click="this.gotoProfile(discussion.pseudonym)">
+									<p 
+										class="fs11 mt5 bold pointer" 
+										@click="this.gotoProfile(discussion.pseudonym)"
+									>
 										{{ this.$root.formatString(discussion.pseudonym, 16) }}
 									</p>
 									<p class="fs11 mt5">
@@ -490,11 +554,24 @@ export default {
 								</div>
 							</div>
 
-							<div v-if="this.discussion.description === null" class="discussion-row-content">
-								<ClipLoader size="25px" color="#ff2d2e"></ClipLoader>
+							<div 
+								v-if="this.discussion.description === null" 
+								class="discussion-row-content"
+							>
+								<ClipLoader 
+									size="25px" 
+									color="#ff2d2e"
+								]></ClipLoader>
 							</div>
-							<div v-else class="discussion-row-content">
-								<textarea v-if="editingDiscussion" class="form-control fs14 height-200" ref="discussion_description">{{ discussion.description }}</textarea>
+							<div 
+								v-else 
+								class="discussion-row-content"
+							>
+								<textarea 
+									v-if="editingDiscussion" 
+									class="form-control fs14 height-200" 
+									ref="discussion_description"
+								>{{ discussion.description }}</textarea>
 								<div v-else>
 									{{ discussion.description }}
 								</div>
@@ -509,13 +586,38 @@ export default {
 							class="form-group"
 						>
 							<div v-if="editingDiscussion">
-								<button class="btn btn-sm btn-success fs11 bold mr5" @click="submitEditDiscussion()">Save Edits</button>
-								<button class="btn btn-sm btn-success fs11 bold mr5" @click="cancelEditDiscussion()">Cancel Edits</button>
+								<button 
+									class="btn btn-sm btn-success fs11 bold mr5" 
+									@click="submitEditDiscussion()"
+								>
+									Save Edits
+								</button>
+								<button 
+									class="btn btn-sm btn-success fs11 bold mr5" 
+									@click="cancelEditDiscussion()"
+								>
+									Cancel Edits
+								</button>
 							</div>
 							<div v-else>
-								<button class="btn btn-sm btn-success fs11 bold mr5" @click="editDiscussion()">Edit Discussion</button>
-								<button class="btn btn-sm btn-black fs11 bold mr5" @click="deleteDiscussion()">Delete Discussion</button>
-								<button class="btn btn-sm btn-black fs11 bold" @click="lockDiscussion()">Lock Discussion</button>
+								<button 
+									class="btn btn-sm btn-success fs11 bold mr5" 
+									@click="editDiscussion()"
+								>
+									Edit Discussion
+								</button>
+								<button 
+									class="btn btn-sm btn-black fs11 bold mr5" 
+									@click="deleteDiscussion()"
+								>
+									Delete Discussion
+								</button>
+								<button 
+									class="btn btn-sm btn-black fs11 bold" 
+									@click="lockDiscussion()"
+								>
+									Lock Discussion
+								</button>
 							</div>
 						</div>
 
@@ -526,9 +628,14 @@ export default {
 							"
 							class="form-group mb30"
 						>
-							<p class="mt20 fs17">This discussion covers ballot <b>#{{ discussion.associated_ballot }}</b></p>
+							<p class="mt20 fs17">
+								This discussion covers ballot <b>#{{ discussion.associated_ballot }}</b>
+							</p>
 							<p class="mt5">
-								<span class="bold fs18 pointer underline" @click="this.$root.routeTo(`/u/ballot/${discussion.associated_ballot}`)">
+								<span 
+									class="bold fs18 pointer underline" 
+									@click="this.$root.routeTo(`/u/ballot/${discussion.associated_ballot}`)"
+								>
 									{{ discussion.ballot_title }}
 								</span>
 							</p>
@@ -540,7 +647,13 @@ export default {
 								discussion.locked == 1
 							"
 						>
-							<Popper hover arrow placement="right" class="fs11" content="This discussion is partially locked">
+							<Popper 
+								hover 
+								arrow 
+								placement="right" 
+								class="fs11" 
+								content="This discussion is partially locked"
+							>
 								<i class="fa fa-unlock-alt"></i>
 							</Popper>
 						</div>
@@ -551,20 +664,38 @@ export default {
 								discussion.locked == 2
 							"
 						>
-							<Popper hover arrow placement="right" class="fs11" content="This discussion is locked and archived">
+							<Popper 
+								hover 
+								arrow 
+								placement="right" 
+								class="fs11" 
+								content="This discussion is locked and archived"
+							>
 								<i class="fa fa-lock"></i>
 							</Popper>
 						</div>
 
-						<form v-if="discussion.locked < 2" @submit.prevent>
+						<form 
+							v-if="discussion.locked < 2" 
+							@submit.prevent
+						>
 							<div class="form-group mt20">
-								<p class="fs12 op5">(MCE editor coming soon)</p>
+								<p class="fs12 op5">
+									(MCE editor coming soon)
+								</p>
 
-								<textarea class="form-control fs14 height-100" placeholder="Write your comment here" ref="comment_text"></textarea>
+								<textarea 
+									class="form-control fs14 height-100" 
+									placeholder="Write your comment here" 
+									ref="comment_text"
+								></textarea>
 							</div>
 
 							<div class="form-group mt20">
-								<button class="btn btn-success float-right width-150 ml10" @click="this.postComment()">
+								<button 
+									class="btn btn-success float-right width-150 ml10" 
+									@click="this.postComment()"
+								>
 									Comment
 								</button>
 							</div>
@@ -577,7 +708,10 @@ export default {
 						</div>
 
 						<div class="comments-scoll-section mt80">
-							<div class="discussion-row" v-for="(comment, index) in this.discussion.comments">
+							<div 
+								class="discussion-row" 
+								v-for="(comment, index) in this.discussion.comments"
+							>
 								<div class="discussion-row-icon">
 									<AvatarBadgeDiscussion
 										:url="comment.avatar_url" 
@@ -587,33 +721,74 @@ export default {
 									>
 									</AvatarBadgeDiscussion>
 
-									<Popper v-if="comment.guid == this.$root.guid" hover arrow placement="bottom" class="fs11" content="Delete my comment">
-										<i class="fa fa-trash text-red fs16 ml5 pointer" @click="deleteComment(comment.id)"></i>
+									<Popper 
+										v-if="
+											comment.guid    == this.$root.guid &&
+											comment.deleted == 0
+										" 
+										hover 
+										arrow 
+										placement="bottom" 
+										class="fs11" 
+										content="Delete my comment"
+									>
+										<i 
+											class="fa fa-trash text-red fs16 ml5 pointer" 
+											@click="deleteComment(comment.id)"
+										></i>
 									</Popper>
 
-									<Popper v-if="comment.guid == this.$root.guid" hover arrow placement="bottom" class="fs11" content="Edit my comment">
-										<i class="fa fa-pencil text-red fs16 pointer" v-on:click="editComment(comment.id, comment.content)"></i>
+									<Popper 
+										v-if="
+											comment.guid    == this.$root.guid &&
+											comment.deleted == 0
+										" 
+										hover 
+										arrow 
+										placement="bottom" 
+										class="fs11" 
+										content="Edit my comment"
+									>
+										<i 
+											class="fa fa-pencil text-red fs16 pointer" 
+											@click="editComment(comment.id, comment.content)"
+										></i>
 									</Popper>
 
-									<p class="fs11 mt5 bold pointer" @click="this.gotoProfile(comment.guid)">
+									<p 
+										class="fs11 mt5 bold pointer" 
+										@click="this.gotoProfile(comment.guid)"
+									>
 										{{ this.$root.formatString(comment.pseudonym, 16) }}
 									</p>
 									<p class="fs11 mt5">
 										{{ comment.updated_at }} UTC 
-										<i v-if="comment.updated_at > comment.created_at" class="fs11 fa fa-pencil op5"></i>
+										<i 
+											v-if="comment.updated_at > comment.created_at" 
+											class="fs11 fa fa-pencil op5"
+										></i>
 									</p>
 								</div>
 
-								<div v-if="comment.flagged == 1" class="censored-comment">
+								<div 
+									v-if="comment.flagged == 1" 
+									class="censored-comment"
+								>
 									<p class="fs13 mt10">
 										This comment has been flagged by an admin as inappropriate.
 									</p>
-									<button class="btn btn-sm btn-uncensor" v-on:click="uncensorComment">
+									<button 
+										class="btn btn-sm btn-uncensor" 
+										@click="uncensorComment"
+									>
 										Show Comment
 									</button>
 								</div>
 
-								<div v-if="comment.deleted == 1" class="deleted-comment">
+								<div 
+									v-if="comment.deleted == 1" 
+									class="deleted-comment"
+								>
 									<p class="fs13 mt10">
 										This comment has been deleted by an admin.
 									</p>
@@ -641,10 +816,16 @@ export default {
 
 			<p class="pt15 pb15">Lock this discussion? The discussion will no longer be able to be modified or deleted once this action is done. People will still be able to comment/like/pin the post.</p>
 
-			<button class="btn btn-success btn-sm mt15" @click="_lockDiscussion()">
+			<button 
+				class="btn btn-success btn-sm mt15" 
+				@click="_lockDiscussion()"
+			>
 				Lock Discussion
 			</button>
-			<button class="btn btn-black btn-sm mt15 ml5" @click="cancelLockDiscussion">
+			<button 
+				class="btn btn-black btn-sm mt15 ml5" 
+				@click="cancelLockDiscussion"
+			>
 				Cancel
 			</button>
 		</div>
@@ -657,14 +838,24 @@ export default {
 		:clickOut="true"
 	>
 		<div class="modal-container">
-			<p class="pb15 bold fs17 border-bottom">Delete Discussion</p>
+			<p class="pb15 bold fs17 border-bottom">
+				Delete Discussion
+			</p>
 
-			<p class="pt15 pb15">Delete this discussion? Once this action is done, it cannot be undone.</p>
+			<p class="pt15 pb15">
+				Delete this discussion? Once this action is done, it cannot be undone.
+			</p>
 
-			<button class="btn btn-success btn-sm mt15" @click="_deleteDiscussion()">
+			<button 
+				class="btn btn-success btn-sm mt15" 
+				@click="_deleteDiscussion()"
+			>
 				Delete Discussion
 			</button>
-			<button class="btn btn-black btn-sm mt15 ml5" @click="cancelDeleteDiscussion">
+			<button 
+				class="btn btn-black btn-sm mt15 ml5" 
+				@click="cancelDeleteDiscussion"
+			>
 				Cancel
 			</button>
 		</div>
@@ -677,14 +868,25 @@ export default {
 		:clickOut="true"
 	>
 		<div class="modal-container">
-			<p class="pb15 bold fs17 border-bottom">Edit Comment</p>
+			<p class="pb15 bold fs17 border-bottom">
+				Edit Comment
+			</p>
 
-			<textarea class="form-control height-200 mt20" ref="new_comment_content">{{ editCommentContent }}</textarea>
+			<textarea 
+				class="form-control height-200 mt20" 
+				ref="new_comment_content"
+			>{{ editCommentContent }}</textarea>
 
-			<button class="btn btn-success btn-sm mt15" @click="_editComment()">
+			<button 
+				class="btn btn-success btn-sm mt15" 
+				@click="_editComment()"
+			>
 				Commit Edit
 			</button>
-			<button class="btn btn-black btn-sm mt15 ml5" @click="cancelEditComment">
+			<button 
+				class="btn btn-black btn-sm mt15 ml5" 
+				@click="cancelEditComment"
+			>
 				Cancel
 			</button>
 		</div>
@@ -697,12 +899,20 @@ export default {
 		:clickOut="true"
 	>
 		<div class="modal-container">
-			<p class="pb15 bold fs17 border-bottom">Delete Comment?</p>
+			<p class="pb15 bold fs17 border-bottom">
+				Delete Comment?
+			</p>
 
-			<button class="btn btn-success btn-sm mt15" @click="_deleteComment()">
+			<button 
+				class="btn btn-success btn-sm mt15" 
+				@click="_deleteComment()"
+			>
 				Delete Comment
 			</button>
-			<button class="btn btn-black btn-sm mt15 ml5" @click="cancelDeleteComment">
+			<button 
+				class="btn btn-black btn-sm mt15 ml5" 
+				@click="cancelDeleteComment"
+			>
 				Cancel
 			</button>
 		</div>

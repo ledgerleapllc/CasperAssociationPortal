@@ -26,7 +26,8 @@ export default {
 			start_time:    null,
 			end_time:      null,
 			show_dropzone: true,
-			file_url:      ''
+			file_url:      '',
+			file_name:     ''
 		}
 	},
 
@@ -105,7 +106,8 @@ export default {
 					"description": description,
 					"start_time":  formatted_start_time,
 					"end_time":    formatted_end_time,
-					"file_url":    this.file_url
+					"file_url":    this.file_url,
+					"file_name":   this.file_name
 				},
 				fetch_bearer_token
 			);
@@ -141,7 +143,8 @@ export default {
 
 						if (j.detail) {
 							console.log(j.detail);
-							that.file_url = j.detail;
+							that.file_url  = j.detail.file_url;
+							that.file_name = j.detail.file_name;
 							clearInterval(f);
 							resolve(j.detail);
 						}
@@ -174,7 +177,10 @@ export default {
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 mt20">
-				<div class="go-back" @click="this.$router.back()">
+				<div 
+					class="go-back" 
+					@click="this.$router.back()"
+				>
 					<i class="fa fa-arrow-left"></i>
 					Cancel
 				</div>
@@ -185,11 +191,22 @@ export default {
 					<div class="card-body">
 						<form @submit.prevent>
 							<div class="form-group mt20">
-								<input class="form-control" type="text" name="" placeholder="Title" ref="title">
+								<input 
+									class="form-control" 
+									type="text" 
+									placeholder="Title" 
+									ref="title"
+								>
 
-								<p class="mt20 fs12 op5">(MCE editor coming soon)</p>
+								<p class="mt20 fs12 op5">
+									(MCE editor coming soon)
+								</p>
 
-								<textarea class="form-control fs14 height-200" placeholder="Write your content here" ref="description"></textarea>
+								<textarea 
+									class="form-control fs14 height-200" 
+									placeholder="Write your content here" 
+									ref="description"
+								></textarea>
 							</div>
 
 							<div class="max-width-300">
@@ -239,7 +256,10 @@ export default {
 							></DropZone>
 
 							<div class="form-group mt20">
-								<button class="btn btn-success float-right width-150 ml10" @click="createBallot()">
+								<button 
+									class="btn btn-success float-right width-150 ml10" 
+									@click="createBallot()"
+								>
 									Create Ballot
 								</button>
 							</div>
@@ -259,6 +279,10 @@ export default {
 	padding: 15px;
 	margin-top: 10px; 
 	overflow: hidden;
+}
+
+textarea {
+	white-space: pre;
 }
 
 </style>

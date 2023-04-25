@@ -26,6 +26,7 @@ export default {
 			time_remaining_perc: null,
 			description:         null,
 			file_url:            null,
+			file_name:           null,
 			votes_for:           null,
 			votes_against:       null,
 			status:              null,
@@ -82,6 +83,7 @@ export default {
 				this.time_remaining_perc = response.detail?.time_remaining_perc;
 				this.description         = response.detail?.description;
 				this.file_url            = response.detail?.file_url
+				this.file_name           = response.detail?.file_name
 				this.votes_for           = response.detail?.votes_for;
 				this.votes_against       = response.detail?.votes_against;
 				this.end_time            = response.detail?.end_time;
@@ -353,20 +355,22 @@ export default {
 							></ClipLoader>
 						</div>
 
-						<p 
-							v-if="status == 'pending'"
-							class="bold op7"
-						>
-							Voting not yet started
-						</p>
-
 						<div v-else>
-							<div class="progress-bar-wrap max-width-400">
-								<p>{{ time_remaining }}</p>
-								<div 
-									class="progress-bar" 
-									:style="`width:${time_remaining_perc}%`"
-								></div>
+							<p 
+								v-if="status == 'pending'"
+								class="bold op7"
+							>
+								Voting not yet started
+							</p>
+
+							<div v-else>
+								<div class="progress-bar-wrap max-width-400">
+									<p>{{ time_remaining }}</p>
+									<div 
+										class="progress-bar" 
+										:style="`width:${time_remaining_perc}%`"
+									></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -388,7 +392,10 @@ export default {
 							Description:
 						</p>
 
-						<p class="fs16">
+						<p 
+							class="fs16"
+							style="white-space: pre;"
+						>
 							{{ description }}
 						</p>
 
@@ -423,7 +430,7 @@ export default {
 										:href="file_url" 
 										target="_blank"
 									>
-										{{ this.$root.formatHash(file_url, 64) }}
+										{{ this.$root.formatHash(file_name, 64) }}
 									</a>
 								</span>
 							</div>
@@ -506,6 +513,12 @@ export default {
 	border-radius: 5px;
 	box-shadow: 0px 2px 6px rgba(0,0,0,0.29);
 	position: relative;
+}
+
+@media all and (max-width: 991px) {
+	.mt20-m {
+		margin-top: 20px;
+	}
 }
 
 </style>
