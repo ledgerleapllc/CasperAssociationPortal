@@ -618,7 +618,7 @@ export default {
 									<p class="mt20 op7">
 										Date of Birth
 									</p>
-									<Datepicker
+									<!-- <Datepicker
 										v-model="pii.dob"
 										:format="'yyyy/MM/dd'"
 										:preview-format="'yyyy/MM/dd'"
@@ -626,14 +626,14 @@ export default {
 										utc
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									></Datepicker>
-									<!-- <input 
+									></Datepicker> -->
+									<input 
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									> -->
+									>
 
 									<p class="mt20 op7">
 										Country of Citizenship
@@ -694,7 +694,7 @@ export default {
 									>
 
 									<p class="mt20 op7">
-										VAT Number
+										VAT Number (optional)
 									</p>
 									<input
 										class="form-control" 
@@ -804,7 +804,7 @@ export default {
 									<p class="mt20 op7">
 										Representative Date of Birth
 									</p>
-									<Datepicker
+									<!-- <Datepicker
 										v-model="pii.dob"
 										:format="'yyyy/MM/dd'"
 										:preview-format="'yyyy/MM/dd'"
@@ -812,14 +812,14 @@ export default {
 										utc
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									></Datepicker>
-									<!-- <input 
+									></Datepicker> -->
+									<input 
 										type="text"
 										class="form-control" 
 										v-model="pii.dob"
 										placeholder="yyyy/mm/dd"
 										:onkeydown="this.$root.inputIsDateFormat"
-									> -->
+									>
 								</div>
 							</div>
 
