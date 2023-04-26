@@ -53,11 +53,11 @@ export default {
 					sortable: true,
 					cellRenderer: (params) => {
 						if (params?.value == 'for') {
-							return `<span class="text-blue bold">For</span>`;
+							return `<span class="bold">For</span>`;
 						}
 
 						else if (params?.value == 'against'){
-							return `<span class="text-red bold">Against</span>`;
+							return `<span class="bold">Against</span>`;
 						}
 
 						else {

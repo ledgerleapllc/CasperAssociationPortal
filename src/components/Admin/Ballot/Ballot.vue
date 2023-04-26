@@ -265,9 +265,9 @@ export default {
 							Voting has ended
 							<i class="fa fa-lock"></i>
 
-							<span class="fs13">
+							<p class="fs13">
 								{{ end_time }} UTC
-							</span>
+							</p>
 						</p>
 					</div>
 
@@ -310,12 +310,12 @@ export default {
 							<br/>
 
 							<p class="fs12">
-								<span class="text-blue bold">
-									{{ votes_for }}
+								<span class="bold">
+									{{ votes_for }}%
 								</span>
 								/
-								<span class="text-red bold">
-									{{ votes_against }}
+								<span class="bold">
+									{{ votes_against }}%
 								</span>
 							</p>
 						</p>
