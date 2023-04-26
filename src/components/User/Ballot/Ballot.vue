@@ -366,13 +366,13 @@ export default {
 						>
 							<span 
 								v-if="votes_for > votes_against" 
-								class="fs16 text-blue"
+								class="fs16 text-blue bold"
 							>
 								Passed
 							</span>
 							<span 
 								v-if="votes_for < votes_against" 
-								class="fs16 text-red"
+								class="fs16 text-red bold"
 							>
 								Failed
 							</span>
@@ -520,14 +520,7 @@ export default {
 							<div v-if="status == 'active'">
 								<div v-if="my_vote != ''">
 									You voted
-									<span 
-										class="bold underline"
-										:class="
-											my_vote == 'for' ? 
-											'text-blue' :
-											'text-red'
-										"
-									>
+									<span class="bold underline">
 										{{ my_vote }}
 									</span>
 									this ballot
@@ -566,7 +559,11 @@ export default {
 
 							<div v-else>
 								<div v-if="my_vote">
-									You voted <span class="bold text-red underline">{{ my_vote }}</span> this ballot
+									You voted
+									<span class="bold underline">
+										{{ my_vote }}
+									</span>
+									this ballot
 								</div>
 
 								<div v-else>
