@@ -152,7 +152,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								Please see the sample letter of motivation <a :href="this.$root.frontend_url+'/sample-letter.pdf'" target="_blank">linked here</a>. The letter of motivation should state that you wish to be a member of Casper's governance. It should state why, and list your relevant experience.
+								Please see the sample letter of motivation <a :href="this.$root.frontend_url+'/sample-letter.pdf'" target="_blank">linked here</a>. The letter of motivation should state that you wish to be a member of Casper's governance. It should state why and list your relevant experience.
 							</div>
 						</div>
 
