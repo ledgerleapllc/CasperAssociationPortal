@@ -366,7 +366,7 @@ export default {
 						>
 							<span 
 								v-if="votes_for > votes_against" 
-								class="fs16 text-blue bold"
+								class="fs16 text-green bold"
 							>
 								Passed
 							</span>
