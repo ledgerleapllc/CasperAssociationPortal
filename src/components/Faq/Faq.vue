@@ -61,7 +61,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								This is Casper Association’s official portal that offers Casper network Validators to become trusted members by verifying their node, submitting a letter of intent, and completing KYC. Once inside the portal, members can access tools to allow them to enhance the management and operation of their node. They will be able to participate in forums and access exclusive rewards programs that come with the Membership. Over time members will contribute to the growth in decentralization of the Casper network and governance of the Casper Association.
+								This is Casper Association’s official portal that offers Casper network Validators to become trusted members by verifying their node, submitting a letter of motivation, and completing KYC. Once inside the portal, members can access tools to allow them to enhance the management and operation of their node. They will be able to participate in forums and access exclusive rewards programs that come with the Membership. Over time members will contribute to the growth in decentralization of the Casper network and governance of the Casper Association.
 							</div>
 						</div>
 
@@ -133,7 +133,7 @@ export default {
 								A.
 							</div>
 							<div class="right">
-								You complete the registration process by first submitting your information on the registration page. Next, the onboarding process will walk you through the process of verifying your node, uploading a letter of reasoning explaining why you would like to become a member, and signing a form verifying you agree with the terms and conditions of portal access. Membership is subject to the Association's approval. A decision approving or denying your membership will be made within 72 hours after you complete the onboarding process. If you are approved, you will then be able to log in to the portal. 
+								You complete the registration process by first submitting your information on the registration page. Next, the onboarding process will walk you through the process of verifying your node, uploading a letter of motivation explaining why you would like to become a member, and signing a form verifying you agree with the terms and conditions of portal access. Membership is subject to the Association's approval. A decision approving or denying your membership will be made within 72 hours after you complete the onboarding process. If you are approved, you will then be able to log in to the portal. 
 							</div>
 						</div>
 
