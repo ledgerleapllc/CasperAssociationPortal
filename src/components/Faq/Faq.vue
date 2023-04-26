@@ -144,6 +144,25 @@ export default {
 								Q.
 							</div>
 							<div class="right">
+								How do I complete a letter of motivation?
+							</div>
+						</div>
+						<div class="answer">
+							<div class="left">
+								A.
+							</div>
+							<div class="right">
+								Please see the sample letter of motivation <a :href="this.$root.frontend_url+'/sample-letter.pdf'" target="_blank">linked here</a>. 
+							</div>
+						</div>
+
+						<hr>
+
+						<div class="question">
+							<div class="left">
+								Q.
+							</div>
+							<div class="right">
 								I have more than one node. Which node address should I give at the time of registration? 
 							</div>
 						</div>
