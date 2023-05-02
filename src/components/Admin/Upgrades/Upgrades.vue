@@ -29,10 +29,23 @@ export default {
 
 	data() {
 		return {
-			uri_page:      this.$route.params.page,
-			loaded:        false,
-			upgrades:      [],
+			uri_page: this.$route.params.page,
+			loaded:   false,
+			upgrades: [],
 			upgrade:  {
+				id:                  null,
+				version:             null,
+				created_at:          null,
+				updated_at:          null,
+				visible:             null,
+				activate_at:         null,
+				activate_era:        null,
+				link:                null,
+				notes:               null,
+				time_remaining:      null,
+				time_remaining_perc: null
+			},
+			past_upgrade:  {
 				id:                  null,
 				version:             null,
 				created_at:          null,
@@ -47,8 +60,9 @@ export default {
 			},
 			users:         [],
 
-			upgrade_modal: false,
-			delete_modal:  false
+			upgrade_modal:      false,
+			delete_modal:       false,
+			past_upgrade_modal: false
 		}
 	},
 
@@ -194,7 +208,7 @@ export default {
 			if (response.status == 200) {
 				// console.log(response.detail);
 				this.getAvailableUpgrade();
-				this.loaded   = true;
+				this.loaded = true;
 				this.$root.toast(
 					'',
 					response.message,
@@ -203,6 +217,74 @@ export default {
 			} else {
 				this.upgrade_modal = true;
 				this.loaded        = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'error'
+				);
+			}
+		},
+
+		async savePastUpgrade() {
+			let fetch_bearer_token = this.$cookies.get('bearer_token');
+
+			this.past_upgrade_modal = false;
+			this.loaded             = false;
+			this.past_upgrade.id    = parseInt(this.past_upgrade.id);
+
+			if (isNaN(this.past_upgrade.id)) {
+				this.past_upgrade.id = 0;
+			}
+
+			if (!this.$root.inputIsNumberFormat(this.past_upgrade.activate_era)) {
+				this.$root.toast(
+					'',
+					'Activation era must be a whole number',
+					'warning'
+				);
+
+				this.past_upgrade_modal = true;
+				this.loaded        = true;
+				return;
+			}
+
+			if (!this.past_upgrade.activate_at) {
+				this.past_upgrade.activate_at = '';
+			} else if (typeof this.past_upgrade.activate_at.toISOString == 'function') {
+				this.past_upgrade.activate_at = this.$root.formatDateWithZone(this.past_upgrade.activate_at)
+			} else if (this.past_upgrade.activate_at.includes("Z")) {
+				this.past_upgrade.activate_at = this.$root.formatZDate(this.past_upgrade.activate_at)
+			}
+
+			const response = await api(
+				'POST',
+				'admin/save-past-upgrade',
+				{
+					id:           this.past_upgrade.id,
+					version:      this.past_upgrade.version,
+					visible:      this.past_upgrade.visible,
+					activate_era: this.past_upgrade.activate_era,
+					activate_at:  this.past_upgrade.activate_at,
+					link:         this.past_upgrade.link,
+					notes:        this.past_upgrade.notes
+				},
+				fetch_bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.getUpgrades();
+				this.loaded = true;
+				this.$root.toast(
+					'',
+					response.message,
+					'success'
+				);
+			} else {
+				this.past_upgrade_modal = true;
+				this.loaded             = true;
 				this.$root.toast(
 					'',
 					response.message,
@@ -540,6 +622,88 @@ export default {
 			<button 
 				class="btn btn-success form-control btn-inline mt20 mb10" 
 				@click="delete_modal = false; upgrade_modal = true;"
+			>
+				Cancel
+			</button>
+		</div>
+	</Modal>
+
+	<Modal
+		v-model="past_upgrade_modal"
+		max-width="800px"
+		:click-out="false"
+	>
+		<div 
+			class="modal-container" 
+			style="max-width: 800px; height: 600px; overflow-y: scroll;"
+		>
+			<h5 class="pb15">
+				Add a Past Protocol Upgrade
+				<button 
+					@click="past_upgrade_modal = false" 
+					class="btn btn-success btn-sm fs13 float-right"
+				>
+					Cancel
+				</button>
+			</h5>
+
+			<p class="mt20 bold">
+				Version
+				<input 
+					type="text" 
+					class="form-control mt10" 
+					v-model="past_upgrade.version"
+				>
+			</p>
+
+			<p class="mt20 bold">
+				Activation Era
+				<input 
+					type="number" 
+					class="form-control mt10" 
+					v-model="past_upgrade.activate_era"
+				>
+			</p>
+
+			<p class="mt20 mb10 bold">
+				Activation Date/Time
+			</p>
+			<Datepicker 
+				v-model="past_upgrade.activate_at" 
+				class="width-200 inline"
+				:format="'yyyy/MM/dd HH:mm'"
+				:preview-format="'yyyy/MM/dd HH:mm'"
+				utc
+			></Datepicker>
+
+			<p class="mt20 bold">
+				Software Link
+				<input 
+					type="text" 
+					class="form-control mt10" 
+					v-model="past_upgrade.link"
+				>
+			</p>
+
+			<p class="mt20 bold">
+				Notes
+				<textarea 
+					v-model="past_upgrade.notes" 
+					class="form-control height-200 p15 mt10"
+				>{{ upgrade.notes }}</textarea>
+			</p>
+
+			<button 
+				class="btn btn-success form-control btn-inline ml0 mt20 mb10" 
+				@click="savePastUpgrade()"
+			>
+				<i class="fa fa-check bold"></i>
+				Save
+			</button>
+
+			<button 
+				class="btn btn-success form-control btn-inline mt20 mb10" 
+				@click="past_upgrade_modal = false; getUpgrades()"
 			>
 				Cancel
 			</button>

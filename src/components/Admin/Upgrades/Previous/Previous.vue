@@ -130,6 +130,13 @@ export default {
 				</p>
 				<p class="pb30">
 					Below are details about protocol upgrades that have already passed the activation point.
+
+					<button
+						class="btn btn-sm btn-success float-right mt20"
+						@click="this.$parent.past_upgrade_modal = true"
+					>
+						Add Past Upgrade
+					</button>
 				</p>
 
 				<div v-if="this.$parent.upgrades.length == 0" class="op5 fs14">
