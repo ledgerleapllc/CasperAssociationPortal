@@ -35,7 +35,8 @@ export default {
 				link:                null,
 				notes:               null,
 				time_remaining:      null,
-				time_remaining_perc: null
+				time_remaining_perc: null,
+				past_upgrade:        null
 			},
 			users:    [],
 

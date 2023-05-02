@@ -132,24 +132,38 @@ export default {
 					Below are details about protocol upgrades that have already passed the activation point.
 				</p>
 
-				<div v-if="this.$parent.upgrades.length == 0" class="op5 fs14">
+				<div 
+					v-if="this.$parent.upgrades.length == 0" 
+					class="op5 fs14"
+				>
 					Nothing to show here
 				</div>
 
-				<div v-for="(up, index) in this.$parent.upgrades" class="card mt20">
+				<div 
+					v-for="(up, index) in this.$parent.upgrades" 
+					class="card mt20"
+				>
 					<div class="card-title">
 						<i class="fa fa-arrow-up green"></i>
 						Protocol Upgrade&ensp;{{ up.version }}
 					</div>
 					<div class="card-body">
-						<p v-if="up.upgraded == true" class="fs14 text-green">
-							<i class="fa fa-check textgreen"></i>
-							Upgrade marked as complete
-						</p>
-						<p v-else class="text-red">
-							<i class="fa fa-times textred"></i>
-							Upgrade not marked as complete
-						</p>
+						<div v-if="parseInt(up.past_upgrade) == 0">
+							<p 
+								v-if="up.upgraded == true" 
+								class="fs14 text-green"
+							>
+								<i class="fa fa-check textgreen"></i>
+								Upgrade marked as complete
+							</p>
+							<p 
+								v-else 
+								class="text-red"
+							>
+								<i class="fa fa-times textred"></i>
+								Upgrade not marked as complete
+							</p>
+						</div>
 
 						<table class="table mt20 mb5">
 							<tr>
@@ -181,7 +195,11 @@ export default {
 									Software Link:
 								</td>
 								<td>
-									<a :href="this.$parent.upgrade.link" target="_blank" style="padding: 0;">
+									<a 
+										:href="this.$parent.upgrade.link" 
+										target="_blank" 
+										style="padding: 0;"
+									>
 										{{ up.link }}
 									</a>
 								</td>
@@ -193,20 +211,29 @@ export default {
 							</tr>
 						</table>
 
-						<p v-if="up.notes && up.notes != ''" class="fs14" style="white-space: pre-line;">
+						<p 
+							v-if="up.notes && up.notes != ''" 
+							class="fs14" 
+							style="white-space: pre-line;"
+						>
 							{{ this.$parent.upgrade.notes }}
 						</p>
 						<p v-else class="fs14 op7">
 							None
 						</p>
 
-						<p class="mt40 bold">
-							Upgraded Members
-						</p>
+						<div v-if="parseInt(up.past_upgrade) == 0">
+							<p class="mt40 bold">
+								Upgraded Members
+							</p>
 
-						<button class="btn btn-success mt10" @click="loadTable(up.version)">
-							Load Table
-						</button>
+							<button 
+								class="btn btn-success mt10" 
+								@click="loadTable(up.version)"
+							>
+								Load Table
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -218,7 +245,10 @@ export default {
 		max-width="800px"
 		:click-out="false"
 	>
-		<div class="modal-container" style="max-width: 800px; height: 640px; overflow-y: scroll;">
+		<div 
+			class="modal-container" 
+			style="max-width: 800px; height: 640px; overflow-y: scroll;"
+		>
 			<h5 class="pb15">
 				Protocol Upgrade {{ selected_version }}
 			</h5>
@@ -242,7 +272,10 @@ export default {
 				</ag-grid-vue>
 			</div>
 
-			<button class="btn btn-success form-control btn-inline mt20 mb10" @click="users_modal = false">
+			<button 
+				class="btn btn-success form-control btn-inline mt20 mb10" 
+				@click="users_modal = false"
+			>
 				Ok
 			</button>
 		</div>
