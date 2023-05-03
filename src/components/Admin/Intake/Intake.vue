@@ -33,6 +33,37 @@ export default {
 			removeModalOpen: false,
 			selected_guid: null,
 
+			demo_users: [], //// dev, rm
+			demo_users_gridApi: null, //// dev, rm
+			demo_users_column_defs: [ //// dev, rm
+				{
+					field: 'email',
+					headerName: 'Email',
+					sortable: true,
+				},
+				{
+					field: 'public_key',
+					headerName: 'Validator ID',
+					sortable: true,
+				},
+				{
+					headerName: 'Action',
+					cellRenderer: (params) => {
+						if (!params) return '';
+						if (!params.data) return '';
+
+						return `<button class="btn btn-sm btn-success fs11">Verify</button>`;
+					},
+					onCellClicked: (event) => {
+						let guid = event.data?.guid;
+
+						if (guid) {
+							this.verifyDemoUser(guid);
+						}
+					}
+				}
+			],
+
 			general_intake: [],
 			general_intake_column_defs: [
 				{
@@ -234,6 +265,13 @@ export default {
 
 	created() {
 		this.getIntake();
+
+		//// dev: rm
+		let that = this;
+		this.getDemoUsers();
+		setInterval(function() {
+			that.getDemoUsers();
+		},10000);
 	},
 
 	mounted() {
@@ -241,6 +279,55 @@ export default {
 	},
 
 	methods: {
+		async getDemoUsers() { //// dev, rm
+			const response = await api(
+				'GET',
+				'admin/get-demo-users',
+				{},
+				this.$root.bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response.detail);
+				this.demo_users = response.detail;
+			}
+		},
+
+		async verifyDemoUser(guid) { //// dev, rm
+			const response = await api(
+				'POST',
+				'admin/verify-demo-user',
+				{
+					guid: guid
+				},
+				this.$root.bearer_token
+			);
+
+			this.$root.catch401(response);
+
+			if (response.status == 200) {
+				// console.log(response);
+				this.getDemoUsers();
+				this.$root.toast(
+					'',
+					response.message,
+					'success'
+				);
+			} else {
+				this.$root.toast(
+					'',
+					response.message,
+					'error'
+				);
+			}
+		},
+
+		demo_users_onGridReady(params) { //// dev: rm
+			this.demo_users_gridApi = params.api;
+		},
+
 		async getIntake() {
 			let fetch_bearer_token = this.$cookies.get('bearer_token');
 
@@ -444,6 +531,33 @@ export default {
 
 <template>
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 mt20">
+				<div class="card">
+					<div class="table-header">
+						<span>
+							<i class="fa fa-wrench green"></i>
+							<b>Verify Demo Users (development)</b>
+						</span>
+					</div>
+
+					<div class="table-card">
+						<ag-grid-vue
+							style="width: 100%; height: 100%;"
+							class="ag-theme-alpine"
+							:columnDefs="demo_users_column_defs"
+							@grid-ready="demo_users_onGridReady"
+							:suppressExcelExport="true"
+							:rowData="demo_users"
+							:defaultColDef="defaultColDef"
+							pagination="true"
+						>
+						</ag-grid-vue>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-12 mt20">
 				<div class="card">

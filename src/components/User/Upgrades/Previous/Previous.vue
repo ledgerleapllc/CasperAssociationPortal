@@ -218,7 +218,10 @@ export default {
 						>
 							{{ this.$parent.upgrade.notes }}
 						</p>
-						<p v-else class="fs14 op7">
+						<p 
+							v-else 
+							class="fs14 op7"
+						>
 							None
 						</p>
 
