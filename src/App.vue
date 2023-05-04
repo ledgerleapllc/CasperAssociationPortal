@@ -51,7 +51,13 @@ export default {
 			dob:             '',
 			registration_ip: '',
 			phone:           '',
-			country_of_citizenship: ''
+			country_of_citizenship: '',
+
+			// entity
+			entity_name:       '',
+			entity_type:       '',
+			entity_reg_number: '',
+			entity_vat_number: '',
 		},
 		route:               window.location.pathname,
 		inputEmail:          '',
@@ -350,6 +356,12 @@ export default {
 					this.pii.phone           = pii_data.phone;
 
 					this.pii.country_of_citizenship = pii_data.country_of_citizenship;
+
+					// entity
+					this.pii.entity_name       = pii_data.entity_name;
+					this.pii.entity_type       = pii_data.entity_type;
+					this.pii.entity_reg_number = pii_data.entity_reg_number;
+					this.pii.entity_vat_number = pii_data.entity_vat_number;
 				}
 
 				if (!this.in_outer_zone()) {
