@@ -1106,8 +1106,7 @@ export default {
 			</p>
 
 			<button 
-				class="btn btn-success form-control width-200 ml0 mt20"
-				:disabled="!names_match_checkbox"
+				class="btn btn-success form-control width-200 ml0 mt25"
 				:class="names_match_checkbox ? '' : 'div-disabled'" 
 				@click="review_modal = false; backoffice_modal = true;"
 			>
@@ -1116,7 +1115,7 @@ export default {
 
 			<br/>
 
-			<p class="pointer underline text-red ml0 mt30" @click="review_modal = false">
+			<p class="pointer underline text-red ml0 mt20" @click="review_modal = false">
 				Cancel
 			</p>
 		</div>
