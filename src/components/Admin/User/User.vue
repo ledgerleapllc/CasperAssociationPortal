@@ -54,6 +54,7 @@ export default {
 			reviewed_at:         null,
 			reviewed_by:         null,
 			review_modal:        false,
+			review_modal_i:      false,
 			cmp_checked:         null,
 			flip_cmp_modal:      false,
 
@@ -326,8 +327,12 @@ export default {
 			this.flip_cmp_modal = false;
 		},
 
-		beginReview() {
-			this.review_modal = true;
+		beginReview(type = 'individual') {
+			if (type = 'individual') {
+				this.review_modal_i = true;
+			} else {
+				this.review_modal = true;
+			}
 		},
 
 		gotoKycHash() {
@@ -963,11 +968,25 @@ export default {
 						</div>
 
 						<div v-if="kyc_status == 'denied'">
-							<button class="btn btn-success btn-sm mt10 mr10" @click="beginReview">
+							<button 
+								v-if="account_type == 'entity'"
+								class="btn btn-success btn-sm mt10 mr10" 
+								@click="beginReview('entity')"
+							>
+								Manually Review
+							</button>
+							<button 
+								v-else
+								class="btn btn-success btn-sm mt10 mr10" 
+								@click="beginReview('individual')"
+							>
 								Manually Review
 							</button>
 
-							<button class="btn btn-success btn-sm mt10 mr10" @click="manuallyUpdateUserKyc('reset')">
+							<button 
+								class="btn btn-success btn-sm mt10 mr10" 
+								@click="manuallyUpdateUserKyc('reset')"
+							>
 								Reset KYC
 							</button>
 						</div>
@@ -1064,7 +1083,13 @@ export default {
 			</h5>
 
 			<p class="mt20">
-				Please review the uploaded <a :href="document_url" target="_blank"><u>document</u></a>. The user has indicated that the name can be found on page {{ document_page }}. If the names match, you can continue to the next step.
+				Please review the uploaded document. The user has indicated that the name can be found on page <b>{{ document_page }}</b>. If the names match, you can continue to the next step.
+			</p>
+
+			<p class="mt20">
+				<a :href="document_url" target="_blank">
+					<u>document1</u>
+				</a>
 			</p>
 
 			<button class="btn btn-success form-control width-200 ml0 mt20" @click="review_modal = false; backoffice_modal = true;">
@@ -1098,6 +1123,40 @@ export default {
 				<span class="float-right fs13 op7">
 					Step 2
 				</span>
+			</h5>
+
+			<p class="mt20">
+				To finish the review, copy the reference number and verify the user in Shufti Backoffice.
+			</p>
+
+			<p class="mt20 fs13">
+				<span class="op7">
+					{{ reference_id }}
+				</span>
+				&ensp;
+				<i class="fa fa-clipboard fs16 pointer" @click="copyReferenceId"></i>
+			</p>
+
+			<button class="btn btn-success form-control width-200 ml0 mt20" @click="gotoBackoffice">
+				Go to Backoffice
+			</button>
+
+			<br/>
+
+			<p class="pointer underline text-red ml0 mt30" @click="backoffice_modal = false; review_modal = true">
+				Back
+			</p>
+		</div>
+	</Modal>
+
+	<Modal
+		v-model="review_modal_i"
+		max-width="400px"
+		:click-out="false"
+	>
+		<div class="modal-container">
+			<h5>
+				Manual Review
 			</h5>
 
 			<p class="mt20">
