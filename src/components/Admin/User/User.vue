@@ -1195,8 +1195,8 @@ export default {
 
 			<br/>
 
-			<p class="pointer underline text-red ml0 mt30" @click="backoffice_modal = false">
-				Back
+			<p class="pointer underline text-red ml0 mt20" @click="review_modal_i = false">
+				Cancel
 			</p>
 		</div>
 	</Modal>
