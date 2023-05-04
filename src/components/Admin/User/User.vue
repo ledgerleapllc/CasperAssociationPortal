@@ -329,7 +329,7 @@ export default {
 		},
 
 		beginReview() {
-			if (this.account_type = 'individual') {
+			if (this.account_type == 'individual') {
 				this.review_modal_i = true;
 			} else {
 				this.review_modal = true;
