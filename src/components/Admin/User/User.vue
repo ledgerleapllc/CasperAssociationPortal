@@ -1086,7 +1086,7 @@ export default {
 			</p>
 
 			<p class="mt20">
-				<label>
+				<label class="fs14">
 					<input 
 						type="checkbox"
 						v-model="names_match_checkbox"
@@ -1098,7 +1098,7 @@ export default {
 			<p class="mt20">
 				If the names do not match, you will need to reset the user's KYC so that they can resubmit documents again. 
 				<span 
-					class="text-red underline" 
+					class="text-red underline pointer" 
 					@click="review_modal = false; manuallyUpdateUserKyc('reset')"
 				>
 					Reset KYC
