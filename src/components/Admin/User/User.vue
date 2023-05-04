@@ -328,8 +328,8 @@ export default {
 			this.flip_cmp_modal = false;
 		},
 
-		beginReview(type = 'individual') {
-			if (type = 'individual') {
+		beginReview() {
+			if (this.account_type = 'individual') {
 				this.review_modal_i = true;
 			} else {
 				this.review_modal = true;
@@ -970,16 +970,8 @@ export default {
 
 						<div v-if="kyc_status == 'denied'">
 							<button 
-								v-if="account_type == 'entity'"
 								class="btn btn-success btn-sm mt10 mr10" 
-								@click="beginReview('entity')"
-							>
-								Manually Review
-							</button>
-							<button 
-								v-else
-								class="btn btn-success btn-sm mt10 mr10" 
-								@click="beginReview('individual')"
+								@click="beginReview"
 							>
 								Manually Review
 							</button>
