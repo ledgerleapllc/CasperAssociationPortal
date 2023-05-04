@@ -55,6 +55,7 @@ export default {
 			reviewed_by:         null,
 			review_modal:        false,
 			review_modal_i:      false,
+			names_match_checkbox:false,
 			cmp_checked:         null,
 			flip_cmp_modal:      false,
 
@@ -1092,16 +1093,33 @@ export default {
 				</a>
 			</p>
 
-			<button class="btn btn-success form-control width-200 ml0 mt20" @click="review_modal = false; backoffice_modal = true;">
-				Names Match
-			</button>
-
 			<p class="mt20">
-				If the names do not match, you will need to reset the user's KYC so that they can resubmit documents again.
+				<label>
+					<input 
+						type="checkbox"
+						v-model="names_match_checkbox"
+					>
+					The name was found in the document
+				</label>
 			</p>
 
-			<button class="btn btn-success form-control width-200 ml0 mt20" @click="review_modal = false; manuallyUpdateUserKyc('reset')">
-				Reset KYC
+			<p class="mt20">
+				If the names do not match, you will need to reset the user's KYC so that they can resubmit documents again. 
+				<span 
+					class="text-red underline" 
+					@click="review_modal = false; manuallyUpdateUserKyc('reset')"
+				>
+					Reset KYC
+				</span>
+			</p>
+
+			<button 
+				class="btn btn-success form-control width-200 ml0 mt20"
+				:disabled="!names_match_checkbox"
+				:class="names_match_checkbox ? '' : 'div-disabled'" 
+				@click="review_modal = false; backoffice_modal = true;"
+			>
+				Next
 			</button>
 
 			<br/>
@@ -1177,7 +1195,7 @@ export default {
 
 			<br/>
 
-			<p class="pointer underline text-red ml0 mt30" @click="backoffice_modal = false; review_modal = true">
+			<p class="pointer underline text-red ml0 mt30" @click="backoffice_modal = false">
 				Back
 			</p>
 		</div>
