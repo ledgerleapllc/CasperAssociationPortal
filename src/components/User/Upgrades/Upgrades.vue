@@ -40,7 +40,8 @@ export default {
 			},
 			users:    [],
 
-			upgrade_complete: false,
+			upgrade_complete:  false,
+			countdown_started: false
 		}
 	},
 
@@ -83,7 +84,10 @@ export default {
 					this.getUpgradedUsers(this.upgrade.version);
 				}
 
-				if (this.upgrade?.time_remaining_perc > 0) {
+				if (
+					this.upgrade?.time_remaining_perc > 0 &&
+					!this.countdown_started
+				) {
 					this.startCountdown();
 				}
 			}
@@ -147,6 +151,9 @@ export default {
 
 		startCountdown() {
 			let that = this;
+
+			this.countdown_started = true;
+
 			setInterval(function() {
 				that.countdownTick();
 			}, 1000);
