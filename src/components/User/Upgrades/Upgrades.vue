@@ -164,7 +164,7 @@ export default {
 				return;
 			}
 
-			let split  = this.upgrade?.time_remaining.split(':');
+			let split  = this.upgrade?.time_remaining?.split(':');
 			let day    = parseInt(split[0] ?? 0);
 			let hour   = parseInt(split[1] ?? 0);
 			let minute = parseInt(split[2] ?? 0);
