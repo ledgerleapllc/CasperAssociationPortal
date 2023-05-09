@@ -160,11 +160,23 @@ export default {
 		},
 
 		countdownTick() {
-			if (this.upgrade?.time_remaining == "00:00:00:00") {
+			if (
+				this.upgrade?.time_remaining == "0:00:00:00" ||
+				this.upgrade?.time_remaining == "00:00:00:00" ||
+				this.upgrade?.time_remaining == "0:00:00:01" ||
+				this.upgrade?.time_remaining == "00:00:00:01"
+			) {
 				return;
 			}
 
-			let split  = this.upgrade?.time_remaining?.split(':');
+			let split = this.upgrade?.time_remaining;
+
+			if (split) {
+				split = split.split(':');
+			} else {
+				return;
+			}
+
 			let day    = parseInt(split[0] ?? 0);
 			let hour   = parseInt(split[1] ?? 0);
 			let minute = parseInt(split[2] ?? 0);
