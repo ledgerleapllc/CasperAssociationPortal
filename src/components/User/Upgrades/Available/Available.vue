@@ -174,7 +174,7 @@ export default {
 									</p>
 									<div 
 										class="progress-bar" 
-										:style="'width:'+this.$parent.upgrade.time_remaining_perc+'%;'"
+										:style="'width:'+this.$parent.upgrade?.time_remaining_perc+'%;'"
 									></div>
 								</div>
 
