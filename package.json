@@ -16,7 +16,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite --port 5174",
-    "build": "vite build && ./robots.sh",
+    "build": "vite build",
     "preview": "vite preview --port 4174"
   },
   "dependencies": {
